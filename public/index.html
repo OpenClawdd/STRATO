@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Classroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="/uv/uv.config.js"></script>
+<script src="/uv/uv.bundle.js"></script>
+
+<style>
+:root {
+  --bg: #040810;
+  --bg-dark: #020408;
+  --card: rgba(15, 25, 45, 0.7);
+  --card-hover: rgba(25, 40, 70, 0.9);
+  --accent: #4fa3ff;
+  --text: #e0e8f5;
+  --muted: #4a5c78;
+  --vapor-grad: linear-gradient(135deg, #4fa3ff 0%, #a5ccff 50%, #6e94ff 100%);
+  --bezier: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(circle at center, #0a1528 0%, #040810 100%);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SPLASH (THE "FLASHY" ENTRANCE) ── */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: opacity 0.6s var(--bezier);
+}
+#splash.out { opacity: 0; pointer-events: none; }
+
+.sp-logo {
+  font-size: clamp(70px, 20vw, 130px);
+  font-weight: 900; letter-spacing: -0.06em;
+  background: var(--vapor-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(79, 163, 255, 0.3));
+  animation: logoFloat 6s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.sp-hint {
+  margin-top: 30px; font-size: 11px; font-weight: 800;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
+  opacity: 0.6;
+}
+
+/* ── HEADER (STRATO MINIMALISM) ── */
+#app { display:none; opacity:0; transition: opacity 0.5s var(--bezier); }
+#app.on { opacity:1; }
+
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 30px; background: rgba(4, 8, 16, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.h-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; background: var(--vapor-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.h-time { font-size: 13px; font-weight: 700; color: var(--muted); }
+
+/* ── THE BENTO CHANNELS (FLASHY BUT LIGHT) ── */
+.grid-wrap { padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+
+.bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
+@media (max-width: 800px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.card {
+  position: relative; background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+  border-radius: 28px; aspect-ratio: 1.2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.4s var(--bezier);
+  overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+}
+.card:hover { transform: translateY(-5px) scale(1.02); background: var(--card-hover); border-color: var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(79, 163, 255, 0.2); }
+.card:active { transform: scale(0.96); }
+
+.card-icon { font-size: 44px; margin-bottom: 10px; transition: transform 0.4s var(--bezier); }
+.card:hover .card-icon { transform: scale(1.1); }
+.card-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sub); }
+
+/* ── PROXY OVERLAY ── */
+#proxyModal {
+  position: fixed; inset: 0; z-index: 1000; background: rgba(2, 4, 8, 0.95);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+#proxyModal.on { display: flex; }
+.modal-content { width: 100%; max-width: 500px; text-align: center; }
+.p-input {
+  width: 100%; padding: 18px 25px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.1);
+  background: #0f192d; color: #fff; font-size: 16px; font-weight: 600; outline: none;
+  margin-bottom: 15px; transition: border-color 0.3s;
+}
+.p-input:focus { border-color: var(--accent); }
+.p-btn { width: 100%; padding: 18px; border-radius: 22px; border: none; background: var(--accent); color: #fff; font-weight: 900; cursor: pointer; }
+
+/* ── BUTTONS & STATUS ── */
+.btn-sm { height: 36px; padding: 0 18px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: var(--card); color: var(--text); font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; display: inline-block; margin-right: 6px; }
+.status-dot.ok { background: #40d080; box-shadow: 0 0 10px #40d080; }
+</style>
+</head>
+<body>
+
+<div id="splash" onclick="enter()">
+  <div class="sp-logo">STRATO</div>
+  <div class="sp-hint">access granted · tap to enter</div>
+</div>
+
+<div id="proxyModal" onclick="if(event.target===this)closeProxy()">
+  <div class="modal-content">
+    <input class="p-input" id="pInp" type="text" placeholder="https://youtube.com" autocomplete="off">
+    <button class="p-btn" onclick="go()">Launch Proxy</button>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <div class="h-logo">STRATO</div>
+    <div id="hTime" class="h-time">00:00</div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn-sm"><span id="swDot" class="status-dot"></span>System</button>
+      <button class="btn-sm" onclick="panic()">Panic</button>
+    </div>
+  </header>
+
+  <div class="grid-wrap">
+    <div class="section-label">Mainframe</div>
+    <div class="bento-grid">
+      <div class="card" onclick="goto('play')"><div class="card-icon">🎮</div><div class="card-label">Play</div></div>
+      <div class="card" onclick="goto('watch')"><div class="card-icon">📺</div><div class="card-label">Watch</div></div>
+      <div class="card" onclick="goto('browse')"><div class="card-icon">🌐</div><div class="card-label">Browse</div></div>
+      <div class="card" onclick="goto('ai')"><div class="card-icon">🤖</div><div class="card-label">Nexus AI</div></div>
+    </div>
+
+    <div class="section-label">Archive</div>
+    <div class="bento-grid" id="gameGrid"></div>
+  </div>
+</div>
+
+<script>
+/* ── UTILS (HOISTED) ── */
+const q = s => document.querySelector(s);
+const ls = k => { try { return localStorage.getItem(k); } catch { return null; } };
+const pad = n => String(n).padStart(2,'0');
+
+const GAMES = [
+  { n:'Slope', e:'🏂', u:'https://slope-game.github.io' },
+  { n:'1v1.lol', e:'🎯', u:'https://1v1.lol' },
+  { n:'Retro Bowl', e:'🏈', u:'https://retrobowlunblocked.github.io' },
+  { n:'BitLife', e:'🧬', u:'https://bitlifeonline.io' },
+  { n:'Minecraft', e:'⛏️', u:'https://classic.minecraft.net' },
+  { n:'Krunker', e:'🔫', u:'https://krunker.io' },
+];
+
+addEventListener('DOMContentLoaded', () => {
+  buildGames();
+  tick(); setInterval(tick, 1000);
+  registerSW();
+});
+
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/uv/sw.js', { scope: '/' })
+    .then(() => q('#swDot').classList.add('ok'))
+    .catch(e => console.error(e));
+}
+
+function tick() {
+  const n = new Date();
+  const t = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
+  if(q('#hTime')) q('#hTime').textContent = t;
+}
+
+function enter() {
+  q('#splash').classList.add('out');
+  setTimeout(() => {
+    q('#splash').style.display = 'none';
+    q('#app').style.display = 'block';
+    requestAnimationFrame(() => q('#app').classList.add('on'));
+  }, 600);
+}
+
+function goto(sec) {
+  if(sec === 'play') q('#gameGrid').scrollIntoView({behavior:'smooth', block:'center'});
+  else q('#proxyModal').classList.add('on');
+}
+
+function closeProxy() { q('#proxyModal').classList.remove('on'); }
+
+function go() {
+  const url = q('#pInp').value;
+  if(!url) return;
+  if (typeof __uv$config === 'undefined') return;
+  let target = url.includes('.') && !url.includes(' ') ? url : "https://www.google.com/search?q=" + url;
+  if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
+  window.location.href = __uv$config.prefix + __uv$config.encodeUrl(target);
+}
+
+function buildGames() {
+  const grid = q('#gameGrid');
+  GAMES.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<div class="card-icon">${g.e}</div><div class="card-label">${g.n}</div>`;
+    div.onclick = () => {
+        if (typeof __uv$config === 'undefined') return;
+        window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
+    };
+    grid.appendChild(div);
+  });
+}
+
+function panic() { window.location.href = 'https://classroom.google.com'; }
+addEventListener('keydown', e => { if(e.key === 'Escape') panic(); });
+</script>
+</body>
+</html>
