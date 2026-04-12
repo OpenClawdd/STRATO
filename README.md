@@ -9,7 +9,7 @@ To avoid getting caught, the site is disguised as an educational platform called
 ## 🔒 How to Unlock the Site
 When you or your friends first open the site, you will see a screen asking: **"Who created this site?"**
 
-* **Password:** `noredink` *(must be all lowercase)*
+* **Password:** `noah` *(must be all lowercase)*
 
 Once you enter the password, you'll be granted access to the arcade. It will remember you, so you won't have to type it again unless you clear your cookies.
 
