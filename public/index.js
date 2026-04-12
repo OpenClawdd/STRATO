@@ -21,11 +21,13 @@ const error = document.getElementById("uv-error");
 const errorCode = document.getElementById("uv-error-code");
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
+const swRegistration = registerSW();
+
 form.addEventListener("submit", async (event) => {
 	event.preventDefault();
 
 	try {
-		await registerSW();
+		await swRegistration;
 	} catch (err) {
 		error.textContent = "Failed to register service worker.";
 		errorCode.textContent = err.toString();
