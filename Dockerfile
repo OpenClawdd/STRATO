@@ -21,4 +21,10 @@ COPY --chown=user . .
 EXPOSE 7860
 ENV PORT=7860
 
-CMD ["npm", "start"]
+COPY . /app
+
+EXPOSE 7860
+ENV PORT=7860
+
+ENTRYPOINT [ "node" ]
+CMD ["src/index.js"]

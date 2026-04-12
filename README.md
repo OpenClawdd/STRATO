@@ -1,13 +1,3 @@
----
-title: Strato Dashboard
-emoji: 🚀
-colorFrom: purple
-colorTo: indigo
-sdk: docker
-app_file: app.py
-pinned: false
----
-
 # 🎓 NoRedInk (Unblocked Proxy & Arcade)
 
 This is a custom-built, dark-mode "Wii-style" arcade and web proxy. It uses [Ultraviolet](https://github.com/titaniumnetwork-dev/Ultraviolet) under the hood to bypass web filters, allowing you to play games, browse the web, and use apps like TikTok at school.
@@ -30,20 +20,23 @@ Once you enter the password, you'll be granted access to the arcade. It will rem
 
 If you want to share a link with your friends without keeping your computer turned on, you can host it online for free using these two methods.
 
-### Option 1: HuggingFace Spaces (Recommended)
+### Option 1: Replit (Easiest & Best for Sharing)
 
-HuggingFace provides free Docker hosting and is highly recommended because it rarely bans game proxies.
-
-1. Create a free account at [HuggingFace Spaces](https://huggingface.co/spaces).
-2. Create a new Space, choose **Docker** as the Space SDK, and select "Blank".
-3. Upload the files from this repository into the Space (or link your GitHub repo).
-4. The space will automatically build and give you a free, shareable link!
-
-### Option 2: Replit
+Replit is a free coding platform that lets you run this project with one click. It is highly recommended because it rarely bans game proxies.
 
 1. Create a free account on [Replit](https://replit.com/).
 2. You can import this repository directly into a new Repl, or use a deploy button if you fork the project.
 3. Click the big green **"Run"** button at the top. Replit will download the files and give you a public URL you can share with your friends!
+
+### Option 2: HuggingFace Spaces (Backup Option)
+
+HuggingFace provides free Docker hosting. It's a great alternative if Replit is slow.
+
+1. Create a free account at [HuggingFace Spaces](https://huggingface.co/spaces).
+2. Create a new Space, choose **Docker** as the Space SDK, and select "Blank".
+3. **CRITICAL:** In the Space settings, set the **Port** to `8080`.
+4. Upload the files from this repository into the Space (or link your GitHub repo).
+5. The space will automatically build and give you a free, shareable link!
 
 _(Note: We do **not** recommend Render or Vercel, as they will instantly ban your account for hosting proxies)._
 
@@ -53,22 +46,21 @@ _(Note: We do **not** recommend Render or Vercel, as they will instantly ban you
 
 If you want the fastest speeds and don't want to rely on a free host, you can run the site directly from your computer and share it safely using **Cloudflare Tunnels**. This hides your home IP address so you can't be DDOS'd or hacked.
 
-**Step 1: Start the server on your PC**
-
+**Step 1: Download Required Software**
 1. You must have [Node.js](https://nodejs.org/) installed on your computer.
-2. Open a terminal/command prompt in this folder and type:
-   `npm install`
-   `npm start`
-   _Your server is now running on `http://localhost:8080`!_
+2. Download `cloudflared.exe` from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/) and place it inside this folder (or somewhere in your system PATH).
 
-**Step 2: Create a secure tunnel**
+**Step 2: Start the Server & Tunnel (Windows)**
+1. Just double-click the `start.bat` file!
+2. It will automatically open two windows: one for the local server, and one for Cloudflare.
+3. Look in the Cloudflare window for a random, secure link (it looks like `https://some-random-words.trycloudflare.com`). **Copy that link and send it to your friends!**
 
-1. Download the `cloudflared` tool for your operating system from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/).
-2. Open a **new** terminal window and run this command:
-   `cloudflared tunnel --url http://localhost:8080`
-3. Cloudflare will generate a random, secure link (it looks like `https://some-random-words.trycloudflare.com`). **Copy that link and send it to your friends!**
+_Important: The site will only work as long as your computer is awake and those two windows are open._
 
-_Important: The site will only work as long as your computer is awake and the terminals are open._
+**(For Mac/Linux Users)**
+You can run it manually by opening two terminals:
+1. Terminal 1: `npm install && npm start`
+2. Terminal 2: `cloudflared tunnel --url http://localhost:8080`
 
 ---
 
