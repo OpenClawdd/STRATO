@@ -85,6 +85,10 @@ app.use((req, res) => {
 
 const server = createServer();
 
+server.on("error", (err) => {
+	console.error("Server error:", err);
+});
+
 server.on("request", (req, res) => {
 	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
 	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
@@ -94,7 +98,7 @@ server.on("upgrade", (req, socket, head) => {
 	if (req.url.endsWith("/wisp/")) {
 		wisp.routeRequest(req, socket, head);
 		return;
-	} 
+	}
 	socket.end();
 });
 

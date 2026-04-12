@@ -21,11 +21,13 @@ const error = document.getElementById("uv-error");
 const errorCode = document.getElementById("uv-error-code");
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
+const swRegistration = registerSW();
+
 form.addEventListener("submit", async (event) => {
 	event.preventDefault();
 
 	try {
-		await registerSW();
+		await swRegistration;
 	} catch (err) {
 		error.textContent = "Failed to register service worker.";
 		errorCode.textContent = err.toString();
@@ -42,9 +44,7 @@ form.addEventListener("submit", async (event) => {
 		location.host +
 		"/wisp/";
 	if ((await connection.getTransport()) !== "/epoxy/index.mjs") {
-		await connection.setTransport("/epoxy/index.mjs", [
-			{ wisp: wispUrl },
-		]);
+		await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
 	}
 	frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
 });
