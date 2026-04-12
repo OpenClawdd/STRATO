@@ -47,6 +47,10 @@
         }
 
         .splash-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             user-select: none;
         }
@@ -56,8 +60,7 @@
             font-weight: 800;
             letter-spacing: -2px;
             color: var(--text-main);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
 
         .splash-slogan {
@@ -74,8 +77,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            justify-content: flex-end; /* Ensures alignment starts from bottom */
             gap: 16px;
-            transition: all 0.5s ease;
         }
 
         #splash-menu-content {
@@ -89,8 +92,10 @@
             gap: 12px;
             width: 200px;
             transition: opacity 0.4s ease, transform 0.4s ease;
-            opacity: 1;
-            transform: translateY(0);
+            /* Default state is hidden minimalist */
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
         }
 
         .splash-online-status {
@@ -137,40 +142,45 @@
         }
 
         #home-btn-wrapper {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 14px;
+            /* Default state is minimalist */
+            background: transparent;
+            border: 1px solid transparent;
+            backdrop-filter: none;
+            padding: 14px 14px; /* Maintain consistent horizontal padding to avoid shifting */
             border-radius: 12px;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.4s ease;
+            margin-left: -14px; /* Offset the padding to strictly align the icon left */
         }
 
         .home-icon {
             width: 24px;
             height: 24px;
-            color: var(--text-main);
+            /* Default state muted */
+            color: var(--text-muted);
             transition: color 0.4s ease;
         }
 
-        #splash-menu-container:has(#home-btn-wrapper:hover) #splash-menu-content {
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
+        /* Hover reveals the structured menu */
+        #splash-menu-container:hover #splash-menu-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
-        #splash-menu-container:has(#home-btn-wrapper:hover) #home-btn-wrapper {
-            background: transparent;
-            border-color: transparent;
-            backdrop-filter: none;
-            padding: 14px 0; /* Minimalist alignment */
+        #splash-menu-container:hover #home-btn-wrapper {
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 14px;
+            margin-left: 0; /* Reset offset when container is shown */
         }
 
-        #splash-menu-container:has(#home-btn-wrapper:hover) .home-icon {
-            color: var(--text-muted);
+        #splash-menu-container:hover .home-icon {
+            color: var(--text-main);
         }
 
         #topbar { padding: 20px 40px; background: var(--bg-base); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
