@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: strato-dashboard
+    env: node
+    plan: free
+    buildCommand: "pnpm install"
+    startCommand: "npm start"
