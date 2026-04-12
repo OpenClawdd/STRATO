@@ -14,7 +14,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-const PASSWORD = "noredink";
+const PASSWORD = "noah";
 
 app.use((req, res, next) => {
     // If they have the cookie, let them through
@@ -57,7 +57,7 @@ function authPage(errorMsg) {
     <body>
         <div class="login-box">
             <h2>Who created this site?</h2>
-            <p>(hint: noredink, all lowercase)</p>
+            <p>(hint: first name, all lowercase)</p>
             ${errorMsg ? `<div class="error">${errorMsg}</div>` : ''}
             <form method="POST">
                 <input type="password" name="password" required autofocus autocomplete="off">
@@ -129,4 +129,5 @@ function shutdown() {
 
 server.listen({
 	port,
+	host: "0.0.0.0",
 });
