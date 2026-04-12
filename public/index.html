@@ -698,12 +698,6 @@
 				registerSW();
 			};
 
-			function registerSW() {
-				if ("serviceWorker" in navigator) {
-					navigator.serviceWorker.register("/uv/sw.js", { scope: "/" });
-				}
-			}
-
 			// Clock
 			function tick() {
 				const n = new Date();
@@ -762,33 +756,6 @@
 				});
 			}
 
-			// Proxy / URL Launcher
-			function launchUrl(url) {
-				if (typeof __uv$config === "undefined") {
-					alert("Proxy configuration not loaded.");
-					return;
-				}
-				window.location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
-			}
-
-			function openProxy() {
-				q("#proxyModal").classList.add("on");
-				setTimeout(() => q("#pInp").focus(), 100);
-			}
-			function closeProxy() {
-				q("#proxyModal").classList.remove("on");
-			}
-
-			function goProxy() {
-				let url = q("#pInp").value.trim();
-				if (!url) return;
-				let target =
-					url.includes(".") && !url.includes(" ")
-						? url
-						: "https://www.google.com/search?q=" + url;
-				if (!/^https?:\/\//i.test(target)) target = "https://" + target;
-				launchUrl(target);
-			}
 
 			// Performance Mode (Eco/Aero)
 			function initPerfMode() {
@@ -812,16 +779,8 @@
 					document.body.classList.remove("eco");
 				}
 			}
-
-			// Panic Button
-			addEventListener("keydown", (e) => {
-				if (e.key === "Escape") {
-					window.location.href = "https://classroom.google.com";
-				}
-				if (e.key === "Enter" && q("#proxyModal").classList.contains("on")) {
-					goProxy();
-				}
-			});
 		</script>
+			<script src="/baremux/bare.mux.js"></script>
+		<script src="/index.js" defer></script>
 	</body>
 </html>
