@@ -9,7 +9,15 @@ The deployable all-in-one bundle for [Ultraviolet](https://github.com/titaniumne
 
 ## Deployment
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+### HuggingFace Spaces (Recommended Free Host)
+HuggingFace Spaces provides free Docker hosting that is less restrictive than Render.
+1. Create a free account at [HuggingFace Spaces](https://huggingface.co/spaces)
+2. Create a new Space, choose **Docker** as the Space SDK, and select "Blank".
+3. In the Space settings, set the **Port** to `8080` (this is crucial).
+4. Upload the files from this repository into the Space (or link your GitHub repo).
+5. The space will automatically build the `Dockerfile` and host your site for free!
+
+
 
 [![Run on Replit](https://binbashbanana.github.io/deploy-buttons/buttons/remade/replit.svg)](https://github.com/titaniumnetwork-dev/Ultraviolet-App/wiki/Run-on-Replit)
 [![Deploy on Railway](https://binbashbanana.github.io/deploy-buttons/buttons/remade/railway.svg)](https://github.com/titaniumnetwork-dev/Ultraviolet-App/wiki/Deploy-on-Railway)
