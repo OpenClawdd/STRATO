@@ -39,15 +39,7 @@ let registerSW = async function () {
 	}
 };
 
-// Panic Button
-addEventListener("keydown", (e) => {
-	if (e.key === "Escape") {
-		window.location.href = "https://classroom.google.com";
-	}
-	if (e.key === "Enter" && q("#proxyModal").classList.contains("on")) {
-		goProxy();
-	}
-});
+// Panic Button handled in index.html now
 
 async function getFastestWispServer() {
 	const wispUrls = [
