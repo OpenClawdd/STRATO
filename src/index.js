@@ -25,6 +25,10 @@ app.use((req, res) => {
 
 const server = createServer();
 
+server.on("error", (err) => {
+	console.error("Server error:", err);
+});
+
 server.on("request", (req, res) => {
 	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
 	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
