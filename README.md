@@ -20,7 +20,7 @@ If you want to host this on your own PC so your friends can play, you should use
    ```
 4. **Share the Link:** The terminal will spit out a random `.trycloudflare.com` link. Copy that link and send it to your friends! It is fully secured and hides your IP.
 
-> Note: The site is protected by a password screen to keep strangers out. The password is `johnson`.
+> Note: The site is protected by a password screen to keep strangers out. The password is `noah`.
 
 
 ### HuggingFace Spaces (Recommended Free Host)

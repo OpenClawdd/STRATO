@@ -14,7 +14,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-const PASSWORD = "johnson";
+const PASSWORD = "noah";
 
 app.use((req, res, next) => {
     // If they have the cookie, let them through
