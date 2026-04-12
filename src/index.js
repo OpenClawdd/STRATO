@@ -2,13 +2,45 @@ import { join } from "node:path";
 import { hostname } from "node:os";
 import { createServer } from "node:http";
 import express from "express";
+import cookieParser from "cookie-parser";
 import wisp from "wisp-server-node";
 
+import { authPage } from "./auth.js";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
 const app = express();
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
+const PASSWORD = "noah";
+
+app.use((req, res, next) => {
+	// If they have the cookie, let them through
+	if (req.cookies.auth === PASSWORD) {
+		return next();
+	}
+
+	// If they are submitting the form
+	if (req.method === "POST" && req.body.password) {
+		if (req.body.password === PASSWORD) {
+			res.cookie("auth", PASSWORD, {
+				maxAge: 1000 * 60 * 60 * 24 * 365,
+				httpOnly: true,
+				secure: true,
+				sameSite: "strict",
+			});
+			return res.redirect("/");
+		} else {
+			return res.send(authPage("Incorrect password."));
+		}
+	}
+
+	// Otherwise show the auth page
+	return res.send(authPage(""));
+});
+
 // Load our publicPath first and prioritize it over UV.
 app.use(express.static("./public"));
 // Load vendor files last.
@@ -34,7 +66,7 @@ server.on("upgrade", (req, socket, head) => {
 	if (req.url.endsWith("/wisp/")) {
 		wisp.routeRequest(req, socket, head);
 		return;
-	} 
+	}
 	socket.end();
 });
 
@@ -69,4 +101,5 @@ function shutdown() {
 
 server.listen({
 	port,
+	host: "0.0.0.0",
 });
