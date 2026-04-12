@@ -1,15 +1,15 @@
-# 🎓 Noah Education (Unblocked Proxy & Arcade)
+# 🎓 NoRedInk (Unblocked Proxy & Arcade)
 
 This is a custom-built, dark-mode "Wii-style" arcade and web proxy. It uses [Ultraviolet](https://github.com/titaniumnetwork-dev/Ultraviolet) under the hood to bypass web filters, allowing you to play games, browse the web, and use apps like TikTok at school.
 
-To avoid getting caught, the site is disguised as an educational platform called **"Noah Education"** and is protected by a password.
+To avoid getting caught, the site is disguised as an educational platform called **"NoRedInk"** and is protected by a password.
 
 ---
 
 ## 🔒 How to Unlock the Site
 When you or your friends first open the site, you will see a screen asking: **"Who created this site?"**
 
-* **Password:** `noah` *(must be all lowercase)*
+* **Password:** `noredink` *(must be all lowercase)*
 
 Once you enter the password, you'll be granted access to the arcade. It will remember you, so you won't have to type it again unless you clear your cookies.
 

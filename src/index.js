@@ -14,7 +14,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-const PASSWORD = "noah";
+const PASSWORD = "noredink";
 
 app.use((req, res, next) => {
     // If they have the cookie, let them through
@@ -57,7 +57,7 @@ function authPage(errorMsg) {
     <body>
         <div class="login-box">
             <h2>Who created this site?</h2>
-            <p>(hint: first name, all lowercase)</p>
+            <p>(hint: noredink, all lowercase)</p>
             ${errorMsg ? `<div class="error">${errorMsg}</div>` : ''}
             <form method="POST">
                 <input type="password" name="password" required autofocus autocomplete="off">
@@ -84,10 +84,6 @@ app.use((req, res) => {
 });
 
 const server = createServer();
-
-server.on("error", (err) => {
-	console.error("Server error:", err);
-});
 
 server.on("request", (req, res) => {
 	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
