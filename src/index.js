@@ -9,7 +9,6 @@ import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
-
 const app = express();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -17,27 +16,30 @@ app.use(express.urlencoded({ extended: true }));
 const PASSWORD = "noah";
 
 app.use((req, res, next) => {
-    // If they have the cookie, let them through
-    if (req.cookies.auth === PASSWORD) {
-        return next();
-    }
+	// If they have the cookie, let them through
+	if (req.cookies.auth === PASSWORD) {
+		return next();
+	}
 
-    // If they are submitting the form
-    if (req.method === 'POST' && req.body.password) {
-        if (req.body.password === PASSWORD) {
-            res.cookie('auth', PASSWORD, { maxAge: 1000 * 60 * 60 * 24 * 365, httpOnly: true });
-            return res.redirect('/');
-        } else {
-            return res.send(authPage("Incorrect password."));
-        }
-    }
+	// If they are submitting the form
+	if (req.method === "POST" && req.body.password) {
+		if (req.body.password === PASSWORD) {
+			res.cookie("auth", PASSWORD, {
+				maxAge: 1000 * 60 * 60 * 24 * 365,
+				httpOnly: true,
+			});
+			return res.redirect("/");
+		} else {
+			return res.send(authPage("Incorrect password."));
+		}
+	}
 
-    // Otherwise show the auth page
-    return res.send(authPage(""));
+	// Otherwise show the auth page
+	return res.send(authPage(""));
 });
 
 function authPage(errorMsg) {
-    return `
+	return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -58,7 +60,7 @@ function authPage(errorMsg) {
         <div class="login-box">
             <h2>Who created this site?</h2>
             <p>(hint: first name, all lowercase)</p>
-            ${errorMsg ? `<div class="error">${errorMsg}</div>` : ''}
+            ${errorMsg ? `<div class="error">${errorMsg}</div>` : ""}
             <form method="POST">
                 <input type="password" name="password" required autofocus autocomplete="off">
                 <button type="submit">Unlock</button>
