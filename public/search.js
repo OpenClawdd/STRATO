@@ -10,8 +10,9 @@ function search(input, template) {
 		// input is a valid URL:
 		// eg: https://example.com, https://example.com/test?q=param
 		return new URL(input).toString();
-	} catch (err) {
+	} catch {
 		// input was not a valid URL
+		// we can safely ignore this error and move to the next validation step
 	}
 
 	try {
@@ -20,8 +21,9 @@ function search(input, template) {
 		const url = new URL(`http://${input}`);
 		// only if the hostname has a TLD/subdomain
 		if (url.hostname.includes(".")) return url.toString();
-	} catch (err) {
+	} catch {
 		// input was not valid URL
+		// we can safely ignore this error and move to the next validation step
 	}
 
 	// input may have been a valid URL, however the hostname was invalid
