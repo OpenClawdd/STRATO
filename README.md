@@ -9,6 +9,20 @@ The deployable all-in-one bundle for [Ultraviolet](https://github.com/titaniumne
 
 ## Deployment
 
+### Self-Hosting Securely with Cloudflare Tunnels (For playing on PC & sharing safely)
+If you want to host this on your own PC so your friends can play, you should use **Cloudflare Tunnels**. This protects your home IP address from DDOS attacks and prevents you from having to open ports on your router.
+
+1. **Start the local server:** Open a terminal in this directory and run `npm start` (it will start on port 8080).
+2. **Install Cloudflared:** Download the `cloudflared` executable for your OS from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/).
+3. **Run the Tunnel:** Open a new terminal and run:
+   ```bash
+   cloudflared tunnel --url http://localhost:8080
+   ```
+4. **Share the Link:** The terminal will spit out a random `.trycloudflare.com` link. Copy that link and send it to your friends! It is fully secured and hides your IP.
+
+> Note: The site is protected by a password screen to keep strangers out. The password is `johnson`.
+
+
 ### HuggingFace Spaces (Recommended Free Host)
 HuggingFace Spaces provides free Docker hosting that is less restrictive than Render.
 1. Create a free account at [HuggingFace Spaces](https://huggingface.co/spaces)
