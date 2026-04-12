@@ -1,241 +1,828 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google Classroom</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>NoRedInk</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="/uv/uv.config.js"></script>
+		<script src="/uv/uv.bundle.js"></script>
 
-<script src="/uv/uv.config.js"></script>
-<script src="/uv/uv.bundle.js"></script>
+		<style>
+			:root {
+				--accent: #00a8ff;
+				--text: #ffffff;
+				--muted: #a0a0a0;
+				--bezier: cubic-bezier(0.23, 1, 0.32, 1);
 
-<style>
-:root {
-  --bg: #040810;
-  --bg-dark: #020408;
-  --card: rgba(15, 25, 45, 0.7);
-  --card-hover: rgba(25, 40, 70, 0.9);
-  --accent: #4fa3ff;
-  --text: #e0e8f5;
-  --muted: #4a5c78;
-  --vapor-grad: linear-gradient(135deg, #4fa3ff 0%, #a5ccff 50%, #6e94ff 100%);
-  --bezier: cubic-bezier(0.23, 1, 0.32, 1);
-}
+				/* Aero mode variables (default) */
+				--bg-arcade: rgba(10, 15, 30, 0.4);
+				--blur-arcade: 25px;
+				--card-bg: rgba(255, 255, 255, 0.05);
+				--card-border: rgba(255, 255, 255, 0.15);
+				--card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+				--card-hover-bg: rgba(255, 255, 255, 0.15);
+				--card-hover-border: rgba(255, 255, 255, 0.4);
+				--card-hover-shadow:
+					0 0 25px rgba(0, 168, 255, 0.6),
+					inset 0 0 15px rgba(255, 255, 255, 0.2);
+				--dock-bg: rgba(10, 15, 30, 0.6);
+			}
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background: var(--bg);
-  background-image: radial-gradient(circle at center, #0a1528 0%, #040810 100%);
-  color: var(--text);
-  font-family: 'Nunito', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+			/* Eco mode variables */
+			body.eco {
+				--bg-arcade: #0a0a0a;
+				--blur-arcade: 0px;
+				--card-bg: #151515;
+				--card-border: #333;
+				--card-shadow: none;
+				--card-hover-bg: #222;
+				--card-hover-border: #555;
+				--card-hover-shadow: none;
+				--dock-bg: #111;
+			}
 
-/* ── SPLASH (THE "FLASHY" ENTRANCE) ── */
-#splash {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg-dark);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: opacity 0.6s var(--bezier);
-}
-#splash.out { opacity: 0; pointer-events: none; }
+			*,
+			*::before,
+			*::after {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
 
-.sp-logo {
-  font-size: clamp(70px, 20vw, 130px);
-  font-weight: 900; letter-spacing: -0.06em;
-  background: var(--vapor-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 15px rgba(79, 163, 255, 0.3));
-  animation: logoFloat 6s ease-in-out infinite;
-}
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
+			body {
+				cursor:
+					url("/wii_cursor.png") 15 15,
+					auto;
+				background-color: #050505;
+				background-image: radial-gradient(
+					ellipse at bottom,
+					#1b2735 0%,
+					#090a0f 100%
+				);
+				background-size: cover;
+				background-attachment: fixed;
+				color: var(--text);
+				font-family: "Inter", sans-serif;
+				min-height: 100vh;
+				overflow-x: hidden;
+				user-select: none;
+			}
 
-.sp-hint {
-  margin-top: 30px; font-size: 11px; font-weight: 800;
-  letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
-  opacity: 0.6;
-}
+			/* Background Stars/Space */
+			.stars {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: -1;
+				background: transparent
+					url('data:image/svg+xml;utf8,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1" fill="white" opacity="0.5"/><circle cx="150" cy="80" r="1.5" fill="white" opacity="0.8"/><circle cx="300" cy="250" r="1" fill="white" opacity="0.3"/><circle cx="80" cy="350" r="2" fill="white" opacity="0.6"/></svg>')
+					repeat;
+			}
+			body.eco .stars {
+				display: none;
+			}
 
-/* ── HEADER (STRATO MINIMALISM) ── */
-#app { display:none; opacity:0; transition: opacity 0.5s var(--bezier); }
-#app.on { opacity:1; }
+			/* Splash Screen (STRATO) */
+			#splash {
+				position: fixed;
+				inset: 0;
+				z-index: 9999;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				transition:
+					opacity 0.8s var(--bezier),
+					transform 0.8s var(--bezier);
+				backdrop-filter: blur(0px);
+				cursor:
+					url("/wii_cursor_grab.png") 15 15,
+					pointer;
+			}
+			body.eco #splash {
+				transition: opacity 0.4s ease;
+			}
+			#splash.out {
+				opacity: 0;
+				transform: scale(1.05);
+				pointer-events: none;
+			}
 
-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 30px; background: rgba(4, 8, 16, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-.h-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; background: var(--vapor-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.h-time { font-size: 13px; font-weight: 700; color: var(--muted); }
+			.sp-clock {
+				position: absolute;
+				top: 40px;
+				font-size: 24px;
+				font-weight: 300;
+				letter-spacing: 2px;
+			}
+			.sp-title {
+				font-size: clamp(50px, 10vw, 100px);
+				font-weight: 800;
+				letter-spacing: -0.04em;
+				background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+				margin-bottom: 10px;
+			}
+			.sp-subtitle {
+				font-size: 16px;
+				font-weight: 400;
+				color: #ccc;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+			}
+			.sp-hint {
+				position: absolute;
+				bottom: 50px;
+				font-size: 12px;
+				color: var(--muted);
+				letter-spacing: 2px;
+				text-transform: uppercase;
+				animation: blink 2s infinite;
+			}
+			@keyframes blink {
+				0%,
+				100% {
+					opacity: 0.3;
+				}
+				50% {
+					opacity: 1;
+				}
+			}
 
-/* ── THE BENTO CHANNELS (FLASHY BUT LIGHT) ── */
-.grid-wrap { padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
-.section-label { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+			/* Main Arcade App */
+			#app {
+				position: fixed;
+				inset: 0;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.8s var(--bezier);
+				display: flex;
+				flex-direction: column;
+			}
+			#app.on {
+				opacity: 1;
+				pointer-events: auto;
+			}
 
-.bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
-@media (max-width: 800px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+			.arcade-bg {
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				background: var(--bg-arcade);
+				backdrop-filter: blur(var(--blur-arcade));
+				-webkit-backdrop-filter: blur(var(--blur-arcade));
+				transition:
+					backdrop-filter 0.5s,
+					background 0.5s;
+			}
 
-.card {
-  position: relative; background: var(--card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
-  border-radius: 28px; aspect-ratio: 1.2;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.4s var(--bezier);
-  overflow: hidden;
-}
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
-}
-.card:hover { transform: translateY(-5px) scale(1.02); background: var(--card-hover); border-color: var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(79, 163, 255, 0.2); }
-.card:active { transform: scale(0.96); }
+			/* Header inside arcade */
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 20px 40px;
+			}
+			.h-logo {
+				font-size: 20px;
+				font-weight: 700;
+				letter-spacing: -0.02em;
+			}
+			.h-time {
+				font-size: 16px;
+				font-weight: 600;
+				color: #fff;
+			}
 
-.card-icon { font-size: 44px; margin-bottom: 10px; transition: transform 0.4s var(--bezier); }
-.card:hover .card-icon { transform: scale(1.1); }
-.card-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sub); }
+			/* Main Viewport */
+			.viewport {
+				flex: 1;
+				overflow-y: auto;
+				padding: 20px 40px 100px 40px;
+			}
+			.section {
+				display: none;
+				animation: fadeIn 0.4s var(--bezier);
+			}
+			.section.active {
+				display: block;
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
 
-/* ── PROXY OVERLAY ── */
-#proxyModal {
-  position: fixed; inset: 0; z-index: 1000; background: rgba(2, 4, 8, 0.95);
-  display: none; align-items: center; justify-content: center; padding: 20px;
-}
-#proxyModal.on { display: flex; }
-.modal-content { width: 100%; max-width: 500px; text-align: center; }
-.p-input {
-  width: 100%; padding: 18px 25px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.1);
-  background: #0f192d; color: #fff; font-size: 16px; font-weight: 600; outline: none;
-  margin-bottom: 15px; transition: border-color 0.3s;
-}
-.p-input:focus { border-color: var(--accent); }
-.p-btn { width: 100%; padding: 18px; border-radius: 22px; border: none; background: var(--accent); color: #fff; font-weight: 900; cursor: pointer; }
+			.section-title {
+				font-size: 24px;
+				font-weight: 700;
+				margin-bottom: 30px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				padding-bottom: 10px;
+			}
 
-/* ── BUTTONS & STATUS ── */
-.btn-sm { height: 36px; padding: 0 18px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: var(--card); color: var(--text); font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
-.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; display: inline-block; margin-right: 6px; }
-.status-dot.ok { background: #40d080; box-shadow: 0 0 10px #40d080; }
-</style>
-</head>
-<body>
+			/* Grid & Cards (Wii Menu style) */
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+				gap: 20px;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
 
-<div id="splash" onclick="enter()">
-  <div class="sp-logo">STRATO</div>
-  <div class="sp-hint">access granted · tap to enter</div>
-</div>
+			.card {
+				background: var(--card-bg);
+				border: 1px solid var(--card-border);
+				border-radius: 16px;
+				aspect-ratio: 1.1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				cursor:
+					url("/wii_cursor_grab.png") 15 15,
+					pointer;
+				box-shadow: var(--card-shadow);
+				transition:
+					transform 0.3s var(--bezier),
+					background 0.3s,
+					border-color 0.3s,
+					box-shadow 0.3s;
+				position: relative;
+				overflow: hidden;
+			}
 
-<div id="proxyModal" onclick="if(event.target===this)closeProxy()">
-  <div class="modal-content">
-    <input class="p-input" id="pInp" type="text" placeholder="https://youtube.com" autocomplete="off">
-    <button class="p-btn" onclick="go()">Launch Proxy</button>
-  </div>
-</div>
+			/* Glass reflection */
+			.card::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: -100%;
+				width: 50%;
+				height: 100%;
+				background: linear-gradient(
+					to right,
+					rgba(255, 255, 255, 0) 0%,
+					rgba(255, 255, 255, 0.1) 50%,
+					rgba(255, 255, 255, 0) 100%
+				);
+				transform: skewX(-25deg);
+				transition: 0.5s;
+			}
+			body:not(.eco) .card:hover::after {
+				left: 200%;
+			}
 
-<div id="app">
-  <header>
-    <div class="h-logo">STRATO</div>
-    <div id="hTime" class="h-time">00:00</div>
-    <div style="display:flex; gap:10px;">
-      <button class="btn-sm"><span id="swDot" class="status-dot"></span>System</button>
-      <button class="btn-sm" onclick="panic()">Panic</button>
-    </div>
-  </header>
+			body:not(.eco) .card:hover {
+				transform: scale(1.08);
+				background: var(--card-hover-bg);
+				border-color: var(--card-hover-border);
+				box-shadow: var(--card-hover-shadow);
+				z-index: 10;
+			}
+			body.eco .card:hover {
+				background: var(--card-hover-bg);
+				border-color: var(--card-hover-border);
+			}
 
-  <div class="grid-wrap">
-    <div class="section-label">Mainframe</div>
-    <div class="bento-grid">
-      <div class="card" onclick="goto('play')"><div class="card-icon">🎮</div><div class="card-label">Play</div></div>
-      <div class="card" onclick="goto('watch')"><div class="card-icon">📺</div><div class="card-label">Watch</div></div>
-      <div class="card" onclick="goto('browse')"><div class="card-icon">🌐</div><div class="card-label">Browse</div></div>
-      <div class="card" onclick="goto('ai')"><div class="card-icon">🤖</div><div class="card-label">Nexus AI</div></div>
-    </div>
+			.card:active {
+				transform: scale(0.95);
+			}
 
-    <div class="section-label">Archive</div>
-    <div class="bento-grid" id="gameGrid"></div>
-  </div>
-</div>
+			.card-icon {
+				font-size: 50px;
+				margin-bottom: 10px;
+				transition: transform 0.3s var(--bezier);
+			}
+			body:not(.eco) .card:hover .card-icon {
+				transform: scale(1.15) translateY(-5px);
+			}
 
-<script>
-/* ── UTILS (HOISTED) ── */
-const q = s => document.querySelector(s);
-const ls = k => { try { return localStorage.getItem(k); } catch { return null; } };
-const pad = n => String(n).padStart(2,'0');
+			.card-label {
+				font-size: 13px;
+				font-weight: 600;
+				text-align: center;
+				padding: 0 10px;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
 
-const GAMES = [
-  { n:'Slope', e:'🏂', u:'https://slope-game.github.io' },
-  { n:'1v1.lol', e:'🎯', u:'https://1v1.lol' },
-  { n:'Retro Bowl', e:'🏈', u:'https://retrobowlunblocked.github.io' },
-  { n:'BitLife', e:'🧬', u:'https://bitlifeonline.io' },
-  { n:'Minecraft', e:'⛏️', u:'https://classic.minecraft.net' },
-  { n:'Krunker', e:'🔫', u:'https://krunker.io' },
-];
+			/* Dock Navigation */
+			.dock-wrap {
+				position: fixed;
+				bottom: 25px;
+				left: 0;
+				right: 0;
+				display: flex;
+				justify-content: center;
+				pointer-events: none;
+				z-index: 100;
+			}
+			.dock {
+				pointer-events: auto;
+				background: var(--dock-bg);
+				backdrop-filter: blur(15px);
+				-webkit-backdrop-filter: blur(15px);
+				padding: 10px 20px;
+				border-radius: 30px;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				display: flex;
+				gap: 15px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+				transition:
+					backdrop-filter 0.5s,
+					background 0.5s;
+			}
+			body.eco .dock {
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				box-shadow: none;
+				border-color: #333;
+			}
 
-addEventListener('DOMContentLoaded', () => {
-  buildGames();
-  tick(); setInterval(tick, 1000);
-  registerSW();
-});
+			.dock-item {
+				width: 50px;
+				height: 50px;
+				border-radius: 15px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 24px;
+				cursor:
+					url("/wii_cursor_grab.png") 15 15,
+					pointer;
+				color: #ccc;
+				transition: all 0.2s var(--bezier);
+			}
+			.dock-item:hover {
+				background: rgba(255, 255, 255, 0.1);
+				color: #fff;
+				transform: translateY(-5px);
+			}
+			.dock-item.active {
+				background: rgba(255, 255, 255, 0.2);
+				color: #fff;
+				box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+			}
+			body.eco .dock-item:hover {
+				transform: none;
+				background: #333;
+			}
 
-function registerSW() {
-  if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('/uv/sw.js', { scope: '/' })
-    .then(() => q('#swDot').classList.add('ok'))
-    .catch(e => console.error(e));
-}
+			/* Settings Toggle */
+			.settings-panel {
+				max-width: 600px;
+				margin: 0 auto;
+				background: var(--card-bg);
+				padding: 30px;
+				border-radius: 20px;
+				border: 1px solid var(--card-border);
+			}
+			.setting-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 15px 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+			}
+			.setting-row:last-child {
+				border-bottom: none;
+			}
+			.setting-info h3 {
+				font-size: 18px;
+				margin-bottom: 5px;
+			}
+			.setting-info p {
+				font-size: 13px;
+				color: var(--muted);
+				line-height: 1.4;
+			}
 
-function tick() {
-  const n = new Date();
-  const t = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
-  if(q('#hTime')) q('#hTime').textContent = t;
-}
+			/* Toggle Switch */
+			.switch {
+				position: relative;
+				display: inline-block;
+				width: 60px;
+				height: 34px;
+				flex-shrink: 0;
+			}
+			.switch input {
+				opacity: 0;
+				width: 0;
+				height: 0;
+			}
+			.slider {
+				position: absolute;
+				cursor:
+					url("/wii_cursor_grab.png") 15 15,
+					pointer;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: #333;
+				transition: 0.4s;
+				border-radius: 34px;
+			}
+			.slider:before {
+				position: absolute;
+				content: "";
+				height: 26px;
+				width: 26px;
+				left: 4px;
+				bottom: 4px;
+				background-color: white;
+				transition: 0.4s;
+				border-radius: 50%;
+			}
+			input:checked + .slider {
+				background-color: var(--accent);
+			}
+			input:checked + .slider:before {
+				transform: translateX(26px);
+			}
 
-function enter() {
-  q('#splash').classList.add('out');
-  setTimeout(() => {
-    q('#splash').style.display = 'none';
-    q('#app').style.display = 'block';
-    requestAnimationFrame(() => q('#app').classList.add('on'));
-  }, 600);
-}
+			/* Proxy Overlay */
+			#proxyModal {
+				position: fixed;
+				inset: 0;
+				z-index: 1000;
+				background: rgba(0, 0, 0, 0.8);
+				backdrop-filter: blur(10px);
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+			}
+			#proxyModal.on {
+				display: flex;
+			}
+			body.eco #proxyModal {
+				backdrop-filter: none;
+				background: rgba(0, 0, 0, 0.95);
+			}
 
-function goto(sec) {
-  if(sec === 'play') q('#gameGrid').scrollIntoView({behavior:'smooth', block:'center'});
-  else q('#proxyModal').classList.add('on');
-}
+			.modal-content {
+				width: 100%;
+				max-width: 500px;
+				text-align: center;
+				background: var(--dock-bg);
+				padding: 30px;
+				border-radius: 20px;
+				border: 1px solid var(--card-border);
+			}
+			.p-input {
+				width: 100%;
+				padding: 15px 20px;
+				border-radius: 12px;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				background: rgba(0, 0, 0, 0.5);
+				color: #fff;
+				font-size: 16px;
+				outline: none;
+				margin-bottom: 15px;
+			}
+			.p-input:focus {
+				border-color: var(--accent);
+			}
+			.p-btn {
+				width: 100%;
+				padding: 15px;
+				border-radius: 12px;
+				border: none;
+				background: var(--accent);
+				color: #fff;
+				font-size: 16px;
+				font-weight: 700;
+				cursor:
+					url("/wii_cursor_grab.png") 15 15,
+					pointer;
+			}
+			.p-btn:hover {
+				opacity: 0.9;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="vapor-sun"></div>
+		<div class="vapor-grid"></div>
 
-function closeProxy() { q('#proxyModal').classList.remove('on'); }
+		<!-- STRATO Splash Screen -->
+		<div id="splash" onclick="enterArcade()">
+			<div class="sp-clock" id="splashTime">00:00</div>
+			<div class="sp-title">STRATO</div>
+			<div class="sp-subtitle">Filter can't reach up here.</div>
+			<div class="sp-hint">Click anywhere to enter</div>
+		</div>
 
-function go() {
-  const url = q('#pInp').value;
-  if(!url) return;
-  if (typeof __uv$config === 'undefined') return;
-  let target = url.includes('.') && !url.includes(' ') ? url : "https://www.google.com/search?q=" + url;
-  if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
-  window.location.href = __uv$config.prefix + __uv$config.encodeUrl(target);
-}
+		<!-- Proxy Modal -->
+		<div id="proxyModal" onclick="if (event.target === this) closeProxy();">
+			<div class="modal-content">
+				<input
+					class="p-input"
+					id="pInp"
+					type="text"
+					placeholder="Search or enter URL (e.g., https://youtube.com)"
+					autocomplete="off"
+				/>
+				<button class="p-btn" onclick="goProxy()">Launch Proxy</button>
+			</div>
+		</div>
 
-function buildGames() {
-  const grid = q('#gameGrid');
-  GAMES.forEach(g => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `<div class="card-icon">${g.e}</div><div class="card-label">${g.n}</div>`;
-    div.onclick = () => {
-        if (typeof __uv$config === 'undefined') return;
-        window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
-    };
-    grid.appendChild(div);
-  });
-}
+		<!-- Main Arcade Application -->
+		<div id="app">
+			<div class="arcade-bg"></div>
 
-function panic() { window.location.href = 'https://classroom.google.com'; }
-addEventListener('keydown', e => { if(e.key === 'Escape') panic(); });
-</script>
-</body>
+			<header>
+				<div class="h-logo">NoRedInk</div>
+				<div class="h-time" id="appTime">00:00</div>
+			</header>
+
+			<div class="viewport">
+				<!-- Home Section -->
+				<div id="sec-home" class="section active">
+					<h2 class="section-title">Home Channels</h2>
+					<div class="grid">
+						<div class="card" onclick="nav('games')">
+							<div class="card-icon">🎮</div>
+							<div class="card-label">Play</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://youtube.com')">
+							<div class="card-icon">📺</div>
+							<div class="card-label">Watch</div>
+						</div>
+						<div class="card" onclick="openProxy()">
+							<div class="card-icon">🌐</div>
+							<div class="card-label">Browse</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://tiktok.com')">
+							<div class="card-icon">🎵</div>
+							<div class="card-label">TikTok</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Games Section -->
+				<div id="sec-games" class="section">
+					<h2 class="section-title">Game Channels</h2>
+					<div class="grid" id="gameGrid"></div>
+				</div>
+
+				<!-- Apps Section -->
+				<div id="sec-apps" class="section">
+					<h2 class="section-title">App Channels</h2>
+					<div class="grid" id="appGrid">
+						<div class="card" onclick="openProxy()">
+							<div class="card-icon">🌐</div>
+							<div class="card-label">Web Browser</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://tiktok.com')">
+							<div class="card-icon">🎵</div>
+							<div class="card-label">TikTok</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://discord.com')">
+							<div class="card-icon">💬</div>
+							<div class="card-label">Discord</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://youtube.com')">
+							<div class="card-icon">📺</div>
+							<div class="card-label">YouTube</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://reddit.com')">
+							<div class="card-icon">👽</div>
+							<div class="card-label">Reddit</div>
+						</div>
+						<div class="card" onclick="launchUrl('https://twitch.tv')">
+							<div class="card-icon">🟣</div>
+							<div class="card-label">Twitch</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Settings Section -->
+				<div id="sec-settings" class="section">
+					<h2 class="section-title">Settings</h2>
+					<div class="settings-panel">
+						<div class="setting-row">
+							<div class="setting-info">
+								<h3>Quality Mode</h3>
+								<p>
+									Switch between "Aero" (Orbit) for full glassmorphic effects,
+									or "Eco" (Grounded) for low-end hardware performance.
+								</p>
+							</div>
+							<label class="switch">
+								<input
+									type="checkbox"
+									id="perfToggle"
+									onchange="togglePerf()"
+								/>
+								<span class="slider"></span>
+							</label>
+						</div>
+						<div class="setting-row">
+							<div class="setting-info">
+								<h3>Panic Button</h3>
+								<p>
+									Press 'Escape' anywhere to quickly redirect to Google
+									Classroom.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Dock -->
+			<div class="dock-wrap">
+				<div class="dock">
+					<div
+						class="dock-item active"
+						onclick="nav('home', this)"
+						title="Home"
+					>
+						🏠
+					</div>
+					<div class="dock-item" onclick="nav('games', this)" title="Games">
+						🎮
+					</div>
+					<div class="dock-item" onclick="nav('apps', this)" title="Apps">
+						📱
+					</div>
+					<div
+						class="dock-item"
+						onclick="nav('settings', this)"
+						title="Settings"
+					>
+						⚙️
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			const q = (s) => document.querySelector(s);
+			const qAll = (s) => document.querySelectorAll(s);
+			const pad = (n) => String(n).padStart(2, "0");
+
+			const GAMES = [
+				{ n: "Crash Bandicoot", e: "🦊", u: "/games/crash/" },
+				{ n: "Crash Bandicoot 2", e: "🦊", u: "/games/crash2/" },
+				{ n: "Crash Bandicoot 3", e: "🦊", u: "/games/crash3/" },
+				{ n: "Tetris", e: "🧱", u: "/games/tetris/" },
+				{ n: "Yandere Simulator", e: "🔪", u: "/games/yandere/" },
+				{ n: "Slope", e: "🏂", u: "https://slope-game.github.io" },
+				{ n: "1v1.lol", e: "🎯", u: "https://1v1.lol" },
+				{ n: "Retro Bowl", e: "🏈", u: "https://retrobowlunblocked.github.io" },
+			];
+
+			// Initialize
+			window.onload = () => {
+				buildGames();
+				tick();
+				setInterval(tick, 1000);
+				initPerfMode();
+				registerSW();
+			};
+
+			function registerSW() {
+				if ("serviceWorker" in navigator) {
+					navigator.serviceWorker.register("/uv/sw.js", { scope: "/" });
+				}
+			}
+
+			// Clock
+			function tick() {
+				const n = new Date();
+				let h = n.getHours();
+				const ampm = h >= 12 ? "PM" : "AM";
+				h = h % 12;
+				h = h ? h : 12; // the hour '0' should be '12'
+				const t = `${h}:${pad(n.getMinutes())} ${ampm}`;
+				q("#splashTime").textContent = t;
+				q("#appTime").textContent = t;
+			}
+
+			// Transitions
+			function enterArcade() {
+				q("#splash").classList.add("out");
+				setTimeout(() => {
+					q("#app").classList.add("on");
+				}, 400); // Wait for splash to start fading
+			}
+
+			// Navigation
+			function nav(section, el) {
+				// Update dock
+				qAll(".dock-item").forEach((item) => item.classList.remove("active"));
+				if (el) {
+					el.classList.add("active");
+				} else {
+					// Find the correct dock item if called without event element
+					const items = qAll(".dock-item");
+					if (section === "home") items[0].classList.add("active");
+					if (section === "games") items[1].classList.add("active");
+					if (section === "apps") items[2].classList.add("active");
+					if (section === "settings") items[3].classList.add("active");
+				}
+
+				// Update sections
+				qAll(".section").forEach((sec) => sec.classList.remove("active"));
+				q(`#sec-${section}`).classList.add("active");
+			}
+
+			// Games Builder
+			function buildGames() {
+				const grid = q("#gameGrid");
+				GAMES.forEach((g) => {
+					const div = document.createElement("div");
+					div.className = "card";
+					div.innerHTML = `<div class="card-icon">${g.e}</div><div class="card-label">${g.n}</div>`;
+					div.onclick = () => {
+						if (g.u.startsWith("/")) {
+							window.location.href = g.u;
+						} else {
+							launchUrl(g.u);
+						}
+					};
+					grid.appendChild(div);
+				});
+			}
+
+			// Proxy / URL Launcher
+			function launchUrl(url) {
+				if (typeof __uv$config === "undefined") {
+					alert("Proxy configuration not loaded.");
+					return;
+				}
+				window.location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
+			}
+
+			function openProxy() {
+				q("#proxyModal").classList.add("on");
+				setTimeout(() => q("#pInp").focus(), 100);
+			}
+			function closeProxy() {
+				q("#proxyModal").classList.remove("on");
+			}
+
+			function goProxy() {
+				let url = q("#pInp").value.trim();
+				if (!url) return;
+				let target =
+					url.includes(".") && !url.includes(" ")
+						? url
+						: "https://www.google.com/search?q=" + url;
+				if (!/^https?:\/\//i.test(target)) target = "https://" + target;
+				launchUrl(target);
+			}
+
+			// Performance Mode (Eco/Aero)
+			function initPerfMode() {
+				const isEco = localStorage.getItem("perfMode") === "eco";
+				const toggle = q("#perfToggle");
+				toggle.checked = !isEco; // Checked means Aero (High Quality)
+				applyPerfMode(isEco);
+			}
+
+			function togglePerf() {
+				const toggle = q("#perfToggle");
+				const isEco = !toggle.checked;
+				localStorage.setItem("perfMode", isEco ? "eco" : "aero");
+				applyPerfMode(isEco);
+			}
+
+			function applyPerfMode(isEco) {
+				if (isEco) {
+					document.body.classList.add("eco");
+				} else {
+					document.body.classList.remove("eco");
+				}
+			}
+
+			// Panic Button
+			addEventListener("keydown", (e) => {
+				if (e.key === "Escape") {
+					window.location.href = "https://classroom.google.com";
+				}
+				if (e.key === "Enter" && q("#proxyModal").classList.contains("on")) {
+					goProxy();
+				}
+			});
+		</script>
+	</body>
 </html>
