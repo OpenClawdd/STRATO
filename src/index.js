@@ -27,6 +27,8 @@ app.use((req, res, next) => {
 			res.cookie("auth", PASSWORD, {
 				maxAge: 1000 * 60 * 60 * 24 * 365,
 				httpOnly: true,
+				secure: true,
+				sameSite: "strict",
 			});
 			return res.redirect("/");
 		} else {
