@@ -741,6 +741,8 @@
 			// Games Builder
 			function buildGames() {
 				const grid = q("#gameGrid");
+				const fragment = document.createDocumentFragment();
+
 				GAMES.forEach((g) => {
 					const div = document.createElement("div");
 					div.className = "card";
@@ -752,8 +754,10 @@
 							launchUrl(g.u);
 						}
 					};
-					grid.appendChild(div);
+					fragment.appendChild(div);
 				});
+
+				grid.appendChild(fragment);
 			}
 
 
