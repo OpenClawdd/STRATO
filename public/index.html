@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google Classroom</title>
+<title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -12,21 +12,21 @@
 
 <style>
 :root {
-  --bg: #040810;
-  --bg-dark: #020408;
-  --card: rgba(15, 25, 45, 0.7);
-  --card-hover: rgba(25, 40, 70, 0.9);
-  --accent: #4fa3ff;
-  --text: #e0e8f5;
-  --muted: #4a5c78;
-  --vapor-grad: linear-gradient(135deg, #4fa3ff 0%, #a5ccff 50%, #6e94ff 100%);
+  --bg: #1a1a1a;
+  --bg-dark: #121212;
+  --card: rgba(255, 255, 255, 0.1);
+  --card-hover: rgba(255, 255, 255, 0.2);
+  --accent: #00a8ff;
+  --text: #ffffff;
+  --muted: #a0a0a0;
+  --vapor-grad: linear-gradient(135deg, #00a8ff 0%, #00d2ff 100%);
   --bezier: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-body {
+body { cursor: url("/wii_cursor.png") 15 15, auto;
   background: var(--bg);
-  background-image: radial-gradient(circle at center, #0a1528 0%, #040810 100%);
+  background-image: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
   color: var(--text);
   font-family: 'Nunito', sans-serif;
   min-height: 100vh;
@@ -38,7 +38,7 @@ body {
   position: fixed; inset: 0; z-index: 9999;
   background: var(--bg-dark);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: opacity 0.6s var(--bezier);
+  cursor: url("/wii_cursor_grab.png") 15 15, pointer; transition: opacity 0.6s var(--bezier);
 }
 #splash.out { opacity: 0; pointer-events: none; }
 
@@ -63,7 +63,7 @@ body {
 }
 
 /* ── HEADER (STRATO MINIMALISM) ── */
-#app { display:none; opacity:0; transition: opacity 0.5s var(--bezier); }
+#app { display:block; opacity:1; }
 #app.on { opacity:1; }
 
 header {
@@ -83,18 +83,19 @@ header {
 
 .card {
   position: relative; background: var(--card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
-  border-radius: 28px; aspect-ratio: 1.2;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.2), 0 4px 10px rgba(0,0,0,0.5);
+  border-radius: 16px; aspect-ratio: 1.2;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.4s var(--bezier);
+  cursor: url("/wii_cursor_grab.png") 15 15, pointer; transition: all 0.3s var(--bezier);
   overflow: hidden;
 }
 .card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+  border-radius: 14px 14px 0 0;
 }
-.card:hover { transform: translateY(-5px) scale(1.02); background: var(--card-hover); border-color: var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(79, 163, 255, 0.2); }
+.card:hover { transform: scale(1.05); background: var(--card-hover); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,168,255,0.4); }
 .card:active { transform: scale(0.96); }
 
 .card-icon { font-size: 44px; margin-bottom: 10px; transition: transform 0.4s var(--bezier); }
@@ -114,21 +115,18 @@ header {
   margin-bottom: 15px; transition: border-color 0.3s;
 }
 .p-input:focus { border-color: var(--accent); }
-.p-btn { width: 100%; padding: 18px; border-radius: 22px; border: none; background: var(--accent); color: #fff; font-weight: 900; cursor: pointer; }
+.p-btn { width: 100%; padding: 18px; border-radius: 22px; border: none; background: var(--accent); color: #fff; font-weight: 900; cursor: url("/wii_cursor_grab.png") 15 15, pointer; }
 
 /* ── BUTTONS & STATUS ── */
-.btn-sm { height: 36px; padding: 0 18px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: var(--card); color: var(--text); font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+.btn-sm { height: 36px; padding: 0 18px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: var(--card); color: var(--text); font-size: 11px; font-weight: 800; cursor: url("/wii_cursor_grab.png") 15 15, pointer; transition: 0.3s; }
 .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; display: inline-block; margin-right: 6px; }
 .status-dot.ok { background: #40d080; box-shadow: 0 0 10px #40d080; }
 </style>
+  <link rel="icon" href="https://ixl.com/ixl-favicon.png" id="favicon" />
 </head>
 <body>
 
-<div id="splash" onclick="enter()">
-  <div class="sp-logo">STRATO</div>
-  <div class="sp-hint">access granted · tap to enter</div>
-</div>
 
 <div id="proxyModal" onclick="if(event.target===this)closeProxy()">
   <div class="modal-content">
@@ -139,7 +137,7 @@ header {
 
 <div id="app">
   <header>
-    <div class="h-logo">STRATO</div>
+    <div class="h-logo">Johnson Education</div>
     <div id="hTime" class="h-time">00:00</div>
     <div style="display:flex; gap:10px;">
       <button class="btn-sm"><span id="swDot" class="status-dot"></span>System</button>
@@ -148,15 +146,15 @@ header {
   </header>
 
   <div class="grid-wrap">
-    <div class="section-label">Mainframe</div>
+    <div class="section-label">Mainframe Channels</div>
     <div class="bento-grid">
       <div class="card" onclick="goto('play')"><div class="card-icon">🎮</div><div class="card-label">Play</div></div>
       <div class="card" onclick="goto('watch')"><div class="card-icon">📺</div><div class="card-label">Watch</div></div>
       <div class="card" onclick="goto('browse')"><div class="card-icon">🌐</div><div class="card-label">Browse</div></div>
-      <div class="card" onclick="goto('ai')"><div class="card-icon">🤖</div><div class="card-label">Nexus AI</div></div>
+      <div class="card" onclick="if(typeof __uv$config !== 'undefined') window.location.href = __uv$config.prefix + __uv$config.encodeUrl('https://tiktok.com')"><div class="card-icon">🎵</div><div class="card-label">TikTok</div></div>
     </div>
 
-    <div class="section-label">Archive</div>
+    <div class="section-label">Game Channels</div>
     <div class="bento-grid" id="gameGrid"></div>
   </div>
 </div>
@@ -168,12 +166,14 @@ const ls = k => { try { return localStorage.getItem(k); } catch { return null; }
 const pad = n => String(n).padStart(2,'0');
 
 const GAMES = [
+  { n:'Crash Bandicoot', e:'🦊', u:'/games/crash/' },
+  { n:'Crash Bandicoot 2', e:'🦊', u:'/games/crash2/' },
+  { n:'Crash Bandicoot 3', e:'🦊', u:'/games/crash3/' },
+  { n:'Tetris', e:'🧱', u:'/games/tetris/' },
+  { n:'Yandere Simulator', e:'🔪', u:'/games/yandere/' },
   { n:'Slope', e:'🏂', u:'https://slope-game.github.io' },
   { n:'1v1.lol', e:'🎯', u:'https://1v1.lol' },
   { n:'Retro Bowl', e:'🏈', u:'https://retrobowlunblocked.github.io' },
-  { n:'BitLife', e:'🧬', u:'https://bitlifeonline.io' },
-  { n:'Minecraft', e:'⛏️', u:'https://classic.minecraft.net' },
-  { n:'Krunker', e:'🔫', u:'https://krunker.io' },
 ];
 
 addEventListener('DOMContentLoaded', () => {
@@ -195,14 +195,6 @@ function tick() {
   if(q('#hTime')) q('#hTime').textContent = t;
 }
 
-function enter() {
-  q('#splash').classList.add('out');
-  setTimeout(() => {
-    q('#splash').style.display = 'none';
-    q('#app').style.display = 'block';
-    requestAnimationFrame(() => q('#app').classList.add('on'));
-  }, 600);
-}
 
 function goto(sec) {
   if(sec === 'play') q('#gameGrid').scrollIntoView({behavior:'smooth', block:'center'});
@@ -227,8 +219,12 @@ function buildGames() {
     div.className = 'card';
     div.innerHTML = `<div class="card-icon">${g.e}</div><div class="card-label">${g.n}</div>`;
     div.onclick = () => {
-        if (typeof __uv$config === 'undefined') return;
-        window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
+        if (g.u.startsWith('/')) {
+            window.location.href = g.u;
+        } else {
+            if (typeof __uv$config === 'undefined') return;
+            window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
+        }
     };
     grid.appendChild(div);
   });
