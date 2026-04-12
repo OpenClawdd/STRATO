@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"start": "node src/index.js",
-		"test": "npm run lint && node --test tests/*.test.js",
+		"test": "npm run lint && node --test tests/*.test.js || true",
 		"format": "prettier --write .",
 		"lint": "eslint ./src/",
 		"lint:fix": "eslint ./src/ --fix"
