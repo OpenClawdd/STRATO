@@ -46,22 +46,21 @@ _(Note: We do **not** recommend Render or Vercel, as they will instantly ban you
 
 If you want the fastest speeds and don't want to rely on a free host, you can run the site directly from your computer and share it safely using **Cloudflare Tunnels**. This hides your home IP address so you can't be DDOS'd or hacked.
 
-**Step 1: Start the server on your PC**
-
+**Step 1: Download Required Software**
 1. You must have [Node.js](https://nodejs.org/) installed on your computer.
-2. Open a terminal/command prompt in this folder and type:
-   `npm install`
-   `npm start`
-   _Your server is now running on `http://localhost:8080`!_
+2. Download `cloudflared.exe` from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/) and place it inside this folder (or somewhere in your system PATH).
 
-**Step 2: Create a secure tunnel**
+**Step 2: Start the Server & Tunnel (Windows)**
+1. Just double-click the `start.bat` file!
+2. It will automatically open two windows: one for the local server, and one for Cloudflare.
+3. Look in the Cloudflare window for a random, secure link (it looks like `https://some-random-words.trycloudflare.com`). **Copy that link and send it to your friends!**
 
-1. Download the `cloudflared` tool for your operating system from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/).
-2. Open a **new** terminal window and run this command:
-   `cloudflared tunnel --url http://localhost:8080`
-3. Cloudflare will generate a random, secure link (it looks like `https://some-random-words.trycloudflare.com`). **Copy that link and send it to your friends!**
+_Important: The site will only work as long as your computer is awake and those two windows are open._
 
-_Important: The site will only work as long as your computer is awake and the terminals are open._
+**(For Mac/Linux Users)**
+You can run it manually by opening two terminals:
+1. Terminal 1: `npm install && npm start`
+2. Terminal 2: `cloudflared tunnel --url http://localhost:8080`
 
 ---
 
