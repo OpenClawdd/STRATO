@@ -9,6 +9,21 @@ import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
 const app = express();
+
+app.use((req, res, next) => {
+	res.setHeader("X-Content-Type-Options", "nosniff");
+	res.setHeader("X-Frame-Options", "SAMEORIGIN");
+	res.setHeader("Referrer-Policy", "no-referrer");
+	res.setHeader("X-XSS-Protection", "0");
+	res.setHeader(
+		"Strict-Transport-Security",
+		"max-age=15552000; includeSubDomains"
+	);
+	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+	next();
+});
+
 // Load our publicPath first and prioritize it over UV.
 app.use(express.static("./public"));
 // Load vendor files last.
@@ -26,15 +41,13 @@ app.use((req, res) => {
 const server = createServer();
 
 server.on("request", (req, res) => {
-	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
 	app(req, res);
 });
 server.on("upgrade", (req, socket, head) => {
 	if (req.url.endsWith("/wisp/")) {
 		wisp.routeRequest(req, socket, head);
 		return;
-	} 
+	}
 	socket.end();
 });
 
