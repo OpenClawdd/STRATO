@@ -34,7 +34,7 @@ server.on("upgrade", (req, socket, head) => {
 	if (req.url.endsWith("/wisp/")) {
 		wisp.routeRequest(req, socket, head);
 		return;
-	} 
+	}
 	socket.end();
 });
 
