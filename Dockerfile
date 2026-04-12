@@ -1,21 +1,25 @@
-FROM node:lts-alpine
+FROM node:20
 
-LABEL maintainer="TitaniumNetwork Ultraviolet Team"
-LABEL summary="Ultraviolet Proxy Image"
-LABEL description="Example application of Ultraviolet which can be deployed in production."
+# Hugging Face standard user setup
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
-ENV NODE_ENV=production
-WORKDIR /app
+WORKDIR $HOME/app
 
-RUN apk add --upgrade --no-cache python3 make g++
+# Copy package files
+COPY --chown=user package.json ./
 
-RUN npm install --global corepack@latest
+# Install dependencies, bypassing dependency resolution issues from eslint/knip
+RUN npm install --legacy-peer-deps
 
-COPY package.json /app/package.json
-COPY pnpm-lock.yaml /app/pnpm-lock.yaml
+# Copy application files
+COPY --chown=user . .
 
-RUN corepack install
-RUN pnpm install
+# Expose the required port
+EXPOSE 7860
+ENV PORT=7860
 
 COPY . /app
 
