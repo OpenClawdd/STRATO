@@ -1,14 +1,12 @@
 import { join } from "node:path";
 import { hostname } from "node:os";
 import { createServer } from "node:http";
+import fs from "node:fs";
 import express from "express";
 import cookieParser from "cookie-parser";
-import wisp from "wisp-server-node";
+import * as wispServer from "@mercuryworkshop/wisp-js/server";
 
 import { authPage } from "./auth.js";
-import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
-import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
-import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
 const app = express();
 app.use(cookieParser());
@@ -41,13 +39,48 @@ app.use((req, res, next) => {
 	return res.send(authPage(""));
 });
 
-// Load our publicPath first and prioritize it over UV.
+app.use(express.json({ limit: "50mb" }));
+
+app.post("/api/save", (req, res) => {
+	try {
+		const data = req.body.data;
+		if (!data) return res.status(400).send("No data provided");
+
+		const saveDir = join(process.cwd(), "backups", "users");
+		if (!fs.existsSync(saveDir)) {
+			fs.mkdirSync(saveDir, { recursive: true });
+		}
+
+		// Use IP or simple random ID for the save file name
+		const id = req.ip.replace(/[^a-zA-Z0-9]/g, "_") || Date.now().toString();
+		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+		const filename = `save_${id}_${timestamp}.json`;
+
+		fs.writeFileSync(join(saveDir, filename), JSON.stringify({ data }));
+		res.status(200).send("Save backed up successfully.");
+	} catch (e) {
+		console.error("Failed to backup save", e);
+		res.status(500).send("Internal Server Error");
+	}
+});
+
+app.get("/", (req, res) => {
+	let indexHtml = fs.readFileSync("./public/index.html", "utf8");
+	let gamesData = "[]";
+	try {
+		gamesData = fs.readFileSync("./config/games.json", "utf8");
+	} catch (e) {
+		console.warn("Could not read games config, returning empty array");
+	}
+	indexHtml = indexHtml.replace(
+		"const GAMES = window.__GAMES__ || [];",
+		`const GAMES = ${gamesData};`
+	);
+	res.send(indexHtml);
+});
+
+// Load our publicPath first
 app.use(express.static("./public"));
-// Load vendor files last.
-// The vendor's uv.config.js won't conflict with our uv.config.js inside the publicPath directory.
-app.use("/uv/", express.static(uvPath));
-app.use("/epoxy/", express.static(epoxyPath));
-app.use("/baremux/", express.static(baremuxPath));
 
 // Error for everything else
 app.use((req, res) => {
@@ -64,7 +97,7 @@ server.on("request", (req, res) => {
 });
 server.on("upgrade", (req, socket, head) => {
 	if (req.url.endsWith("/wisp/")) {
-		wisp.routeRequest(req, socket, head);
+		wispServer.server.routeRequest(req, socket, head);
 		return;
 	}
 	socket.end();
