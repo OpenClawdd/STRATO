@@ -1,1166 +1,694 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>NoRedInk | Dashboard</title>
-		<link id="favicon" rel="icon" href="" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-			rel="stylesheet"
-		/>
-		<script src="/ghost.js"></script>
-		<style>
-			:root {
-				--bg-base: #0a0a0a;
-				--bg-surface: #1a1a1a;
-				--bg-hover: #2a2a2a;
-				--accent: #00ff88;
-				--text-main: #ffffff;
-				--text-muted: #888888;
-			}
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-				font-family: "Inter", sans-serif;
-			}
-			body {
-				background: var(--bg-base);
-				color: var(--text-main);
-				display: flex;
-				height: 100vh;
-				overflow: hidden;
-			}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoRedInk | Dashboard</title>
+    <link id="favicon" rel="icon" href="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="/uv/uv.config.js"></script>
+    <script src="/uv/uv.bundle.js"></script>
+    <style>
+        :root {
+            --bg-base: #0a0a0a;
+            --bg-surface: #1a1a1a;
+            --bg-hover: #2a2a2a;
+            --accent: #00ff88;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-base); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-			#sidebar {
-				width: 240px;
-				background: var(--bg-surface);
-				border-right: 1px solid #333;
-				display: flex;
-				flex-direction: column;
-				opacity: 0;
-				pointer-events: none;
-				transform: scale(0.8);
-				filter: blur(10px);
-				transition:
-					opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-					transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-					filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-				position: relative;
-			}
-			.logo {
-				padding: 24px;
-				font-size: 20px;
-				font-weight: 800;
-				letter-spacing: -1px;
-				color: var(--accent);
-				border-bottom: 1px solid #333;
-			}
+        #sidebar {
+            width: 240px;
+            background: var(--bg-surface);
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+            filter: blur(10px);
+            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+        }
+        .logo { padding: 24px; font-size: 20px; font-weight: 800; letter-spacing: -1px; color: var(--accent); border-bottom: 1px solid #333; }
 
-			.nav-container {
-				position: relative;
-				display: flex;
-				flex-direction: column;
-			}
-			.nav-item {
-				padding: 16px 24px;
-				cursor: pointer;
-				font-weight: 600;
-				color: var(--text-muted);
-				transition: 0.2s;
-				position: relative;
-				z-index: 2;
-			}
-			.nav-item:hover,
-			.nav-item.active {
-				background: var(--bg-hover);
-				color: var(--text-main);
-			}
+        .nav-container { position: relative; display: flex; flex-direction: column; }
+        .nav-item { padding: 16px 24px; cursor: pointer; font-weight: 600; color: var(--text-muted); transition: 0.2s; position: relative; z-index: 2;}
+        .nav-item:hover, .nav-item.active { background: var(--bg-hover); color: var(--text-main); }
 
-			#active-indicator {
-				position: absolute;
-				left: 0;
-				top: 0;
-				width: 4px;
-				height: 51px; /* Height of nav-item approx */
-				background-color: var(--accent);
-				transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-				z-index: 3;
-			}
+        #active-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 51px; /* Height of nav-item approx */
+            background-color: var(--accent);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+        }
 
-			#main {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				overflow-y: auto;
-				opacity: 0;
-				pointer-events: none;
-				transform: scale(0.8);
-				filter: blur(10px);
-				transition:
-					opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-					transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-					filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-			}
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+            filter: blur(10px);
+            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-			/* Splash Screen CSS */
-			#splash-screen {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 100vh;
-				z-index: 100;
-				background-color: var(--bg-base);
-				background-size: cover;
-				background-position: center;
-				background-repeat: no-repeat;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				transform: scale(1);
-				transition:
-					opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-					transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-			}
+        /* Splash Screen CSS */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background-color: var(--bg-base);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-			.splash-center {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				text-align: center;
-				user-select: none;
-			}
+        .splash-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            user-select: none;
+        }
 
-			.splash-title {
-				font-size: 80px;
-				font-weight: 800;
-				letter-spacing: -2px;
-				color: var(--text-main);
-				margin-bottom: 16px;
-			}
+        .splash-title {
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
 
-			.splash-slogan {
-				font-size: 20px;
-				font-weight: 400;
-				color: var(--accent);
-				text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-			}
+        .splash-slogan {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
 
-			/* Pure minimalist default hover logic redesign */
-			#splash-menu-container {
-				position: absolute;
-				bottom: 40px;
-				left: 40px;
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				justify-content: flex-end;
-				gap: 16px;
-			}
+        /* Pure minimalist default hover logic redesign */
+        #splash-menu-container {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            gap: 16px;
+        }
 
-			#splash-menu-content {
-				background: rgba(20, 20, 20, 0.6);
-				backdrop-filter: blur(10px);
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				border-radius: 12px;
-				padding: 20px;
-				display: flex;
-				flex-direction: column;
-				gap: 12px;
-				width: 200px;
-				transition:
-					opacity 0.4s ease,
-					transform 0.4s ease;
-				opacity: 0; /* Strictly hidden by default */
-				transform: translateY(10px);
-				pointer-events: none; /* Non-interactable */
-			}
+        #splash-menu-content {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 200px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0; /* Strictly hidden by default */
+            transform: translateY(10px);
+            pointer-events: none; /* Non-interactable */
+        }
 
-			.splash-online-status {
-				font-size: 13px;
-				font-weight: 600;
-				color: var(--text-muted);
-				text-transform: uppercase;
-				letter-spacing: 1px;
-				display: flex;
-				align-items: center;
-				gap: 8px;
-				padding-bottom: 12px;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-				margin-bottom: 4px;
-			}
+        .splash-online-status {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 4px;
+        }
 
-			.online-dot {
-				width: 8px;
-				height: 8px;
-				background-color: var(--accent);
-				border-radius: 50%;
-				box-shadow: 0 0 8px var(--accent);
-			}
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+        }
 
-			.splash-nav-links {
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-			}
+        .splash-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-			.splash-nav-item {
-				font-size: 16px;
-				font-weight: 600;
-				color: var(--text-main);
-				padding: 8px 12px;
-				border-radius: 8px;
-				cursor: pointer;
-				transition:
-					background 0.2s,
-					color 0.2s;
-			}
+        .splash-nav-item {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
 
-			.splash-nav-item:hover {
-				background: rgba(255, 255, 255, 0.1);
-				color: var(--accent);
-			}
+        .splash-nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
 
-			#home-btn-wrapper {
-				background: transparent;
-				border: 1px solid transparent;
-				backdrop-filter: none;
-				padding: 14px;
-				border-radius: 12px;
-				cursor: pointer;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				transition: all 0.4s ease;
-				margin-left: -14px; /* Offset purely for alignment of icon */
-			}
+        #home-btn-wrapper {
+            background: transparent;
+            border: 1px solid transparent;
+            backdrop-filter: none;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s ease;
+            margin-left: -14px; /* Offset purely for alignment of icon */
+        }
 
-			.home-icon {
-				width: 24px;
-				height: 24px;
-				color: var(--text-muted);
-				transition: color 0.4s ease;
-			}
+        .home-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
 
-			/* Hover on container shows content */
-			#splash-menu-container:hover #splash-menu-content {
-				opacity: 1;
-				transform: translateY(0);
-				pointer-events: auto;
-			}
+        /* Hover on container shows content */
+        #splash-menu-container:hover #splash-menu-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
 
-			/* Hover on container changes the home button */
-			#splash-menu-container:hover #home-btn-wrapper {
-				background: rgba(20, 20, 20, 0.6);
-				border-color: rgba(255, 255, 255, 0.1);
-				backdrop-filter: blur(10px);
-				margin-left: 0;
-			}
+        /* Hover on container changes the home button */
+        #splash-menu-container:hover #home-btn-wrapper {
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-left: 0;
+        }
 
-			#splash-menu-container:hover .home-icon {
-				color: var(--text-main);
-			}
+        #splash-menu-container:hover .home-icon {
+            color: var(--text-main);
+        }
 
-			#topbar {
-				padding: 20px 40px;
-				background: var(--bg-base);
-				border-bottom: 1px solid #333;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				position: sticky;
-				top: 0;
-				z-index: 10;
-			}
-			.search-box {
-				width: 100%;
-				max-width: 600px;
-				position: relative;
-			}
-			.search-box input {
-				width: 100%;
-				background: var(--bg-surface);
-				border: 1px solid #333;
-				padding: 14px 20px;
-				border-radius: 8px;
-				color: white;
-				font-size: 15px;
-				outline: none;
-				transition: 0.2s;
-			}
-			.search-box input:focus {
-				border-color: var(--accent);
-			}
+        #topbar { padding: 20px 40px; background: var(--bg-base); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
+        .search-box { width: 100%; max-width: 600px; position: relative; }
+        .search-box input { width: 100%; background: var(--bg-surface); border: 1px solid #333; padding: 14px 20px; border-radius: 8px; color: white; font-size: 15px; outline: none; transition: 0.2s; }
+        .search-box input:focus { border-color: var(--accent); }
 
-			.topbar-controls {
-				display: flex;
-				gap: 12px;
-				align-items: center;
-			}
-			.panic-btn {
-				background: #ff3366;
-				color: white;
-				border: none;
-				padding: 10px 20px;
-				border-radius: 6px;
-				font-weight: 800;
-				cursor: pointer;
-			}
+        .topbar-controls { display: flex; gap: 12px; align-items: center; }
+        .panic-btn { background: #ff3366; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-			.privacy-select {
-				background: var(--bg-surface);
-				color: var(--text-main);
-				border: 1px solid #333;
-				padding: 10px 14px;
-				border-radius: 6px;
-				font-weight: 600;
-				font-size: 14px;
-				outline: none;
-				cursor: pointer;
-				transition: 0.2s;
-			}
-			.privacy-select:hover {
-				border-color: var(--accent);
-			}
+        .privacy-select { background: var(--bg-surface); color: var(--text-main); border: 1px solid #333; padding: 10px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; outline: none; cursor: pointer; transition: 0.2s; }
+        .privacy-select:hover { border-color: var(--accent); }
 
-			.save-btn {
-				background: var(--bg-surface);
-				color: var(--text-main);
-				border: 1px solid #333;
-				padding: 8px 12px;
-				border-radius: 6px;
-				font-weight: 600;
-				font-size: 14px;
-				cursor: pointer;
-				transition: 0.2s;
-			}
-			.save-btn:hover {
-				border-color: var(--accent);
-			}
+        .save-btn { background: var(--bg-surface); color: var(--text-main); border: 1px solid #333; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .save-btn:hover { border-color: var(--accent); }
 
-			#content {
-				padding: 40px;
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-			}
-			.view-section {
-				display: none;
-				flex: 1;
-				flex-direction: column;
-			}
-			.view-section.active {
-				display: flex;
-			}
+        #content { padding: 40px; flex: 1; display: flex; flex-direction: column;}
+        .view-section { display: none; flex: 1; flex-direction: column; }
+        .view-section.active { display: flex; }
 
-			.grid-title {
-				font-size: 24px;
-				font-weight: 800;
-				margin-bottom: 24px;
-			}
-			.game-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-				gap: 20px;
-			}
+        .grid-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
 
-			.game-card {
-				background: var(--bg-surface);
-				border-radius: 12px;
-				overflow: hidden;
-				cursor: pointer;
-				transition: 0.2s;
-				border: 1px solid #333;
-			}
-			.game-card:hover {
-				transform: translateY(-4px);
-				border-color: var(--accent);
-				box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15);
-			}
-			.game-icon {
-				height: 140px;
-				background: #222;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				overflow: hidden;
-			}
-			.game-info {
-				padding: 16px;
-			}
-			.game-title {
-				font-weight: 600;
-				font-size: 14px;
-			}
-			.game-tag {
-				font-size: 11px;
-				color: var(--accent);
-				margin-top: 4px;
-				text-transform: uppercase;
-				letter-spacing: 1px;
-				font-weight: 800;
-			}
+        .game-card { background: var(--bg-surface); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
+        .game-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15); }
+        .game-icon { height: 140px; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .game-info { padding: 16px; }
+        .game-title { font-weight: 600; font-size: 14px; }
+        .game-tag { font-size: 11px; color: var(--accent); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
 
-			.iframe-container {
-				flex: 1;
-				border: 1px solid #333;
-				border-radius: 12px;
-				overflow: hidden;
-				background: #000;
-			}
-			.iframe-container iframe {
-				width: 100%;
-				height: 100%;
-				border: none;
-			}
+        .iframe-container { flex: 1; border: 1px solid #333; border-radius: 12px; overflow: hidden; background: #000; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
 
-			/* Glassmorphic Radio Player */
-			.radio-player-wrapper {
-				flex: 1;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.radio-player {
-				background: rgba(20, 20, 20, 0.6);
-				backdrop-filter: blur(15px);
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				border-radius: 20px;
-				padding: 40px;
-				text-align: center;
-				width: 400px;
-				box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-			}
+        /* Glassmorphic Radio Player */
+        .radio-player-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .radio-player {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
 
-			.radio-title {
-				font-size: 24px;
-				font-weight: 800;
-				color: var(--text-main);
-				margin-bottom: 8px;
-			}
+        .radio-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
 
-			.radio-status {
-				font-size: 14px;
-				color: var(--accent);
-				text-transform: uppercase;
-				letter-spacing: 2px;
-				font-weight: 600;
-				margin-bottom: 30px;
-			}
+        .radio-status {
+            font-size: 14px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
 
-			.visualizer {
-				display: flex;
-				align-items: flex-end;
-				justify-content: center;
-				gap: 4px;
-				height: 60px;
-				margin-bottom: 30px;
-			}
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 60px;
+            margin-bottom: 30px;
+        }
 
-			.bar {
-				width: 8px;
-				background: var(--accent);
-				border-radius: 4px;
-				animation: bounce 1s infinite alternate cubic-bezier(0.2, 0.8, 0.2, 1);
-			}
+        .bar {
+            width: 8px;
+            background: var(--accent);
+            border-radius: 4px;
+            animation: bounce 1s infinite alternate cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-			.bar:nth-child(1) {
-				height: 20%;
-				animation-delay: 0.1s;
-			}
-			.bar:nth-child(2) {
-				height: 60%;
-				animation-delay: 0.2s;
-			}
-			.bar:nth-child(3) {
-				height: 40%;
-				animation-delay: 0.3s;
-			}
-			.bar:nth-child(4) {
-				height: 100%;
-				animation-delay: 0.4s;
-			}
-			.bar:nth-child(5) {
-				height: 50%;
-				animation-delay: 0.5s;
-			}
-			.bar:nth-child(6) {
-				height: 80%;
-				animation-delay: 0.6s;
-			}
-			.bar:nth-child(7) {
-				height: 30%;
-				animation-delay: 0.7s;
-			}
+        .bar:nth-child(1) { height: 20%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 60%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+        .bar:nth-child(5) { height: 50%; animation-delay: 0.5s; }
+        .bar:nth-child(6) { height: 80%; animation-delay: 0.6s; }
+        .bar:nth-child(7) { height: 30%; animation-delay: 0.7s; }
 
-			@keyframes bounce {
-				0% {
-					transform: scaleY(0.5);
-					opacity: 0.5;
-				}
-				100% {
-					transform: scaleY(1);
-					opacity: 1;
-				}
-			}
+        @keyframes bounce {
+            0% { transform: scaleY(0.5); opacity: 0.5; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
 
-			.radio-btn {
-				background: var(--text-main);
-				color: #000;
-				border: none;
-				padding: 12px 30px;
-				border-radius: 30px;
-				font-weight: 800;
-				font-size: 16px;
-				cursor: pointer;
-				transition: 0.2s;
-			}
-			.radio-btn:hover {
-				transform: scale(1.05);
-				background: var(--accent);
-			}
-		</style>
-	</head>
-	<body>
-		<div id="splash-screen">
-			<div class="splash-center">
-				<h1 class="splash-title">STRATO v2</h1>
-				<p class="splash-slogan" id="splash-slogan"></p>
-			</div>
+        .radio-btn {
+            background: var(--text-main);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .radio-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body>
 
-			<div id="splash-menu-container">
-				<div id="splash-menu-content">
-					<div class="splash-online-status">
-						<span class="online-dot"></span> 2226 online
-					</div>
-					<div class="splash-nav-links">
-						<div
-							class="splash-nav-item splash-view-trigger"
-							data-view="grid"
-							id="splash-play-btn"
-						>
-							Play
-						</div>
-						<div class="splash-nav-item splash-view-trigger" data-view="watch">
-							Watch
-						</div>
-						<div class="splash-nav-item">AI</div>
-						<div class="splash-nav-item splash-view-trigger" data-view="listen">
-							Listen
-						</div>
-						<div class="splash-nav-item splash-view-trigger" data-view="browse">
-							Browse
-						</div>
-					</div>
-				</div>
-				<div id="home-btn-wrapper">
-					<svg
-						class="home-icon"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-						<polyline points="9 22 9 12 15 12 15 22"></polyline>
-					</svg>
-				</div>
-			</div>
-		</div>
+    <div id="splash-screen">
+        <div class="splash-center">
+            <h1 class="splash-title">STRATO v2</h1>
+            <p class="splash-slogan" id="splash-slogan"></p>
+        </div>
 
-		<div id="sidebar">
-			<div class="logo">STRATO // ARCADE</div>
-			<div class="nav-container">
-				<div id="active-indicator"></div>
-				<div class="nav-item active" data-target="grid">All Games</div>
-				<div class="nav-item" data-target="watch">Watch</div>
-				<div class="nav-item" data-target="listen">Listen</div>
-				<div class="nav-item" data-target="browse">Browse</div>
-			</div>
-		</div>
+        <div id="splash-menu-container">
+            <div id="splash-menu-content">
+                <div class="splash-online-status">
+                    <span class="online-dot"></span> 2226 online
+                </div>
+                <div class="splash-nav-links">
+                    <div class="splash-nav-item splash-view-trigger" data-view="grid" id="splash-play-btn">Play</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="watch">Watch</div>
+                    <div class="splash-nav-item">AI</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="listen">Listen</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="browse">Browse</div>
+                </div>
+            </div>
+            <div id="home-btn-wrapper">
+                <svg class="home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
 
-		<div id="main">
-			<div id="topbar">
-				<div class="search-box">
-					<input
-						type="text"
-						id="pInp"
-						placeholder="Search the web or enter a URL to unblock..."
-						autocomplete="off"
-					/>
-				</div>
-				<div class="topbar-controls">
-					<button class="save-btn" onclick="exportSave()">Export Save</button>
-					<button
-						class="save-btn"
-						onclick="document.getElementById('importFile').click()"
-					>
-						Import Save
-					</button>
-					<input
-						type="file"
-						id="importFile"
-						accept=".json"
-						style="display: none"
-						onchange="importSave(event)"
-					/>
-					<select
-						id="privacyPreset"
-						class="privacy-select"
-						onchange="applyPrivacyPreset()"
-					>
-						<option value="default">Default</option>
-						<option value="drive">Google Drive</option>
-						<option value="canvas">Canvas</option>
-						<option value="classroom">Google Classroom</option>
-						<option value="gmail">Gmail</option>
-					</select>
-					<button class="panic-btn" onclick="panic()">PANIC (ESC)</button>
-				</div>
-			</div>
+    <div id="sidebar">
+        <div class="logo">STRATO // ARCADE</div>
+        <div class="nav-container">
+            <div id="active-indicator"></div>
+            <div class="nav-item active" data-target="grid">All Games</div>
+            <div class="nav-item" data-target="watch">Watch</div>
+            <div class="nav-item" data-target="listen">Listen</div>
+            <div class="nav-item" data-target="browse">Browse</div>
+        </div>
+    </div>
 
-			<div id="content">
-				<div id="view-grid" class="view-section active">
-					<div class="grid-title">Featured</div>
-					<div class="game-grid" id="grid"></div>
-				</div>
+    <div id="main">
+        <div id="topbar">
+            <div class="search-box">
+                <input type="text" id="pInp" placeholder="Search the web or enter a URL to unblock..." autocomplete="off">
+            </div>
+            <div class="topbar-controls">
+                <button class="save-btn" onclick="exportSave()">Export Save</button>
+                <button class="save-btn" onclick="document.getElementById('importFile').click()">Import Save</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importSave(event)">
+                <select id="privacyPreset" class="privacy-select" onchange="applyPrivacyPreset()">
+                    <option value="default">Default</option>
+                    <option value="drive">Google Drive</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="classroom">Google Classroom</option>
+                    <option value="gmail">Gmail</option>
+                </select>
+                <button class="panic-btn" onclick="panic()">PANIC (ESC)</button>
+            </div>
+        </div>
 
-				<div id="view-watch" class="view-section">
-					<div class="grid-title">Watch (Piped)</div>
-					<div class="iframe-container">
-						<iframe src="https://piped.video" allowfullscreen></iframe>
-					</div>
-				</div>
+        <div id="content">
+            <div id="view-grid" class="view-section active">
+                <div class="grid-title">Featured</div>
+                <div class="game-grid" id="grid"></div>
+            </div>
 
-				<div id="view-listen" class="view-section">
-					<div class="radio-player-wrapper">
-						<div class="radio-player">
-							<div class="radio-title">Lofi Girl Radio</div>
-							<div class="radio-status">● Live Stream</div>
+            <div id="view-watch" class="view-section">
+                <div class="grid-title">Watch (Piped)</div>
+                <div class="iframe-container">
+                    <iframe src="https://piped.video" allowfullscreen></iframe>
+                </div>
+            </div>
 
-							<div class="visualizer" id="audio-vis" style="display: none">
-								<div class="bar"></div>
-								<div class="bar"></div>
-								<div class="bar"></div>
-								<div class="bar"></div>
-								<div class="bar"></div>
-								<div class="bar"></div>
-								<div class="bar"></div>
-							</div>
+            <div id="view-listen" class="view-section">
+                <div class="radio-player-wrapper">
+                    <div class="radio-player">
+                        <div class="radio-title">Lofi Girl Radio</div>
+                        <div class="radio-status">● Live Stream</div>
 
-							<button
-								class="radio-btn"
-								id="play-radio-btn"
-								onclick="toggleRadio()"
-							>
-								Play Audio
-							</button>
-						</div>
-					</div>
-					<!-- Hidden iframe to act as the audio source (Lofi Girl) -->
-					<iframe
-						id="radio-iframe"
-						style="display: none"
-						allow="autoplay"
-					></iframe>
-				</div>
+                        <div class="visualizer" id="audio-vis" style="display: none;">
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        </div>
 
-				<div id="view-browse" class="view-section">
-					<div class="radio-player-wrapper">
-						<div style="text-align: center; width: 100%; max-width: 500px">
-							<div class="radio-title">Unrestricted Browsing</div>
-							<p style="color: var(--text-muted); margin-bottom: 20px">
-								Enter any URL in the search bar above to launch the Ultraviolet
-								proxy.
-							</p>
-							<svg
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="var(--accent)"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="width: 64px; height: 64px; margin: 0 auto; opacity: 0.5"
-							>
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-							</svg>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                        <button class="radio-btn" id="play-radio-btn" onclick="toggleRadio()">Play Audio</button>
+                    </div>
+                </div>
+                <!-- Hidden iframe to act as the audio source (Lofi Girl) -->
+                <iframe id="radio-iframe" style="display: none;" allow="autoplay"></iframe>
+            </div>
 
-		<script src="/index.js"></script>
-		<script src="/save-manager.js"></script>
-		<script>
-			const GAMES = [
-				{
-					n: "Crash Bandicoot",
-					img: "/assets/thumbnails/crash_bandicoot.webp",
-					u: "/games/crash/",
-					t: "Action",
-				},
-				{
-					n: "Crash Bandicoot 2",
-					img: "/assets/thumbnails/crash_bandicoot_2.webp",
-					u: "/games/crash2/",
-					t: "Action",
-				},
-				{
-					n: "Crash Bandicoot 3",
-					img: "/assets/thumbnails/crash_bandicoot_3.webp",
-					u: "/games/crash3/",
-					t: "Action",
-				},
-				{
-					n: "Tetris",
-					img: "/assets/thumbnails/tetris.webp",
-					u: "/games/tetris/",
-					t: "Arcade",
-				},
-				{
-					n: "Yandere Simulator",
-					img: "/assets/thumbnails/yandere_simulator.webp",
-					u: "/games/yandere/",
-					t: "Simulation",
-				},
-				{
-					n: "Slope",
-					img: "/assets/thumbnails/slope.webp",
-					u: "https://slope-game.github.io",
-					t: "Arcade",
-				},
-				{
-					n: "1v1.lol",
-					img: "/assets/thumbnails/1v1_lol.webp",
-					u: "https://1v1.lol",
-					t: "Action",
-				},
-				{
-					n: "Retro Bowl",
-					img: "/assets/thumbnails/retro_bowl.webp",
-					u: "https://retrobowlunblocked.github.io",
-					t: "Sports",
-				},
-				{
-					n: "BitLife",
-					img: "https://play-lh.googleusercontent.com/1GvM8wP_A3423Zt6nks8h0gS1sNlF2wE9AHz-Zf0yL6W2nL1E1pBwM8_9c6H9g9A8Q",
-					u: "https://bitlifeonline.com/",
-					t: "Simulation",
-				},
-				{
-					n: "Minecraft",
-					img: "https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg",
-					u: "https://eaglercraft.com/mc/1.8.8/",
-					t: "Action",
-				},
-				{
-					n: "Cookie Clicker",
-					img: "https://orteil.dashnet.org/cookieclicker/img/discordBanner.png",
-					u: "https://orteil.dashnet.org/cookieclicker/",
-					t: "Idle",
-				},
-				{
-					n: "Subway Surfers",
-					img: "https://play-lh.googleusercontent.com/aA2igh4ZAWHcsikJiU1rL50D51bO5lY_cM-h4ZlqP_A7V9J7O9H3w_E3y9M5vR1h_Q=w526-h296-rw",
-					u: "https://subwaysurfers.com/",
-					t: "Arcade",
-				},
-				{
-					n: "Paper.io 2",
-					img: "https://play-lh.googleusercontent.com/Dih_z8XJkYm_lq-1K_HwXl6Qk0R7F-R9L9X8Q6p4hJ8W2fK9Xz5Xz3l_k4qY5L8S3_Q=w526-h296-rw",
-					u: "https://paper-io.com/",
-					t: "Arcade",
-				},
-				{
-					n: "Hole.io",
-					img: "https://play-lh.googleusercontent.com/5V3X-uU_0C3V3-nO_V3tW4z7X9K7V0H3_YvP1mQ2R7A8f_W9W7u4rL_A6_c-X3-Q7w=w526-h296-rw",
-					u: "https://hole-io.com/",
-					t: "Arcade",
-				},
-				{
-					n: "Snow Rider 3D",
-					img: "https://play-lh.googleusercontent.com/4h_c8f-3_k8x8g_Q_Q7g_w2-k-y_9Z9q6-L9Z0h4V9-c6G5-b0Q8-V9V-V5w6m=w526-h296-rw",
-					u: "https://snowrider3d.com/",
-					t: "Arcade",
-				},
-				{
-					n: "Geometry Dash",
-					img: "https://play-lh.googleusercontent.com/8Q_A9-U_F-M_Z3y-m5z-L-O_R-v_O8_O9_h_O-q_z_v-O-O9w9Y_Q_Z_w-M_b-D_w=w526-h296-rw",
-					u: "https://geometrydash.io/",
-					t: "Arcade",
-				},
-				{
-					n: "Friday Night Funkin'",
-					img: "https://upload.wikimedia.org/wikipedia/en/2/29/Friday_Night_Funkin%27_logo.png",
-					u: "https://ninja-muffin24.itch.io/funkin",
-					t: "Rhythm",
-				},
-				{
-					n: "Vex 7",
-					img: "https://play-lh.googleusercontent.com/XqZ-b-A_M-P-H_T_x-r-R-u-y-K_m_z-X_J-z-W-v_D_u_P-w-b_J_V_a_F_k_r_e_Q=w526-h296-rw",
-					u: "https://vex7.io/",
-					t: "Action",
-				},
-				{
-					n: "Moto X3M",
-					img: "https://play-lh.googleusercontent.com/6D_q_3_Z_p_7-X_c_7_x-z_v-O_c_K_r_a_L-a_G-w-F_q_U-y-z-F-b_E_M_Z_N_h_c=w526-h296-rw",
-					u: "https://motox3m.co/",
-					t: "Sports",
-				},
-				{
-					n: "Run 3",
-					img: "https://play-lh.googleusercontent.com/6_O_C_z_7-L_u_v-M_e-y-a_G_u_M_t_y_H-q_r_a-B_u-S_V_E_T_M_N_M_Z_m_F_Y=w526-h296-rw",
-					u: "https://run3.io/",
-					t: "Arcade",
-				},
-				{
-					n: "Monkey Mart",
-					img: "https://play-lh.googleusercontent.com/1-q-p_n-f-Q-R-g_R_n_R_O_Z-E_R-O_C_V_W-E_T_n-C_E_K_W_r-C_q-y_A_S_s_M=w526-h296-rw",
-					u: "https://monkeymart.org/",
-					t: "Simulation",
-				},
-				{
-					n: "Basketball Stars",
-					img: "https://play-lh.googleusercontent.com/2_c_z_z_P_7_n_n_R_Q_q_Q_H-M-L-C-a-s-A-L-T-u-S-N-Q-y-N-q-M-M-T-S_b_M=w526-h296-rw",
-					u: "https://basketballstars.io/",
-					t: "Sports",
-				},
-				{
-					n: "Drift Hunters",
-					img: "https://play-lh.googleusercontent.com/5_T_X_M_y-W_m-V-K_t-C_R_G_x-Q_T-a_N-B_Y-V-z_b-H_k_z_P-q-M_x-H_G_F_Y=w526-h296-rw",
-					u: "https://drifthunters.io/",
-					t: "Simulation",
-				},
-				{
-					n: "Tiny Fishing",
-					img: "https://play-lh.googleusercontent.com/7-T_u_R-V_M_Q_Q_Z_T_D_y_K-T_b-T-F_z_L_T_A_q-W_K_O_E_Z_A_H_A_U_Y_u=w526-h296-rw",
-					u: "https://tinyfishing.io/",
-					t: "Simulation",
-				},
-				{
-					n: "Rooftop Snipers",
-					img: "https://play-lh.googleusercontent.com/8_T_E_x_L_N_B_Z_M_D_W_O_r_G_F_V-M_M_T_A-u_u-C_U_q_K_A_L_W_G_O_Z_M=w526-h296-rw",
-					u: "https://rooftopsnipers.io/",
-					t: "Action",
-				},
-				{
-					n: "Crossy Road",
-					img: "https://play-lh.googleusercontent.com/9_M_Z_O_K_C_G_P_R_b_V_O_M_T_Q_b_W_N_S_a_M_O_Z_Y_E_A_A_P_r_T_T_C=w526-h296-rw",
-					u: "https://poki.com/en/g/crossy-road",
-					t: "Arcade",
-				},
-				{
-					n: "Smash Karts",
-					img: "https://play-lh.googleusercontent.com/4_b_V_E_z_X_M_L_V_N_A_C_y_E_M_N_M_D_W_A_O_A_G_B_P_a_C_M_S_A_B_D=w526-h296-rw",
-					u: "https://smashkarts.io/",
-					t: "Action",
-				},
-				{
-					n: "Shell Shockers",
-					img: "https://play-lh.googleusercontent.com/1_b_B_O_T_Q_b_N_E_P_M_D_T_W_D_C_A_y_M_A_S_D_M_Q_A_L_A_T_A_M_F_C=w526-h296-rw",
-					u: "https://shellshock.io/",
-					t: "Action",
-				},
-				{
-					n: "Ovo",
-					img: "https://play-lh.googleusercontent.com/2_A_y_A_S_M_K_N_D_P_R_T_B_D_E_Q_D_L_N_S_L_A_S_M_T_R_T_E_F_W_P=w526-h296-rw",
-					u: "https://ovogame.io/",
-					t: "Arcade",
-				},
-				{
-					n: "Tunnel Rush",
-					img: "https://play-lh.googleusercontent.com/3_E_M_Q_P_C_N_Z_S_D_A_M_E_A_K_W_T_F_R_S_C_T_E_V_M_Q_A_G_C_Z_A=w526-h296-rw",
-					u: "https://tunnelrush.io/",
-					t: "Arcade",
-				},
-				{
-					n: "Basket Bros",
-					img: "https://play-lh.googleusercontent.com/4_W_Q_D_T_A_N_P_R_S_N_E_F_D_C_Y_M_C_S_A_B_E_R_N_Q_A_T_W_M_B_A=w526-h296-rw",
-					u: "https://basketbros.io/",
-					t: "Sports",
-				},
-				{
-					n: "Among Us",
-					img: "https://play-lh.googleusercontent.com/8DdNXzNCKbrGzN1XNsz7211w-w-y-M_K_G_C_D_N_y_H_K_E_R_T_B_A_T_Q_P=w526-h296-rw",
-					u: "https://innersloth.com/",
-					t: "Action",
-				},
-				{
-					n: "Chess",
-					img: "https://play-lh.googleusercontent.com/5_T_E_C_N_A_R_T_N_D_Q_A_N_C_T_G_M_D_B_E_R_F_C_M_Y_N_A_S_C_M_W=w526-h296-rw",
-					u: "https://chess.com/",
-					t: "Puzzle",
-				},
-				{
-					n: "Wordle",
-					img: "https://play-lh.googleusercontent.com/6_B_Y_E_A_T_C_M_R_D_T_F_D_C_W_Q_B_N_S_R_E_Y_T_C_M_C_A_S_M_D_M=w526-h296-rw",
-					u: "https://nytimes.com/games/wordle/index.html",
-					t: "Puzzle",
-				},
-				{
-					n: "2048",
-					img: "https://play-lh.googleusercontent.com/7_N_S_M_D_E_C_A_B_T_D_F_T_C_W_A_M_Q_N_R_A_Y_E_C_A_S_C_M_D_Q=w526-h296-rw",
-					u: "https://play2048.co/",
-					t: "Puzzle",
-				},
-				{
-					n: "Pac-Man",
-					img: "https://play-lh.googleusercontent.com/8_T_E_R_M_A_C_B_T_S_N_A_C_T_C_F_E_M_Q_N_Y_A_T_M_A_C_A_S_M_E_Q=w526-h296-rw",
-					u: "https://freepacman.org/",
-					t: "Arcade",
-				},
-				{
-					n: "Flappy Bird",
-					img: "https://play-lh.googleusercontent.com/9_N_S_T_A_B_A_R_N_E_C_T_A_M_T_C_R_M_Q_E_A_C_T_M_S_A_S_E_M_Q=w526-h296-rw",
-					u: "https://flappybird.io/",
-					t: "Arcade",
-				},
-				{
-					n: "Super Mario 64",
-					img: "https://play-lh.googleusercontent.com/1_A_B_C_M_D_A_R_M_A_S_T_N_E_A_C_M_M_Q_E_N_T_A_M_C_S_A_S_E_A=w526-h296-rw",
-					u: "https://froggi.es/mario/",
-					t: "Action",
-				},
-			];
+            <div id="view-browse" class="view-section">
+                <div class="radio-player-wrapper">
+                    <div style="text-align: center; width: 100%; max-width: 500px;">
+                        <div class="radio-title">Unrestricted Browsing</div>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Enter any URL in the search bar above to launch the Ultraviolet proxy.</p>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 64px; height: 64px; margin: 0 auto; opacity: 0.5;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-			const searchInput = document.getElementById("pInp");
-			const grid = document.getElementById("grid");
-			let gameCards = [];
+    <script src="/baremux/bare.mux.js"></script>
+    <script src="/index.js"></script>
+    <script src="/save-manager.js"></script>
+    <script>
+        const GAMES = [
+            { n: "Crash Bandicoot", img: "/assets/thumbnails/crash_bandicoot.webp", u: "/games/crash/", t: "Action" },
+            { n: "Crash Bandicoot 2", img: "/assets/thumbnails/crash_bandicoot_2.webp", u: "/games/crash2/", t: "Action" },
+            { n: "Crash Bandicoot 3", img: "/assets/thumbnails/crash_bandicoot_3.webp", u: "/games/crash3/", t: "Action" },
+            { n: "Tetris", img: "/assets/thumbnails/tetris.webp", u: "/games/tetris/", t: "Arcade" },
+            { n: "Yandere Simulator", img: "/assets/thumbnails/yandere_simulator.webp", u: "/games/yandere/", t: "Simulation" },
+            { n: "Slope", img: "/assets/thumbnails/slope.webp", u: "https://slope-game.github.io", t: "Arcade" },
+            { n: "1v1.lol", img: "/assets/thumbnails/1v1_lol.webp", u: "https://1v1.lol", t: "Action" },
+            { n: "Retro Bowl", img: "/assets/thumbnails/retro_bowl.webp", u: "https://retrobowlunblocked.github.io", t: "Sports" },
+            { n: "BitLife", img: "https://play-lh.googleusercontent.com/1GvM8wP_A3423Zt6nks8h0gS1sNlF2wE9AHz-Zf0yL6W2nL1E1pBwM8_9c6H9g9A8Q", u: "https://bitlifeonline.com/", t: "Simulation" },
+            { n: "Minecraft", img: "https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg", u: "https://eaglercraft.com/mc/1.8.8/", t: "Action" },
+            { n: "Cookie Clicker", img: "https://orteil.dashnet.org/cookieclicker/img/discordBanner.png", u: "https://orteil.dashnet.org/cookieclicker/", t: "Idle" },
+            { n: "Subway Surfers", img: "https://play-lh.googleusercontent.com/aA2igh4ZAWHcsikJiU1rL50D51bO5lY_cM-h4ZlqP_A7V9J7O9H3w_E3y9M5vR1h_Q=w526-h296-rw", u: "https://subwaysurfers.com/", t: "Arcade" },
+            { n: "Paper.io 2", img: "https://play-lh.googleusercontent.com/Dih_z8XJkYm_lq-1K_HwXl6Qk0R7F-R9L9X8Q6p4hJ8W2fK9Xz5Xz3l_k4qY5L8S3_Q=w526-h296-rw", u: "https://paper-io.com/", t: "Arcade" },
+            { n: "Hole.io", img: "https://play-lh.googleusercontent.com/5V3X-uU_0C3V3-nO_V3tW4z7X9K7V0H3_YvP1mQ2R7A8f_W9W7u4rL_A6_c-X3-Q7w=w526-h296-rw", u: "https://hole-io.com/", t: "Arcade" },
+            { n: "Snow Rider 3D", img: "https://play-lh.googleusercontent.com/4h_c8f-3_k8x8g_Q_Q7g_w2-k-y_9Z9q6-L9Z0h4V9-c6G5-b0Q8-V9V-V5w6m=w526-h296-rw", u: "https://snowrider3d.com/", t: "Arcade" },
+            { n: "Geometry Dash", img: "https://play-lh.googleusercontent.com/8Q_A9-U_F-M_Z3y-m5z-L-O_R-v_O8_O9_h_O-q_z_v-O-O9w9Y_Q_Z_w-M_b-D_w=w526-h296-rw", u: "https://geometrydash.io/", t: "Arcade" },
+            { n: "Friday Night Funkin'", img: "https://upload.wikimedia.org/wikipedia/en/2/29/Friday_Night_Funkin%27_logo.png", u: "https://ninja-muffin24.itch.io/funkin", t: "Rhythm" },
+            { n: "Vex 7", img: "https://play-lh.googleusercontent.com/XqZ-b-A_M-P-H_T_x-r-R-u-y-K_m_z-X_J-z-W-v_D_u_P-w-b_J_V_a_F_k_r_e_Q=w526-h296-rw", u: "https://vex7.io/", t: "Action" },
+            { n: "Moto X3M", img: "https://play-lh.googleusercontent.com/6D_q_3_Z_p_7-X_c_7_x-z_v-O_c_K_r_a_L-a_G-w-F_q_U-y-z-F-b_E_M_Z_N_h_c=w526-h296-rw", u: "https://motox3m.co/", t: "Sports" },
+            { n: "Run 3", img: "https://play-lh.googleusercontent.com/6_O_C_z_7-L_u_v-M_e-y-a_G_u_M_t_y_H-q_r_a-B_u-S_V_E_T_M_N_M_Z_m_F_Y=w526-h296-rw", u: "https://run3.io/", t: "Arcade" },
+            { n: "Monkey Mart", img: "https://play-lh.googleusercontent.com/1-q-p_n-f-Q-R-g_R_n_R_O_Z-E_R-O_C_V_W-E_T_n-C_E_K_W_r-C_q-y_A_S_s_M=w526-h296-rw", u: "https://monkeymart.org/", t: "Simulation" },
+            { n: "Basketball Stars", img: "https://play-lh.googleusercontent.com/2_c_z_z_P_7_n_n_R_Q_q_Q_H-M-L-C-a-s-A-L-T-u-S-N-Q-y-N-q-M-M-T-S_b_M=w526-h296-rw", u: "https://basketballstars.io/", t: "Sports" },
+            { n: "Drift Hunters", img: "https://play-lh.googleusercontent.com/5_T_X_M_y-W_m-V-K_t-C_R_G_x-Q_T-a_N-B_Y-V-z_b-H_k_z_P-q-M_x-H_G_F_Y=w526-h296-rw", u: "https://drifthunters.io/", t: "Simulation" },
+            { n: "Tiny Fishing", img: "https://play-lh.googleusercontent.com/7-T_u_R-V_M_Q_Q_Z_T_D_y_K-T_b-T-F_z_L_T_A_q-W_K_O_E_Z_A_H_A_U_Y_u=w526-h296-rw", u: "https://tinyfishing.io/", t: "Simulation" },
+            { n: "Rooftop Snipers", img: "https://play-lh.googleusercontent.com/8_T_E_x_L_N_B_Z_M_D_W_O_r_G_F_V-M_M_T_A-u_u-C_U_q_K_A_L_W_G_O_Z_M=w526-h296-rw", u: "https://rooftopsnipers.io/", t: "Action" },
+            { n: "Crossy Road", img: "https://play-lh.googleusercontent.com/9_M_Z_O_K_C_G_P_R_b_V_O_M_T_Q_b_W_N_S_a_M_O_Z_Y_E_A_A_P_r_T_T_C=w526-h296-rw", u: "https://poki.com/en/g/crossy-road", t: "Arcade" },
+            { n: "Smash Karts", img: "https://play-lh.googleusercontent.com/4_b_V_E_z_X_M_L_V_N_A_C_y_E_M_N_M_D_W_A_O_A_G_B_P_a_C_M_S_A_B_D=w526-h296-rw", u: "https://smashkarts.io/", t: "Action" },
+            { n: "Shell Shockers", img: "https://play-lh.googleusercontent.com/1_b_B_O_T_Q_b_N_E_P_M_D_T_W_D_C_A_y_M_A_S_D_M_Q_A_L_A_T_A_M_F_C=w526-h296-rw", u: "https://shellshock.io/", t: "Action" },
+            { n: "Ovo", img: "https://play-lh.googleusercontent.com/2_A_y_A_S_M_K_N_D_P_R_T_B_D_E_Q_D_L_N_S_L_A_S_M_T_R_T_E_F_W_P=w526-h296-rw", u: "https://ovogame.io/", t: "Arcade" },
+            { n: "Tunnel Rush", img: "https://play-lh.googleusercontent.com/3_E_M_Q_P_C_N_Z_S_D_A_M_E_A_K_W_T_F_R_S_C_T_E_V_M_Q_A_G_C_Z_A=w526-h296-rw", u: "https://tunnelrush.io/", t: "Arcade" },
+            { n: "Basket Bros", img: "https://play-lh.googleusercontent.com/4_W_Q_D_T_A_N_P_R_S_N_E_F_D_C_Y_M_C_S_A_B_E_R_N_Q_A_T_W_M_B_A=w526-h296-rw", u: "https://basketbros.io/", t: "Sports" },
+            { n: "Among Us", img: "https://play-lh.googleusercontent.com/8DdNXzNCKbrGzN1XNsz7211w-w-y-M_K_G_C_D_N_y_H_K_E_R_T_B_A_T_Q_P=w526-h296-rw", u: "https://innersloth.com/", t: "Action" },
+            { n: "Chess", img: "https://play-lh.googleusercontent.com/5_T_E_C_N_A_R_T_N_D_Q_A_N_C_T_G_M_D_B_E_R_F_C_M_Y_N_A_S_C_M_W=w526-h296-rw", u: "https://chess.com/", t: "Puzzle" },
+            { n: "Wordle", img: "https://play-lh.googleusercontent.com/6_B_Y_E_A_T_C_M_R_D_T_F_D_C_W_Q_B_N_S_R_E_Y_T_C_M_C_A_S_M_D_M=w526-h296-rw", u: "https://nytimes.com/games/wordle/index.html", t: "Puzzle" },
+            { n: "2048", img: "https://play-lh.googleusercontent.com/7_N_S_M_D_E_C_A_B_T_D_F_T_C_W_A_M_Q_N_R_A_Y_E_C_A_S_C_M_D_Q=w526-h296-rw", u: "https://play2048.co/", t: "Puzzle" },
+            { n: "Pac-Man", img: "https://play-lh.googleusercontent.com/8_T_E_R_M_A_C_B_T_S_N_A_C_T_C_F_E_M_Q_N_Y_A_T_M_A_C_A_S_M_E_Q=w526-h296-rw", u: "https://freepacman.org/", t: "Arcade" },
+            { n: "Flappy Bird", img: "https://play-lh.googleusercontent.com/9_N_S_T_A_B_A_R_N_E_C_T_A_M_T_C_R_M_Q_E_A_C_T_M_S_A_S_E_M_Q=w526-h296-rw", u: "https://flappybird.io/", t: "Arcade" },
+            { n: "Super Mario 64", img: "https://play-lh.googleusercontent.com/1_A_B_C_M_D_A_R_M_A_S_T_N_E_A_C_M_M_Q_E_N_T_A_M_C_S_A_S_E_A=w526-h296-rw", u: "https://froggi.es/mario/", t: "Action" }
+        ];
 
-			// Real-time grid filtering
-			searchInput.addEventListener("input", (e) => {
-				const query = e.target.value.toLowerCase();
+        const searchInput = document.getElementById('pInp');
+        const grid = document.getElementById('grid');
+        let gameCards = [];
 
-				// Switch to grid view if not already there, so user can see search results
-				if (
-					!document.getElementById("view-grid").classList.contains("active")
-				) {
-					switchView("grid");
-				}
+        // Real-time grid filtering
+        searchInput.addEventListener('input', e => {
+            const query = e.target.value.toLowerCase();
 
-				gameCards.forEach((cardData) => {
-					if (
-						cardData.n.toLowerCase().includes(query) ||
-						cardData.t.toLowerCase().includes(query)
-					) {
-						cardData.el.style.display = "block";
-					} else {
-						cardData.el.style.display = "none";
-					}
-				});
-			});
+            // Switch to grid view if not already there, so user can see search results
+            if (!document.getElementById('view-grid').classList.contains('active')) {
+                switchView('grid');
+            }
 
-			// Enter key for proxy
-			searchInput.addEventListener("keypress", (e) => {
-				if (e.key === "Enter") {
-					const url = e.target.value;
-					if (!url) return;
-					let target =
-						url.includes(".") && !url.includes(" ")
-							? url
-							: "https://www.google.com/search?q=" + url;
-					if (!/^https?:\/\//i.test(target)) target = "https://" + target;
-					window.location.href = "/splash/surf/" + encodeURIComponent(target);
-				}
-			});
+            gameCards.forEach(cardData => {
+                if (cardData.n.toLowerCase().includes(query) || cardData.t.toLowerCase().includes(query)) {
+                    cardData.el.style.display = 'block';
+                } else {
+                    cardData.el.style.display = 'none';
+                }
+            });
+        });
 
-			const fragment = document.createDocumentFragment();
+        // Enter key for proxy
+        searchInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const url = e.target.value;
+                if(!url || typeof __uv$config === 'undefined') return;
+                let target = url.includes('.') && !url.includes(' ') ? url : "https://www.google.com/search?q=" + url;
+                if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
+                window.location.href = __uv$config.prefix + __uv$config.encodeUrl(target);
+            }
+        });
 
-			GAMES.forEach((g) => {
-				const card = document.createElement("div");
-				card.className = "game-card";
-				card.innerHTML = `
+        const fragment = document.createDocumentFragment();
+
+        GAMES.forEach(g => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
                 <div class="game-icon"><img src="${g.img}" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/9;"></div>
                 <div class="game-info">
                     <div class="game-title">${g.n}</div>
                     <div class="game-tag">${g.t}</div>
                 </div>
             `;
-				card.onclick = () => {
-					if (g.u.startsWith("/")) {
-						window.location.href = g.u;
-					} else {
-						window.location.href = "/splash/surf/" + encodeURIComponent(g.u);
-					}
-				};
-				gameCards.push({ n: g.n, t: g.t, el: card });
-				fragment.appendChild(card);
-			});
-			grid.appendChild(fragment);
+            card.onclick = () => {
+                if (g.u.startsWith("/")) {
+                    window.location.href = g.u;
+                } else {
+                    if (typeof __uv$config === 'undefined') return;
+                    window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
+                }
+            };
+            gameCards.push({ n: g.n, t: g.t, el: card });
+            fragment.appendChild(card);
+        });
+        grid.appendChild(fragment);
 
-			function panic() {
-				window.history.replaceState(null, "", "/");
-				window.location.replace("https://classroom.google.com");
-			}
-			window.addEventListener("keydown", (e) => {
-				if (e.key === "Escape") panic();
-			});
+        function panic() {
+            window.history.replaceState(null, '', '/');
+            window.location.replace('https://classroom.google.com');
+        }
+        window.addEventListener('keydown', e => { if(e.key === 'Escape') panic(); });
 
-			const slogans = [
-				"Filter can't reach up here.",
-				"Too high for the filter.",
-				"The firewall can't fly.",
-				"Altitude too high to block.",
-				"Block stays on the ground.",
-				"Cruising above the filter line.",
-				"No wings on the firewall.",
-				"Filter doesn't get this high.",
-			];
+        const slogans = [
+            "Filter can't reach up here.",
+            "Too high for the filter.",
+            "The firewall can't fly.",
+            "Altitude too high to block.",
+            "Block stays on the ground.",
+            "Cruising above the filter line.",
+            "No wings on the firewall.",
+            "Filter doesn't get this high."
+        ];
 
-			const bgs = ["/assets/earth1.png", "/assets/earth2.png"];
+        const bgs = [
+            "/assets/earth1.png",
+            "/assets/earth2.png"
+        ];
 
-			document.addEventListener("DOMContentLoaded", () => {
-				const splash = document.getElementById("splash-screen");
-				const sloganEl = document.getElementById("splash-slogan");
-				const playBtn = document.getElementById("splash-play-btn");
-				const sidebar = document.getElementById("sidebar");
-				const main = document.getElementById("main");
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-screen');
+            const sloganEl = document.getElementById('splash-slogan');
+            const playBtn = document.getElementById('splash-play-btn');
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('main');
 
-				const randomBg = bgs[Math.floor(Math.random() * bgs.length)];
-				const randomSlogan =
-					slogans[Math.floor(Math.random() * slogans.length)];
+            const randomBg = bgs[Math.floor(Math.random() * bgs.length)];
+            const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
 
-				splash.style.backgroundImage = `url('${randomBg}')`;
-				sloganEl.textContent = randomSlogan;
+            splash.style.backgroundImage = `url('${randomBg}')`;
+            sloganEl.textContent = randomSlogan;
 
-				const splashTriggers = document.querySelectorAll(
-					".splash-view-trigger"
-				);
-				splashTriggers.forEach((btn) => {
-					btn.addEventListener("click", (e) => {
-						const targetView = e.target.getAttribute("data-view");
+            const splashTriggers = document.querySelectorAll('.splash-view-trigger');
+            splashTriggers.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetView = e.target.getAttribute('data-view');
 
-						// Cinematic Zoom Transition
-						splash.style.transform = "scale(1.5)";
-						splash.style.opacity = "0";
-						splash.style.pointerEvents = "none";
+                    // Cinematic Zoom Transition
+                    splash.style.transform = 'scale(1.5)';
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none';
 
-						sidebar.style.opacity = "1";
-						sidebar.style.transform = "scale(1)";
-						sidebar.style.filter = "blur(0)";
-						sidebar.style.pointerEvents = "auto";
+                    sidebar.style.opacity = '1';
+                    sidebar.style.transform = 'scale(1)';
+                    sidebar.style.filter = 'blur(0)';
+                    sidebar.style.pointerEvents = 'auto';
 
-						main.style.opacity = "1";
-						main.style.transform = "scale(1)";
-						main.style.filter = "blur(0)";
-						main.style.pointerEvents = "auto";
+                    main.style.opacity = '1';
+                    main.style.transform = 'scale(1)';
+                    main.style.filter = 'blur(0)';
+                    main.style.pointerEvents = 'auto';
 
-						switchView(targetView);
+                    switchView(targetView);
 
-						setTimeout(() => {
-							splash.style.display = "none";
-						}, 1200);
-					});
-				});
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                    }, 1200);
+                });
+            });
 
-				// Sidebar Navigation Logic
-				const navItems = document.querySelectorAll(".nav-item");
-				const indicator = document.getElementById("active-indicator");
+            // Sidebar Navigation Logic
+            const navItems = document.querySelectorAll('.nav-item');
+            const indicator = document.getElementById('active-indicator');
 
-				navItems.forEach((item, index) => {
-					item.addEventListener("click", () => {
-						const view = item.getAttribute("data-target");
-						switchView(view);
-					});
-				});
-			});
+            navItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    const view = item.getAttribute('data-target');
+                    switchView(view);
+                });
+            });
+        });
 
-			function switchView(viewId) {
-				// Update active state on nav items and move indicator
-				const navItems = document.querySelectorAll(".nav-item");
-				const indicator = document.getElementById("active-indicator");
+        function switchView(viewId) {
+            // Update active state on nav items and move indicator
+            const navItems = document.querySelectorAll('.nav-item');
+            const indicator = document.getElementById('active-indicator');
 
-				navItems.forEach((item, index) => {
-					if (item.getAttribute("data-target") === viewId) {
-						item.classList.add("active");
-						// Move the indicator to the correct position (51px is approx height of item)
-						indicator.style.transform = `translateY(${index * 51}px)`;
-					} else {
-						item.classList.remove("active");
-					}
-				});
+            navItems.forEach((item, index) => {
+                if (item.getAttribute('data-target') === viewId) {
+                    item.classList.add('active');
+                    // Move the indicator to the correct position (51px is approx height of item)
+                    indicator.style.transform = `translateY(${index * 51}px)`;
+                } else {
+                    item.classList.remove('active');
+                }
+            });
 
-				// Show correct view section
-				document.querySelectorAll(".view-section").forEach((sec) => {
-					sec.classList.remove("active");
-				});
-				const targetSection = document.getElementById(`view-${viewId}`);
-				if (targetSection) targetSection.classList.add("active");
+            // Show correct view section
+            document.querySelectorAll('.view-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const targetSection = document.getElementById(`view-${viewId}`);
+            if (targetSection) targetSection.classList.add('active');
 
-				// If browse, focus the search bar
-				if (viewId === "browse") {
-					document.getElementById("pInp").focus();
-				}
-			}
+            // If browse, focus the search bar
+            if (viewId === 'browse') {
+                document.getElementById('pInp').focus();
+            }
+        }
 
-			let radioPlaying = false;
-			function toggleRadio() {
-				const iframe = document.getElementById("radio-iframe");
-				const btn = document.getElementById("play-radio-btn");
-				const vis = document.getElementById("audio-vis");
+        let radioPlaying = false;
+        function toggleRadio() {
+            const iframe = document.getElementById('radio-iframe');
+            const btn = document.getElementById('play-radio-btn');
+            const vis = document.getElementById('audio-vis');
 
-				if (!radioPlaying) {
-					// Load Lofi Girl stream (embed URL with autoplay)
-					iframe.src = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
-					btn.textContent = "Pause Audio";
-					vis.style.display = "flex";
-					radioPlaying = true;
-				} else {
-					iframe.src = "";
-					btn.textContent = "Play Audio";
-					vis.style.display = "none";
-					radioPlaying = false;
-				}
-			}
+            if (!radioPlaying) {
+                // Load Lofi Girl stream (embed URL with autoplay)
+                iframe.src = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
+                btn.textContent = "Pause Audio";
+                vis.style.display = "flex";
+                radioPlaying = true;
+            } else {
+                iframe.src = "";
+                btn.textContent = "Play Audio";
+                vis.style.display = "none";
+                radioPlaying = false;
+            }
+        }
 
-			const presets = {
-				default: { title: "NoRedInk | Dashboard", icon: "" },
-				drive: {
-					title: "My Drive - Google Drive",
-					icon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png",
-				},
-				canvas: {
-					title: "Dashboard",
-					icon: "https://du11hjcvx0uqb.cloudfront.net/br/dist/images/favicon-e10d657a73.ico",
-				},
-				classroom: {
-					title: "Classes",
-					icon: "https://ssl.gstatic.com/classroom/favicon.png",
-				},
-				gmail: {
-					title: "Inbox",
-					icon: "https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico",
-				},
-			};
+        const presets = {
+            default: { title: 'NoRedInk | Dashboard', icon: '' },
+            drive: { title: 'My Drive - Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+            canvas: { title: 'Dashboard', icon: 'https://du11hjcvx0uqb.cloudfront.net/br/dist/images/favicon-e10d657a73.ico' },
+            classroom: { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+            gmail: { title: 'Inbox', icon: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' }
+        };
 
-			function applyPrivacyPreset() {
-				const select = document.getElementById("privacyPreset");
-				const preset = presets[select.value];
-				document.title = preset.title;
-				document.getElementById("favicon").href = preset.icon;
-				localStorage.setItem("privacyPreset", select.value);
-			}
+        function applyPrivacyPreset() {
+            const select = document.getElementById('privacyPreset');
+            const preset = presets[select.value];
+            document.title = preset.title;
+            document.getElementById('favicon').href = preset.icon;
+            localStorage.setItem('privacyPreset', select.value);
+        }
 
-			function loadPrivacyPreset() {
-				const saved = localStorage.getItem("privacyPreset");
-				if (saved && presets[saved]) {
-					document.getElementById("privacyPreset").value = saved;
-					applyPrivacyPreset();
-				}
-			}
+        function loadPrivacyPreset() {
+            const saved = localStorage.getItem('privacyPreset');
+            if (saved && presets[saved]) {
+                document.getElementById('privacyPreset').value = saved;
+                applyPrivacyPreset();
+            }
+        }
 
-			window.onload = () => {
-				loadPrivacyPreset();
-				registerSW();
-			};
-		</script>
-	</body>
+        window.onload = () => {
+            loadPrivacyPreset();
+            registerSW();
+        };
+    </script>
+</body>
 </html>
