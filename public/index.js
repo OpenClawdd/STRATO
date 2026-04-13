@@ -1,14 +1,42 @@
 "use strict";
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+
+const cipherKey = "SPLASH";
+const alphabet =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+function toBase64(value) {
+	const bytes = new TextEncoder().encode(value);
+	let binary = "";
+	bytes.forEach((b) => {
+		binary += String.fromCharCode(b);
+	});
+	return btoa(binary);
+}
+
+function vigenereEncode(value, key) {
+	let result = "";
+	for (let i = 0; i < value.length; i += 1) {
+		const char = value[i];
+		const valueIndex = alphabet.indexOf(char);
+		if (valueIndex === -1) {
+			result += char;
+			continue;
+		}
+		const keyIndex = alphabet.indexOf(key[i % key.length]) % alphabet.length;
+		result +=
+			alphabet[(valueIndex + keyIndex + alphabet.length) % alphabet.length];
+	}
+	return result;
+}
+
+function encodeTarget(url) {
+	return vigenereEncode(toBase64(url), cipherKey);
+}
 
 // --- Migrated Logic from index.html ---
 
 function launchUrl(url) {
-	if (typeof __uv$config === "undefined") {
-		alert("Proxy configuration not loaded.");
-		return;
-	}
-	window.location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
+	window.location.href = "/splash/surf/" + encodeURIComponent(url);
 }
 
 function openProxy() {
@@ -31,11 +59,8 @@ function goProxy() {
 }
 
 let registerSW = async function () {
-	const fastestUrl = await getFastestWispServer();
-	await connection.setTransport("/epoxy/index.mjs", [{ wisp: fastestUrl }]);
-
 	if ("serviceWorker" in navigator) {
-		navigator.serviceWorker.register("/uv/sw.js", { scope: "/" });
+		navigator.serviceWorker.register("/splash/sw.js", { scope: "/" });
 	}
 };
 
