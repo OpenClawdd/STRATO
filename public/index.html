@@ -6,8 +6,8 @@
     <title>NoRedInk | Dashboard</title>
     <link id="favicon" rel="icon" href="">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="/uv/uv.config.js"></script>
-    <script src="/uv/uv.bundle.js"></script>
+    <script src="/surf/baremux/index.js"></script>
+    <script src="/surf/scram/scramjet.bundle.js"></script>
     <style>
         :root {
             --bg-base: #0a0a0a;
@@ -30,7 +30,7 @@
             pointer-events: none;
             transform: scale(0.8);
             filter: blur(10px);
-            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
         }
         .logo { padding: 24px; font-size: 20px; font-weight: 800; letter-spacing: -1px; color: var(--accent); border-bottom: 1px solid #333; }
@@ -59,7 +59,7 @@
             pointer-events: none;
             transform: scale(0.8);
             filter: blur(10px);
-            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         /* Splash Screen CSS */
@@ -79,7 +79,7 @@
             justify-content: center;
             align-items: center;
             transform: scale(1);
-            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .splash-center {
@@ -92,17 +92,20 @@
         }
 
         .splash-title {
-            font-size: 80px;
+            font-size: 100px;
+            font-family: 'Inter', sans-serif;
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -3px;
             color: var(--text-main);
             margin-bottom: 16px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
 
         .splash-slogan {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 400;
             color: var(--accent);
+            letter-spacing: 1px;
             text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
         }
 
@@ -396,28 +399,29 @@
             </div>
 
             <div id="view-watch" class="view-section">
-                <div class="grid-title">Watch (Piped)</div>
-                <div class="iframe-container">
-                    <iframe src="https://piped.video" allowfullscreen></iframe>
+                <div style="display: flex; gap: 20px; height: 100%;">
+                    <div class="iframe-container">
+                        <div class="grid-title" style="padding: 10px 20px; margin: 0; background: var(--bg-surface); border-bottom: 1px solid #333;">Watch Movies</div>
+                        <iframe src="https://www.cineby.sc/" allowfullscreen></iframe>
+                    </div>
+                    <div class="iframe-container">
+                        <div class="grid-title" style="padding: 10px 20px; margin: 0; background: var(--bg-surface); border-bottom: 1px solid #333;">Watch Videos</div>
+                        <iframe src="https://yewtu.be" allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
 
             <div id="view-listen" class="view-section">
-                <div class="radio-player-wrapper">
-                    <div class="radio-player">
-                        <div class="radio-title">Lofi Girl Radio</div>
-                        <div class="radio-status">● Live Stream</div>
-
-                        <div class="visualizer" id="audio-vis" style="display: none;">
+                <div class="radio-player-wrapper" style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                    <div class="radio-player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; background: rgba(20, 20, 20, 0.4); border: none; padding: 20px;">
+                        <div class="radio-title" style="text-align: left; font-size: 20px;">Monochrome Music</div>
+                        <div class="visualizer" id="audio-vis" style="display: flex; justify-content: flex-start; margin-bottom: 0;">
                             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
                             <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         </div>
-
-                        <button class="radio-btn" id="play-radio-btn" onclick="toggleRadio()">Play Audio</button>
                     </div>
+                    <iframe src="https://monochrome.pages.dev" allow="autoplay; encrypted-media" style="width: 100%; height: 500px; border: none; z-index: 1; border-radius: 20px;"></iframe>
                 </div>
-                <!-- Hidden iframe to act as the audio source (Lofi Girl) -->
-                <iframe id="radio-iframe" style="display: none;" allow="autoplay"></iframe>
             </div>
 
             <div id="view-browse" class="view-section">
@@ -435,50 +439,10 @@
         </div>
     </div>
 
-    <script src="/baremux/bare.mux.js"></script>
     <script src="/index.js"></script>
     <script src="/save-manager.js"></script>
     <script>
-        const GAMES = [
-            { n: "Crash Bandicoot", img: "/assets/thumbnails/crash_bandicoot.webp", u: "/games/crash/", t: "Action" },
-            { n: "Crash Bandicoot 2", img: "/assets/thumbnails/crash_bandicoot_2.webp", u: "/games/crash2/", t: "Action" },
-            { n: "Crash Bandicoot 3", img: "/assets/thumbnails/crash_bandicoot_3.webp", u: "/games/crash3/", t: "Action" },
-            { n: "Tetris", img: "/assets/thumbnails/tetris.webp", u: "/games/tetris/", t: "Arcade" },
-            { n: "Yandere Simulator", img: "/assets/thumbnails/yandere_simulator.webp", u: "/games/yandere/", t: "Simulation" },
-            { n: "Slope", img: "/assets/thumbnails/slope.webp", u: "https://slope-game.github.io", t: "Arcade" },
-            { n: "1v1.lol", img: "/assets/thumbnails/1v1_lol.webp", u: "https://1v1.lol", t: "Action" },
-            { n: "Retro Bowl", img: "/assets/thumbnails/retro_bowl.webp", u: "https://retrobowlunblocked.github.io", t: "Sports" },
-            { n: "BitLife", img: "https://play-lh.googleusercontent.com/1GvM8wP_A3423Zt6nks8h0gS1sNlF2wE9AHz-Zf0yL6W2nL1E1pBwM8_9c6H9g9A8Q", u: "https://bitlifeonline.com/", t: "Simulation" },
-            { n: "Minecraft", img: "https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg", u: "https://eaglercraft.com/mc/1.8.8/", t: "Action" },
-            { n: "Cookie Clicker", img: "https://orteil.dashnet.org/cookieclicker/img/discordBanner.png", u: "https://orteil.dashnet.org/cookieclicker/", t: "Idle" },
-            { n: "Subway Surfers", img: "https://play-lh.googleusercontent.com/aA2igh4ZAWHcsikJiU1rL50D51bO5lY_cM-h4ZlqP_A7V9J7O9H3w_E3y9M5vR1h_Q=w526-h296-rw", u: "https://subwaysurfers.com/", t: "Arcade" },
-            { n: "Paper.io 2", img: "https://play-lh.googleusercontent.com/Dih_z8XJkYm_lq-1K_HwXl6Qk0R7F-R9L9X8Q6p4hJ8W2fK9Xz5Xz3l_k4qY5L8S3_Q=w526-h296-rw", u: "https://paper-io.com/", t: "Arcade" },
-            { n: "Hole.io", img: "https://play-lh.googleusercontent.com/5V3X-uU_0C3V3-nO_V3tW4z7X9K7V0H3_YvP1mQ2R7A8f_W9W7u4rL_A6_c-X3-Q7w=w526-h296-rw", u: "https://hole-io.com/", t: "Arcade" },
-            { n: "Snow Rider 3D", img: "https://play-lh.googleusercontent.com/4h_c8f-3_k8x8g_Q_Q7g_w2-k-y_9Z9q6-L9Z0h4V9-c6G5-b0Q8-V9V-V5w6m=w526-h296-rw", u: "https://snowrider3d.com/", t: "Arcade" },
-            { n: "Geometry Dash", img: "https://play-lh.googleusercontent.com/8Q_A9-U_F-M_Z3y-m5z-L-O_R-v_O8_O9_h_O-q_z_v-O-O9w9Y_Q_Z_w-M_b-D_w=w526-h296-rw", u: "https://geometrydash.io/", t: "Arcade" },
-            { n: "Friday Night Funkin'", img: "https://upload.wikimedia.org/wikipedia/en/2/29/Friday_Night_Funkin%27_logo.png", u: "https://ninja-muffin24.itch.io/funkin", t: "Rhythm" },
-            { n: "Vex 7", img: "https://play-lh.googleusercontent.com/XqZ-b-A_M-P-H_T_x-r-R-u-y-K_m_z-X_J-z-W-v_D_u_P-w-b_J_V_a_F_k_r_e_Q=w526-h296-rw", u: "https://vex7.io/", t: "Action" },
-            { n: "Moto X3M", img: "https://play-lh.googleusercontent.com/6D_q_3_Z_p_7-X_c_7_x-z_v-O_c_K_r_a_L-a_G-w-F_q_U-y-z-F-b_E_M_Z_N_h_c=w526-h296-rw", u: "https://motox3m.co/", t: "Sports" },
-            { n: "Run 3", img: "https://play-lh.googleusercontent.com/6_O_C_z_7-L_u_v-M_e-y-a_G_u_M_t_y_H-q_r_a-B_u-S_V_E_T_M_N_M_Z_m_F_Y=w526-h296-rw", u: "https://run3.io/", t: "Arcade" },
-            { n: "Monkey Mart", img: "https://play-lh.googleusercontent.com/1-q-p_n-f-Q-R-g_R_n_R_O_Z-E_R-O_C_V_W-E_T_n-C_E_K_W_r-C_q-y_A_S_s_M=w526-h296-rw", u: "https://monkeymart.org/", t: "Simulation" },
-            { n: "Basketball Stars", img: "https://play-lh.googleusercontent.com/2_c_z_z_P_7_n_n_R_Q_q_Q_H-M-L-C-a-s-A-L-T-u-S-N-Q-y-N-q-M-M-T-S_b_M=w526-h296-rw", u: "https://basketballstars.io/", t: "Sports" },
-            { n: "Drift Hunters", img: "https://play-lh.googleusercontent.com/5_T_X_M_y-W_m-V-K_t-C_R_G_x-Q_T-a_N-B_Y-V-z_b-H_k_z_P-q-M_x-H_G_F_Y=w526-h296-rw", u: "https://drifthunters.io/", t: "Simulation" },
-            { n: "Tiny Fishing", img: "https://play-lh.googleusercontent.com/7-T_u_R-V_M_Q_Q_Z_T_D_y_K-T_b-T-F_z_L_T_A_q-W_K_O_E_Z_A_H_A_U_Y_u=w526-h296-rw", u: "https://tinyfishing.io/", t: "Simulation" },
-            { n: "Rooftop Snipers", img: "https://play-lh.googleusercontent.com/8_T_E_x_L_N_B_Z_M_D_W_O_r_G_F_V-M_M_T_A-u_u-C_U_q_K_A_L_W_G_O_Z_M=w526-h296-rw", u: "https://rooftopsnipers.io/", t: "Action" },
-            { n: "Crossy Road", img: "https://play-lh.googleusercontent.com/9_M_Z_O_K_C_G_P_R_b_V_O_M_T_Q_b_W_N_S_a_M_O_Z_Y_E_A_A_P_r_T_T_C=w526-h296-rw", u: "https://poki.com/en/g/crossy-road", t: "Arcade" },
-            { n: "Smash Karts", img: "https://play-lh.googleusercontent.com/4_b_V_E_z_X_M_L_V_N_A_C_y_E_M_N_M_D_W_A_O_A_G_B_P_a_C_M_S_A_B_D=w526-h296-rw", u: "https://smashkarts.io/", t: "Action" },
-            { n: "Shell Shockers", img: "https://play-lh.googleusercontent.com/1_b_B_O_T_Q_b_N_E_P_M_D_T_W_D_C_A_y_M_A_S_D_M_Q_A_L_A_T_A_M_F_C=w526-h296-rw", u: "https://shellshock.io/", t: "Action" },
-            { n: "Ovo", img: "https://play-lh.googleusercontent.com/2_A_y_A_S_M_K_N_D_P_R_T_B_D_E_Q_D_L_N_S_L_A_S_M_T_R_T_E_F_W_P=w526-h296-rw", u: "https://ovogame.io/", t: "Arcade" },
-            { n: "Tunnel Rush", img: "https://play-lh.googleusercontent.com/3_E_M_Q_P_C_N_Z_S_D_A_M_E_A_K_W_T_F_R_S_C_T_E_V_M_Q_A_G_C_Z_A=w526-h296-rw", u: "https://tunnelrush.io/", t: "Arcade" },
-            { n: "Basket Bros", img: "https://play-lh.googleusercontent.com/4_W_Q_D_T_A_N_P_R_S_N_E_F_D_C_Y_M_C_S_A_B_E_R_N_Q_A_T_W_M_B_A=w526-h296-rw", u: "https://basketbros.io/", t: "Sports" },
-            { n: "Among Us", img: "https://play-lh.googleusercontent.com/8DdNXzNCKbrGzN1XNsz7211w-w-y-M_K_G_C_D_N_y_H_K_E_R_T_B_A_T_Q_P=w526-h296-rw", u: "https://innersloth.com/", t: "Action" },
-            { n: "Chess", img: "https://play-lh.googleusercontent.com/5_T_E_C_N_A_R_T_N_D_Q_A_N_C_T_G_M_D_B_E_R_F_C_M_Y_N_A_S_C_M_W=w526-h296-rw", u: "https://chess.com/", t: "Puzzle" },
-            { n: "Wordle", img: "https://play-lh.googleusercontent.com/6_B_Y_E_A_T_C_M_R_D_T_F_D_C_W_Q_B_N_S_R_E_Y_T_C_M_C_A_S_M_D_M=w526-h296-rw", u: "https://nytimes.com/games/wordle/index.html", t: "Puzzle" },
-            { n: "2048", img: "https://play-lh.googleusercontent.com/7_N_S_M_D_E_C_A_B_T_D_F_T_C_W_A_M_Q_N_R_A_Y_E_C_A_S_C_M_D_Q=w526-h296-rw", u: "https://play2048.co/", t: "Puzzle" },
-            { n: "Pac-Man", img: "https://play-lh.googleusercontent.com/8_T_E_R_M_A_C_B_T_S_N_A_C_T_C_F_E_M_Q_N_Y_A_T_M_A_C_A_S_M_E_Q=w526-h296-rw", u: "https://freepacman.org/", t: "Arcade" },
-            { n: "Flappy Bird", img: "https://play-lh.googleusercontent.com/9_N_S_T_A_B_A_R_N_E_C_T_A_M_T_C_R_M_Q_E_A_C_T_M_S_A_S_E_M_Q=w526-h296-rw", u: "https://flappybird.io/", t: "Arcade" },
-            { n: "Super Mario 64", img: "https://play-lh.googleusercontent.com/1_A_B_C_M_D_A_R_M_A_S_T_N_E_A_C_M_M_Q_E_N_T_A_M_C_S_A_S_E_A=w526-h296-rw", u: "https://froggi.es/mario/", t: "Action" }
-        ];
+        const GAMES = window.__GAMES__ || [];
 
         const searchInput = document.getElementById('pInp');
         const grid = document.getElementById('grid');
@@ -506,10 +470,10 @@
         searchInput.addEventListener('keypress', e => {
             if (e.key === 'Enter') {
                 const url = e.target.value;
-                if(!url || typeof __uv$config === 'undefined') return;
+                if(!url || typeof scramjetController === 'undefined' || !scramjetController) return;
                 let target = url.includes('.') && !url.includes(' ') ? url : "https://www.google.com/search?q=" + url;
                 if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
-                window.location.href = __uv$config.prefix + __uv$config.encodeUrl(target);
+                window.location.href = scramjetController.encodeUrl(target);
             }
         });
 
@@ -529,8 +493,8 @@
                 if (g.u.startsWith("/")) {
                     window.location.href = g.u;
                 } else {
-                    if (typeof __uv$config === 'undefined') return;
-                    window.location.href = __uv$config.prefix + __uv$config.encodeUrl(g.u);
+                    if (typeof scramjetController === 'undefined' || !scramjetController) return;
+                    window.location.href = scramjetController.encodeUrl(g.u);
                 }
             };
             gameCards.push({ n: g.n, t: g.t, el: card });
@@ -556,8 +520,9 @@
         ];
 
         const bgs = [
-            "/assets/earth1.png",
-            "/assets/earth2.png"
+            "/assets/earth_clean_1.png",
+            "/assets/earth_clean_2.png",
+            "/assets/earth_clean_3.png"
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -597,7 +562,7 @@
 
                     setTimeout(() => {
                         splash.style.display = 'none';
-                    }, 1200);
+                    }, 800);
                 });
             });
 
@@ -641,25 +606,6 @@
             }
         }
 
-        let radioPlaying = false;
-        function toggleRadio() {
-            const iframe = document.getElementById('radio-iframe');
-            const btn = document.getElementById('play-radio-btn');
-            const vis = document.getElementById('audio-vis');
-
-            if (!radioPlaying) {
-                // Load Lofi Girl stream (embed URL with autoplay)
-                iframe.src = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
-                btn.textContent = "Pause Audio";
-                vis.style.display = "flex";
-                radioPlaying = true;
-            } else {
-                iframe.src = "";
-                btn.textContent = "Play Audio";
-                vis.style.display = "none";
-                radioPlaying = false;
-            }
-        }
 
         const presets = {
             default: { title: 'NoRedInk | Dashboard', icon: '' },
@@ -687,7 +633,6 @@
 
         window.onload = () => {
             loadPrivacyPreset();
-            registerSW();
         };
     </script>
 </body>

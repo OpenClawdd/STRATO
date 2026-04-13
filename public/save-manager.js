@@ -25,6 +25,14 @@ async function exportSave() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+
+        // Also send base64-encoded backup to the backend cloud server
+        const b64 = btoa(unescape(encodeURIComponent(json)));
+        fetch("/api/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: b64 })
+        }).catch(err => console.error("Cloud backup failed:", err));
     } catch (e) {
         console.error("Export failed:", e);
         alert("Failed to export save data. See console for details.");
