@@ -41,6 +41,50 @@ app.use((req, res, next) => {
 
 app.use(express.json({ limit: "50mb" }));
 
+import { Readable } from "node:stream";
+
+app.post("/api/smuggle", async (req, res) => {
+	const { targetUrl } = req.body;
+	if (!targetUrl) {
+		return res.status(400).send("No targetUrl provided");
+	}
+
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+	try {
+		const response = await fetch(targetUrl, { signal: controller.signal });
+		clearTimeout(timeout);
+
+		if (!response.ok) {
+			return res.status(response.status).send(`Failed to fetch: ${response.statusText}`);
+		}
+
+		// Forward headers but strip CORS and set COEP/COOP
+		const contentType = response.headers.get("content-type");
+		if (contentType) res.setHeader("Content-Type", contentType);
+
+		res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
+		res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+
+		// Stream the response directly to avoid buffering in RAM
+		if (response.body) {
+			Readable.fromWeb(response.body).pipe(res);
+		} else {
+			res.status(500).send("No response body to stream");
+		}
+	} catch (e) {
+		clearTimeout(timeout);
+		if (e.name === "AbortError") {
+			console.error("Smuggle fetch timed out:", targetUrl);
+			res.status(504).send("Fetch timed out");
+		} else {
+			console.error("Smuggle fetch failed:", e);
+			res.status(500).send("Internal Server Error");
+		}
+	}
+});
+
 app.post("/api/save", (req, res) => {
 	try {
 		const data = req.body.data;
@@ -92,7 +136,8 @@ const server = createServer();
 
 server.on("request", (req, res) => {
 	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+	// Use credentialless to allow the smuggler to work, as directed
+	res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
 	app(req, res);
 });
 server.on("upgrade", (req, socket, head) => {

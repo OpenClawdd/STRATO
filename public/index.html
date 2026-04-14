@@ -10,12 +10,12 @@
     <script src="/surf/scram/scramjet.bundle.js"></script>
     <style>
         :root {
-            --bg-base: #0a0a0a;
-            --bg-surface: #1a1a1a;
-            --bg-hover: #2a2a2a;
-            --accent: #00ff88;
+            --bg-base: #000a14;
+            --bg-surface: #001224;
+            --bg-hover: #001a33;
+            --accent: #00ffff;
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #88aadd;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: var(--bg-base); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
@@ -329,6 +329,188 @@
             transform: scale(1.05);
             background: var(--accent);
         }
+
+        /* Vault Modal Styles */
+        #vault-modal {
+            background: rgba(0, 30, 90, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            color: var(--text-main);
+            width: 450px;
+            max-width: 90vw;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.1);
+            margin: auto;
+        }
+
+        #vault-modal::backdrop {
+            background: rgba(0, 5, 15, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .vault-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        .vault-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .vault-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-close:hover { color: var(--accent); }
+
+        .vault-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vault-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .vault-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        .vault-input:focus { border-color: var(--accent); }
+
+        .vault-submit {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .vault-submit:hover { background: var(--accent); color: #000; }
+        .vault-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .vault-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .vault-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vault-item-name { font-weight: 600; font-size: 14px; }
+        .vault-item-actions { display: flex; gap: 8px; }
+
+        .vault-btn-play {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-btn-play:hover { transform: scale(1.05); }
+
+        .vault-btn-del {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-btn-del:hover { transform: scale(1.05); }
+
+        .vault-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Fullscreen Game Overlay */
+        #game-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: none;
+        }
+
+        #game-overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .overlay-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 30, 90, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 10000;
+        }
+        .overlay-close:hover { background: rgba(0, 255, 255, 0.2); color: var(--accent); border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -378,6 +560,7 @@
                 <input type="text" id="pInp" placeholder="Search the web or enter a URL to unblock..." autocomplete="off">
             </div>
             <div class="topbar-controls">
+                <button class="save-btn" onclick="openVaultModal()">+ Vault</button>
                 <button class="save-btn" onclick="exportSave()">Export Save</button>
                 <button class="save-btn" onclick="document.getElementById('importFile').click()">Import Save</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importSave(event)">
@@ -439,8 +622,38 @@
         </div>
     </div>
 
+    <dialog id="vault-modal">
+        <div class="vault-header">
+            <div class="vault-title">StratoVault Smuggler</div>
+            <button class="vault-close" onclick="closeVaultModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div class="vault-section-title">Smuggle Asset</div>
+        <div class="vault-input-group">
+            <input type="text" id="smuggle-name" class="vault-input" placeholder="Game Name (e.g. Mario 64)">
+            <input type="text" id="smuggle-url" class="vault-input" placeholder="ROM URL (e.g. https://example.com/game.z64)">
+            <button id="smuggle-btn" class="vault-submit" onclick="smuggleAsset()">
+                <span>Smuggle</span>
+                <div id="smuggle-spinner" class="vault-spinner"></div>
+            </button>
+        </div>
+
+        <div class="vault-section-title">Local Radar</div>
+        <div id="vault-list" class="vault-list">
+            <!-- Dynamically populated -->
+        </div>
+    </dialog>
+
+    <div id="game-overlay">
+        <button class="overlay-close" onclick="closeGameOverlay()">Close</button>
+        <iframe id="game-iframe"></iframe>
+    </div>
+
     <script src="/index.js"></script>
     <script src="/save-manager.js"></script>
+    <script src="/vault.js"></script>
     <script>
         const GAMES = window.__GAMES__ || [];
 
@@ -628,6 +841,136 @@
             if (saved && presets[saved]) {
                 document.getElementById('privacyPreset').value = saved;
                 applyPrivacyPreset();
+            }
+        }
+
+        // Vault and Overlay Logic
+        const vaultModal = document.getElementById('vault-modal');
+
+        async function openVaultModal() {
+            vaultModal.showModal();
+            await refreshVaultList();
+        }
+
+        function closeVaultModal() {
+            vaultModal.close();
+            document.getElementById('smuggle-name').value = '';
+            document.getElementById('smuggle-url').value = '';
+        }
+
+        async function refreshVaultList() {
+            const listEl = document.getElementById('vault-list');
+            listEl.innerHTML = '';
+
+            try {
+                const games = await window.vaultManager.getAllGames();
+                if (games.length === 0) {
+                    listEl.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">No assets smuggled yet.</div>';
+                    return;
+                }
+
+                games.forEach(game => {
+                    const item = document.createElement('div');
+                    item.className = 'vault-item';
+                    item.innerHTML = `
+                        <div class="vault-item-name">${game.name}</div>
+                        <div class="vault-item-actions">
+                            <button class="vault-btn-play" onclick="playVaultGame('${game.id}')">Play</button>
+                            <button class="vault-btn-del" onclick="deleteVaultGame('${game.id}')">Del</button>
+                        </div>
+                    `;
+                    listEl.appendChild(item);
+                });
+            } catch (e) {
+                listEl.innerHTML = '<div style="color: #ff3366; font-size: 13px;">Error loading vault.</div>';
+            }
+        }
+
+        async function deleteVaultGame(id) {
+            await window.vaultManager.deleteGame(id);
+            await refreshVaultList();
+        }
+
+        async function smuggleAsset() {
+            const nameInput = document.getElementById('smuggle-name');
+            const urlInput = document.getElementById('smuggle-url');
+            const btn = document.getElementById('smuggle-btn');
+            const spinner = document.getElementById('smuggle-spinner');
+            const btnText = btn.querySelector('span');
+
+            const name = nameInput.value.trim();
+            const url = urlInput.value.trim();
+
+            if (!name || !url) return alert('Please provide both a name and a URL.');
+
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.textContent = 'Smuggling...';
+
+            try {
+                const response = await fetch('/api/smuggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ targetUrl: url })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}: ${await response.text()}`);
+                }
+
+                const blob = await response.blob();
+                const id = 'game_' + Date.now();
+                await window.vaultManager.saveGame(id, name, blob);
+
+                nameInput.value = '';
+                urlInput.value = '';
+                await refreshVaultList();
+            } catch (e) {
+                console.error("Smuggle failed:", e);
+                alert("Smuggle failed: " + e.message);
+            } finally {
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = 'Smuggle';
+            }
+        }
+
+        let currentGameBlobUrl = null;
+
+        async function playVaultGame(id) {
+            try {
+                const blob = await window.vaultManager.getGameBlob(id);
+                if (!blob) throw new Error("Blob not found in IndexedDB");
+
+                if (currentGameBlobUrl) {
+                    URL.revokeObjectURL(currentGameBlobUrl);
+                }
+
+                currentGameBlobUrl = URL.createObjectURL(blob);
+
+                const overlay = document.getElementById('game-overlay');
+                const iframe = document.getElementById('game-iframe');
+
+                iframe.src = currentGameBlobUrl;
+                overlay.style.display = 'block';
+                closeVaultModal();
+
+            } catch (e) {
+                console.error("Failed to play game:", e);
+                alert("Failed to play game: " + e.message);
+            }
+        }
+
+        function closeGameOverlay() {
+            const overlay = document.getElementById('game-overlay');
+            const iframe = document.getElementById('game-iframe');
+
+            overlay.style.display = 'none';
+            iframe.src = 'about:blank';
+
+            if (currentGameBlobUrl) {
+                URL.revokeObjectURL(currentGameBlobUrl);
+                currentGameBlobUrl = null;
             }
         }
 
