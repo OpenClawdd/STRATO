@@ -1,10 +1,10 @@
 # 🎓 NoRedInk (Unblocked Proxy & Arcade)
 
-This is a custom-built, dark-mode "Wii-style" arcade and web proxy. It uses [Ultraviolet](https://github.com/titaniumnetwork-dev/Ultraviolet) under the hood to bypass web filters, allowing you to play games, browse the web, and use apps like TikTok at school.
+This is a custom-built, dark-mode "Wii-style" arcade and web proxy. It uses [SPLASH](https://github.com/rhenryw/SPLASH) under the hood to bypass web filters, allowing you to play games, browse the web, and use apps like TikTok at school.
 
 To avoid getting caught, the site is disguised as an educational platform called **"NoRedInk"** and is protected by a password.
 
----
+We are still migrating from Ultraviolet to SPLASH
 
 ## 🔒 How to Unlock the Site
 
