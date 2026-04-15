@@ -1,26 +1,34 @@
 "use strict";
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
-// --- Migrated Logic from index.html ---
+const connection = new BareMux.BareMuxConnection("/surf/baremux/worker.js");
+let scramjetController = null;
 
+// Replace UV launch URL logic with Scramjet encodeUrl
 function launchUrl(url) {
-	if (typeof __uv$config === "undefined") {
+	if (!scramjetController) {
 		alert("Proxy configuration not loaded.");
 		return;
 	}
-	window.location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
+	window.location.href = scramjetController.encodeUrl(url);
 }
 
 function openProxy() {
-	q("#proxyModal").classList.add("on");
-	setTimeout(() => q("#pInp").focus(), 100);
+	if (document.querySelector("#proxyModal")) {
+		document.querySelector("#proxyModal").classList.add("on");
+		setTimeout(() => document.querySelector("#pInp").focus(), 100);
+	}
 }
+
 function closeProxy() {
-	q("#proxyModal").classList.remove("on");
+	if (document.querySelector("#proxyModal")) {
+		document.querySelector("#proxyModal").classList.remove("on");
+	}
 }
 
 function goProxy() {
-	let url = q("#pInp").value.trim();
+	const pInp = document.querySelector("#pInp");
+	if (!pInp) return;
+	let url = pInp.value.trim();
 	if (!url) return;
 	let target =
 		url.includes(".") && !url.includes(" ")
@@ -29,17 +37,6 @@ function goProxy() {
 	if (!/^https?:\/\//i.test(target)) target = "https://" + target;
 	launchUrl(target);
 }
-
-let registerSW = async function () {
-	const fastestUrl = await getFastestWispServer();
-	await connection.setTransport("/epoxy/index.mjs", [{ wisp: fastestUrl }]);
-
-	if ("serviceWorker" in navigator) {
-		navigator.serviceWorker.register("/uv/sw.js", { scope: "/" });
-	}
-};
-
-// Panic Button handled in index.html now
 
 async function getFastestWispServer() {
 	const wispUrls = [
@@ -61,9 +58,7 @@ async function getFastestWispServer() {
 						ws.close();
 						resolve(url);
 					};
-					ws.onerror = () => {
-						reject(new Error("Failed to connect"));
-					};
+					ws.onerror = () => reject(new Error("Failed to connect"));
 				} catch (e) {
 					reject(e);
 				}
@@ -71,3 +66,35 @@ async function getFastestWispServer() {
 		})
 	);
 }
+
+let initSplash = async function () {
+	try {
+		const fastestUrl = await getFastestWispServer();
+		await connection.setTransport("/surf/libcurl/index.mjs", [{ wisp: fastestUrl }]);
+
+		if ("serviceWorker" in navigator) {
+			await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+		}
+
+		if (typeof $scramjetLoadController !== "undefined") {
+			const { ScramjetController } = $scramjetLoadController();
+			scramjetController = new ScramjetController({
+				files: {
+					all: "/surf/scram/scramjet.all.js",
+					wasm: "/surf/scram/scramjet.wasm.wasm",
+					sync: "/surf/scram/scramjet.sync.js",
+				},
+				prefix: "/splash/surf/",
+			});
+			await scramjetController.init();
+		} else {
+			console.error("Scramjet controller script not loaded");
+		}
+	} catch (error) {
+		console.error("Error initializing SPLASH proxy:", error);
+	}
+};
+
+window.addEventListener('load', () => {
+	initSplash();
+});
