@@ -1,451 +1,982 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Google Classroom</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
-			rel="stylesheet"
-		/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoRedInk | Dashboard</title>
+    <link id="favicon" rel="icon" href="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="/surf/baremux/index.js"></script>
+    <script src="/surf/scram/scramjet.bundle.js"></script>
+    <style>
+        :root {
+            --bg-base: #000a14;
+            --bg-surface: #001224;
+            --bg-hover: #001a33;
+            --accent: #00ffff;
+            --text-main: #ffffff;
+            --text-muted: #88aadd;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-base); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-		<script src="/uv/uv.config.js"></script>
-		<script src="/uv/uv.bundle.js"></script>
+        #sidebar {
+            width: 240px;
+            background: var(--bg-surface);
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+            filter: blur(10px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+        }
+        .logo { padding: 24px; font-size: 20px; font-weight: 800; letter-spacing: -1px; color: var(--accent); border-bottom: 1px solid #333; }
 
-		<style>
-			:root {
-				--bg: #040810;
-				--bg-dark: #020408;
-				--card: rgba(15, 25, 45, 0.7);
-				--card-hover: rgba(25, 40, 70, 0.9);
-				--accent: #4fa3ff;
-				--text: #e0e8f5;
-				--muted: #4a5c78;
-				--vapor-grad: linear-gradient(
-					135deg,
-					#4fa3ff 0%,
-					#a5ccff 50%,
-					#6e94ff 100%
-				);
-				--bezier: cubic-bezier(0.23, 1, 0.32, 1);
-			}
+        .nav-container { position: relative; display: flex; flex-direction: column; }
+        .nav-item { padding: 16px 24px; cursor: pointer; font-weight: 600; color: var(--text-muted); transition: 0.2s; position: relative; z-index: 2;}
+        .nav-item:hover, .nav-item.active { background: var(--bg-hover); color: var(--text-main); }
 
-			*,
-			*::before,
-			*::after {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-			body {
-				background: var(--bg);
-				background-image: radial-gradient(
-					circle at center,
-					#0a1528 0%,
-					#040810 100%
-				);
-				color: var(--text);
-				font-family: "Nunito", sans-serif;
-				min-height: 100vh;
-				overflow-x: hidden;
-			}
+        #active-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 51px; /* Height of nav-item approx */
+            background-color: var(--accent);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+        }
 
-			/* ── SPLASH (THE "FLASHY" ENTRANCE) ── */
-			#splash {
-				position: fixed;
-				inset: 0;
-				z-index: 9999;
-				background: var(--bg-dark);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: opacity 0.6s var(--bezier);
-			}
-			#splash.out {
-				opacity: 0;
-				pointer-events: none;
-			}
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+            filter: blur(10px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-			.sp-logo {
-				font-size: clamp(70px, 20vw, 130px);
-				font-weight: 900;
-				letter-spacing: -0.06em;
-				background: var(--vapor-grad);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				filter: drop-shadow(0 0 15px rgba(79, 163, 255, 0.3));
-				animation: logoFloat 6s ease-in-out infinite;
-			}
-			@keyframes logoFloat {
-				0%,
-				100% {
-					transform: translateY(0);
-				}
-				50% {
-					transform: translateY(-10px);
-				}
-			}
+        /* Splash Screen CSS */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background-color: var(--bg-base);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-			.sp-hint {
-				margin-top: 30px;
-				font-size: 11px;
-				font-weight: 800;
-				letter-spacing: 0.3em;
-				text-transform: uppercase;
-				color: var(--muted);
-				opacity: 0.6;
-			}
+        .splash-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            user-select: none;
+        }
 
-			/* ── HEADER (STRATO MINIMALISM) ── */
-			#app {
-				display: none;
-				opacity: 0;
-				transition: opacity 0.5s var(--bezier);
-			}
-			#app.on {
-				opacity: 1;
-			}
+        .splash-title {
+            font-size: 100px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            letter-spacing: -3px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
 
-			header {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 20px 30px;
-				background: rgba(4, 8, 16, 0.8);
-				border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-			}
-			.h-logo {
-				font-size: 20px;
-				font-weight: 900;
-				letter-spacing: -0.02em;
-				background: var(--vapor-grad);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-			}
-			.h-time {
-				font-size: 13px;
-				font-weight: 700;
-				color: var(--muted);
-			}
+        .splash-slogan {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--accent);
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
 
-			/* ── THE BENTO CHANNELS (FLASHY BUT LIGHT) ── */
-			.grid-wrap {
-				padding: 40px 20px;
-				max-width: 1100px;
-				margin: 0 auto;
-			}
-			.section-label {
-				font-size: 10px;
-				font-weight: 900;
-				letter-spacing: 0.2em;
-				text-transform: uppercase;
-				color: var(--muted);
-				margin-bottom: 20px;
-			}
+        /* Pure minimalist default hover logic redesign */
+        #splash-menu-container {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            gap: 16px;
+        }
 
-			.bento-grid {
-				display: grid;
-				grid-template-columns: repeat(4, 1fr);
-				gap: 15px;
-				margin-bottom: 40px;
-			}
-			@media (max-width: 800px) {
-				.bento-grid {
-					grid-template-columns: repeat(2, 1fr);
-				}
-			}
+        #splash-menu-content {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 200px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0; /* Strictly hidden by default */
+            transform: translateY(10px);
+            pointer-events: none; /* Non-interactable */
+        }
 
-			.card {
-				position: relative;
-				background: var(--card);
-				border: 1px solid rgba(255, 255, 255, 0.08);
-				box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
-				border-radius: 28px;
-				aspect-ratio: 1.2;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: all 0.4s var(--bezier);
-				overflow: hidden;
-			}
-			.card::before {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				height: 50%;
-				background: linear-gradient(
-					to bottom,
-					rgba(255, 255, 255, 0.05),
-					transparent
-				);
-			}
-			.card:hover {
-				transform: translateY(-5px) scale(1.02);
-				background: var(--card-hover);
-				border-color: var(--accent);
-				box-shadow:
-					0 15px 35px rgba(0, 0, 0, 0.4),
-					0 0 15px rgba(79, 163, 255, 0.2);
-			}
-			.card:active {
-				transform: scale(0.96);
-			}
+        .splash-online-status {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 4px;
+        }
 
-			.card-icon {
-				font-size: 44px;
-				margin-bottom: 10px;
-				transition: transform 0.4s var(--bezier);
-			}
-			.card:hover .card-icon {
-				transform: scale(1.1);
-			}
-			.card-label {
-				font-size: 11px;
-				font-weight: 900;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-				color: var(--sub);
-			}
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+        }
 
-			/* ── PROXY OVERLAY ── */
-			#proxyModal {
-				position: fixed;
-				inset: 0;
-				z-index: 1000;
-				background: rgba(2, 4, 8, 0.95);
-				display: none;
-				align-items: center;
-				justify-content: center;
-				padding: 20px;
-			}
-			#proxyModal.on {
-				display: flex;
-			}
-			.modal-content {
-				width: 100%;
-				max-width: 500px;
-				text-align: center;
-			}
-			.p-input {
-				width: 100%;
-				padding: 18px 25px;
-				border-radius: 22px;
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				background: #0f192d;
-				color: #fff;
-				font-size: 16px;
-				font-weight: 600;
-				outline: none;
-				margin-bottom: 15px;
-				transition: border-color 0.3s;
-			}
-			.p-input:focus {
-				border-color: var(--accent);
-			}
-			.p-btn {
-				width: 100%;
-				padding: 18px;
-				border-radius: 22px;
-				border: none;
-				background: var(--accent);
-				color: #fff;
-				font-weight: 900;
-				cursor: pointer;
-			}
+        .splash-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-			/* ── BUTTONS & STATUS ── */
-			.btn-sm {
-				height: 36px;
-				padding: 0 18px;
-				border-radius: 100px;
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				background: var(--card);
-				color: var(--text);
-				font-size: 11px;
-				font-weight: 800;
-				cursor: pointer;
-				transition: 0.3s;
-			}
-			.btn-sm:hover {
-				border-color: var(--accent);
-				color: var(--accent);
-			}
-			.status-dot {
-				width: 8px;
-				height: 8px;
-				border-radius: 50%;
-				background: #333;
-				display: inline-block;
-				margin-right: 6px;
-			}
-			.status-dot.ok {
-				background: #40d080;
-				box-shadow: 0 0 10px #40d080;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="splash" onclick="enter()">
-			<div class="sp-logo">STRATO</div>
-			<div class="sp-hint">access granted · tap to enter</div>
-		</div>
+        .splash-nav-item {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
 
-		<div id="proxyModal" onclick="if (event.target === this) closeProxy();">
-			<div class="modal-content">
-				<input
-					class="p-input"
-					id="pInp"
-					type="text"
-					placeholder="https://youtube.com"
-					autocomplete="off"
-				/>
-				<button class="p-btn" onclick="go()">Launch Proxy</button>
-			</div>
-		</div>
+        .splash-nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
 
-		<div id="app">
-			<header>
-				<div class="h-logo">STRATO</div>
-				<div id="hTime" class="h-time">00:00</div>
-				<div style="display: flex; gap: 10px">
-					<button class="btn-sm">
-						<span id="swDot" class="status-dot"></span>System
-					</button>
-					<button class="btn-sm" onclick="panic()">Panic</button>
-				</div>
-			</header>
+        #home-btn-wrapper {
+            background: transparent;
+            border: 1px solid transparent;
+            backdrop-filter: none;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s ease;
+            margin-left: -14px; /* Offset purely for alignment of icon */
+        }
 
-			<div class="grid-wrap">
-				<div class="section-label">Mainframe</div>
-				<div class="bento-grid">
-					<div class="card" onclick="goto('play')">
-						<div class="card-icon">🎮</div>
-						<div class="card-label">Play</div>
-					</div>
-					<div class="card" onclick="goto('watch')">
-						<div class="card-icon">📺</div>
-						<div class="card-label">Watch</div>
-					</div>
-					<div class="card" onclick="goto('browse')">
-						<div class="card-icon">🌐</div>
-						<div class="card-label">Browse</div>
-					</div>
-					<div class="card" onclick="goto('ai')">
-						<div class="card-icon">🤖</div>
-						<div class="card-label">Nexus AI</div>
-					</div>
-				</div>
+        .home-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
 
-				<div class="section-label">Archive</div>
-				<div class="bento-grid" id="gameGrid"></div>
-			</div>
-		</div>
+        /* Hover on container shows content */
+        #splash-menu-container:hover #splash-menu-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
 
-		<script>
-			/* ── UTILS (HOISTED) ── */
-			const q = (s) => document.querySelector(s);
-			const ls = (k) => {
-				try {
-					return localStorage.getItem(k);
-				} catch {
-					return null;
-				}
-			};
-			const pad = (n) => String(n).padStart(2, "0");
+        /* Hover on container changes the home button */
+        #splash-menu-container:hover #home-btn-wrapper {
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-left: 0;
+        }
 
-			const GAMES = [
-				{ n: "Slope", e: "🏂", u: "https://slope-game.github.io" },
-				{ n: "1v1.lol", e: "🎯", u: "https://1v1.lol" },
-				{ n: "Retro Bowl", e: "🏈", u: "https://retrobowlunblocked.github.io" },
-				{ n: "BitLife", e: "🧬", u: "https://bitlifeonline.io" },
-				{ n: "Minecraft", e: "⛏️", u: "https://classic.minecraft.net" },
-				{ n: "Krunker", e: "🔫", u: "https://krunker.io" },
-			];
+        #splash-menu-container:hover .home-icon {
+            color: var(--text-main);
+        }
 
-			addEventListener("DOMContentLoaded", () => {
-				buildGames();
-				tick();
-				setInterval(tick, 1000);
-				registerSW();
-			});
+        #topbar { padding: 20px 40px; background: var(--bg-base); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
+        .search-box { width: 100%; max-width: 600px; position: relative; }
+        .search-box input { width: 100%; background: var(--bg-surface); border: 1px solid #333; padding: 14px 20px; border-radius: 8px; color: white; font-size: 15px; outline: none; transition: 0.2s; }
+        .search-box input:focus { border-color: var(--accent); }
 
-			function registerSW() {
-				if (!("serviceWorker" in navigator)) return;
-				navigator.serviceWorker
-					.register("/uv/sw.js", { scope: "/" })
-					.then(() => q("#swDot").classList.add("ok"))
-					.catch((e) => console.error(e));
-			}
+        .topbar-controls { display: flex; gap: 12px; align-items: center; }
+        .panic-btn { background: #ff3366; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 800; cursor: pointer; }
 
-			function tick() {
-				const n = new Date();
-				const t = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
-				if (q("#hTime")) q("#hTime").textContent = t;
-			}
+        .privacy-select { background: var(--bg-surface); color: var(--text-main); border: 1px solid #333; padding: 10px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; outline: none; cursor: pointer; transition: 0.2s; }
+        .privacy-select:hover { border-color: var(--accent); }
 
-			function enter() {
-				q("#splash").classList.add("out");
-				setTimeout(() => {
-					q("#splash").style.display = "none";
-					q("#app").style.display = "block";
-					requestAnimationFrame(() => q("#app").classList.add("on"));
-				}, 600);
-			}
+        .save-btn { background: var(--bg-surface); color: var(--text-main); border: 1px solid #333; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .save-btn:hover { border-color: var(--accent); }
 
-			function goto(sec) {
-				if (sec === "play")
-					q("#gameGrid").scrollIntoView({
-						behavior: "smooth",
-						block: "center",
-					});
-				else q("#proxyModal").classList.add("on");
-			}
+        #content { padding: 40px; flex: 1; display: flex; flex-direction: column;}
+        .view-section { display: none; flex: 1; flex-direction: column; }
+        .view-section.active { display: flex; }
 
-			function closeProxy() {
-				q("#proxyModal").classList.remove("on");
-			}
+        .grid-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
 
-			function go() {
-				const url = q("#pInp").value;
-				if (!url) return;
-				if (typeof __uv$config === "undefined") return;
-				let target =
-					url.includes(".") && !url.includes(" ")
-						? url
-						: "https://www.google.com/search?q=" + url;
-				if (!/^https?:\/\//i.test(target)) target = "https://" + target;
-				window.location.href =
-					__uv$config.prefix + __uv$config.encodeUrl(target);
-			}
+        .game-card { background: var(--bg-surface); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
+        .game-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15); }
+        .game-icon { height: 140px; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .game-info { padding: 16px; }
+        .game-title { font-weight: 600; font-size: 14px; }
+        .game-tag { font-size: 11px; color: var(--accent); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
 
-			function buildGames() {
-				const grid = q("#gameGrid");
-				GAMES.forEach((g) => {
-					const div = document.createElement("div");
-					div.className = "card";
-					div.innerHTML = `<div class="card-icon">${g.e}</div><div class="card-label">${g.n}</div>`;
-					div.onclick = () => {
-						if (typeof __uv$config === "undefined") return;
-						window.location.href =
-							__uv$config.prefix + __uv$config.encodeUrl(g.u);
-					};
-					grid.appendChild(div);
-				});
-			}
+        .iframe-container { flex: 1; border: 1px solid #333; border-radius: 12px; overflow: hidden; background: #000; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
 
-			function panic() {
-				window.location.href = "https://classroom.google.com";
-			}
-			addEventListener("keydown", (e) => {
-				if (e.key === "Escape") panic();
-			});
-		</script>
-	</body>
+        /* Glassmorphic Radio Player */
+        .radio-player-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .radio-player {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .radio-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .radio-status {
+            font-size: 14px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 60px;
+            margin-bottom: 30px;
+        }
+
+        .bar {
+            width: 8px;
+            background: var(--accent);
+            border-radius: 4px;
+            animation: bounce 1s infinite alternate cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .bar:nth-child(1) { height: 20%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 60%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+        .bar:nth-child(5) { height: 50%; animation-delay: 0.5s; }
+        .bar:nth-child(6) { height: 80%; animation-delay: 0.6s; }
+        .bar:nth-child(7) { height: 30%; animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            0% { transform: scaleY(0.5); opacity: 0.5; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        .radio-btn {
+            background: var(--text-main);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .radio-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent);
+        }
+
+        /* Vault Modal Styles */
+        #vault-modal {
+            background: rgba(0, 30, 90, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            color: var(--text-main);
+            width: 450px;
+            max-width: 90vw;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.1);
+            margin: auto;
+        }
+
+        #vault-modal::backdrop {
+            background: rgba(0, 5, 15, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .vault-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        .vault-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .vault-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-close:hover { color: var(--accent); }
+
+        .vault-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vault-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .vault-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        .vault-input:focus { border-color: var(--accent); }
+
+        .vault-submit {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .vault-submit:hover { background: var(--accent); color: #000; }
+        .vault-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .vault-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .vault-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vault-item-name { font-weight: 600; font-size: 14px; }
+        .vault-item-actions { display: flex; gap: 8px; }
+
+        .vault-btn-play {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-btn-play:hover { transform: scale(1.05); }
+
+        .vault-btn-del {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vault-btn-del:hover { transform: scale(1.05); }
+
+        .vault-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Fullscreen Game Overlay */
+        #game-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: none;
+        }
+
+        #game-overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .overlay-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 30, 90, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 10000;
+        }
+        .overlay-close:hover { background: rgba(0, 255, 255, 0.2); color: var(--accent); border-color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-center">
+            <h1 class="splash-title">STRATO v2</h1>
+            <p class="splash-slogan" id="splash-slogan"></p>
+        </div>
+
+        <div id="splash-menu-container">
+            <div id="splash-menu-content">
+                <div class="splash-online-status">
+                    <span class="online-dot"></span> 2226 online
+                </div>
+                <div class="splash-nav-links">
+                    <div class="splash-nav-item splash-view-trigger" data-view="grid" id="splash-play-btn">Play</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="watch">Watch</div>
+                    <div class="splash-nav-item">AI</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="listen">Listen</div>
+                    <div class="splash-nav-item splash-view-trigger" data-view="browse">Browse</div>
+                </div>
+            </div>
+            <div id="home-btn-wrapper">
+                <svg class="home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="logo">STRATO // ARCADE</div>
+        <div class="nav-container">
+            <div id="active-indicator"></div>
+            <div class="nav-item active" data-target="grid">All Games</div>
+            <div class="nav-item" data-target="watch">Watch</div>
+            <div class="nav-item" data-target="listen">Listen</div>
+            <div class="nav-item" data-target="browse">Browse</div>
+        </div>
+    </div>
+
+    <div id="main">
+        <div id="topbar">
+            <div class="search-box">
+                <input type="text" id="pInp" placeholder="Search the web or enter a URL to unblock..." autocomplete="off">
+            </div>
+            <div class="topbar-controls">
+                <button class="save-btn" onclick="openVaultModal()">+ Vault</button>
+                <button class="save-btn" onclick="exportSave()">Export Save</button>
+                <button class="save-btn" onclick="document.getElementById('importFile').click()">Import Save</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importSave(event)">
+                <select id="privacyPreset" class="privacy-select" onchange="applyPrivacyPreset()">
+                    <option value="default">Default</option>
+                    <option value="drive">Google Drive</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="classroom">Google Classroom</option>
+                    <option value="gmail">Gmail</option>
+                </select>
+                <button class="panic-btn" onclick="panic()">PANIC (ESC)</button>
+            </div>
+        </div>
+
+        <div id="content">
+            <div id="view-grid" class="view-section active">
+                <div class="grid-title">Featured</div>
+                <div class="game-grid" id="grid"></div>
+            </div>
+
+            <div id="view-watch" class="view-section">
+                <div style="display: flex; gap: 20px; height: 100%;">
+                    <div class="iframe-container">
+                        <div class="grid-title" style="padding: 10px 20px; margin: 0; background: var(--bg-surface); border-bottom: 1px solid #333;">Watch Movies</div>
+                        <iframe src="https://www.cineby.sc/" allowfullscreen></iframe>
+                    </div>
+                    <div class="iframe-container">
+                        <div class="grid-title" style="padding: 10px 20px; margin: 0; background: var(--bg-surface); border-bottom: 1px solid #333;">Watch Videos</div>
+                        <iframe src="https://yewtu.be" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-listen" class="view-section">
+                <div class="radio-player-wrapper" style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                    <div class="radio-player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; background: rgba(20, 20, 20, 0.4); border: none; padding: 20px;">
+                        <div class="radio-title" style="text-align: left; font-size: 20px;">Monochrome Music</div>
+                        <div class="visualizer" id="audio-vis" style="display: flex; justify-content: flex-start; margin-bottom: 0;">
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        </div>
+                    </div>
+                    <iframe src="https://monochrome.pages.dev" allow="autoplay; encrypted-media" style="width: 100%; height: 500px; border: none; z-index: 1; border-radius: 20px;"></iframe>
+                </div>
+            </div>
+
+            <div id="view-browse" class="view-section">
+                <div class="radio-player-wrapper">
+                    <div style="text-align: center; width: 100%; max-width: 500px;">
+                        <div class="radio-title">Unrestricted Browsing</div>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Enter any URL in the search bar above to launch the Ultraviolet proxy.</p>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 64px; height: 64px; margin: 0 auto; opacity: 0.5;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="vault-modal">
+        <div class="vault-header">
+            <div class="vault-title">StratoVault Smuggler</div>
+            <button class="vault-close" onclick="closeVaultModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div class="vault-section-title">Smuggle Asset</div>
+        <div class="vault-input-group">
+            <input type="text" id="smuggle-name" class="vault-input" placeholder="Game Name (e.g. Mario 64)">
+            <input type="text" id="smuggle-url" class="vault-input" placeholder="ROM URL (e.g. https://example.com/game.z64)">
+            <button id="smuggle-btn" class="vault-submit" onclick="smuggleAsset()">
+                <span>Smuggle</span>
+                <div id="smuggle-spinner" class="vault-spinner"></div>
+            </button>
+        </div>
+
+        <div class="vault-section-title">Local Radar</div>
+        <div id="vault-list" class="vault-list">
+            <!-- Dynamically populated -->
+        </div>
+    </dialog>
+
+    <div id="game-overlay">
+        <button class="overlay-close" onclick="closeGameOverlay()">Close</button>
+        <iframe id="game-iframe"></iframe>
+    </div>
+
+    <script src="/index.js"></script>
+    <script src="/save-manager.js"></script>
+    <script src="/vault.js"></script>
+    <script>
+        const GAMES = window.__GAMES__ || [];
+
+        const searchInput = document.getElementById('pInp');
+        const grid = document.getElementById('grid');
+        let gameCards = [];
+
+        // Real-time grid filtering
+        searchInput.addEventListener('input', e => {
+            const query = e.target.value.toLowerCase();
+
+            // Switch to grid view if not already there, so user can see search results
+            if (!document.getElementById('view-grid').classList.contains('active')) {
+                switchView('grid');
+            }
+
+            gameCards.forEach(cardData => {
+                if (cardData.n.toLowerCase().includes(query) || cardData.t.toLowerCase().includes(query)) {
+                    cardData.el.style.display = 'block';
+                } else {
+                    cardData.el.style.display = 'none';
+                }
+            });
+        });
+
+        // Enter key for proxy
+        searchInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const url = e.target.value;
+                if(!url || typeof scramjetController === 'undefined' || !scramjetController) return;
+                let target = url.includes('.') && !url.includes(' ') ? url : "https://www.google.com/search?q=" + url;
+                if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
+                window.location.href = scramjetController.encodeUrl(target);
+            }
+        });
+
+        const fragment = document.createDocumentFragment();
+
+        GAMES.forEach(g => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <div class="game-icon"><img src="${g.img}" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/9;"></div>
+                <div class="game-info">
+                    <div class="game-title">${g.n}</div>
+                    <div class="game-tag">${g.t}</div>
+                </div>
+            `;
+            card.onclick = () => {
+                if (g.u.startsWith("/")) {
+                    window.location.href = g.u;
+                } else {
+                    if (typeof scramjetController === 'undefined' || !scramjetController) return;
+                    window.location.href = scramjetController.encodeUrl(g.u);
+                }
+            };
+            gameCards.push({ n: g.n, t: g.t, el: card });
+            fragment.appendChild(card);
+        });
+        grid.appendChild(fragment);
+
+        function panic() {
+            window.history.replaceState(null, '', '/');
+            window.location.replace('https://classroom.google.com');
+        }
+        window.addEventListener('keydown', e => { if(e.key === 'Escape') panic(); });
+
+        const slogans = [
+            "Filter can't reach up here.",
+            "Too high for the filter.",
+            "The firewall can't fly.",
+            "Altitude too high to block.",
+            "Block stays on the ground.",
+            "Cruising above the filter line.",
+            "No wings on the firewall.",
+            "Filter doesn't get this high."
+        ];
+
+        const bgs = [
+            "/assets/earth_clean_1.png",
+            "/assets/earth_clean_2.png",
+            "/assets/earth_clean_3.png"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-screen');
+            const sloganEl = document.getElementById('splash-slogan');
+            const playBtn = document.getElementById('splash-play-btn');
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('main');
+
+            const randomBg = bgs[Math.floor(Math.random() * bgs.length)];
+            const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+
+            splash.style.backgroundImage = `url('${randomBg}')`;
+            sloganEl.textContent = randomSlogan;
+
+            const splashTriggers = document.querySelectorAll('.splash-view-trigger');
+            splashTriggers.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetView = e.target.getAttribute('data-view');
+
+                    // Cinematic Zoom Transition
+                    splash.style.transform = 'scale(1.5)';
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none';
+
+                    sidebar.style.opacity = '1';
+                    sidebar.style.transform = 'scale(1)';
+                    sidebar.style.filter = 'blur(0)';
+                    sidebar.style.pointerEvents = 'auto';
+
+                    main.style.opacity = '1';
+                    main.style.transform = 'scale(1)';
+                    main.style.filter = 'blur(0)';
+                    main.style.pointerEvents = 'auto';
+
+                    switchView(targetView);
+
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                    }, 800);
+                });
+            });
+
+            // Sidebar Navigation Logic
+            const navItems = document.querySelectorAll('.nav-item');
+            const indicator = document.getElementById('active-indicator');
+
+            navItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    const view = item.getAttribute('data-target');
+                    switchView(view);
+                });
+            });
+        });
+
+        function switchView(viewId) {
+            // Update active state on nav items and move indicator
+            const navItems = document.querySelectorAll('.nav-item');
+            const indicator = document.getElementById('active-indicator');
+
+            navItems.forEach((item, index) => {
+                if (item.getAttribute('data-target') === viewId) {
+                    item.classList.add('active');
+                    // Move the indicator to the correct position (51px is approx height of item)
+                    indicator.style.transform = `translateY(${index * 51}px)`;
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Show correct view section
+            document.querySelectorAll('.view-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const targetSection = document.getElementById(`view-${viewId}`);
+            if (targetSection) targetSection.classList.add('active');
+
+            // If browse, focus the search bar
+            if (viewId === 'browse') {
+                document.getElementById('pInp').focus();
+            }
+        }
+
+
+        const presets = {
+            default: { title: 'NoRedInk | Dashboard', icon: '' },
+            drive: { title: 'My Drive - Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+            canvas: { title: 'Dashboard', icon: 'https://du11hjcvx0uqb.cloudfront.net/br/dist/images/favicon-e10d657a73.ico' },
+            classroom: { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+            gmail: { title: 'Inbox', icon: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' }
+        };
+
+        function applyPrivacyPreset() {
+            const select = document.getElementById('privacyPreset');
+            const preset = presets[select.value];
+            document.title = preset.title;
+            document.getElementById('favicon').href = preset.icon;
+            localStorage.setItem('privacyPreset', select.value);
+        }
+
+        function loadPrivacyPreset() {
+            const saved = localStorage.getItem('privacyPreset');
+            if (saved && presets[saved]) {
+                document.getElementById('privacyPreset').value = saved;
+                applyPrivacyPreset();
+            }
+        }
+
+        // Vault and Overlay Logic
+        const vaultModal = document.getElementById('vault-modal');
+
+        async function openVaultModal() {
+            vaultModal.showModal();
+            await refreshVaultList();
+        }
+
+        function closeVaultModal() {
+            vaultModal.close();
+            document.getElementById('smuggle-name').value = '';
+            document.getElementById('smuggle-url').value = '';
+        }
+
+        async function refreshVaultList() {
+            const listEl = document.getElementById('vault-list');
+            listEl.innerHTML = '';
+
+            try {
+                const games = await window.vaultManager.getAllGames();
+                if (games.length === 0) {
+                    listEl.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">No assets smuggled yet.</div>';
+                    return;
+                }
+
+                games.forEach(game => {
+                    const item = document.createElement('div');
+                    item.className = 'vault-item';
+                    item.innerHTML = `
+                        <div class="vault-item-name">${game.name}</div>
+                        <div class="vault-item-actions">
+                            <button class="vault-btn-play" onclick="playVaultGame('${game.id}')">Play</button>
+                            <button class="vault-btn-del" onclick="deleteVaultGame('${game.id}')">Del</button>
+                        </div>
+                    `;
+                    listEl.appendChild(item);
+                });
+            } catch (e) {
+                listEl.innerHTML = '<div style="color: #ff3366; font-size: 13px;">Error loading vault.</div>';
+            }
+        }
+
+        async function deleteVaultGame(id) {
+            await window.vaultManager.deleteGame(id);
+            await refreshVaultList();
+        }
+
+        async function smuggleAsset() {
+            const nameInput = document.getElementById('smuggle-name');
+            const urlInput = document.getElementById('smuggle-url');
+            const btn = document.getElementById('smuggle-btn');
+            const spinner = document.getElementById('smuggle-spinner');
+            const btnText = btn.querySelector('span');
+
+            const name = nameInput.value.trim();
+            const url = urlInput.value.trim();
+
+            if (!name || !url) return alert('Please provide both a name and a URL.');
+
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.textContent = 'Smuggling...';
+
+            try {
+                const response = await fetch('/api/smuggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ targetUrl: url })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}: ${await response.text()}`);
+                }
+
+                const blob = await response.blob();
+                const id = 'game_' + Date.now();
+                await window.vaultManager.saveGame(id, name, blob);
+
+                nameInput.value = '';
+                urlInput.value = '';
+                await refreshVaultList();
+            } catch (e) {
+                console.error("Smuggle failed:", e);
+                alert("Smuggle failed: " + e.message);
+            } finally {
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = 'Smuggle';
+            }
+        }
+
+        let currentGameBlobUrl = null;
+
+        async function playVaultGame(id) {
+            try {
+                const blob = await window.vaultManager.getGameBlob(id);
+                if (!blob) throw new Error("Blob not found in IndexedDB");
+
+                if (currentGameBlobUrl) {
+                    URL.revokeObjectURL(currentGameBlobUrl);
+                }
+
+                currentGameBlobUrl = URL.createObjectURL(blob);
+
+                const overlay = document.getElementById('game-overlay');
+                const iframe = document.getElementById('game-iframe');
+
+                iframe.src = currentGameBlobUrl;
+                overlay.style.display = 'block';
+                closeVaultModal();
+
+            } catch (e) {
+                console.error("Failed to play game:", e);
+                alert("Failed to play game: " + e.message);
+            }
+        }
+
+        function closeGameOverlay() {
+            const overlay = document.getElementById('game-overlay');
+            const iframe = document.getElementById('game-iframe');
+
+            overlay.style.display = 'none';
+            iframe.src = 'about:blank';
+
+            if (currentGameBlobUrl) {
+                URL.revokeObjectURL(currentGameBlobUrl);
+                currentGameBlobUrl = null;
+            }
+        }
+
+        window.onload = () => {
+            loadPrivacyPreset();
+        };
+    </script>
+</body>
 </html>
