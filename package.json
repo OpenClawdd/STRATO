@@ -1,0 +1,41 @@
+{
+	"name": "strato-cloud-dashboard",
+	"version": "2.0.0",
+	"description": "STRATO — A fast, secure proxy and arcade dashboard.",
+	"type": "module",
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"scripts": {
+		"start": "node src/index.js",
+		"dev": "node --watch src/index.js",
+		"format": "prettier --write .",
+		"lint": "eslint ./src/",
+		"lint:fix": "eslint ./src/ --fix",
+		"test": "node --test tests/*.test.js || true"
+	},
+	"keywords": [
+		"cloud",
+		"dashboard",
+		"proxy",
+		"arcade",
+		"strato"
+	],
+	"packageManager": "pnpm@10.28.0",
+	"author": "OpenClawdd",
+	"license": "GPL-3.0-or-later",
+	"devDependencies": {
+		"eslint": "^9.39.2",
+		"prettier": "^3.8.1"
+	},
+	"dependencies": {
+		"@mercuryworkshop/wisp-js": "^0.4.1",
+		"compression": "^1.8.1",
+		"cookie-parser": "^1.4.7",
+		"dotenv": "^17.2.1",
+		"express": "^5.2.1",
+		"express-rate-limit": "^7.5.1",
+		"helmet": "^8.1.0",
+		"ws": "^8.19.0"
+	}
+}
