@@ -77,8 +77,8 @@ Edit `config/games.json`:
 
 ```json
 [
-  { "n": "Tetris", "e": "🎮", "u": "/games/tetris/" },
-  { "n": "YouTube", "e": "📺", "u": "https://youtube.com" }
+	{ "n": "Tetris", "e": "🎮", "u": "/games/tetris/" },
+	{ "n": "YouTube", "e": "📺", "u": "https://youtube.com" }
 ]
 ```
 
@@ -98,6 +98,7 @@ docker run -p 8080:8080 --env-file .env strato
 ```
 
 **HuggingFace Spaces:**
+
 1. Create a new Space with **Docker** SDK
 2. Set the **Port** to `8080` in Space settings
 3. Push this repo (set your env vars as HuggingFace Secrets)
@@ -124,12 +125,12 @@ STRATO/
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `npm start` | Start the server |
-| `npm run dev` | Start with auto-restart on file changes |
-| `npm run lint` | Check code style |
-| `npm run format` | Auto-format code |
+| Command          | Description                             |
+| ---------------- | --------------------------------------- |
+| `npm start`      | Start the server                        |
+| `npm run dev`    | Start with auto-restart on file changes |
+| `npm run lint`   | Check code style                        |
+| `npm run format` | Auto-format code                        |
 
 ## License
 

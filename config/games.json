@@ -1,44 +1,254 @@
 [
-  { "n": "Retro Bowl", "img": "https://placehold.co/400x225/0a1628/00e5ff?text=Retro+Bowl", "t": "Sports", "u": "https://retrobowl.eu.org/" },
-  { "n": "Cookie Clicker", "img": "https://placehold.co/400x225/1a0a00/ffcc00?text=Cookie+Clicker", "t": "Idle", "u": "https://orteil.dashnet.org/cookieclicker/" },
-  { "n": "2048", "img": "https://placehold.co/400x225/1a1a2e/e0a0ff?text=2048", "t": "Puzzle", "u": "https://play2048.co/" },
-  { "n": "Tetris", "img": "https://placehold.co/400x225/001a33/00ff88?text=Tetris", "t": "Classic", "u": "/games/tetris/" },
-  { "n": "Slope", "img": "https://placehold.co/400x225/0a0a2e/ff3366?text=Slope", "t": "Action", "u": "https://slope3d.io/" },
-  { "n": "Run 3", "img": "https://placehold.co/400x225/1a0a28/cc66ff?text=Run+3", "t": "Platformer", "u": "https://run3-online.com/" },
-  { "n": "Drift Hunters", "img": "https://placehold.co/400x225/0a1a0a/00ff44?text=Drift+Hunters", "t": "Racing", "u": "https://drifthunters.io/" },
-  { "n": "Smash Karts", "img": "https://placehold.co/400x225/2e0a0a/ff6633?text=Smash+Karts", "t": "Racing", "u": "https://smashkarts.io/" },
-  { "n": "Minecraft Classic", "img": "https://placehold.co/400x225/0a2e0a/66ff66?text=Minecraft", "t": "Sandbox", "u": "https://classic.minecraft.net/" },
-  { "n": "Crossy Road", "img": "https://placehold.co/400x225/2e2e0a/ffff00?text=Crossy+Road", "t": "Arcade", "u": "https://crossyroadunblocked.io/" },
-  { "n": "1v1.LOL", "img": "https://placehold.co/400x225/0a0a0a/ff4444?text=1v1.LOL", "t": "Shooter", "u": "https://1v1.lol/" },
-  { "n": "Basketball Stars", "img": "https://placehold.co/400x225/2e1a0a/ff8800?text=Basketball+Stars", "t": "Sports", "u": "https://basketballstars.game/" },
-  { "n": "Friday Night Funkin'", "img": "https://placehold.co/400x225/1a0a2e/ff00ff?text=FNF", "t": "Rhythm", "u": "https://fnf.kdata1.com/" },
-  { "n": "Papa's Pizzeria", "img": "https://placehold.co/400x225/2e0a1a/ff6699?text=Papa's+Pizzeria", "t": "Cooking", "u": "https://papaspizzeria.io/" },
-  { "n": "Tiny Fishing", "img": "https://placehold.co/400x225/001a33/00ccff?text=Tiny+Fishing", "t": "Casual", "u": "https://tinyfishing.io/" },
-  { "n": "Temple Run 2", "img": "https://placehold.co/400x225/1a1a0a/ffaa00?text=Temple+Run+2", "t": "Action", "u": "https://temple-run-2.io/" },
-  { "n": "Stickman Hook", "img": "https://placehold.co/400x225/0a1a1a/00ffcc?text=Stickman+Hook", "t": "Casual", "u": "https://stickman-hook.com/" },
-  { "n": "Chrome Dino", "img": "https://placehold.co/400x225/1a1a1a/aaaaaa?text=Dino+Run", "t": "Classic", "u": "https://chromedino.com/" },
-  { "n": "Flappy Bird", "img": "https://placehold.co/400x225/0a2e0a/88ff44?text=Flappy+Bird", "t": "Arcade", "u": "https://flappybird.io/" },
-  { "n": "Subway Surfers", "img": "https://placehold.co/400x225/2e1a1a/ffaa44?text=Subway+Surfers", "t": "Action", "u": "https://subwaysurfers.io/" },
-  { "n": "Among Us", "img": "https://placehold.co/400x225/1a0a1a/ff44aa?text=Among+Us", "t": "Strategy", "u": "https://among-us.io/" },
-  { "n": "Happy Wheels", "img": "https://placehold.co/400x225/0a1a0a/44ff88?text=Happy+Wheels", "t": "Action", "u": "https://happywheels.io/" },
-  { "n": "Basket Random", "img": "https://placehold.co/400x225/2e0a0a/ff6644?text=Basket+Random", "t": "Sports", "u": "https://basketrandom.io/" },
-  { "n": "Wordle", "img": "https://placehold.co/400x225/0a0a1a/44aaff?text=Wordle", "t": "Puzzle", "u": "https://wordleunlimited.com/" },
-  { "n": " Moto X3M", "img": "https://placehold.co/400x225/1a1a0a/ff4400?text=Moto+X3M", "t": "Racing", "u": "https://motox3m.io/" },
-  { "n": "Tower Defense", "img": "https://placehold.co/400x225/0a1a2e/44ccff?text=Bloons+TD", "t": "Strategy", "u": "https://bloons-td.com/" },
-  { "n": "Geometry Dash", "img": "https://placehold.co/400x225/1a0a0a/ff8844?text=Geometry+Dash", "t": "Platformer", "u": "https://geometrydash.io/" },
-  { "n": "Slither.io", "img": "https://placehold.co/400x225/0a2e1a/44ff44?text=Slither.io", "t": "Multiplayer", "u": "https://slither.io/" },
-  { "n": "Diep.io", "img": "https://placehold.co/400x225/0a0a2e/4488ff?text=Diep.io", "t": "Multiplayer", "u": "https://diep.io/" },
-  { "n": "Krunker.io", "img": "https://placehold.co/400x225/2e2e2e/ff2222?text=Krunker.io", "t": "Shooter", "u": "https://krunker.io/" },
-  { "n": "Paper.io 2", "img": "https://placehold.co/400x225/0a2e2e/22ffcc?text=Paper.io+2", "t": "Multiplayer", "u": "https://paper-io.com/" },
-  { "n": "Vex 7", "img": "https://placehold.co/400x225/1a2e0a/ccff44?text=Vex+7", "t": "Platformer", "u": "https://vex7.io/" },
-  { "n": "OvO", "img": "https://placehold.co/400x225/0a0a1a/aa44ff?text=OvO", "t": "Platformer", "u": "https://ovo.io/" },
-  { "n": "BitLife", "img": "https://placehold.co/400x225/2e0a2e/ff44ff?text=BitLife", "t": "Simulation", "u": "https://bitlife.io/" },
-  { "n": "Gunspin", "img": "https://placehold.co/400x225/2e1a0a/ff8844?text=Gunspin", "t": "Action", "u": "https://gunspin.io/" },
-  { "n": "Tunnel Rush", "img": "https://placehold.co/400x225/0a1a2e/00ccff?text=Tunnel+Rush", "t": "Action", "u": "https://tunnelrush.io/" },
-  { "n": "A Small World Cup", "img": "https://placehold.co/400x225/0a2e0a/44ff88?text=Small+World+Cup", "t": "Sports", "u": "https://asmallworldcup.com/" },
-  { "n": "House of Hazards", "img": "https://placehold.co/400x225/2e0a0a/ff4444?text=House+Hazards", "t": "Multiplayer", "u": "https://houseofhazards.io/" },
-  { "n": "A Duck Has an Adventure", "img": "https://placehold.co/400x225/1a1a2e/8844ff?text=Duck+Adventure", "t": "Adventure", "u": "https://duckadventure.io/" },
-  { "n": "Learn to Fly 3", "img": "https://placehold.co/400x225/0a1a1a/44ffcc?text=Learn+to+Fly+3", "t": "Arcade", "u": "https://learntofly3.io/" },
-  { "n": "Age of War", "img": "https://placehold.co/400x225/1a0a0a/ff6644?text=Age+of+War", "t": "Strategy", "u": "https://ageofwar.io/" },
-  { "n": "Raft Wars", "img": "https://placehold.co/400x225/0a1a2e/44aaff?text=Raft+Wars", "t": "Action", "u": "https://raftwars.io/" }
+	{
+		"n": "Retro Bowl",
+		"img": "https://placehold.co/400x225/0a1628/00e5ff?text=Retro+Bowl",
+		"t": "Sports",
+		"u": "https://retrobowl.eu.org/"
+	},
+	{
+		"n": "Cookie Clicker",
+		"img": "https://placehold.co/400x225/1a0a00/ffcc00?text=Cookie+Clicker",
+		"t": "Idle",
+		"u": "https://orteil.dashnet.org/cookieclicker/"
+	},
+	{
+		"n": "2048",
+		"img": "https://placehold.co/400x225/1a1a2e/e0a0ff?text=2048",
+		"t": "Puzzle",
+		"u": "https://play2048.co/"
+	},
+	{
+		"n": "Tetris",
+		"img": "https://placehold.co/400x225/001a33/00ff88?text=Tetris",
+		"t": "Classic",
+		"u": "/games/tetris/"
+	},
+	{
+		"n": "Slope",
+		"img": "https://placehold.co/400x225/0a0a2e/ff3366?text=Slope",
+		"t": "Action",
+		"u": "https://slope3d.io/"
+	},
+	{
+		"n": "Run 3",
+		"img": "https://placehold.co/400x225/1a0a28/cc66ff?text=Run+3",
+		"t": "Platformer",
+		"u": "https://run3-online.com/"
+	},
+	{
+		"n": "Drift Hunters",
+		"img": "https://placehold.co/400x225/0a1a0a/00ff44?text=Drift+Hunters",
+		"t": "Racing",
+		"u": "https://drifthunters.io/"
+	},
+	{
+		"n": "Smash Karts",
+		"img": "https://placehold.co/400x225/2e0a0a/ff6633?text=Smash+Karts",
+		"t": "Racing",
+		"u": "https://smashkarts.io/"
+	},
+	{
+		"n": "Minecraft Classic",
+		"img": "https://placehold.co/400x225/0a2e0a/66ff66?text=Minecraft",
+		"t": "Sandbox",
+		"u": "https://classic.minecraft.net/"
+	},
+	{
+		"n": "Crossy Road",
+		"img": "https://placehold.co/400x225/2e2e0a/ffff00?text=Crossy+Road",
+		"t": "Arcade",
+		"u": "https://crossyroadunblocked.io/"
+	},
+	{
+		"n": "1v1.LOL",
+		"img": "https://placehold.co/400x225/0a0a0a/ff4444?text=1v1.LOL",
+		"t": "Shooter",
+		"u": "https://1v1.lol/"
+	},
+	{
+		"n": "Basketball Stars",
+		"img": "https://placehold.co/400x225/2e1a0a/ff8800?text=Basketball+Stars",
+		"t": "Sports",
+		"u": "https://basketballstars.game/"
+	},
+	{
+		"n": "Friday Night Funkin'",
+		"img": "https://placehold.co/400x225/1a0a2e/ff00ff?text=FNF",
+		"t": "Rhythm",
+		"u": "https://fnf.kdata1.com/"
+	},
+	{
+		"n": "Papa's Pizzeria",
+		"img": "https://placehold.co/400x225/2e0a1a/ff6699?text=Papa's+Pizzeria",
+		"t": "Cooking",
+		"u": "https://papaspizzeria.io/"
+	},
+	{
+		"n": "Tiny Fishing",
+		"img": "https://placehold.co/400x225/001a33/00ccff?text=Tiny+Fishing",
+		"t": "Casual",
+		"u": "https://tinyfishing.io/"
+	},
+	{
+		"n": "Temple Run 2",
+		"img": "https://placehold.co/400x225/1a1a0a/ffaa00?text=Temple+Run+2",
+		"t": "Action",
+		"u": "https://temple-run-2.io/"
+	},
+	{
+		"n": "Stickman Hook",
+		"img": "https://placehold.co/400x225/0a1a1a/00ffcc?text=Stickman+Hook",
+		"t": "Casual",
+		"u": "https://stickman-hook.com/"
+	},
+	{
+		"n": "Chrome Dino",
+		"img": "https://placehold.co/400x225/1a1a1a/aaaaaa?text=Dino+Run",
+		"t": "Classic",
+		"u": "https://chromedino.com/"
+	},
+	{
+		"n": "Flappy Bird",
+		"img": "https://placehold.co/400x225/0a2e0a/88ff44?text=Flappy+Bird",
+		"t": "Arcade",
+		"u": "https://flappybird.io/"
+	},
+	{
+		"n": "Subway Surfers",
+		"img": "https://placehold.co/400x225/2e1a1a/ffaa44?text=Subway+Surfers",
+		"t": "Action",
+		"u": "https://subwaysurfers.io/"
+	},
+	{
+		"n": "Among Us",
+		"img": "https://placehold.co/400x225/1a0a1a/ff44aa?text=Among+Us",
+		"t": "Strategy",
+		"u": "https://among-us.io/"
+	},
+	{
+		"n": "Happy Wheels",
+		"img": "https://placehold.co/400x225/0a1a0a/44ff88?text=Happy+Wheels",
+		"t": "Action",
+		"u": "https://happywheels.io/"
+	},
+	{
+		"n": "Basket Random",
+		"img": "https://placehold.co/400x225/2e0a0a/ff6644?text=Basket+Random",
+		"t": "Sports",
+		"u": "https://basketrandom.io/"
+	},
+	{
+		"n": "Wordle",
+		"img": "https://placehold.co/400x225/0a0a1a/44aaff?text=Wordle",
+		"t": "Puzzle",
+		"u": "https://wordleunlimited.com/"
+	},
+	{
+		"n": " Moto X3M",
+		"img": "https://placehold.co/400x225/1a1a0a/ff4400?text=Moto+X3M",
+		"t": "Racing",
+		"u": "https://motox3m.io/"
+	},
+	{
+		"n": "Tower Defense",
+		"img": "https://placehold.co/400x225/0a1a2e/44ccff?text=Bloons+TD",
+		"t": "Strategy",
+		"u": "https://bloons-td.com/"
+	},
+	{
+		"n": "Geometry Dash",
+		"img": "https://placehold.co/400x225/1a0a0a/ff8844?text=Geometry+Dash",
+		"t": "Platformer",
+		"u": "https://geometrydash.io/"
+	},
+	{
+		"n": "Slither.io",
+		"img": "https://placehold.co/400x225/0a2e1a/44ff44?text=Slither.io",
+		"t": "Multiplayer",
+		"u": "https://slither.io/"
+	},
+	{
+		"n": "Diep.io",
+		"img": "https://placehold.co/400x225/0a0a2e/4488ff?text=Diep.io",
+		"t": "Multiplayer",
+		"u": "https://diep.io/"
+	},
+	{
+		"n": "Krunker.io",
+		"img": "https://placehold.co/400x225/2e2e2e/ff2222?text=Krunker.io",
+		"t": "Shooter",
+		"u": "https://krunker.io/"
+	},
+	{
+		"n": "Paper.io 2",
+		"img": "https://placehold.co/400x225/0a2e2e/22ffcc?text=Paper.io+2",
+		"t": "Multiplayer",
+		"u": "https://paper-io.com/"
+	},
+	{
+		"n": "Vex 7",
+		"img": "https://placehold.co/400x225/1a2e0a/ccff44?text=Vex+7",
+		"t": "Platformer",
+		"u": "https://vex7.io/"
+	},
+	{
+		"n": "OvO",
+		"img": "https://placehold.co/400x225/0a0a1a/aa44ff?text=OvO",
+		"t": "Platformer",
+		"u": "https://ovo.io/"
+	},
+	{
+		"n": "BitLife",
+		"img": "https://placehold.co/400x225/2e0a2e/ff44ff?text=BitLife",
+		"t": "Simulation",
+		"u": "https://bitlife.io/"
+	},
+	{
+		"n": "Gunspin",
+		"img": "https://placehold.co/400x225/2e1a0a/ff8844?text=Gunspin",
+		"t": "Action",
+		"u": "https://gunspin.io/"
+	},
+	{
+		"n": "Tunnel Rush",
+		"img": "https://placehold.co/400x225/0a1a2e/00ccff?text=Tunnel+Rush",
+		"t": "Action",
+		"u": "https://tunnelrush.io/"
+	},
+	{
+		"n": "A Small World Cup",
+		"img": "https://placehold.co/400x225/0a2e0a/44ff88?text=Small+World+Cup",
+		"t": "Sports",
+		"u": "https://asmallworldcup.com/"
+	},
+	{
+		"n": "House of Hazards",
+		"img": "https://placehold.co/400x225/2e0a0a/ff4444?text=House+Hazards",
+		"t": "Multiplayer",
+		"u": "https://houseofhazards.io/"
+	},
+	{
+		"n": "A Duck Has an Adventure",
+		"img": "https://placehold.co/400x225/1a1a2e/8844ff?text=Duck+Adventure",
+		"t": "Adventure",
+		"u": "https://duckadventure.io/"
+	},
+	{
+		"n": "Learn to Fly 3",
+		"img": "https://placehold.co/400x225/0a1a1a/44ffcc?text=Learn+to+Fly+3",
+		"t": "Arcade",
+		"u": "https://learntofly3.io/"
+	},
+	{
+		"n": "Age of War",
+		"img": "https://placehold.co/400x225/1a0a0a/ff6644?text=Age+of+War",
+		"t": "Strategy",
+		"u": "https://ageofwar.io/"
+	},
+	{
+		"n": "Raft Wars",
+		"img": "https://placehold.co/400x225/0a1a2e/44aaff?text=Raft+Wars",
+		"t": "Action",
+		"u": "https://raftwars.io/"
+	}
 ]
