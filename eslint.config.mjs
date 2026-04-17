@@ -11,8 +11,8 @@ export default [
 			globals: {
 				...globals.node,
 				AbortController: "readonly",
-				fetch: "readonly"
-			}
+				fetch: "readonly",
+			},
 		},
 	},
 ];

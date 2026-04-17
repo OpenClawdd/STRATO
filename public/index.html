@@ -1,568 +1,1732 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">STRATO — Altitude too high to block</title>
-  <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>S</text></svg>">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="/surf/baremux/index.js"></script>
-  <script src="/surf/scram/scramjet.bundle.js"></script>
-  <script src="/uv/uv.bundle.js"></script>
-  <script src="/uv/uv.config.js"></script>
-  <style>
-    :root {
-      --space:      #020610;
-      --space-2:    #050d1e;
-      --space-3:    #0a1530;
-      --glass:      rgba(5,14,32,0.72);
-      --glass-2:    rgba(8,18,40,0.88);
-      --glass-lt:   rgba(10,22,50,0.42);
-      --cyan:       #00d4ff;
-      --cyan-dim:   rgba(0,212,255,0.11);
-      --cyan-glow:  rgba(0,212,255,0.22);
-      --pink:       #ff4da6;
-      --pink-dim:   rgba(255,77,166,0.11);
-      --violet:     #7c3aed;
-      --border:     rgba(0,212,255,0.08);
-      --border-md:  rgba(0,212,255,0.18);
-      --text:       #c8daf5;
-      --text-muted: #46607c;
-      --text-hi:    #eaf4ff;
-      --r:  18px;
-      --rs: 12px;
-      --rl: 28px;
-      --rx: 44px;
-      --sp: cubic-bezier(0.34,1.56,0.64,1);
-      --ez: cubic-bezier(0.22,1,0.36,1);
-      --fd: 'Syne', sans-serif;
-      --fb: 'Outfit', sans-serif;
-    }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:var(--fb);background:var(--space);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
-    ::-webkit-scrollbar{width:4px;height:4px}
-    ::-webkit-scrollbar-track{background:transparent}
-    ::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:99px}
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title id="page-title">STRATO — Altitude too high to block</title>
+		<link
+			id="favicon"
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>S</text></svg>"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="/surf/baremux/index.js"></script>
+		<script src="/surf/scram/scramjet.bundle.js"></script>
+		<script src="/uv/uv.bundle.js"></script>
+		<script src="/uv/uv.config.js"></script>
+		<style>
+			:root {
+				--space: #020610;
+				--space-2: #050d1e;
+				--space-3: #0a1530;
+				--glass: rgba(5, 14, 32, 0.72);
+				--glass-2: rgba(8, 18, 40, 0.88);
+				--glass-lt: rgba(10, 22, 50, 0.42);
+				--cyan: #00d4ff;
+				--cyan-dim: rgba(0, 212, 255, 0.11);
+				--cyan-glow: rgba(0, 212, 255, 0.22);
+				--pink: #ff4da6;
+				--pink-dim: rgba(255, 77, 166, 0.11);
+				--violet: #7c3aed;
+				--border: rgba(0, 212, 255, 0.08);
+				--border-md: rgba(0, 212, 255, 0.18);
+				--text: #c8daf5;
+				--text-muted: #46607c;
+				--text-hi: #eaf4ff;
+				--r: 18px;
+				--rs: 12px;
+				--rl: 28px;
+				--rx: 44px;
+				--sp: cubic-bezier(0.34, 1.56, 0.64, 1);
+				--ez: cubic-bezier(0.22, 1, 0.36, 1);
+				--fd: "Syne", sans-serif;
+				--fb: "Outfit", sans-serif;
+			}
+			*,
+			*::before,
+			*::after {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family: var(--fb);
+				background: var(--space);
+				color: var(--text);
+				height: 100vh;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+			}
+			::-webkit-scrollbar {
+				width: 4px;
+				height: 4px;
+			}
+			::-webkit-scrollbar-track {
+				background: transparent;
+			}
+			::-webkit-scrollbar-thumb {
+				background: var(--border-md);
+				border-radius: 99px;
+			}
 
-    /* ── AURORA ── */
-    #aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-    .aorb{position:absolute;border-radius:50%;will-change:transform}
-    .aorb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(0,212,255,.18) 0%,transparent 65%);top:-260px;left:-200px;animation:d1 30s ease-in-out infinite alternate}
-    .aorb-2{width:550px;height:550px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 65%);top:15%;right:-150px;animation:d2 24s ease-in-out infinite alternate}
-    .aorb-3{width:450px;height:450px;background:radial-gradient(circle,rgba(255,77,166,.13) 0%,transparent 65%);bottom:-80px;left:28%;animation:d3 28s ease-in-out infinite alternate}
-    .aorb-4{width:300px;height:300px;background:radial-gradient(circle,rgba(0,255,140,.09) 0%,transparent 65%);bottom:20%;right:8%;animation:d1 20s ease-in-out infinite alternate-reverse}
-    @keyframes d1{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(60px,-80px,0) scale(1.08)}100%{transform:translate3d(-40px,40px,0) scale(.96)}}
-    @keyframes d2{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-80px,60px,0) scale(1.1)}100%{transform:translate3d(40px,-30px,0) scale(.94)}}
-    @keyframes d3{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(50px,-50px,0) scale(1.05)}100%{transform:translate3d(-60px,30px,0) scale(.97)}}
+			/* ── AURORA ── */
+			#aurora {
+				position: fixed;
+				inset: 0;
+				z-index: 0;
+				pointer-events: none;
+				overflow: hidden;
+			}
+			.aorb {
+				position: absolute;
+				border-radius: 50%;
+				will-change: transform;
+			}
+			.aorb-1 {
+				width: 700px;
+				height: 700px;
+				background: radial-gradient(
+					circle,
+					rgba(0, 212, 255, 0.18) 0%,
+					transparent 65%
+				);
+				top: -260px;
+				left: -200px;
+				animation: d1 30s ease-in-out infinite alternate;
+			}
+			.aorb-2 {
+				width: 550px;
+				height: 550px;
+				background: radial-gradient(
+					circle,
+					rgba(124, 58, 237, 0.2) 0%,
+					transparent 65%
+				);
+				top: 15%;
+				right: -150px;
+				animation: d2 24s ease-in-out infinite alternate;
+			}
+			.aorb-3 {
+				width: 450px;
+				height: 450px;
+				background: radial-gradient(
+					circle,
+					rgba(255, 77, 166, 0.13) 0%,
+					transparent 65%
+				);
+				bottom: -80px;
+				left: 28%;
+				animation: d3 28s ease-in-out infinite alternate;
+			}
+			.aorb-4 {
+				width: 300px;
+				height: 300px;
+				background: radial-gradient(
+					circle,
+					rgba(0, 255, 140, 0.09) 0%,
+					transparent 65%
+				);
+				bottom: 20%;
+				right: 8%;
+				animation: d1 20s ease-in-out infinite alternate-reverse;
+			}
+			@keyframes d1 {
+				0% {
+					transform: translate3d(0, 0, 0) scale(1);
+				}
+				50% {
+					transform: translate3d(60px, -80px, 0) scale(1.08);
+				}
+				100% {
+					transform: translate3d(-40px, 40px, 0) scale(0.96);
+				}
+			}
+			@keyframes d2 {
+				0% {
+					transform: translate3d(0, 0, 0) scale(1);
+				}
+				50% {
+					transform: translate3d(-80px, 60px, 0) scale(1.1);
+				}
+				100% {
+					transform: translate3d(40px, -30px, 0) scale(0.94);
+				}
+			}
+			@keyframes d3 {
+				0% {
+					transform: translate3d(0, 0, 0) scale(1);
+				}
+				50% {
+					transform: translate3d(50px, -50px, 0) scale(1.05);
+				}
+				100% {
+					transform: translate3d(-60px, 30px, 0) scale(0.97);
+				}
+			}
 
-    /* ── SPLASH ── */
-    #splash{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:var(--space);transition:opacity .9s var(--ez),transform .9s var(--ez)}
-    #splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
-    .spl{position:relative;z-index:2;text-align:center}
-    .spl-eye{font-family:var(--fb);font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);opacity:.65;margin-bottom:20px}
-    .spl-logo{font-family:var(--fd);font-size:clamp(68px,11vw,116px);font-weight:800;letter-spacing:-4px;line-height:1;background:linear-gradient(135deg,var(--text-hi) 0%,var(--cyan) 45%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 6s ease-in-out infinite}
-    @keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.18) drop-shadow(0 0 40px rgba(0,212,255,.3))}}
-    .spl-alt{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--text-muted)}
-    .spl-bar{height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--text-muted))}
-    .spl-bar:last-child{background:linear-gradient(90deg,var(--text-muted),transparent)}
-    .spl-tag{margin-top:26px;font-size:14px;color:var(--text-muted);letter-spacing:.3px}
-    .spl-btn{margin-top:44px;display:inline-flex;align-items:center;gap:10px;padding:13px 34px;background:var(--glass);border:1px solid var(--border-md);border-radius:var(--rx);color:var(--text-hi);font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s var(--sp);backdrop-filter:blur(16px)}
-    .spl-btn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px) scale(1.03);box-shadow:0 0 28px var(--cyan-glow),0 8px 24px rgba(0,0,0,.4)}
-    .spl-btn svg{transition:transform .3s var(--sp)}
-    .spl-btn:hover svg{transform:translate(2px,-2px)}
+			/* ── SPLASH ── */
+			#splash {
+				position: fixed;
+				inset: 0;
+				z-index: 500;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: var(--space);
+				transition:
+					opacity 0.9s var(--ez),
+					transform 0.9s var(--ez);
+			}
+			#splash.out {
+				opacity: 0;
+				transform: scale(1.04);
+				pointer-events: none;
+			}
+			.spl {
+				position: relative;
+				z-index: 2;
+				text-align: center;
+			}
+			.spl-eye {
+				font-family: var(--fb);
+				font-size: 10px;
+				font-weight: 600;
+				letter-spacing: 4px;
+				text-transform: uppercase;
+				color: var(--cyan);
+				opacity: 0.65;
+				margin-bottom: 20px;
+			}
+			.spl-logo {
+				font-family: var(--fd);
+				font-size: clamp(68px, 11vw, 116px);
+				font-weight: 800;
+				letter-spacing: -4px;
+				line-height: 1;
+				background: linear-gradient(
+					135deg,
+					var(--text-hi) 0%,
+					var(--cyan) 45%,
+					var(--violet) 100%
+				);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				animation: shimmer 6s ease-in-out infinite;
+			}
+			@keyframes shimmer {
+				0%,
+				100% {
+					filter: brightness(1);
+				}
+				50% {
+					filter: brightness(1.18) drop-shadow(0 0 40px rgba(0, 212, 255, 0.3));
+				}
+			}
+			.spl-alt {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 12px;
+				margin-top: 14px;
+				font-size: 10px;
+				font-weight: 600;
+				letter-spacing: 4px;
+				text-transform: uppercase;
+				color: var(--text-muted);
+			}
+			.spl-bar {
+				height: 1px;
+				width: 56px;
+				background: linear-gradient(90deg, transparent, var(--text-muted));
+			}
+			.spl-bar:last-child {
+				background: linear-gradient(90deg, var(--text-muted), transparent);
+			}
+			.spl-tag {
+				margin-top: 26px;
+				font-size: 14px;
+				color: var(--text-muted);
+				letter-spacing: 0.3px;
+			}
+			.spl-btn {
+				margin-top: 44px;
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				padding: 13px 34px;
+				background: var(--glass);
+				border: 1px solid var(--border-md);
+				border-radius: var(--rx);
+				color: var(--text-hi);
+				font-family: var(--fb);
+				font-size: 14px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s var(--sp);
+				backdrop-filter: blur(16px);
+			}
+			.spl-btn:hover {
+				border-color: var(--cyan);
+				color: var(--cyan);
+				transform: translateY(-2px) scale(1.03);
+				box-shadow:
+					0 0 28px var(--cyan-glow),
+					0 8px 24px rgba(0, 0, 0, 0.4);
+			}
+			.spl-btn svg {
+				transition: transform 0.3s var(--sp);
+			}
+			.spl-btn:hover svg {
+				transform: translate(2px, -2px);
+			}
 
-    /* ── APP SHELL ── */
-    #app{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;opacity:0;transform:translateY(12px);filter:blur(6px);transition:opacity .8s var(--ez),transform .8s var(--ez),filter .8s var(--ez);pointer-events:none}
-    #app.on{opacity:1;transform:translateY(0);filter:blur(0);pointer-events:auto}
+			/* ── APP SHELL ── */
+			#app {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				flex-direction: column;
+				height: 100vh;
+				opacity: 0;
+				transform: translateY(12px);
+				filter: blur(6px);
+				transition:
+					opacity 0.8s var(--ez),
+					transform 0.8s var(--ez),
+					filter 0.8s var(--ez);
+				pointer-events: none;
+			}
+			#app.on {
+				opacity: 1;
+				transform: translateY(0);
+				filter: blur(0);
+				pointer-events: auto;
+			}
 
-    /* ── TOPBAR ── */
-    #topbar{position:relative;z-index:50;display:flex;align-items:center;gap:14px;padding:9px 18px;background:rgba(2,8,22,.9);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid var(--border);flex-shrink:0}
-    .tb-logo{display:flex;align-items:baseline;gap:6px;flex-shrink:0}
-    .tb-brand{font-family:var(--fd);font-size:17px;font-weight:800;color:var(--cyan);letter-spacing:-.5px}
-    .tb-badge{font-family:var(--fb);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;border:1px solid var(--border);border-radius:4px;padding:1px 5px}
-    .srch{flex:1;max-width:540px;position:relative}
-    .srch-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;display:flex}
-    #pInp{width:100%;padding:8px 42px 8px 38px;background:var(--glass-lt);border:1px solid var(--border);border-radius:var(--rx);color:var(--text-hi);font-family:var(--fb);font-size:13px;outline:none;transition:border-color .2s,background .2s,box-shadow .2s;backdrop-filter:blur(12px)}
-    #pInp::placeholder{color:var(--text-muted)}
-    #pInp:focus{border-color:var(--cyan);background:var(--glass-2);box-shadow:0 0 0 3px rgba(0,212,255,.06),0 0 18px rgba(0,212,255,.08)}
-    .srch-kbd{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-family:var(--fb);font-size:10px;color:var(--text-muted);background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:2px 6px;pointer-events:none;opacity:0;transition:opacity .2s}
-    #pInp:focus~.srch-kbd{opacity:1}
-    .tb-acts{display:flex;align-items:center;gap:7px;margin-left:auto;flex-shrink:0}
-    .cloak-sel{padding:7px 11px;background:var(--glass-lt);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:var(--fb);font-size:12px;font-weight:500;cursor:pointer;outline:none;backdrop-filter:blur(8px)}
-    .panic-btn{display:flex;align-items:center;gap:5px;padding:7px 13px;background:rgba(255,44,44,.09);border:1px solid rgba(255,44,44,.22);border-radius:var(--rs);color:#ff5555;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-    .panic-btn:hover{background:rgba(255,44,44,.18);border-color:rgba(255,44,44,.45);box-shadow:0 0 16px rgba(255,44,44,.18)}
+			/* ── TOPBAR ── */
+			#topbar {
+				position: relative;
+				z-index: 50;
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				padding: 9px 18px;
+				background: rgba(2, 8, 22, 0.9);
+				backdrop-filter: blur(24px) saturate(160%);
+				border-bottom: 1px solid var(--border);
+				flex-shrink: 0;
+			}
+			.tb-logo {
+				display: flex;
+				align-items: baseline;
+				gap: 6px;
+				flex-shrink: 0;
+			}
+			.tb-brand {
+				font-family: var(--fd);
+				font-size: 17px;
+				font-weight: 800;
+				color: var(--cyan);
+				letter-spacing: -0.5px;
+			}
+			.tb-badge {
+				font-family: var(--fb);
+				font-size: 9px;
+				font-weight: 700;
+				letter-spacing: 2px;
+				color: var(--text-muted);
+				text-transform: uppercase;
+				border: 1px solid var(--border);
+				border-radius: 4px;
+				padding: 1px 5px;
+			}
+			.srch {
+				flex: 1;
+				max-width: 540px;
+				position: relative;
+			}
+			.srch-ico {
+				position: absolute;
+				left: 13px;
+				top: 50%;
+				transform: translateY(-50%);
+				color: var(--text-muted);
+				pointer-events: none;
+				display: flex;
+			}
+			#pInp {
+				width: 100%;
+				padding: 8px 42px 8px 38px;
+				background: var(--glass-lt);
+				border: 1px solid var(--border);
+				border-radius: var(--rx);
+				color: var(--text-hi);
+				font-family: var(--fb);
+				font-size: 13px;
+				outline: none;
+				transition:
+					border-color 0.2s,
+					background 0.2s,
+					box-shadow 0.2s;
+				backdrop-filter: blur(12px);
+			}
+			#pInp::placeholder {
+				color: var(--text-muted);
+			}
+			#pInp:focus {
+				border-color: var(--cyan);
+				background: var(--glass-2);
+				box-shadow:
+					0 0 0 3px rgba(0, 212, 255, 0.06),
+					0 0 18px rgba(0, 212, 255, 0.08);
+			}
+			.srch-kbd {
+				position: absolute;
+				right: 11px;
+				top: 50%;
+				transform: translateY(-50%);
+				font-family: var(--fb);
+				font-size: 10px;
+				color: var(--text-muted);
+				background: var(--glass);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				padding: 2px 6px;
+				pointer-events: none;
+				opacity: 0;
+				transition: opacity 0.2s;
+			}
+			#pInp:focus ~ .srch-kbd {
+				opacity: 1;
+			}
+			.tb-acts {
+				display: flex;
+				align-items: center;
+				gap: 7px;
+				margin-left: auto;
+				flex-shrink: 0;
+			}
+			.cloak-sel {
+				padding: 7px 11px;
+				background: var(--glass-lt);
+				border: 1px solid var(--border);
+				border-radius: var(--rs);
+				color: var(--text);
+				font-family: var(--fb);
+				font-size: 12px;
+				font-weight: 500;
+				cursor: pointer;
+				outline: none;
+				backdrop-filter: blur(8px);
+			}
+			.panic-btn {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				padding: 7px 13px;
+				background: rgba(255, 44, 44, 0.09);
+				border: 1px solid rgba(255, 44, 44, 0.22);
+				border-radius: var(--rs);
+				color: #ff5555;
+				font-family: var(--fb);
+				font-size: 12px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+			.panic-btn:hover {
+				background: rgba(255, 44, 44, 0.18);
+				border-color: rgba(255, 44, 44, 0.45);
+				box-shadow: 0 0 16px rgba(255, 44, 44, 0.18);
+			}
 
-    /* ── CONTENT ── */
-    #content{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 88px;scroll-behavior:smooth}
-    .view{display:none;flex-direction:column}
-    .view.active{display:flex}
+			/* ── CONTENT ── */
+			#content {
+				flex: 1;
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding: 18px 18px 88px;
+				scroll-behavior: smooth;
+			}
+			.view {
+				display: none;
+				flex-direction: column;
+			}
+			.view.active {
+				display: flex;
+			}
 
-    /* ── CAT FILTERS ── */
-    .cat-bar{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;scrollbar-width:none}
-    .cat-bar::-webkit-scrollbar{display:none}
-    .cat-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;background:var(--glass-lt);border:1px solid var(--border);border-radius:var(--rx);color:var(--text-muted);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s var(--ez);white-space:nowrap;backdrop-filter:blur(8px)}
-    .cat-btn:hover{color:var(--text);border-color:var(--border-md)}
-    .cat-btn.on{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,212,255,.12)}
-    .cat-n{font-size:10px;background:rgba(255,255,255,.07);border-radius:99px;padding:1px 5px}
+			/* ── CAT FILTERS ── */
+			.cat-bar {
+				display: flex;
+				gap: 6px;
+				flex-wrap: nowrap;
+				overflow-x: auto;
+				padding-bottom: 4px;
+				margin-bottom: 18px;
+				scrollbar-width: none;
+			}
+			.cat-bar::-webkit-scrollbar {
+				display: none;
+			}
+			.cat-btn {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				padding: 6px 14px;
+				background: var(--glass-lt);
+				border: 1px solid var(--border);
+				border-radius: var(--rx);
+				color: var(--text-muted);
+				font-family: var(--fb);
+				font-size: 12px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.18s var(--ez);
+				white-space: nowrap;
+				backdrop-filter: blur(8px);
+			}
+			.cat-btn:hover {
+				color: var(--text);
+				border-color: var(--border-md);
+			}
+			.cat-btn.on {
+				background: var(--cyan-dim);
+				border-color: var(--cyan);
+				color: var(--cyan);
+				box-shadow: 0 0 10px rgba(0, 212, 255, 0.12);
+			}
+			.cat-n {
+				font-size: 10px;
+				background: rgba(255, 255, 255, 0.07);
+				border-radius: 99px;
+				padding: 1px 5px;
+			}
 
-    /* ── SECTION HEADERS ── */
-    .sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-    .sec-title{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--text-hi);letter-spacing:.2px}
-    .sec-cnt{font-size:11px;font-weight:600;color:var(--text-muted);background:var(--glass-lt);border:1px solid var(--border);border-radius:99px;padding:2px 10px}
+			/* ── SECTION HEADERS ── */
+			.sec-hdr {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-bottom: 13px;
+			}
+			.sec-title {
+				font-family: var(--fd);
+				font-size: 14px;
+				font-weight: 700;
+				color: var(--text-hi);
+				letter-spacing: 0.2px;
+			}
+			.sec-cnt {
+				font-size: 11px;
+				font-weight: 600;
+				color: var(--text-muted);
+				background: var(--glass-lt);
+				border: 1px solid var(--border);
+				border-radius: 99px;
+				padding: 2px 10px;
+			}
 
-    /* ── FEATURED ── */
-    .feat-sec{margin-bottom:26px}
-    .feat-strip{display:flex;gap:13px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
-    .feat-strip::-webkit-scrollbar{display:none}
-    .feat-card{position:relative;flex:0 0 275px;height:155px;border-radius:var(--r);overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .3s var(--sp),border-color .2s,box-shadow .2s;background:var(--space-3)}
-    .feat-card:hover{transform:translateY(-5px) scale(1.02);border-color:var(--cyan);box-shadow:0 12px 36px rgba(0,212,255,.14),0 4px 14px rgba(0,0,0,.4)}
-    .feat-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ez)}
-    .feat-card:hover img{transform:scale(1.07)}
-    .feat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,16,.95) 0%,rgba(2,6,16,.35) 50%,transparent 100%)}
-    .feat-body{position:absolute;bottom:0;left:0;right:0;padding:12px 14px}
-    .feat-name{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--text-hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
-    .feat-meta{display:flex;align-items:center;gap:6px;margin-top:5px}
-    .tpill{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid}
-    .tc{color:var(--cyan);border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.09)}
-    .tp{color:var(--pink);border-color:rgba(255,77,166,.3);background:rgba(255,77,166,.09)}
-    .tv{color:#a78bfa;border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.09)}
-    .tg{color:#34d399;border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.09)}
-    .to{color:#fb923c;border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.09)}
-    .badge-hot{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:rgba(255,77,77,.18);color:#ff7777;border:1px solid rgba(255,77,77,.28)}
-    .badge-new{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:rgba(0,212,255,.13);color:var(--cyan);border:1px solid rgba(0,212,255,.28)}
-    .feat-play{position:absolute;top:11px;right:11px;width:34px;height:34px;border-radius:50%;background:var(--glass-2);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;color:var(--text-hi);backdrop-filter:blur(12px);opacity:0;transform:scale(.75);transition:opacity .22s,transform .22s var(--sp)}
-    .feat-card:hover .feat-play{opacity:1;transform:scale(1)}
+			/* ── FEATURED ── */
+			.feat-sec {
+				margin-bottom: 26px;
+			}
+			.feat-strip {
+				display: flex;
+				gap: 13px;
+				overflow-x: auto;
+				padding-bottom: 6px;
+				scrollbar-width: none;
+			}
+			.feat-strip::-webkit-scrollbar {
+				display: none;
+			}
+			.feat-card {
+				position: relative;
+				flex: 0 0 275px;
+				height: 155px;
+				border-radius: var(--r);
+				overflow: hidden;
+				cursor: pointer;
+				border: 1px solid var(--border);
+				transition:
+					transform 0.3s var(--sp),
+					border-color 0.2s,
+					box-shadow 0.2s;
+				background: var(--space-3);
+			}
+			.feat-card:hover {
+				transform: translateY(-5px) scale(1.02);
+				border-color: var(--cyan);
+				box-shadow:
+					0 12px 36px rgba(0, 212, 255, 0.14),
+					0 4px 14px rgba(0, 0, 0, 0.4);
+			}
+			.feat-card img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.5s var(--ez);
+			}
+			.feat-card:hover img {
+				transform: scale(1.07);
+			}
+			.feat-ov {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					to top,
+					rgba(2, 6, 16, 0.95) 0%,
+					rgba(2, 6, 16, 0.35) 50%,
+					transparent 100%
+				);
+			}
+			.feat-body {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 12px 14px;
+			}
+			.feat-name {
+				font-family: var(--fd);
+				font-size: 15px;
+				font-weight: 700;
+				color: var(--text-hi);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				line-height: 1.2;
+			}
+			.feat-meta {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				margin-top: 5px;
+			}
+			.tpill {
+				font-size: 9px;
+				font-weight: 700;
+				letter-spacing: 0.8px;
+				text-transform: uppercase;
+				padding: 2px 7px;
+				border-radius: 99px;
+				border: 1px solid;
+			}
+			.tc {
+				color: var(--cyan);
+				border-color: rgba(0, 212, 255, 0.3);
+				background: rgba(0, 212, 255, 0.09);
+			}
+			.tp {
+				color: var(--pink);
+				border-color: rgba(255, 77, 166, 0.3);
+				background: rgba(255, 77, 166, 0.09);
+			}
+			.tv {
+				color: #a78bfa;
+				border-color: rgba(167, 139, 250, 0.3);
+				background: rgba(167, 139, 250, 0.09);
+			}
+			.tg {
+				color: #34d399;
+				border-color: rgba(52, 211, 153, 0.3);
+				background: rgba(52, 211, 153, 0.09);
+			}
+			.to {
+				color: #fb923c;
+				border-color: rgba(251, 146, 60, 0.3);
+				background: rgba(251, 146, 60, 0.09);
+			}
+			.badge-hot {
+				font-size: 9px;
+				font-weight: 700;
+				letter-spacing: 0.8px;
+				text-transform: uppercase;
+				padding: 2px 7px;
+				border-radius: 99px;
+				background: rgba(255, 77, 77, 0.18);
+				color: #ff7777;
+				border: 1px solid rgba(255, 77, 77, 0.28);
+			}
+			.badge-new {
+				font-size: 9px;
+				font-weight: 700;
+				letter-spacing: 0.8px;
+				text-transform: uppercase;
+				padding: 2px 7px;
+				border-radius: 99px;
+				background: rgba(0, 212, 255, 0.13);
+				color: var(--cyan);
+				border: 1px solid rgba(0, 212, 255, 0.28);
+			}
+			.feat-play {
+				position: absolute;
+				top: 11px;
+				right: 11px;
+				width: 34px;
+				height: 34px;
+				border-radius: 50%;
+				background: var(--glass-2);
+				border: 1px solid var(--border-md);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--text-hi);
+				backdrop-filter: blur(12px);
+				opacity: 0;
+				transform: scale(0.75);
+				transition:
+					opacity 0.22s,
+					transform 0.22s var(--sp);
+			}
+			.feat-card:hover .feat-play {
+				opacity: 1;
+				transform: scale(1);
+			}
 
-    /* ── GAME GRID ── */
-    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
-    .game-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .25s var(--sp),border-color .2s,box-shadow .2s;backdrop-filter:blur(12px)}
-    .game-card:hover{transform:translateY(-5px) scale(1.02);border-color:var(--cyan);box-shadow:0 8px 28px rgba(0,212,255,.11),0 4px 12px rgba(0,0,0,.4)}
-    .gc-img{width:100%;aspect-ratio:16/10;background:var(--space-3);overflow:hidden;position:relative}
-    .gc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ez)}
-    .game-card:hover .gc-img img{transform:scale(1.08)}
-    .gc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,16,.7) 0%,transparent 60%);opacity:0;transition:opacity .22s;display:flex;align-items:center;justify-content:center}
-    .game-card:hover .gc-ov{opacity:1}
-    .gc-play{width:42px;height:42px;border-radius:50%;background:rgba(0,212,255,.88);display:flex;align-items:center;justify-content:center;transform:scale(.65);transition:transform .22s var(--sp)}
-    .game-card:hover .gc-play{transform:scale(1)}
-    .gc-body{padding:9px 11px}
-    .gc-name{font-size:12.5px;font-weight:600;color:var(--text-hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .gc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-    .gc-tag{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted)}
-    .gc-badge{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:1px 6px;border-radius:99px}
+			/* ── GAME GRID ── */
+			.game-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+				gap: 11px;
+			}
+			.game-card {
+				background: var(--glass);
+				border: 1px solid var(--border);
+				border-radius: var(--r);
+				overflow: hidden;
+				cursor: pointer;
+				transition:
+					transform 0.25s var(--sp),
+					border-color 0.2s,
+					box-shadow 0.2s;
+				backdrop-filter: blur(12px);
+			}
+			.game-card:hover {
+				transform: translateY(-5px) scale(1.02);
+				border-color: var(--cyan);
+				box-shadow:
+					0 8px 28px rgba(0, 212, 255, 0.11),
+					0 4px 12px rgba(0, 0, 0, 0.4);
+			}
+			.gc-img {
+				width: 100%;
+				aspect-ratio: 16/10;
+				background: var(--space-3);
+				overflow: hidden;
+				position: relative;
+			}
+			.gc-img img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.4s var(--ez);
+			}
+			.game-card:hover .gc-img img {
+				transform: scale(1.08);
+			}
+			.gc-ov {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					to top,
+					rgba(2, 6, 16, 0.7) 0%,
+					transparent 60%
+				);
+				opacity: 0;
+				transition: opacity 0.22s;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.game-card:hover .gc-ov {
+				opacity: 1;
+			}
+			.gc-play {
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				background: rgba(0, 212, 255, 0.88);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transform: scale(0.65);
+				transition: transform 0.22s var(--sp);
+			}
+			.game-card:hover .gc-play {
+				transform: scale(1);
+			}
+			.gc-body {
+				padding: 9px 11px;
+			}
+			.gc-name {
+				font-size: 12.5px;
+				font-weight: 600;
+				color: var(--text-hi);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.gc-foot {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 4px;
+			}
+			.gc-tag {
+				font-size: 9.5px;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.6px;
+				color: var(--text-muted);
+			}
+			.gc-badge {
+				font-size: 8px;
+				font-weight: 700;
+				letter-spacing: 0.8px;
+				text-transform: uppercase;
+				padding: 1px 6px;
+				border-radius: 99px;
+			}
 
-    /* ── DOCK ── */
-    #dock{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:2px;background:rgba(2,8,22,.92);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--border);border-radius:var(--rx);padding:5px 10px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(0,212,255,.03)}
-    .di{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:56px;height:50px;border-radius:14px;cursor:pointer;color:var(--text-muted);transition:all .22s var(--ez);border:1px solid transparent}
-    .di:hover{color:var(--text);background:var(--glass-lt);transform:translateY(-3px)}
-    .di.on{color:var(--cyan);background:var(--cyan-dim);border-color:rgba(0,212,255,.14)}
-    .di svg{width:18px;height:18px;transition:transform .22s var(--sp)}
-    .di:hover svg{transform:scale(1.1)}
-    .di.on svg{filter:drop-shadow(0 0 5px rgba(0,212,255,.55))}
-    .di-lbl{font-size:9px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
-    .dock-sep{width:1px;height:26px;background:var(--border);margin:0 3px}
+			/* ── DOCK ── */
+			#dock {
+				position: fixed;
+				bottom: 16px;
+				left: 50%;
+				transform: translateX(-50%);
+				z-index: 100;
+				display: flex;
+				align-items: center;
+				gap: 2px;
+				background: rgba(2, 8, 22, 0.92);
+				backdrop-filter: blur(28px) saturate(180%);
+				border: 1px solid var(--border);
+				border-radius: var(--rx);
+				padding: 5px 10px;
+				box-shadow:
+					0 8px 32px rgba(0, 0, 0, 0.5),
+					0 0 0 1px rgba(0, 212, 255, 0.03);
+			}
+			.di {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 3px;
+				width: 56px;
+				height: 50px;
+				border-radius: 14px;
+				cursor: pointer;
+				color: var(--text-muted);
+				transition: all 0.22s var(--ez);
+				border: 1px solid transparent;
+			}
+			.di:hover {
+				color: var(--text);
+				background: var(--glass-lt);
+				transform: translateY(-3px);
+			}
+			.di.on {
+				color: var(--cyan);
+				background: var(--cyan-dim);
+				border-color: rgba(0, 212, 255, 0.14);
+			}
+			.di svg {
+				width: 18px;
+				height: 18px;
+				transition: transform 0.22s var(--sp);
+			}
+			.di:hover svg {
+				transform: scale(1.1);
+			}
+			.di.on svg {
+				filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.55));
+			}
+			.di-lbl {
+				font-size: 9px;
+				font-weight: 600;
+				letter-spacing: 0.4px;
+				text-transform: uppercase;
+			}
+			.dock-sep {
+				width: 1px;
+				height: 26px;
+				background: var(--border);
+				margin: 0 3px;
+			}
 
-    /* ── LAUNCHER ── */
-    .launch-ctr{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:16px}
-    .v-title{font-family:var(--fd);font-size:30px;font-weight:800;color:var(--text-hi);margin-bottom:6px}
-    .v-sub{font-size:13px;color:var(--text-muted);margin-bottom:28px}
-    .launch-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:740px}
-    .lcard{width:210px;background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:28px 22px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .28s var(--sp);backdrop-filter:blur(16px);text-align:center}
-    .lcard:hover{transform:translateY(-6px) scale(1.03);border-color:var(--cyan);box-shadow:0 12px 36px rgba(0,212,255,.11)}
-    .lcard-ico{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px}
-    .lcard-name{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--text-hi)}
-    .lcard-desc{font-size:12px;color:var(--text-muted);line-height:1.5}
+			/* ── LAUNCHER ── */
+			.launch-ctr {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 16px;
+			}
+			.v-title {
+				font-family: var(--fd);
+				font-size: 30px;
+				font-weight: 800;
+				color: var(--text-hi);
+				margin-bottom: 6px;
+			}
+			.v-sub {
+				font-size: 13px;
+				color: var(--text-muted);
+				margin-bottom: 28px;
+			}
+			.launch-grid {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 14px;
+				justify-content: center;
+				max-width: 740px;
+			}
+			.lcard {
+				width: 210px;
+				background: var(--glass);
+				border: 1px solid var(--border);
+				border-radius: var(--rl);
+				padding: 28px 22px;
+				cursor: pointer;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 12px;
+				transition: all 0.28s var(--sp);
+				backdrop-filter: blur(16px);
+				text-align: center;
+			}
+			.lcard:hover {
+				transform: translateY(-6px) scale(1.03);
+				border-color: var(--cyan);
+				box-shadow: 0 12px 36px rgba(0, 212, 255, 0.11);
+			}
+			.lcard-ico {
+				width: 56px;
+				height: 56px;
+				border-radius: 16px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 26px;
+			}
+			.lcard-name {
+				font-family: var(--fd);
+				font-size: 17px;
+				font-weight: 700;
+				color: var(--text-hi);
+			}
+			.lcard-desc {
+				font-size: 12px;
+				color: var(--text-muted);
+				line-height: 1.5;
+			}
 
-    /* ── MEDIA PLAYER ── */
-    .mplayer{flex:1;display:none;flex-direction:column;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;background:var(--glass);min-height:400px}
-    .mplayer.on{display:flex}
-    .mbar{display:flex;align-items:center;gap:11px;padding:9px 13px;background:rgba(2,6,18,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
-    .mback{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--rs);border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
-    .mback:hover{border-color:var(--cyan);color:var(--cyan)}
-    .mtitle{font-size:13px;font-weight:600;color:var(--text)}
-    .mplayer iframe{flex:1;border:none;width:100%;min-height:460px}
+			/* ── MEDIA PLAYER ── */
+			.mplayer {
+				flex: 1;
+				display: none;
+				flex-direction: column;
+				border-radius: var(--r);
+				border: 1px solid var(--border);
+				overflow: hidden;
+				background: var(--glass);
+				min-height: 400px;
+			}
+			.mplayer.on {
+				display: flex;
+			}
+			.mbar {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+				padding: 9px 13px;
+				background: rgba(2, 6, 18, 0.92);
+				border-bottom: 1px solid var(--border);
+				backdrop-filter: blur(12px);
+			}
+			.mback {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				padding: 5px 11px;
+				border-radius: var(--rs);
+				border: 1px solid var(--border);
+				background: transparent;
+				color: var(--text-muted);
+				font-family: var(--fb);
+				font-size: 12px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.18s;
+			}
+			.mback:hover {
+				border-color: var(--cyan);
+				color: var(--cyan);
+			}
+			.mtitle {
+				font-size: 13px;
+				font-weight: 600;
+				color: var(--text);
+			}
+			.mplayer iframe {
+				flex: 1;
+				border: none;
+				width: 100%;
+				min-height: 460px;
+			}
 
-    /* ── BROWSE ── */
-    .browse-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:40px 20px}
-    .browse-ico{font-size:52px}
-    .browse-tip{display:flex;align-items:center;gap:9px;padding:11px 18px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);font-size:12px;color:var(--text-muted);max-width:380px}
-    .browse-tip kbd{background:var(--space-3);border:1px solid var(--border-md);border-radius:5px;padding:1px 7px;font-family:var(--fb);font-size:11px;color:var(--cyan)}
+			/* ── BROWSE ── */
+			.browse-hero {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 14px;
+				text-align: center;
+				padding: 40px 20px;
+			}
+			.browse-ico {
+				font-size: 52px;
+			}
+			.browse-tip {
+				display: flex;
+				align-items: center;
+				gap: 9px;
+				padding: 11px 18px;
+				background: var(--glass);
+				border: 1px solid var(--border);
+				border-radius: var(--r);
+				font-size: 12px;
+				color: var(--text-muted);
+				max-width: 380px;
+			}
+			.browse-tip kbd {
+				background: var(--space-3);
+				border: 1px solid var(--border-md);
+				border-radius: 5px;
+				padding: 1px 7px;
+				font-family: var(--fb);
+				font-size: 11px;
+				color: var(--cyan);
+			}
 
-    /* ── OVERLAY ── */
-    #game-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;flex-direction:column}
-    #game-overlay.on{display:flex}
-    .ov-bar{display:flex;align-items:center;gap:11px;padding:9px 14px;background:rgba(2,6,18,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);flex-shrink:0}
-    .ov-back{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--glass-lt);border:1px solid var(--border);border-radius:var(--rs);color:var(--text-muted);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
-    .ov-back:hover{border-color:var(--cyan);color:var(--cyan)}
-    .ov-name{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--text-hi);flex:1}
-    .ov-fs{width:32px;height:32px;border-radius:var(--rs);border:1px solid var(--border);background:var(--glass-lt);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s}
-    .ov-fs:hover{border-color:var(--border-md);color:var(--text)}
-    #game-iframe{flex:1;border:none;width:100%}
+			/* ── OVERLAY ── */
+			#game-overlay {
+				position: fixed;
+				inset: 0;
+				background: #000;
+				z-index: 9999;
+				display: none;
+				flex-direction: column;
+			}
+			#game-overlay.on {
+				display: flex;
+			}
+			.ov-bar {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+				padding: 9px 14px;
+				background: rgba(2, 6, 18, 0.96);
+				border-bottom: 1px solid var(--border);
+				backdrop-filter: blur(20px);
+				flex-shrink: 0;
+			}
+			.ov-back {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				padding: 6px 12px;
+				background: var(--glass-lt);
+				border: 1px solid var(--border);
+				border-radius: var(--rs);
+				color: var(--text-muted);
+				font-family: var(--fb);
+				font-size: 12px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.18s;
+			}
+			.ov-back:hover {
+				border-color: var(--cyan);
+				color: var(--cyan);
+			}
+			.ov-name {
+				font-family: var(--fd);
+				font-size: 14px;
+				font-weight: 700;
+				color: var(--text-hi);
+				flex: 1;
+			}
+			.ov-fs {
+				width: 32px;
+				height: 32px;
+				border-radius: var(--rs);
+				border: 1px solid var(--border);
+				background: var(--glass-lt);
+				color: var(--text-muted);
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.18s;
+			}
+			.ov-fs:hover {
+				border-color: var(--border-md);
+				color: var(--text);
+			}
+			#game-iframe {
+				flex: 1;
+				border: none;
+				width: 100%;
+			}
 
-    /* ── VAULT MODAL ── */
-    #vault-modal{background:var(--glass-2);backdrop-filter:blur(28px) saturate(160%);border:1px solid var(--border-md);border-radius:var(--rl);color:var(--text);width:460px;max-width:95vw;padding:28px;margin:auto}
-    #vault-modal::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(6px)}
+			/* ── VAULT MODAL ── */
+			#vault-modal {
+				background: var(--glass-2);
+				backdrop-filter: blur(28px) saturate(160%);
+				border: 1px solid var(--border-md);
+				border-radius: var(--rl);
+				color: var(--text);
+				width: 460px;
+				max-width: 95vw;
+				padding: 28px;
+				margin: auto;
+			}
+			#vault-modal::backdrop {
+				background: rgba(0, 0, 0, 0.76);
+				backdrop-filter: blur(6px);
+			}
 
-    @media(max-width:600px){
-      #topbar{padding:7px 11px;gap:9px}
-      #content{padding:13px 11px 84px}
-      .game-grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px}
-      .tb-badge,.cloak-sel{display:none}
-      .feat-card{flex:0 0 234px;height:136px}
-    }
-  </style>
-</head>
-<body>
+			@media (max-width: 600px) {
+				#topbar {
+					padding: 7px 11px;
+					gap: 9px;
+				}
+				#content {
+					padding: 13px 11px 84px;
+				}
+				.game-grid {
+					grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+					gap: 9px;
+				}
+				.tb-badge,
+				.cloak-sel {
+					display: none;
+				}
+				.feat-card {
+					flex: 0 0 234px;
+					height: 136px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- AURORA -->
+		<div id="aurora">
+			<div class="aorb aorb-1"></div>
+			<div class="aorb aorb-2"></div>
+			<div class="aorb aorb-3"></div>
+			<div class="aorb aorb-4"></div>
+		</div>
 
-<!-- AURORA -->
-<div id="aurora">
-  <div class="aorb aorb-1"></div>
-  <div class="aorb aorb-2"></div>
-  <div class="aorb aorb-3"></div>
-  <div class="aorb aorb-4"></div>
-</div>
+		<!-- SPLASH -->
+		<div id="splash">
+			<div class="spl">
+				<div class="spl-eye">Stratospheric Proxy Network</div>
+				<div class="spl-logo">STRATO</div>
+				<div class="spl-alt">
+					<div class="spl-bar"></div>
+					<span>ALT 99,999 FT</span>
+					<div class="spl-bar"></div>
+				</div>
+				<div class="spl-tag">Above every filter. Beyond every block.</div>
+				<button class="spl-btn splash-enter" id="splash-enter">
+					Enter Dashboard
+					<svg
+						width="13"
+						height="13"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<line x1="7" y1="17" x2="17" y2="7" />
+						<polyline points="7 7 17 7 17 17" />
+					</svg>
+				</button>
+			</div>
+		</div>
 
-<!-- SPLASH -->
-<div id="splash">
-  <div class="spl">
-    <div class="spl-eye">Stratospheric Proxy Network</div>
-    <div class="spl-logo">STRATO</div>
-    <div class="spl-alt">
-      <div class="spl-bar"></div>
-      <span>ALT 99,999 FT</span>
-      <div class="spl-bar"></div>
-    </div>
-    <div class="spl-tag">Above every filter. Beyond every block.</div>
-    <button class="spl-btn splash-enter" id="splash-enter">
-      Enter Dashboard
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-    </button>
-  </div>
-</div>
+		<!-- APP -->
+		<div id="app">
+			<!-- TOPBAR -->
+			<header id="topbar">
+				<div class="tb-logo">
+					<span class="tb-brand">STRATO</span>
+					<span class="tb-badge">ARCADE</span>
+				</div>
+				<div class="srch">
+					<div class="srch-ico">
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<circle cx="11" cy="11" r="8" />
+							<line x1="21" y1="21" x2="16.65" y2="16.65" />
+						</svg>
+					</div>
+					<input
+						type="text"
+						id="pInp"
+						placeholder="Search games or enter any URL…"
+						autocomplete="off"
+						spellcheck="false"
+					/>
+					<kbd class="srch-kbd">↵ go</kbd>
+				</div>
+				<div class="tb-acts">
+					<select id="proxyEngine" class="cloak-sel">
+						<option value="scramjet">Engine: Scramjet</option>
+						<option value="uv">Engine: Ultraviolet</option>
+					</select>
+					<select
+						id="privacyPreset"
+						class="cloak-sel"
+						onchange="applyPrivacyPreset()"
+					>
+						<option value="default">🔒 Cloak</option>
+						<option value="drive">📁 Drive</option>
+						<option value="classroom">📚 Class</option>
+					</select>
+					<button class="panic-btn" onclick="panic()">
+						<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+							<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+						</svg>
+						Panic
+					</button>
+				</div>
+			</header>
 
-<!-- APP -->
-<div id="app">
+			<!-- MAIN -->
+			<main id="content">
+				<!-- GAMES VIEW -->
+				<div id="view-grid" class="view active">
+					<div class="cat-bar" id="cat-bar"></div>
+					<section class="feat-sec">
+						<div class="sec-hdr">
+							<span class="sec-title">🔥 Featured</span>
+						</div>
+						<div class="feat-strip" id="feat-strip"></div>
+					</section>
+					<section>
+						<div class="sec-hdr">
+							<span class="sec-title">All Games</span>
+							<span class="sec-cnt" id="gcnt">0</span>
+						</div>
+						<div class="game-grid" id="grid"></div>
+					</section>
+				</div>
 
-  <!-- TOPBAR -->
-  <header id="topbar">
-    <div class="tb-logo">
-      <span class="tb-brand">STRATO</span>
-      <span class="tb-badge">ARCADE</span>
-    </div>
-    <div class="srch">
-      <div class="srch-ico">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </div>
-      <input type="text" id="pInp" placeholder="Search games or enter any URL…" autocomplete="off" spellcheck="false">
-      <kbd class="srch-kbd">↵ go</kbd>
-    </div>
-    <div class="tb-acts">
-      <select id="proxyEngine" class="cloak-sel">
-        <option value="scramjet">Engine: Scramjet</option>
-        <option value="uv">Engine: Ultraviolet</option>
-      </select>
-      <select id="privacyPreset" class="cloak-sel" onchange="applyPrivacyPreset()">
-        <option value="default">🔒 Cloak</option>
-        <option value="drive">📁 Drive</option>
-        <option value="classroom">📚 Class</option>
-      </select>
-      <button class="panic-btn" onclick="panic()">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Panic
-      </button>
-    </div>
-  </header>
+				<!-- WATCH VIEW -->
+				<div id="view-watch" class="view">
+					<div id="watch-choice" class="launch-ctr">
+						<h2 class="v-title">Watch</h2>
+						<p class="v-sub">Stream movies &amp; TV — proxied and unblocked.</p>
+						<div class="launch-grid">
+							<div
+								class="lcard"
+								onclick="launchWatch('https://www.cineby.sc/', 'Cineby')"
+							>
+								<div
+									class="lcard-ico"
+									style="background: rgba(255, 77, 166, 0.1)"
+								>
+									🎬
+								</div>
+								<div class="lcard-name">Cineby</div>
+								<div class="lcard-desc">
+									Movies &amp; TV on demand, minimal ads
+								</div>
+							</div>
+							<div
+								class="lcard"
+								onclick="launchWatch('https://www.lookmovie2.to/', 'LookMovie')"
+							>
+								<div
+									class="lcard-ico"
+									style="background: rgba(0, 212, 255, 0.09)"
+								>
+									🎞
+								</div>
+								<div class="lcard-name">LookMovie</div>
+								<div class="lcard-desc">
+									HD films &amp; series, no account needed
+								</div>
+							</div>
+							<div
+								class="lcard"
+								onclick="launchWatch('https://youtube.com/', 'YouTube')"
+							>
+								<div
+									class="lcard-ico"
+									style="background: rgba(255, 80, 80, 0.1)"
+								>
+									▶️
+								</div>
+								<div class="lcard-name">YouTube</div>
+								<div class="lcard-desc">
+									Videos, music &amp; live streams via proxy
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="watch-player" class="mplayer">
+						<div class="mbar">
+							<button class="mback" onclick="backToWatchChoice()">
+								<svg
+									width="11"
+									height="11"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+								>
+									<polyline points="15 18 9 12 15 6" />
+								</svg>
+								Back
+							</button>
+							<span class="mtitle" id="watch-ttl">Loading…</span>
+						</div>
+						<iframe
+							id="watch-iframe"
+							allowfullscreen
+							sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+						></iframe>
+					</div>
+				</div>
 
-  <!-- MAIN -->
-  <main id="content">
+				<!-- LISTEN VIEW -->
+				<div id="view-listen" class="view">
+					<div id="listen-choice" class="launch-ctr">
+						<h2 class="v-title">Listen</h2>
+						<p class="v-sub">Music streaming — unblocked and unfiltered.</p>
+						<div class="launch-grid">
+							<div class="lcard" onclick="launchListen('mono')">
+								<div
+									class="lcard-ico"
+									style="background: rgba(124, 58, 237, 0.13)"
+								>
+									🎧
+								</div>
+								<div class="lcard-name">Monochrome</div>
+								<div class="lcard-desc">
+									AI-curated electronic &amp; ambient streams
+								</div>
+							</div>
+							<div class="lcard" onclick="launchListen('spotify')">
+								<div
+									class="lcard-ico"
+									style="background: rgba(30, 215, 96, 0.1)"
+								>
+									🎵
+								</div>
+								<div class="lcard-name">Spotify</div>
+								<div class="lcard-desc">Full Spotify Web Player via proxy</div>
+							</div>
+						</div>
+					</div>
+					<div id="listen-player" class="mplayer">
+						<div class="mbar">
+							<button class="mback" onclick="backToListenChoice()">
+								<svg
+									width="11"
+									height="11"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+								>
+									<polyline points="15 18 9 12 15 6" />
+								</svg>
+								Back
+							</button>
+							<span class="mtitle" id="listen-ttl">Loading…</span>
+						</div>
+						<iframe id="listen-iframe"></iframe>
+					</div>
+				</div>
 
-    <!-- GAMES VIEW -->
-    <div id="view-grid" class="view active">
-      <div class="cat-bar" id="cat-bar"></div>
-      <section class="feat-sec">
-        <div class="sec-hdr"><span class="sec-title">🔥 Featured</span></div>
-        <div class="feat-strip" id="feat-strip"></div>
-      </section>
-      <section>
-        <div class="sec-hdr">
-          <span class="sec-title">All Games</span>
-          <span class="sec-cnt" id="gcnt">0</span>
-        </div>
-        <div class="game-grid" id="grid"></div>
-      </section>
-    </div>
+				<!-- BROWSE VIEW -->
+				<div id="view-browse" class="view">
+					<div class="browse-hero">
+						<div class="browse-ico">🌐</div>
+						<h2 class="v-title">Browse Freely</h2>
+						<p class="v-sub" style="max-width: 360px; text-align: center">
+							Type any URL in the search bar above to navigate through the
+							Scramjet proxy.
+						</p>
+						<div class="browse-tip">
+							<svg
+								width="13"
+								height="13"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+							>
+								<circle cx="12" cy="12" r="10" />
+								<line x1="12" y1="8" x2="12" y2="12" />
+								<line x1="12" y1="16" x2="12.01" y2="16" />
+							</svg>
+							Press <kbd>↵ Enter</kbd> in the search bar to proxy any URL
+						</div>
+					</div>
+				</div>
+			</main>
 
-    <!-- WATCH VIEW -->
-    <div id="view-watch" class="view">
-      <div id="watch-choice" class="launch-ctr">
-        <h2 class="v-title">Watch</h2>
-        <p class="v-sub">Stream movies &amp; TV — proxied and unblocked.</p>
-        <div class="launch-grid">
-          <div class="lcard" onclick="launchWatch('https://www.cineby.sc/','Cineby')">
-            <div class="lcard-ico" style="background:rgba(255,77,166,.1)">🎬</div>
-            <div class="lcard-name">Cineby</div>
-            <div class="lcard-desc">Movies &amp; TV on demand, minimal ads</div>
-          </div>
-          <div class="lcard" onclick="launchWatch('https://www.lookmovie2.to/','LookMovie')">
-            <div class="lcard-ico" style="background:rgba(0,212,255,.09)">🎞</div>
-            <div class="lcard-name">LookMovie</div>
-            <div class="lcard-desc">HD films &amp; series, no account needed</div>
-          </div>
-          <div class="lcard" onclick="launchWatch('https://youtube.com/','YouTube')">
-            <div class="lcard-ico" style="background:rgba(255,80,80,.1)">▶️</div>
-            <div class="lcard-name">YouTube</div>
-            <div class="lcard-desc">Videos, music &amp; live streams via proxy</div>
-          </div>
-        </div>
-      </div>
-      <div id="watch-player" class="mplayer">
-        <div class="mbar">
-          <button class="mback" onclick="backToWatchChoice()">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-            Back
-          </button>
-          <span class="mtitle" id="watch-ttl">Loading…</span>
-        </div>
-        <iframe id="watch-iframe" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe>
-      </div>
-    </div>
+			<!-- DOCK -->
+			<nav id="dock">
+				<div
+					class="di on"
+					data-view="grid"
+					onclick="switchView('grid')"
+					title="Games"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.7"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<rect x="2" y="6" width="20" height="14" rx="4" />
+						<path d="M2 10h20" />
+						<path d="M8 14h1m1-1v2" />
+						<circle cx="16" cy="14" r=".6" fill="currentColor" />
+						<circle cx="18" cy="13" r=".6" fill="currentColor" />
+					</svg>
+					<span class="di-lbl">Games</span>
+				</div>
+				<div
+					class="di"
+					data-view="watch"
+					onclick="switchView('watch')"
+					title="Watch"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.7"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<rect x="2" y="3" width="20" height="14" rx="2" />
+						<path d="M8 21h8M12 17v4" />
+						<polygon points="10 8 16 11 10 14 10 8" />
+					</svg>
+					<span class="di-lbl">Watch</span>
+				</div>
+				<div
+					class="di"
+					data-view="listen"
+					onclick="switchView('listen')"
+					title="Listen"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.7"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+						<path
+							d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
+						/>
+					</svg>
+					<span class="di-lbl">Listen</span>
+				</div>
+				<div class="dock-sep"></div>
+				<div
+					class="di"
+					data-view="browse"
+					onclick="switchView('browse')"
+					title="Browse"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.7"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="10" />
+						<path
+							d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+						/>
+					</svg>
+					<span class="di-lbl">Browse</span>
+				</div>
+			</nav>
+		</div>
 
-    <!-- LISTEN VIEW -->
-    <div id="view-listen" class="view">
-      <div id="listen-choice" class="launch-ctr">
-        <h2 class="v-title">Listen</h2>
-        <p class="v-sub">Music streaming — unblocked and unfiltered.</p>
-        <div class="launch-grid">
-          <div class="lcard" onclick="launchListen('mono')">
-            <div class="lcard-ico" style="background:rgba(124,58,237,.13)">🎧</div>
-            <div class="lcard-name">Monochrome</div>
-            <div class="lcard-desc">AI-curated electronic &amp; ambient streams</div>
-          </div>
-          <div class="lcard" onclick="launchListen('spotify')">
-            <div class="lcard-ico" style="background:rgba(30,215,96,.1)">🎵</div>
-            <div class="lcard-name">Spotify</div>
-            <div class="lcard-desc">Full Spotify Web Player via proxy</div>
-          </div>
-        </div>
-      </div>
-      <div id="listen-player" class="mplayer">
-        <div class="mbar">
-          <button class="mback" onclick="backToListenChoice()">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-            Back
-          </button>
-          <span class="mtitle" id="listen-ttl">Loading…</span>
-        </div>
-        <iframe id="listen-iframe"></iframe>
-      </div>
-    </div>
+		<!-- VAULT MODAL -->
+		<dialog id="vault-modal"></dialog>
 
-    <!-- BROWSE VIEW -->
-    <div id="view-browse" class="view">
-      <div class="browse-hero">
-        <div class="browse-ico">🌐</div>
-        <h2 class="v-title">Browse Freely</h2>
-        <p class="v-sub" style="max-width:360px;text-align:center">Type any URL in the search bar above to navigate through the Scramjet proxy.</p>
-        <div class="browse-tip">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Press <kbd>↵ Enter</kbd> in the search bar to proxy any URL
-        </div>
-      </div>
-    </div>
+		<!-- GAME OVERLAY -->
+		<div id="game-overlay">
+			<div class="ov-bar">
+				<button class="ov-back" onclick="closeGameOverlay()">
+					<svg
+						width="11"
+						height="11"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+					>
+						<polyline points="15 18 9 12 15 6" />
+					</svg>
+					Back
+				</button>
+				<span class="ov-name" id="ov-game-title">Loading…</span>
+				<button class="ov-fs" onclick="reqFS()" title="Fullscreen">
+					<svg
+						width="13"
+						height="13"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+					>
+						<polyline points="15 3 21 3 21 9" />
+						<polyline points="9 21 3 21 3 15" />
+						<line x1="21" y1="3" x2="14" y2="10" />
+						<line x1="3" y1="21" x2="10" y2="14" />
+					</svg>
+				</button>
+			</div>
+			<iframe
+				id="game-iframe"
+				allowfullscreen
+				allow="autoplay; fullscreen"
+			></iframe>
+		</div>
 
-  </main>
+		<script src="/index.js"></script>
+		<script src="/save-manager.js"></script>
+		<script src="/vault.js"></script>
+		<script>
+			/* PROXY */
+			function proxifyUrl(u) {
+				const engine = document.getElementById("proxyEngine")
+					? document.getElementById("proxyEngine").value
+					: "scramjet";
+				if (engine === "uv" && window.__uv$config) {
+					return window.__uv$config.prefix + window.__uv$config.encodeUrl(u);
+				}
+				if (typeof scramjetController !== "undefined" && scramjetController)
+					return scramjetController.encodeUrl(u);
+				return u;
+			}
 
-  <!-- DOCK -->
-  <nav id="dock">
-    <div class="di on" data-view="grid" onclick="switchView('grid')" title="Games">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="6" width="20" height="14" rx="4"/><path d="M2 10h20"/><path d="M8 14h1m1-1v2"/><circle cx="16" cy="14" r=".6" fill="currentColor"/><circle cx="18" cy="13" r=".6" fill="currentColor"/>
-      </svg>
-      <span class="di-lbl">Games</span>
-    </div>
-    <div class="di" data-view="watch" onclick="switchView('watch')" title="Watch">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><polygon points="10 8 16 11 10 14 10 8"/>
-      </svg>
-      <span class="di-lbl">Watch</span>
-    </div>
-    <div class="di" data-view="listen" onclick="switchView('listen')" title="Listen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
-      </svg>
-      <span class="di-lbl">Listen</span>
-    </div>
-    <div class="dock-sep"></div>
-    <div class="di" data-view="browse" onclick="switchView('browse')" title="Browse">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-      <span class="di-lbl">Browse</span>
-    </div>
-  </nav>
+			/* CLOAK */
+			const PRESETS = {
+				default: { title: "STRATO — Dashboard", fav: "" },
+				drive: {
+					title: "My Drive — Google Drive",
+					fav: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png",
+				},
+				classroom: {
+					title: "Stream — Google Classroom",
+					fav: "https://ssl.gstatic.com/classroom/favicon.png",
+				},
+			};
+			function applyPrivacyPreset() {
+				const v = document.getElementById("privacyPreset").value;
+				const p = PRESETS[v] || PRESETS.default;
+				document.title = p.title;
+				const f = document.getElementById("favicon");
+				if (f) f.href = p.fav;
+			}
 
-</div>
+			/* PANIC */
+			function panic() {
+				window.location.replace("https://classroom.google.com");
+			}
+			window.addEventListener("keydown", (e) => {
+				if (e.key === "Escape") closeGameOverlay();
+			});
 
-<!-- VAULT MODAL -->
-<dialog id="vault-modal"></dialog>
+			/* SPLASH */
+			document.getElementById("splash-enter").addEventListener("click", () => {
+				if (window.top !== window.self) {
+					// We are already inside an iframe, just dismiss the splash screen
+					document.getElementById("splash").classList.add("out");
+					setTimeout(() => {
+						document.getElementById("splash").style.display = "none";
+						document.getElementById("app").classList.add("on");
+					}, 900);
+				} else {
+					// Not in an iframe, do the cloaking
+					const blank = window.open("about:blank", "_blank");
+					if (blank) {
+						blank.document.body.style.margin = "0";
+						blank.document.body.style.padding = "0";
+						blank.document.body.style.overflow = "hidden";
+						blank.document.body.style.background = "#02040a";
 
-<!-- GAME OVERLAY -->
-<div id="game-overlay">
-  <div class="ov-bar">
-    <button class="ov-back" onclick="closeGameOverlay()">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Back
-    </button>
-    <span class="ov-name" id="ov-game-title">Loading…</span>
-    <button class="ov-fs" onclick="reqFS()" title="Fullscreen">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-    </button>
-  </div>
-  <iframe id="game-iframe" allowfullscreen allow="autoplay;fullscreen"></iframe>
-</div>
+						const iframe = blank.document.createElement("iframe");
+						iframe.style.width = "100%";
+						iframe.style.height = "100%";
+						iframe.style.border = "none";
+						iframe.src = window.location.href;
+						blank.document.body.appendChild(iframe);
 
-<script src="/index.js"></script>
-<script src="/save-manager.js"></script>
-<script src="/vault.js"></script>
-<script>
-/* PROXY */
-function proxifyUrl(u){
-  const engine = document.getElementById('proxyEngine') ? document.getElementById('proxyEngine').value : 'scramjet';
-  if (engine === 'uv' && window.__uv$config) {
-    return window.__uv$config.prefix + window.__uv$config.encodeUrl(u);
-  }
-  if(typeof scramjetController!=='undefined'&&scramjetController) return scramjetController.encodeUrl(u);
-  return u;
-}
+						blank.addEventListener("beforeunload", (e) => {
+							e.preventDefault();
+							e.returnValue = "";
+						});
 
-/* CLOAK */
-const PRESETS={
-  default:{title:'STRATO — Dashboard',fav:''},
-  drive:{title:'My Drive — Google Drive',fav:'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png'},
-  classroom:{title:'Stream — Google Classroom',fav:'https://ssl.gstatic.com/classroom/favicon.png'},
-};
-function applyPrivacyPreset(){
-  const v=document.getElementById('privacyPreset').value;
-  const p=PRESETS[v]||PRESETS.default;
-  document.title=p.title;
-  const f=document.getElementById('favicon');
-  if(f) f.href=p.fav;
-}
+						window.location.replace("https://classroom.google.com");
+					} else {
+						// Fallback if popup blocker prevented the new tab
+						document.getElementById("splash").classList.add("out");
+						setTimeout(() => {
+							document.getElementById("splash").style.display = "none";
+							document.getElementById("app").classList.add("on");
+						}, 900);
+					}
+				}
+			});
 
-/* PANIC */
-function panic(){window.location.replace('https://classroom.google.com')}
-window.addEventListener('keydown',e=>{if(e.key==='Escape') closeGameOverlay()});
+			/* SEARCH */
+			const pInp = document.getElementById("pInp");
+			if (pInp) {
+				pInp.addEventListener("input", (e) => {
+					const q = e.target.value.toLowerCase().trim();
+					if (
+						!document.getElementById("view-grid").classList.contains("active")
+					)
+						switchView("grid");
+					filterGames(q);
+				});
+				pInp.addEventListener("keydown", (e) => {
+					if (e.key !== "Enter") return;
+					e.preventDefault();
+					const v = pInp.value.trim();
+					if (!v) return;
+					if (v.includes(".") && !v.includes(" ")) {
+						let t = v;
+						if (!/^https?:\/\//i.test(t)) t = "https://" + t;
+						window.location.href = proxifyUrl(t);
+					} else {
+						window.location.href = proxifyUrl(
+							"https://www.google.com/search?q=" + encodeURIComponent(v)
+						);
+					}
+				});
+			}
 
-/* SPLASH */
-document.getElementById('splash-enter').addEventListener('click',()=>{
-  if (window.top !== window.self) {
-    // We are already inside an iframe, just dismiss the splash screen
-    document.getElementById('splash').classList.add('out');
-    setTimeout(()=>{
-      document.getElementById('splash').style.display='none';
-      document.getElementById('app').classList.add('on');
-    },900);
-  } else {
-    // Not in an iframe, do the cloaking
-    const blank = window.open('about:blank', '_blank');
-    if (blank) {
-      blank.document.body.style.margin = '0';
-      blank.document.body.style.padding = '0';
-      blank.document.body.style.overflow = 'hidden';
-      blank.document.body.style.background = '#02040a';
+			/* GAMES */
+			let GAMES = [];
+			const TC = {
+				action: "tp",
+				racing: "to",
+				shooter: "tp",
+				puzzle: "tv",
+				sports: "tc",
+				multiplayer: "tc",
+				casual: "tg",
+				strategy: "tv",
+				platformer: "tc",
+				rhythm: "tv",
+				sandbox: "tg",
+				idle: "tg",
+				arcade: "to",
+				classic: "to",
+				cooking: "tp",
+				simulation: "tv",
+				adventure: "tg",
+			};
+			function tc(tag) {
+				return TC[(tag || "").toLowerCase()] || "tc";
+			}
+			let cardEls = [];
+			let activeCat = "all";
 
-      const iframe = blank.document.createElement('iframe');
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      iframe.style.border = 'none';
-      iframe.src = window.location.href;
-      blank.document.body.appendChild(iframe);
+			async function loadGames() {
+				try {
+					const localRes = await fetch("/config/games.json");
+					const localGames = await localRes.json();
+					GAMES.push(...localGames);
+				} catch (e) {
+					console.error("Failed to load local games", e);
+				}
 
-      blank.addEventListener('beforeunload', (e) => {
-        e.preventDefault();
-        e.returnValue = '';
-      });
+				try {
+					const cdnRes = await fetch(
+						"https://cdn.jsdelivr.net/gh/3kh0/3kh0-assets@main/games.json"
+					);
+					const cdnData = await cdnRes.json();
+					const cdnGames = cdnData.map((g) => ({
+						n: g.title,
+						img: g.image || g.e || "",
+						u: g.url,
+						t: g.tags ? g.tags[0] : "3kh0",
+					}));
+					GAMES.push(...cdnGames);
+				} catch (e) {
+					console.error("Failed to load CDN games", e);
+				}
 
-      window.location.replace('https://classroom.google.com');
-    } else {
-      // Fallback if popup blocker prevented the new tab
-      document.getElementById('splash').classList.add('out');
-      setTimeout(()=>{
-        document.getElementById('splash').style.display='none';
-        document.getElementById('app').classList.add('on');
-      },900);
-    }
-  }
-});
+				const countB = document.getElementById("gcnt");
+				if (countB) countB.textContent = GAMES.length;
 
-/* SEARCH */
-const pInp=document.getElementById('pInp');
-if(pInp){
-  pInp.addEventListener('input',e=>{
-    const q=e.target.value.toLowerCase().trim();
-    if(!document.getElementById('view-grid').classList.contains('active')) switchView('grid');
-    filterGames(q);
-  });
-  pInp.addEventListener('keydown',e=>{
-    if(e.key!=='Enter') return;
-    e.preventDefault();
-    const v=pInp.value.trim();
-    if(!v) return;
-    if(v.includes('.')&&!v.includes(' ')){
-      let t=v;
-      if(!/^https?:\/\//i.test(t)) t='https://'+t;
-      window.location.href=proxifyUrl(t);
-    } else {
-      window.location.href=proxifyUrl('https://www.google.com/search?q='+encodeURIComponent(v));
-    }
-  });
-}
+				buildCats();
+				buildFeatured();
+				buildGrid();
+			}
 
-/* GAMES */
-let GAMES=[];
-const TC={action:'tp',racing:'to',shooter:'tp',puzzle:'tv',sports:'tc',multiplayer:'tc',casual:'tg',strategy:'tv',platformer:'tc',rhythm:'tv',sandbox:'tg',idle:'tg',arcade:'to',classic:'to',cooking:'tp',simulation:'tv',adventure:'tg'};
-function tc(tag){return TC[(tag||'').toLowerCase()]||'tc'}
-let cardEls=[];
-let activeCat='all';
-
-async function loadGames() {
-  try {
-    const localRes = await fetch('/config/games.json');
-    const localGames = await localRes.json();
-    GAMES.push(...localGames);
-  } catch(e) {
-    console.error("Failed to load local games", e);
-  }
-
-  try {
-    const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/3kh0/3kh0-assets@main/games.json');
-    const cdnData = await cdnRes.json();
-    const cdnGames = cdnData.map(g => ({
-      n: g.title,
-      img: g.image || g.e || '',
-      u: g.url,
-      t: g.tags ? g.tags[0] : '3kh0'
-    }));
-    GAMES.push(...cdnGames);
-  } catch(e) {
-    console.error("Failed to load CDN games", e);
-  }
-
-  const countB = document.getElementById('gcnt');
-  if (countB) countB.textContent = GAMES.length;
-
-  buildCats();
-  buildFeatured();
-  buildGrid();
-}
-
-function buildFeatured(){
-  const s=document.getElementById('feat-strip');
-  if(!s||!GAMES.length) return;
-  GAMES.slice(0,6).forEach((g,i)=>{
-    const c=document.createElement('div');
-    c.className='feat-card';
-    const bdg=i<3?'<span class="badge-hot">HOT</span>':'<span class="badge-new">NEW</span>';
-    c.innerHTML=`<img src="${g.img}" loading="lazy" onerror="this.style.opacity='0'" alt="${g.n}">
+			function buildFeatured() {
+				const s = document.getElementById("feat-strip");
+				if (!s || !GAMES.length) return;
+				GAMES.slice(0, 6).forEach((g, i) => {
+					const c = document.createElement("div");
+					c.className = "feat-card";
+					const bdg =
+						i < 3
+							? '<span class="badge-hot">HOT</span>'
+							: '<span class="badge-new">NEW</span>';
+					c.innerHTML = `<img src="${g.img}" loading="lazy" onerror="this.style.opacity='0'" alt="${g.n}">
       <div class="feat-ov"></div>
       <div class="feat-body">
         <div class="feat-name">${g.n}</div>
@@ -571,60 +1735,79 @@ function buildFeatured(){
         </div>
       </div>
       <div class="feat-play"><svg width="13" height="13" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>`;
-    c.addEventListener('click',()=>openGame(g.u,g.n));
-    s.appendChild(c);
-  });
-}
+					c.addEventListener("click", () => openGame(g.u, g.n));
+					s.appendChild(c);
+				});
+			}
 
-function buildCats(){
-  const bar=document.getElementById('cat-bar');
-  if(!bar) return;
-  const counts={};
-  GAMES.forEach(g=>{const t=(g.t||'').trim();counts[t]=(counts[t]||0)+1});
-  const allB=document.createElement('button');
-  allB.className='cat-btn on';allB.dataset.cat='all';
-  allB.innerHTML=`All <span class="cat-n">${GAMES.length}</span>`;
-  allB.addEventListener('click',()=>setCat('all'));
-  bar.appendChild(allB);
-  Object.keys(counts).sort((a,b)=>counts[b]-counts[a]).forEach(cat=>{
-    const b=document.createElement('button');
-    b.className='cat-btn';b.dataset.cat=cat;
-    b.innerHTML=`${cat} <span class="cat-n">${counts[cat]}</span>`;
-    b.addEventListener('click',()=>setCat(cat));
-    bar.appendChild(b);
-  });
-}
+			function buildCats() {
+				const bar = document.getElementById("cat-bar");
+				if (!bar) return;
+				const counts = {};
+				GAMES.forEach((g) => {
+					const t = (g.t || "").trim();
+					counts[t] = (counts[t] || 0) + 1;
+				});
+				const allB = document.createElement("button");
+				allB.className = "cat-btn on";
+				allB.dataset.cat = "all";
+				allB.innerHTML = `All <span class="cat-n">${GAMES.length}</span>`;
+				allB.addEventListener("click", () => setCat("all"));
+				bar.appendChild(allB);
+				Object.keys(counts)
+					.sort((a, b) => counts[b] - counts[a])
+					.forEach((cat) => {
+						const b = document.createElement("button");
+						b.className = "cat-btn";
+						b.dataset.cat = cat;
+						b.innerHTML = `${cat} <span class="cat-n">${counts[cat]}</span>`;
+						b.addEventListener("click", () => setCat(cat));
+						bar.appendChild(b);
+					});
+			}
 
-function setCat(cat){
-  activeCat=cat;
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));
-  filterGames(pInp?pInp.value.toLowerCase().trim():'');
-}
+			function setCat(cat) {
+				activeCat = cat;
+				document
+					.querySelectorAll(".cat-btn")
+					.forEach((b) => b.classList.toggle("on", b.dataset.cat === cat));
+				filterGames(pInp ? pInp.value.toLowerCase().trim() : "");
+			}
 
-function filterGames(q){
-  let vis=0;
-  cardEls.forEach(c=>{
-    const mq=!q||c.n.toLowerCase().includes(q)||c.t.toLowerCase().includes(q);
-    const mc=activeCat==='all'||c.t.toLowerCase()===activeCat.toLowerCase();
-    const show=mq&&mc;
-    c.el.style.display=show?'':'none';
-    if(show) vis++;
-  });
-  const b=document.getElementById('gcnt');
-  if(b) b.textContent=vis;
-}
+			function filterGames(q) {
+				let vis = 0;
+				cardEls.forEach((c) => {
+					const mq =
+						!q ||
+						c.n.toLowerCase().includes(q) ||
+						c.t.toLowerCase().includes(q);
+					const mc =
+						activeCat === "all" ||
+						c.t.toLowerCase() === activeCat.toLowerCase();
+					const show = mq && mc;
+					c.el.style.display = show ? "" : "none";
+					if (show) vis++;
+				});
+				const b = document.getElementById("gcnt");
+				if (b) b.textContent = vis;
+			}
 
-function buildGrid(){
-  const grid=document.getElementById('grid');
-  if(!grid||!GAMES.length) return;
-  const b=document.getElementById('gcnt');
-  if(b) b.textContent=GAMES.length;
-  const frag=document.createDocumentFragment();
-  GAMES.forEach((g,i)=>{
-    const c=document.createElement('div');
-    c.className='game-card';
-    const bdg=i<5?'<span class="gc-badge badge-hot">HOT</span>':i<10?'<span class="gc-badge badge-new">NEW</span>':'';
-    c.innerHTML=`<div class="gc-img">
+			function buildGrid() {
+				const grid = document.getElementById("grid");
+				if (!grid || !GAMES.length) return;
+				const b = document.getElementById("gcnt");
+				if (b) b.textContent = GAMES.length;
+				const frag = document.createDocumentFragment();
+				GAMES.forEach((g, i) => {
+					const c = document.createElement("div");
+					c.className = "game-card";
+					const bdg =
+						i < 5
+							? '<span class="gc-badge badge-hot">HOT</span>'
+							: i < 10
+								? '<span class="gc-badge badge-new">NEW</span>'
+								: "";
+					c.innerHTML = `<div class="gc-img">
       <img src="${g.img}" loading="lazy" onerror="this.style.opacity='0'" alt="${g.n}">
       <div class="gc-ov"><div class="gc-play"><svg width="15" height="15" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
     </div>
@@ -632,75 +1815,85 @@ function buildGrid(){
       <div class="gc-name">${g.n}</div>
       <div class="gc-foot"><span class="gc-tag">${g.t}</span>${bdg}</div>
     </div>`;
-    c.addEventListener('click',()=>openGame(g.u,g.n));
-    cardEls.push({n:g.n,t:g.t,el:c});
-    frag.appendChild(c);
-  });
-  grid.appendChild(frag);
-}
+					c.addEventListener("click", () => openGame(g.u, g.n));
+					cardEls.push({ n: g.n, t: g.t, el: c });
+					frag.appendChild(c);
+				});
+				grid.appendChild(frag);
+			}
 
-loadGames();
+			loadGames();
 
-/* GAME OVERLAY */
-function openGame(url,name){
-  const ov=document.getElementById('game-overlay');
-  const ifr=document.getElementById('game-iframe');
-  document.getElementById('ov-game-title').textContent=name;
-  ifr.src=url.startsWith('/')?url:proxifyUrl(url);
-  ov.classList.add('on');ov.style.display='flex';
-}
-function closeGameOverlay(){
-  const ov=document.getElementById('game-overlay');
-  ov.classList.remove('on');ov.style.display='none';
-  document.getElementById('game-iframe').src='about:blank';
-}
-function reqFS(){
-  const ifr=document.getElementById('game-iframe');
-  (ifr.requestFullscreen||ifr.webkitRequestFullscreen||function(){}).call(ifr);
-}
+			/* GAME OVERLAY */
+			function openGame(url, name) {
+				const ov = document.getElementById("game-overlay");
+				const ifr = document.getElementById("game-iframe");
+				document.getElementById("ov-game-title").textContent = name;
+				ifr.src = url.startsWith("/") ? url : proxifyUrl(url);
+				ov.classList.add("on");
+				ov.style.display = "flex";
+			}
+			function closeGameOverlay() {
+				const ov = document.getElementById("game-overlay");
+				ov.classList.remove("on");
+				ov.style.display = "none";
+				document.getElementById("game-iframe").src = "about:blank";
+			}
+			function reqFS() {
+				const ifr = document.getElementById("game-iframe");
+				(
+					ifr.requestFullscreen ||
+					ifr.webkitRequestFullscreen ||
+					function () {}
+				).call(ifr);
+			}
 
-/* VIEW SWITCHING */
-function switchView(id){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+id).classList.add('active');
-  document.querySelectorAll('.di').forEach(d=>d.classList.toggle('on',d.dataset.view===id));
-}
+			/* VIEW SWITCHING */
+			function switchView(id) {
+				document
+					.querySelectorAll(".view")
+					.forEach((v) => v.classList.remove("active"));
+				document.getElementById("view-" + id).classList.add("active");
+				document
+					.querySelectorAll(".di")
+					.forEach((d) => d.classList.toggle("on", d.dataset.view === id));
+			}
 
-/* WATCH */
-function launchWatch(url,name){
-  document.getElementById('watch-choice').style.display='none';
-  const p=document.getElementById('watch-player');
-  p.classList.add('on');
-  document.getElementById('watch-ttl').textContent=name;
-  document.getElementById('watch-iframe').src=proxifyUrl(url);
-}
-function backToWatchChoice(){
-  document.getElementById('watch-player').classList.remove('on');
-  document.getElementById('watch-iframe').src='about:blank';
-  document.getElementById('watch-choice').style.display='';
-}
+			/* WATCH */
+			function launchWatch(url, name) {
+				document.getElementById("watch-choice").style.display = "none";
+				const p = document.getElementById("watch-player");
+				p.classList.add("on");
+				document.getElementById("watch-ttl").textContent = name;
+				document.getElementById("watch-iframe").src = proxifyUrl(url);
+			}
+			function backToWatchChoice() {
+				document.getElementById("watch-player").classList.remove("on");
+				document.getElementById("watch-iframe").src = "about:blank";
+				document.getElementById("watch-choice").style.display = "";
+			}
 
-/* LISTEN */
-function launchListen(mode){
-  document.getElementById('listen-choice').style.display='none';
-  const p=document.getElementById('listen-player');
-  p.classList.add('on');
-  const ifr=document.getElementById('listen-iframe');
-  if(mode==='mono'){
-    document.getElementById('listen-ttl').textContent='Monochrome';
-    ifr.src='https://monochrome.tf';
-    ifr.style.filter='grayscale(100%) contrast(1.1)';
-  } else {
-    document.getElementById('listen-ttl').textContent='Spotify';
-    ifr.src=proxifyUrl('https://open.spotify.com');
-    ifr.style.filter='';
-  }
-}
-function backToListenChoice(){
-  document.getElementById('listen-player').classList.remove('on');
-  document.getElementById('listen-iframe').src='about:blank';
-  document.getElementById('listen-choice').style.display='';
-}
-</script>
-</body>
+			/* LISTEN */
+			function launchListen(mode) {
+				document.getElementById("listen-choice").style.display = "none";
+				const p = document.getElementById("listen-player");
+				p.classList.add("on");
+				const ifr = document.getElementById("listen-iframe");
+				if (mode === "mono") {
+					document.getElementById("listen-ttl").textContent = "Monochrome";
+					ifr.src = "https://monochrome.tf";
+					ifr.style.filter = "grayscale(100%) contrast(1.1)";
+				} else {
+					document.getElementById("listen-ttl").textContent = "Spotify";
+					ifr.src = proxifyUrl("https://open.spotify.com");
+					ifr.style.filter = "";
+				}
+			}
+			function backToListenChoice() {
+				document.getElementById("listen-player").classList.remove("on");
+				document.getElementById("listen-iframe").src = "about:blank";
+				document.getElementById("listen-choice").style.display = "";
+			}
+		</script>
+	</body>
 </html>

@@ -4,16 +4,16 @@
  * @returns {string} HTML string
  */
 export function authPage(errorMsg) {
-    const safeMessage = errorMsg
-        ? errorMsg
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;")
-        : "";
+	const safeMessage = errorMsg
+		? errorMsg
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;")
+		: "";
 
-    return `
+	return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
