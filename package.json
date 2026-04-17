@@ -26,10 +26,14 @@
 	"license": "GPL-3.0-or-later",
 	"devDependencies": {
 		"eslint": "^9.39.2",
+		"globals": "^17.5.0",
 		"prettier": "^3.8.1"
 	},
 	"dependencies": {
+		"@mercuryworkshop/epoxy-tls": "^2.1.19-1",
 		"@mercuryworkshop/wisp-js": "^0.4.1",
+		"@titaniumnetwork-dev/ultraviolet": "^3.2.10",
+		"@tomphttp/bare-server-node": "^2.0.6",
 		"compression": "^1.8.1",
 		"cookie-parser": "^1.4.7",
 		"dotenv": "^17.2.1",
