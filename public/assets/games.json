@@ -1,0 +1,182 @@
+[
+    {
+        "n": "BitLife",
+        "u": "https://xlegends.github.io/bitlife/",
+        "t": "Simulation",
+        "img": null
+    },
+    {
+        "n": "Minecraft",
+        "u": "https://eaglercraft.com/mc/1.8.8/",
+        "t": "Action",
+        "img": "/assets/thumbnails/minecraft.webp"
+    },
+    {
+        "n": "Cookie Clicker",
+        "u": "https://orteil.dashnet.org/cookieclicker/",
+        "t": "Idle",
+        "img": "/assets/thumbnails/cookie_clicker.webp"
+    },
+    {
+        "n": "Subway Surfers",
+        "u": "https://subwaysurfers.com/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/subway_surfers.webp"
+    },
+    {
+        "n": "Paper.io 2",
+        "u": "https://paper-io.com/",
+        "t": "Arcade",
+        "img": null
+    },
+    {
+        "n": "Hole.io",
+        "u": "https://hole-io.com/",
+        "t": "Arcade",
+        "img": null
+    },
+    {
+        "n": "Snow Rider 3D",
+        "u": "https://snowrider3d.com/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/snow_rider_3d.webp"
+    },
+    {
+        "n": "Geometry Dash",
+        "u": "https://geometrydash.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/geometry_dash.webp"
+    },
+    {
+        "n": "Friday Night Funkin'",
+        "u": "https://ninja-muffin24.itch.io/funkin",
+        "t": "Rhythm",
+        "img": "/assets/thumbnails/friday_night_funkin_.webp"
+    },
+    {
+        "n": "Vex 7",
+        "u": "https://vex7.io/",
+        "t": "Action",
+        "img": null
+    },
+    {
+        "n": "Moto X3M",
+        "u": "https://motox3m.co/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/moto_x3m.webp"
+    },
+    {
+        "n": "Run 3",
+        "u": "https://run3.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/run_3.webp"
+    },
+    {
+        "n": "Monkey Mart",
+        "u": "https://monkeymart.org/",
+        "t": "Simulation",
+        "img": "/assets/thumbnails/monkey_mart.webp"
+    },
+    {
+        "n": "Basketball Stars",
+        "u": "https://basketballstars.io/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/basketball_stars.webp"
+    },
+    {
+        "n": "Drift Hunters",
+        "u": "https://drifthunters.io/",
+        "t": "Simulation",
+        "img": null
+    },
+    {
+        "n": "Tiny Fishing",
+        "u": "https://tinyfishing.io/",
+        "t": "Simulation",
+        "img": "/assets/thumbnails/tiny_fishing.webp"
+    },
+    {
+        "n": "Rooftop Snipers",
+        "u": "https://rooftopsnipers.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/rooftop_snipers.webp"
+    },
+    {
+        "n": "Crossy Road",
+        "u": "https://poki.com/en/g/crossy-road",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/crossy_road.webp"
+    },
+    {
+        "n": "Smash Karts",
+        "u": "https://smashkarts.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/smash_karts.webp"
+    },
+    {
+        "n": "Shell Shockers",
+        "u": "https://shellshock.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/shell_shockers.webp"
+    },
+    {
+        "n": "Ovo",
+        "u": "https://ovogame.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/ovo.webp"
+    },
+    {
+        "n": "Tunnel Rush",
+        "u": "https://tunnelrush.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/tunnel_rush.webp"
+    },
+    {
+        "n": "Basket Bros",
+        "u": "https://basketbros.io/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/basket_bros.webp"
+    },
+    {
+        "n": "Among Us",
+        "u": "https://innersloth.com/",
+        "t": "Action",
+        "img": "/assets/thumbnails/among_us.webp"
+    },
+    {
+        "n": "Chess",
+        "u": "https://chess.com/",
+        "t": "Puzzle",
+        "img": "/assets/thumbnails/chess.webp"
+    },
+    {
+        "n": "Wordle",
+        "u": "https://nytimes.com/games/wordle/index.html",
+        "t": "Puzzle",
+        "img": "/assets/thumbnails/wordle.webp"
+    },
+    {
+        "n": "2048",
+        "u": "https://play2048.co/",
+        "t": "Puzzle",
+        "img": "/assets/thumbnails/2048.webp"
+    },
+    {
+        "n": "Pac-Man",
+        "u": "https://freepacman.org/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/pac_man.webp"
+    },
+    {
+        "n": "Flappy Bird",
+        "u": "https://flappybird.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/flappy_bird.webp"
+    },
+    {
+        "n": "Super Mario 64",
+        "u": "https://froggi.es/mario/",
+        "t": "Action",
+        "img": "/assets/thumbnails/super_mario_64.webp"
+    }
+]
