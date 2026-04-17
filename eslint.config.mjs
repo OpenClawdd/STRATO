@@ -1,3 +1,5 @@
+import globals from "globals";
+
 export default [
 	{
 		ignores: ["**/node_modules"],
@@ -6,6 +8,11 @@ export default [
 		languageOptions: {
 			ecmaVersion: "latest",
 			sourceType: "module",
+			globals: {
+				...globals.node,
+				AbortController: "readonly",
+				fetch: "readonly"
+			}
 		},
 	},
 ];

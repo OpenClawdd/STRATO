@@ -13,6 +13,8 @@ export default [
 				clearInterval: "readonly",
 				setTimeout: "readonly",
 				clearTimeout: "readonly",
+				AbortController: "readonly",
+				fetch: "readonly"
 			},
 		},
 		rules: {

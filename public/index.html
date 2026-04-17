@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="/surf/baremux/index.js"></script>
   <script src="/surf/scram/scramjet.bundle.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
   <style>
     :root {
       --space:      #020610;
@@ -230,7 +232,7 @@
       <div class="spl-bar"></div>
     </div>
     <div class="spl-tag">Above every filter. Beyond every block.</div>
-    <button class="spl-btn" id="spl-enter">
+    <button class="spl-btn splash-enter" id="splash-enter">
       Enter Dashboard
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
     </button>
@@ -254,6 +256,10 @@
       <kbd class="srch-kbd">↵ go</kbd>
     </div>
     <div class="tb-acts">
+      <select id="proxyEngine" class="cloak-sel">
+        <option value="scramjet">Engine: Scramjet</option>
+        <option value="uv">Engine: Ultraviolet</option>
+      </select>
       <select id="privacyPreset" class="cloak-sel" onchange="applyPrivacyPreset()">
         <option value="default">🔒 Cloak</option>
         <option value="drive">📁 Drive</option>
@@ -420,6 +426,10 @@
 <script>
 /* PROXY */
 function proxifyUrl(u){
+  const engine = document.getElementById('proxyEngine') ? document.getElementById('proxyEngine').value : 'scramjet';
+  if (engine === 'uv' && window.__uv$config) {
+    return window.__uv$config.prefix + window.__uv$config.encodeUrl(u);
+  }
   if(typeof scramjetController!=='undefined'&&scramjetController) return scramjetController.encodeUrl(u);
   return u;
 }
@@ -443,12 +453,45 @@ function panic(){window.location.replace('https://classroom.google.com')}
 window.addEventListener('keydown',e=>{if(e.key==='Escape') closeGameOverlay()});
 
 /* SPLASH */
-document.getElementById('spl-enter').addEventListener('click',()=>{
-  document.getElementById('splash').classList.add('out');
-  setTimeout(()=>{
-    document.getElementById('splash').style.display='none';
-    document.getElementById('app').classList.add('on');
-  },900);
+document.getElementById('splash-enter').addEventListener('click',()=>{
+  if (window.top !== window.self) {
+    // We are already inside an iframe, just dismiss the splash screen
+    document.getElementById('splash').classList.add('out');
+    setTimeout(()=>{
+      document.getElementById('splash').style.display='none';
+      document.getElementById('app').classList.add('on');
+    },900);
+  } else {
+    // Not in an iframe, do the cloaking
+    const blank = window.open('about:blank', '_blank');
+    if (blank) {
+      blank.document.body.style.margin = '0';
+      blank.document.body.style.padding = '0';
+      blank.document.body.style.overflow = 'hidden';
+      blank.document.body.style.background = '#02040a';
+
+      const iframe = blank.document.createElement('iframe');
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.src = window.location.href;
+      blank.document.body.appendChild(iframe);
+
+      blank.addEventListener('beforeunload', (e) => {
+        e.preventDefault();
+        e.returnValue = '';
+      });
+
+      window.location.replace('https://classroom.google.com');
+    } else {
+      // Fallback if popup blocker prevented the new tab
+      document.getElementById('splash').classList.add('out');
+      setTimeout(()=>{
+        document.getElementById('splash').style.display='none';
+        document.getElementById('app').classList.add('on');
+      },900);
+    }
+  }
 });
 
 /* SEARCH */
@@ -475,11 +518,42 @@ if(pInp){
 }
 
 /* GAMES */
-const GAMES=window.__GAMES__||[];
+let GAMES=[];
 const TC={action:'tp',racing:'to',shooter:'tp',puzzle:'tv',sports:'tc',multiplayer:'tc',casual:'tg',strategy:'tv',platformer:'tc',rhythm:'tv',sandbox:'tg',idle:'tg',arcade:'to',classic:'to',cooking:'tp',simulation:'tv',adventure:'tg'};
 function tc(tag){return TC[(tag||'').toLowerCase()]||'tc'}
 let cardEls=[];
 let activeCat='all';
+
+async function loadGames() {
+  try {
+    const localRes = await fetch('/config/games.json');
+    const localGames = await localRes.json();
+    GAMES.push(...localGames);
+  } catch(e) {
+    console.error("Failed to load local games", e);
+  }
+
+  try {
+    const cdnRes = await fetch('https://cdn.jsdelivr.net/gh/3kh0/3kh0-assets@main/games.json');
+    const cdnData = await cdnRes.json();
+    const cdnGames = cdnData.map(g => ({
+      n: g.title,
+      img: g.image || g.e || '',
+      u: g.url,
+      t: g.tags ? g.tags[0] : '3kh0'
+    }));
+    GAMES.push(...cdnGames);
+  } catch(e) {
+    console.error("Failed to load CDN games", e);
+  }
+
+  const countB = document.getElementById('gcnt');
+  if (countB) countB.textContent = GAMES.length;
+
+  buildCats();
+  buildFeatured();
+  buildGrid();
+}
 
 function buildFeatured(){
   const s=document.getElementById('feat-strip');
@@ -565,7 +639,7 @@ function buildGrid(){
   grid.appendChild(frag);
 }
 
-buildCats();buildFeatured();buildGrid();
+loadGames();
 
 /* GAME OVERLAY */
 function openGame(url,name){

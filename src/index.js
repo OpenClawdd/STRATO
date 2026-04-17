@@ -50,10 +50,15 @@ function refreshCache() {
 refreshCache();
 setInterval(refreshCache, 60_000);
 
+import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
+
 // ---------------------------------------------------------------------------
 // Express app
 // ---------------------------------------------------------------------------
 const app = express();
+
+// Expose config folder for games.json fetch
+app.use("/config", express.static(join(__dirname, "config")));
 
 // -- Security headers -------------------------------------------------------
 app.use(
@@ -72,6 +77,9 @@ app.use(
                 },
         })
 );
+
+// Serve Ultraviolet
+app.use("/uv/", express.static(uvPath));
 
 // -- Compression (gzip / brotli) --------------------------------------------
 app.use(
@@ -173,14 +181,10 @@ app.post("/api/save", (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// Homepage — inject games config from cache
+// Homepage
 // ---------------------------------------------------------------------------
 app.get("/", (req, res) => {
-        const indexHtml = cachedIndexHtml.replace(
-                "const GAMES = window.__GAMES__ || [];",
-                `const GAMES = ${cachedGamesJson};`
-        );
-        res.send(indexHtml);
+        res.send(cachedIndexHtml);
 });
 
 // Force the server to look in the exact absolute path for the public folder
@@ -191,18 +195,30 @@ app.use((req, res) => {
         res.status(404).send("STRATO Error: Could not find " + req.url);
 });
 
+import { createBareServer } from "@tomphttp/bare-server-node";
+
 // ---------------------------------------------------------------------------
 // HTTP + WebSocket server
 // ---------------------------------------------------------------------------
 const server = createServer();
+const bareServer = createBareServer("/bare/");
 
 server.on("request", (req, res) => {
+        if (bareServer.shouldRoute(req)) {
+                bareServer.routeRequest(req, res);
+                return;
+        }
+
         res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
         res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
         app(req, res);
 });
 
 server.on("upgrade", (req, socket, head) => {
+        if (bareServer.shouldRoute(req)) {
+                bareServer.routeUpgrade(req, socket, head);
+                return;
+        }
         if (req.url.endsWith("/wisp/")) {
                 wispServer.server.routeRequest(req, socket, head);
                 return;

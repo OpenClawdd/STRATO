@@ -3,8 +3,13 @@
 const connection = new BareMux.BareMuxConnection("/surf/baremux/worker.js");
 let scramjetController = null;
 
-// Replace UV launch URL logic with Scramjet encodeUrl
 function launchUrl(url) {
+	const engine = document.getElementById('proxyEngine') ? document.getElementById('proxyEngine').value : 'scramjet';
+	if (engine === 'uv' && window.__uv$config) {
+		window.location.href = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
+		return;
+	}
+
 	if (!scramjetController) {
 		alert("Proxy configuration not loaded.");
 		return;
@@ -70,10 +75,24 @@ async function getFastestWispServer() {
 let initSplash = async function () {
 	try {
 		const fastestUrl = await getFastestWispServer();
+		window.__fastestWispUrl = fastestUrl; // Store it for toggling
 		await connection.setTransport("/surf/libcurl/index.mjs", [{ wisp: fastestUrl }]);
+
+		const proxyEngineSelect = document.getElementById("proxyEngine");
+		if (proxyEngineSelect) {
+			proxyEngineSelect.addEventListener("change", async (e) => {
+				const engine = e.target.value;
+				if (engine === "uv") {
+					await connection.setTransport("/surf/epoxy/index.mjs", [{ wisp: window.__fastestWispUrl }]);
+				} else {
+					await connection.setTransport("/surf/libcurl/index.mjs", [{ wisp: window.__fastestWispUrl }]);
+				}
+			});
+		}
 
 		if ("serviceWorker" in navigator) {
 			await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+			await navigator.serviceWorker.register("/uv/sw.js", { scope: "/uv/" });
 		}
 
 		if (typeof $scramjetLoadController !== "undefined") {
