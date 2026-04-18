@@ -1,0 +1,477 @@
+/*
+   STRATOSPHERE OMNI THEME
+   Premium, high-altitude, minimalist dark mode.
+*/
+
+:root {
+  --space-black: #000000;
+  --atmos-navy: #051021;
+  --atmos-blue: #1a4b8c;
+  --highlight: rgba(255, 255, 255, 0.85);
+  --glass-bg: rgba(5, 15, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(180deg, var(--space-black) 0%, var(--atmos-navy) 100%);
+  color: var(--highlight);
+  overflow: hidden;
+  display: flex;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Master App Layout */
+#app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* 1. Master Sidebar */
+#master-sidebar {
+  width: var(--sidebar-width);
+  height: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: width;
+  z-index: 20;
+  overflow: hidden; /* for when text collapses */
+}
+
+#master-sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-logo {
+  padding: 24px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid transparent; /* or keep clean */
+  white-space: nowrap;
+}
+
+.sidebar-logo svg {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  color: #fff;
+}
+
+.sidebar-logo .sidebar-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+
+.sidebar-tabs {
+  flex: 1;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar */
+}
+.sidebar-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-footer {
+  padding: 24px 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #8b9bb4;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+  color: #fff;
+  border-left-color: var(--atmos-blue);
+  background: rgba(26, 75, 140, 0.1);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 1px 0 10px rgba(26, 75, 140, 0.2);
+}
+
+.tab-btn .icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  transition: color 0.2s ease;
+}
+
+.tab-btn .sidebar-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Collapsed Sidebar State Text Hidden */
+#master-sidebar.collapsed .sidebar-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 2. Main Content Area */
+#main-content {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-panel {
+  display: none; /* Hide inactive tabs */
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-panel.active {
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Blank Glassmorphic Containers */
+.glass-container {
+  flex: 1;
+  background: rgba(10, 16, 28, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.glass-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+}
+
+/* Games Tab Layout (Arsenal) */
+.games-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 30px;
+}
+
+.games-sidebar {
+  width: 300px;
+  background: rgba(10, 16, 28, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.games-sidebar-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.games-sidebar-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+#source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.source-item {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: border-color 0.2s;
+}
+
+.source-item:hover {
+  border-color: var(--glass-border);
+}
+
+.source-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-right: 10px;
+}
+
+.source-url {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ccc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.status {
+  font-size: 0.7rem;
+  margin-top: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status.green { color: #4ade80; }
+.status.red { color: #f87171; }
+
+.toggle-switch {
+  appearance: none;
+  width: 40px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid transparent;
+  transition: background 0.2s;
+  min-width: 40px;
+}
+
+.toggle-switch:checked {
+  background: var(--atmos-blue);
+}
+
+.toggle-switch::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 3px;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.toggle-switch:checked::before {
+  transform: translateX(18px);
+}
+
+.toggle-switch:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.games-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: rgba(10, 16, 28, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 30px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.games-main::-webkit-scrollbar {
+  width: 6px;
+}
+.games-main::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.grid-header {
+  margin-bottom: 30px;
+}
+
+.grid-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.grid-header .tagline {
+  font-size: 1rem;
+  color: #8b9bb4;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.grid-header .stats {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.game-card {
+  position: relative;
+  background: rgba(10, 16, 28, 0.8);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 14px;
+  cursor: pointer;
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+}
+
+.game-card:hover {
+  transform: translateY(-6px) translateZ(0);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(26, 75, 140, 0.25);
+}
+
+.game-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #0a0a0a;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+
+.game-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-source {
+  font-size: 0.75rem;
+  color: #8b9bb4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fullscreen Overlay for Playing Games */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 9999;
+  background: var(--space-black);
+}
+
+#overlay iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+}
+
+#close-overlay {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: white;
+  font-size: 28px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform 0.2s, background 0.2s;
+}
+
+#close-overlay:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05) translateZ(0);
+}
+
+#close-overlay:active {
+  transform: scale(0.95) translateZ(0);
+}
+
+/* Responsive constraints */
+@media (max-width: 900px) {
+  .games-layout {
+    flex-direction: column;
+  }
+  .games-sidebar {
+    width: 100%;
+    height: 300px;
+    flex: none;
+  }
+}

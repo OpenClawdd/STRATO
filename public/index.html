@@ -1,705 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Strato Omni-Ingester</title>
-<style>
-/*
-   STRATOSPHERE THEME
-   Premium, high-altitude, minimalist dark mode.
-*/
-
-:root {
-  --space-black: #000000;
-  --atmos-navy: #051021;
-  --atmos-blue: #1a4b8c;
-  --highlight: rgba(255, 255, 255, 0.85);
-  --glass-bg: rgba(5, 15, 25, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.15);
-  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-main);
-  /* Deep atmospheric navy fading up into pitch black */
-  background: linear-gradient(180deg, var(--space-black) 0%, var(--atmos-navy) 100%);
-  color: var(--highlight);
-  overflow: hidden;
-  display: flex;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
-
-/* App Layout */
-#app {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  z-index: 1;
-}
-
-/* Sidebar Manager */
-#sidebar {
-  width: 320px;
-  height: 100%;
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid var(--glass-border);
-  padding: 30px 20px;
-  overflow-y: auto;
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
-  display: flex;
-  flex-direction: column;
-  z-index: 20;
-}
-
-#sidebar.collapsed {
-  transform: translateX(-100%);
-}
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.sidebar-header h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* Floating Glass Toggle Button */
-#sidebar-toggle {
-  position: fixed;
-  top: 25px;
-  left: 25px;
-  z-index: 10;
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  transform: translateZ(0);
-  will-change: transform;
-  transition: opacity 0.2s, background 0.2s, border-color 0.2s;
-}
-
-#sidebar-toggle:hover {
-  background: rgba(20, 30, 45, 0.8);
-  border-color: var(--glass-border-hover);
-}
-
-#sidebar-toggle:active {
-  transform: scale(0.96) translateZ(0);
-}
-
-/* Source List */
-#source-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.source-item {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 14px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: border-color 0.2s;
-}
-
-.source-item:hover {
-  border-color: var(--glass-border);
-}
-
-.source-info {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding-right: 10px;
-}
-
-.source-url {
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #ccc;
-  font-family: "SF Mono", "JetBrains Mono", monospace;
-}
-
-.status {
-  font-size: 0.7rem;
-  margin-top: 6px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.status.green {
-  color: #4ade80;
-}
-
-.status.red {
-  color: #f87171;
-}
-
-/* Toggle Switch inside Source Items */
-.toggle-switch {
-  appearance: none;
-  width: 40px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  position: relative;
-  cursor: pointer;
-  outline: none;
-  border: 1px solid transparent;
-  transition: background 0.2s;
-}
-
-.toggle-switch:checked {
-  background: var(--atmos-blue);
-}
-
-.toggle-switch::before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: white;
-  top: 2px;
-  left: 3px;
-  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.toggle-switch:checked::before {
-  transform: translateX(18px);
-}
-
-.toggle-switch:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Main Content Area */
-#main-content {
-  flex: 1;
-  height: 100%;
-  padding: 50px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-#main-content::-webkit-scrollbar {
-  width: 6px;
-}
-#main-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.grid-header {
-  margin-bottom: 40px;
-}
-
-.grid-header h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: #fff;
-  margin-bottom: 8px;
-}
-
-.grid-header .tagline {
-  font-size: 1.1rem;
-  color: #8b9bb4;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-}
-
-.grid-header .stats {
-  margin-top: 15px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Modern Flat Dark Game Cards */
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 24px;
-}
-
-.game-card {
-  position: relative;
-  background: rgba(10, 16, 28, 0.8);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 16px;
-  cursor: pointer;
-
-  /* Hardware Acceleration */
-  transform: translateZ(0);
-  will-change: transform, box-shadow;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
-}
-
-.game-card:hover {
-  transform: translateY(-6px) translateZ(0);
-  border-color: rgba(255, 255, 255, 0.2);
-  /* Cold, atmospheric blue shadow */
-  box-shadow: 0 12px 40px rgba(26, 75, 140, 0.25);
-}
-
-.game-img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #0a0a0a;
-  border-radius: 6px;
-  margin-bottom: 14px;
-  object-fit: cover;
-}
-
-.game-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 6px;
-}
-
-.game-source {
-  font-size: 0.8rem;
-  color: #8b9bb4;
-}
-
-/* Fullscreen Overlay */
-#overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 9999;
-  background: var(--space-black);
-}
-
-#overlay iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: #000;
-}
-
-#close-overlay {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: white;
-  font-size: 28px;
-  font-weight: 300;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 10000;
-  transform: translateZ(0);
-  will-change: transform;
-  transition: transform 0.2s, background 0.2s;
-}
-
-#close-overlay:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05) translateZ(0);
-}
-
-#close-overlay:active {
-  transform: scale(0.95) translateZ(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #sidebar {
-    position: absolute;
-    left: 0;
-  }
-  #main-content {
-    padding: 90px 20px 30px 20px;
-  }
-  .grid-header h1 {
-    font-size: 2.2rem;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strato Omni-Ingester</title>
+  <link rel="stylesheet" href="omni.css">
 </head>
 <body>
 
-<!-- App Wrap -->
+<!-- Master App Wrap -->
 <div id="app">
-  <!-- Collapsible Sidebar -->
-  <aside id="sidebar">
-    <div class="sidebar-header">
-      <h2>Arsenal</h2>
-      <!-- Inside close button for mobile convenience -->
-      <div id="sidebar-close-btn" style="cursor:pointer; opacity:0.6; font-size: 22px; transition: opacity 0.2s;">&times;</div>
+
+  <!-- 1. Master Collapsible Sidebar -->
+  <aside id="master-sidebar">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+      <span class="sidebar-text">STRATO</span>
     </div>
-    <div id="source-list">
-      <!-- Generated via JS -->
+
+    <!-- Navigation Tabs -->
+    <nav class="sidebar-tabs">
+      <button class="tab-btn active" data-target="tab-home">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="sidebar-text">Home</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-games">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect>
+          <path d="M6 12h4m-2-2v4m8-2h.01M16 10h.01"></path>
+        </svg>
+        <span class="sidebar-text">Games</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-browser">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span class="sidebar-text">Browser</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-streaming">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+          <polyline points="17 2 12 7 7 2"></polyline>
+        </svg>
+        <span class="sidebar-text">Streaming</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-listening">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        <span class="sidebar-text">Listening</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-ai">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <circle cx="12" cy="12" r="4"></circle>
+        </svg>
+        <span class="sidebar-text">AI</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-chatroom">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="sidebar-text">Chatroom</span>
+      </button>
+
+      <button class="tab-btn" data-target="tab-settings">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span class="sidebar-text">Settings</span>
+      </button>
+    </nav>
+
+    <!-- Sidebar Footer Toggle -->
+    <div class="sidebar-footer">
+      <button class="tab-btn" id="sidebar-toggle" title="Toggle Sidebar">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span class="sidebar-text">Collapse Sidebar</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Global Toggle Button -->
-  <button id="sidebar-toggle" title="Toggle Sidebar">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </button>
-
-  <!-- Main Grid View -->
+  <!-- 2. Main Content Area -->
   <main id="main-content">
-    <div class="grid-header">
-      <h1>STRATO</h1>
-      <div class="tagline">Filter can't reach up here.</div>
-      <div class="stats" id="game-counter">0 Games Loaded</div>
+
+    <!-- HOME TAB -->
+    <div class="tab-panel active" id="tab-home">
+      <div class="glass-container">
+        <div style="text-align: center; color: rgba(255,255,255,0.4);">
+          <h1 style="font-size: 2rem; margin-bottom: 10px; color: #fff;">Welcome to Stratosphere</h1>
+          <p>The sky is the limit.</p>
+        </div>
+      </div>
     </div>
-    <div class="game-grid" id="game-grid">
-      <!-- Cards rendered here -->
+
+    <!-- GAMES TAB (Arsenal Integration) -->
+    <div class="tab-panel" id="tab-games">
+      <div class="games-layout">
+        <!-- Arsenal Sources Sidebar -->
+        <div class="games-sidebar">
+          <div class="games-sidebar-header">
+            <h2>Arsenal</h2>
+          </div>
+          <div id="source-list">
+            <!-- Sources injected via omni.js -->
+          </div>
+        </div>
+
+        <!-- Arsenal Main Grid -->
+        <div class="games-main">
+          <div class="grid-header">
+            <h1>STRATO GAMES</h1>
+            <div class="tagline">Filter can't reach up here.</div>
+            <div class="stats" id="game-counter">0 Games Loaded</div>
+          </div>
+          <div class="game-grid" id="game-grid">
+            <!-- Game cards injected via omni.js -->
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- BROWSER TAB -->
+    <div class="tab-panel" id="tab-browser">
+      <div class="glass-container">
+        <iframe class="glass-iframe" src="about:blank" title="Browser Placeholder"></iframe>
+      </div>
+    </div>
+
+    <!-- STREAMING TAB -->
+    <div class="tab-panel" id="tab-streaming">
+      <div class="glass-container">
+        <iframe class="glass-iframe" src="about:blank" title="Streaming Placeholder"></iframe>
+      </div>
+    </div>
+
+    <!-- LISTENING TAB -->
+    <div class="tab-panel" id="tab-listening">
+      <div class="glass-container">
+        <iframe class="glass-iframe" src="about:blank" title="Listening Placeholder"></iframe>
+      </div>
+    </div>
+
+    <!-- AI TAB -->
+    <div class="tab-panel" id="tab-ai">
+      <div class="glass-container">
+        <iframe class="glass-iframe" src="about:blank" title="AI Placeholder"></iframe>
+      </div>
+    </div>
+
+    <!-- CHATROOM TAB -->
+    <div class="tab-panel" id="tab-chatroom">
+      <div class="glass-container">
+        <iframe class="glass-iframe" src="about:blank" title="Chatroom Placeholder"></iframe>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="glass-container">
+        <div style="color: rgba(255,255,255,0.4);">System Configuration Panel</div>
+      </div>
+    </div>
+
   </main>
 </div>
 
-<!-- Self-Contained Overlay -->
+<!-- Fullscreen Play Overlay -->
 <div id="overlay">
   <button id="close-overlay">&times;</button>
   <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
 </div>
 
-<script>
-/**
- * STRATO OMNI-INGESTER
- * Data Engine & UI Logic
- */
-
-const RAW_SOURCES = [
-  "http://Selenite.cc",
-  "https://g-65j.pages.dev/projects",
-  "https://fmhy.net/",
-  "https://uunnblockedgames.weebly.com/bloons-tower-defense-5---works.html",
-  "https://vapor.onl/",
-  "https://splash.best/",
-  "https://infamous.qzz.io/",
-  "https://programming.writing.lecture.learning.literature.mybgarage.cl/",
-  "https://chips.moktanram.com.np/g.html",
-  "https://tinyurl.com/kingelijah1",
-  "https://learn.gls-drone-pilot.com/",
-  "https://daydreamx.global.ssl.fastly.net/",
-  "https://dtxb.eclipsecastellon.net/",
-  "https://s3.amazonaws.com/ghst/index.html",
-  "https://school.agreca.com.ar/",
-  "https://noterplusbunny52.b-cdn.net/",
-  "https://thesymiproject.org/",
-  "https://pluh.aletiatours.com/",
-  "https://keoffical.oneapp.dev/",
-  "https://follownirbytes-ynevj.ns8.org/",
-  "https://endis.rest/",
-  "https://helptired8.notinthearchives.net/",
-  "https://everest.rip/",
-  "https://www.korona.lat/",
-  "https://play.frogiee.one/",
-  "https://ubghub.org/",
-  "https://pizagame.com/",
-  "https://startmyeducation.top/"
-];
-
-// Application State
-const state = {
-  sources: [],
-  games: [],
-  activeSources: new Set()
-};
-
-// ==========================================
-// 1. UI LOGIC (Sidebar & Toggle)
-// ==========================================
-const sidebar = document.getElementById('sidebar');
-const toggleBtn = document.getElementById('sidebar-toggle');
-const closeSidebarBtn = document.getElementById('sidebar-close-btn');
-
-let isSidebarOpen = true;
-
-function syncSidebarState() {
-  if (isSidebarOpen) {
-    sidebar.classList.remove('collapsed');
-    toggleBtn.style.opacity = '0'; // Hide toggle when sidebar is open
-    toggleBtn.style.pointerEvents = 'none';
-  } else {
-    sidebar.classList.add('collapsed');
-    toggleBtn.style.opacity = '1';
-    toggleBtn.style.pointerEvents = 'auto';
-  }
-}
-
-// Auto-collapse on small screens
-if (window.innerWidth < 900) {
-  isSidebarOpen = false;
-  syncSidebarState();
-}
-
-toggleBtn.addEventListener('click', () => {
-  isSidebarOpen = true;
-  syncSidebarState();
-});
-
-closeSidebarBtn.addEventListener('click', () => {
-  isSidebarOpen = false;
-  syncSidebarState();
-});
-
-closeSidebarBtn.addEventListener('mouseenter', () => { closeSidebarBtn.style.opacity = '1'; });
-closeSidebarBtn.addEventListener('mouseleave', () => { closeSidebarBtn.style.opacity = '0.6'; });
-
-// ==========================================
-// 2. DATA ENGINE
-// ==========================================
-function getMockGames(sourceUrl) {
-  const games = [];
-  const baseNames = ['Geometry Dash', '1v1.LOL', 'Minecraft', 'Subway Surfers', 'Retro Bowl', 'Monkey Mart', 'Tunnel Rush', 'BitLife'];
-  const domain = new URL(sourceUrl).hostname;
-
-  for (let i = 0; i < 6; i++) {
-    games.push({
-      id: Math.random().toString(36).substr(2, 9),
-      title: `${baseNames[Math.floor(Math.random() * baseNames.length)]}`,
-      url: 'https://example.com/play',
-      source: sourceUrl,
-      img: `https://picsum.photos/400/225?random=${Math.random()}`
-    });
-  }
-  return games;
-}
-
-async function fetchLibrary(url) {
-  // Hardcoded mock for the "Big Three"
-  const isBigThree = url.includes('Selenite.cc') ||
-                     url.includes('g-65j.pages.dev') ||
-                     url.includes('frogiee.one');
-
-  if (isBigThree) {
-    // Simulate network latency
-    await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
-    return { status: 'success', games: getMockGames(url) };
-  }
-
-  // Real fetch attempt wrapped in try/catch
-  try {
-    const res = await fetch(url, { mode: 'cors' });
-    const text = await res.text();
-
-    // If it returns HTML, flag it for backend proxy
-    if (text.trim().toLowerCase().startsWith('<!doctype html>') || text.includes('<html')) {
-        throw new Error('Returned HTML instead of JSON');
-    }
-
-    const data = JSON.parse(text);
-    return { status: 'success', games: data.games || [] };
-  } catch (err) {
-    // Fails naturally due to CORS or returning HTML payload
-    return { status: 'error', reason: 'Requires Backend Proxy' };
-  }
-}
-
-// ==========================================
-// 3. RENDERING (Batch Updates)
-// ==========================================
-const sourceListEl = document.getElementById('source-list');
-const gameGridEl = document.getElementById('game-grid');
-const counterEl = document.getElementById('game-counter');
-
-function renderSources() {
-  const fragment = document.createDocumentFragment();
-
-  state.sources.forEach(src => {
-    const el = document.createElement('div');
-    el.className = 'source-item';
-
-    const info = document.createElement('div');
-    info.className = 'source-info';
-
-    const urlEl = document.createElement('div');
-    urlEl.className = 'source-url';
-    urlEl.textContent = src.url.replace(/^https?:\/\//, '');
-
-    const statusEl = document.createElement('div');
-    const isSuccess = src.status === 'success';
-    const isLoading = src.status === 'loading';
-
-    if (isLoading) {
-      statusEl.className = 'status';
-      statusEl.style.color = '#8b9bb4';
-      statusEl.textContent = 'CONNECTING...';
-    } else {
-      statusEl.className = 'status ' + (isSuccess ? 'green' : 'red');
-      statusEl.textContent = isSuccess ? 'CONNECTED' : 'PROXY REQUIRED';
-    }
-
-    info.appendChild(urlEl);
-    info.appendChild(statusEl);
-
-    const toggle = document.createElement('input');
-    toggle.type = 'checkbox';
-    toggle.className = 'toggle-switch';
-    toggle.checked = state.activeSources.has(src.url);
-    toggle.disabled = !isSuccess;
-
-    toggle.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        state.activeSources.add(src.url);
-      } else {
-        state.activeSources.delete(src.url);
-      }
-      renderGames();
-    });
-
-    el.appendChild(info);
-    el.appendChild(toggle);
-    fragment.appendChild(el);
-  });
-
-  sourceListEl.innerHTML = '';
-  sourceListEl.appendChild(fragment);
-}
-
-function renderGames() {
-  const fragment = document.createDocumentFragment();
-
-  const visibleGames = state.games.filter(g => state.activeSources.has(g.source));
-
-  visibleGames.forEach(game => {
-    const card = document.createElement('div');
-    card.className = 'game-card';
-
-    const img = document.createElement('img');
-    img.className = 'game-img';
-    img.src = game.img;
-    img.loading = 'lazy';
-    img.alt = game.title;
-
-    const title = document.createElement('div');
-    title.className = 'game-title';
-    title.textContent = game.title;
-
-    const srcLabel = document.createElement('div');
-    srcLabel.className = 'game-source';
-    srcLabel.textContent = new URL(game.source).hostname;
-
-    card.appendChild(img);
-    card.appendChild(title);
-    card.appendChild(srcLabel);
-
-    card.addEventListener('click', () => openGame(game.url));
-
-    fragment.appendChild(card);
-  });
-
-  gameGridEl.innerHTML = '';
-  gameGridEl.appendChild(fragment);
-  counterEl.textContent = `${visibleGames.length} Games Loaded`;
-}
-
-// ==========================================
-// 4. OVERLAY LOGIC
-// ==========================================
-const overlay = document.getElementById('overlay');
-const closeBtn = document.getElementById('close-overlay');
-const iframe = document.getElementById('game-iframe');
-
-function openGame(url) {
-  iframe.src = url;
-  overlay.style.display = 'block';
-}
-
-closeBtn.addEventListener('click', () => {
-  overlay.style.display = 'none';
-  iframe.src = '';
-});
-
-// ==========================================
-// BOOTSTRAP
-// ==========================================
-async function init() {
-  syncSidebarState();
-
-  state.sources = RAW_SOURCES.map(url => ({ url, status: 'loading' }));
-  renderSources();
-
-  RAW_SOURCES.forEach(async (url) => {
-    const result = await fetchLibrary(url);
-
-    const srcIndex = state.sources.findIndex(s => s.url === url);
-    if (srcIndex !== -1) {
-      state.sources[srcIndex].status = result.status;
-    }
-
-    if (result.status === 'success') {
-      state.games.push(...result.games);
-      state.activeSources.add(url);
-    }
-
-    state.sources.sort((a, b) => {
-      // Keep loading at bottom
-      if (a.status === 'loading' && b.status !== 'loading') return 1;
-      if (a.status !== 'loading' && b.status === 'loading') return -1;
-      // Success at top
-      if (a.status === 'success' && b.status !== 'success') return -1;
-      if (a.status !== 'success' && b.status === 'success') return 1;
-      return 0;
-    });
-
-    renderSources();
-    renderGames();
-  });
-}
-
-init();
-
-</script>
+<!-- Logic Engine -->
+<script src="omni.js"></script>
 </body>
 </html>
