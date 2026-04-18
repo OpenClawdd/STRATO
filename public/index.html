@@ -6,16 +6,19 @@
 <title>Strato Omni-Ingester</title>
 <style>
 /*
-   FRUTIGER AERO & TECHNOZEN PERFORMANCE STYLES
-   Optimized for low-end hardware (Chromebooks).
+   STRATOSPHERE THEME
+   Premium, high-altitude, minimalist dark mode.
 */
 
 :root {
-  --cyan: #00e5ff;
-  --lime: #39ff14;
-  --glass-bg: rgba(10, 30, 40, 0.35);
-  --glass-border: rgba(0, 229, 255, 0.3);
-  --glass-blur: blur(10px); /* Strictly under 12px for GPU performance */
+  --space-black: #000000;
+  --atmos-navy: #051021;
+  --atmos-blue: #1a4b8c;
+  --highlight: rgba(255, 255, 255, 0.85);
+  --glass-bg: rgba(5, 15, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -25,23 +28,14 @@
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background-color: #000;
-  color: white;
+  font-family: var(--font-main);
+  /* Deep atmospheric navy fading up into pitch black */
+  background: linear-gradient(180deg, var(--space-black) 0%, var(--atmos-navy) 100%);
+  color: var(--highlight);
   overflow: hidden;
   display: flex;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Canvas Particle Background */
-#particleCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  /* Will be filled by canvas API */
+  min-height: 100vh;
 }
 
 /* App Layout */
@@ -58,16 +52,15 @@ body {
   width: 320px;
   height: 100%;
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-right: 1px solid var(--glass-border);
-  padding: 20px;
+  padding: 30px 20px;
   overflow-y: auto;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
   display: flex;
   flex-direction: column;
-  box-shadow: 5px 0 20px rgba(0,0,0,0.5);
   z-index: 20;
 }
 
@@ -79,63 +72,72 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .sidebar-header h2 {
-  font-size: 1.2rem;
-  color: var(--cyan);
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-  letter-spacing: 1px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 /* Floating Glass Toggle Button */
 #sidebar-toggle {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 25px;
+  left: 25px;
   z-index: 10;
-  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255,255,255,0.3);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
   color: white;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
-  transform: translateZ(0); /* Force GPU */
+  transform: translateZ(0);
   will-change: transform;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+}
+
+#sidebar-toggle:hover {
+  background: rgba(20, 30, 45, 0.8);
+  border-color: var(--glass-border-hover);
 }
 
 #sidebar-toggle:active {
-  transform: scale(0.95) translateZ(0);
+  transform: scale(0.96) translateZ(0);
 }
 
 /* Source List */
 #source-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .source-item {
-  background: rgba(0,0,0,0.4);
-  padding: 12px;
-  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 14px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: border-color 0.2s;
+}
+
+.source-item:hover {
+  border-color: var(--glass-border);
 }
 
 .source-info {
@@ -146,68 +148,66 @@ body {
 }
 
 .source-url {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #e0e0e0;
-  font-family: monospace;
+  color: #ccc;
+  font-family: "SF Mono", "JetBrains Mono", monospace;
 }
 
 .status {
   font-size: 0.7rem;
-  margin-top: 5px;
-  font-weight: bold;
+  margin-top: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .status.green {
-  color: var(--lime);
-  text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+  color: #4ade80;
 }
 
 .status.red {
-  color: #ff4444;
-  text-shadow: 0 0 8px rgba(255, 68, 68, 0.4);
+  color: #f87171;
 }
 
 /* Toggle Switch inside Source Items */
 .toggle-switch {
   appearance: none;
-  width: 44px;
-  height: 24px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 24px;
+  width: 40px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   position: relative;
   cursor: pointer;
   outline: none;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid transparent;
+  transition: background 0.2s;
 }
 
 .toggle-switch:checked {
-  background: var(--cyan);
-  border-color: var(--cyan);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+  background: var(--atmos-blue);
 }
 
 .toggle-switch::before {
   content: '';
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: white;
   top: 2px;
-  left: 2px;
+  left: 3px;
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .toggle-switch:checked::before {
-  transform: translateX(20px);
+  transform: translateX(18px);
 }
 
 .toggle-switch:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -215,98 +215,93 @@ body {
 #main-content {
   flex: 1;
   height: 100%;
-  padding: 40px;
+  padding: 50px;
   overflow-y: auto;
-  /* Scrollbar styling */
   scrollbar-width: thin;
-  scrollbar-color: var(--cyan) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 #main-content::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 #main-content::-webkit-scrollbar-thumb {
-  background: var(--cyan);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 
 .grid-header {
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 .grid-header h1 {
-  font-size: 2.5rem;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #fff;
+  margin-bottom: 8px;
 }
 
-/* Glassmorphic 3D Grid */
+.grid-header .tagline {
+  font-size: 1.1rem;
+  color: #8b9bb4;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.grid-header .stats {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Modern Flat Dark Game Cards */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
 }
 
 .game-card {
   position: relative;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
+  background: rgba(10, 16, 28, 0.8);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
   overflow: hidden;
-  padding: 15px;
+  padding: 16px;
   cursor: pointer;
 
-  /* HARDWARE ACCELERATION (Anti-Melt) */
+  /* Hardware Acceleration */
   transform: translateZ(0);
-  will-change: transform, backdrop-filter;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  will-change: transform, box-shadow;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
 }
 
 .game-card:hover {
-  transform: translateY(-8px) translateZ(0);
-}
-
-/* Heavy Specular Highlight at top */
-.game-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 45%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 100%);
-  pointer-events: none;
-  border-radius: 20px 20px 0 0;
+  transform: translateY(-6px) translateZ(0);
+  border-color: rgba(255, 255, 255, 0.2);
+  /* Cold, atmospheric blue shadow */
+  box-shadow: 0 12px 40px rgba(26, 75, 140, 0.25);
 }
 
 .game-img {
   width: 100%;
   aspect-ratio: 16/9;
-  background: #111;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  background: #0a0a0a;
+  border-radius: 6px;
+  margin-bottom: 14px;
   object-fit: cover;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
 .game-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-  margin-bottom: 4px;
+  color: #fff;
+  margin-bottom: 6px;
 }
 
 .game-source {
   font-size: 0.8rem;
-  color: var(--cyan);
-  opacity: 0.8;
+  color: #8b9bb4;
 }
 
 /* Fullscreen Overlay */
@@ -315,9 +310,7 @@ body {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: 9999;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--space-black);
 }
 
 #overlay iframe {
@@ -331,13 +324,13 @@ body {
   position: absolute;
   top: 25px;
   right: 25px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
-  border: 1px solid rgba(255,255,255,0.3);
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
   color: white;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 300;
   cursor: pointer;
   display: flex;
@@ -346,14 +339,13 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 10000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4);
   transform: translateZ(0);
   will-change: transform;
   transition: transform 0.2s, background 0.2s;
 }
 
 #close-overlay:hover {
-  background: rgba(255, 68, 68, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   transform: scale(1.05) translateZ(0);
 }
 
@@ -368,24 +360,24 @@ body {
     left: 0;
   }
   #main-content {
-    padding: 80px 20px 20px 20px; /* Space for toggle */
+    padding: 90px 20px 30px 20px;
+  }
+  .grid-header h1 {
+    font-size: 2.2rem;
   }
 }
 </style>
 </head>
 <body>
 
-<!-- High-Perf Canvas Particles -->
-<canvas id="particleCanvas"></canvas>
-
 <!-- App Wrap -->
 <div id="app">
   <!-- Collapsible Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-header">
-      <h2>Source Arsenal</h2>
+      <h2>Arsenal</h2>
       <!-- Inside close button for mobile convenience -->
-      <div id="sidebar-close-btn" style="cursor:pointer; opacity:0.7; font-size: 24px;">&times;</div>
+      <div id="sidebar-close-btn" style="cursor:pointer; opacity:0.6; font-size: 22px; transition: opacity 0.2s;">&times;</div>
     </div>
     <div id="source-list">
       <!-- Generated via JS -->
@@ -394,7 +386,7 @@ body {
 
   <!-- Global Toggle Button -->
   <button id="sidebar-toggle" title="Toggle Sidebar">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -404,8 +396,9 @@ body {
   <!-- Main Grid View -->
   <main id="main-content">
     <div class="grid-header">
-      <h1>Omni-Ingester</h1>
-      <span style="color:var(--cyan); font-weight:bold" id="game-counter">0 Games Loaded</span>
+      <h1>STRATO</h1>
+      <div class="tagline">Filter can't reach up here.</div>
+      <div class="stats" id="game-counter">0 Games Loaded</div>
     </div>
     <div class="game-grid" id="game-grid">
       <!-- Cards rendered here -->
@@ -464,80 +457,7 @@ const state = {
 };
 
 // ==========================================
-// 1. HARDWARE ACCELERATED PARTICLES (Canvas)
-// ==========================================
-const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d', { alpha: false }); // alpha: false forces opaque background, optimizing composite
-let width, height;
-const particles = [];
-
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  updateGradient();
-}
-window.addEventListener('resize', resizeCanvas);
-
-let bgGradient;
-function updateGradient() {
-  // Technozen gradient: deep cyan to dark forest
-  bgGradient = ctx.createLinearGradient(0, 0, width, height);
-  bgGradient.addColorStop(0, '#001a2c');
-  bgGradient.addColorStop(1, '#002618');
-}
-
-class Particle {
-  constructor() {
-    this.reset();
-    this.y = Math.random() * height; // initial scatter
-  }
-  reset() {
-    this.x = Math.random() * width;
-    this.y = height + Math.random() * 100;
-    this.r = Math.random() * 3 + 1;
-    this.vx = (Math.random() - 0.5) * 0.4;
-    this.vy = -Math.random() * 1.5 - 0.5;
-
-    // Frutiger Aero / Technozen Palette
-    const isCyan = Math.random() > 0.5;
-    this.color = isCyan ? 'rgba(0, 229, 255, 0.4)' : 'rgba(57, 255, 20, 0.3)';
-  }
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-
-    // Reset if out of bounds
-    if (this.y + this.r < 0) this.reset();
-    if (this.x > width + this.r) this.x = -this.r;
-    if (this.x < -this.r) this.x = width + this.r;
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-  }
-}
-
-// Generate particles
-for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-function renderCanvas() {
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0, 0, width, height);
-
-  for (let i = 0; i < particles.length; i++) {
-    particles[i].update();
-    particles[i].draw();
-  }
-  requestAnimationFrame(renderCanvas);
-}
-// Init canvas
-resizeCanvas();
-renderCanvas();
-
-// ==========================================
-// 2. UI LOGIC (Sidebar & Toggle)
+// 1. UI LOGIC (Sidebar & Toggle)
 // ==========================================
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('sidebar-toggle');
@@ -573,8 +493,11 @@ closeSidebarBtn.addEventListener('click', () => {
   syncSidebarState();
 });
 
+closeSidebarBtn.addEventListener('mouseenter', () => { closeSidebarBtn.style.opacity = '1'; });
+closeSidebarBtn.addEventListener('mouseleave', () => { closeSidebarBtn.style.opacity = '0.6'; });
+
 // ==========================================
-// 3. DATA ENGINE
+// 2. DATA ENGINE
 // ==========================================
 function getMockGames(sourceUrl) {
   const games = [];
@@ -584,7 +507,7 @@ function getMockGames(sourceUrl) {
   for (let i = 0; i < 6; i++) {
     games.push({
       id: Math.random().toString(36).substr(2, 9),
-      title: `${baseNames[Math.floor(Math.random() * baseNames.length)]} (${domain})`,
+      title: `${baseNames[Math.floor(Math.random() * baseNames.length)]}`,
       url: 'https://example.com/play',
       source: sourceUrl,
       img: `https://picsum.photos/400/225?random=${Math.random()}`
@@ -601,7 +524,7 @@ async function fetchLibrary(url) {
 
   if (isBigThree) {
     // Simulate network latency
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
     return { status: 'success', games: getMockGames(url) };
   }
 
@@ -624,14 +547,13 @@ async function fetchLibrary(url) {
 }
 
 // ==========================================
-// 4. RENDERING (Batch Updates)
+// 3. RENDERING (Batch Updates)
 // ==========================================
 const sourceListEl = document.getElementById('source-list');
 const gameGridEl = document.getElementById('game-grid');
 const counterEl = document.getElementById('game-counter');
 
 function renderSources() {
-  // Batch DOM writes via Fragment
   const fragment = document.createDocumentFragment();
 
   state.sources.forEach(src => {
@@ -643,12 +565,20 @@ function renderSources() {
 
     const urlEl = document.createElement('div');
     urlEl.className = 'source-url';
-    urlEl.textContent = src.url.replace(/^https?:\/\//, ''); // Clean URL for display
+    urlEl.textContent = src.url.replace(/^https?:\/\//, '');
 
     const statusEl = document.createElement('div');
     const isSuccess = src.status === 'success';
-    statusEl.className = 'status ' + (isSuccess ? 'green' : 'red');
-    statusEl.textContent = isSuccess ? '● CONNECTED' : '● REQUIRES BACKEND PROXY';
+    const isLoading = src.status === 'loading';
+
+    if (isLoading) {
+      statusEl.className = 'status';
+      statusEl.style.color = '#8b9bb4';
+      statusEl.textContent = 'CONNECTING...';
+    } else {
+      statusEl.className = 'status ' + (isSuccess ? 'green' : 'red');
+      statusEl.textContent = isSuccess ? 'CONNECTED' : 'PROXY REQUIRED';
+    }
 
     info.appendChild(urlEl);
     info.appendChild(statusEl);
@@ -715,7 +645,7 @@ function renderGames() {
 }
 
 // ==========================================
-// 5. OVERLAY LOGIC
+// 4. OVERLAY LOGIC
 // ==========================================
 const overlay = document.getElementById('overlay');
 const closeBtn = document.getElementById('close-overlay');
@@ -737,15 +667,12 @@ closeBtn.addEventListener('click', () => {
 async function init() {
   syncSidebarState();
 
-  // Initialize sources array to keep track of statuses
   state.sources = RAW_SOURCES.map(url => ({ url, status: 'loading' }));
   renderSources();
 
-  // Fetch everything in parallel but update UI incrementally
   RAW_SOURCES.forEach(async (url) => {
     const result = await fetchLibrary(url);
 
-    // Find and update the source
     const srcIndex = state.sources.findIndex(s => s.url === url);
     if (srcIndex !== -1) {
       state.sources[srcIndex].status = result.status;
@@ -756,8 +683,11 @@ async function init() {
       state.activeSources.add(url);
     }
 
-    // Sort sources so successful ones are at the top, then rendering
     state.sources.sort((a, b) => {
+      // Keep loading at bottom
+      if (a.status === 'loading' && b.status !== 'loading') return 1;
+      if (a.status !== 'loading' && b.status === 'loading') return -1;
+      // Success at top
       if (a.status === 'success' && b.status !== 'success') return -1;
       if (a.status !== 'success' && b.status === 'success') return 1;
       return 0;
