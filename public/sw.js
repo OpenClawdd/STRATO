@@ -5,9 +5,28 @@ if (navigator.userAgent.includes("Firefox")) {
 	});
 }
 
-importScripts("/surf/scram/scramjet.all.js");
+// Load scramjet modules in the correct dependency order:
+// 1. codecs   → sets self.__scramjet$codecs (needed by config)
+// 2. config   → sets self.__scramjet$config (needed by bundle/worker)
+// 3. bundle   → sets self.__scramjet$bundle (rewriters for HTML/JS/CSS)
+// 4. worker   → defines ScramjetServiceWorker class
+importScripts(
+	"/surf/scram/scramjet.codecs.js",
+	"/surf/scram/scramjet.config.js",
+	"/surf/scram/scramjet.bundle.js",
+	"/surf/scram/scramjet.worker.js"
+);
 
-const { ScramjetServiceWorker } = $scramjetLoadWorker();
+// Override default config paths to match our /surf/scram/ route
+self.__scramjet$config = Object.assign(self.__scramjet$config || {}, {
+	prefix: "/scramjet/",
+	config: "/surf/scram/scramjet.config.js",
+	bundle: "/surf/scram/scramjet.bundle.js",
+	worker: "/surf/scram/scramjet.worker.js",
+	client: "/surf/scram/scramjet.client.js",
+	codecs: "/surf/scram/scramjet.codecs.js",
+});
+
 let scramjet = null;
 let scramjetReady = false;
 

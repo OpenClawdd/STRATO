@@ -5,86 +5,100 @@ import { Readable } from "node:stream";
 import fs from "node:fs";
 import "dotenv/config";
 import express from "express";
-import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
+import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
+import { scramjetPath } from "@mercuryworkshop/scramjet";
+import { createBareServer } from "@tomphttp/bare-server-node";
 
 // ---------------------------------------------------------------------------
-// Configuration (loaded from .env via dotenv)
+// Configuration
 // ---------------------------------------------------------------------------
-const {
-	SITE_PASSWORD = "changeme",
-	COOKIE_SECRET = "change_this_to_a_long_random_string",
-	PORT = "8080",
-	SECURE_COOKIES = "false",
-} = process.env;
-
-const isSecure = SECURE_COOKIES === "true";
+const { PORT = "8080" } = process.env;
 
 // ---------------------------------------------------------------------------
-// Pre-load & cache index.html and games.json (no readFileSync per request)
+// Resolve project root (CWD)
 // ---------------------------------------------------------------------------
-const __dirname = resolve(".");
+const ROOT = process.cwd();
+
+// Pre-load & cache index.html
 let cachedIndexHtml = "";
-let cachedGamesJson = "[]";
-
 function refreshCache() {
 	try {
-		cachedIndexHtml = fs.readFileSync(
-			join(__dirname, "public", "index.html"),
-			"utf8"
-		);
+		cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
 	} catch (e) {
 		console.error("Failed to cache index.html:", e.message);
 		cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
 	}
-
-	try {
-		cachedGamesJson = fs.readFileSync(
-			join(__dirname, "config", "games.json"),
-			"utf8"
-		);
-	} catch (e) {
-		console.warn(
-			"Could not read config/games.json — returning empty games list."
-		);
-		cachedGamesJson = "[]";
-	}
 }
-
-// Cache immediately on boot, then refresh every 60 seconds
 refreshCache();
 setInterval(refreshCache, 60_000);
-
-import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 
 // ---------------------------------------------------------------------------
 // Express app
 // ---------------------------------------------------------------------------
 const app = express();
 
-// Expose config folder for games.json fetch
-app.use("/config", express.static(join(__dirname, "config")));
-
 // -- Security headers -------------------------------------------------------
 app.use(
-	helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
+	helmet({
+		contentSecurityPolicy: {
+			directives: {
+				defaultSrc: ["'self'"],
+				scriptSrc: ["'self'", "'unsafe-eval'", "blob:", "data:"],
+				scriptSrcAttr: ["'none'"],
+				frameSrc: ["'self'", "blob:", "https:", "http:"],
+				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
+				imgSrc: ["'self'", "data:", "blob:", "https:"],
+				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+				workerSrc: ["'self'", "blob:"],
+			},
+		},
+		crossOriginEmbedderPolicy: false,
+	})
 );
 
-// Serve Static Assets
+// ---------------------------------------------------------------------------
+// Static Assets — Proxy Modules
+// ---------------------------------------------------------------------------
+
+// Ultraviolet
 app.use("/uv/", express.static(uvPath));
-app.use(
-	"/surf/scram/",
-	express.static("node_modules/@mercuryworkshop/scramjet/dist")
-);
+
+// Scramjet — uses the official export path
+app.use("/surf/scram/", express.static(scramjetPath));
+
+// Bare-Mux
 app.use(
 	"/surf/baremux/",
-	express.static("node_modules/@mercuryworkshop/bare-mux/dist")
+	express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist"))
 );
 
-// -- Compression (gzip / brotli) --------------------------------------------
+// Epoxy Transport — serves full bundle (ESM) + wasm
+app.use(
+	"/surf/epoxy/",
+	express.static(
+		join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"),
+		{
+			setHeaders(res, filePath) {
+				if (filePath.endsWith(".js")) {
+					res.setHeader("Content-Type", "application/javascript");
+				}
+				if (filePath.endsWith(".wasm")) {
+					res.setHeader("Content-Type", "application/wasm");
+				}
+			},
+		}
+	)
+);
+
+// Game config
+app.use("/config", express.static(join(ROOT, "config")));
+
+// -- Compression ------------------------------------------------------------
 app.use(
 	compression({
 		filter: (req, res) => {
@@ -94,52 +108,44 @@ app.use(
 	})
 );
 
-app.use(cookieParser(COOKIE_SECRET));
 app.use(express.urlencoded({ extended: true }));
 
 // ---------------------------------------------------------------------------
 // Rate limiters
 // ---------------------------------------------------------------------------
-const apiLimiter = rateLimit({
+const smuggleLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	max: 100,
-	message: "Too many requests. Please slow down.",
+	max: 30,
+	message: "Too many smuggle requests. Please slow down.",
 	standardHeaders: true,
 	legacyHeaders: false,
 });
 
-// ---------------------------------------------------------------------------
-// Body parser
-// ---------------------------------------------------------------------------
 app.use(express.json({ limit: "50mb" }));
-
-app.use("/api/save", apiLimiter);
+app.use("/api/smuggle", smuggleLimiter);
 
 // ---------------------------------------------------------------------------
-// /api/smuggle — Streaming pipeline for bypassing firewalls
+// NO AUTH — direct access
 // ---------------------------------------------------------------------------
+
+// /api/smuggle — Streaming pipeline
 app.post("/api/smuggle", async (req, res) => {
 	const { targetUrl } = req.body;
-	if (!targetUrl) {
-		return res.status(400).send("No targetUrl provided");
-	}
+	if (!targetUrl) return res.status(400).send("No targetUrl provided");
 
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
+	const timeout = setTimeout(() => controller.abort(), 30000);
 
 	try {
 		const response = await fetch(targetUrl, { signal: controller.signal });
 		clearTimeout(timeout);
 
 		if (!response.ok) {
-			return res
-				.status(response.status)
-				.send(`Failed to fetch: ${response.statusText}`);
+			return res.status(response.status).send(`Failed to fetch: ${response.statusText}`);
 		}
 
 		const contentType = response.headers.get("content-type");
 		if (contentType) res.setHeader("Content-Type", contentType);
-
 		res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
 		res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
 
@@ -151,7 +157,6 @@ app.post("/api/smuggle", async (req, res) => {
 	} catch (e) {
 		clearTimeout(timeout);
 		if (e.name === "AbortError") {
-			console.error("Smuggle fetch timed out:", targetUrl);
 			res.status(504).send("Fetch timed out");
 		} else {
 			console.error("Smuggle fetch failed:", e);
@@ -160,47 +165,37 @@ app.post("/api/smuggle", async (req, res) => {
 	}
 });
 
-// ---------------------------------------------------------------------------
 // /api/save — Backup endpoint
-// ---------------------------------------------------------------------------
 app.post("/api/save", (req, res) => {
 	try {
 		const data = req.body.data;
 		if (!data) return res.status(400).send("No data provided");
 
-		const saveDir = join(process.cwd(), "backups", "users");
-		if (!fs.existsSync(saveDir)) {
-			fs.mkdirSync(saveDir, { recursive: true });
-		}
+		const saveDir = join(ROOT, "backups", "users");
+		if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
 
 		const id = req.ip.replace(/[^a-zA-Z0-9]/g, "_") || Date.now().toString();
 		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-		const filename = `save_${id}_${timestamp}.json`;
-
-		fs.writeFileSync(join(saveDir, filename), JSON.stringify({ data }));
-		res.status(200).send("Save backed up successfully.");
+		fs.writeFileSync(join(saveDir, `save_${id}_${timestamp}.json`), JSON.stringify({ data }));
+		res.status(200).send("Save backed up.");
 	} catch (e) {
-		console.error("Failed to backup save", e);
+		console.error("Save failed:", e);
 		res.status(500).send("Internal Server Error");
 	}
 });
 
-// ---------------------------------------------------------------------------
 // Homepage
-// ---------------------------------------------------------------------------
 app.get("/", (req, res) => {
 	res.send(cachedIndexHtml);
 });
 
-// Force the server to look in the exact absolute path for the public folder
-app.use(express.static(process.cwd() + "/public"));
+// Static public folder
+app.use(express.static(join(ROOT, "public")));
 
-// Bulletproof 404 fallback so the server never crashes
+// 404 fallback
 app.use((req, res) => {
 	res.status(404).send("STRATO Error: Could not find " + req.url);
 });
-
-import { createBareServer } from "@tomphttp/bare-server-node";
 
 // ---------------------------------------------------------------------------
 // HTTP + WebSocket server
@@ -213,7 +208,6 @@ server.on("request", (req, res) => {
 		bareServer.routeRequest(req, res);
 		return;
 	}
-
 	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
 	res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
 	app(req, res);
@@ -232,31 +226,22 @@ server.on("upgrade", (req, socket, head) => {
 });
 
 let port = parseInt(PORT, 10);
-
 if (isNaN(port)) port = 8080;
 
 server.on("listening", () => {
 	const address = server.address();
-	console.log("Listening on:");
+	console.log("STRATO listening on:");
 	console.log(`\thttp://localhost:${address.port}`);
 	console.log(`\thttp://${hostname()}:${address.port}`);
-	console.log(
-		`\thttp://${
-			address.family === "IPv6" ? `[${address.address}]` : address.address
-		}:${address.port}`
-	);
 });
 
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
 
 function shutdown() {
-	console.log("SIGTERM signal received: closing HTTP server");
+	console.log("Shutting down...");
 	server.close();
 	process.exit(0);
 }
 
-server.listen({
-	port,
-	host: "0.0.0.0",
-});
+server.listen({ port, host: "0.0.0.0" });

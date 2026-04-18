@@ -178,5 +178,173 @@
         "u": "https://froggi.es/mario/",
         "t": "Action",
         "img": "/assets/thumbnails/super_mario_64.webp"
+    },
+    {
+        "n": "Retro Bowl",
+        "u": "https://retrobowl.eu.org/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/retro_bowl.webp"
+    },
+    {
+        "n": "Slope",
+        "u": "https://slope3d.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/slope.webp"
+    },
+    {
+        "n": "1v1.LOL",
+        "u": "https://1v1.lol/",
+        "t": "Shooter",
+        "img": "/assets/thumbnails/1v1_lol.webp"
+    },
+    {
+        "n": "Krunker.io",
+        "u": "https://krunker.io/",
+        "t": "Shooter",
+        "img": "/assets/thumbnails/krunker_io.webp"
+    },
+    {
+        "n": "Happy Wheels",
+        "u": "https://happywheels.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/happy_wheels.webp"
+    },
+    {
+        "n": "Temple Run 2",
+        "u": "https://temple-run-2.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/temple_run_2.webp"
+    },
+    {
+        "n": "Stickman Hook",
+        "u": "https://stickman-hook.com/",
+        "t": "Casual",
+        "img": "/assets/thumbnails/stickman_hook.webp"
+    },
+    {
+        "n": "Chrome Dino",
+        "u": "https://chromedino.com/",
+        "t": "Classic",
+        "img": "/assets/thumbnails/chrome_dino.webp"
+    },
+    {
+        "n": "Slither.io",
+        "u": "https://slither.io/",
+        "t": "Multiplayer",
+        "img": "/assets/thumbnails/slither_io.webp"
+    },
+    {
+        "n": "Diep.io",
+        "u": "https://diep.io/",
+        "t": "Multiplayer",
+        "img": "/assets/thumbnails/diep_io.webp"
+    },
+    {
+        "n": "Gunspin",
+        "u": "https://gunspin.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/gunspin.webp"
+    },
+    {
+        "n": "A Small World Cup",
+        "u": "https://asmallworldcup.com/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/a_small_world_cup.webp"
+    },
+    {
+        "n": "House of Hazards",
+        "u": "https://houseofhazards.io/",
+        "t": "Multiplayer",
+        "img": "/assets/thumbnails/house_of_hazards.webp"
+    },
+    {
+        "n": "Learn to Fly 3",
+        "u": "https://learntofly3.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/learn_to_fly_3.webp"
+    },
+    {
+        "n": "Age of War",
+        "u": "https://ageofwar.io/",
+        "t": "Strategy",
+        "img": "/assets/thumbnails/age_of_war.webp"
+    },
+    {
+        "n": "Raft Wars",
+        "u": "https://raftwars.io/",
+        "t": "Action",
+        "img": "/assets/thumbnails/raft_wars.webp"
+    },
+    {
+        "n": "Tetris",
+        "u": "https://tetris.com/play-tetris",
+        "t": "Classic",
+        "img": "/assets/thumbnails/tetris.webp"
+    },
+    {
+        "n": "Papa's Pizzeria",
+        "u": "https://papaspizzeria.io/",
+        "t": "Cooking",
+        "img": "/assets/thumbnails/papa_s_pizzeria.webp"
+    },
+    {
+        "n": "Bloons TD",
+        "u": "https://bloons-td.com/",
+        "t": "Strategy",
+        "img": "/assets/thumbnails/bloons_td.webp"
+    },
+    {
+        "n": "Idle Breakout",
+        "u": "https://idlebreakout.io/",
+        "t": "Idle",
+        "img": "/assets/thumbnails/idle_breakout.webp"
+    },
+    {
+        "n": "Eggy Car",
+        "u": "https://eggycar.io/",
+        "t": "Casual",
+        "img": "/assets/thumbnails/eggy_car.webp"
+    },
+    {
+        "n": "Drive Mad",
+        "u": "https://drivemad.io/",
+        "t": "Racing",
+        "img": "/assets/thumbnails/drive_mad.webp"
+    },
+    {
+        "n": "Rocket League 2D",
+        "u": "https://rocketleague2d.io/",
+        "t": "Sports",
+        "img": "/assets/thumbnails/rocket_league_2d.webp"
+    },
+    {
+        "n": "Bob the Robber",
+        "u": "https://bobtherobber.io/",
+        "t": "Adventure",
+        "img": "/assets/thumbnails/bob_the_robber.webp"
+    },
+    {
+        "n": "Cut the Rope",
+        "u": "https://cuttherope.io/",
+        "t": "Puzzle",
+        "img": "/assets/thumbnails/cut_the_rope.webp"
+    },
+    {
+        "n": "Duck Life",
+        "u": "https://ducklife.io/",
+        "t": "Simulation",
+        "img": "/assets/thumbnails/duck_life.webp"
+    },
+    {
+        "n": "Fireboy and Watergirl",
+        "u": "https://fireboyandwatergirl.io/",
+        "t": "Puzzle",
+        "img": "/assets/thumbnails/fireboy_and_watergirl.webp"
+    },
+    {
+        "n": "Tanuki Sunset",
+        "u": "https://tanukisunset.io/",
+        "t": "Arcade",
+        "img": "/assets/thumbnails/tanuki_sunset.webp"
     }
 ]
