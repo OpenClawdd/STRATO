@@ -103,6 +103,19 @@ tabBtns.forEach(btn => {
     const targetPanel = document.getElementById(targetId);
     if (targetPanel) {
       targetPanel.classList.add('active');
+
+      // Iframe Lazy Loading Logic for Media Tabs
+      if (targetId === 'tab-streaming') {
+        const iframe = document.getElementById('streaming-iframe');
+        if (iframe && iframe.src === 'about:blank' || iframe.src === window.location.href + 'about:blank') {
+          iframe.src = 'https://cineby.sc';
+        }
+      } else if (targetId === 'tab-listening') {
+        const iframe = document.getElementById('listening-iframe');
+        if (iframe && iframe.src === 'about:blank' || iframe.src === window.location.href + 'about:blank') {
+          iframe.src = 'https://monochrome.tf';
+        }
+      }
     }
   });
 });
@@ -229,17 +242,8 @@ function renderGames() {
     title.className = 'game-title';
     title.textContent = game.title;
 
-    const srcLabel = document.createElement('div');
-    srcLabel.className = 'game-source';
-    try {
-        srcLabel.textContent = new URL(game.source).hostname;
-    } catch {
-        srcLabel.textContent = game.source;
-    }
-
     card.appendChild(img);
     card.appendChild(title);
-    card.appendChild(srcLabel);
 
     card.addEventListener('click', () => openGame(game.url));
 

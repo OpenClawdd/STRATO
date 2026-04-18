@@ -197,6 +197,18 @@ body {
   background: transparent;
 }
 
+.iframe-panel {
+  padding: 0; /* Remove 30px padding from tab-panel */
+}
+
+.full-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  display: block;
+}
+
 /* Games Tab Layout (Arsenal) */
 .games-layout {
   display: flex;
@@ -365,54 +377,49 @@ body {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
 }
 
 .game-card {
   position: relative;
-  background: rgba(10, 16, 28, 0.8);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 14px;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
   cursor: pointer;
   transform: translateZ(0);
-  will-change: transform, box-shadow;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+  will-change: transform;
+  transition: transform 0.25s ease;
 }
 
 .game-card:hover {
   transform: translateY(-6px) translateZ(0);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 40px rgba(26, 75, 140, 0.25);
 }
 
 .game-img {
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 1/1;
   background: #0a0a0a;
-  border-radius: 6px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
   object-fit: cover;
 }
 
 .game-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: block;
 }
 
 .game-source {
-  font-size: 0.75rem;
-  color: #8b9bb4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: none;
 }
 
 /* Fullscreen Overlay for Playing Games */
