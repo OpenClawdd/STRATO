@@ -11,6 +11,7 @@
 import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
+import { fileURLToPath } from "url";
 
 const ASSETS_DIR = path.join(process.cwd(), "public", "assets");
 const THUMBS_DIR = path.join(ASSETS_DIR, "thumbnails");
@@ -58,7 +59,7 @@ const EXPANSION_GAMES = [
 	{ n: "Tanuki Sunset", u: "https://tanukisunset.io/", t: "Arcade" },
 ];
 
-function safeName(name) {
+export function safeName(name) {
 	return name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_$/, "");
 }
 
@@ -174,7 +175,10 @@ async function main() {
 	console.log(`Saved to ${GAMES_JSON}`);
 }
 
-main().catch((e) => {
-	console.error("Fatal error:", e);
-	process.exit(1);
-});
+const isMain = process.argv[1] === fileURLToPath(import.meta.url);
+if (isMain) {
+	main().catch((e) => {
+		console.error("Fatal error:", e);
+		process.exit(1);
+	});
+}
