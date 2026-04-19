@@ -4,12 +4,12 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title id="page-title">STRATO</title>
-	<meta name="description" content="Stratospheric proxy network." />
+	<title id="page-title">Calculus & Linear Algebra Gateway</title>
+	<meta name="description" content="Secure student academic portal." />
 	<link id="favicon" rel="icon"
-		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>◆</text></svg>" />
+		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20' font-size='20'>🎓</text></svg>" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
 		rel="stylesheet" />
 	
 	<link rel="stylesheet" href="omni.css" />
@@ -26,83 +26,109 @@
 			<div class="spl-mark">STRATO</div>
 			<div class="spl-line"></div>
 			<div class="spl-sub">P R O X Y &nbsp; N E T W O R K</div>
-			<button class="spl-btn" id="splash-enter">
-				<span>Enter the Stratosphere</span>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-					<line x1="5" y1="12" x2="19" y2="12" />
-					<polyline points="12 5 19 12 12 19" />
-				</svg>
-			</button>
+			
+			<div class="spl-launchpad" id="launchpad">
+				<div class="lp-tile" data-launch="grid">
+					<div class="lp-icon">🕹️</div>
+					<div class="lp-label">ARCADE</div>
+				</div>
+				<div class="lp-tile" data-launch="browser">
+					<div class="lp-icon">🌐</div>
+					<div class="lp-label">BROWSER</div>
+				</div>
+				<div class="lp-tile" data-launch="ai">
+					<div class="lp-icon">🧠</div>
+					<div class="lp-label">DECOY AI</div>
+				</div>
+				<div class="lp-tile" data-launch="watch">
+					<div class="lp-icon">📺</div>
+					<div class="lp-label">MEDIA</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- IGNITION OVERLAY -->
+	<div id="ignite-overlay" class="ignite-hidden">
+		<div class="ignite-box">
+			<div class="ignite-spinner"></div>
+			<div class="ignite-text">SYNCHRONIZING TRANSPORT LAYER...</div>
+			<div class="ignite-progress"><div id="ignite-bar"></div></div>
+			<div class="ignite-status">EPX-V3 HANDSHAKE READY</div>
 		</div>
 	</div>
 
 	<!-- APP -->
 	<div id="app">
-		<!-- FLOATING DOCK -->
-		<nav id="dock">
-			<div class="dock-brand">
-				<span class="dock-glyph">◆</span>
-				<span class="dock-name">STRATO</span>
-			</div>
-			<div class="dock-tabs">
-				<button class="dtab on" data-view="grid">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<rect x="3" y="3" width="7" height="7" rx="1.5" />
-						<rect x="14" y="3" width="7" height="7" rx="1.5" />
-						<rect x="3" y="14" width="7" height="7" rx="1.5" />
-						<rect x="14" y="14" width="7" height="7" rx="1.5" />
-					</svg>
-					<span>Games</span>
-				</button>
-				<button class="dtab" data-view="watch">
-					<svg width="16" height="16" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<rect x="2" y="3" width="20" height="14" rx="2" />
-						<path d="M8 21h8M12 17v4" />
-					</svg>
-					<span>Watch</span>
-				</button>
-				<button class="dtab" data-view="listen">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-						<path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-					</svg>
-					<span>Listen</span>
-				</button>
-				<button class="dtab" data-view="browse">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<circle cx="12" cy="12" r="10" />
-						<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-					</svg>
-					<span>Browse</span>
-				</button>
-				<button class="dtab" data-view="settings" id="settings-tab-btn">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<path d="M12.22 2h-.44a2 2 0 0 0-2 2 2 2 0 0 1-2 2 2 2 0 0 0-2 2 2 2 0 0 1-2 2 2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2 2 2 0 0 1 2 2 2 2 0 0 0 2 2 2 2 0 0 1 2 2 2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2 2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 1 2-2 2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2 2 2 0 0 1-2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2 2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-					</svg>
-					<span>Settings</span>
-				</button>
-			</div>
-			<div class="dock-right">
-				<div class="dock-search">
-					<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<circle cx="11" cy="11" r="7" />
-						<line x1="17" y1="17" x2="21" y2="21" />
-					</svg>
-					<!-- We reuse this input for BOTH Search & Browse via logic -->
-					<input type="text" id="searchInput" placeholder="Search games or surf URL..." autocomplete="off" spellcheck="false" />
+		<!-- VERTICAL CORNER REVEAL (REPLACES DOCK) -->
+
+		<div id="corner-nav">
+			<div class="cn-menu" id="corner-menu">
+				<div class="cn-vitals">
+					<div class="vital-item" id="vital-proxy">
+						<span class="vital-dot"></span>
+						<span class="vital-label">PROXY</span>
+					</div>
+					<div class="vital-item" id="vital-fps">
+						<span class="vital-label">FPS: --</span>
+					</div>
+				</div>
+				<div class="cn-item" data-view="home"><span>Home</span></div>
+				<div class="cn-item" data-view="grid"><span>Games</span></div>
+				
+				<div class="cn-search">
+					<input type="text" id="searchInput" placeholder="Search array..." autocomplete="off">
 				</div>
 				<div id="category-bar"></div>
-				<div class="dock-spacer"></div>
-				<button class="dock-panic" id="panicBtn" title="Panic (ESC)">⚡</button>
+
+				<div class="cn-item" data-view="watch"><span>Watch</span></div>
+				<div class="cn-item" data-view="ai"><span>AI Decoy</span></div>
+				<div class="cn-item" data-view="listen"><span>Listen</span></div>
+				<div class="cn-item" data-view="browse"><span>Browse</span></div>
+				<div class="cn-item" data-view="settings"><span>Settings</span></div>
+				<div class="cn-item panic" id="panicBtn"><span>Panic</span></div>
 			</div>
-		</nav>
+			<button id="corner-trigger">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+					<polyline points="9 22 9 12 15 12 15 22"/>
+				</svg>
+				<span class="cn-version">v22.2</span>
+			</button>
+		</div>
 
 		<!-- VIEWS -->
 		<main id="content">
+			<!-- HOME / ZEN LANDING -->
+			<div id="view-home" class="view active">
+				<div class="zen-landing">
+					<div class="zen-brand">
+						<div class="zen-glyph">◆</div>
+						<h1 class="zen-title">STRATO</h1>
+						<p class="zen-desc">Hover dock for system modules.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- BROWSER -->
+			<div id="view-browser" class="view">
+				<div class="browser-container">
+					<div class="browser-bar">
+						<input type="text" id="browserUrl" placeholder="Enter URL to surf..." autocomplete="off" />
+						<button id="browserGo">Surfer Sync</button>
+					</div>
+					<iframe id="browser-iframe" src="about:blank"></iframe>
+				</div>
+			</div>
+		</main>
+	</div>
+
+
+
 			<!-- GAMES / ARCADE -->
-			<div id="view-grid" class="view active">
+			<div id="view-grid" class="view">
 				<div class="grid-header">
-					<h2 class="section-title">TERMINAL DATA: ARRAY</h2>
+					<h2 class="section-title">LIBRARY ARRAY</h2>
 					<span class="game-counter" id="gameCount">0</span>
 				</div>
 				<div class="game-grid" id="gameGrid"></div>
@@ -117,17 +143,17 @@
 						<div class="mc" data-action="watch" data-url="https://www.cineby.sc/">
 							<div class="mc-glow" style="--mc-hue:330"></div>
 							<div class="mc-icon">🎬</div>
-							<div class="mc-label">Cineby</div>
+							<div class="mc-label">Cineby ⭐</div>
 						</div>
 						<div class="mc" data-action="watch" data-url="https://www.lookmovie2.to/">
 							<div class="mc-glow" style="--mc-hue:195"></div>
 							<div class="mc-icon">🎞</div>
-							<div class="mc-label">LookMovie</div>
+							<div class="mc-label">LookMovie ⭐</div>
 						</div>
 						<div class="mc" data-action="watch" data-url="https://youtube.com/">
 							<div class="mc-glow" style="--mc-hue:0"></div>
 							<div class="mc-icon">▶️</div>
-							<div class="mc-label">YouTube</div>
+							<div class="mc-label">YouTube ⭐</div>
 						</div>
 					</div>
 				</div>
@@ -144,11 +170,25 @@
 							<div class="mc-icon">🎧</div>
 							<div class="mc-label">Monochrome</div>
 						</div>
-						<div class="mc" data-action="listen" data-url="https://open.spotify.com">
-							<div class="mc-glow" style="--mc-hue:140"></div>
-							<div class="mc-icon">🎵</div>
-							<div class="mc-label">Spotify</div>
+						<div class="mc" data-action="listen" data-url="https://soundcloud.com">
+							<div class="mc-glow" style="--mc-hue:20"></div>
+							<div class="mc-icon">☁️</div>
+							<div class="mc-label">SoundCloud</div>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- AI DECOY CHAT -->
+			<div id="view-ai" class="view">
+				<div class="ai-panel">
+					<h2 class="section-title">HOMEWORK ASSISTANT</h2>
+					<div class="ai-chat-window" id="aiChatWindow">
+						<div class="ai-message system">Welcome to Student Success Chat. How can I help you today?</div>
+					</div>
+					<div class="ai-input-bar">
+						<input type="text" id="aiChatInput" placeholder="Message the assistant..." autocomplete="off">
+						<button id="aiSendBtn">Send</button>
 					</div>
 				</div>
 			</div>
@@ -161,6 +201,14 @@
 					
 					<div class="settings-grid">
 						<div class="setting-item">
+							<label>Navigation Interface</label>
+							<select id="setting-nav-mode">
+								<option value="dock">Stealth Dock (Center)</option>
+								<option value="corner">Corner Reveal (VAPOR style)</option>
+							</select>
+							<div class="setting-desc">Choose how you access system modules.</div>
+						</div>
+						<div class="setting-item">
 							<label>Active Theme</label>
 							<select id="themeSelector">
 								<option value="sky">Sky (Frosted)</option>
@@ -171,10 +219,10 @@
 						<div class="setting-item">
 							<label>Preferred Proxy Engine</label>
 							<select id="proxyEngine">
-								<option value="splash">Splash (Node Native)</option>
-								<option value="uv">Ultraviolet (WebWorker)</option>
+								<option value="uv" selected>Ultraviolet (WebWorker)</option>
+								<option value="splash">Splash (Scramjet V2)</option>
 							</select>
-							<p class="setting-desc">Splash is faster; UV is stealthier for complex apps.</p>
+							<p class="setting-desc">Splash is fast; UV is robust for complex apps.</p>
 						</div>
 						<div class="setting-item">
 							<label>Panic URL</label>
@@ -182,11 +230,20 @@
 							<p class="setting-desc">Redirect destination when you hit the Panic Button.</p>
 						</div>
 						<div class="setting-item">
-							<label>Tab Cloaking (WIP)</label>
+							<label>Decoy Grid Content (GN Math)</label>
+							<div class="toggle-group">
+								<button class="toggle-btn active" id="math-off">Games Default</button>
+								<button class="toggle-btn" id="math-on">GN Math Library</button>
+							</div>
+							<p class="setting-desc">Hot-swaps the visual game array with functional math curriculum links.</p>
+						</div>
+						<div class="setting-item">
+							<label>Dynamic Tab Cloaking</label>
 							<div class="toggle-group">
 								<button class="toggle-btn active" id="cloak-off">Off</button>
-								<button class="toggle-btn" id="cloak-on">Google Docs</button>
+								<button class="toggle-btn" id="cloak-on">Google Drive (Auto)</button>
 							</div>
+							<p class="setting-desc">If ON, leaving this tab automatically morphs it into Google Drive.</p>
 						</div>
 					</div>
 					
@@ -201,7 +258,7 @@
 			<div id="view-browse" class="view">
 				<div class="media-panel">
 					<h2 class="section-title">BROWSE</h2>
-					<p class="media-sub">Type any URL in the bottom search bar and drop it into the proxy.</p>
+					<p class="media-sub">Legacy browse view. Use the Browser module for full surfing.</p>
 				</div>
 			</div>
 		</main>
@@ -222,6 +279,9 @@
     <!-- Proxy Backend (Ultraviolet) -->
     <script src="/uv/uv.bundle.js" defer></script>
     <script src="/uv/uv.config.js" defer></script>
-    <script src="omni.js?v=20.0"></script>
+    <!-- Scramjet (Splash Evolution) -->
+    <script src="/surf/scram/scramjet.codecs.js" defer></script>
+    <script src="/scramjet.config.js" defer></script>
+    <script src="omni.js?v=22.2" defer></script>
 </body>
 </html>

@@ -37,18 +37,18 @@ const { PORT = "8080" } = process.env;
 // ---------------------------------------------------------------------------
 const ROOT = process.cwd();
 
-// Pre-load & cache index.html
+// Pre-load index.html (Caching disabled for active development)
 let cachedIndexHtml = "";
 function refreshCache() {
 	try {
 		cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
 	} catch (e) {
-		console.error("Failed to cache index.html:", e.message);
+		console.error("Failed to read index.html:", e.message);
 		cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
 	}
 }
 refreshCache();
-setInterval(refreshCache, 60_000);
+// setInterval(refreshCache, 60_000); // Disabled cache interval
 
 // ---------------------------------------------------------------------------
 // Express app
@@ -62,13 +62,14 @@ app.use(
 			directives: {
 				defaultSrc: ["'self'"],
 				scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:", "data:"],
-				scriptSrcAttr: ["'none'"],
-				frameSrc: ["'self'", "blob:", "https:", "http:"],
+				scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+				frameSrc: ["'self'", "blob:", "https:", "http:", "*.3kh0-lite.pages.dev"],
 				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
-				imgSrc: ["'self'", "data:", "blob:", "https:"],
-				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-				workerSrc: ["'self'", "'unsafe-eval'", "blob:"],
+				imgSrc: ["'self'", "data:", "blob:", "https:", "*.3kh0-lite.pages.dev", "cdn.jsdelivr.net"],
+				mediaSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "cdn.jsdelivr.net"],
+				fontSrc: ["'self'", "https://fonts.gstatic.com", "https://r2cdn.perplexity.ai", "data:"],
+				workerSrc: ["'self'", "blob:", "data:"], // Removed unsafe-eval, added data: for some proxy workers
 			},
 		},
 		crossOriginEmbedderPolicy: false,
@@ -90,7 +91,11 @@ app.get("/uv/sw.js", (req, res) => {
 app.use("/uv/", express.static(uvPath));
 
 // Scramjet — uses the official export path
-app.use("/surf/scram/", express.static(scramjetPath));
+const scramjetPrefix = "/surf/scram/";
+app.use(scramjetPrefix, express.static(scramjetPath));
+app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) => {
+	res.sendFile(join(process.cwd(), "public", "scramjet.config.js"));
+});
 
 // Bare-Mux
 app.use(
@@ -225,8 +230,15 @@ app.get("/proxy", async (req, res) => {
 		});
 
 		const encoding = response.headers["content-encoding"];
-		const contentType = response.headers["content-type"] || "";
 		let buffer = response.data;
+
+		// FORCE CONTENT-TYPE FOR RAW GITHUB/JSDELIVR SOURCES
+		if (targetUrl.includes('raw.githubusercontent.com') || targetUrl.includes('cdn.jsdelivr.net')) {
+			if (!contentType || contentType.includes('text/plain')) {
+				proxyHeaders['content-type'] = 'text/html; charset=utf-8';
+				contentType = 'text/html';
+			}
+		}
 
 		if (encoding) {
 			try {
