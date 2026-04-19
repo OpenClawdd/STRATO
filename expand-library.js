@@ -54,12 +54,19 @@ const EXPANSION_GAMES = [
 	{ n: "Bob the Robber", u: "https://bobtherobber.io/", t: "Adventure" },
 	{ n: "Cut the Rope", u: "https://cuttherope.io/", t: "Puzzle" },
 	{ n: "Duck Life", u: "https://ducklife.io/", t: "Simulation" },
-	{ n: "Fireboy and Watergirl", u: "https://fireboyandwatergirl.io/", t: "Puzzle" },
+	{
+		n: "Fireboy and Watergirl",
+		u: "https://fireboyandwatergirl.io/",
+		t: "Puzzle",
+	},
 	{ n: "Tanuki Sunset", u: "https://tanukisunset.io/", t: "Arcade" },
 ];
 
 function safeName(name) {
-	return name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_$/, "");
+	return name
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "_")
+		.replace(/_$/, "");
 }
 
 async function downloadThumbnail(name) {
@@ -72,7 +79,9 @@ async function downloadThumbnail(name) {
 		await fs.access(destPath);
 		console.log(`  ⏭  Thumbnail exists: ${slug}.webp`);
 		return localUrl;
-	} catch { /* doesn't exist, continue */ }
+	} catch {
+		/* doesn't exist, continue */
+	}
 
 	// Try to fetch a thumbnail from Google Images via a simple search
 	// Fall back to generating a placeholder via sharp
@@ -80,16 +89,21 @@ async function downloadThumbnail(name) {
 		const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(name + " game logo")}&tbm=isch&tbs=isz:m`;
 		const res = await fetch(searchUrl, {
 			headers: {
-				"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
 			},
 			signal: AbortSignal.timeout(8000),
 		});
 		const html = await res.text();
 
 		// Extract first image URL from Google Images HTML
-		const match = html.match(/\["(https?:\/\/[^"]+\.(?:jpg|jpeg|png|webp))",\d+,\d+\]/i);
+		const match = html.match(
+			/\["(https?:\/\/[^"]+\.(?:jpg|jpeg|png|webp))",\d+,\d+\]/i
+		);
 		if (match) {
-			const imgRes = await fetch(match[1], { signal: AbortSignal.timeout(8000) });
+			const imgRes = await fetch(match[1], {
+				signal: AbortSignal.timeout(8000),
+			});
 			if (imgRes.ok) {
 				const buf = Buffer.from(await imgRes.arrayBuffer());
 				await sharp(buf)
@@ -113,9 +127,7 @@ async function downloadThumbnail(name) {
 			<text x="200" y="175" text-anchor="middle" font-family="sans-serif" font-size="16" fill="hsl(${hue}, 30%, 50%)">${name}</text>
 		</svg>`;
 
-		await sharp(Buffer.from(svg))
-			.webp({ quality: 78 })
-			.toFile(destPath);
+		await sharp(Buffer.from(svg)).webp({ quality: 78 }).toFile(destPath);
 		return localUrl;
 	}
 }
@@ -137,7 +149,9 @@ async function main() {
 	}
 
 	// Build a set of existing game names (lowercase) for dedup
-	const existingNames = new Set(existing.map((g) => (g.n || "").toLowerCase().trim()));
+	const existingNames = new Set(
+		existing.map((g) => (g.n || "").toLowerCase().trim())
+	);
 
 	// Filter expansion list to only new games
 	const newGames = EXPANSION_GAMES.filter(
