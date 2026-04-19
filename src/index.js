@@ -12,6 +12,20 @@ import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
 import { createBareServer } from "@tomphttp/bare-server-node";
+import axios from "axios";
+import zlib from "node:zlib";
+import { promisify } from "node:util";
+
+const gunzip = promisify(zlib.gunzip);
+const inflate = promisify(zlib.inflate);
+const brotliDecompress = promisify(zlib.brotliDecompress);
+
+async function decompress(buffer, encoding) {
+	if (encoding === "gzip") return gunzip(buffer);
+	if (encoding === "deflate") return inflate(buffer);
+	if (encoding === "br") return brotliDecompress(buffer);
+	return buffer;
+}
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -47,14 +61,14 @@ app.use(
 		contentSecurityPolicy: {
 			directives: {
 				defaultSrc: ["'self'"],
-				scriptSrc: ["'self'", "'unsafe-eval'", "blob:", "data:"],
+				scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:", "data:"],
 				scriptSrcAttr: ["'none'"],
 				frameSrc: ["'self'", "blob:", "https:", "http:"],
 				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
 				imgSrc: ["'self'", "data:", "blob:", "https:"],
 				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
 				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-				workerSrc: ["'self'", "blob:"],
+				workerSrc: ["'self'", "'unsafe-eval'", "blob:"],
 			},
 		},
 		crossOriginEmbedderPolicy: false,
@@ -66,6 +80,13 @@ app.use(
 // ---------------------------------------------------------------------------
 
 // Ultraviolet
+// Serve custom config & sw wrapper overriding the npm package defaults
+app.get("/uv/uv.config.js", (req, res) => {
+	res.sendFile(join(ROOT, "public", "uv", "uv.config.js"));
+});
+app.get("/uv/sw.js", (req, res) => {
+	res.sendFile(join(ROOT, "public", "uv", "sw.js"));
+});
 app.use("/uv/", express.static(uvPath));
 
 // Scramjet — uses the official export path
@@ -181,6 +202,79 @@ app.post("/api/save", (req, res) => {
 	} catch (e) {
 		console.error("Save failed:", e);
 		res.status(500).send("Internal Server Error");
+	}
+});
+
+// /proxy — Robust header-stripping proxy with <base href> injection
+app.get("/proxy", async (req, res) => {
+	const { url: targetUrl } = req.query;
+	if (!targetUrl) return res.status(400).send("No URL provided");
+
+	try {
+		const response = await axios({
+			method: "get",
+			url: targetUrl,
+			responseType: "arraybuffer",
+			headers: {
+				"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+				Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+			},
+			timeout: 10000,
+			maxRedirects: 4,
+			validateStatus: () => true,
+		});
+
+		const encoding = response.headers["content-encoding"];
+		const contentType = response.headers["content-type"] || "";
+		let buffer = response.data;
+
+		if (encoding) {
+			try {
+				buffer = await decompress(buffer, encoding);
+			} catch (e) {
+				console.error("[Proxy] Decompression failed:", e.message);
+			}
+		}
+
+		if (contentType.includes("text/html")) {
+			let html = buffer.toString("utf8");
+			try {
+				const urlObj = new URL(targetUrl);
+				const origin = urlObj.origin + urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
+				const baseTag = `\n<base href="${origin}">\n`;
+
+				const headMatch = html.match(/<head[^>]*>/i);
+				const htmlMatch = html.match(/<html[^>]*>/i);
+
+				if (headMatch) {
+					const insertAt = headMatch.index + headMatch[0].length;
+					html = html.slice(0, insertAt) + baseTag + html.slice(insertAt);
+				} else if (htmlMatch) {
+					const insertAt = htmlMatch.index + htmlMatch[0].length;
+					html = html.slice(0, insertAt) + baseTag + html.slice(insertAt);
+				} else {
+					html = baseTag + html;
+				}
+				buffer = Buffer.from(html, "utf8");
+			} catch (e) {
+				console.error("[Proxy] Injection failed:", e.message);
+			}
+		}
+
+		const proxyHeaders = { ...response.headers };
+		delete proxyHeaders["x-frame-options"];
+		delete proxyHeaders["content-security-policy"];
+		delete proxyHeaders["content-security-policy-report-only"];
+		delete proxyHeaders["frame-ancestors"];
+		delete proxyHeaders["content-encoding"];
+		delete proxyHeaders["content-length"];
+
+		proxyHeaders["Access-Control-Allow-Origin"] = "*";
+		res.set(proxyHeaders);
+		res.send(buffer);
+	} catch (err) {
+		console.error("[Proxy Error]:", err.message);
+		res.status(500).send(`Proxy Error: ${err.message}`);
 	}
 });
 

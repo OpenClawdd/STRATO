@@ -36,6 +36,7 @@
 		"@mercuryworkshop/wisp-js": "^0.4.1",
 		"@titaniumnetwork-dev/ultraviolet": "^3.2.10",
 		"@tomphttp/bare-server-node": "^2.0.6",
+		"axios": "^1.15.0",
 		"compression": "^1.8.1",
 		"cookie-parser": "^1.4.7",
 		"dotenv": "^17.2.1",
