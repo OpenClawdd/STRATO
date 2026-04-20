@@ -10,7 +10,9 @@
  */
 "use strict";
 
-window.stratoConnection = new BareMux.BareMuxConnection("/surf/baremux/worker.js");
+window.stratoConnection = new BareMux.BareMuxConnection(
+	"/surf/baremux/worker.js"
+);
 
 /**
  * The ScramjetController is initialized after the SW boots.

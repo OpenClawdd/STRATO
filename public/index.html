@@ -1,441 +1,777 @@
 <!doctype html>
 <html lang="en" data-theme="midnight">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="page-title">Calculus &amp; Linear Algebra Gateway</title>
-  <meta name="description" content="Secure student academic portal." />
-  <link id="favicon" rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20' font-size='20'>🎓</text></svg>" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="omni.css" />
-</head>
-<body>
-
-<!-- ═══════════════════════════════
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title id="page-title">Calculus &amp; Linear Algebra Gateway</title>
+		<meta name="description" content="Secure student academic portal." />
+		<link
+			id="favicon"
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20' font-size='20'>🎓</text></svg>"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="omni.css" />
+	</head>
+	<body>
+		<!-- ═══════════════════════════════
      AURORA BACKGROUND LAYER
      ═══════════════════════════════ -->
-<div id="aurora-bg" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-<canvas id="particleCanvas" aria-hidden="true"></canvas>
+		<div id="aurora-bg" aria-hidden="true">
+			<div class="orb orb-1"></div>
+			<div class="orb orb-2"></div>
+			<div class="orb orb-3"></div>
+		</div>
+		<canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-<!-- ═══════════════════════════════
+		<!-- ═══════════════════════════════
      SPLASH SCREEN
      ═══════════════════════════════ -->
-<div id="splash">
-  <div class="spl-inner">
-    <div class="spl-glyph-ring" aria-hidden="true">
-      <svg viewBox="0 0 120 120" fill="none">
-        <circle cx="60" cy="60" r="56" stroke="url(#rg)" stroke-width="1" stroke-dasharray="4 6"/>
-        <defs>
-          <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#00e5ff"/>
-            <stop offset="100%" stop-color="#ff2d78"/>
-          </linearGradient>
-        </defs>
-        <polygon points="60,28 67,52 92,52 72,67 79,91 60,76 41,91 48,67 28,52 53,52" fill="url(#rg)" opacity="0.9"/>
-      </svg>
-    </div>
-    <div class="spl-wordmark">STRATO</div>
-    <div class="spl-tagline">P&thinsp;R&thinsp;O&thinsp;X&thinsp;Y&nbsp;&nbsp;N&thinsp;E&thinsp;T&thinsp;W&thinsp;O&thinsp;R&thinsp;K</div>
+		<div id="splash">
+			<div class="spl-inner">
+				<div class="spl-glyph-ring" aria-hidden="true">
+					<svg viewBox="0 0 120 120" fill="none">
+						<circle
+							cx="60"
+							cy="60"
+							r="56"
+							stroke="url(#rg)"
+							stroke-width="1"
+							stroke-dasharray="4 6"
+						/>
+						<defs>
+							<linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+								<stop offset="0%" stop-color="#00e5ff" />
+								<stop offset="100%" stop-color="#ff2d78" />
+							</linearGradient>
+						</defs>
+						<polygon
+							points="60,28 67,52 92,52 72,67 79,91 60,76 41,91 48,67 28,52 53,52"
+							fill="url(#rg)"
+							opacity="0.9"
+						/>
+					</svg>
+				</div>
+				<div class="spl-wordmark">STRATO</div>
+				<div class="spl-tagline">
+					P&thinsp;R&thinsp;O&thinsp;X&thinsp;Y&nbsp;&nbsp;N&thinsp;E&thinsp;T&thinsp;W&thinsp;O&thinsp;R&thinsp;K
+				</div>
 
-    <div class="spl-launchpad" id="launchpad">
-      <button class="lp-tile" data-launch="grid">
-        <div class="lp-icon">🕹️</div>
-        <div class="lp-label">ARCADE</div>
-        <div class="lp-sub">Play Games</div>
-      </button>
-      <button class="lp-tile" data-launch="browser">
-        <div class="lp-icon">🌐</div>
-        <div class="lp-label">BROWSER</div>
-        <div class="lp-sub">Free Surf</div>
-      </button>
-      <button class="lp-tile" data-launch="watch">
-        <div class="lp-icon">📺</div>
-        <div class="lp-label">WATCH</div>
-        <div class="lp-sub">Stream Media</div>
-      </button>
-      <button class="lp-tile" data-launch="ai">
-        <div class="lp-icon">🧠</div>
-        <div class="lp-label">ASSIST</div>
-        <div class="lp-sub">Homework AI</div>
-      </button>
-    </div>
-  </div>
-</div>
+				<div class="spl-launchpad" id="launchpad">
+					<button class="lp-tile" data-launch="grid">
+						<div class="lp-icon">🕹️</div>
+						<div class="lp-label">ARCADE</div>
+						<div class="lp-sub">Play Games</div>
+					</button>
+					<button class="lp-tile" data-launch="browser">
+						<div class="lp-icon">🌐</div>
+						<div class="lp-label">BROWSER</div>
+						<div class="lp-sub">Free Surf</div>
+					</button>
+					<button class="lp-tile" data-launch="watch">
+						<div class="lp-icon">📺</div>
+						<div class="lp-label">WATCH</div>
+						<div class="lp-sub">Stream Media</div>
+					</button>
+					<button class="lp-tile" data-launch="ai">
+						<div class="lp-icon">🧠</div>
+						<div class="lp-label">ASSIST</div>
+						<div class="lp-sub">Homework AI</div>
+					</button>
+				</div>
+			</div>
+		</div>
 
-<!-- ═══════════════════════════════
+		<!-- ═══════════════════════════════
      IGNITION LOADER
      ═══════════════════════════════ -->
-<div id="ignite-overlay" class="ignite-hidden" aria-live="polite">
-  <div class="ignite-box">
-    <div class="ignite-icon" aria-hidden="true">◆</div>
-    <div class="ignite-text">SYNCHRONIZING TRANSPORT LAYER</div>
-    <div class="ignite-progress"><div id="ignite-bar"></div></div>
-    <div class="ignite-status" id="ignite-status">EPX-V3 HANDSHAKE READY</div>
-  </div>
-</div>
+		<div id="ignite-overlay" class="ignite-hidden" aria-live="polite">
+			<div class="ignite-box">
+				<div class="ignite-icon" aria-hidden="true">◆</div>
+				<div class="ignite-text">SYNCHRONIZING TRANSPORT LAYER</div>
+				<div class="ignite-progress"><div id="ignite-bar"></div></div>
+				<div class="ignite-status" id="ignite-status">
+					EPX-V3 HANDSHAKE READY
+				</div>
+			</div>
+		</div>
 
-<!-- ═══════════════════════════════
+		<!-- ═══════════════════════════════
      APP SHELL
      ═══════════════════════════════ -->
-<div id="app">
+		<div id="app">
+			<!-- ─── TOPBAR ─── -->
+			<header id="topbar">
+				<div class="tb-brand">
+					<span class="tb-glyph" aria-hidden="true">◆</span>
+					<span class="tb-name">STRATO</span>
+					<span class="tb-ver">v22.4</span>
+				</div>
 
-  <!-- ─── TOPBAR ─── -->
-  <header id="topbar">
-    <div class="tb-brand">
-      <span class="tb-glyph" aria-hidden="true">◆</span>
-      <span class="tb-name">STRATO</span>
-      <span class="tb-ver">v22.4</span>
-    </div>
+				<!-- Proxy engine search (doubles as URL bar) -->
+				<div class="tb-search">
+					<svg
+						class="ts-icon"
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						aria-hidden="true"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<path d="m21 21-4.35-4.35" />
+					</svg>
+					<input
+						type="text"
+						id="searchInput"
+						placeholder="Search games or enter a URL..."
+						autocomplete="off"
+						aria-label="Search games or proxy URL"
+					/>
+				</div>
 
-    <!-- Proxy engine search (doubles as URL bar) -->
-    <div class="tb-search">
-      <svg class="ts-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Search games or enter a URL..." autocomplete="off" aria-label="Search games or proxy URL" />
-    </div>
+				<div class="tb-controls">
+					<div class="vital-pill" id="vital-proxy" title="Proxy Status">
+						<span class="vital-dot" aria-hidden="true"></span>
+						<span class="vital-label">PROXY</span>
+					</div>
+					<div class="vital-pill" id="vital-fps">
+						<span class="vital-label">-- FPS</span>
+					</div>
+					<button
+						class="tb-panic"
+						id="panicBtn"
+						title="Panic — redirect to safe page"
+						aria-label="Panic button"
+					>
+						✕
+					</button>
+				</div>
+			</header>
 
-    <div class="tb-controls">
-      <div class="vital-pill" id="vital-proxy" title="Proxy Status">
-        <span class="vital-dot" aria-hidden="true"></span>
-        <span class="vital-label">PROXY</span>
-      </div>
-      <div class="vital-pill" id="vital-fps">
-        <span class="vital-label">-- FPS</span>
-      </div>
-      <button class="tb-panic" id="panicBtn" title="Panic — redirect to safe page" aria-label="Panic button">✕</button>
-    </div>
-  </header>
+			<!-- ─── SIDENAV ─── -->
+			<div id="sidenav">
+				<nav class="sn-nav" aria-label="Main navigation">
+					<button class="sn-item on" data-view="home" aria-label="Home">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+							<polyline points="9 22 9 12 15 12 15 22" />
+						</svg>
+						<span>Home</span>
+					</button>
+					<button class="sn-item" data-view="grid" aria-label="Arcade">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<rect x="2" y="6" width="20" height="12" rx="2" />
+							<path d="M12 12h.01M8 12h.01M16 12h.01M8 10v4m-4-6h20" />
+						</svg>
+						<span>Arcade</span>
+					</button>
+					<button class="sn-item" data-view="watch" aria-label="Watch">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<rect x="2" y="7" width="20" height="15" rx="2" />
+							<polyline points="17 2 12 7 7 2" />
+						</svg>
+						<span>Watch</span>
+					</button>
+					<button class="sn-item" data-view="listen" aria-label="Listen">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<path d="M9 18V5l12-2v13" />
+							<circle cx="6" cy="18" r="3" />
+							<circle cx="18" cy="16" r="3" />
+						</svg>
+						<span>Music</span>
+					</button>
+					<button class="sn-item" data-view="browser" aria-label="Browser">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<circle cx="12" cy="12" r="10" />
+							<line x1="2" y1="12" x2="22" y2="12" />
+							<path
+								d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+							/>
+						</svg>
+						<span>Browse</span>
+					</button>
+					<button class="sn-item" data-view="ai" aria-label="AI Decoy">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<path
+								d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+							/>
+						</svg>
+						<span>Assistant</span>
+					</button>
+					<button class="sn-item" data-view="settings" aria-label="Settings">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							aria-hidden="true"
+						>
+							<circle cx="12" cy="12" r="3" />
+							<path
+								d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+							/>
+						</svg>
+						<span>Config</span>
+					</button>
+				</nav>
+			</div>
 
-  <!-- ─── SIDENAV ─── -->
-  <div id="sidenav">
-    <nav class="sn-nav" aria-label="Main navigation">
-      <button class="sn-item on" data-view="home"   aria-label="Home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span>Home</span>
-      </button>
-      <button class="sn-item" data-view="grid" aria-label="Arcade">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01M8 12h.01M16 12h.01M8 10v4m-4-6h20"/></svg>
-        <span>Arcade</span>
-      </button>
-      <button class="sn-item" data-view="watch" aria-label="Watch">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
-        <span>Watch</span>
-      </button>
-      <button class="sn-item" data-view="listen" aria-label="Listen">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-        <span>Music</span>
-      </button>
-      <button class="sn-item" data-view="browser" aria-label="Browser">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>Browse</span>
-      </button>
-      <button class="sn-item" data-view="ai" aria-label="AI Decoy">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span>Assistant</span>
-      </button>
-      <button class="sn-item" data-view="settings" aria-label="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span>Config</span>
-      </button>
-    </nav>
-  </div>
+			<!-- ─── MAIN CONTENT ─── -->
+			<main id="content">
+				<!-- HOME -->
+				<div id="view-home" class="view active">
+					<div class="home-hero">
+						<div class="hero-orb" aria-hidden="true"></div>
+						<div class="hero-inner">
+							<div class="hero-badge">STRATOSPHERE NETWORK</div>
+							<h1 class="hero-title">
+								Your Digital<br /><span class="hero-accent">Stratosphere</span>
+							</h1>
+							<p class="hero-desc">
+								Unblocked arcade, free browser, streaming media, and an AI
+								homework cover — all in one dashboard.
+							</p>
+							<div class="hero-actions">
+								<button class="btn-primary" data-view="grid">
+									Launch Arcade
+								</button>
+								<button class="btn-ghost" data-view="browser">
+									Open Browser
+								</button>
+							</div>
+						</div>
+						<div class="hero-stats">
+							<div class="stat-item">
+								<div class="stat-num" id="statGameCount">150+</div>
+								<div class="stat-label">Games</div>
+							</div>
+							<div class="stat-item">
+								<div class="stat-num">3</div>
+								<div class="stat-label">Proxy Engines</div>
+							</div>
+							<div class="stat-item">
+								<div class="stat-num">∞</div>
+								<div class="stat-label">Sites Unblocked</div>
+							</div>
+						</div>
+					</div>
 
-  <!-- ─── MAIN CONTENT ─── -->
-  <main id="content">
+					<!-- Quick access cards -->
+					<div class="quick-grid">
+						<button class="qc" data-view="grid">
+							<div class="qc-icon">🕹️</div>
+							<div class="qc-text">
+								<div class="qc-title">Arcade</div>
+								<div class="qc-desc">150+ unblocked games</div>
+							</div>
+							<svg
+								class="qc-arrow"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								aria-hidden="true"
+							>
+								<polyline points="9 18 15 12 9 6" />
+							</svg>
+						</button>
+						<button class="qc" data-view="browser">
+							<div class="qc-icon">🌐</div>
+							<div class="qc-text">
+								<div class="qc-title">Free Browser</div>
+								<div class="qc-desc">Ultraviolet + Scramjet proxy</div>
+							</div>
+							<svg
+								class="qc-arrow"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								aria-hidden="true"
+							>
+								<polyline points="9 18 15 12 9 6" />
+							</svg>
+						</button>
+						<button class="qc" data-view="watch">
+							<div class="qc-icon">🎬</div>
+							<div class="qc-text">
+								<div class="qc-title">Watch</div>
+								<div class="qc-desc">Movies, TV &amp; YouTube</div>
+							</div>
+							<svg
+								class="qc-arrow"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								aria-hidden="true"
+							>
+								<polyline points="9 18 15 12 9 6" />
+							</svg>
+						</button>
+						<button class="qc" data-view="ai">
+							<div class="qc-icon">📚</div>
+							<div class="qc-text">
+								<div class="qc-title">Homework Cover</div>
+								<div class="qc-desc">Convincing AI assistant decoy</div>
+							</div>
+							<svg
+								class="qc-arrow"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								aria-hidden="true"
+							>
+								<polyline points="9 18 15 12 9 6" />
+							</svg>
+						</button>
+					</div>
+				</div>
 
-    <!-- HOME -->
-    <div id="view-home" class="view active">
-      <div class="home-hero">
-        <div class="hero-orb" aria-hidden="true"></div>
-        <div class="hero-inner">
-          <div class="hero-badge">STRATOSPHERE NETWORK</div>
-          <h1 class="hero-title">Your Digital<br><span class="hero-accent">Stratosphere</span></h1>
-          <p class="hero-desc">Unblocked arcade, free browser, streaming media, and an AI homework cover — all in one dashboard.</p>
-          <div class="hero-actions">
-            <button class="btn-primary" data-view="grid">Launch Arcade</button>
-            <button class="btn-ghost" data-view="browser">Open Browser</button>
-          </div>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-item"><div class="stat-num" id="statGameCount">150+</div><div class="stat-label">Games</div></div>
-          <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Proxy Engines</div></div>
-          <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Sites Unblocked</div></div>
-        </div>
-      </div>
+				<!-- ARCADE / GAME GRID -->
+				<div id="view-grid" class="view">
+					<div class="section-header">
+						<div class="sh-left">
+							<h2 class="sh-title">ARCADE</h2>
+							<span class="sh-count"><span id="gameCount">0</span> titles</span>
+						</div>
+						<div class="sh-right" id="category-bar"></div>
+					</div>
+					<div class="game-grid" id="gameGrid"></div>
+				</div>
 
-      <!-- Quick access cards -->
-      <div class="quick-grid">
-        <button class="qc" data-view="grid">
-          <div class="qc-icon">🕹️</div>
-          <div class="qc-text">
-            <div class="qc-title">Arcade</div>
-            <div class="qc-desc">150+ unblocked games</div>
-          </div>
-          <svg class="qc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <button class="qc" data-view="browser">
-          <div class="qc-icon">🌐</div>
-          <div class="qc-text">
-            <div class="qc-title">Free Browser</div>
-            <div class="qc-desc">Ultraviolet + Scramjet proxy</div>
-          </div>
-          <svg class="qc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <button class="qc" data-view="watch">
-          <div class="qc-icon">🎬</div>
-          <div class="qc-text">
-            <div class="qc-title">Watch</div>
-            <div class="qc-desc">Movies, TV &amp; YouTube</div>
-          </div>
-          <svg class="qc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <button class="qc" data-view="ai">
-          <div class="qc-icon">📚</div>
-          <div class="qc-text">
-            <div class="qc-title">Homework Cover</div>
-            <div class="qc-desc">Convincing AI assistant decoy</div>
-          </div>
-          <svg class="qc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-    </div>
+				<!-- WATCH -->
+				<div id="view-watch" class="view">
+					<div class="section-header">
+						<h2 class="sh-title">WATCH</h2>
+						<p class="sh-sub">
+							Stream anything via UV Tunnel — bypassed &amp; ad-reduced.
+						</p>
+					</div>
+					<div class="media-grid">
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://www.cineby.sc/"
+							data-name="Cineby"
+						>
+							<div class="mc-bg" style="--mc-color: #ff6b9d"></div>
+							<div class="mc-icon">🎬</div>
+							<div class="mc-title">Cineby</div>
+							<div class="mc-tag">★ Top Pick</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://www.lookmovie2.to/"
+							data-name="LookMovie"
+						>
+							<div class="mc-bg" style="--mc-color: #4ecdc4"></div>
+							<div class="mc-icon">🎞</div>
+							<div class="mc-title">LookMovie 2</div>
+							<div class="mc-tag">★ Top Pick</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://youtube.com/"
+							data-name="YouTube"
+						>
+							<div class="mc-bg" style="--mc-color: #ff4444"></div>
+							<div class="mc-icon">▶️</div>
+							<div class="mc-title">YouTube</div>
+							<div class="mc-tag">Classic</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://primewire.mx/"
+							data-name="PrimeWire"
+						>
+							<div class="mc-bg" style="--mc-color: #7c6af7"></div>
+							<div class="mc-icon">🌀</div>
+							<div class="mc-title">PrimeWire</div>
+							<div class="mc-tag">Free</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://www.crunchyroll.com/"
+							data-name="Crunchyroll"
+						>
+							<div class="mc-bg" style="--mc-color: #f47521"></div>
+							<div class="mc-icon">⚡</div>
+							<div class="mc-title">Crunchyroll</div>
+							<div class="mc-tag">Anime</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="watch"
+							data-url="https://twitch.tv/"
+							data-name="Twitch"
+						>
+							<div class="mc-bg" style="--mc-color: #9147ff"></div>
+							<div class="mc-icon">🎮</div>
+							<div class="mc-title">Twitch</div>
+							<div class="mc-tag">Live</div>
+						</button>
+					</div>
+				</div>
 
-    <!-- ARCADE / GAME GRID -->
-    <div id="view-grid" class="view">
-      <div class="section-header">
-        <div class="sh-left">
-          <h2 class="sh-title">ARCADE</h2>
-          <span class="sh-count"><span id="gameCount">0</span> titles</span>
-        </div>
-        <div class="sh-right" id="category-bar"></div>
-      </div>
-      <div class="game-grid" id="gameGrid"></div>
-    </div>
+				<!-- LISTEN -->
+				<div id="view-listen" class="view">
+					<div class="section-header">
+						<h2 class="sh-title">MUSIC</h2>
+						<p class="sh-sub">Proxy-tunneled music streaming.</p>
+					</div>
+					<div class="media-grid">
+						<button
+							class="media-card"
+							data-action="listen"
+							data-url="https://monochrome.tf"
+							data-name="Monochrome"
+						>
+							<div class="mc-bg" style="--mc-color: #a78bfa"></div>
+							<div class="mc-icon">🎧</div>
+							<div class="mc-title">Monochrome</div>
+							<div class="mc-tag">★ Top Pick</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="listen"
+							data-url="https://soundcloud.com"
+							data-name="SoundCloud"
+						>
+							<div class="mc-bg" style="--mc-color: #ff5500"></div>
+							<div class="mc-icon">☁️</div>
+							<div class="mc-title">SoundCloud</div>
+							<div class="mc-tag">Free</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="listen"
+							data-url="https://music.youtube.com"
+							data-name="YT Music"
+						>
+							<div class="mc-bg" style="--mc-color: #ff4444"></div>
+							<div class="mc-icon">🎵</div>
+							<div class="mc-title">YouTube Music</div>
+							<div class="mc-tag">Free</div>
+						</button>
+						<button
+							class="media-card"
+							data-action="listen"
+							data-url="https://open.spotify.com"
+							data-name="Spotify"
+						>
+							<div class="mc-bg" style="--mc-color: #1db954"></div>
+							<div class="mc-icon">💚</div>
+							<div class="mc-title">Spotify</div>
+							<div class="mc-tag">Premium</div>
+						</button>
+					</div>
+				</div>
 
-    <!-- WATCH -->
-    <div id="view-watch" class="view">
-      <div class="section-header">
-        <h2 class="sh-title">WATCH</h2>
-        <p class="sh-sub">Stream anything via UV Tunnel — bypassed &amp; ad-reduced.</p>
-      </div>
-      <div class="media-grid">
-        <button class="media-card" data-action="watch" data-url="https://www.cineby.sc/" data-name="Cineby">
-          <div class="mc-bg" style="--mc-color:#ff6b9d"></div>
-          <div class="mc-icon">🎬</div>
-          <div class="mc-title">Cineby</div>
-          <div class="mc-tag">★ Top Pick</div>
-        </button>
-        <button class="media-card" data-action="watch" data-url="https://www.lookmovie2.to/" data-name="LookMovie">
-          <div class="mc-bg" style="--mc-color:#4ecdc4"></div>
-          <div class="mc-icon">🎞</div>
-          <div class="mc-title">LookMovie 2</div>
-          <div class="mc-tag">★ Top Pick</div>
-        </button>
-        <button class="media-card" data-action="watch" data-url="https://youtube.com/" data-name="YouTube">
-          <div class="mc-bg" style="--mc-color:#ff4444"></div>
-          <div class="mc-icon">▶️</div>
-          <div class="mc-title">YouTube</div>
-          <div class="mc-tag">Classic</div>
-        </button>
-        <button class="media-card" data-action="watch" data-url="https://primewire.mx/" data-name="PrimeWire">
-          <div class="mc-bg" style="--mc-color:#7c6af7"></div>
-          <div class="mc-icon">🌀</div>
-          <div class="mc-title">PrimeWire</div>
-          <div class="mc-tag">Free</div>
-        </button>
-        <button class="media-card" data-action="watch" data-url="https://www.crunchyroll.com/" data-name="Crunchyroll">
-          <div class="mc-bg" style="--mc-color:#f47521"></div>
-          <div class="mc-icon">⚡</div>
-          <div class="mc-title">Crunchyroll</div>
-          <div class="mc-tag">Anime</div>
-        </button>
-        <button class="media-card" data-action="watch" data-url="https://twitch.tv/" data-name="Twitch">
-          <div class="mc-bg" style="--mc-color:#9147ff"></div>
-          <div class="mc-icon">🎮</div>
-          <div class="mc-title">Twitch</div>
-          <div class="mc-tag">Live</div>
-        </button>
-      </div>
-    </div>
+				<!-- BROWSER -->
+				<div id="view-browser" class="view">
+					<div class="browser-shell">
+						<div class="browser-toolbar">
+							<div class="bt-engine">
+								<select id="proxyEngine" aria-label="Proxy engine">
+									<option value="uv">Ultraviolet</option>
+									<option value="splash">Scramjet</option>
+								</select>
+							</div>
+							<div class="bt-bar">
+								<span class="bt-lock" aria-hidden="true">🔒</span>
+								<input
+									type="text"
+									id="browserUrl"
+									placeholder="Enter any URL..."
+									autocomplete="off"
+									aria-label="URL to browse"
+								/>
+								<button id="browserGo" aria-label="Go">Go</button>
+							</div>
+							<button
+								class="bt-new"
+								id="btNewTab"
+								title="Open in new tab"
+								aria-label="Open in new tab"
+							>
+								<svg
+									width="14"
+									height="14"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									aria-hidden="true"
+								>
+									<path
+										d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+									/>
+									<polyline points="15 3 21 3 21 9" />
+									<line x1="10" y1="14" x2="21" y2="3" />
+								</svg>
+							</button>
+						</div>
+						<iframe
+							id="browser-iframe"
+							src="about:blank"
+							allowfullscreen
+							allow="autoplay; fullscreen"
+						></iframe>
+					</div>
+				</div>
 
-    <!-- LISTEN -->
-    <div id="view-listen" class="view">
-      <div class="section-header">
-        <h2 class="sh-title">MUSIC</h2>
-        <p class="sh-sub">Proxy-tunneled music streaming.</p>
-      </div>
-      <div class="media-grid">
-        <button class="media-card" data-action="listen" data-url="https://monochrome.tf" data-name="Monochrome">
-          <div class="mc-bg" style="--mc-color:#a78bfa"></div>
-          <div class="mc-icon">🎧</div>
-          <div class="mc-title">Monochrome</div>
-          <div class="mc-tag">★ Top Pick</div>
-        </button>
-        <button class="media-card" data-action="listen" data-url="https://soundcloud.com" data-name="SoundCloud">
-          <div class="mc-bg" style="--mc-color:#ff5500"></div>
-          <div class="mc-icon">☁️</div>
-          <div class="mc-title">SoundCloud</div>
-          <div class="mc-tag">Free</div>
-        </button>
-        <button class="media-card" data-action="listen" data-url="https://music.youtube.com" data-name="YT Music">
-          <div class="mc-bg" style="--mc-color:#ff4444"></div>
-          <div class="mc-icon">🎵</div>
-          <div class="mc-title">YouTube Music</div>
-          <div class="mc-tag">Free</div>
-        </button>
-        <button class="media-card" data-action="listen" data-url="https://open.spotify.com" data-name="Spotify">
-          <div class="mc-bg" style="--mc-color:#1db954"></div>
-          <div class="mc-icon">💚</div>
-          <div class="mc-title">Spotify</div>
-          <div class="mc-tag">Premium</div>
-        </button>
-      </div>
-    </div>
+				<!-- AI DECOY -->
+				<div id="view-ai" class="view">
+					<div class="ai-panel">
+						<div class="ai-header">
+							<div class="ai-icon" aria-hidden="true">🎓</div>
+							<div>
+								<h2 class="sh-title">Student Success Assistant</h2>
+								<p class="sh-sub">AI-powered academic homework helper</p>
+							</div>
+						</div>
+						<div
+							class="ai-chat-window"
+							id="aiChatWindow"
+							role="log"
+							aria-live="polite"
+							aria-label="Chat messages"
+						>
+							<div class="ai-message system">
+								Welcome to Student Success Chat. I can help with math, science,
+								history, and more. How can I assist you today?
+							</div>
+						</div>
+						<div class="ai-input-row">
+							<input
+								type="text"
+								id="aiChatInput"
+								placeholder="Ask a question about your homework..."
+								autocomplete="off"
+								aria-label="Chat message input"
+							/>
+							<button id="aiSendBtn" aria-label="Send message">
+								<svg
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									aria-hidden="true"
+								>
+									<line x1="22" y1="2" x2="11" y2="13" />
+									<polygon points="22 2 15 22 11 13 2 9 22 2" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
 
-    <!-- BROWSER -->
-    <div id="view-browser" class="view">
-      <div class="browser-shell">
-        <div class="browser-toolbar">
-          <div class="bt-engine">
-            <select id="proxyEngine" aria-label="Proxy engine">
-              <option value="uv">Ultraviolet</option>
-              <option value="splash">Scramjet</option>
-            </select>
-          </div>
-          <div class="bt-bar">
-            <span class="bt-lock" aria-hidden="true">🔒</span>
-            <input type="text" id="browserUrl" placeholder="Enter any URL..." autocomplete="off" aria-label="URL to browse" />
-            <button id="browserGo" aria-label="Go">Go</button>
-          </div>
-          <button class="bt-new" id="btNewTab" title="Open in new tab" aria-label="Open in new tab">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </button>
-        </div>
-        <iframe id="browser-iframe" src="about:blank" allowfullscreen allow="autoplay; fullscreen"></iframe>
-      </div>
-    </div>
+				<!-- SETTINGS -->
+				<div id="view-settings" class="view">
+					<div class="settings-shell">
+						<div class="section-header">
+							<h2 class="sh-title">SYSTEM CONFIG</h2>
+							<p class="sh-sub">
+								Customize STRATO behavior and proxy settings.
+							</p>
+						</div>
 
-    <!-- AI DECOY -->
-    <div id="view-ai" class="view">
-      <div class="ai-panel">
-        <div class="ai-header">
-          <div class="ai-icon" aria-hidden="true">🎓</div>
-          <div>
-            <h2 class="sh-title">Student Success Assistant</h2>
-            <p class="sh-sub">AI-powered academic homework helper</p>
-          </div>
-        </div>
-        <div class="ai-chat-window" id="aiChatWindow" role="log" aria-live="polite" aria-label="Chat messages">
-          <div class="ai-message system">Welcome to Student Success Chat. I can help with math, science, history, and more. How can I assist you today?</div>
-        </div>
-        <div class="ai-input-row">
-          <input type="text" id="aiChatInput" placeholder="Ask a question about your homework..." autocomplete="off" aria-label="Chat message input"/>
-          <button id="aiSendBtn" aria-label="Send message">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
+						<div class="settings-grid">
+							<div class="sg-card">
+								<div class="sg-label">Active Theme</div>
+								<select id="themeSelector" aria-label="Color theme">
+									<option value="midnight">Nightfall (Default)</option>
+									<option value="terminal">Terminal (Matrix)</option>
+									<option value="sky">Sky (Frosted)</option>
+								</select>
+							</div>
+							<div class="sg-card">
+								<div class="sg-label">Proxy Engine</div>
+								<select
+									id="proxyEngineSettings"
+									aria-label="Proxy engine preference"
+								>
+									<option value="uv" selected>Ultraviolet (WebWorker)</option>
+									<option value="splash">Scramjet v2 (Fast)</option>
+								</select>
+								<div class="sg-hint">
+									Scramjet is faster; UV is more compatible.
+								</div>
+							</div>
+							<div class="sg-card">
+								<div class="sg-label">Panic URL</div>
+								<input
+									type="text"
+									id="panicUrlInput"
+									placeholder="https://classroom.google.com"
+									aria-label="Panic redirect URL"
+								/>
+								<div class="sg-hint">
+									Where ✕ button and Escape key redirect.
+								</div>
+							</div>
+							<div class="sg-card">
+								<div class="sg-label">Tab Cloaking</div>
+								<div class="toggle-row">
+									<button class="tgl active" id="cloak-off">Off</button>
+									<button class="tgl" id="cloak-on">Google Drive</button>
+								</div>
+								<div class="sg-hint">
+									Auto-disguise tab title when you switch away.
+								</div>
+							</div>
+							<div class="sg-card">
+								<div class="sg-label">Privacy Preset</div>
+								<select id="privacyPreset" aria-label="Privacy preset">
+									<option value="default">Default (STRATO)</option>
+									<option value="drive">Google Drive</option>
+									<option value="classroom">Google Classroom</option>
+								</select>
+							</div>
+							<div class="sg-card">
+								<div class="sg-label">Game Library Mode</div>
+								<div class="toggle-row">
+									<button class="tgl active" id="math-off">Arcade Games</button>
+									<button class="tgl" id="math-on">GN Math Library</button>
+								</div>
+								<div class="sg-hint">
+									Swaps the game grid with math curriculum content.
+								</div>
+							</div>
+						</div>
 
-    <!-- SETTINGS -->
-    <div id="view-settings" class="view">
-      <div class="settings-shell">
-        <div class="section-header">
-          <h2 class="sh-title">SYSTEM CONFIG</h2>
-          <p class="sh-sub">Customize STRATO behavior and proxy settings.</p>
-        </div>
+						<div class="settings-actions">
+							<button id="saveSettingsBtn" class="btn-primary">
+								Apply &amp; Save
+							</button>
+							<button id="clearCacheBtn" class="btn-danger">Clear Cache</button>
+						</div>
+					</div>
+				</div>
+			</main>
+			<!-- /#content -->
+		</div>
+		<!-- /#app -->
 
-        <div class="settings-grid">
-          <div class="sg-card">
-            <div class="sg-label">Active Theme</div>
-            <select id="themeSelector" aria-label="Color theme">
-              <option value="midnight">Nightfall (Default)</option>
-              <option value="terminal">Terminal (Matrix)</option>
-              <option value="sky">Sky (Frosted)</option>
-            </select>
-          </div>
-          <div class="sg-card">
-            <div class="sg-label">Proxy Engine</div>
-            <select id="proxyEngineSettings" aria-label="Proxy engine preference">
-              <option value="uv" selected>Ultraviolet (WebWorker)</option>
-              <option value="splash">Scramjet v2 (Fast)</option>
-            </select>
-            <div class="sg-hint">Scramjet is faster; UV is more compatible.</div>
-          </div>
-          <div class="sg-card">
-            <div class="sg-label">Panic URL</div>
-            <input type="text" id="panicUrlInput" placeholder="https://classroom.google.com" aria-label="Panic redirect URL"/>
-            <div class="sg-hint">Where ✕ button and Escape key redirect.</div>
-          </div>
-          <div class="sg-card">
-            <div class="sg-label">Tab Cloaking</div>
-            <div class="toggle-row">
-              <button class="tgl active" id="cloak-off">Off</button>
-              <button class="tgl" id="cloak-on">Google Drive</button>
-            </div>
-            <div class="sg-hint">Auto-disguise tab title when you switch away.</div>
-          </div>
-          <div class="sg-card">
-            <div class="sg-label">Privacy Preset</div>
-            <select id="privacyPreset" aria-label="Privacy preset">
-              <option value="default">Default (STRATO)</option>
-              <option value="drive">Google Drive</option>
-              <option value="classroom">Google Classroom</option>
-            </select>
-          </div>
-          <div class="sg-card">
-            <div class="sg-label">Game Library Mode</div>
-            <div class="toggle-row">
-              <button class="tgl active" id="math-off">Arcade Games</button>
-              <button class="tgl" id="math-on">GN Math Library</button>
-            </div>
-            <div class="sg-hint">Swaps the game grid with math curriculum content.</div>
-          </div>
-        </div>
-
-        <div class="settings-actions">
-          <button id="saveSettingsBtn" class="btn-primary">Apply &amp; Save</button>
-          <button id="clearCacheBtn" class="btn-danger">Clear Cache</button>
-        </div>
-      </div>
-    </div>
-
-  </main><!-- /#content -->
-</div><!-- /#app -->
-
-<!-- ═══════════════════════════════
+		<!-- ═══════════════════════════════
      GAME / MEDIA OVERLAY
      ═══════════════════════════════ -->
-<div id="game-overlay" hidden role="dialog" aria-modal="true" aria-label="Game viewer">
-  <div class="ov-bar">
-    <button class="ov-back" id="overlay-back-btn" aria-label="Close game">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      Back
-    </button>
-    <span class="ov-title" id="ov-game-title"></span>
-    <div class="ov-controls">
-      <button class="ov-btn" id="overlay-fs-btn" title="Fullscreen" aria-label="Fullscreen">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-      </button>
-      <button class="ov-btn ov-close" id="overlay-close-btn" title="Close" aria-label="Close">✕</button>
-    </div>
-  </div>
-  <iframe id="game-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
-</div>
+		<div
+			id="game-overlay"
+			hidden
+			role="dialog"
+			aria-modal="true"
+			aria-label="Game viewer"
+		>
+			<div class="ov-bar">
+				<button class="ov-back" id="overlay-back-btn" aria-label="Close game">
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						aria-hidden="true"
+					>
+						<polyline points="15 18 9 12 15 6" />
+					</svg>
+					Back
+				</button>
+				<span class="ov-title" id="ov-game-title"></span>
+				<div class="ov-controls">
+					<button
+						class="ov-btn"
+						id="overlay-fs-btn"
+						title="Fullscreen"
+						aria-label="Fullscreen"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							aria-hidden="true"
+						>
+							<polyline points="15 3 21 3 21 9" />
+							<polyline points="9 21 3 21 3 15" />
+							<line x1="21" y1="3" x2="14" y2="10" />
+							<line x1="3" y1="21" x2="10" y2="14" />
+						</svg>
+					</button>
+					<button
+						class="ov-btn ov-close"
+						id="overlay-close-btn"
+						title="Close"
+						aria-label="Close"
+					>
+						✕
+					</button>
+				</div>
+			</div>
+			<iframe
+				id="game-iframe"
+				allowfullscreen
+				allow="autoplay; fullscreen"
+			></iframe>
+		</div>
 
-<!-- Proxy scripts (deferred, order matters) -->
-<script src="/surf/baremux/index.js" defer></script>
-<script src="/uv/uv.bundle.js" defer></script>
-<script src="/uv/uv.config.js" defer></script>
-<script src="/surf/scram/scramjet.codecs.js" defer></script>
-<script src="/scramjet.config.js" defer></script>
-<script src="omni.js?v=22.4" defer></script>
-
-</body>
+		<!-- Proxy scripts (deferred, order matters) -->
+		<script src="/surf/baremux/index.js" defer></script>
+		<script src="/uv/uv.bundle.js" defer></script>
+		<script src="/uv/uv.config.js" defer></script>
+		<script src="/surf/scram/scramjet.codecs.js" defer></script>
+		<script src="/scramjet.config.js" defer></script>
+		<script src="omni.js?v=22.4" defer></script>
+	</body>
 </html>

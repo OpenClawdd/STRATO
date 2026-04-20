@@ -12,6 +12,8 @@ export default [
 				...globals.node,
 				AbortController: "readonly",
 				fetch: "readonly",
+				AbortSignal: "readonly",
+				URL: "readonly",
 			},
 		},
 	},

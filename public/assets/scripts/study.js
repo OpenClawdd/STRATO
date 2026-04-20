@@ -1,1 +1,1 @@
-﻿console.log('Strato Proxy Script Active');
+﻿console.log("Strato Proxy Script Active");
