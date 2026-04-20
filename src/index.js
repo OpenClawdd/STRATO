@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { hostname } from "node:os";
 import { createServer } from "node:http";
@@ -25,7 +26,8 @@ function isSafeUrl(rawUrl) {
 		if (!["http:", "https:"].includes(protocol)) return false;
 
 		// Block all private / reserved address ranges
-		const BLOCKED = /^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
+		const BLOCKED =
+			/^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
 		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
@@ -45,7 +47,10 @@ const ROOT = process.cwd();
 let cachedIndexHtml = "";
 function refreshCache() {
 	try {
-		cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
+		cachedIndexHtml = fs.readFileSync(
+			join(ROOT, "public", "index.html"),
+			"utf8"
+		);
 	} catch (e) {
 		console.error("Failed to read index.html:", e.message);
 		cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
@@ -58,7 +63,7 @@ setInterval(refreshCache, 120_000);
 // ---------------------------------------------------------------------------
 // Express app
 // ---------------------------------------------------------------------------
-const app = express();
+export const app = express();
 
 // -- Security headers -------------------------------------------------------
 app.use(
@@ -67,13 +72,31 @@ app.use(
 			directives: {
 				defaultSrc: ["'self'"],
 				// 'unsafe-eval' + 'unsafe-inline' needed: UV/Scramjet inject runtime scripts
-				scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:", "data:"],
+				scriptSrc: [
+					"'self'",
+					"'unsafe-eval'",
+					"'unsafe-inline'",
+					"blob:",
+					"data:",
+				],
 				scriptSrcAttr: ["'self'", "'unsafe-inline'"],
 				frameSrc: ["'self'", "blob:", "https:", "http:"],
 				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
-				imgSrc: ["'self'", "data:", "blob:", "https:", "http:", "cdn.jsdelivr.net"],
+				imgSrc: [
+					"'self'",
+					"data:",
+					"blob:",
+					"https:",
+					"http:",
+					"cdn.jsdelivr.net",
+				],
 				mediaSrc: ["'self'", "data:", "blob:", "https:", "http:"],
-				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "cdn.jsdelivr.net"],
+				styleSrc: [
+					"'self'",
+					"'unsafe-inline'",
+					"https://fonts.googleapis.com",
+					"cdn.jsdelivr.net",
+				],
 				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
 				workerSrc: ["'self'", "blob:", "data:"],
 			},
@@ -85,8 +108,12 @@ app.use(
 // ---------------------------------------------------------------------------
 // Proxy module static assets
 // ---------------------------------------------------------------------------
-app.get("/uv/uv.config.js", (req, res) => res.sendFile(join(ROOT, "public", "uv", "uv.config.js")));
-app.get("/uv/sw.js",         (req, res) => res.sendFile(join(ROOT, "public", "uv", "sw.js")));
+app.get("/uv/uv.config.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "uv", "uv.config.js"))
+);
+app.get("/uv/sw.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "uv", "sw.js"))
+);
 app.use("/uv/", express.static(uvPath));
 
 const scramjetPrefix = "/surf/scram/";
@@ -95,15 +122,25 @@ app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
 	res.sendFile(join(ROOT, "public", "scramjet.config.js"))
 );
 
-app.use("/surf/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
+app.use(
+	"/surf/baremux/",
+	express.static(
+		join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")
+	)
+);
 app.use(
 	"/surf/epoxy/",
-	express.static(join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"), {
-		setHeaders(res, filePath) {
-			if (filePath.endsWith(".js"))   res.setHeader("Content-Type", "application/javascript");
-			if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
-		},
-	})
+	express.static(
+		join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"),
+		{
+			setHeaders(res, filePath) {
+				if (filePath.endsWith(".js"))
+					res.setHeader("Content-Type", "application/javascript");
+				if (filePath.endsWith(".wasm"))
+					res.setHeader("Content-Type", "application/wasm");
+			},
+		}
+	)
 );
 
 app.use("/config", express.static(join(ROOT, "config")));
@@ -111,7 +148,8 @@ app.use("/config", express.static(join(ROOT, "config")));
 // -- Compression ------------------------------------------------------------
 app.use(
 	compression({
-		filter: (req, res) => req.path === "/api/smuggle" ? false : compression.filter(req, res),
+		filter: (req, res) =>
+			req.path === "/api/smuggle" ? false : compression.filter(req, res),
 	})
 );
 
@@ -146,7 +184,8 @@ app.use("/api/save", saveLimiter);
 app.post("/api/smuggle", async (req, res) => {
 	const { targetUrl } = req.body;
 	if (!targetUrl) return res.status(400).send("No targetUrl provided");
-	if (!isSafeUrl(targetUrl)) return res.status(403).send("Blocked: unsafe URL target");
+	if (!isSafeUrl(targetUrl))
+		return res.status(403).send("Blocked: unsafe URL target");
 
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 30000);
@@ -156,7 +195,9 @@ app.post("/api/smuggle", async (req, res) => {
 		clearTimeout(timeout);
 
 		if (!response.ok) {
-			return res.status(response.status).send(`Fetch failed: ${response.statusText}`);
+			return res
+				.status(response.status)
+				.send(`Fetch failed: ${response.statusText}`);
 		}
 
 		const contentType = response.headers.get("content-type");
@@ -190,15 +231,22 @@ app.post("/api/save", (req, res) => {
 
 		// Basic sanity: data must be string or object, max 1MB
 		const serialized = typeof data === "string" ? data : JSON.stringify(data);
-		if (serialized.length > 1_000_000) return res.status(413).send("Data too large");
+		if (serialized.length > 1_000_000)
+			return res.status(413).send("Data too large");
 
 		const saveDir = join(ROOT, "backups", "users");
 		if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
 
 		// Hash the IP so filenames aren't guessable and IPv6 is handled cleanly
-		const id = createHash("sha256").update(req.ip || "unknown").digest("hex").slice(0, 16);
+		const id = createHash("sha256")
+			.update(req.ip || "unknown")
+			.digest("hex")
+			.slice(0, 16);
 		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-		fs.writeFileSync(join(saveDir, `save_${id}_${timestamp}.json`), JSON.stringify({ data: serialized }));
+		fs.writeFileSync(
+			join(saveDir, `save_${id}_${timestamp}.json`),
+			JSON.stringify({ data: serialized })
+		);
 		res.status(200).send("Saved.");
 	} catch (e) {
 		console.error("Save error:", e.message);
@@ -232,16 +280,17 @@ app.get("/proxy", async (req, res) => {
 		});
 
 		// Declare all variables before use
-		const encoding    = response.headers["content-encoding"];
-		let   contentType = (response.headers["content-type"] || "").toLowerCase();
-		let   buffer      = response.data;
+		const encoding = response.headers["content-encoding"];
+		let contentType = (response.headers["content-type"] || "").toLowerCase();
+		let buffer = response.data;
 
 		// Build proxy headers early so we can mutate content-type if needed
 		const proxyHeaders = { ...response.headers };
 
 		// Force HTML content-type for known raw HTML hosts
 		if (
-			(targetUrl.includes("raw.githubusercontent.com") || targetUrl.includes("cdn.jsdelivr.net")) &&
+			(targetUrl.includes("raw.githubusercontent.com") ||
+				targetUrl.includes("cdn.jsdelivr.net")) &&
 			(contentType.includes("text/plain") || !contentType)
 		) {
 			proxyHeaders["content-type"] = "text/html; charset=utf-8";
@@ -263,7 +312,8 @@ app.get("/proxy", async (req, res) => {
 			try {
 				const urlObj = new URL(targetUrl);
 				const base =
-					urlObj.origin + urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
+					urlObj.origin +
+					urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
 				const baseTag = `\n<base href="${base}">\n`;
 
 				const headMatch = html.match(/<head[^>]*>/i);
@@ -290,8 +340,8 @@ app.get("/proxy", async (req, res) => {
 		delete proxyHeaders["content-security-policy"];
 		delete proxyHeaders["content-security-policy-report-only"];
 		delete proxyHeaders["frame-ancestors"];
-		delete proxyHeaders["content-encoding"];  // we decoded it
-		delete proxyHeaders["content-length"];     // length changed
+		delete proxyHeaders["content-encoding"]; // we decoded it
+		delete proxyHeaders["content-length"]; // length changed
 
 		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
 
@@ -315,8 +365,8 @@ app.use((req, res) => {
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
-	res.status(404).sendFile(join(ROOT, "public", "404.html")).catch(() => {
-		res.status(404).send("Not Found");
+	res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
+		if (err) res.status(404).send("Not Found");
 	});
 });
 
@@ -367,4 +417,6 @@ function shutdown() {
 	process.exit(0);
 }
 
-server.listen({ port, host: "0.0.0.0" });
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+	server.listen({ port, host: "0.0.0.0" });
+}
