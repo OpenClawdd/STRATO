@@ -16,6 +16,8 @@ import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
 import { decompress } from "./decompress.js";
 
+import cookieParser from "cookie-parser";
+import { authPage } from "./auth.js";
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
 // ---------------------------------------------------------------------------
@@ -25,7 +27,8 @@ function isSafeUrl(rawUrl) {
 		if (!["http:", "https:"].includes(protocol)) return false;
 
 		// Block all private / reserved address ranges
-		const BLOCKED = /^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
+		const BLOCKED =
+			/^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
 		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
@@ -45,7 +48,10 @@ const ROOT = process.cwd();
 let cachedIndexHtml = "";
 function refreshCache() {
 	try {
-		cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
+		cachedIndexHtml = fs.readFileSync(
+			join(ROOT, "public", "index.html"),
+			"utf8"
+		);
 	} catch (e) {
 		console.error("Failed to read index.html:", e.message);
 		cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
@@ -67,13 +73,31 @@ app.use(
 			directives: {
 				defaultSrc: ["'self'"],
 				// 'unsafe-eval' + 'unsafe-inline' needed: UV/Scramjet inject runtime scripts
-				scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:", "data:"],
+				scriptSrc: [
+					"'self'",
+					"'unsafe-eval'",
+					"'unsafe-inline'",
+					"blob:",
+					"data:",
+				],
 				scriptSrcAttr: ["'self'", "'unsafe-inline'"],
 				frameSrc: ["'self'", "blob:", "https:", "http:"],
 				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
-				imgSrc: ["'self'", "data:", "blob:", "https:", "http:", "cdn.jsdelivr.net"],
+				imgSrc: [
+					"'self'",
+					"data:",
+					"blob:",
+					"https:",
+					"http:",
+					"cdn.jsdelivr.net",
+				],
 				mediaSrc: ["'self'", "data:", "blob:", "https:", "http:"],
-				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "cdn.jsdelivr.net"],
+				styleSrc: [
+					"'self'",
+					"'unsafe-inline'",
+					"https://fonts.googleapis.com",
+					"cdn.jsdelivr.net",
+				],
 				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
 				workerSrc: ["'self'", "blob:", "data:"],
 			},
@@ -85,8 +109,12 @@ app.use(
 // ---------------------------------------------------------------------------
 // Proxy module static assets
 // ---------------------------------------------------------------------------
-app.get("/uv/uv.config.js", (req, res) => res.sendFile(join(ROOT, "public", "uv", "uv.config.js")));
-app.get("/uv/sw.js",         (req, res) => res.sendFile(join(ROOT, "public", "uv", "sw.js")));
+app.get("/uv/uv.config.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "uv", "uv.config.js"))
+);
+app.get("/uv/sw.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "uv", "sw.js"))
+);
 app.use("/uv/", express.static(uvPath));
 
 const scramjetPrefix = "/surf/scram/";
@@ -95,15 +123,25 @@ app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
 	res.sendFile(join(ROOT, "public", "scramjet.config.js"))
 );
 
-app.use("/surf/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
+app.use(
+	"/surf/baremux/",
+	express.static(
+		join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")
+	)
+);
 app.use(
 	"/surf/epoxy/",
-	express.static(join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"), {
-		setHeaders(res, filePath) {
-			if (filePath.endsWith(".js"))   res.setHeader("Content-Type", "application/javascript");
-			if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
-		},
-	})
+	express.static(
+		join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"),
+		{
+			setHeaders(res, filePath) {
+				if (filePath.endsWith(".js"))
+					res.setHeader("Content-Type", "application/javascript");
+				if (filePath.endsWith(".wasm"))
+					res.setHeader("Content-Type", "application/wasm");
+			},
+		}
+	)
 );
 
 app.use("/config", express.static(join(ROOT, "config")));
@@ -111,12 +149,58 @@ app.use("/config", express.static(join(ROOT, "config")));
 // -- Compression ------------------------------------------------------------
 app.use(
 	compression({
-		filter: (req, res) => req.path === "/api/smuggle" ? false : compression.filter(req, res),
+		filter: (req, res) =>
+			req.path === "/api/smuggle" ? false : compression.filter(req, res),
 	})
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: "10mb" })); // reduced from 50mb — no legit save needs 50MB
+
+// -- Auth System Upgrade ----------------------------------------------------
+const COOKIE_SECRET = process.env.COOKIE_SECRET || "fallback_secret";
+const SITE_PASSWORD = process.env.SITE_PASSWORD || "changeme";
+
+app.use(cookieParser(COOKIE_SECRET));
+
+app.post("/login", (req, res) => {
+	const { password } = req.body;
+	if (password === SITE_PASSWORD) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+			sameSite: "strict",
+			maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Incorrect access code. <a href='/'>Try again</a>");
+	}
+});
+
+app.use((req, res, next) => {
+	const isAuth = req.signedCookies.auth === "true";
+	const isApiOrProxy =
+		req.path.startsWith("/api/") || req.path.startsWith("/proxy");
+
+	if (!isAuth) {
+		if (isApiOrProxy) {
+			return res.status(401).send("Unauthorized");
+		}
+		// Skip auth for static assets in public dir, and proxy routes for the auth page
+		if (
+			!req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json|svg)$/) &&
+			req.path !== "/login" &&
+			!req.path.startsWith("/surf/") &&
+			!req.path.startsWith("/uv/")
+		) {
+			return res.send(authPage);
+		}
+	}
+	next();
+});
+
+app.use(express.json({ limit: "50mb" })); // restored to 50mb for emulator save states
 
 // ---------------------------------------------------------------------------
 // Rate limiters
@@ -140,13 +224,22 @@ const saveLimiter = rateLimit({
 app.use("/api/smuggle", smuggleLimiter);
 app.use("/api/save", saveLimiter);
 
-// ---------------------------------------------------------------------------
-// API — Streaming proxy
-// ---------------------------------------------------------------------------
+/**
+ * ---------------------------------------------------------------------------
+ * API — Streaming proxy
+ * ---------------------------------------------------------------------------
+ * This endpoint bypasses firewalls by fetching blocked assets (like ROMs)
+ * on the backend and streaming them directly to the client to conserve RAM.
+ * It strictly avoids buffering the entire file in memory.
+ *
+ * @route POST /api/smuggle
+ * @param {string} req.body.targetUrl - The target URL to smuggle.
+ */
 app.post("/api/smuggle", async (req, res) => {
 	const { targetUrl } = req.body;
 	if (!targetUrl) return res.status(400).send("No targetUrl provided");
-	if (!isSafeUrl(targetUrl)) return res.status(403).send("Blocked: unsafe URL target");
+	if (!isSafeUrl(targetUrl))
+		return res.status(403).send("Blocked: unsafe URL target");
 
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 30000);
@@ -156,7 +249,9 @@ app.post("/api/smuggle", async (req, res) => {
 		clearTimeout(timeout);
 
 		if (!response.ok) {
-			return res.status(response.status).send(`Fetch failed: ${response.statusText}`);
+			return res
+				.status(response.status)
+				.send(`Fetch failed: ${response.statusText}`);
 		}
 
 		const contentType = response.headers.get("content-type");
@@ -190,15 +285,22 @@ app.post("/api/save", (req, res) => {
 
 		// Basic sanity: data must be string or object, max 1MB
 		const serialized = typeof data === "string" ? data : JSON.stringify(data);
-		if (serialized.length > 1_000_000) return res.status(413).send("Data too large");
+		if (serialized.length > 1_000_000)
+			return res.status(413).send("Data too large");
 
 		const saveDir = join(ROOT, "backups", "users");
 		if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
 
 		// Hash the IP so filenames aren't guessable and IPv6 is handled cleanly
-		const id = createHash("sha256").update(req.ip || "unknown").digest("hex").slice(0, 16);
+		const id = createHash("sha256")
+			.update(req.ip || "unknown")
+			.digest("hex")
+			.slice(0, 16);
 		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-		fs.writeFileSync(join(saveDir, `save_${id}_${timestamp}.json`), JSON.stringify({ data: serialized }));
+		fs.writeFileSync(
+			join(saveDir, `save_${id}_${timestamp}.json`),
+			JSON.stringify({ data: serialized })
+		);
 		res.status(200).send("Saved.");
 	} catch (e) {
 		console.error("Save error:", e.message);
@@ -206,9 +308,17 @@ app.post("/api/save", (req, res) => {
 	}
 });
 
-// ---------------------------------------------------------------------------
-// Proxy route — iframe unblocking with header stripping + <base> injection
-// ---------------------------------------------------------------------------
+/**
+ * ---------------------------------------------------------------------------
+ * Proxy route — iframe unblocking with header stripping + <base> injection
+ * ---------------------------------------------------------------------------
+ * This endpoint fetches external pages and returns them with modified headers
+ * to bypass security restrictions that would prevent framing (like X-Frame-Options).
+ * It dynamically injects a <base> tag to ensure relative assets load correctly.
+ *
+ * @route GET /proxy
+ * @param {string} req.query.url - The target URL to fetch.
+ */
 app.get("/proxy", async (req, res) => {
 	const { url: targetUrl } = req.query;
 	if (!targetUrl) return res.status(400).send("No URL provided");
@@ -232,16 +342,17 @@ app.get("/proxy", async (req, res) => {
 		});
 
 		// Declare all variables before use
-		const encoding    = response.headers["content-encoding"];
-		let   contentType = (response.headers["content-type"] || "").toLowerCase();
-		let   buffer      = response.data;
+		const encoding = response.headers["content-encoding"];
+		let contentType = (response.headers["content-type"] || "").toLowerCase();
+		let buffer = response.data;
 
 		// Build proxy headers early so we can mutate content-type if needed
 		const proxyHeaders = { ...response.headers };
 
 		// Force HTML content-type for known raw HTML hosts
 		if (
-			(targetUrl.includes("raw.githubusercontent.com") || targetUrl.includes("cdn.jsdelivr.net")) &&
+			(targetUrl.includes("raw.githubusercontent.com") ||
+				targetUrl.includes("cdn.jsdelivr.net")) &&
 			(contentType.includes("text/plain") || !contentType)
 		) {
 			proxyHeaders["content-type"] = "text/html; charset=utf-8";
@@ -263,7 +374,8 @@ app.get("/proxy", async (req, res) => {
 			try {
 				const urlObj = new URL(targetUrl);
 				const base =
-					urlObj.origin + urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
+					urlObj.origin +
+					urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
 				const baseTag = `\n<base href="${base}">\n`;
 
 				const headMatch = html.match(/<head[^>]*>/i);
@@ -290,8 +402,8 @@ app.get("/proxy", async (req, res) => {
 		delete proxyHeaders["content-security-policy"];
 		delete proxyHeaders["content-security-policy-report-only"];
 		delete proxyHeaders["frame-ancestors"];
-		delete proxyHeaders["content-encoding"];  // we decoded it
-		delete proxyHeaders["content-length"];     // length changed
+		delete proxyHeaders["content-encoding"]; // we decoded it
+		delete proxyHeaders["content-length"]; // length changed
 
 		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
 
@@ -315,9 +427,12 @@ app.use((req, res) => {
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
-	res.status(404).sendFile(join(ROOT, "public", "404.html")).catch(() => {
-		res.status(404).send("Not Found");
-	});
+	res
+		.status(404)
+		.sendFile(join(ROOT, "public", "404.html"))
+		.catch(() => {
+			res.status(404).send("Not Found");
+		});
 });
 
 // ---------------------------------------------------------------------------
