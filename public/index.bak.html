@@ -1,204 +1,278 @@
 <!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title id="page-title">STRATO</title>
+		<meta name="description" content="Stratospheric proxy network." />
+		<link
+			id="favicon"
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>◆</text></svg>"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- Bare-Mux -->
+		<script src="/surf/baremux/index.js"></script>
+		<!-- Scramjet (codecs → config → bundle) -->
+		<script src="/surf/scram/scramjet.codecs.js"></script>
+		<script src="/surf/scram/scramjet.config.js"></script>
+		<script src="/surf/scram/scramjet.bundle.js"></script>
+		<!-- Ultraviolet -->
+		<script src="/uv/uv.bundle.js"></script>
+		<script src="/uv/uv.config.js"></script>
+		<link rel="stylesheet" href="/strato.css" />
+	</head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title id="page-title">STRATO</title>
-	<meta name="description" content="Stratospheric proxy network." />
-	<link id="favicon" rel="icon"
-		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>◆</text></svg>" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
-		rel="stylesheet" />
-	<!-- Bare-Mux -->
-	<script src="/surf/baremux/index.js"></script>
-	<!-- Scramjet (codecs → config → bundle) -->
-	<script src="/surf/scram/scramjet.codecs.js"></script>
-	<script src="/surf/scram/scramjet.config.js"></script>
-	<script src="/surf/scram/scramjet.bundle.js"></script>
-	<!-- Ultraviolet -->
-	<script src="/uv/uv.bundle.js"></script>
-	<script src="/uv/uv.config.js"></script>
-	<link rel="stylesheet" href="/strato.css" />
-</head>
+	<body>
+		<!-- PARTICLE CANVAS -->
+		<canvas id="particleCanvas"></canvas>
 
-<body>
-	<!-- PARTICLE CANVAS -->
-	<canvas id="particleCanvas"></canvas>
-
-	<!-- SPLASH -->
-	<div id="splash">
-		<div class="spl-inner">
-			<div class="spl-glyph">◆</div>
-			<div class="spl-mark">STRATO</div>
-			<div class="spl-line"></div>
-			<div class="spl-sub">P R O X Y &nbsp; N E T W O R K</div>
-			<button class="spl-btn" id="splash-enter">
-				<span>Enter the Stratosphere</span>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-					<line x1="5" y1="12" x2="19" y2="12" />
-					<polyline points="12 5 19 12 12 19" />
-				</svg>
-			</button>
+		<!-- SPLASH -->
+		<div id="splash">
+			<div class="spl-inner">
+				<div class="spl-glyph">◆</div>
+				<div class="spl-mark">STRATO</div>
+				<div class="spl-line"></div>
+				<div class="spl-sub">P R O X Y &nbsp; N E T W O R K</div>
+				<button class="spl-btn" id="splash-enter">
+					<span>Enter the Stratosphere</span>
+					<svg
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<line x1="5" y1="12" x2="19" y2="12" />
+						<polyline points="12 5 19 12 12 19" />
+					</svg>
+				</button>
+			</div>
 		</div>
-	</div>
 
-	<!-- APP -->
-	<div id="app">
-		<!-- FLOATING DOCK -->
-		<nav id="dock">
-			<div class="dock-brand">
-				<span class="dock-glyph">◆</span>
-				<span class="dock-name">STRATO</span>
-			</div>
-			<div class="dock-tabs">
-				<button class="dtab on" data-view="grid">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="1.5">
-						<rect x="3" y="3" width="7" height="7" rx="1.5" />
-						<rect x="14" y="3" width="7" height="7" rx="1.5" />
-						<rect x="3" y="14" width="7" height="7" rx="1.5" />
-						<rect x="14" y="14" width="7" height="7" rx="1.5" />
-					</svg>
-					<span>Games</span>
-				</button>
-				<button class="dtab" data-view="watch">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="1.5">
-						<rect x="2" y="3" width="20" height="14" rx="2" />
-						<path d="M8 21h8M12 17v4" />
-					</svg>
-					<span>Watch</span>
-				</button>
-				<button class="dtab" data-view="listen">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="1.5">
-						<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-						<path
-							d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-					</svg>
-					<span>Listen</span>
-				</button>
-				<button class="dtab" data-view="browse">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="1.5">
-						<circle cx="12" cy="12" r="10" />
-						<path
-							d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-					</svg>
-					<span>Browse</span>
-				</button>
-			</div>
-			<div class="dock-right">
-				<div class="dock-search">
-					<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<circle cx="11" cy="11" r="7" />
-						<line x1="17" y1="17" x2="21" y2="21" />
-					</svg>
-					<input type="text" id="searchInput" placeholder="Search or enter URL…" autocomplete="off"
-						spellcheck="false" />
+		<!-- APP -->
+		<div id="app">
+			<!-- FLOATING DOCK -->
+			<nav id="dock">
+				<div class="dock-brand">
+					<span class="dock-glyph">◆</span>
+					<span class="dock-name">STRATO</span>
 				</div>
-				<select id="proxyEngine" class="dock-sel">
-					<option value="scramjet">Scramjet</option>
-					<option value="uv">Ultraviolet</option>
-				</select>
-				<select id="privacyPreset" class="dock-sel">
-					<option value="default">🛡 Default</option>
-					<option value="drive">📁 Drive</option>
-					<option value="classroom">📚 Classroom</option>
-				</select>
-				<button class="dock-panic" id="panicBtn" title="ESC — Panic">⚡</button>
-			</div>
-		</nav>
+				<div class="dock-tabs">
+					<button class="dtab on" data-view="grid">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						>
+							<rect x="3" y="3" width="7" height="7" rx="1.5" />
+							<rect x="14" y="3" width="7" height="7" rx="1.5" />
+							<rect x="3" y="14" width="7" height="7" rx="1.5" />
+							<rect x="14" y="14" width="7" height="7" rx="1.5" />
+						</svg>
+						<span>Games</span>
+					</button>
+					<button class="dtab" data-view="watch">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						>
+							<rect x="2" y="3" width="20" height="14" rx="2" />
+							<path d="M8 21h8M12 17v4" />
+						</svg>
+						<span>Watch</span>
+					</button>
+					<button class="dtab" data-view="listen">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						>
+							<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+							<path
+								d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
+							/>
+						</svg>
+						<span>Listen</span>
+					</button>
+					<button class="dtab" data-view="browse">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						>
+							<circle cx="12" cy="12" r="10" />
+							<path
+								d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+							/>
+						</svg>
+						<span>Browse</span>
+					</button>
+				</div>
+				<div class="dock-right">
+					<div class="dock-search">
+						<svg
+							width="13"
+							height="13"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<circle cx="11" cy="11" r="7" />
+							<line x1="17" y1="17" x2="21" y2="21" />
+						</svg>
+						<input
+							type="text"
+							id="searchInput"
+							placeholder="Search or enter URL…"
+							autocomplete="off"
+							spellcheck="false"
+						/>
+					</div>
+					<select id="proxyEngine" class="dock-sel">
+						<option value="scramjet">Scramjet</option>
+						<option value="uv">Ultraviolet</option>
+					</select>
+					<select id="privacyPreset" class="dock-sel">
+						<option value="default">🛡 Default</option>
+						<option value="drive">📁 Drive</option>
+						<option value="classroom">📚 Classroom</option>
+					</select>
+					<button class="dock-panic" id="panicBtn" title="ESC — Panic">
+						⚡
+					</button>
+				</div>
+			</nav>
 
-		<!-- VIEWS -->
-		<main id="content">
-			<!-- GAMES -->
-			<div id="view-grid" class="view active">
-				<div class="grid-header">
-					<h2 class="section-title">ARCADE</h2>
-					<span class="game-counter" id="gameCount">0</span>
+			<!-- VIEWS -->
+			<main id="content">
+				<!-- GAMES -->
+				<div id="view-grid" class="view active">
+					<div class="grid-header">
+						<h2 class="section-title">ARCADE</h2>
+						<span class="game-counter" id="gameCount">0</span>
+					</div>
+					<div class="game-grid" id="gameGrid"></div>
 				</div>
-				<div class="game-grid" id="gameGrid"></div>
-			</div>
-			<!-- WATCH -->
-			<div id="view-watch" class="view">
-				<div class="media-panel">
-					<h2 class="section-title">WATCH</h2>
-					<p class="media-sub">Stream anything. Unblocked.</p>
-					<div class="media-cards">
-						<div class="mc" data-action="watch" data-url="https://www.cineby.sc/" data-name="Cineby">
-							<div class="mc-glow" style="--mc-hue:330"></div>
-							<div class="mc-icon">🎬</div>
-							<div class="mc-label">Cineby</div>
-						</div>
-						<div class="mc" data-action="watch" data-url="https://www.lookmovie2.to/" data-name="LookMovie">
-							<div class="mc-glow" style="--mc-hue:195"></div>
-							<div class="mc-icon">🎞</div>
-							<div class="mc-label">LookMovie</div>
-						</div>
-						<div class="mc" data-action="watch" data-url="https://youtube.com/" data-name="YouTube">
-							<div class="mc-glow" style="--mc-hue:0"></div>
-							<div class="mc-icon">▶️</div>
-							<div class="mc-label">YouTube</div>
+				<!-- WATCH -->
+				<div id="view-watch" class="view">
+					<div class="media-panel">
+						<h2 class="section-title">WATCH</h2>
+						<p class="media-sub">Stream anything. Unblocked.</p>
+						<div class="media-cards">
+							<div
+								class="mc"
+								data-action="watch"
+								data-url="https://www.cineby.sc/"
+								data-name="Cineby"
+							>
+								<div class="mc-glow" style="--mc-hue: 330"></div>
+								<div class="mc-icon">🎬</div>
+								<div class="mc-label">Cineby</div>
+							</div>
+							<div
+								class="mc"
+								data-action="watch"
+								data-url="https://www.lookmovie2.to/"
+								data-name="LookMovie"
+							>
+								<div class="mc-glow" style="--mc-hue: 195"></div>
+								<div class="mc-icon">🎞</div>
+								<div class="mc-label">LookMovie</div>
+							</div>
+							<div
+								class="mc"
+								data-action="watch"
+								data-url="https://youtube.com/"
+								data-name="YouTube"
+							>
+								<div class="mc-glow" style="--mc-hue: 0"></div>
+								<div class="mc-icon">▶️</div>
+								<div class="mc-label">YouTube</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div id="watch-player" class="embed-player">
-					<div class="ep-bar"><button class="ep-back" id="watch-back-btn">← Back</button><span
-							class="ep-title" id="watch-ttl"></span></div>
-					<iframe id="watch-iframe" allowfullscreen></iframe>
-				</div>
-			</div>
-			<!-- LISTEN -->
-			<div id="view-listen" class="view">
-				<div class="media-panel">
-					<h2 class="section-title">LISTEN</h2>
-					<p class="media-sub">Music. Unfiltered.</p>
-					<div class="media-cards">
-						<div class="mc" data-action="listen" data-mode="mono">
-							<div class="mc-glow" style="--mc-hue:270"></div>
-							<div class="mc-icon">🎧</div>
-							<div class="mc-label">Monochrome</div>
+					<div id="watch-player" class="embed-player">
+						<div class="ep-bar">
+							<button class="ep-back" id="watch-back-btn">← Back</button
+							><span class="ep-title" id="watch-ttl"></span>
 						</div>
-						<div class="mc" data-action="listen" data-mode="spotify">
-							<div class="mc-glow" style="--mc-hue:140"></div>
-							<div class="mc-icon">🎵</div>
-							<div class="mc-label">Spotify</div>
-						</div>
+						<iframe id="watch-iframe" allowfullscreen></iframe>
 					</div>
 				</div>
-				<div id="listen-player" class="embed-player">
-					<div class="ep-bar"><button class="ep-back" id="listen-back-btn">← Back</button><span
-							class="ep-title" id="listen-ttl"></span></div>
-					<iframe id="listen-iframe"></iframe>
+				<!-- LISTEN -->
+				<div id="view-listen" class="view">
+					<div class="media-panel">
+						<h2 class="section-title">LISTEN</h2>
+						<p class="media-sub">Music. Unfiltered.</p>
+						<div class="media-cards">
+							<div class="mc" data-action="listen" data-mode="mono">
+								<div class="mc-glow" style="--mc-hue: 270"></div>
+								<div class="mc-icon">🎧</div>
+								<div class="mc-label">Monochrome</div>
+							</div>
+							<div class="mc" data-action="listen" data-mode="spotify">
+								<div class="mc-glow" style="--mc-hue: 140"></div>
+								<div class="mc-icon">🎵</div>
+								<div class="mc-label">Spotify</div>
+							</div>
+						</div>
+					</div>
+					<div id="listen-player" class="embed-player">
+						<div class="ep-bar">
+							<button class="ep-back" id="listen-back-btn">← Back</button
+							><span class="ep-title" id="listen-ttl"></span>
+						</div>
+						<iframe id="listen-iframe"></iframe>
+					</div>
 				</div>
-			</div>
-			<!-- BROWSE -->
-			<div id="view-browse" class="view">
-				<div class="media-panel">
-					<h2 class="section-title">BROWSE</h2>
-					<p class="media-sub">Type any URL in the search bar and press Enter.</p>
+				<!-- BROWSE -->
+				<div id="view-browse" class="view">
+					<div class="media-panel">
+						<h2 class="section-title">BROWSE</h2>
+						<p class="media-sub">
+							Type any URL in the search bar and press Enter.
+						</p>
+					</div>
 				</div>
-			</div>
-		</main>
-	</div>
-
-	<!-- GAME OVERLAY -->
-	<div id="game-overlay">
-		<div class="ov-bar">
-			<button class="ov-back" id="overlay-back-btn">← Back</button>
-			<span class="ov-name" id="ov-game-title"></span>
-			<button class="ov-fs" id="overlay-fs-btn">⛶</button>
+			</main>
 		</div>
-		<iframe id="game-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
-	</div>
 
-	<script src="/index.js"></script>
-	<script src="/save-manager.js"></script>
-	<script src="/vault.js"></script>
-	<script src="/strato-app.js"></script>
-</body>
+		<!-- GAME OVERLAY -->
+		<div id="game-overlay">
+			<div class="ov-bar">
+				<button class="ov-back" id="overlay-back-btn">← Back</button>
+				<span class="ov-name" id="ov-game-title"></span>
+				<button class="ov-fs" id="overlay-fs-btn">⛶</button>
+			</div>
+			<iframe
+				id="game-iframe"
+				allowfullscreen
+				allow="autoplay; fullscreen"
+			></iframe>
+		</div>
 
+		<script src="/index.js"></script>
+		<script src="/save-manager.js"></script>
+		<script src="/vault.js"></script>
+		<script src="/strato-app.js"></script>
+	</body>
 </html>

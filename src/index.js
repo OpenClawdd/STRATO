@@ -15,23 +15,7 @@ import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
 import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
-import zlib from "node:zlib";
-import { promisify } from "node:util";
-import { authPage } from "./auth.js";
-
-// ---------------------------------------------------------------------------
-// Shared decompression utilities
-// ---------------------------------------------------------------------------
-const gunzip = promisify(zlib.gunzip);
-const inflate = promisify(zlib.inflate);
-const brotliDecompress = promisify(zlib.brotliDecompress);
-
-async function decompress(buffer, encoding) {
-	if (encoding === "gzip") return gunzip(buffer);
-	if (encoding === "deflate") return inflate(buffer);
-	if (encoding === "br") return brotliDecompress(buffer);
-	return buffer;
-}
+import { decompress } from "./decompress.js";
 
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
@@ -343,7 +327,6 @@ app.get("/proxy", async (req, res) => {
 		delete proxyHeaders["content-encoding"];  // we decoded it
 		delete proxyHeaders["content-length"];     // length changed
 
-		proxyHeaders["Access-Control-Allow-Origin"] = "*";
 		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
 
 		res.set(proxyHeaders);
