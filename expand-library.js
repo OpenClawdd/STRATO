@@ -154,7 +154,7 @@ async function processNewGames(newGames) {
 	for (const game of newGames) {
 		console.log(`Processing: ${game.n}`);
 		try {
-			const img = await downloadThumbnail(game.n);
+			const img = await downloadThumbnail(game.n, THUMBS_DIR);
 			results.push({ ...game, img });
 		} catch (e) {
 			console.error(`  ✗  Failed: ${game.n} — ${e.message}`);
