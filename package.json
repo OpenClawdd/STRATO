@@ -1,52 +1,59 @@
 {
-	"name": "strato-cloud-dashboard",
-	"version": "2.0.0",
-	"description": "STRATO — A fast, secure proxy and arcade dashboard.",
-	"type": "module",
-	"engines": {
-		"node": ">=18.0.0"
-	},
-	"scripts": {
-		"start": "node src/index.js",
-		"dev": "node --watch src/index.js",
-		"format": "prettier --write .",
-		"lint": "eslint ./src/",
-		"lint:fix": "eslint ./src/ --fix",
-		"test": "node --test tests/*.test.js || true"
-	},
-	"keywords": [
-		"cloud",
-		"dashboard",
-		"proxy",
-		"arcade",
-		"strato"
-	],
-	"packageManager": "pnpm@10.28.0",
-	"author": "OpenClawdd",
-	"license": "GPL-3.0-or-later",
-	"devDependencies": {
-		"@eslint/js": "^10.0.1",
-		"eslint": "^9.39.2",
-		"globals": "^17.5.0",
-		"prettier": "^3.8.1",
-		"supertest": "^7.2.2"
-	},
-	"dependencies": {
-		"@mercuryworkshop/bare-mux": "^2.1.8",
-		"@mercuryworkshop/epoxy-tls": "^2.1.19-1",
-		"@mercuryworkshop/scramjet": "^1.0.2",
-		"@mercuryworkshop/wisp-js": "^0.4.1",
-		"@titaniumnetwork-dev/ultraviolet": "^3.2.10",
-		"@tomphttp/bare-server-node": "^2.0.6",
-		"axios": "^1.15.0",
-		"compression": "^1.8.1",
-		"cookie-parser": "^1.4.7",
-		"dotenv": "^17.2.1",
-		"express": "^5.2.1",
-		"express-rate-limit": "^7.5.1",
-		"googlethis": "^1.8.0",
-		"helmet": "^8.1.0",
-		"sharp": "^0.34.5",
-		"ws": "^8.19.0"
-	}
+  "name": "strato-cloud-dashboard",
+  "version": "2.0.1",
+  "description": "STRATO — A fast, secure proxy and arcade dashboard.",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "format": "prettier --write .",
+    "lint": "eslint ./src/",
+    "lint:fix": "eslint ./src/ --fix",
+    "test": "node --test tests/*.test.js || true"
+  },
+  "keywords": [
+    "cloud",
+    "dashboard",
+    "proxy",
+    "arcade",
+    "strato"
+  ],
+  "packageManager": "pnpm@10.28.0",
+  "author": "OpenClawdd",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^9.39.2",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.1"
+  },
+  "dependencies": {
+    "@mercuryworkshop/bare-mux": "^2.1.8",
+    "@mercuryworkshop/epoxy-tls": "^2.1.19-1",
+    "@mercuryworkshop/scramjet": "^1.0.2",
+    "@mercuryworkshop/wisp-js": "^0.4.1",
+    "@titaniumnetwork-dev/ultraviolet": "^3.2.10",
+    "@tomphttp/bare-server-node": "^2.0.6",
+    "axios": "^1.15.0",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.1",
+    "googlethis": "^1.8.0",
+    "helmet": "^8.1.0",
+    "sharp": "^0.34.5",
+    "ws": "^8.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenClawdd/STRATO.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenClawdd/STRATO/issues"
+  },
+  "homepage": "https://github.com/OpenClawdd/STRATO#readme"
 }

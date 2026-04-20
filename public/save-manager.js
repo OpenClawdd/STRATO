@@ -105,38 +105,35 @@ async function exportDatabase(dbName) {
 				return;
 			}
 
-			const tx = db.transaction(storeNames, "readonly");
-			const promises = [];
-
 			for (const storeName of storeNames) {
-				promises.push(
-					new Promise((res, rej) => {
-						const store = tx.objectStore(storeName);
-						const allReq = store.getAll();
-						const keysReq = store.getAllKeys();
+				await new Promise((res, rej) => {
+					// We need a fresh transaction per store to avoid it closing while we await serializeValue
+					const tx = db.transaction([storeName], "readonly");
+					const store = tx.objectStore(storeName);
+					const allReq = store.getAll();
+					const keysReq = store.getAllKeys();
 
-						allReq.onsuccess = async () => {
-							keysReq.onsuccess = async () => {
-								const records = [];
-								for (let i = 0; i < allReq.result.length; i++) {
-									records.push({
-										key: await serializeValue(keysReq.result[i]),
-										value: await serializeValue(allReq.result[i]),
-									});
-								}
-								storesData.stores[storeName] = {
-									keyPath: store.keyPath,
-									autoIncrement: store.autoIncrement,
-									records: records,
-								};
-								res();
+					allReq.onsuccess = async () => {
+						keysReq.onsuccess = async () => {
+							const records = [];
+							for (let i = 0; i < allReq.result.length; i++) {
+								records.push({
+									key: await serializeValue(keysReq.result[i]),
+									value: await serializeValue(allReq.result[i]),
+								});
+							}
+							storesData.stores[storeName] = {
+								keyPath: store.keyPath,
+								autoIncrement: store.autoIncrement,
+								records: records,
 							};
+							res();
 						};
-					})
-				);
+					};
+					tx.onerror = () => rej(tx.error);
+				});
 			}
 
-			await Promise.all(promises);
 			db.close();
 			resolve(storesData);
 		};

@@ -8,10 +8,10 @@
 /* ── TOKENS ── */
 :root {
 	/* Core palette */
-	--void: #020508;
-	--void-2: #050c17;
-	--surface: rgba(255, 255, 255, 0.04);
-	--surface-hi: rgba(255, 255, 255, 0.07);
+	--void: #010204;
+	--void-2: #030810;
+	--surface: rgba(255, 255, 255, 0.03);
+	--surface-hi: rgba(255, 255, 255, 0.06);
 	--surface-br: rgba(255, 255, 255, 0.1);
 	--border: rgba(255, 255, 255, 0.08);
 	--border-hi: rgba(255, 255, 255, 0.14);
@@ -644,7 +644,7 @@ body {
 
 /* Section header */
 .section-header {
-	margin-bottom: 24px;
+	margin-bottom: 30px;
 }
 .sh-title {
 	font-family: var(--font-display);
@@ -1129,9 +1129,11 @@ body {
 	pointer-events: none;
 }
 .media-card:hover {
-	border-color: var(--mc-color, var(--cyan));
-	transform: translateY(-3px);
-	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+	transform: translateY(-4px) scale(1.02);
+	box-shadow:
+		0 12px 30px rgba(0, 0, 0, 0.4),
+		0 0 15px rgba(255, 255, 255, 0.1);
+	border-color: var(--border-hi);
 }
 .mc-icon {
 	font-size: 28px;
@@ -1570,4 +1572,30 @@ body {
 	.view {
 		padding: 16px;
 	}
+}
+
+
+[data-theme="light"] {
+	--void: #ffffff;
+	--void-2: #f8fafc;
+	--surface: rgba(241, 245, 249, 0.6);
+	--surface-hi: rgba(226, 232, 240, 0.75);
+	--border: rgba(148, 163, 184, 0.15);
+	--border-hi: rgba(148, 163, 184, 0.28);
+	--text: rgba(15, 23, 42, 0.75);
+	--text-hi: rgba(15, 23, 42, 0.95);
+	--text-lo: rgba(71, 85, 105, 0.4);
+}
+[data-theme="light"] body {
+	background: var(--void);
+}
+[data-theme="light"] #topbar {
+	background: rgba(248, 250, 252, 0.8);
+}
+[data-theme="light"] #sidenav {
+	background: rgba(248, 250, 252, 0.6);
+}
+[data-theme="light"] .sn-item.on {
+	background: rgba(15, 23, 42, 0.05);
+	color: #0f172a;
 }

@@ -30,15 +30,21 @@ test("decompress utility", async (t) => {
 		assert.equal(decompressed.toString(), originalString);
 	});
 
-	await t.test("should return original buffer for unknown encoding", async () => {
-		const result = await decompress(originalBuffer, "unknown-encoding");
-		assert.deepEqual(result, originalBuffer);
-	});
+	await t.test(
+		"should return original buffer for unknown encoding",
+		async () => {
+			const result = await decompress(originalBuffer, "unknown-encoding");
+			assert.deepEqual(result, originalBuffer);
+		}
+	);
 
-	await t.test("should return original buffer for missing encoding", async () => {
-		const result = await decompress(originalBuffer);
-		assert.deepEqual(result, originalBuffer);
-	});
+	await t.test(
+		"should return original buffer for missing encoding",
+		async () => {
+			const result = await decompress(originalBuffer);
+			assert.deepEqual(result, originalBuffer);
+		}
+	);
 
 	await t.test("should reject on invalid gzip data", async () => {
 		const invalidBuffer = Buffer.from("not a gzip buffer");
