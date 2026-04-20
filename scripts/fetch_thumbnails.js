@@ -34,20 +34,56 @@ async function main() {
 
 	let updatedGamesString = gamesString;
 
-	for (const game of games) {
-		console.log(`Processing ${game.n}...`);
+	const chunkSize = 5;
+	for (let i = 0; i < games.length; i += chunkSize) {
+		const chunk = games.slice(i, i + chunkSize);
+		console.log(`Processing chunk ${Math.floor(i / chunkSize) + 1}...`);
 
-		try {
-			const imgPath = await downloadThumbnail(game.n, thumbnailsDir);
+		await Promise.all(
+			chunk.map(async (game) => {
+				console.log(`Processing ${game.n}...`);
 
-			// 3. Update the string
-			const newGameString = `{ n: "${game.n}", img: "${imgPath}", u: "${game.u}" }`;
-			updatedGamesString = updatedGamesString.replace(
-				game.originalString,
-				newGameString
-			);
-		} catch (err) {
-			console.error(`Error processing ${game.n}:`, err);
+				// 1. Fetch thumbnail
+				const query = `${game.n} game capsule image high res`;
+				console.log(`Searching for: ${query}`);
+				try {
+					const images = await google.image(query, { safe: false });
+					if (images && images.length > 0) {
+						const firstImage = images[0];
+						console.log(`Found image URL for ${game.n}: ${firstImage.url}`);
+
+						// 2. Download and process image
+						const imageBuffer = await downloadImage(firstImage.url);
+
+						const filename = `${game.n.toLowerCase().replace(/[^a-z0-9]+/g, "_")}.webp`;
+						const filepath = path.join(thumbnailsDir, filename);
+
+						await sharp(imageBuffer)
+							.resize(400, 225, { fit: "cover" })
+							.webp()
+							.toFile(filepath);
+
+						console.log(`Saved thumbnail to ${filepath}`);
+
+						// 3. Update the string (thread safe operation within Promise.all)
+						const newGameString = `{ n: "${game.n}", img: "/assets/thumbnails/${filename}", u: "${game.u}" }`;
+
+						// Replace in the overall string safely (we rely on each originalString being unique)
+						updatedGamesString = updatedGamesString.replace(
+							game.originalString,
+							newGameString
+						);
+					} else {
+						console.warn(`No images found for ${game.n}`);
+					}
+				} catch (err) {
+					console.error(`Error processing ${game.n}:`, err);
+				}
+			})
+		);
+		// Small delay to prevent rate-limiting, if needed, though chunking helps
+		if (i + chunkSize < games.length) {
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}
 	}
 

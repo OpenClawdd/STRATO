@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Benchmark</title>
+	</head>
+	<body>
+		<script src="save-manager.js"></script>
+		<script>
+			async function setupDummyData() {
+				for (let i = 0; i < 20; i++) {
+					await new Promise((resolve, reject) => {
+						const req = indexedDB.open(`dummy_db_small_${i}`, 1);
+						req.onupgradeneeded = (e) => {
+							const db = e.target.result;
+							db.createObjectStore("store1", { autoIncrement: true });
+						};
+						req.onsuccess = (e) => {
+							const db = e.target.result;
+							const tx = db.transaction("store1", "readwrite");
+							const store = tx.objectStore("store1");
+							for (let j = 0; j < 10; j++) {
+								store.put({ key: `key_${j}`, data: "a" });
+							}
+							tx.oncomplete = () => {
+								db.close();
+								resolve();
+							};
+							tx.onerror = reject;
+						};
+						req.onerror = reject;
+					});
+				}
+			}
+
+			async function measureSequential(data) {
+				const start = performance.now();
+				if (data.indexedDB) {
+					for (const [dbName, dbContent] of Object.entries(data.indexedDB)) {
+						await importDatabase(dbName, dbContent);
+					}
+				}
+				return performance.now() - start;
+			}
+
+			async function measureConcurrent(data) {
+				const start = performance.now();
+				if (data.indexedDB) {
+					const promises = [];
+					for (const [dbName, dbContent] of Object.entries(data.indexedDB)) {
+						promises.push(importDatabase(dbName, dbContent));
+					}
+					await Promise.all(promises);
+				}
+				return performance.now() - start;
+			}
+
+			async function runBenchmark() {
+				try {
+					console.log("Setting up dummy data...");
+					await setupDummyData();
+
+					console.log("Exporting data to JSON...");
+					const data = { indexedDB: {} };
+					const dbs = await indexedDB.databases();
+					for (const dbInfo of dbs) {
+						if (dbInfo.name.startsWith("dummy_db_small_")) {
+							const dbData = await exportDatabase(dbInfo.name);
+							data.indexedDB[dbInfo.name] = dbData;
+						}
+					}
+
+					// Clear databases
+					for (const dbInfo of dbs) {
+						if (dbInfo.name.startsWith("dummy_db_small_")) {
+							await new Promise((resolve) => {
+								const req = indexedDB.deleteDatabase(dbInfo.name);
+								req.onsuccess = resolve;
+								req.onerror = resolve;
+							});
+						}
+					}
+
+					console.log("Measuring sequential import...");
+					const seqTime = await measureSequential(data);
+					console.log(`Sequential time: ${seqTime.toFixed(2)} ms`);
+
+					// Clear databases again
+					const dbs2 = await indexedDB.databases();
+					for (const dbInfo of dbs2) {
+						if (dbInfo.name.startsWith("dummy_db_small_")) {
+							await new Promise((resolve) => {
+								const req = indexedDB.deleteDatabase(dbInfo.name);
+								req.onsuccess = resolve;
+								req.onerror = resolve;
+							});
+						}
+					}
+
+					console.log("Measuring concurrent import...");
+					const concTime = await measureConcurrent(data);
+					console.log(`Concurrent time: ${concTime.toFixed(2)} ms`);
+
+					window.benchmarkResults = { seqTime, concTime };
+				} catch (e) {
+					console.error(e);
+				}
+			}
+
+			// Auto-run if requested
+			setTimeout(runBenchmark, 100);
+		</script>
+	</body>
+</html>
