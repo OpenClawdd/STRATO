@@ -56,6 +56,9 @@ importers:
         specifier: ^8.19.0
         version: 8.20.0(bufferutil@4.1.0)
     devDependencies:
+      '@eslint/js':
+        specifier: ^10.0.1
+        version: 10.0.1(eslint@9.39.4)
       eslint:
         specifier: ^9.39.2
         version: 9.39.4
