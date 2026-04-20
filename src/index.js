@@ -446,7 +446,7 @@ app.get("/proxy", async (req, res) => {
 		const response = await axios({
 			method: "get",
 			url: targetUrl,
-			responseType: "arraybuffer",
+			responseType: "stream",
 			headers: {
 				"User-Agent":
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
@@ -467,6 +467,14 @@ app.get("/proxy", async (req, res) => {
 		// Build proxy headers early so we can mutate content-type if needed
 		const proxyHeaders = { ...response.headers };
 
+		// Strip security/framing headers
+		delete proxyHeaders["x-frame-options"];
+		delete proxyHeaders["content-security-policy"];
+		delete proxyHeaders["content-security-policy-report-only"];
+		delete proxyHeaders["frame-ancestors"];
+
+		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
+
 		// Force HTML content-type for known raw HTML hosts
 		if (
 			(targetUrl.includes("raw.githubusercontent.com") ||
@@ -477,17 +485,26 @@ app.get("/proxy", async (req, res) => {
 			contentType = "text/html";
 		}
 
-		// Decompress if needed
-		if (encoding) {
-			try {
-				buffer = await decompress(buffer, encoding);
-			} catch (e) {
-				console.error("[Proxy] Decompression failed:", e.message);
-			}
-		}
-
 		// Inject <base href> so relative assets resolve correctly
 		if (contentType.includes("text/html")) {
+			// Gather the stream into a buffer
+			let buffer = await new Promise((resolve, reject) => {
+				const chunks = [];
+				response.data.on("data", (chunk) => chunks.push(chunk));
+				response.data.on("end", () => resolve(Buffer.concat(chunks)));
+				response.data.on("error", reject);
+			});
+
+			// Decompress if needed
+			if (encoding) {
+				try {
+					buffer = await decompress(buffer, encoding);
+					delete proxyHeaders["content-encoding"]; // we decoded it
+				} catch (e) {
+					console.error("[Proxy] Decompression failed:", e.message);
+				}
+			}
+
 			let html = buffer.toString("utf8");
 			try {
 				const urlObj = new URL(targetUrl);
@@ -513,7 +530,6 @@ app.get("/proxy", async (req, res) => {
 			} catch (e) {
 				console.error("[Proxy] Base injection failed:", e.message);
 			}
-		}
 
 		// Strip security/framing headers
 		delete proxyHeaders["x-frame-options"];
