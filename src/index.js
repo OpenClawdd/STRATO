@@ -9,6 +9,7 @@ import express from "express";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -16,6 +17,7 @@ import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
 import zlib from "node:zlib";
 import { promisify } from "node:util";
+import { authPage } from "./auth.js";
 
 // ---------------------------------------------------------------------------
 // Shared decompression utilities
@@ -40,18 +42,7 @@ function isSafeUrl(rawUrl) {
 		if (!["http:", "https:"].includes(protocol)) return false;
 
 		// Block all private / reserved address ranges
-		const BLOCKED = /^(
-			localhost |
-			127\. |
-			0\. |
-			10\. |
-			172\.(1[6-9]|2\d|3[01])\. |
-			192\.168\. |
-			169\.254\. |      # link-local / AWS metadata
-			::1 |
-			fc[0-9a-f][0-9a-f]? |  # ULA IPv6
-			fd[0-9a-f][0-9a-f]?    # ULA IPv6
-		)/ix;
+		const BLOCKED = /^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
 		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
@@ -142,7 +133,40 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: "10mb" })); // reduced from 50mb — no legit save needs 50MB
+
+// ---------------------------------------------------------------------------
+// Authentication
+// ---------------------------------------------------------------------------
+app.use(cookieParser(process.env.COOKIE_SECRET || "default_secret"));
+
+app.post("/login", (req, res) => {
+	const password = req.body.password;
+	if (password === process.env.SITE_PASSWORD) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Incorrect password");
+	}
+});
+
+app.use((req, res, next) => {
+	if (!process.env.SITE_PASSWORD) return next();
+	if (req.signedCookies.auth === "true") return next();
+
+	// Avoid applying auth to internal uv/baremux scripts (often accessed via proxy or service worker)
+	// But protect API endpoints and the proxy endpoint itself
+	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
+		return res.status(401).send("Unauthorized");
+	}
+
+	res.status(401).send(authPage);
+});
+
+app.use(express.json({ limit: "50mb" }));
 
 // ---------------------------------------------------------------------------
 // Rate limiters
