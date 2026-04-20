@@ -16,6 +16,7 @@ import { scramjetPath } from "@mercuryworkshop/scramjet";
 import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
 import { decompress } from "./decompress.js";
+import { authPage } from "./auth.js";
 
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
@@ -207,8 +208,80 @@ const saveLimiter = rateLimit({
 	legacyHeaders: false,
 });
 
+const loginLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 5, // Limit each IP to 5 requests per windowMs for login
+	message: "Too many login attempts. Please try again later.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
 app.use("/api/smuggle", smuggleLimiter);
 app.use("/api/save", saveLimiter);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+// -- Auth Gateway Login ------------------------------------------------------
+app.post("/login", loginLimiter, (req, res) => {
+	const expectedPassword = process.env.SITE_PASSWORD;
+	if (!expectedPassword) {
+		console.error("CRITICAL: SITE_PASSWORD is not set in environment variables.");
+		return res.status(500).send("Server configuration error");
+	}
+
+	if (req.body.password && req.body.password === expectedPassword) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Incorrect password");
+	}
+});
+
+// -- Auth Middleware --------------------------------------------------------
+app.use((req, res, next) => {
+	if (req.signedCookies.auth === "true") {
+		return next();
+	}
+	if (req.path.startsWith("/api/") || req.path === "/proxy") {
+		return res.status(401).send("Unauthorized");
+	}
+	res.send(authPage);
+});
+
+// Post-auth body parsing (prevents unauthenticated 50MB JSON DoS)
+app.use(express.json({ limit: "50mb" })); // Reverted to 50mb to support emulator save states
+
+// ---------------------------------------------------------------------------
+// Proxy module static assets
+// ---------------------------------------------------------------------------
+app.get("/uv/uv.config.js", (req, res) => res.sendFile(join(ROOT, "public", "uv", "uv.config.js")));
+app.get("/uv/sw.js",         (req, res) => res.sendFile(join(ROOT, "public", "uv", "sw.js")));
+app.use("/uv/", express.static(uvPath));
+
+const scramjetPrefix = "/surf/scram/";
+app.use(scramjetPrefix, express.static(scramjetPath));
+app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
+	res.sendFile(join(ROOT, "public", "scramjet.config.js"))
+);
+
+app.use("/surf/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
+app.use(
+	"/surf/epoxy/",
+	express.static(join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"), {
+		setHeaders(res, filePath) {
+			if (filePath.endsWith(".js"))   res.setHeader("Content-Type", "application/javascript");
+			if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
+		},
+	})
+);
+
+app.use("/config", express.static(join(ROOT, "config")));
+
 
 // ---------------------------------------------------------------------------
 // API — Streaming proxy
