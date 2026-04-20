@@ -64,7 +64,10 @@ const EXPANSION_GAMES = [
 ];
 
 export function safeName(name) {
-	return name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_$/, "");
+	return name
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "_")
+		.replace(/_$/, "");
 }
 
 async function downloadThumbnail(name) {
@@ -143,7 +146,9 @@ async function loadExistingLibrary(gamesJsonPath) {
 }
 
 function filterNewGames(expansionGames, existingGames) {
-	const existingNames = new Set(existingGames.map((g) => (g.n || "").toLowerCase().trim()));
+	const existingNames = new Set(
+		existingGames.map((g) => (g.n || "").toLowerCase().trim())
+	);
 	return expansionGames.filter(
 		(g) => !existingNames.has(g.n.toLowerCase().trim())
 	);

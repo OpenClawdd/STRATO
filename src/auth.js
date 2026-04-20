@@ -1,3 +1,9 @@
+/**
+ * Generates the login/TOS gateway HTML string.
+ * This payload acts as the entry point and gatekeeper.
+ *
+ * @constant {string} authPage - The HTML content for the authentication page.
+ */
 export const authPage = `
 <!DOCTYPE html>
 <html lang="en">
@@ -9,34 +15,34 @@ export const authPage = `
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            background: radial-gradient(circle at 50% 0%, #050c17 0%, #020508 100%); color: #fff;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #333;
+            color: rgba(220, 235, 255, 0.95);
         }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 40px;
             max-width: 500px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
         }
-        h1 { margin-top: 0; font-weight: 600; text-align: center; color: #111; }
+        h1 { margin-top: 0; font-weight: 600; text-align: center; color: #fff; text-transform: uppercase; letter-spacing: 2px; font-family: 'Rajdhani', sans-serif; }
         .tagline { text-align: center; font-style: italic; opacity: 0.8; margin-bottom: 20px; }
         .tos-box {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 8px;
             height: 150px;
             overflow-y: auto;
             font-size: 14px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         input[type="password"] {
             width: 100%;
@@ -45,7 +51,7 @@ export const authPage = `
             border: none;
             border-radius: 8px;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.08); color: #fff;
             outline: none;
             font-family: monospace;
         }
@@ -54,7 +60,7 @@ export const authPage = `
             padding: 12px;
             border: none;
             border-radius: 8px;
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #00e5ff 0%, #00b0ff 100%); color: #020508; letter-spacing: 1px;
             color: white;
             font-weight: bold;
             cursor: pointer;

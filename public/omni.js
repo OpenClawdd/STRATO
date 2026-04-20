@@ -1,4 +1,9 @@
 /**
+ * @fileoverview Main frontend script handling UI state, proxy integration,
+ * tab cloaking, and Bare-Mux service worker registration.
+ */
+
+/**
  * STRATO — omni.js v22.4
  * Boot engine, proxy init, game grid, search, settings, AI decoy
  */
@@ -343,10 +348,32 @@ function applyFilters() {
 	let result = base;
 	if (activeCategory !== "All")
 		result = result.filter((g) => (g.t || "Other") === activeCategory);
-	if (searchQuery)
-		result = result.filter((g) =>
-			(g.title || g.n || "").toLowerCase().includes(searchQuery)
-		);
+
+	if (searchQuery) {
+		const q = searchQuery.toLowerCase();
+		result = result.map(g => {
+			const title = (g.title || g.n || "").toLowerCase();
+			let score = 0;
+			if (title === q) score = 100;
+			else if (title.startsWith(q)) score = 80;
+			else if (title.includes(q)) score = 50;
+
+			// "AI" fuzzy logic
+			const tags = (g.t || "").toLowerCase();
+			if (tags.includes(q)) score += 30;
+
+			// Simple character matching
+			let charsMatched = 0;
+			for (let i=0; i<q.length; i++) {
+				if (title.includes(q[i])) charsMatched++;
+			}
+			if (charsMatched / q.length > 0.8) score += 10;
+
+			return { ...g, _score: score };
+		}).filter(g => g._score > 0)
+		.sort((a, b) => b._score - a._score);
+	}
+
 
 	filteredGames = result;
 	currentLimit = RENDER_LIMIT;
