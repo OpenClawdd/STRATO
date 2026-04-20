@@ -20,6 +20,8 @@ import axios from "axios";
 import { decompress } from "./decompress.js";
 import { authPage } from "./auth.js";
 
+import cookieParser from "cookie-parser";
+import { authPage } from "./auth.js";
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
 // ---------------------------------------------------------------------------
@@ -29,7 +31,8 @@ function isSafeUrl(rawUrl) {
 		if (!["http:", "https:"].includes(protocol)) return false;
 
 		// Block all private / reserved address ranges
-		const BLOCKED = /^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
+		const BLOCKED =
+			/^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
 		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
@@ -423,9 +426,17 @@ app.post("/api/save", (req, res) => {
 	}
 });
 
-// ---------------------------------------------------------------------------
-// Proxy route — iframe unblocking with header stripping + <base> injection
-// ---------------------------------------------------------------------------
+/**
+ * ---------------------------------------------------------------------------
+ * Proxy route — iframe unblocking with header stripping + <base> injection
+ * ---------------------------------------------------------------------------
+ * This endpoint fetches external pages and returns them with modified headers
+ * to bypass security restrictions that would prevent framing (like X-Frame-Options).
+ * It dynamically injects a <base> tag to ensure relative assets load correctly.
+ *
+ * @route GET /proxy
+ * @param {string} req.query.url - The target URL to fetch.
+ */
 app.get("/proxy", async (req, res) => {
 	const { url: targetUrl } = req.query;
 	if (!targetUrl) return res.status(400).send("No URL provided");

@@ -1,4 +1,9 @@
 /**
+ * @fileoverview Main frontend script handling UI state, proxy integration,
+ * tab cloaking, and Bare-Mux service worker registration.
+ */
+
+/**
  * STRATO — omni.js v22.4
  * Boot engine, proxy init, game grid, search, settings, AI decoy
  */
