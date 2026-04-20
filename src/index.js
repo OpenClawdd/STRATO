@@ -6,6 +6,8 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import "dotenv/config";
 import express from "express";
+import cookieParser from "cookie-parser";
+import { authPage } from "./auth.js";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
@@ -64,6 +66,68 @@ setInterval(refreshCache, 120_000);
 // Express app
 // ---------------------------------------------------------------------------
 const app = express();
+
+// ---------------------------------------------------------------------------
+// Rate limiters
+// ---------------------------------------------------------------------------
+const smuggleLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 30,
+	message: "Too many requests. Please slow down.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
+const saveLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 10,
+	message: "Save rate limit exceeded.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
+app.use("/api/smuggle", smuggleLimiter);
+app.use("/api/save", saveLimiter);
+
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.post("/login", express.urlencoded({ extended: true }), (req, res) => {
+	if (!process.env.SITE_PASSWORD) {
+		return res.status(500).send("Server configuration error: SITE_PASSWORD not set.");
+	}
+	if (req.body.password === process.env.SITE_PASSWORD) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+			maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Invalid password. <a href='/'>Try again</a>");
+	}
+});
+
+app.use((req, res, next) => {
+	// Skip auth for static assets in public dir, uv, scramjet, baremux, epoxy
+	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
+	if (publicPaths.some(p => req.path.startsWith(p)) || req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
+		return next();
+	}
+
+	if (req.signedCookies.auth === "true") {
+		return next();
+	}
+
+	// If accessing api or proxy, return 401
+	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
+		return res.status(401).send("Unauthorized");
+	}
+
+	// Otherwise send the auth page
+	res.send(authPage);
+});
 
 // -- Security headers -------------------------------------------------------
 app.use(
@@ -478,6 +542,22 @@ app.use((req, res) => {
 		});
 });
 
+
+// ---------------------------------------------------------------------------
+// P2P WebRTC Signaling Placeholder
+// ---------------------------------------------------------------------------
+const clients = new Map();
+
+// Note: To be fully implemented in Week 1/Week 3 of Roadmap
+app.post("/api/p2p/signal", (req, res) => {
+	// Dummy endpoint laying groundwork for P2P asset sharing
+	const { peerId, offer } = req.body;
+	if (peerId) {
+		clients.set(peerId, { lastSeen: Date.now() });
+	}
+	res.status(200).json({ status: "ok", activePeers: clients.size });
+});
+
 // ---------------------------------------------------------------------------
 // HTTP + WebSocket server
 // ---------------------------------------------------------------------------
@@ -526,3 +606,6 @@ function shutdown() {
 }
 
 server.listen({ port, host: "0.0.0.0" });
+
+// Run auto-update of the game library on startup in the background
+runAutoUpdate();
