@@ -11,6 +11,7 @@
 import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
+import { fileURLToPath } from "url";
 
 const ASSETS_DIR = path.join(process.cwd(), "public", "assets");
 const THUMBS_DIR = path.join(ASSETS_DIR, "thumbnails");
@@ -62,11 +63,8 @@ const EXPANSION_GAMES = [
 	{ n: "Tanuki Sunset", u: "https://tanukisunset.io/", t: "Arcade" },
 ];
 
-function safeName(name) {
-	return name
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, "_")
-		.replace(/_$/, "");
+export function safeName(name) {
+	return name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_$/, "");
 }
 
 async function downloadThumbnail(name) {
@@ -132,41 +130,27 @@ async function downloadThumbnail(name) {
 	}
 }
 
-async function main() {
-	console.log("═══ STRATO Library Expander ═══\n");
-
-	// Ensure directories exist
-	await fs.mkdir(THUMBS_DIR, { recursive: true });
-
-	// Load existing library
-	let existing = [];
+async function loadExistingLibrary(gamesJsonPath) {
 	try {
-		const raw = await fs.readFile(GAMES_JSON, "utf8");
-		existing = JSON.parse(raw);
+		const raw = await fs.readFile(gamesJsonPath, "utf8");
+		const existing = JSON.parse(raw);
 		console.log(`Loaded ${existing.length} existing games from games.json`);
+		return existing;
 	} catch {
 		console.log("No existing games.json found, starting fresh");
+		return [];
 	}
+}
 
-	// Build a set of existing game names (lowercase) for dedup
-	const existingNames = new Set(
-		existing.map((g) => (g.n || "").toLowerCase().trim())
-	);
-
-	// Filter expansion list to only new games
-	const newGames = EXPANSION_GAMES.filter(
+function filterNewGames(expansionGames, existingGames) {
+	const existingNames = new Set(existingGames.map((g) => (g.n || "").toLowerCase().trim()));
+	return expansionGames.filter(
 		(g) => !existingNames.has(g.n.toLowerCase().trim())
 	);
+}
 
-	console.log(`\nFound ${newGames.length} new games to add\n`);
-
-	if (newGames.length === 0) {
-		console.log("Library is already up to date. Nothing to do.");
-		return;
-	}
-
+async function processNewGames(newGames) {
 	const results = [];
-
 	for (const game of newGames) {
 		console.log(`Processing: ${game.n}`);
 		try {
@@ -178,17 +162,42 @@ async function main() {
 		}
 		await delay(1500); // Rate limit
 	}
+	return results;
+}
 
-	// Merge and write
+async function saveLibrary(gamesJsonPath, existing, results) {
 	const merged = [...existing, ...results];
-	await fs.writeFile(GAMES_JSON, JSON.stringify(merged, null, 4));
+	await fs.writeFile(gamesJsonPath, JSON.stringify(merged, null, 4));
 
 	console.log(`\n═══ Done ═══`);
 	console.log(`Added ${results.length} games (${merged.length} total)`);
-	console.log(`Saved to ${GAMES_JSON}`);
+	console.log(`Saved to ${gamesJsonPath}`);
 }
 
-main().catch((e) => {
-	console.error("Fatal error:", e);
-	process.exit(1);
-});
+async function main() {
+	console.log("═══ STRATO Library Expander ═══\n");
+
+	// Ensure directories exist
+	await fs.mkdir(THUMBS_DIR, { recursive: true });
+
+	const existing = await loadExistingLibrary(GAMES_JSON);
+	const newGames = filterNewGames(EXPANSION_GAMES, existing);
+
+	console.log(`\nFound ${newGames.length} new games to add\n`);
+
+	if (newGames.length === 0) {
+		console.log("Library is already up to date. Nothing to do.");
+		return;
+	}
+
+	const results = await processNewGames(newGames);
+	await saveLibrary(GAMES_JSON, existing, results);
+}
+
+const isMain = process.argv[1] === fileURLToPath(import.meta.url);
+if (isMain) {
+	main().catch((e) => {
+		console.error("Fatal error:", e);
+		process.exit(1);
+	});
+}
