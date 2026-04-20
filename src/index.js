@@ -16,6 +16,7 @@ import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
 import zlib from "node:zlib";
 import { promisify } from "node:util";
+import { Buffer } from "node:buffer";
 
 // ---------------------------------------------------------------------------
 // Shared decompression utilities
@@ -40,18 +41,7 @@ function isSafeUrl(rawUrl) {
 		if (!["http:", "https:"].includes(protocol)) return false;
 
 		// Block all private / reserved address ranges
-		const BLOCKED = /^(
-			localhost |
-			127\. |
-			0\. |
-			10\. |
-			172\.(1[6-9]|2\d|3[01])\. |
-			192\.168\. |
-			169\.254\. |      # link-local / AWS metadata
-			::1 |
-			fc[0-9a-f][0-9a-f]? |  # ULA IPv6
-			fd[0-9a-f][0-9a-f]?    # ULA IPv6
-		)/ix;
+		const BLOCKED = /^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f]{1,2}|fd[0-9a-f]{1,2})/i;
 
 		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;

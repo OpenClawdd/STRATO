@@ -1,19 +1,9 @@
 import fs from "fs/promises";
 import path from "path";
-import google from "googlethis";
-import sharp from "sharp";
-import { URL } from "url";
+import { downloadThumbnail } from "../src/utils/thumbnail.js";
 
 const htmlPath = path.resolve("public/index.html");
 const thumbnailsDir = path.resolve("public/assets/thumbnails");
-
-async function downloadImage(url) {
-	const response = await fetch(url);
-	if (!response.ok)
-		throw new Error(`Failed to fetch image: ${response.statusText}`);
-	const arrayBuffer = await response.arrayBuffer();
-	return Buffer.from(arrayBuffer);
-}
 
 async function main() {
 	await fs.mkdir(thumbnailsDir, { recursive: true });
@@ -47,37 +37,15 @@ async function main() {
 	for (const game of games) {
 		console.log(`Processing ${game.n}...`);
 
-		// 1. Fetch thumbnail
-		const query = `${game.n} game capsule image high res`;
-		console.log(`Searching for: ${query}`);
 		try {
-			const images = await google.image(query, { safe: false });
-			if (images && images.length > 0) {
-				const firstImage = images[0];
-				console.log(`Found image URL: ${firstImage.url}`);
+			const imgPath = await downloadThumbnail(game.n, thumbnailsDir);
 
-				// 2. Download and process image
-				const imageBuffer = await downloadImage(firstImage.url);
-
-				const filename = `${game.n.toLowerCase().replace(/[^a-z0-9]+/g, "_")}.webp`;
-				const filepath = path.join(thumbnailsDir, filename);
-
-				await sharp(imageBuffer)
-					.resize(400, 225, { fit: "cover" })
-					.webp()
-					.toFile(filepath);
-
-				console.log(`Saved thumbnail to ${filepath}`);
-
-				// 3. Update the string
-				const newGameString = `{ n: "${game.n}", img: "/assets/thumbnails/${filename}", u: "${game.u}" }`;
-				updatedGamesString = updatedGamesString.replace(
-					game.originalString,
-					newGameString
-				);
-			} else {
-				console.warn(`No images found for ${game.n}`);
-			}
+			// 3. Update the string
+			const newGameString = `{ n: "${game.n}", img: "${imgPath}", u: "${game.u}" }`;
+			updatedGamesString = updatedGamesString.replace(
+				game.originalString,
+				newGameString
+			);
 		} catch (err) {
 			console.error(`Error processing ${game.n}:`, err);
 		}
