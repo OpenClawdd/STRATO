@@ -7,6 +7,8 @@ export default [
 			ecmaVersion: 2024,
 			sourceType: "module",
 			globals: {
+				URL: "readonly",
+				Buffer: "readonly",
 				console: "readonly",
 				process: "readonly",
 				setInterval: "readonly",
