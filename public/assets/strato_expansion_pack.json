@@ -1,358 +1,325 @@
 [
-    {
-        "source": "Selenite.cc",
-        "titles_found": [
-            "your device is not supported!",
-            "we are loading your game!",
-            "Johnson Education",
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects",
-            "Educational Services",
-            "Student Levels",
-            "Test Preparation",
-            "Learning Methods"
-        ],
-        "iframes_detected": [
-            "home.html"
-        ]
-    },
-    {
-        "source": "g-65j.pages.dev",
-        "titles_found": [
-            "Pinned Games",
-            "All Games",
-            "Suggest a game!"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "fmhy.net",
-        "titles_found": [
-            " Base64 Encoded Link ",
-            "FMHY",
-            "FMHY",
-            "freemediaheckyeah",
-            "Adblocking / Privacy",
-            "Artificial Intelligence",
-            "Streaming",
-            "Listening",
-            "Gaming",
-            "Reading"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "uunnblockedgames.weebly.com",
-        "titles_found": [
-            "Copying and pasting in Ruffle"
-        ],
-        "iframes_detected": [
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6515304178219349&output=html&adk=1812271804&adf=3025194257&lmt=1776570673&plaf=2%3A2&plat=3%3A16%2C4%3A16%2C8%3A128%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fuunnblockedgames.weebly.com%2Fbloons-tower-defense-5---works.html&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570671602&bpp=10&bdt=520&idt=95&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=5021162874228&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C95386951%2C95388455%2C95387625%2C95386955%2C95387778&oid=2&pvsid=4858114322777494&tmod=847644841&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=112",
-            "https://www.google.com/recaptcha/api2/aframe",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
-        ]
-    },
-    {
-        "source": "vapor.onl",
-        "titles_found": [
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects",
-            "Educational Services",
-            "Student Levels",
-            "Test Preparation",
-            "Learning Methods",
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects",
-            "Educational Services",
-            "Student Levels"
-        ],
-        "iframes_detected": [
-            "/page/home.html"
-        ]
-    },
-    {
-        "source": "splash.best",
-        "titles_found": [],
-        "iframes_detected": []
-    },
-    {
-        "source": "infamous.qzz.io",
-        "titles_found": [
-            "Student Dashboard",
-            "Configure",
-            "Full Access",
-            "infamous",
-            "PREMIUM IS HERE",
-            "What's New\nv1.7.7",
-            "Troll Dashboard",
-            "Update available",
-            " Import Playlist",
-            "Share Playlist"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "programming.writing.lecture.learning.literature.mybgarage.cl",
-        "titles_found": [
-            "POPULAR GAMES",
-            "All lessons",
-            "Random Game",
-            "A Bite at Freddy's",
-            "Wheely",
-            "The World's Hardest Game",
-            "The World's Hardest Game 2",
-            "The World's Hardest Game 3",
-            "The World's Hardest Game 4",
-            "Escape Road City 2"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "chips.moktanram.com.np",
-        "titles_found": [
-            "Eduverse",
-            "Learn Anytime, Anywhere"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "ismenirbytesm.gerenna.com",
-        "titles_found": [
-            "welcome to awp",
-            "create your account",
-            "reset your password",
-            "check your email",
-            "reset link sent!",
-            "two-factor auth",
-            "set up your profile",
-            "select your device",
-            "setup complete!"
-        ],
-        "iframes_detected": [
-            "/pages/home.html"
-        ]
-    },
-    {
-        "source": "daydreamx.global.ssl.fastly.net",
-        "titles_found": [],
-        "iframes_detected": [
-            "/internal/newtab"
-        ]
-    },
-    {
-        "source": "dtxb.eclipsecastellon.net",
-        "titles_found": [
-            "\u4e2d\u4e4f\u4e56\u4e49\u4e45\u4e53",
-            "\u4e26\u4e49\u4e4c\u4e54\u4e45\u4e52\u4e00\u4e23\u4e48\u4e45\u4e43\u4e4b\u4e45\u4e52",
-            "\u4e21\u4e29"
-        ],
-        "iframes_detected": [
-            "about:blank"
-        ]
-    },
-    {
-        "source": "s3.amazonaws.com",
-        "titles_found": [
-            "Free Educational Resources & Interactive Learning Platform",
-            "Mathematics Learning Resources",
-            "Interactive Math Tutorials",
-            "Science Education & Experiments",
-            "Interactive Science Lessons",
-            "Programming & Computer Science",
-            "Learn to Code - Beginner to Advanced",
-            "Language Learning Resources",
-            "Interactive Language Courses",
-            "History & Social Studies"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "school.agreca.com.ar",
-        "titles_found": [
-            "Ad blocker detected",
-            "QUICK LINKS",
-            "MENU"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "noterplusbunny52.b-cdn.net",
-        "titles_found": [
-            "Domain suspended or not configured"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "thesymiproject.org",
-        "titles_found": [
-            "Quasar",
-            "Extension available for N/A",
-            "Quasar",
-            "What Davidson Academy Is",
-            "Who It Serves",
-            "How the Curriculum Works",
-            "Locations and Options",
-            "Why It\u2019s Not a Typical School"
-        ],
-        "iframes_detected": [
-            "about:blank",
-            "https://btloader.com/trustedIframe.html?o=5205627634188288&upapi=true",
-            "about:blank",
-            "https://cdn.kiwi.shigotech.io/x/publisher/2103/sync.html",
-            "https://www.google.com/recaptcha/api2/aframe"
-        ]
-    },
-    {
-        "source": "pluh.aletiatours.com",
-        "titles_found": [
-            "PeteZah",
-            "Join our Discord",
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects",
-            "Educational Services",
-            "Student Levels",
-            "Test Preparation",
-            "Learning Methods",
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects"
-        ],
-        "iframes_detected": [
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6640595376330309&output=html&adk=1812271804&adf=3025194257&lmt=1776566322&plat=3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fpluh.aletiatours.com%2F&pra=5&aiof=9&asro=0&aiapmid=1&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570727610&bpp=10&bdt=109&idt=91&shv=r20260415&mjsv=m202604160101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=3806527446809&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C31097930%2C42533294%2C95387623%2C95386957&oid=2&pvsid=1368847306461714&tmod=1720104186&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=106",
-            "https://www.google.com/recaptcha/api2/aframe",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
-        ]
-    },
-    {
-        "source": "keoffical.oneapp.dev",
-        "titles_found": [
-            "Launch Keo"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "follownirbytes-ynevj.ns8.org",
-        "titles_found": [
-            "Boredom v2"
-        ],
-        "iframes_detected": [
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=600&slotname=4218046259&adk=2750697710&adf=54630664&pi=t.ma~as.4218046259&w=120&fwrn=4&fwrnh=100&lmt=1765425903&rafmt=1&format=120x600&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&fwr=0&fwrattr=true&rpe=1&resp_fmts=4&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735423&bpp=1&bdt=364&idt=124&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=0&ady=120&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=o%7Co%7CfE%7C&abl=NF&pfx=0&fu=128&bc=31&bz=1&ifi=2&uci=a!2&fsb=1&dtd=128",
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=600&slotname=4218046259&adk=2750697710&adf=3132389021&pi=t.ma~as.4218046259&w=120&fwrn=4&fwrnh=100&lmt=1765425903&rafmt=1&format=120x600&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&fwr=0&fwrattr=true&rpe=1&resp_fmts=4&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735424&bpp=1&bdt=364&idt=133&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0%2C120x600&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=1160&ady=120&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=o%7Co%7CfE%7C&abl=NF&pfx=0&fu=128&bc=31&bz=1&ifi=3&uci=a!3&fsb=1&dtd=135",
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=90&slotname=7454224896&adk=275724895&adf=1056458448&pi=t.ma~as.7454224896&w=728&lmt=1765425903&format=728x90&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735424&bpp=1&bdt=365&idt=139&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0%2C120x600%2C120x600&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=276&ady=441&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7CaeE%7C&abl=CA&pfx=0&fu=0&bc=31&bz=1&ifi=4&uci=a!4&fsb=1&dtd=141",
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&adk=1812271804&adf=3025194257&lmt=1765425903&plat=1%3A16777216%2C2%3A16777216%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735413&bpp=10&bdt=354&idt=115&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=6113303825840&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=131",
-            "https://www.google.com/recaptcha/api2/aframe",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
-        ]
-    },
-    {
-        "source": "endis.rest",
-        "titles_found": [
-            "\u13ac\u0578\u0501\u0456\u0455 \u0456\u0455 \u0455\u04bb\u200b\u057d\u0442\u0442\u0456\u0578\u200b\u0261 \u0501\u043e\u0461\u200b\u0578 \u043e\u0578 \u13b7\u0251\u0443\u00a01\u200b\u0455\u0442, 2\u200b026 \u2014\u200b \u0185\u057d\u0442 \u0443\u043e\u057d \u0441\u200b\u0251\u0578 \u0455\u0251\u200b\u0475\u0435 \u0456\u0442\u200b",
-            "\u13b3\u04bb\u0251\u0442 \u0461\u200b\u043e\u057d\u04cf\u0501 \u0443\u043e\u057d \u04cf\u200b\u0456\u03ba\u0435 \u0442\u200b\u043e \u04cf\u0435\u0251\u200b\u0433\u0578?",
-            "\u13b7\u0251\u0445 \u13da\u0442\u200b\u0435\u0251\u04cf\u0442\u04bb\u200b \u13b7\u043e\u0501\u0435\u200b \u0456\u0455 \u13be\u200b\u0578",
-            "\u13a2\u04bb\u0251\u0578\u03ba\u0455\u200b \u0493\u043e\u0433 \u057d\u0455\u0456\u0578\u0261\u200b \u13ac\u0578\u0501\u0456\u200b\u0455!",
-            "\u13e2\u0433\u043e\u0445\u0443 \u13aa\u0441\u0441\u0435\u0455\u200b\u0455 \u13a2\u0435\u043c\u200b\u0440\u043e\u0433\u0251\u0433\u200b\u0456\u04cf\u0443 \u13de\u200b\u0456\u043c\u0456\u0442\u0435\u200b\u0501"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "helptired8.notinthearchives.net",
-        "titles_found": [
-            "Welcome to Cherri",
-            "Choose a Theme",
-            "Choose a Cloak",
-            "Would you like to Auto Cloak?",
-            "Create Your Account",
-            "Are you sure?",
-            "You're All Set!"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "everest.rip",
-        "titles_found": [
-            "everest"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "www.korona.lat",
-        "titles_found": [],
-        "iframes_detected": [
-            "/main.html"
-        ]
-    },
-    {
-        "source": "play.frogiee.one",
-        "titles_found": [
-            "Educational Resources and Online Learning Platform",
-            "Academic Subjects",
-            "Educational Services",
-            "Student Levels",
-            "Test Preparation",
-            "Learning Methods",
-            "frogie's arcade v4"
-        ],
-        "iframes_detected": []
-    },
-    {
-        "source": "ubghub.org",
-        "titles_found": [
-            "UBGHub",
-            "Welcome to UBGHub",
-            "Safe & Filtered",
-            "Community Driven",
-            "Always Updated",
-            "cloud.maddox.games",
-            "gn-math",
-            "DEMON",
-            "CanLite",
-            "Petezah"
-        ],
-        "iframes_detected": [
-            "form.html",
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2287252922738463&output=html&adk=1812271804&adf=3025194257&lmt=1776570758&plat=9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fubghub.org%2F&pra=5&aiof=9&asro=0&aiapmid=1&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570757747&bpp=113&bdt=140&idt=320&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=705285380293&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C95387623%2C95388296%2C95387778&oid=2&pvsid=2011143809971298&tmod=1609839625&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&plas=250x567_l%7C250x567_r&bz=1&ifi=1&uci=a!1&fsb=1&dtd=325",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-3-&adk=1812271801&client=ca-pub-2287252922738463&fa=1&ifi=3&uci=a!3&btvi=1",
-            "about:blank",
-            "about:blank",
-            "about:blank",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-0-&adk=1812271808&client=ca-pub-2287252922738463&fa=8&ifi=2&uci=a!2"
-        ]
-    },
-    {
-        "source": "pizagame.com",
-        "titles_found": [
-            "Play 1000+\nPizza Edition Games\nFull Screen",
-            "Popular Games\nView more",
-            "Drive Mad",
-            "Geometry Dash",
-            "Brain Test Tricky Puzzles",
-            "8 Ball Pool",
-            "Among Us",
-            "Basketball Stars",
-            "Cookie Clicker",
-            "Drift Hunters"
-        ],
-        "iframes_detected": [
-            "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8508922424742982&output=html&adk=1812271804&adf=3025194257&lmt=1776570766&plaf=1%3A2&plat=1%3A128%2C2%3A128%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fpizagame.com%2F&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570766553&bpp=13&bdt=1255&idt=34&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=2035791698043&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95384087%2C95387625%2C95388269&oid=2&pvsid=4773255487772407&tmod=922587394&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=59",
-            "https://www.google.com/recaptcha/api2/aframe",
-            "about:blank",
-            "about:blank",
-            "about:blank",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html",
-            "https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-0-&adk=1812271808&client=ca-pub-8508922424742982&fa=8&ifi=4&uci=a!4"
-        ]
-    },
-    {
-        "source": "byod.geeked.wtf",
-        "titles_found": [
-            "lucide",
-            "Sign In With Discord",
-            "What IXL Is",
-            "How Learning Paths Work",
-            "Feedback and Motivation",
-            "Support for Classrooms and Home",
-            "Subjects and Coverage"
-        ],
-        "iframes_detected": []
-    }
+	{
+		"source": "Selenite.cc",
+		"titles_found": [
+			"your device is not supported!",
+			"we are loading your game!",
+			"Johnson Education",
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects",
+			"Educational Services",
+			"Student Levels",
+			"Test Preparation",
+			"Learning Methods"
+		],
+		"iframes_detected": ["home.html"]
+	},
+	{
+		"source": "g-65j.pages.dev",
+		"titles_found": ["Pinned Games", "All Games", "Suggest a game!"],
+		"iframes_detected": []
+	},
+	{
+		"source": "fmhy.net",
+		"titles_found": [
+			" Base64 Encoded Link ",
+			"FMHY",
+			"FMHY",
+			"freemediaheckyeah",
+			"Adblocking / Privacy",
+			"Artificial Intelligence",
+			"Streaming",
+			"Listening",
+			"Gaming",
+			"Reading"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "uunnblockedgames.weebly.com",
+		"titles_found": ["Copying and pasting in Ruffle"],
+		"iframes_detected": [
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6515304178219349&output=html&adk=1812271804&adf=3025194257&lmt=1776570673&plaf=2%3A2&plat=3%3A16%2C4%3A16%2C8%3A128%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fuunnblockedgames.weebly.com%2Fbloons-tower-defense-5---works.html&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570671602&bpp=10&bdt=520&idt=95&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=5021162874228&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C95386951%2C95388455%2C95387625%2C95386955%2C95387778&oid=2&pvsid=4858114322777494&tmod=847644841&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=112",
+			"https://www.google.com/recaptcha/api2/aframe",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
+		]
+	},
+	{
+		"source": "vapor.onl",
+		"titles_found": [
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects",
+			"Educational Services",
+			"Student Levels",
+			"Test Preparation",
+			"Learning Methods",
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects",
+			"Educational Services",
+			"Student Levels"
+		],
+		"iframes_detected": ["/page/home.html"]
+	},
+	{
+		"source": "splash.best",
+		"titles_found": [],
+		"iframes_detected": []
+	},
+	{
+		"source": "infamous.qzz.io",
+		"titles_found": [
+			"Student Dashboard",
+			"Configure",
+			"Full Access",
+			"infamous",
+			"PREMIUM IS HERE",
+			"What's New\nv1.7.7",
+			"Troll Dashboard",
+			"Update available",
+			" Import Playlist",
+			"Share Playlist"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "programming.writing.lecture.learning.literature.mybgarage.cl",
+		"titles_found": [
+			"POPULAR GAMES",
+			"All lessons",
+			"Random Game",
+			"A Bite at Freddy's",
+			"Wheely",
+			"The World's Hardest Game",
+			"The World's Hardest Game 2",
+			"The World's Hardest Game 3",
+			"The World's Hardest Game 4",
+			"Escape Road City 2"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "chips.moktanram.com.np",
+		"titles_found": ["Eduverse", "Learn Anytime, Anywhere"],
+		"iframes_detected": []
+	},
+	{
+		"source": "ismenirbytesm.gerenna.com",
+		"titles_found": [
+			"welcome to awp",
+			"create your account",
+			"reset your password",
+			"check your email",
+			"reset link sent!",
+			"two-factor auth",
+			"set up your profile",
+			"select your device",
+			"setup complete!"
+		],
+		"iframes_detected": ["/pages/home.html"]
+	},
+	{
+		"source": "daydreamx.global.ssl.fastly.net",
+		"titles_found": [],
+		"iframes_detected": ["/internal/newtab"]
+	},
+	{
+		"source": "dtxb.eclipsecastellon.net",
+		"titles_found": [
+			"\u4e2d\u4e4f\u4e56\u4e49\u4e45\u4e53",
+			"\u4e26\u4e49\u4e4c\u4e54\u4e45\u4e52\u4e00\u4e23\u4e48\u4e45\u4e43\u4e4b\u4e45\u4e52",
+			"\u4e21\u4e29"
+		],
+		"iframes_detected": ["about:blank"]
+	},
+	{
+		"source": "s3.amazonaws.com",
+		"titles_found": [
+			"Free Educational Resources & Interactive Learning Platform",
+			"Mathematics Learning Resources",
+			"Interactive Math Tutorials",
+			"Science Education & Experiments",
+			"Interactive Science Lessons",
+			"Programming & Computer Science",
+			"Learn to Code - Beginner to Advanced",
+			"Language Learning Resources",
+			"Interactive Language Courses",
+			"History & Social Studies"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "school.agreca.com.ar",
+		"titles_found": ["Ad blocker detected", "QUICK LINKS", "MENU"],
+		"iframes_detected": []
+	},
+	{
+		"source": "noterplusbunny52.b-cdn.net",
+		"titles_found": ["Domain suspended or not configured"],
+		"iframes_detected": []
+	},
+	{
+		"source": "thesymiproject.org",
+		"titles_found": [
+			"Quasar",
+			"Extension available for N/A",
+			"Quasar",
+			"What Davidson Academy Is",
+			"Who It Serves",
+			"How the Curriculum Works",
+			"Locations and Options",
+			"Why It\u2019s Not a Typical School"
+		],
+		"iframes_detected": [
+			"about:blank",
+			"https://btloader.com/trustedIframe.html?o=5205627634188288&upapi=true",
+			"about:blank",
+			"https://cdn.kiwi.shigotech.io/x/publisher/2103/sync.html",
+			"https://www.google.com/recaptcha/api2/aframe"
+		]
+	},
+	{
+		"source": "pluh.aletiatours.com",
+		"titles_found": [
+			"PeteZah",
+			"Join our Discord",
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects",
+			"Educational Services",
+			"Student Levels",
+			"Test Preparation",
+			"Learning Methods",
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects"
+		],
+		"iframes_detected": [
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6640595376330309&output=html&adk=1812271804&adf=3025194257&lmt=1776566322&plat=3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fpluh.aletiatours.com%2F&pra=5&aiof=9&asro=0&aiapmid=1&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570727610&bpp=10&bdt=109&idt=91&shv=r20260415&mjsv=m202604160101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=3806527446809&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C31097930%2C42533294%2C95387623%2C95386957&oid=2&pvsid=1368847306461714&tmod=1720104186&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=106",
+			"https://www.google.com/recaptcha/api2/aframe",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
+		]
+	},
+	{
+		"source": "keoffical.oneapp.dev",
+		"titles_found": ["Launch Keo"],
+		"iframes_detected": []
+	},
+	{
+		"source": "follownirbytes-ynevj.ns8.org",
+		"titles_found": ["Boredom v2"],
+		"iframes_detected": [
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=600&slotname=4218046259&adk=2750697710&adf=54630664&pi=t.ma~as.4218046259&w=120&fwrn=4&fwrnh=100&lmt=1765425903&rafmt=1&format=120x600&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&fwr=0&fwrattr=true&rpe=1&resp_fmts=4&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735423&bpp=1&bdt=364&idt=124&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=0&ady=120&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=o%7Co%7CfE%7C&abl=NF&pfx=0&fu=128&bc=31&bz=1&ifi=2&uci=a!2&fsb=1&dtd=128",
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=600&slotname=4218046259&adk=2750697710&adf=3132389021&pi=t.ma~as.4218046259&w=120&fwrn=4&fwrnh=100&lmt=1765425903&rafmt=1&format=120x600&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&fwr=0&fwrattr=true&rpe=1&resp_fmts=4&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735424&bpp=1&bdt=364&idt=133&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0%2C120x600&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=1160&ady=120&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=o%7Co%7CfE%7C&abl=NF&pfx=0&fu=128&bc=31&bz=1&ifi=3&uci=a!3&fsb=1&dtd=135",
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&h=90&slotname=7454224896&adk=275724895&adf=1056458448&pi=t.ma~as.7454224896&w=728&lmt=1765425903&format=728x90&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735424&bpp=1&bdt=365&idt=139&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0%2C120x600%2C120x600&nras=1&correlator=6113303825840&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=276&ady=441&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7CaeE%7C&abl=CA&pfx=0&fu=0&bc=31&bz=1&ifi=4&uci=a!4&fsb=1&dtd=141",
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2779999647710891&output=html&adk=1812271804&adf=3025194257&lmt=1765425903&plat=1%3A16777216%2C2%3A16777216%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Ffollownirbytes-ynevj.ns8.org%2F&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570735413&bpp=10&bdt=354&idt=115&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=6113303825840&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=31084128%2C95382262%2C95384087%2C95386950%2C95388458%2C95387625%2C95386955%2C95387777%2C95340253%2C95340255&oid=2&pvsid=1460312800029235&tmod=834226788&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=131",
+			"https://www.google.com/recaptcha/api2/aframe",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html"
+		]
+	},
+	{
+		"source": "endis.rest",
+		"titles_found": [
+			"\u13ac\u0578\u0501\u0456\u0455 \u0456\u0455 \u0455\u04bb\u200b\u057d\u0442\u0442\u0456\u0578\u200b\u0261 \u0501\u043e\u0461\u200b\u0578 \u043e\u0578 \u13b7\u0251\u0443\u00a01\u200b\u0455\u0442, 2\u200b026 \u2014\u200b \u0185\u057d\u0442 \u0443\u043e\u057d \u0441\u200b\u0251\u0578 \u0455\u0251\u200b\u0475\u0435 \u0456\u0442\u200b",
+			"\u13b3\u04bb\u0251\u0442 \u0461\u200b\u043e\u057d\u04cf\u0501 \u0443\u043e\u057d \u04cf\u200b\u0456\u03ba\u0435 \u0442\u200b\u043e \u04cf\u0435\u0251\u200b\u0433\u0578?",
+			"\u13b7\u0251\u0445 \u13da\u0442\u200b\u0435\u0251\u04cf\u0442\u04bb\u200b \u13b7\u043e\u0501\u0435\u200b \u0456\u0455 \u13be\u200b\u0578",
+			"\u13a2\u04bb\u0251\u0578\u03ba\u0455\u200b \u0493\u043e\u0433 \u057d\u0455\u0456\u0578\u0261\u200b \u13ac\u0578\u0501\u0456\u200b\u0455!",
+			"\u13e2\u0433\u043e\u0445\u0443 \u13aa\u0441\u0441\u0435\u0455\u200b\u0455 \u13a2\u0435\u043c\u200b\u0440\u043e\u0433\u0251\u0433\u200b\u0456\u04cf\u0443 \u13de\u200b\u0456\u043c\u0456\u0442\u0435\u200b\u0501"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "helptired8.notinthearchives.net",
+		"titles_found": [
+			"Welcome to Cherri",
+			"Choose a Theme",
+			"Choose a Cloak",
+			"Would you like to Auto Cloak?",
+			"Create Your Account",
+			"Are you sure?",
+			"You're All Set!"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "everest.rip",
+		"titles_found": ["everest"],
+		"iframes_detected": []
+	},
+	{
+		"source": "www.korona.lat",
+		"titles_found": [],
+		"iframes_detected": ["/main.html"]
+	},
+	{
+		"source": "play.frogiee.one",
+		"titles_found": [
+			"Educational Resources and Online Learning Platform",
+			"Academic Subjects",
+			"Educational Services",
+			"Student Levels",
+			"Test Preparation",
+			"Learning Methods",
+			"frogie's arcade v4"
+		],
+		"iframes_detected": []
+	},
+	{
+		"source": "ubghub.org",
+		"titles_found": [
+			"UBGHub",
+			"Welcome to UBGHub",
+			"Safe & Filtered",
+			"Community Driven",
+			"Always Updated",
+			"cloud.maddox.games",
+			"gn-math",
+			"DEMON",
+			"CanLite",
+			"Petezah"
+		],
+		"iframes_detected": [
+			"form.html",
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2287252922738463&output=html&adk=1812271804&adf=3025194257&lmt=1776570758&plat=9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fubghub.org%2F&pra=5&aiof=9&asro=0&aiapmid=1&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570757747&bpp=113&bdt=140&idt=320&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=705285380293&frm=20&pv=1&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95385799%2C95387623%2C95388296%2C95387778&oid=2&pvsid=2011143809971298&tmod=1609839625&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&plas=250x567_l%7C250x567_r&bz=1&ifi=1&uci=a!1&fsb=1&dtd=325",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-3-&adk=1812271801&client=ca-pub-2287252922738463&fa=1&ifi=3&uci=a!3&btvi=1",
+			"about:blank",
+			"about:blank",
+			"about:blank",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-0-&adk=1812271808&client=ca-pub-2287252922738463&fa=8&ifi=2&uci=a!2"
+		]
+	},
+	{
+		"source": "pizagame.com",
+		"titles_found": [
+			"Play 1000+\nPizza Edition Games\nFull Screen",
+			"Popular Games\nView more",
+			"Drive Mad",
+			"Geometry Dash",
+			"Brain Test Tricky Puzzles",
+			"8 Ball Pool",
+			"Among Us",
+			"Basketball Stars",
+			"Cookie Clicker",
+			"Drift Hunters"
+		],
+		"iframes_detected": [
+			"https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8508922424742982&output=html&adk=1812271804&adf=3025194257&lmt=1776570766&plaf=1%3A2&plat=1%3A128%2C2%3A128%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fpizagame.com%2F&pra=5&aiof=9&asro=0&aiapmid=0.0001&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTAuMCIsIng4NiIsIiIsIjE0NS4wLjc2MzIuNiIsbnVsbCwwLG51bGwsIjY0IixbWyJOb3Q6QS1CcmFuZCIsIjk5LjAuMC4wIl0sWyJIZWFkbGVzc0Nocm9tZSIsIjE0NS4wLjc2MzIuNiJdLFsiQ2hyb21pdW0iLCIxNDUuMC43NjMyLjYiXV0sMF0.&abgtt=6&dt=1776570766553&bpp=13&bdt=1255&idt=34&shv=r20260415&mjsv=m202604140101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=2035791698043&frm=20&pv=2&u_tz=-300&u_his=2&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1280&bih=720&scr_x=0&scr_y=0&eid=95384087%2C95387625%2C95388269&oid=2&pvsid=4773255487772407&tmod=922587394&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1280%2C0%2C1280%2C720%2C1280%2C720&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&ifi=1&uci=a!1&fsb=1&dtd=59",
+			"https://www.google.com/recaptcha/api2/aframe",
+			"about:blank",
+			"about:blank",
+			"about:blank",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html",
+			"https://googleads.g.doubleclick.net/pagead/html/r20260415/r20190131/zrt_lookup.html#RS-0-&adk=1812271808&client=ca-pub-8508922424742982&fa=8&ifi=4&uci=a!4"
+		]
+	},
+	{
+		"source": "byod.geeked.wtf",
+		"titles_found": [
+			"lucide",
+			"Sign In With Discord",
+			"What IXL Is",
+			"How Learning Paths Work",
+			"Feedback and Motivation",
+			"Support for Classrooms and Home",
+			"Subjects and Coverage"
+		],
+		"iframes_detected": []
+	}
 ]

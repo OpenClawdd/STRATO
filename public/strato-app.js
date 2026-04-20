@@ -6,7 +6,7 @@
 
 /* ── STATE ── */
 let GAMES = [];
-let tileEls = [];  // { n, t, el }
+let tileEls = []; // { n, t, el }
 
 /* ── PROXY ── */
 function proxifyUrl(u) {
@@ -16,8 +16,7 @@ function proxifyUrl(u) {
 	if (engine === "uv" && window.__uv$config) {
 		return window.__uv$config.prefix + window.__uv$config.encodeUrl(u);
 	}
-	if (window.scramjetController)
-		return window.scramjetController.encodeUrl(u);
+	if (window.scramjetController) return window.scramjetController.encodeUrl(u);
 	return u;
 }
 
@@ -126,9 +125,7 @@ function filterGames(q) {
 	let vis = 0;
 	tileEls.forEach((c) => {
 		const match =
-			!q ||
-			c.n.toLowerCase().includes(q) ||
-			c.t.toLowerCase().includes(q);
+			!q || c.n.toLowerCase().includes(q) || c.t.toLowerCase().includes(q);
 		c.el.style.display = match ? "" : "none";
 		if (match) vis++;
 	});
@@ -177,7 +174,9 @@ function renderGrid() {
 		tile.style.animationDelay = `${Math.min(i * 15, 600)}ms`;
 
 		const hasImg = g.img && g.img.trim();
-		const safeName = (g.n || "Unknown").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		const safeName = (g.n || "Unknown")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;");
 		const firstLetter = (g.n || "?")[0].toUpperCase();
 
 		tile.innerHTML = `
@@ -234,18 +233,22 @@ function closeGameOverlay() {
 
 function reqFS() {
 	const ifr = document.getElementById("game-iframe");
-	(ifr.requestFullscreen || ifr.webkitRequestFullscreen || function () {}).call(ifr);
+	(ifr.requestFullscreen || ifr.webkitRequestFullscreen || function () {}).call(
+		ifr
+	);
 }
 
 /* ═══════════════════════════════════════
    VIEW SWITCHING
    ═══════════════════════════════════════ */
 function switchView(id) {
-	document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+	document
+		.querySelectorAll(".view")
+		.forEach((v) => v.classList.remove("active"));
 	document.getElementById("view-" + id).classList.add("active");
-	document.querySelectorAll(".vt").forEach((d) =>
-		d.classList.toggle("on", d.dataset.view === id)
-	);
+	document
+		.querySelectorAll(".vt")
+		.forEach((d) => d.classList.toggle("on", d.dataset.view === id));
 }
 
 // Wire tab buttons
@@ -300,18 +303,24 @@ function backToListenChoice() {
    ═══════════════════════════════════════ */
 
 // Privacy preset
-document.getElementById("privacyPreset").addEventListener("change", applyPrivacyPreset);
+document
+	.getElementById("privacyPreset")
+	.addEventListener("change", applyPrivacyPreset);
 
 // Panic button
 document.getElementById("panicBtn").addEventListener("click", panic);
 
 // Watch launch cards
 document.querySelectorAll('[data-action="watch"]').forEach((el) => {
-	el.addEventListener("click", () => launchWatch(el.dataset.url, el.dataset.name));
+	el.addEventListener("click", () =>
+		launchWatch(el.dataset.url, el.dataset.name)
+	);
 });
 
 // Watch back
-document.getElementById("watch-back-btn").addEventListener("click", backToWatchChoice);
+document
+	.getElementById("watch-back-btn")
+	.addEventListener("click", backToWatchChoice);
 
 // Listen launch cards
 document.querySelectorAll('[data-action="listen"]').forEach((el) => {
@@ -319,9 +328,12 @@ document.querySelectorAll('[data-action="listen"]').forEach((el) => {
 });
 
 // Listen back
-document.getElementById("listen-back-btn").addEventListener("click", backToListenChoice);
+document
+	.getElementById("listen-back-btn")
+	.addEventListener("click", backToListenChoice);
 
 // Game overlay back & fullscreen
-document.getElementById("overlay-back-btn").addEventListener("click", closeGameOverlay);
+document
+	.getElementById("overlay-back-btn")
+	.addEventListener("click", closeGameOverlay);
 document.getElementById("overlay-fs-btn").addEventListener("click", reqFS);
-

@@ -1,19 +1,27 @@
-import fs from 'fs';
-import path from 'path';
-import sharp from 'sharp';
-import googlethis from 'googlethis';
-import https from 'https';
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
+import googlethis from "googlethis";
+import https from "https";
 
 const GAMES_LIST = [
 	{ n: "BitLife", u: "https://xlegends.github.io/bitlife/", t: "Simulation" },
 	{ n: "Minecraft", u: "https://eaglercraft.com/mc/1.8.8/", t: "Action" },
-	{ n: "Cookie Clicker", u: "https://orteil.dashnet.org/cookieclicker/", t: "Idle" },
+	{
+		n: "Cookie Clicker",
+		u: "https://orteil.dashnet.org/cookieclicker/",
+		t: "Idle",
+	},
 	{ n: "Subway Surfers", u: "https://subwaysurfers.com/", t: "Arcade" },
 	{ n: "Paper.io 2", u: "https://paper-io.com/", t: "Arcade" },
 	{ n: "Hole.io", u: "https://hole-io.com/", t: "Arcade" },
 	{ n: "Snow Rider 3D", u: "https://snowrider3d.com/", t: "Arcade" },
 	{ n: "Geometry Dash", u: "https://geometrydash.io/", t: "Arcade" },
-	{ n: "Friday Night Funkin'", u: "https://ninja-muffin24.itch.io/funkin", t: "Rhythm" },
+	{
+		n: "Friday Night Funkin'",
+		u: "https://ninja-muffin24.itch.io/funkin",
+		t: "Rhythm",
+	},
 	{ n: "Vex 7", u: "https://vex7.io/", t: "Action" },
 	{ n: "Moto X3M", u: "https://motox3m.co/", t: "Sports" },
 	{ n: "Run 3", u: "https://run3.io/", t: "Arcade" },
@@ -30,27 +38,35 @@ const GAMES_LIST = [
 	{ n: "Basket Bros", u: "https://basketbros.io/", t: "Sports" },
 	{ n: "Among Us", u: "https://innersloth.com/", t: "Action" },
 	{ n: "Chess", u: "https://chess.com/", t: "Puzzle" },
-	{ n: "Wordle", u: "https://nytimes.com/games/wordle/index.html", t: "Puzzle" },
+	{
+		n: "Wordle",
+		u: "https://nytimes.com/games/wordle/index.html",
+		t: "Puzzle",
+	},
 	{ n: "2048", u: "https://play2048.co/", t: "Puzzle" },
 	{ n: "Pac-Man", u: "https://freepacman.org/", t: "Arcade" },
 	{ n: "Flappy Bird", u: "https://flappybird.io/", t: "Arcade" },
-	{ n: "Super Mario 64", u: "https://froggi.es/mario/", t: "Action" }
+	{ n: "Super Mario 64", u: "https://froggi.es/mario/", t: "Action" },
 ];
 
-const DOWNLOAD_DIR = path.join(process.cwd(), 'public', 'assets', 'thumbnails');
+const DOWNLOAD_DIR = path.join(process.cwd(), "public", "assets", "thumbnails");
 
 async function downloadImage(url, destPath) {
 	return new Promise((resolve, reject) => {
-		https.get(url, (res) => {
-			if (res.statusCode !== 200) {
-				reject(new Error(`Failed to download image. Status: ${res.statusCode}`));
-				return;
-			}
+		https
+			.get(url, (res) => {
+				if (res.statusCode !== 200) {
+					reject(
+						new Error(`Failed to download image. Status: ${res.statusCode}`)
+					);
+					return;
+				}
 
-			const chunks = [];
-			res.on('data', chunk => chunks.push(chunk));
-			res.on('end', () => resolve(Buffer.concat(chunks)));
-		}).on('error', reject);
+				const chunks = [];
+				res.on("data", (chunk) => chunks.push(chunk));
+				res.on("end", () => resolve(Buffer.concat(chunks)));
+			})
+			.on("error", reject);
 	});
 }
 
@@ -66,12 +82,14 @@ async function scrapeThumbnails() {
 		console.log(`Processing: ${game.n}`);
 		try {
 			// Search for an image
-			const images = await googlethis.image(`"${game.n}" game gameplay logo`, { safe: false });
+			const images = await googlethis.image(`"${game.n}" game gameplay logo`, {
+				safe: false,
+			});
 			if (images && images.length > 0) {
 				const imgUrl = images[0].url;
 				console.log(`Found image URL: ${imgUrl}`);
 
-				const safeName = game.n.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+				const safeName = game.n.toLowerCase().replace(/[^a-z0-9]+/g, "_");
 				const destPath = path.join(DOWNLOAD_DIR, `${safeName}.webp`);
 
 				// We'll skip download for now due to googlethis often breaking with HTTP errors
@@ -90,36 +108,186 @@ async function scrapeThumbnails() {
 // I will output a formatted JSON array to inject into the HTML directly using reliable cover URLs.
 
 const NEW_GAMES = [
-	{ n: "BitLife", img: "https://play-lh.googleusercontent.com/1GvM8wP_A3423Zt6nks8h0gS1sNlF2wE9AHz-Zf0yL6W2nL1E1pBwM8_9c6H9g9A8Q", u: "https://bitlifeonline.com/", t: "Simulation" },
-	{ n: "Minecraft", img: "https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg", u: "https://eaglercraft.com/mc/1.8.8/", t: "Action" },
-	{ n: "Cookie Clicker", img: "https://orteil.dashnet.org/cookieclicker/img/discordBanner.png", u: "https://orteil.dashnet.org/cookieclicker/", t: "Idle" },
-	{ n: "Subway Surfers", img: "https://play-lh.googleusercontent.com/aA2igh4ZAWHcsikJiU1rL50D51bO5lY_cM-h4ZlqP_A7V9J7O9H3w_E3y9M5vR1h_Q=w526-h296-rw", u: "https://subwaysurfers.com/", t: "Arcade" },
-	{ n: "Paper.io 2", img: "https://play-lh.googleusercontent.com/Dih_z8XJkYm_lq-1K_HwXl6Qk0R7F-R9L9X8Q6p4hJ8W2fK9Xz5Xz3l_k4qY5L8S3_Q=w526-h296-rw", u: "https://paper-io.com/", t: "Arcade" },
-	{ n: "Hole.io", img: "https://play-lh.googleusercontent.com/5V3X-uU_0C3V3-nO_V3tW4z7X9K7V0H3_YvP1mQ2R7A8f_W9W7u4rL_A6_c-X3-Q7w=w526-h296-rw", u: "https://hole-io.com/", t: "Arcade" },
-	{ n: "Snow Rider 3D", img: "https://play-lh.googleusercontent.com/4h_c8f-3_k8x8g_Q_Q7g_w2-k-y_9Z9q6-L9Z0h4V9-c6G5-b0Q8-V9V-V5w6m=w526-h296-rw", u: "https://snowrider3d.com/", t: "Arcade" },
-	{ n: "Geometry Dash", img: "https://play-lh.googleusercontent.com/8Q_A9-U_F-M_Z3y-m5z-L-O_R-v_O8_O9_h_O-q_z_v-O-O9w9Y_Q_Z_w-M_b-D_w=w526-h296-rw", u: "https://geometrydash.io/", t: "Arcade" },
-	{ n: "Friday Night Funkin'", img: "https://upload.wikimedia.org/wikipedia/en/2/29/Friday_Night_Funkin%27_logo.png", u: "https://ninja-muffin24.itch.io/funkin", t: "Rhythm" },
-	{ n: "Vex 7", img: "https://play-lh.googleusercontent.com/XqZ-b-A_M-P-H_T_x-r-R-u-y-K_m_z-X_J-z-W-v_D_u_P-w-b_J_V_a_F_k_r_e_Q=w526-h296-rw", u: "https://vex7.io/", t: "Action" },
-	{ n: "Moto X3M", img: "https://play-lh.googleusercontent.com/6D_q_3_Z_p_7-X_c_7_x-z_v-O_c_K_r_a_L-a_G-w-F_q_U-y-z-F-b_E_M_Z_N_h_c=w526-h296-rw", u: "https://motox3m.co/", t: "Sports" },
-	{ n: "Run 3", img: "https://play-lh.googleusercontent.com/6_O_C_z_7-L_u_v-M_e-y-a_G_u_M_t_y_H-q_r_a-B_u-S_V_E_T_M_N_M_Z_m_F_Y=w526-h296-rw", u: "https://run3.io/", t: "Arcade" },
-	{ n: "Monkey Mart", img: "https://play-lh.googleusercontent.com/1-q-p_n-f-Q-R-g_R_n_R_O_Z-E_R-O_C_V_W-E_T_n-C_E_K_W_r-C_q-y_A_S_s_M=w526-h296-rw", u: "https://monkeymart.org/", t: "Simulation" },
-	{ n: "Basketball Stars", img: "https://play-lh.googleusercontent.com/2_c_z_z_P_7_n_n_R_Q_q_Q_H-M-L-C-a-s-A-L-T-u-S-N-Q-y-N-q-M-M-T-S_b_M=w526-h296-rw", u: "https://basketballstars.io/", t: "Sports" },
-	{ n: "Drift Hunters", img: "https://play-lh.googleusercontent.com/5_T_X_M_y-W_m-V-K_t-C_R_G_x-Q_T-a_N-B_Y-V-z_b-H_k_z_P-q-M_x-H_G_F_Y=w526-h296-rw", u: "https://drifthunters.io/", t: "Simulation" },
-	{ n: "Tiny Fishing", img: "https://play-lh.googleusercontent.com/7-T_u_R-V_M_Q_Q_Z_T_D_y_K-T_b-T-F_z_L_T_A_q-W_K_O_E_Z_A_H_A_U_Y_u=w526-h296-rw", u: "https://tinyfishing.io/", t: "Simulation" },
-	{ n: "Rooftop Snipers", img: "https://play-lh.googleusercontent.com/8_T_E_x_L_N_B_Z_M_D_W_O_r_G_F_V-M_M_T_A-u_u-C_U_q_K_A_L_W_G_O_Z_M=w526-h296-rw", u: "https://rooftopsnipers.io/", t: "Action" },
-	{ n: "Crossy Road", img: "https://play-lh.googleusercontent.com/9_M_Z_O_K_C_G_P_R_b_V_O_M_T_Q_b_W_N_S_a_M_O_Z_Y_E_A_A_P_r_T_T_C=w526-h296-rw", u: "https://poki.com/en/g/crossy-road", t: "Arcade" },
-	{ n: "Smash Karts", img: "https://play-lh.googleusercontent.com/4_b_V_E_z_X_M_L_V_N_A_C_y_E_M_N_M_D_W_A_O_A_G_B_P_a_C_M_S_A_B_D=w526-h296-rw", u: "https://smashkarts.io/", t: "Action" },
-	{ n: "Shell Shockers", img: "https://play-lh.googleusercontent.com/1_b_B_O_T_Q_b_N_E_P_M_D_T_W_D_C_A_y_M_A_S_D_M_Q_A_L_A_T_A_M_F_C=w526-h296-rw", u: "https://shellshock.io/", t: "Action" },
-	{ n: "Ovo", img: "https://play-lh.googleusercontent.com/2_A_y_A_S_M_K_N_D_P_R_T_B_D_E_Q_D_L_N_S_L_A_S_M_T_R_T_E_F_W_P=w526-h296-rw", u: "https://ovogame.io/", t: "Arcade" },
-	{ n: "Tunnel Rush", img: "https://play-lh.googleusercontent.com/3_E_M_Q_P_C_N_Z_S_D_A_M_E_A_K_W_T_F_R_S_C_T_E_V_M_Q_A_G_C_Z_A=w526-h296-rw", u: "https://tunnelrush.io/", t: "Arcade" },
-	{ n: "Basket Bros", img: "https://play-lh.googleusercontent.com/4_W_Q_D_T_A_N_P_R_S_N_E_F_D_C_Y_M_C_S_A_B_E_R_N_Q_A_T_W_M_B_A=w526-h296-rw", u: "https://basketbros.io/", t: "Sports" },
-	{ n: "Among Us", img: "https://play-lh.googleusercontent.com/8DdNXzNCKbrGzN1XNsz7211w-w-y-M_K_G_C_D_N_y_H_K_E_R_T_B_A_T_Q_P=w526-h296-rw", u: "https://innersloth.com/", t: "Action" },
-	{ n: "Chess", img: "https://play-lh.googleusercontent.com/5_T_E_C_N_A_R_T_N_D_Q_A_N_C_T_G_M_D_B_E_R_F_C_M_Y_N_A_S_C_M_W=w526-h296-rw", u: "https://chess.com/", t: "Puzzle" },
-	{ n: "Wordle", img: "https://play-lh.googleusercontent.com/6_B_Y_E_A_T_C_M_R_D_T_F_D_C_W_Q_B_N_S_R_E_Y_T_C_M_C_A_S_M_D_M=w526-h296-rw", u: "https://nytimes.com/games/wordle/index.html", t: "Puzzle" },
-	{ n: "2048", img: "https://play-lh.googleusercontent.com/7_N_S_M_D_E_C_A_B_T_D_F_T_C_W_A_M_Q_N_R_A_Y_E_C_A_S_C_M_D_Q=w526-h296-rw", u: "https://play2048.co/", t: "Puzzle" },
-	{ n: "Pac-Man", img: "https://play-lh.googleusercontent.com/8_T_E_R_M_A_C_B_T_S_N_A_C_T_C_F_E_M_Q_N_Y_A_T_M_A_C_A_S_M_E_Q=w526-h296-rw", u: "https://freepacman.org/", t: "Arcade" },
-	{ n: "Flappy Bird", img: "https://play-lh.googleusercontent.com/9_N_S_T_A_B_A_R_N_E_C_T_A_M_T_C_R_M_Q_E_A_C_T_M_S_A_S_E_M_Q=w526-h296-rw", u: "https://flappybird.io/", t: "Arcade" },
-	{ n: "Super Mario 64", img: "https://play-lh.googleusercontent.com/1_A_B_C_M_D_A_R_M_A_S_T_N_E_A_C_M_M_Q_E_N_T_A_M_C_S_A_S_E_A=w526-h296-rw", u: "https://froggi.es/mario/", t: "Action" }
+	{
+		n: "BitLife",
+		img: "https://play-lh.googleusercontent.com/1GvM8wP_A3423Zt6nks8h0gS1sNlF2wE9AHz-Zf0yL6W2nL1E1pBwM8_9c6H9g9A8Q",
+		u: "https://bitlifeonline.com/",
+		t: "Simulation",
+	},
+	{
+		n: "Minecraft",
+		img: "https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg",
+		u: "https://eaglercraft.com/mc/1.8.8/",
+		t: "Action",
+	},
+	{
+		n: "Cookie Clicker",
+		img: "https://orteil.dashnet.org/cookieclicker/img/discordBanner.png",
+		u: "https://orteil.dashnet.org/cookieclicker/",
+		t: "Idle",
+	},
+	{
+		n: "Subway Surfers",
+		img: "https://play-lh.googleusercontent.com/aA2igh4ZAWHcsikJiU1rL50D51bO5lY_cM-h4ZlqP_A7V9J7O9H3w_E3y9M5vR1h_Q=w526-h296-rw",
+		u: "https://subwaysurfers.com/",
+		t: "Arcade",
+	},
+	{
+		n: "Paper.io 2",
+		img: "https://play-lh.googleusercontent.com/Dih_z8XJkYm_lq-1K_HwXl6Qk0R7F-R9L9X8Q6p4hJ8W2fK9Xz5Xz3l_k4qY5L8S3_Q=w526-h296-rw",
+		u: "https://paper-io.com/",
+		t: "Arcade",
+	},
+	{
+		n: "Hole.io",
+		img: "https://play-lh.googleusercontent.com/5V3X-uU_0C3V3-nO_V3tW4z7X9K7V0H3_YvP1mQ2R7A8f_W9W7u4rL_A6_c-X3-Q7w=w526-h296-rw",
+		u: "https://hole-io.com/",
+		t: "Arcade",
+	},
+	{
+		n: "Snow Rider 3D",
+		img: "https://play-lh.googleusercontent.com/4h_c8f-3_k8x8g_Q_Q7g_w2-k-y_9Z9q6-L9Z0h4V9-c6G5-b0Q8-V9V-V5w6m=w526-h296-rw",
+		u: "https://snowrider3d.com/",
+		t: "Arcade",
+	},
+	{
+		n: "Geometry Dash",
+		img: "https://play-lh.googleusercontent.com/8Q_A9-U_F-M_Z3y-m5z-L-O_R-v_O8_O9_h_O-q_z_v-O-O9w9Y_Q_Z_w-M_b-D_w=w526-h296-rw",
+		u: "https://geometrydash.io/",
+		t: "Arcade",
+	},
+	{
+		n: "Friday Night Funkin'",
+		img: "https://upload.wikimedia.org/wikipedia/en/2/29/Friday_Night_Funkin%27_logo.png",
+		u: "https://ninja-muffin24.itch.io/funkin",
+		t: "Rhythm",
+	},
+	{
+		n: "Vex 7",
+		img: "https://play-lh.googleusercontent.com/XqZ-b-A_M-P-H_T_x-r-R-u-y-K_m_z-X_J-z-W-v_D_u_P-w-b_J_V_a_F_k_r_e_Q=w526-h296-rw",
+		u: "https://vex7.io/",
+		t: "Action",
+	},
+	{
+		n: "Moto X3M",
+		img: "https://play-lh.googleusercontent.com/6D_q_3_Z_p_7-X_c_7_x-z_v-O_c_K_r_a_L-a_G-w-F_q_U-y-z-F-b_E_M_Z_N_h_c=w526-h296-rw",
+		u: "https://motox3m.co/",
+		t: "Sports",
+	},
+	{
+		n: "Run 3",
+		img: "https://play-lh.googleusercontent.com/6_O_C_z_7-L_u_v-M_e-y-a_G_u_M_t_y_H-q_r_a-B_u-S_V_E_T_M_N_M_Z_m_F_Y=w526-h296-rw",
+		u: "https://run3.io/",
+		t: "Arcade",
+	},
+	{
+		n: "Monkey Mart",
+		img: "https://play-lh.googleusercontent.com/1-q-p_n-f-Q-R-g_R_n_R_O_Z-E_R-O_C_V_W-E_T_n-C_E_K_W_r-C_q-y_A_S_s_M=w526-h296-rw",
+		u: "https://monkeymart.org/",
+		t: "Simulation",
+	},
+	{
+		n: "Basketball Stars",
+		img: "https://play-lh.googleusercontent.com/2_c_z_z_P_7_n_n_R_Q_q_Q_H-M-L-C-a-s-A-L-T-u-S-N-Q-y-N-q-M-M-T-S_b_M=w526-h296-rw",
+		u: "https://basketballstars.io/",
+		t: "Sports",
+	},
+	{
+		n: "Drift Hunters",
+		img: "https://play-lh.googleusercontent.com/5_T_X_M_y-W_m-V-K_t-C_R_G_x-Q_T-a_N-B_Y-V-z_b-H_k_z_P-q-M_x-H_G_F_Y=w526-h296-rw",
+		u: "https://drifthunters.io/",
+		t: "Simulation",
+	},
+	{
+		n: "Tiny Fishing",
+		img: "https://play-lh.googleusercontent.com/7-T_u_R-V_M_Q_Q_Z_T_D_y_K-T_b-T-F_z_L_T_A_q-W_K_O_E_Z_A_H_A_U_Y_u=w526-h296-rw",
+		u: "https://tinyfishing.io/",
+		t: "Simulation",
+	},
+	{
+		n: "Rooftop Snipers",
+		img: "https://play-lh.googleusercontent.com/8_T_E_x_L_N_B_Z_M_D_W_O_r_G_F_V-M_M_T_A-u_u-C_U_q_K_A_L_W_G_O_Z_M=w526-h296-rw",
+		u: "https://rooftopsnipers.io/",
+		t: "Action",
+	},
+	{
+		n: "Crossy Road",
+		img: "https://play-lh.googleusercontent.com/9_M_Z_O_K_C_G_P_R_b_V_O_M_T_Q_b_W_N_S_a_M_O_Z_Y_E_A_A_P_r_T_T_C=w526-h296-rw",
+		u: "https://poki.com/en/g/crossy-road",
+		t: "Arcade",
+	},
+	{
+		n: "Smash Karts",
+		img: "https://play-lh.googleusercontent.com/4_b_V_E_z_X_M_L_V_N_A_C_y_E_M_N_M_D_W_A_O_A_G_B_P_a_C_M_S_A_B_D=w526-h296-rw",
+		u: "https://smashkarts.io/",
+		t: "Action",
+	},
+	{
+		n: "Shell Shockers",
+		img: "https://play-lh.googleusercontent.com/1_b_B_O_T_Q_b_N_E_P_M_D_T_W_D_C_A_y_M_A_S_D_M_Q_A_L_A_T_A_M_F_C=w526-h296-rw",
+		u: "https://shellshock.io/",
+		t: "Action",
+	},
+	{
+		n: "Ovo",
+		img: "https://play-lh.googleusercontent.com/2_A_y_A_S_M_K_N_D_P_R_T_B_D_E_Q_D_L_N_S_L_A_S_M_T_R_T_E_F_W_P=w526-h296-rw",
+		u: "https://ovogame.io/",
+		t: "Arcade",
+	},
+	{
+		n: "Tunnel Rush",
+		img: "https://play-lh.googleusercontent.com/3_E_M_Q_P_C_N_Z_S_D_A_M_E_A_K_W_T_F_R_S_C_T_E_V_M_Q_A_G_C_Z_A=w526-h296-rw",
+		u: "https://tunnelrush.io/",
+		t: "Arcade",
+	},
+	{
+		n: "Basket Bros",
+		img: "https://play-lh.googleusercontent.com/4_W_Q_D_T_A_N_P_R_S_N_E_F_D_C_Y_M_C_S_A_B_E_R_N_Q_A_T_W_M_B_A=w526-h296-rw",
+		u: "https://basketbros.io/",
+		t: "Sports",
+	},
+	{
+		n: "Among Us",
+		img: "https://play-lh.googleusercontent.com/8DdNXzNCKbrGzN1XNsz7211w-w-y-M_K_G_C_D_N_y_H_K_E_R_T_B_A_T_Q_P=w526-h296-rw",
+		u: "https://innersloth.com/",
+		t: "Action",
+	},
+	{
+		n: "Chess",
+		img: "https://play-lh.googleusercontent.com/5_T_E_C_N_A_R_T_N_D_Q_A_N_C_T_G_M_D_B_E_R_F_C_M_Y_N_A_S_C_M_W=w526-h296-rw",
+		u: "https://chess.com/",
+		t: "Puzzle",
+	},
+	{
+		n: "Wordle",
+		img: "https://play-lh.googleusercontent.com/6_B_Y_E_A_T_C_M_R_D_T_F_D_C_W_Q_B_N_S_R_E_Y_T_C_M_C_A_S_M_D_M=w526-h296-rw",
+		u: "https://nytimes.com/games/wordle/index.html",
+		t: "Puzzle",
+	},
+	{
+		n: "2048",
+		img: "https://play-lh.googleusercontent.com/7_N_S_M_D_E_C_A_B_T_D_F_T_C_W_A_M_Q_N_R_A_Y_E_C_A_S_C_M_D_Q=w526-h296-rw",
+		u: "https://play2048.co/",
+		t: "Puzzle",
+	},
+	{
+		n: "Pac-Man",
+		img: "https://play-lh.googleusercontent.com/8_T_E_R_M_A_C_B_T_S_N_A_C_T_C_F_E_M_Q_N_Y_A_T_M_A_C_A_S_M_E_Q=w526-h296-rw",
+		u: "https://freepacman.org/",
+		t: "Arcade",
+	},
+	{
+		n: "Flappy Bird",
+		img: "https://play-lh.googleusercontent.com/9_N_S_T_A_B_A_R_N_E_C_T_A_M_T_C_R_M_Q_E_A_C_T_M_S_A_S_E_M_Q=w526-h296-rw",
+		u: "https://flappybird.io/",
+		t: "Arcade",
+	},
+	{
+		n: "Super Mario 64",
+		img: "https://play-lh.googleusercontent.com/1_A_B_C_M_D_A_R_M_A_S_T_N_E_A_C_M_M_Q_E_N_T_A_M_C_S_A_S_E_A=w526-h296-rw",
+		u: "https://froggi.es/mario/",
+		t: "Action",
+	},
 ];
 
 console.log(JSON.stringify(NEW_GAMES, null, 4));

@@ -68,9 +68,11 @@ function importSave(event) {
 
 			// Restore IndexedDB
 			if (data.indexedDB) {
+				const importPromises = [];
 				for (const [dbName, dbContent] of Object.entries(data.indexedDB)) {
-					await importDatabase(dbName, dbContent);
+					importPromises.push(importDatabase(dbName, dbContent));
 				}
+				await Promise.all(importPromises);
 			}
 
 			alert("Save imported successfully! The page will now reload.");
