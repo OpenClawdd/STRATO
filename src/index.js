@@ -10,6 +10,7 @@ import express from "express";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -154,7 +155,40 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: "10mb" })); // reduced from 50mb — no legit save needs 50MB
+
+// ---------------------------------------------------------------------------
+// Authentication
+// ---------------------------------------------------------------------------
+app.use(cookieParser(process.env.COOKIE_SECRET || "default_secret"));
+
+app.post("/login", (req, res) => {
+	const password = req.body.password;
+	if (password === process.env.SITE_PASSWORD) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Incorrect password");
+	}
+});
+
+app.use((req, res, next) => {
+	if (!process.env.SITE_PASSWORD) return next();
+	if (req.signedCookies.auth === "true") return next();
+
+	// Avoid applying auth to internal uv/baremux scripts (often accessed via proxy or service worker)
+	// But protect API endpoints and the proxy endpoint itself
+	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
+		return res.status(401).send("Unauthorized");
+	}
+
+	res.status(401).send(authPage);
+});
+
+app.use(express.json({ limit: "50mb" }));
 
 // ---------------------------------------------------------------------------
 // Rate limiters
@@ -365,9 +399,12 @@ app.use((req, res) => {
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
-	res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
-		if (err) res.status(404).send("Not Found");
-	});
+	res
+		.status(404)
+		.sendFile(join(ROOT, "public", "404.html"))
+		.catch(() => {
+			res.status(404).send("Not Found");
+		});
 });
 
 // ---------------------------------------------------------------------------
