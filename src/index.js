@@ -218,7 +218,7 @@ app.get("/proxy", async (req, res) => {
 		const response = await axios({
 			method: "get",
 			url: targetUrl,
-			responseType: "arraybuffer",
+			responseType: "stream",
 			headers: {
 				"User-Agent":
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
@@ -234,10 +234,17 @@ app.get("/proxy", async (req, res) => {
 		// Declare all variables before use
 		const encoding    = response.headers["content-encoding"];
 		let   contentType = (response.headers["content-type"] || "").toLowerCase();
-		let   buffer      = response.data;
 
 		// Build proxy headers early so we can mutate content-type if needed
 		const proxyHeaders = { ...response.headers };
+
+		// Strip security/framing headers
+		delete proxyHeaders["x-frame-options"];
+		delete proxyHeaders["content-security-policy"];
+		delete proxyHeaders["content-security-policy-report-only"];
+		delete proxyHeaders["frame-ancestors"];
+
+		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
 
 		// Force HTML content-type for known raw HTML hosts
 		if (
@@ -248,17 +255,26 @@ app.get("/proxy", async (req, res) => {
 			contentType = "text/html";
 		}
 
-		// Decompress if needed
-		if (encoding) {
-			try {
-				buffer = await decompress(buffer, encoding);
-			} catch (e) {
-				console.error("[Proxy] Decompression failed:", e.message);
-			}
-		}
-
 		// Inject <base href> so relative assets resolve correctly
 		if (contentType.includes("text/html")) {
+			// Gather the stream into a buffer
+			let buffer = await new Promise((resolve, reject) => {
+				const chunks = [];
+				response.data.on("data", (chunk) => chunks.push(chunk));
+				response.data.on("end", () => resolve(Buffer.concat(chunks)));
+				response.data.on("error", reject);
+			});
+
+			// Decompress if needed
+			if (encoding) {
+				try {
+					buffer = await decompress(buffer, encoding);
+					delete proxyHeaders["content-encoding"]; // we decoded it
+				} catch (e) {
+					console.error("[Proxy] Decompression failed:", e.message);
+				}
+			}
+
 			let html = buffer.toString("utf8");
 			try {
 				const urlObj = new URL(targetUrl);
@@ -283,20 +299,15 @@ app.get("/proxy", async (req, res) => {
 			} catch (e) {
 				console.error("[Proxy] Base injection failed:", e.message);
 			}
+
+			delete proxyHeaders["content-length"]; // length changed
+			res.set(proxyHeaders);
+			res.send(buffer);
+		} else {
+			// For non-HTML, just stream directly to conserve memory
+			res.set(proxyHeaders);
+			response.data.pipe(res);
 		}
-
-		// Strip security/framing headers
-		delete proxyHeaders["x-frame-options"];
-		delete proxyHeaders["content-security-policy"];
-		delete proxyHeaders["content-security-policy-report-only"];
-		delete proxyHeaders["frame-ancestors"];
-		delete proxyHeaders["content-encoding"];  // we decoded it
-		delete proxyHeaders["content-length"];     // length changed
-
-		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
-
-		res.set(proxyHeaders);
-		res.send(buffer);
 	} catch (err) {
 		console.error("[Proxy Error]:", err.message);
 		res.status(500).send(`Proxy Error: ${err.message}`);

@@ -105,6 +105,10 @@ function initParticles() {
 	});
 
 	function draw() {
+		if (document.hidden) {
+			requestAnimationFrame(draw);
+			return;
+		}
 		ctx.clearRect(0, 0, W, H);
 		const isTerm = document.documentElement.dataset.theme === "terminal";
 		ctx.fillStyle = isTerm ? "rgba(0,255,70,0.25)" : "rgba(0,229,255,0.2)";
