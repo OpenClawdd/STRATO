@@ -1,7 +1,7 @@
 import os
 import json
-import time
-from playwright.sync_api import sync_playwright
+import asyncio
+from playwright.async_api import async_playwright
 
 TARGETS = [
     "http://Selenite.cc", "https://g-65j.pages.dev/projects", "https://fmhy.net/", 
@@ -46,72 +46,88 @@ def append_to_md(text):
     with open(INTEL_REPORT_FILE, "a") as f:
         f.write(text + "\n")
 
-def run_heist():
+async def process_target(context, url):
+    page = await context.new_page()
+    domain_name = url.split("//")[-1].split("/")[0]
+    print(f"Target locked: {domain_name}")
+
+    extracted_data = None
+    intel = ""
+
+    try:
+        await page.goto(url, timeout=15000, wait_until="domcontentloaded")
+        await asyncio.sleep(3)
+
+        if "startmyeducation.top" in url:
+            print("Bypassing auth wall...")
+            await page.fill("input[type='password']", "funni")
+            await page.press("input[type='password']", "Enter")
+            await asyncio.sleep(3)
+
+        screenshot_path = f"competitors/{domain_name.replace('.', '_')}.png"
+        await page.screenshot(path=screenshot_path, full_page=True)
+
+        titles = await page.locator("h1, h2, h3, .game-title, .title").all_inner_texts()
+
+        frames = await page.locator("iframe").all()
+        iframes = []
+        for frame in frames:
+            src = await frame.get_attribute("src")
+            iframes.append(src)
+
+        page_content = await page.content()
+        proxy_engine = "Unknown"
+        if "uv.config.js" in page_content or "/uv/" in page_content:
+            proxy_engine = "Ultraviolet (UV)"
+        elif "/scramjet/" in page_content or "/sj/" in page_content:
+            proxy_engine = "Scramjet"
+        elif "epoxy" in page_content or "bare-mux" in page_content:
+            proxy_engine = "Epoxy/Bare-Mux Detected"
+
+        panic_btn = "Yes" if "panic" in page_content.lower() else "No"
+
+        intel = f"## {domain_name}\n- **Proxy Engine**: {proxy_engine}\n- **Panic Button**: {panic_btn}\n- **Screenshot**: {screenshot_path}\n"
+
+        extracted_data = {
+            "source": domain_name,
+            "titles_found": [t for t in titles if t.strip()][:10],
+            "iframes_detected": [f for f in iframes if f][:10]
+        }
+
+        print(f"Extraction complete for {domain_name}")
+
+    except Exception as e:
+        print(f"Mission failed for {domain_name} (Timeout/Blocked)")
+        intel = f"## {domain_name}\n- Status: FAILED\n"
+
+    finally:
+        await page.close()
+
+    return intel, extracted_data
+
+async def run_heist():
     initialize_files()
     
-    with sync_playwright() as p:
+    async with async_playwright() as p:
         for i in range(0, len(TARGETS), BATCH_SIZE):
             batch = TARGETS[i:i + BATCH_SIZE]
             print(f"\n--- INITIATING BATCH {i//BATCH_SIZE + 1} ---")
             
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+            browser = await p.chromium.launch(headless=True)
+            context = await browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+            
+            tasks = [process_target(context, url) for url in batch]
+            results = await asyncio.gather(*tasks)
             
             extracted_batch_data = []
-            
-            for url in batch:
-                page = context.new_page()
-                domain_name = url.split("//")[-1].split("/")[0]
-                print(f"Target locked: {domain_name}")
-                
-                try:
-                    page.goto(url, timeout=15000, wait_until="domcontentloaded")
-                    time.sleep(3) 
-                    
-                    if "startmyeducation.top" in url:
-                        print("Bypassing auth wall...")
-                        page.fill("input[type='password']", "funni")
-                        page.press("input[type='password']", "Enter")
-                        time.sleep(3)
-                    
-                    screenshot_path = f"competitors/{domain_name.replace('.', '_')}.png"
-                    page.screenshot(path=screenshot_path, full_page=True)
-                    
-                    titles = page.locator("h1, h2, h3, .game-title, .title").all_inner_texts()
-                    iframes = [frame.get_attribute("src") for frame in page.locator("iframe").all()]
-                    
-                    page_content = page.content()
-                    proxy_engine = "Unknown"
-                    if "uv.config.js" in page_content or "/uv/" in page_content:
-                        proxy_engine = "Ultraviolet (UV)"
-                    elif "/scramjet/" in page_content or "/sj/" in page_content:
-                        proxy_engine = "Scramjet"
-                    elif "epoxy" in page_content or "bare-mux" in page_content:
-                        proxy_engine = "Epoxy/Bare-Mux Detected"
-                        
-                    panic_btn = "Yes" if "panic" in page_content.lower() else "No"
-                    
-                    intel = f"## {domain_name}\n- **Proxy Engine**: {proxy_engine}\n- **Panic Button**: {panic_btn}\n- **Screenshot**: {screenshot_path}\n"
-                    append_to_md(intel)
-                    
-                    extracted_batch_data.append({
-                        "source": domain_name,
-                        "titles_found": [t for t in titles if t.strip()][:10], 
-                        "iframes_detected": [f for f in iframes if f][:10]
-                    })
-                    
-                    print(f"Extraction complete for {domain_name}")
-                    
-                except Exception as e:
-                    print(f"Mission failed for {domain_name} (Timeout/Blocked)")
-                    append_to_md(f"## {domain_name}\n- Status: FAILED\n")
-                
-                finally:
-                    page.close()
+            for intel_text, extracted_data in results:
+                append_to_md(intel_text)
+                if extracted_data:
+                    extracted_batch_data.append(extracted_data)
             
             append_to_json(extracted_batch_data)
-            browser.close()
+            await browser.close()
             print("Batch secured. Browser context destroyed. RAM cleared.")
 
 if __name__ == "__main__":
-    run_heist()
+    asyncio.run(run_heist())

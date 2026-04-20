@@ -1573,3 +1573,29 @@ body {
 		padding: 16px;
 	}
 }
+
+
+[data-theme="light"] {
+	--void: #ffffff;
+	--void-2: #f8fafc;
+	--surface: rgba(241, 245, 249, 0.6);
+	--surface-hi: rgba(226, 232, 240, 0.75);
+	--border: rgba(148, 163, 184, 0.15);
+	--border-hi: rgba(148, 163, 184, 0.28);
+	--text: rgba(15, 23, 42, 0.75);
+	--text-hi: rgba(15, 23, 42, 0.95);
+	--text-lo: rgba(71, 85, 105, 0.4);
+}
+[data-theme="light"] body {
+	background: var(--void);
+}
+[data-theme="light"] #topbar {
+	background: rgba(248, 250, 252, 0.8);
+}
+[data-theme="light"] #sidenav {
+	background: rgba(248, 250, 252, 0.6);
+}
+[data-theme="light"] .sn-item.on {
+	background: rgba(15, 23, 42, 0.05);
+	color: #0f172a;
+}
