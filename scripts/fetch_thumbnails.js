@@ -1,19 +1,9 @@
 import fs from "fs/promises";
 import path from "path";
-import google from "googlethis";
-import sharp from "sharp";
-import { URL } from "url";
+import { downloadThumbnail } from "../src/utils/thumbnail.js";
 
 const htmlPath = path.resolve("public/index.html");
 const thumbnailsDir = path.resolve("public/assets/thumbnails");
-
-async function downloadImage(url) {
-	const response = await fetch(url);
-	if (!response.ok)
-		throw new Error(`Failed to fetch image: ${response.statusText}`);
-	const arrayBuffer = await response.arrayBuffer();
-	return Buffer.from(arrayBuffer);
-}
 
 async function main() {
 	await fs.mkdir(thumbnailsDir, { recursive: true });
