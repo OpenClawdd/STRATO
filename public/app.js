@@ -560,40 +560,10 @@
     }
 
     // Panic URL
-    const panicUrl = $('#setting-panic-url');
-    if (panicUrl) {
-      panicUrl.value = localStorage.getItem('strato-panic-url') || CONFIG.PANIC_URL;
-      panicUrl.addEventListener('change', (e) => {
-        localStorage.setItem('strato-panic-url', e.target.value);
-      });
-    }
-
-    // Tab Cloak
-    const cloakSelect = $('#setting-cloak');
-    if (cloakSelect) {
-      cloakSelect.value = localStorage.getItem('strato-cloak') || 'default';
-      cloakSelect.addEventListener('change', (e) => {
-        localStorage.setItem('strato-cloak', e.target.value);
-        applyCloak(e.target.value);
-      });
-    }
-
-    // Stealth
-    const stealthSelect = $('#setting-stealth');
-    if (stealthSelect) {
-      stealthSelect.value = localStorage.getItem('strato-stealth') || 'off';
-      stealthSelect.addEventListener('change', (e) => {
-        localStorage.setItem('strato-stealth', e.target.value);
-        if (typeof applyStealthMode === 'function') {
-          applyStealthMode(e.target.value);
-        }
-      });
-    }
 
     // Toggles
     initToggle('setting-math-decoy', 'strato-math-decoy', false);
     initToggle('setting-cache', 'strato-cache', true);
-    initToggle('setting-auto-cloak', 'strato-auto-cloak', true);
 
     // Clear cache
     const clearCache = $('#settings-clear-cache');
@@ -627,77 +597,11 @@
     });
   }
 
-  // ── Panic ─────────────────────────────────────────────
-  function initPanic() {
-    const btn = $('#panic-btn');
-    if (btn) {
-      btn.addEventListener('click', panic);
-    }
 
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
-        const active = document.activeElement;
-        if (active?.tagName !== 'INPUT' && active?.tagName !== 'TEXTAREA') {
-          e.preventDefault();
-          panic();
-        }
-      }
-      if (e.key === '~') {
-        const active = document.activeElement;
-        if (active?.tagName !== 'INPUT' && active?.tagName !== 'TEXTAREA') {
-          e.preventDefault();
-          panic();
-        }
-      }
-    });
-  }
 
-  function panic() {
-    const url = localStorage.getItem('strato-panic-url') || CONFIG.PANIC_URL;
-    window.location.href = url;
-  }
-  window.panic = panic;
 
-  // ── Cloak Engine ──────────────────────────────────────
-  function applyCloak(preset) {
-    const favicon = $('link[rel="icon"]');
-    const faviconApple = $('link[rel="apple-touch-icon"]');
 
-    switch (preset) {
-      case 'drive':
-        document.title = 'My Drive - Google Drive';
-        if (favicon) favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.3 78"><path fill="%234285F4" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"/><path fill="%230F9D58" d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-20.4 35.3c-.8 1.4-1.2 2.95-1.2 4.5h27.5z"/><path fill="%23F4B400" d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.4 13.8z"/><path fill="%23DB4437" d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"/><path fill="%230F9D58" d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/></svg>';
-        break;
-      case 'classroom':
-        document.title = 'Home - Google Classroom';
-        if (favicon) favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><path fill="%23F9AB00" d="M96 28 30 64v64l66 36 66-36V64z"/><text x="96" y="115" text-anchor="middle" fill="white" font-size="48" font-weight="bold">C</text></svg>';
-        break;
-      default:
-        // Keep the disguised Google Drive title — don't reveal STRATO
-        document.title = document.title || 'My Drive - Google Drive';
-        if (favicon) favicon.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 87.3 78'><path fill='%234285F4' d='m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z'/><path fill='%230F9D58' d='m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-20.4 35.3c-.8 1.4-1.2 2.95-1.2 4.5h27.5z'/><path fill='%23F4B400' d='m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.4 13.8z'/><path fill='%23DB4437' d='m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z'/><path fill='%230F9D58' d='m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z'/></svg>";
-    }
-  }
 
-  // Visibility change — auto-cloak when teacher walks by
-  function initVisibilityCloak() {
-    document.addEventListener('visibilitychange', () => {
-      const autoCloak = localStorage.getItem('strato-auto-cloak') !== 'false';
-      if (autoCloak && document.hidden) {
-        const preset = localStorage.getItem('strato-stealth') || 'default';
-        if (preset !== 'off') {
-          applyCloak(preset);
-        } else {
-          // Show decoy title
-          document.title = 'Google Classroom';
-        }
-      } else if (!document.hidden) {
-        const preset = localStorage.getItem('strato-cloak') || 'default';
-        applyCloak(preset);
-      }
-    });
-  }
 
   // ── Theme System ──────────────────────────────────────
   function applyTheme(theme) {
@@ -773,27 +677,7 @@
     }, 200);
   }
 
-  // ── Stealth Button Wiring ─────────────────────────────
-  function initStealthBtn() {
-    const btn = $('#stealth-btn');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        if (typeof cycleStealthMode === 'function') {
-          cycleStealthMode();
-        }
-      });
-    }
 
-    // Ctrl+Shift+D shortcut
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'D') {
-        e.preventDefault();
-        if (typeof cycleStealthMode === 'function') {
-          cycleStealthMode();
-        }
-      }
-    });
-  }
 
   // ── Particles (lightweight ambient) ───────────────────
   function initParticles() {
@@ -859,9 +743,7 @@
     const savedTheme = localStorage.getItem('strato-theme') || 'midnight';
     applyTheme(savedTheme);
 
-    // 2. Apply saved cloak
-    const savedCloak = localStorage.getItem('strato-cloak') || 'default';
-    applyCloak(savedCloak);
+
 
     // 3. Start particles
     initParticles();
@@ -876,10 +758,7 @@
     initMediaCards();
     initTools();
     initSettings();
-    initPanic();
-    initStealthBtn();
     initFPS();
-    initVisibilityCloak();
 
     // 6. Initialize command palette
     CommandPalette.init();
@@ -890,11 +769,7 @@
     // 8. Ignition sequence
     igniteStratosphere();
 
-    // 9. Restore stealth mode if saved
-    const savedStealth = localStorage.getItem('strato-stealth');
-    if (savedStealth && savedStealth !== 'off' && typeof applyStealthMode === 'function') {
-      setTimeout(() => applyStealthMode(savedStealth), 500);
-    }
+
   }
 
   // ── Initialize on DOM ready ───────────────────────────

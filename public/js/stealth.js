@@ -102,6 +102,251 @@
 
         const originals = new WeakMap();
 
+
+        /* ─────────────────────────────────────
+           FEATURE 1 — ABOUT:BLANK CLOAKING
+           ───────────────────────────────────── */
+        function initCloaking() {
+                if (window.top === window) {
+                        const enterBtn = document.getElementById("splash-enter");
+                        if (enterBtn) {
+                                enterBtn.style.display = "inline-block";
+                                enterBtn.addEventListener("click", () => {
+                                        let win = window.open('about:blank', '_blank');
+                                        if (!win) {
+                                                alert("Pop-ups must be allowed to use Cloaked Mode.");
+                                                return;
+                                        }
+                                        let doc = win.document;
+                                        doc.open();
+                                        doc.write(`<!DOCTYPE html><html><head><title>Google Classroom</title><link rel="icon" href="${FAVICON_CLASSROOM}"><style>body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; } iframe { border: none; width: 100%; height: 100%; }</style></head><body><iframe src="${window.location.href}"></iframe></body></html>`);
+                                        doc.close();
+                                        window.location.replace('https://classroom.google.com');
+                                });
+                        }
+                }
+        }
+
+        /* ─────────────────────────────────────
+           FEATURE 2 — PANIC BUTTON
+           ───────────────────────────────────── */
+        function executePanic() {
+                let panicUrl = "https://classroom.google.com";
+                try {
+                        const saved = localStorage.getItem("strato_panic_url");
+                        if (saved) panicUrl = saved;
+                } catch (e) {}
+
+                window.top.location.replace(panicUrl);
+        }
+
+        function initPanicButton() {
+                window.addEventListener("keydown", function(e) {
+                        if (e.key === "Escape") executePanic();
+                }, true);
+
+                let lastTap = 0;
+                window.addEventListener("touchend", function(e) {
+                        let currentTime = new Date().getTime();
+                        let tapLength = currentTime - lastTap;
+                        if (tapLength < 300 && tapLength > 0) {
+                                executePanic();
+                                e.preventDefault();
+                        }
+                        lastTap = currentTime;
+                }, { passive: false, capture: true });
+
+                const pBtn = document.getElementById("panic-btn");
+                if (pBtn) pBtn.addEventListener("click", executePanic);
+        }
+
+        /* ─────────────────────────────────────
+           FEATURE 3 — TAB DISGUISE AUTO-ENABLE
+           ───────────────────────────────────── */
+        function initAutoDisguise() {
+                const observer = new MutationObserver((mutations) => {
+                        let isAutoCloakEnabled = false;
+                        try { isAutoCloakEnabled = localStorage.getItem("strato_auto_cloak_game") === "true"; } catch (e) {}
+
+                        if (!isAutoCloakEnabled) return;
+
+                        mutations.forEach(m => {
+                                if (m.target.id === 'game-overlay') {
+                                        const isGameActive = m.target.style.display === 'flex' || m.target.classList.contains('active');
+                                        if (isGameActive && currentMode === "off") {
+                                                applyStealthMode("classroom");
+                                                try { sessionStorage.setItem("strato_auto_cloaked", "true"); } catch(e){}
+                                        } else if (!isGameActive) {
+                                                let didAutoCloak = false;
+                                                try { didAutoCloak = sessionStorage.getItem("strato_auto_cloaked") === "true"; } catch(e){}
+                                                if (didAutoCloak && currentMode !== "off") {
+                                                        applyStealthMode("off");
+                                                        try { sessionStorage.removeItem("strato_auto_cloaked"); } catch(e){}
+                                                }
+                                        }
+                                }
+                        });
+                });
+
+                document.addEventListener("DOMContentLoaded", () => {
+                        const overlay = document.getElementById("game-overlay");
+                        if (overlay) observer.observe(overlay, { attributes: true, attributeFilter: ['style', 'class'] });
+                        else observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+                });
+        }
+
+        /* ─────────────────────────────────────
+           FEATURE 4 — HISTORY POISONING
+           ───────────────────────────────────── */
+        function initHistoryPoisoning() {
+                let isHistoryPoisoningEnabled = false;
+                try { isHistoryPoisoningEnabled = localStorage.getItem("strato_history_poison") === "true"; } catch (e) {}
+
+                if (!isHistoryPoisoningEnabled) return;
+
+                for (let i = 0; i < 5; i++) {
+                        history.pushState({ stratoPoison: true }, "Google Classroom", location.href);
+                }
+
+                window.addEventListener("popstate", (e) => {
+                        if (e.state && e.state.stratoPoison) executePanic();
+                });
+        }
+
+        /* ─────────────────────────────────────
+           FEATURE 5 — IDLE DETECTION
+           ───────────────────────────────────── */
+        function initIdleDetection() {
+                let isIdleEnabled = false;
+                try { isIdleEnabled = localStorage.getItem("strato_idle_detection") === "true"; } catch (e) {}
+
+                if (!isIdleEnabled) return;
+
+                let idleTimer;
+                let warningTimer;
+                const IDLE_LIMIT = 90 * 1000;
+                const WARNING_LIMIT = 80 * 1000;
+                let warningToast = null;
+
+                function showWarning() {
+                        if (!warningToast) {
+                                warningToast = document.createElement("div");
+                                warningToast.style.cssText = "position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.8); color:#fff; padding:12px 16px; border-radius:8px; z-index:99999; display:flex; align-items:center; gap:12px; font-family:monospace; font-size:12px; border:1px solid #333;";
+                                const msg = document.createElement("span"); msg.textContent = "Auto-hiding in 10s...";
+                                const btn = document.createElement("button"); btn.textContent = "Cancel"; btn.style.cssText = "background:#ef4444; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-family:inherit;";
+                                btn.addEventListener("click", resetIdle);
+                                warningToast.appendChild(msg); warningToast.appendChild(btn); document.body.appendChild(warningToast);
+                        }
+                        warningToast.style.display = "flex";
+                }
+
+                function hideWarning() {
+                        if (warningToast) warningToast.style.display = "none";
+                }
+
+                function resetIdle() {
+                        clearTimeout(idleTimer); clearTimeout(warningTimer); hideWarning();
+                        warningTimer = setTimeout(showWarning, WARNING_LIMIT);
+                        idleTimer = setTimeout(() => executePanic(), IDLE_LIMIT);
+                }
+
+                ["mousemove", "keydown", "touchstart", "scroll", "click"].forEach(evt => {
+                        window.addEventListener(evt, resetIdle, { passive: true, capture: true });
+                });
+                resetIdle();
+        }
+
+        /* ─────────────────────────────────────
+           SETTINGS UI LISTENERS
+           ───────────────────────────────────── */
+        function initSettingsListeners() {
+                function bindToggle(id, key, defaultVal) {
+                        const el = document.getElementById(id);
+                        if (!el) return;
+                        let stored = null;
+                        try { stored = localStorage.getItem(key); } catch(e){}
+                        const isOn = stored !== null ? stored === 'true' : defaultVal;
+                        if (isOn) el.classList.add('on');
+                        else el.classList.remove('on');
+
+                        el.addEventListener('click', () => {
+                                el.classList.toggle('on');
+                                try { localStorage.setItem(key, el.classList.contains('on')); } catch(e){}
+                        });
+                }
+
+                bindToggle('setting-history', 'strato_history_poison', false);
+                bindToggle('setting-idle', 'strato_idle_detection', false);
+                bindToggle('setting-auto-cloak-game', 'strato_auto_cloak_game', false);
+                bindToggle('setting-auto-cloak', 'strato_auto_cloak', true);
+
+                const cloakSelect = document.getElementById('setting-cloak');
+                if (cloakSelect) {
+                        try { cloakSelect.value = localStorage.getItem('strato_cloak') || 'default'; } catch(e){}
+                        cloakSelect.addEventListener('change', (e) => {
+                                try { localStorage.setItem('strato_cloak', e.target.value); } catch(e){}
+                                applyTabCloak(e.target.value);
+                        });
+                }
+
+                const stealthSelect = document.getElementById('setting-stealth');
+                if (stealthSelect) {
+                        try { stealthSelect.value = localStorage.getItem(STORAGE_KEY) || 'off'; } catch(e){}
+                        stealthSelect.addEventListener('change', (e) => {
+                                applyStealthMode(e.target.value);
+                        });
+                }
+
+                const panicUrl = document.getElementById('setting-panic-url');
+                if (panicUrl) {
+                        try { panicUrl.value = localStorage.getItem('strato_panic_url') || 'https://classroom.google.com'; } catch(e){}
+                        panicUrl.addEventListener('change', (e) => {
+                                try { localStorage.setItem('strato_panic_url', e.target.value); } catch(e){}
+                        });
+                }
+        }
+
+        /* ─────────────────────────────────────
+           TAB CLOAK ENGINE
+           ───────────────────────────────────── */
+        function applyTabCloak(preset) {
+                if (currentMode !== 'off') return;
+
+                const favicon = document.querySelector('link[rel="icon"]');
+                switch (preset) {
+                        case 'drive':
+                                document.title = 'My Drive - Google Drive';
+                                if (favicon) favicon.href = FAVICON_DRIVE;
+                                break;
+                        case 'classroom':
+                                document.title = 'Home - Google Classroom';
+                                if (favicon) favicon.href = FAVICON_CLASSROOM;
+                                break;
+                        default:
+                                document.title = 'STRATO';
+                                if (favicon && originalFaviconHref) favicon.href = originalFaviconHref;
+                }
+        }
+
+        function initVisibilityCloak() {
+                document.addEventListener('visibilitychange', () => {
+                        let autoCloak = true;
+                        try { autoCloak = localStorage.getItem('strato_auto_cloak') !== 'false'; } catch(e){}
+
+                        if (autoCloak && document.hidden) {
+                                if (currentMode !== 'off') return;
+                                document.title = 'Google Classroom';
+                                const favicon = document.querySelector('link[rel="icon"]');
+                                if (favicon) favicon.href = FAVICON_CLASSROOM;
+                        } else if (!document.hidden) {
+                                if (currentMode !== 'off') return;
+                                let preset = 'default';
+                                try { preset = localStorage.getItem('strato_cloak') || 'default'; } catch(e){}
+                                applyTabCloak(preset);
+                        }
+                });
+        }
+
         /* ─────────────────────────────────────
            HELPERS
            ───────────────────────────────────── */
@@ -414,6 +659,17 @@
            ───────────────────────────────────── */
 
         function initStealth() {
+                                initCloaking();
+                initPanicButton();
+                initAutoDisguise();
+                initHistoryPoisoning();
+                initIdleDetection();
+                initSettingsListeners();
+                initVisibilityCloak();
+
+                const stealthBtn = document.getElementById('stealth-btn');
+                if (stealthBtn) stealthBtn.addEventListener('click', cycleMode);
+
                 /* Register keyboard shortcut */
                 document.addEventListener("keydown", function (e) {
                         if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
@@ -427,12 +683,18 @@
                 var savedMode = "off";
                 try { savedMode = localStorage.getItem(STORAGE_KEY) || "off"; } catch (e) {}
                 if (savedMode !== "off") applyStealthMode(savedMode);
+                if (savedMode === "off") {
+                        let savedCloak = 'default';
+                        try { savedCloak = localStorage.getItem('strato_cloak') || 'default'; } catch(e){}
+                        applyTabCloak(savedCloak);
+                }
         }
 
         /* Expose for external use (app.js, command palette) */
         window.cycleStealthMode = cycleMode;
         window.applyStealthMode = applyStealthMode;
         window.updateStealthTabTitle = updateTabTitle;
+        window.executePanic = executePanic;
 
         /* ─────────────────────────────────────
            BOOT
