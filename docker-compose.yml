@@ -6,6 +6,11 @@ services:
       context: .
     container_name: ultraviolet
     restart: unless-stopped
+    volumes:
+      - strato_logs:/app/logs
+
+volumes:
+  strato_logs:
 
 networks:
   default:

@@ -177,7 +177,7 @@ app.use((req, res, next) => {
 	}
 
 	// Skip auth for static assets and known public paths
-	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
+	const publicPaths = ["/uv/", "/surf/", "/config/", "/login", "/health"];
 	if (
 		publicPaths.some((p) => req.path.startsWith(p)) ||
 		req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)
@@ -423,6 +423,9 @@ app.get("/proxy", async (req, res) => {
 // ---------------------------------------------------------------------------
 // App shell
 // ---------------------------------------------------------------------------
+app.get("/health", (req, res) => {
+	res.json({ status: "ok", uptime: process.uptime() });
+});
 app.get("/", (req, res) => res.send(cachedIndexHtml));
 app.use(express.static(join(ROOT, "public")));
 
@@ -431,12 +434,11 @@ app.use((req, res) => {
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
-	res
-		.status(404)
-		.sendFile(join(ROOT, "public", "404.html"))
-		.catch(() => {
+	res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
+		if (err) {
 			res.status(404).send("Not Found");
-		});
+		}
+	});
 });
 
 // ---------------------------------------------------------------------------

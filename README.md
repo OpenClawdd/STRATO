@@ -17,6 +17,24 @@
 
 ---
 
+## ⚡ Deploy in 60 Seconds
+
+STRATO is built to be brain-dead simple to deploy anywhere.
+
+[![Deploy to Hugging Face](https://huggingface.co/datasets/huggingface/badges/resolve/main/deploy-to-spaces-lg.svg)](https://huggingface.co/spaces)
+
+### 🐧 Linux / macOS / ChromeOS (One-Line Setup)
+```bash
+curl -fsSL https://raw.githubusercontent.com/OpenClawdd/STRATO/master/scripts/setup.sh | bash
+```
+
+### 🐳 Docker (Production Ready)
+```bash
+docker run -d -p 8080:8080 -v strato_logs:/app/logs --restart unless-stopped --name strato ghcr.io/openclawdd/strato:latest
+```
+
+---
+
 ## 🌟 Why STRATO?
 
 Forget the clunky, generic proxy forks of yesterday. STRATO is a premium, open-source web application designed from the ground up to provide an unparalleled user experience. We took the robust foundation of [SPLASH](https://github.com/rhenryw/SPLASH) (via `@mercuryworkshop/wisp-js`) and wrapped it in a beautifully designed, high-performance interface.
