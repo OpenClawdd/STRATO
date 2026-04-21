@@ -18,9 +18,7 @@ import { scramjetPath } from "@mercuryworkshop/scramjet";
 import { createBareServer } from "@tomphttp/bare-server-node";
 import axios from "axios";
 import { decompress } from "./decompress.js";
-import { authPage } from "./auth.js";
 
-import { authPage } from "./auth.js";
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
 // ---------------------------------------------------------------------------
