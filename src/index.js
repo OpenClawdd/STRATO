@@ -27,11 +27,9 @@ function isSafeUrl(rawUrl) {
 		const { hostname: host, protocol } = new URL(rawUrl);
 		if (!["http:", "https:"].includes(protocol)) return false;
 
-		// Block all private / reserved address ranges
 		const BLOCKED =
 			/^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
-		// Strip IPv6 brackets
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
 		return !BLOCKED.test(bare);
 	} catch {
@@ -59,7 +57,6 @@ function refreshCache() {
 	}
 }
 refreshCache();
-// Refresh every 2 minutes in case of hot-deploy
 setInterval(refreshCache, 120_000);
 
 // ---------------------------------------------------------------------------
@@ -67,75 +64,12 @@ setInterval(refreshCache, 120_000);
 // ---------------------------------------------------------------------------
 export const app = express();
 
-// ---------------------------------------------------------------------------
-// Rate limiters
-// ---------------------------------------------------------------------------
-const smuggleLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 30,
-	message: "Too many requests. Please slow down.",
-	standardHeaders: true,
-	legacyHeaders: false,
-});
-
-const saveLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 10,
-	message: "Save rate limit exceeded.",
-	standardHeaders: true,
-	legacyHeaders: false,
-});
-
-app.use("/api/smuggle", smuggleLimiter);
-app.use("/api/save", saveLimiter);
-
-
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-app.post("/login", express.urlencoded({ extended: true }), (req, res) => {
-	if (!process.env.SITE_PASSWORD) {
-		return res.status(500).send("Server configuration error: SITE_PASSWORD not set.");
-	}
-	if (req.body.password === process.env.SITE_PASSWORD) {
-		res.cookie("auth", "true", {
-			signed: true,
-			httpOnly: true,
-			secure: process.env.SECURE_COOKIES === "true",
-			maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
-		});
-		res.redirect("/");
-	} else {
-		res.status(401).send("Invalid password. <a href='/'>Try again</a>");
-	}
-});
-
-app.use((req, res, next) => {
-	// Skip auth for static assets in public dir, uv, scramjet, baremux, epoxy
-	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
-	if (publicPaths.some(p => req.path.startsWith(p)) || req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
-		return next();
-	}
-
-	if (req.signedCookies.auth === "true") {
-		return next();
-	}
-
-	// If accessing api or proxy, return 401
-	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
-		return res.status(401).send("Unauthorized");
-	}
-
-	// Otherwise send the auth page
-	res.send(authPage);
-});
-
 // -- Security headers -------------------------------------------------------
 app.use(
 	helmet({
 		contentSecurityPolicy: {
 			directives: {
 				defaultSrc: ["'self'"],
-				// 'unsafe-eval' + 'unsafe-inline' needed: UV/Scramjet inject runtime scripts
 				scriptSrc: [
 					"'self'",
 					"'unsafe-eval'",
@@ -168,6 +102,97 @@ app.use(
 		crossOriginEmbedderPolicy: false,
 	})
 );
+
+// -- Compression ------------------------------------------------------------
+app.use(
+	compression({
+		filter: (req, res) =>
+			req.path === "/api/smuggle" ? false : compression.filter(req, res),
+	})
+);
+
+// ---------------------------------------------------------------------------
+// Rate limiters
+// ---------------------------------------------------------------------------
+const smuggleLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 30,
+	message: "Too many requests. Please slow down.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
+const saveLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 10,
+	message: "Save rate limit exceeded.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
+const loginLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 5,
+	message: "Too many login attempts. Please try again later.",
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+
+app.use("/api/smuggle", smuggleLimiter);
+app.use("/api/save", saveLimiter);
+
+// ---------------------------------------------------------------------------
+// Body parsers + cookies
+// ---------------------------------------------------------------------------
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+// ---------------------------------------------------------------------------
+// Authentication
+// ---------------------------------------------------------------------------
+app.post("/login", loginLimiter, (req, res) => {
+	const expectedPassword = process.env.SITE_PASSWORD;
+	if (!expectedPassword) {
+		console.error("CRITICAL: SITE_PASSWORD is not set in environment variables.");
+		return res.status(500).send("Server configuration error: SITE_PASSWORD not set.");
+	}
+
+	if (req.body.password && req.body.password === expectedPassword) {
+		res.cookie("auth", "true", {
+			signed: true,
+			httpOnly: true,
+			secure: process.env.SECURE_COOKIES === "true",
+			maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+		});
+		res.redirect("/");
+	} else {
+		res.status(401).send("Incorrect password");
+	}
+});
+
+app.use((req, res, next) => {
+	if (req.signedCookies.auth === "true") {
+		return next();
+	}
+
+	// Skip auth for static assets and known public paths
+	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
+	if (
+		publicPaths.some((p) => req.path.startsWith(p)) ||
+		req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)
+	) {
+		return next();
+	}
+
+	// If accessing api or proxy, return 401
+	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
+		return res.status(401).send("Unauthorized");
+	}
+
+	// Otherwise send the auth page
+	res.send(authPage);
+});
 
 // ---------------------------------------------------------------------------
 // Proxy module static assets
@@ -208,144 +233,6 @@ app.use(
 );
 
 app.use("/config", express.static(join(ROOT, "config")));
-
-// -- Compression ------------------------------------------------------------
-app.use(
-	compression({
-		filter: (req, res) =>
-			req.path === "/api/smuggle" ? false : compression.filter(req, res),
-	})
-);
-
-app.use(express.urlencoded({ extended: true }));
-
-// ---------------------------------------------------------------------------
-// Authentication
-// ---------------------------------------------------------------------------
-app.use(cookieParser(process.env.COOKIE_SECRET || "default_secret"));
-
-app.post("/login", (req, res) => {
-	const password = req.body.password;
-	if (password === process.env.SITE_PASSWORD) {
-		res.cookie("auth", "true", {
-			signed: true,
-			httpOnly: true,
-			secure: process.env.SECURE_COOKIES === "true",
-		});
-		res.redirect("/");
-	} else {
-		res.status(401).send("Incorrect password");
-	}
-});
-
-app.use((req, res, next) => {
-	if (!process.env.SITE_PASSWORD) return next();
-	if (req.signedCookies.auth === "true") return next();
-
-	// Avoid applying auth to internal uv/baremux scripts (often accessed via proxy or service worker)
-	// But protect API endpoints and the proxy endpoint itself
-	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
-		return res.status(401).send("Unauthorized");
-	}
-
-	res.status(401).send(authPage);
-});
-
-app.use(express.json({ limit: "50mb" }));
-
-// ---------------------------------------------------------------------------
-// Rate limiters
-// ---------------------------------------------------------------------------
-const smuggleLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 30,
-	message: "Too many requests. Please slow down.",
-	standardHeaders: true,
-	legacyHeaders: false,
-});
-
-const saveLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 10,
-	message: "Save rate limit exceeded.",
-	standardHeaders: true,
-	legacyHeaders: false,
-});
-
-const loginLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 5, // Limit each IP to 5 requests per windowMs for login
-	message: "Too many login attempts. Please try again later.",
-	standardHeaders: true,
-	legacyHeaders: false,
-});
-
-app.use("/api/smuggle", smuggleLimiter);
-app.use("/api/save", saveLimiter);
-
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-// -- Auth Gateway Login ------------------------------------------------------
-app.post("/login", loginLimiter, (req, res) => {
-	const expectedPassword = process.env.SITE_PASSWORD;
-	if (!expectedPassword) {
-		console.error("CRITICAL: SITE_PASSWORD is not set in environment variables.");
-		return res.status(500).send("Server configuration error");
-	}
-
-	if (req.body.password && req.body.password === expectedPassword) {
-		res.cookie("auth", "true", {
-			signed: true,
-			httpOnly: true,
-			secure: process.env.SECURE_COOKIES === "true",
-		});
-		res.redirect("/");
-	} else {
-		res.status(401).send("Incorrect password");
-	}
-});
-
-// -- Auth Middleware --------------------------------------------------------
-app.use((req, res, next) => {
-	if (req.signedCookies.auth === "true") {
-		return next();
-	}
-	if (req.path.startsWith("/api/") || req.path === "/proxy") {
-		return res.status(401).send("Unauthorized");
-	}
-	res.send(authPage);
-});
-
-// Post-auth body parsing (prevents unauthenticated 50MB JSON DoS)
-app.use(express.json({ limit: "50mb" })); // Reverted to 50mb to support emulator save states
-
-// ---------------------------------------------------------------------------
-// Proxy module static assets
-// ---------------------------------------------------------------------------
-app.get("/uv/uv.config.js", (req, res) => res.sendFile(join(ROOT, "public", "uv", "uv.config.js")));
-app.get("/uv/sw.js",         (req, res) => res.sendFile(join(ROOT, "public", "uv", "sw.js")));
-app.use("/uv/", express.static(uvPath));
-
-const scramjetPrefix = "/surf/scram/";
-app.use(scramjetPrefix, express.static(scramjetPath));
-app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
-	res.sendFile(join(ROOT, "public", "scramjet.config.js"))
-);
-
-app.use("/surf/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
-app.use(
-	"/surf/epoxy/",
-	express.static(join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"), {
-		setHeaders(res, filePath) {
-			if (filePath.endsWith(".js"))   res.setHeader("Content-Type", "application/javascript");
-			if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
-		},
-	})
-);
-
-app.use("/config", express.static(join(ROOT, "config")));
-
 
 // ---------------------------------------------------------------------------
 // API — Streaming proxy
@@ -398,7 +285,6 @@ app.post("/api/save", (req, res) => {
 		const data = req.body.data;
 		if (!data) return res.status(400).send("No data");
 
-		// Basic sanity: data must be string or object, max 1MB
 		const serialized = typeof data === "string" ? data : JSON.stringify(data);
 		if (serialized.length > 1_000_000)
 			return res.status(413).send("Data too large");
@@ -406,7 +292,6 @@ app.post("/api/save", (req, res) => {
 		const saveDir = join(ROOT, "backups", "users");
 		if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
 
-		// Hash the IP so filenames aren't guessable and IPv6 is handled cleanly
 		const id = createHash("sha256")
 			.update(req.ip || "unknown")
 			.digest("hex")
@@ -423,17 +308,9 @@ app.post("/api/save", (req, res) => {
 	}
 });
 
-/**
- * ---------------------------------------------------------------------------
- * Proxy route — iframe unblocking with header stripping + <base> injection
- * ---------------------------------------------------------------------------
- * This endpoint fetches external pages and returns them with modified headers
- * to bypass security restrictions that would prevent framing (like X-Frame-Options).
- * It dynamically injects a <base> tag to ensure relative assets load correctly.
- *
- * @route GET /proxy
- * @param {string} req.query.url - The target URL to fetch.
- */
+// ---------------------------------------------------------------------------
+// Proxy route — iframe unblocking with header stripping + <base> injection
+// ---------------------------------------------------------------------------
 app.get("/proxy", async (req, res) => {
 	const { url: targetUrl } = req.query;
 	if (!targetUrl) return res.status(400).send("No URL provided");
@@ -456,12 +333,10 @@ app.get("/proxy", async (req, res) => {
 			validateStatus: () => true,
 		});
 
-		// Declare all variables before use
 		const encoding = response.headers["content-encoding"];
 		let contentType = (response.headers["content-type"] || "").toLowerCase();
-		let buffer = response.data;
 
-		// Build proxy headers early so we can mutate content-type if needed
+		// Build proxy headers
 		const proxyHeaders = { ...response.headers };
 
 		// Strip security/framing headers
@@ -469,7 +344,6 @@ app.get("/proxy", async (req, res) => {
 		delete proxyHeaders["content-security-policy"];
 		delete proxyHeaders["content-security-policy-report-only"];
 		delete proxyHeaders["frame-ancestors"];
-
 		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
 
 		// Force HTML content-type for known raw HTML hosts
@@ -482,9 +356,8 @@ app.get("/proxy", async (req, res) => {
 			contentType = "text/html";
 		}
 
-		// Inject <base href> so relative assets resolve correctly
 		if (contentType.includes("text/html")) {
-			// Gather the stream into a buffer
+			// Gather the stream into a buffer for modification
 			let buffer = await new Promise((resolve, reject) => {
 				const chunks = [];
 				response.data.on("data", (chunk) => chunks.push(chunk));
@@ -496,7 +369,7 @@ app.get("/proxy", async (req, res) => {
 			if (encoding) {
 				try {
 					buffer = await decompress(buffer, encoding);
-					delete proxyHeaders["content-encoding"]; // we decoded it
+					delete proxyHeaders["content-encoding"];
 				} catch (e) {
 					console.error("[Proxy] Decompression failed:", e.message);
 				}
@@ -507,7 +380,10 @@ app.get("/proxy", async (req, res) => {
 				const urlObj = new URL(targetUrl);
 				const base =
 					urlObj.origin +
-					urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf("/") + 1);
+					urlObj.pathname.substring(
+						0,
+						urlObj.pathname.lastIndexOf("/") + 1
+					);
 				const baseTag = `\n<base href="${base}">\n`;
 
 				const headMatch = html.match(/<head[^>]*>/i);
@@ -528,18 +404,16 @@ app.get("/proxy", async (req, res) => {
 				console.error("[Proxy] Base injection failed:", e.message);
 			}
 
-		// Strip security/framing headers
-		delete proxyHeaders["x-frame-options"];
-		delete proxyHeaders["content-security-policy"];
-		delete proxyHeaders["content-security-policy-report-only"];
-		delete proxyHeaders["frame-ancestors"];
-		delete proxyHeaders["content-encoding"]; // we decoded it
-		delete proxyHeaders["content-length"]; // length changed
-
-		proxyHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
-
-		res.set(proxyHeaders);
-		res.send(buffer);
+			delete proxyHeaders["content-length"];
+			res.set(proxyHeaders);
+			res.send(buffer);
+		} else {
+			// Non-HTML: pipe the stream directly with stripped headers
+			delete proxyHeaders["content-encoding"];
+			delete proxyHeaders["content-length"];
+			res.set(proxyHeaders);
+			response.data.pipe(res);
+		}
 	} catch (err) {
 		console.error("[Proxy Error]:", err.message);
 		res.status(500).send(`Proxy Error: ${err.message}`);
@@ -554,7 +428,6 @@ app.use(express.static(join(ROOT, "public")));
 
 // 404
 app.use((req, res) => {
-	// Only 404 non-file requests to avoid spamming logs with asset misses
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
@@ -566,16 +439,13 @@ app.use((req, res) => {
 		});
 });
 
-
 // ---------------------------------------------------------------------------
 // P2P WebRTC Signaling Placeholder
 // ---------------------------------------------------------------------------
 const clients = new Map();
 
-// Note: To be fully implemented in Week 1/Week 3 of Roadmap
 app.post("/api/p2p/signal", (req, res) => {
-	// Dummy endpoint laying groundwork for P2P asset sharing
-	const { peerId, offer } = req.body;
+	const { peerId } = req.body;
 	if (peerId) {
 		clients.set(peerId, { lastSeen: Date.now() });
 	}
@@ -630,6 +500,3 @@ function shutdown() {
 }
 
 server.listen({ port, host: "0.0.0.0" });
-
-// Run auto-update of the game library on startup in the background
-runAutoUpdate();
