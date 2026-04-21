@@ -1,0 +1,969 @@
+/* ═══════════════════════════════════════════════════════════════════
+   STRATO Stealth Mode — Google Drive Skin
+
+   Activates when body[data-stealth="drive"] is set.
+   Transforms the entire STRATO dashboard into a convincing
+   Google Drive clone for plausible deniability.
+
+   All selectors scoped to body[data-stealth="drive"] to
+   avoid any leakage into normal STRATO mode.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── FONT INJECTION ── */
+body[data-stealth="drive"] {
+        --stealth-font: 'Google Sans', 'Roboto', 'Segoe UI', sans-serif;
+        --stealth-bg: #ffffff;
+        --stealth-header: #ffffff;
+        --stealth-sidenav: #ffffff;
+        --stealth-text: #3c4043;
+        --stealth-text-2: #5f6368;
+        --stealth-active-bg: #e8f0fe;
+        --stealth-active-text: #1a73e8;
+        --stealth-blue: #1a73e8;
+        --stealth-border: #dadce0;
+        --stealth-card-bg: #ffffff;
+        --stealth-hover: #f1f3f4;
+        --stealth-blue-hover: #d2e3fc;
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL OVERRIDES
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] {
+        font-family: var(--stealth-font) !important;
+        background: var(--stealth-bg) !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="drive"] *,
+body[data-stealth="drive"] *::before,
+body[data-stealth="drive"] *::after {
+        transition:
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease,
+                opacity 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s ease,
+                max-width 0.3s ease,
+                max-height 0.3s ease,
+                padding 0.3s ease,
+                margin 0.3s ease;
+}
+
+/* ═══════════════════════════════════════
+   HIDE STRATO-SPECIFIC ELEMENTS
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #aurora-bg,
+body[data-stealth="drive"] #particleCanvas,
+body[data-stealth="drive"] .hero-orb,
+body[data-stealth="drive"] .vital-pill,
+body[data-stealth="drive"] #proxy-pill,
+body[data-stealth="drive"] #fps-pill {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN OVERRIDES
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #splash {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="drive"] .wordmark {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .wordmark {
+        color: var(--stealth-blue) !important;
+        text-shadow: none !important;
+        font-family: var(--stealth-font) !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.5px !important;
+}
+
+body[data-stealth="drive"] .tagline {
+        color: var(--stealth-text-2) !important;
+        font-family: var(--stealth-font) !important;
+        letter-spacing: 0.5px !important;
+        font-size: 12px !important;
+}
+
+body[data-stealth="drive"] .spl-launchpad .lp-tile {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="drive"] .spl-launchpad .lp-tile::before {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .spl-launchpad .lp-tile:hover {
+        transform: none !important;
+        border-color: var(--stealth-blue) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+
+body[data-stealth="drive"] .lp-label {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="drive"] .lp-sub {
+        color: var(--stealth-text-2) !important;
+}
+
+/* ═══════════════════════════════════════
+   IGNITION LOADER — HIDE
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #ignite-overlay {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   TOPBAR → Google Drive Header
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #topbar {
+        background: var(--stealth-header) !important;
+        height: 56px !important;
+        min-height: 56px !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        padding: 0 8px 0 8px !important;
+        gap: 8px !important;
+}
+
+/* Brand area — show Drive triangle + "Drive" text */
+body[data-stealth="drive"] .brand {
+        gap: 8px !important;
+}
+
+body[data-stealth="drive"] .brand-icon {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .brand {
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 22px !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.5px !important;
+        text-shadow: none !important;
+}
+
+/* Search bar — Drive-style pill */
+body[data-stealth="drive"] .search-trigger {
+        background: var(--stealth-hover) !important;
+        border: none !important;
+        border-radius: 8px !important;
+        height: 44px !important;
+        padding: 0 20px !important;
+        max-width: 720px !important;
+        gap: 12px !important;
+}
+
+body[data-stealth="drive"] .search-trigger:focus-within {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+body[data-stealth="drive"] .search-trigger svg {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .search-trigger input {
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+}
+
+body[data-stealth="drive"] .search-trigger input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+/* Controls area */
+body[data-stealth="drive"] .topbar-pills {
+        gap: 4px !important;
+}
+
+body[data-stealth="drive"] .topbar-pills button {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .topbar-pills button:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="drive"] #panic-btn {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: var(--stealth-text-2) !important;
+        font-size: 16px !important;
+}
+
+body[data-stealth="drive"] #panic-btn:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+/* Stealth toggle button styling */
+body[data-stealth="drive"] #stealth-btn {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: var(--stealth-text-2) !important;
+        font-size: 14px !important;
+        padding: 6px !important;
+}
+
+body[data-stealth="drive"] #stealth-btn:hover {
+        background: var(--stealth-hover) !important;
+}
+
+/* ═══════════════════════════════════════
+   SIDENAV → Google Drive Navigation
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #sidebar {
+        background: var(--stealth-sidenav) !important;
+        border-right: none !important;
+        padding: 8px 0 !important;
+        overflow-x: hidden !important;
+}
+
+body[data-stealth="drive"] #sidebar {
+        gap: 0 !important;
+}
+
+/* Nav items */
+body[data-stealth="drive"] .nav-item {
+        height: 40px !important;
+        padding: 0 24px !important;
+        border-radius: 0 !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        gap: 20px !important;
+        border: none !important;
+        background: transparent !important;
+        text-align: left !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+}
+
+body[data-stealth="drive"] .nav-item .nav-icon svg {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .nav-item::before {
+        content: attr(data-stealth-icon);
+        font-size: 18px;
+        line-height: 1;
+        flex-shrink: 0;
+        width: 24px;
+        text-align: center;
+}
+
+body[data-stealth="drive"] .nav-item:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+/* Active nav item — Drive blue highlight */
+body[data-stealth="drive"] .nav-item.active {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="drive"] .nav-item.active::after {
+        display: none !important;
+}
+
+/* Nav item spans */
+body[data-stealth="drive"] .nav-item span {
+        font-family: var(--stealth-font) !important;
+}
+
+/* ═══════════════════════════════════════
+   CONTENT AREA
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #main {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="drive"] .view {
+        padding: 16px 24px !important;
+        font-family: var(--stealth-font) !important;
+}
+
+/* ═══════════════════════════════════════
+   HOME VIEW → Drive Landing Page
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .hero-section {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin-bottom: 16px !important;
+}
+
+/* Hero badge → Drive heading context */
+body[data-stealth="drive"] .hero-section {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 22px !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.3px !important;
+        color: var(--stealth-text) !important;
+        margin-bottom: 4px !important;
+}
+
+/* Hero title */
+body[data-stealth="drive"] .hero-section h1 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text-2) !important;
+        letter-spacing: 0 !important;
+        line-height: 1.4 !important;
+        margin-bottom: 8px !important;
+}
+
+/* Hide accent text */
+body[data-stealth="drive"] .hero-section .hero-sub {
+        display: none !important;
+}
+
+/* Hero description */
+body[data-stealth="drive"] .hero-sub {
+        font-family: var(--stealth-font) !important;
+        font-size: 13px !important;
+        color: var(--stealth-text-2) !important;
+        line-height: 1.5 !important;
+        margin-bottom: 0 !important;
+}
+
+/* Hide action buttons */
+body[data-stealth="drive"] .hero-section .quick-grid {
+        display: none !important;
+}
+
+/* Hide stats */
+body[data-stealth="drive"] .hero-stats {
+        display: none !important;
+}
+
+/* ── Quick Grid → Drive File Type Cards ── */
+body[data-stealth="drive"] .quick-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 16px !important;
+        margin-top: 20px !important;
+}
+
+body[data-stealth="drive"] .quick-card {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+        padding: 20px 16px !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 10px !important;
+}
+
+body[data-stealth="drive"] .quick-card:hover {
+        transform: none !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        border-color: var(--stealth-border) !important;
+}
+
+body[data-stealth="drive"] .quick-card .card-icon {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .card-icon {
+        font-size: 28px !important;
+}
+
+body[data-stealth="drive"] .card-info h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="drive"] .card-info p {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        margin-top: 2px !important;
+}
+
+/* ═══════════════════════════════════════
+   ARCADE / GRID VIEW → Drive File List
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .section-header {
+        margin-bottom: 12px !important;
+}
+
+body[data-stealth="drive"] .section-header {
+        margin-bottom: 8px !important;
+}
+
+body[data-stealth="drive"] .section-header h2 {
+        font-family: var(--stealth-font) !important;
+        font-size: 22px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: -0.2px !important;
+}
+
+body[data-stealth="drive"] .section-badge {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-text-2) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 400 !important;
+        padding: 4px 12px !important;
+        border-radius: 4px !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="drive"] .section-header .section-badge {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text-2) !important;
+        font-size: 13px !important;
+}
+
+/* Category pills */
+body[data-stealth="drive"] .category-pill {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text-2) !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 6px 16px !important;
+        border-radius: 999px !important;
+}
+
+body[data-stealth="drive"] .category-pill:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="drive"] .category-pill.active {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+        border: none !important;
+}
+
+/* ── Game Tiles → Drive File List Items ── */
+body[data-stealth="drive"] .game-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+}
+
+body[data-stealth="drive"] .unified-tile,
+body[data-stealth="drive"] .game-tile {
+        aspect-ratio: auto !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 8px 12px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 16px !important;
+        overflow: visible !important;
+        animation: none !important;
+        transform: none !important;
+        min-height: 48px !important;
+}
+
+/* Show file icon via ::before pseudo */
+body[data-stealth="drive"] .unified-tile::before,
+body[data-stealth="drive"] .game-tile::before {
+        content: "📄";
+        font-size: 22px;
+        flex-shrink: 0;
+        width: 24px;
+        text-align: center;
+}
+
+/* Override the original play indicator ::after */
+body[data-stealth="drive"] .unified-tile::after {
+        display: none !important;
+}
+
+/* Bottom border for list separation */
+body[data-stealth="drive"] .unified-tile,
+body[data-stealth="drive"] .game-tile {
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="drive"] .game-tile:hover,
+body[data-stealth="drive"] .unified-tile:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background: var(--stealth-hover) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+/* Tile thumbnails — hide */
+body[data-stealth="drive"] .tile-img,
+body[data-stealth="drive"] .tile-img {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .tile-fallback,
+body[data-stealth="drive"] .tile-fallback {
+        display: none !important;
+}
+
+/* Tile HUD overlay — hide */
+body[data-stealth="drive"] .tile-overlay,
+body[data-stealth="drive"] .tile-overlay,
+body[data-stealth="drive"] .play-indicator {
+        display: none !important;
+}
+
+/* Tile text — file name and metadata */
+body[data-stealth="drive"] .tile-overlay .tile-name,
+body[data-stealth="drive"] .tile-overlay .tile-name {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+}
+
+body[data-stealth="drive"] .tile-category,
+body[data-stealth="drive"] .tile-category {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
+        margin-top: 2px !important;
+}
+
+body[data-stealth="drive"] .tt-head,
+body[data-stealth="drive"] .tt-type,
+body[data-stealth="drive"] .tt-status,
+body[data-stealth="drive"] .tt-name,
+body[data-stealth="drive"] .tt-hex {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   WATCH & LISTEN → Shared Files
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .media-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+}
+
+body[data-stealth="drive"] .media-card {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+        border-radius: 0 !important;
+        padding: 10px 12px !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 16px !important;
+        animation: none !important;
+        min-height: 48px !important;
+}
+
+body[data-stealth="drive"] .media-card:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background: var(--stealth-hover) !important;
+        border-color: var(--stealth-border) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="drive"] .media-card::before {
+        display: none !important;
+}
+
+body[data-stealth="drive"] .media-icon {
+        font-size: 22px !important;
+        flex-shrink: 0 !important;
+        width: 24px !important;
+        text-align: center !important;
+}
+
+body[data-stealth="drive"] .media-info h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="drive"] .media-info p {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        letter-spacing: 0 !important;
+        font-weight: 400 !important;
+}
+
+/* ═══════════════════════════════════════
+   BROWSER VIEW
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .browser-shell {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="drive"] .browser-toolbar {
+        background: var(--stealth-hover) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="drive"] .browser-toolbar {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="drive"] .browser-toolbar input {
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="drive"] .browser-toolbar input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .browser-toolbar button,
+body[data-stealth="drive"] .browser-toolbar:focus-within button {
+        background: var(--stealth-active-bg) !important;
+        border: none !important;
+        color: var(--stealth-active-text) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="drive"] .bt-lock {
+        color: var(--stealth-blue) !important;
+}
+
+body[data-stealth="drive"] #proxy-engine {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="drive"] #browser-new-tab {
+        background: transparent !important;
+        border: none !important;
+        color: var(--stealth-text-2) !important;
+        border-radius: 50% !important;
+}
+
+body[data-stealth="drive"] #browser-new-tab:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+/* ═══════════════════════════════════════
+   AI DECOY VIEW
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .view {
+        max-width: 800px !important;
+}
+
+body[data-stealth="drive"] .section-header {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="drive"] .chat-container {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="drive"] .chat-msg.assistant,
+body[data-stealth="drive"] .chat-msg.assistant {
+        background: var(--stealth-hover) !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="drive"] .chat-msg.user {
+        background: var(--stealth-active-bg) !important;
+        border: 1px solid transparent !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="drive"] .chat-input {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 999px !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        padding: 12px 20px !important;
+}
+
+body[data-stealth="drive"] .chat-input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .chat-input:focus {
+        border-color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="drive"] #chat-send {
+        background: transparent !important;
+        border: none !important;
+        color: var(--stealth-text-2) !important;
+        border-radius: 50% !important;
+}
+
+body[data-stealth="drive"] #chat-send:hover {
+        background: var(--stealth-hover) !important;
+}
+
+/* ═══════════════════════════════════════
+   SETTINGS VIEW → Drive Settings
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] .settings-shell {
+        max-width: 800px !important;
+}
+
+body[data-stealth="drive"] .settings-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+}
+
+body[data-stealth="drive"] .settings-card {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+        padding: 20px 24px !important;
+}
+
+body[data-stealth="drive"] .settings-card h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="drive"] .settings-card select,
+body[data-stealth="drive"] .settings-card input[type="text"] {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        color: var(--stealth-text) !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+        padding: 8px 12px !important;
+}
+
+body[data-stealth="drive"] .settings-card select:focus,
+body[data-stealth="drive"] .settings-card input[type="text"]:focus {
+        border-color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="drive"] .setting-row label {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .btn-primary {
+        background: var(--stealth-active-bg) !important;
+        border: none !important;
+        color: var(--stealth-active-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 8px 24px !important;
+}
+
+body[data-stealth="drive"] .btn-primary:hover {
+        background: var(--stealth-blue-hover) !important;
+        transform: none !important;
+        box-shadow: none !important;
+}
+
+body[data-stealth="drive"] .btn-ghost {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-active-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        border-radius: 4px !important;
+        padding: 8px 24px !important;
+}
+
+body[data-stealth="drive"] .btn-ghost:hover {
+        background: var(--stealth-hover) !important;
+        border-color: var(--stealth-border) !important;
+        color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="drive"] .btn-danger {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: #ea4335 !important;
+        border-radius: 4px !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+}
+
+body[data-stealth="drive"] .btn-danger:hover {
+        background: #fce8e6 !important;
+}
+
+body[data-stealth="drive"] .settings-actions {
+        gap: 8px !important;
+}
+
+/* Toggle buttons */
+body[data-stealth="drive"] .toggle {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text-2) !important;
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+        padding: 6px 16px !important;
+}
+
+body[data-stealth="drive"] .toggle:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="drive"] .toggle.on {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+        border-color: transparent !important;
+}
+
+/* ═══════════════════════════════════════
+   GAME OVERLAY
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #game-overlay {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="drive"] .theater-bar {
+        background: var(--stealth-card-bg) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="drive"] #theater-back {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-active-text) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        background: transparent !important;
+}
+
+body[data-stealth="drive"] #theater-back:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="drive"] .theater-title {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="drive"] .theater-btn {
+        border: none !important;
+        border-radius: 4px !important;
+        background: transparent !important;
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="drive"] .theater-btn:hover {
+        background: var(--stealth-hover) !important;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] ::-webkit-scrollbar {
+        width: 8px !important;
+        height: 8px !important;
+}
+
+body[data-stealth="drive"] ::-webkit-scrollbar-track {
+        background: transparent !important;
+}
+
+body[data-stealth="drive"] ::-webkit-scrollbar-thumb {
+        background: var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="drive"] ::-webkit-scrollbar-thumb:hover {
+        background: var(--stealth-text-2) !important;
+}
+
+/* ═══════════════════════════════════════
+   HORIZON LINE / EXTRA STRATO DECORATIONS
+   ═══════════════════════════════════════ */
+body[data-stealth="drive"] #horizon,
+body[data-stealth="drive"] #horizon-glow {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════ */
+@media (max-width: 720px) {
+        body[data-stealth="drive"] .quick-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+        }
+
+        body[data-stealth="drive"] .unified-tile,
+        body[data-stealth="drive"] .game-tile {
+                padding: 8px !important;
+                gap: 12px !important;
+        }
+
+        body[data-stealth="drive"] .media-card {
+                padding: 8px !important;
+                gap: 12px !important;
+        }
+}

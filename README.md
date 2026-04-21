@@ -1,21 +1,68 @@
-# STRATO
+<div align="center">
+  <img src="https://raw.githubusercontent.com/OpenClawdd/STRATO/master/public/assets/strato-logo.png" alt="STRATO Logo" width="200" height="200" />
 
-A fast, secure proxy and arcade dashboard built on [SPLASH](https://github.com/rhenryw/SPLASH) (via `@mercuryworkshop/wisp-js`). Designed to run smoothly on low-end Chromebooks while your PC hosts the server.
+  # STRATO 🚀
 
-## Features
+  **The Most Polished Open-Source Proxy & Arcade Dashboard.**
 
-- **Web Proxy** — Browse the web through SPLASH, bypassing restrictions
-- **Arcade Dashboard** — Self-hosted games and app shortcuts
-- **Password Protection** — Secure gated access with signed cookies
-- **Server-Side Smuggler** — Stream blocked ROMs/assets through your server to bypass firewalls
-- **StratoVault** — IndexedDB-based storage for downloaded assets
-- **Cloudflare Tunnel Support** — Expose your server safely without revealing your home IP
-- **Lightweight** — Optimized for Chromebook clients and minimal server RAM usage
+  [![Version](https://img.shields.io/github/package-json/v/OpenClawdd/STRATO)](https://github.com/OpenClawdd/STRATO)
+  [![License](https://img.shields.io/github/license/OpenClawdd/STRATO)](https://github.com/OpenClawdd/STRATO/blob/master/LICENSE)
+  [![Node.js Version](https://img.shields.io/node/v/strato-cloud-dashboard)](https://nodejs.org)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-## Quick Start
+  *Engineered for speed, built for low-end hardware, and designed with an uncompromising aesthetic.*
 
-### 1. Clone and Install
+  [Live Demo](#) • [Documentation](https://github.com/OpenClawdd/STRATO/wiki) • [Report Bug](https://github.com/OpenClawdd/STRATO/issues) • [Request Feature](https://github.com/OpenClawdd/STRATO/issues)
+</div>
 
+---
+
+## 🌟 Why STRATO?
+
+Forget the clunky, generic proxy forks of yesterday. STRATO is a premium, open-source web application designed from the ground up to provide an unparalleled user experience. We took the robust foundation of [SPLASH](https://github.com/rhenryw/SPLASH) (via `@mercuryworkshop/wisp-js`) and wrapped it in a beautifully designed, high-performance interface.
+
+### 🎮 The Ultimate Arcade Experience
+Self-host your favorite web games or connect to external ones. Our dynamic UI builds a beautiful grid of your library instantly.
+
+### 🌐 Blazing Fast Web Proxy
+Bypass restrictions with ease. Browse the web seamlessly through our integrated proxy engine.
+
+### 🛡️ Ironclad Security
+- **Stealth Cloaking:** Enter via an `about:blank` gateway that masks your activity.
+- **Panic Button:** Instantly redirect to Google Classroom with a single click or by pressing `Escape`.
+- **Signed Cookies:** Secure access via robust backend authentication.
+
+### ⚡ Optimized for the Real World
+Engineered specifically for low-end hardware (like Chromebooks). We use intelligent memory management, streaming downloads, and minimal DOM manipulation to keep things smooth when it matters most.
+
+---
+
+## ✨ Feature Grid
+
+| Feature | Description |
+|---|---|
+| **🎨 "Stratosphere" Theme** | A deep, atmospheric dark mode with frosted glass and cinematic transitions. |
+| **📦 Server-Side Smuggler** | Stream blocked files (ROMs, assets) directly through your server to bypass strict firewalls. |
+| **🗄️ StratoVault** | IndexedDB-based storage keeps large assets off your RAM, ensuring the dashboard never crashes on low-end devices. |
+| **📱 Responsive Design** | Looks and works flawlessly on any device, from massive monitors to small mobile screens. |
+| **🌩️ Cloudflare Tunnels** | Share your instance securely with friends without exposing your home IP. |
+| **🔒 Screen Privacy** | Productivity presets mask your tab title and icon to avoid unwanted attention. |
+
+---
+
+## 📸 Screenshots
+
+| Dashboard View | Proxy View |
+|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/OpenClawdd/STRATO/master/public/assets/dashboard-preview.png" alt="Dashboard" width="100%"/> | <img src="https://raw.githubusercontent.com/OpenClawdd/STRATO/master/public/assets/proxy-preview.png" alt="Proxy" width="100%"/> |
+
+---
+
+## 🚀 Quick Start
+
+Get STRATO running locally in under 2 minutes.
+
+### 1. Clone & Install
 ```bash
 git clone https://github.com/OpenClawdd/STRATO.git
 cd STRATO
@@ -23,115 +70,65 @@ npm install
 ```
 
 ### 2. Configure
-
-Copy the example environment file and set your password:
-
 ```bash
 cp .env.example .env
 ```
-
-Edit `.env` and change at minimum:
-
-```
-SITE_PASSWORD=your_password_here
-COOKIE_SECRET=some_long_random_string
-```
-
-Generate a cookie secret:
-
+Edit `.env` to set your secure password and cookie secret. Need a secret quickly? Run:
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-### 3. Run
+### 3. Launch
+**Windows:**
+```cmd
+start.bat
+```
 
-**Windows:** Double-click `start.bat`
-
-**Chrome OS / Linux / Mac:**
-
+**Linux / Mac / Chrome OS:**
 ```bash
 chmod +x start.sh
 ./start.sh
 ```
 
-**Dev mode (auto-restart on file changes):**
+Your server is now live at `http://localhost:8080`.
 
-```bash
-npm run dev
-```
+---
 
-The server starts at `http://localhost:8080` by default.
+## 🐳 Docker Deployment
 
-## Exposing to the Internet (Cloudflare Tunnels)
-
-To share a link with friends without revealing your home IP:
-
-1. Download `cloudflared` from [Cloudflare's website](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
-2. Place the binary in this folder (or in your system PATH)
-3. Run: `cloudflared tunnel --url http://localhost:8080`
-4. Copy the `*.trycloudflare.com` link from the output
-
-## Adding Games
-
-Edit `config/games.json`:
-
-```json
-[
-	{ "n": "Tetris", "e": "🎮", "u": "/games/tetris/" },
-	{ "n": "YouTube", "e": "📺", "u": "https://youtube.com" }
-]
-```
-
-- `n` — Display name
-- `e` — Emoji icon
-- `u` — URL (relative for self-hosted, absolute for external)
-
-### Self-Hosting Games
-
-Drop game files into `public/games/<game-name>/` and point the URL to `/games/<game-name>/`.
-
-## Docker Deployment (HuggingFace / Self-Hosted)
+Deploying to Hugging Face Spaces or your own server is a breeze.
 
 ```bash
 docker build -t strato .
 docker run -p 8080:8080 --env-file .env strato
 ```
 
-**HuggingFace Spaces:**
+---
 
-1. Create a new Space with **Docker** SDK
-2. Set the **Port** to `8080` in Space settings
-3. Push this repo (set your env vars as HuggingFace Secrets)
-4. It will build and deploy automatically
+## 🤝 Contributing
 
-## Project Structure
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) for details.
 
-```
-STRATO/
-├── src/
-│   ├── index.js      # Main server (Express + Wisp + Smuggler)
-│   └── auth.js       # Login page generator
-├── public/
-│   ├── index.html    # Frontend dashboard
-│   └── 404.html      # Error page
-├── config/
-│   └── games.json    # Game/app definitions
-├── .env.example      # Environment variable template
-├── start.sh          # Linux/ChromeOS launcher
-├── start.bat         # Windows launcher
-├── Dockerfile        # Docker build config
-└── package.json
-```
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Scripts
+---
 
-| Command          | Description                             |
-| ---------------- | --------------------------------------- |
-| `npm start`      | Start the server                        |
-| `npm run dev`    | Start with auto-restart on file changes |
-| `npm run lint`   | Check code style                        |
-| `npm run format` | Auto-format code                        |
+## 📜 License
 
-## License
+Distributed under the GPL-3.0-or-later License. See `LICENSE` for more information.
 
-[GPL-3.0-or-later](LICENSE)
+## 🥊 Competitor Comparison
+
+| Feature | STRATO | Rammerhead | Ultraviolet |
+|---|:---:|:---:|:---:|
+| **Full Arcade Dashboard** | ✅ | ❌ | ❌ |
+| **Built-in Games** | ✅ | ❌ | ❌ |
+| **Cloaking & Privacy** | ✅ | ✅ | ✅ |
+| **Stealth about:blank** | ✅ | ❌ | ❌ |
+| **Dark/Light Themes** | ✅ | ❌ | ❌ |
+| **Memory Optimized** | ✅ | ❌ | ❌ |
+| **Local Storage Vault** | ✅ | ❌ | ❌ |

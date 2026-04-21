@@ -1,0 +1,1019 @@
+/* ═══════════════════════════════════════════════════════════════════
+   STRATO Stealth Mode — Google Classroom Skin
+
+   Activates when body[data-stealth="classroom"] is set.
+   Transforms the entire STRATO dashboard into a convincing
+   Google Classroom clone for plausible deniability.
+
+   All selectors scoped to body[data-stealth="classroom"] to
+   avoid any leakage into normal STRATO mode.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── FONT INJECTION ── */
+body[data-stealth="classroom"] {
+        --stealth-font: 'Google Sans', 'Roboto', 'Segoe UI', sans-serif;
+        --stealth-bg: #ffffff;
+        --stealth-header: #0f9d58;
+        --stealth-sidenav: #f5f5f5;
+        --stealth-text: #3c4043;
+        --stealth-text-2: #5f6368;
+        --stealth-active-bg: #e8f0fe;
+        --stealth-active-text: #1967d2;
+        --stealth-green: #0f9d58;
+        --stealth-border: #dadce0;
+        --stealth-card-bg: #ffffff;
+        --stealth-hover: #f1f3f4;
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL OVERRIDES
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] {
+        font-family: var(--stealth-font) !important;
+        background: var(--stealth-bg) !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="classroom"] *,
+body[data-stealth="classroom"] *::before,
+body[data-stealth="classroom"] *::after {
+        transition:
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease,
+                opacity 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s ease,
+                max-width 0.3s ease,
+                max-height 0.3s ease,
+                padding 0.3s ease,
+                margin 0.3s ease;
+}
+
+/* ═══════════════════════════════════════
+   HIDE STRATO-SPECIFIC ELEMENTS
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #aurora-bg,
+body[data-stealth="classroom"] #particleCanvas,
+body[data-stealth="classroom"] .hero-orb,
+body[data-stealth="classroom"] .vital-pill,
+body[data-stealth="classroom"] #proxy-pill,
+body[data-stealth="classroom"] #fps-pill {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN OVERRIDES
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #splash {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="classroom"] .wordmark {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .wordmark {
+        color: var(--stealth-green) !important;
+        text-shadow: none !important;
+        font-family: var(--stealth-font) !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.5px !important;
+}
+
+body[data-stealth="classroom"] .tagline {
+        color: var(--stealth-text-2) !important;
+        font-family: var(--stealth-font) !important;
+        letter-spacing: 0.5px !important;
+        font-size: 12px !important;
+}
+
+body[data-stealth="classroom"] .spl-launchpad .lp-tile {
+        background: var(--stealth-sidenav) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .spl-launchpad .lp-tile::before {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .spl-launchpad .lp-tile:hover {
+        transform: none !important;
+        border-color: var(--stealth-green) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+
+body[data-stealth="classroom"] .lp-label {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="classroom"] .lp-sub {
+        color: var(--stealth-text-2) !important;
+}
+
+/* ═══════════════════════════════════════
+   IGNITION LOADER — HIDE
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #ignite-overlay {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   TOPBAR → Google Classroom Header
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #topbar {
+        background: var(--stealth-header) !important;
+        height: 56px !important;
+        min-height: 56px !important;
+        border-bottom: none !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        padding: 0 24px !important;
+        gap: 16px !important;
+}
+
+/* Brand area */
+body[data-stealth="classroom"] .brand {
+        gap: 10px !important;
+}
+
+body[data-stealth="classroom"] .brand-icon {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .brand {
+        color: #ffffff !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.3px !important;
+        text-shadow: none !important;
+}
+
+/* Search bar */
+body[data-stealth="classroom"] .search-trigger {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 999px !important;
+        height: 40px !important;
+        padding: 0 16px !important;
+        max-width: 700px !important;
+}
+
+body[data-stealth="classroom"] .search-trigger:focus-within {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+body[data-stealth="classroom"] .search-trigger:focus-within .search-trigger svg {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="classroom"] .search-trigger:focus-within input {
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="classroom"] .search-trigger svg {
+        color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body[data-stealth="classroom"] .search-trigger input {
+        color: #ffffff !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+}
+
+body[data-stealth="classroom"] .search-trigger input::placeholder {
+        color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body[data-stealth="classroom"] .search-trigger:focus-within input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+/* Controls area */
+body[data-stealth="classroom"] .topbar-pills {
+        gap: 4px !important;
+}
+
+body[data-stealth="classroom"] .topbar-pills button {
+        color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body[data-stealth="classroom"] .topbar-pills button:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+}
+
+body[data-stealth="classroom"] #panic-btn {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-size: 16px !important;
+}
+
+body[data-stealth="classroom"] #panic-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+}
+
+/* Stealth toggle button styling in header */
+body[data-stealth="classroom"] #stealth-btn {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-size: 14px !important;
+        padding: 6px !important;
+}
+
+body[data-stealth="classroom"] #stealth-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ═══════════════════════════════════════
+   SIDENAV → Google Classroom Left Nav
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #sidebar {
+        background: var(--stealth-sidenav) !important;
+        border-right: none !important;
+        padding: 8px 0 !important;
+        overflow-x: hidden !important;
+}
+
+body[data-stealth="classroom"] #sidebar {
+        gap: 0 !important;
+}
+
+/* Nav items */
+body[data-stealth="classroom"] .nav-item {
+        height: 48px !important;
+        padding: 0 24px !important;
+        padding-left: 24px !important;
+        border-radius: 0 !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        gap: 20px !important;
+        border: none !important;
+        background: transparent !important;
+        text-align: left !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+}
+
+body[data-stealth="classroom"] .nav-item .nav-icon svg {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .nav-item::before {
+        content: attr(data-stealth-icon);
+        font-size: 18px;
+        line-height: 1;
+        flex-shrink: 0;
+        width: 24px;
+        text-align: center;
+}
+
+body[data-stealth="classroom"] .nav-item:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+/* Active nav item — Classroom blue highlight with left border */
+body[data-stealth="classroom"] .nav-item.active {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+        border-left: 4px solid var(--stealth-active-text) !important;
+}
+
+body[data-stealth="classroom"] .nav-item.active::after {
+        display: none !important;
+}
+
+/* Nav item spans */
+body[data-stealth="classroom"] .nav-item span {
+        font-family: var(--stealth-font) !important;
+}
+
+/* ═══════════════════════════════════════
+   CONTENT AREA
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #main {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="classroom"] .view {
+        padding: 24px !important;
+        font-family: var(--stealth-font) !important;
+}
+
+/* ═══════════════════════════════════════
+   HOME VIEW → Classroom Stream
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .hero-section {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin-bottom: 16px !important;
+}
+
+/* Hero badge → announcement label */
+body[data-stealth="classroom"] .hero-section {
+        background: transparent !important;
+        border: none !important;
+        border-left: 4px solid var(--stealth-green) !important;
+        border-radius: 0 !important;
+        padding: 8px 0 8px 16px !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        color: var(--stealth-text) !important;
+        margin-bottom: 8px !important;
+}
+
+/* Hero title */
+body[data-stealth="classroom"] .hero-section h1 {
+        font-family: var(--stealth-font) !important;
+        font-size: 22px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: -0.2px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 8px !important;
+}
+
+/* Hide accent text */
+body[data-stealth="classroom"] .hero-section .hero-sub {
+        display: none !important;
+}
+
+/* Hero description */
+body[data-stealth="classroom"] .hero-sub {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        color: var(--stealth-text-2) !important;
+        line-height: 1.5 !important;
+        margin-bottom: 0 !important;
+}
+
+/* Hide action buttons */
+body[data-stealth="classroom"] .hero-section .quick-grid {
+        display: none !important;
+}
+
+/* Hide stats */
+body[data-stealth="classroom"] .hero-stats {
+        display: none !important;
+}
+
+/* ── Quick Grid → Classroom Resource Cards ── */
+body[data-stealth="classroom"] .quick-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 16px !important;
+        margin-top: 20px !important;
+}
+
+body[data-stealth="classroom"] .quick-card {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+        padding: 20px 16px !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 10px !important;
+}
+
+body[data-stealth="classroom"] .quick-card:hover {
+        transform: none !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        border-color: var(--stealth-border) !important;
+}
+
+body[data-stealth="classroom"] .quick-card .card-icon {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .card-icon {
+        font-size: 28px !important;
+}
+
+body[data-stealth="classroom"] .card-info h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="classroom"] .card-info p {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        margin-top: 2px !important;
+}
+
+/* ═══════════════════════════════════════
+   ARCADE / GRID VIEW → Classwork
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .section-header {
+        margin-bottom: 20px !important;
+}
+
+body[data-stealth="classroom"] .section-header {
+        margin-bottom: 8px !important;
+}
+
+body[data-stealth="classroom"] .section-header h2 {
+        font-family: var(--stealth-font) !important;
+        font-size: 22px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: -0.2px !important;
+}
+
+body[data-stealth="classroom"] .section-badge {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-text-2) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 400 !important;
+        padding: 4px 12px !important;
+        border-radius: 4px !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="classroom"] .section-header .section-badge {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text-2) !important;
+        font-size: 13px !important;
+}
+
+/* Category pills */
+body[data-stealth="classroom"] .category-pill {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text-2) !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 6px 16px !important;
+        border-radius: 999px !important;
+}
+
+body[data-stealth="classroom"] .category-pill:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="classroom"] .category-pill.active {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+        border: none !important;
+}
+
+/* ── Game Tiles → Assignment Cards ── */
+body[data-stealth="classroom"] .game-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 16px !important;
+}
+
+body[data-stealth="classroom"] .unified-tile,
+body[data-stealth="classroom"] .game-tile {
+        aspect-ratio: auto !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-left: 4px solid var(--stealth-green) !important;
+        border-radius: 8px !important;
+        padding: 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        overflow: visible !important;
+        animation: none !important;
+        transform: none !important;
+}
+
+/* Alternating left-border colors for variety */
+body[data-stealth="classroom"] .game-tile:nth-child(4n+1) {
+        border-left-color: #4285f4 !important;
+}
+
+body[data-stealth="classroom"] .game-tile:nth-child(4n+2) {
+        border-left-color: #0f9d58 !important;
+}
+
+body[data-stealth="classroom"] .game-tile:nth-child(4n+3) {
+        border-left-color: #f4b400 !important;
+}
+
+body[data-stealth="classroom"] .game-tile:nth-child(4n+4) {
+        border-left-color: #ea4335 !important;
+}
+
+body[data-stealth="classroom"] .unified-tile:nth-child(4n+1) {
+        border-left-color: #4285f4 !important;
+}
+
+body[data-stealth="classroom"] .unified-tile:nth-child(4n+2) {
+        border-left-color: #0f9d58 !important;
+}
+
+body[data-stealth="classroom"] .unified-tile:nth-child(4n+3) {
+        border-left-color: #f4b400 !important;
+}
+
+body[data-stealth="classroom"] .unified-tile:nth-child(4n+4) {
+        border-left-color: #ea4335 !important;
+}
+
+body[data-stealth="classroom"] .game-tile:hover,
+body[data-stealth="classroom"] .unified-tile:hover {
+        transform: none !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        border-color: var(--stealth-border) !important;
+}
+
+/* Tile thumbnails — hide or shrink */
+body[data-stealth="classroom"] .tile-img,
+body[data-stealth="classroom"] .tile-img {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .tile-fallback,
+body[data-stealth="classroom"] .tile-fallback {
+        display: none !important;
+}
+
+/* Tile HUD overlay — hide */
+body[data-stealth="classroom"] .tile-overlay,
+body[data-stealth="classroom"] .tile-overlay,
+body[data-stealth="classroom"] .play-indicator {
+        display: none !important;
+}
+
+/* Play indicator pseudo-element — hide */
+body[data-stealth="classroom"] .unified-tile::after {
+        display: none !important;
+}
+
+/* Tile text */
+body[data-stealth="classroom"] .tile-overlay .tile-name,
+body[data-stealth="classroom"] .tile-overlay .tile-name {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: var(--stealth-text) !important;
+        line-height: 1.4 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+}
+
+body[data-stealth="classroom"] .tile-category,
+body[data-stealth="classroom"] .tile-category {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
+        margin-top: 2px !important;
+}
+
+body[data-stealth="classroom"] .tt-head,
+body[data-stealth="classroom"] .tt-type,
+body[data-stealth="classroom"] .tt-status,
+body[data-stealth="classroom"] .tt-name,
+body[data-stealth="classroom"] .tt-hex {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   WATCH & LISTEN → Resource Cards
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .media-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+        gap: 12px !important;
+}
+
+body[data-stealth="classroom"] .media-card {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+        padding: 16px !important;
+        gap: 6px !important;
+        animation: none !important;
+}
+
+body[data-stealth="classroom"] .media-card:hover {
+        transform: none !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        border-color: var(--stealth-border) !important;
+}
+
+body[data-stealth="classroom"] .media-card::before {
+        display: none !important;
+}
+
+body[data-stealth="classroom"] .media-icon {
+        font-size: 24px !important;
+}
+
+body[data-stealth="classroom"] .media-info h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text) !important;
+}
+
+body[data-stealth="classroom"] .media-info p {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+        letter-spacing: 0 !important;
+        font-weight: 400 !important;
+}
+
+/* ═══════════════════════════════════════
+   BROWSER VIEW
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .browser-shell {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .browser-toolbar {
+        background: var(--stealth-sidenav) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="classroom"] .browser-toolbar {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="classroom"] .browser-toolbar input {
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="classroom"] .browser-toolbar input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="classroom"] .browser-toolbar button,
+body[data-stealth="classroom"] .browser-toolbar:focus-within button {
+        background: var(--stealth-active-bg) !important;
+        border: none !important;
+        color: var(--stealth-active-text) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="classroom"] .bt-lock {
+        color: var(--stealth-green) !important;
+}
+
+body[data-stealth="classroom"] #proxy-engine {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="classroom"] #browser-new-tab {
+        background: transparent !important;
+        border: none !important;
+        color: var(--stealth-text-2) !important;
+        border-radius: 50% !important;
+}
+
+body[data-stealth="classroom"] #browser-new-tab:hover {
+        background: var(--stealth-hover) !important;
+        color: var(--stealth-text) !important;
+}
+
+/* ═══════════════════════════════════════
+   AI DECOY VIEW
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .view {
+        max-width: 800px !important;
+}
+
+body[data-stealth="classroom"] .section-header {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .chat-container {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .chat-msg.assistant,
+body[data-stealth="classroom"] .chat-msg.assistant {
+        background: var(--stealth-sidenav) !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="classroom"] .chat-msg.user {
+        background: var(--stealth-active-bg) !important;
+        border: 1px solid transparent !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="classroom"] .chat-input {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 999px !important;
+        color: var(--stealth-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        padding: 12px 20px !important;
+}
+
+body[data-stealth="classroom"] .chat-input::placeholder {
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="classroom"] .chat-input:focus {
+        border-color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="classroom"] #chat-send {
+        background: transparent !important;
+        border: none !important;
+        color: var(--stealth-text-2) !important;
+        border-radius: 50% !important;
+}
+
+body[data-stealth="classroom"] #chat-send:hover {
+        background: var(--stealth-hover) !important;
+}
+
+/* ═══════════════════════════════════════
+   SETTINGS VIEW → Account Settings
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] .settings-shell {
+        max-width: 800px !important;
+}
+
+body[data-stealth="classroom"] .settings-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+}
+
+body[data-stealth="classroom"] .settings-card {
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+        padding: 20px 24px !important;
+}
+
+body[data-stealth="classroom"] .settings-card h3 {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="classroom"] .settings-card select,
+body[data-stealth="classroom"] .settings-card input[type="text"] {
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        color: var(--stealth-text) !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+        padding: 8px 12px !important;
+}
+
+body[data-stealth="classroom"] .settings-card select:focus,
+body[data-stealth="classroom"] .settings-card input[type="text"]:focus {
+        border-color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="classroom"] .setting-row label {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="classroom"] .btn-primary {
+        background: var(--stealth-active-bg) !important;
+        border: none !important;
+        color: var(--stealth-active-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 8px 24px !important;
+}
+
+body[data-stealth="classroom"] .btn-primary:hover {
+        background: #d2e3fc !important;
+        transform: none !important;
+        box-shadow: none !important;
+}
+
+body[data-stealth="classroom"] .btn-ghost {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-active-text) !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        border-radius: 4px !important;
+        padding: 8px 24px !important;
+}
+
+body[data-stealth="classroom"] .btn-ghost:hover {
+        background: var(--stealth-hover) !important;
+        border-color: var(--stealth-border) !important;
+        color: var(--stealth-active-text) !important;
+}
+
+body[data-stealth="classroom"] .btn-danger {
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: #ea4335 !important;
+        border-radius: 4px !important;
+        font-family: var(--stealth-font) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+}
+
+body[data-stealth="classroom"] .btn-danger:hover {
+        background: #fce8e6 !important;
+}
+
+body[data-stealth="classroom"] .settings-actions {
+        gap: 8px !important;
+}
+
+/* Toggle buttons */
+body[data-stealth="classroom"] .toggle {
+        font-family: var(--stealth-font) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        color: var(--stealth-text-2) !important;
+        background: transparent !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 4px !important;
+        padding: 6px 16px !important;
+}
+
+body[data-stealth="classroom"] .toggle:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="classroom"] .toggle.on {
+        background: var(--stealth-active-bg) !important;
+        color: var(--stealth-active-text) !important;
+        border-color: transparent !important;
+}
+
+/* ═══════════════════════════════════════
+   TOOLS VIEW → Classroom Resources
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #tool-calculator,
+body[data-stealth="classroom"] #tool-timer,
+body[data-stealth="classroom"] #tool-notes,
+body[data-stealth="classroom"] #tool-unit-converter {
+        font-family: var(--stealth-font) !important;
+}
+
+body[data-stealth="classroom"] #calc-display,
+body[data-stealth="classroom"] #conv-input,
+body[data-stealth="classroom"] #notes-editor {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        background: var(--stealth-card-bg) !important;
+        border: 1px solid var(--stealth-border) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .calc-btn {
+        font-family: var(--stealth-font) !important;
+        background: var(--stealth-sidenav) !important;
+        border: 1px solid var(--stealth-border) !important;
+        color: var(--stealth-text) !important;
+        border-radius: 8px !important;
+}
+
+body[data-stealth="classroom"] .calc-btn:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="classroom"] #timer-display {
+        color: var(--stealth-text) !important;
+}
+
+/* ═══════════════════════════════════════
+   GAME OVERLAY
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #game-overlay {
+        background: var(--stealth-bg) !important;
+}
+
+body[data-stealth="classroom"] .theater-bar {
+        background: var(--stealth-card-bg) !important;
+        border-bottom: 1px solid var(--stealth-border) !important;
+}
+
+body[data-stealth="classroom"] #theater-back {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-active-text) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        background: transparent !important;
+}
+
+body[data-stealth="classroom"] #theater-back:hover {
+        background: var(--stealth-hover) !important;
+}
+
+body[data-stealth="classroom"] .theater-title {
+        font-family: var(--stealth-font) !important;
+        color: var(--stealth-text) !important;
+        letter-spacing: 0 !important;
+}
+
+body[data-stealth="classroom"] .theater-btn {
+        border: none !important;
+        border-radius: 4px !important;
+        background: transparent !important;
+        color: var(--stealth-text-2) !important;
+}
+
+body[data-stealth="classroom"] .theater-btn:hover {
+        background: var(--stealth-hover) !important;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] ::-webkit-scrollbar {
+        width: 8px !important;
+        height: 8px !important;
+}
+
+body[data-stealth="classroom"] ::-webkit-scrollbar-track {
+        background: transparent !important;
+}
+
+body[data-stealth="classroom"] ::-webkit-scrollbar-thumb {
+        background: var(--stealth-border) !important;
+        border-radius: 4px !important;
+}
+
+body[data-stealth="classroom"] ::-webkit-scrollbar-thumb:hover {
+        background: var(--stealth-text-2) !important;
+}
+
+/* ═══════════════════════════════════════
+   HORIZON LINE / EXTRA STRATO DECORATIONS
+   ═══════════════════════════════════════ */
+body[data-stealth="classroom"] #horizon,
+body[data-stealth="classroom"] #horizon-glow {
+        display: none !important;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════ */
+@media (max-width: 720px) {
+        body[data-stealth="classroom"] .quick-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+        }
+
+        body[data-stealth="classroom"] .game-grid {
+                grid-template-columns: 1fr !important;
+        }
+
+        body[data-stealth="classroom"] .media-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+        }
+}

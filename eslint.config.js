@@ -7,6 +7,8 @@ export default [
 			ecmaVersion: 2024,
 			sourceType: "module",
 			globals: {
+				URL: "readonly",
+				Buffer: "readonly",
 				console: "readonly",
 				process: "readonly",
 				setInterval: "readonly",
@@ -15,6 +17,8 @@ export default [
 				clearTimeout: "readonly",
 				AbortController: "readonly",
 				fetch: "readonly",
+				URL: "readonly",
+				Buffer: "readonly",
 			},
 		},
 		rules: {
