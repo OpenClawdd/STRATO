@@ -12,7 +12,6 @@ import { authPage } from "./auth.js";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
-import cookieParser from "cookie-parser";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -21,7 +20,6 @@ import axios from "axios";
 import { decompress } from "./decompress.js";
 import { authPage } from "./auth.js";
 
-import cookieParser from "cookie-parser";
 import { authPage } from "./auth.js";
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
