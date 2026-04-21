@@ -12,6 +12,7 @@ import { authPage } from "./auth.js";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import { proxyManager } from "./proxy-manager.js";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -177,7 +178,7 @@ app.use((req, res, next) => {
 	}
 
 	// Skip auth for static assets and known public paths
-	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
+	const publicPaths = ["/uv/", "/surf/", "/config/", "/login", "/api/proxy-status"];
 	if (
 		publicPaths.some((p) => req.path.startsWith(p)) ||
 		req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)
@@ -233,6 +234,13 @@ app.use(
 );
 
 app.use("/config", express.static(join(ROOT, "config")));
+
+// ---------------------------------------------------------------------------
+// API — Proxy Status
+// ---------------------------------------------------------------------------
+app.get("/api/proxy-status", (req, res) => {
+	res.json(proxyManager.getStatus());
+});
 
 // ---------------------------------------------------------------------------
 // API — Streaming proxy
