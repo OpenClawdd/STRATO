@@ -72,8 +72,20 @@ body {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
+  contain: strict;
   will-change: transform;
   animation: orbFloat 20s ease-in-out infinite;
+}
+
+body.eco-mode .ambient-orb {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 .ambient-orb:nth-child(1) {
