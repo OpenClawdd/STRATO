@@ -5,6 +5,14 @@ if (navigator.userAgent.includes("Firefox")) {
 	});
 }
 
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(clients.claim());
+});
+
 // Load scramjet modules in the correct dependency order:
 // 1. codecs   → sets self.__scramjet$codecs (needed by config)
 // 2. config   → sets self.__scramjet$config (needed by bundle/worker)

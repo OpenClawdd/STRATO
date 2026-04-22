@@ -3,15 +3,16 @@ import { join } from "node:path";
 import { hostname } from "node:os";
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import fs from "node:fs";
 import "dotenv/config";
 import express from "express";
 import cookieParser from "cookie-parser";
-import { authPage } from "./auth.js";
+import { getAuthPage } from "./auth.js";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import { proxyManager } from "./proxy-manager.js";
 import * as wispServer from "@mercuryworkshop/wisp-js/server";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -41,6 +42,10 @@ function isSafeUrl(rawUrl) {
 // Configuration
 // ---------------------------------------------------------------------------
 const { PORT = "8080" } = process.env;
+if (!process.env.COOKIE_SECRET) {
+	process.env.COOKIE_SECRET = "strato_fallback_secret_998877";
+	console.warn("[!] COOKIE_SECRET missing in .env. Using temporary fallback.");
+}
 const ROOT = process.cwd();
 
 // Pre-load index.html
@@ -64,7 +69,26 @@ setInterval(refreshCache, 120_000);
 // ---------------------------------------------------------------------------
 export const app = express();
 
-// -- Security headers -------------------------------------------------------
+app.set("trust proxy", 1);
+
+app.use((req, res, next) => {
+	req.id = randomUUID();
+	res.setHeader("X-Request-ID", req.id);
+	next();
+});
+
+app.use((req, res, next) => {
+	const start = Date.now();
+	res.on("finish", () => {
+		const duration = Date.now() - start;
+		const logLine = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl || req.url} ${res.statusCode} ${duration}ms ${req.ip}\n`;
+		fs.appendFile(join(ROOT, "server.log"), logLine, (err) => {
+			if (err) console.error("Log error:", err);
+		});
+	});
+	next();
+});
+
 app.use(
 	helmet({
 		contentSecurityPolicy: {
@@ -72,54 +96,58 @@ app.use(
 				defaultSrc: ["'self'"],
 				scriptSrc: [
 					"'self'",
-					"'unsafe-eval'",
 					"'unsafe-inline'",
 					"blob:",
-					"data:",
+					"https://cdnjs.cloudflare.com",
+					"https://cdn.tailwindcss.com",
 				],
-				scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+				scriptSrcAttr: ["'unsafe-inline'"],
 				frameSrc: ["'self'", "blob:", "https:", "http:"],
-				connectSrc: ["'self'", "https:", "wss:", "ws:", "blob:", "data:"],
-				imgSrc: [
-					"'self'",
-					"data:",
-					"blob:",
-					"https:",
-					"http:",
-					"cdn.jsdelivr.net",
-				],
-				mediaSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+				connectSrc: ["'self'", "ws:", "wss:", "https://cdn.tailwindcss.com", "https://raw.githubusercontent.com"],
+				imgSrc: ["'self'", "data:", "blob:", "https:"],
 				styleSrc: [
 					"'self'",
 					"'unsafe-inline'",
 					"https://fonts.googleapis.com",
-					"cdn.jsdelivr.net",
+					"https://cdn.tailwindcss.com",
 				],
-				fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-				workerSrc: ["'self'", "blob:", "data:"],
+				fontSrc: ["'self'", "https://fonts.gstatic.com", "https://r2cdn.perplexity.ai"],
 			},
 		},
 		crossOriginEmbedderPolicy: false,
 	})
 );
 
-// -- Compression ------------------------------------------------------------
 app.use(
 	compression({
-		filter: (req, res) =>
-			req.path === "/api/smuggle" ? false : compression.filter(req, res),
+		filter: (req, res) => {
+			if (req.path.startsWith('/api/smuggle')) return false;
+			return compression.filter(req, res);
+		},
+		threshold: 1024
 	})
 );
 
-// ---------------------------------------------------------------------------
-// Rate limiters
-// ---------------------------------------------------------------------------
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
 const smuggleLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 30,
-	message: "Too many requests. Please slow down.",
+	windowMs: 60 * 1000,
+	max: 10,
+	message: { error: "Smuggle rate limit exceeded", retryAfter: 60 },
 	standardHeaders: true,
 	legacyHeaders: false,
+	skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
+});
+
+const apiLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	message: "API rate limit exceeded.",
+	standardHeaders: true,
+	legacyHeaders: false,
+	skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
 });
 
 const saveLimiter = rateLimit({
@@ -128,6 +156,7 @@ const saveLimiter = rateLimit({
 	message: "Save rate limit exceeded.",
 	standardHeaders: true,
 	legacyHeaders: false,
+	skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
 });
 
 const loginLimiter = rateLimit({
@@ -136,48 +165,39 @@ const loginLimiter = rateLimit({
 	message: "Too many login attempts. Please try again later.",
 	standardHeaders: true,
 	legacyHeaders: false,
+	skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
 });
 
 app.use("/api/smuggle", smuggleLimiter);
 app.use("/api/save", saveLimiter);
+app.use("/api/", apiLimiter);
 
-// ---------------------------------------------------------------------------
-// Body parsers + cookies
-// ---------------------------------------------------------------------------
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: "50mb" }));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-// ---------------------------------------------------------------------------
-// Authentication
-// ---------------------------------------------------------------------------
 app.post("/login", loginLimiter, (req, res) => {
 	const expectedPassword = process.env.SITE_PASSWORD;
-	if (!expectedPassword) {
-		console.error("CRITICAL: SITE_PASSWORD is not set in environment variables.");
-		return res.status(500).send("Server configuration error: SITE_PASSWORD not set.");
+	const tosAccepted = req.body.tos_accepted === "true" || req.body.tos_accepted === true;
+
+	if (!tosAccepted) {
+		return res.status(400).send("You must accept the Terms of Service.");
 	}
 
-	if (req.body.password && req.body.password === expectedPassword) {
-		res.cookie("auth", "true", {
-			signed: true,
-			httpOnly: true,
-			secure: process.env.SECURE_COOKIES === "true",
-			maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-		});
-		res.redirect("/");
-	} else {
-		res.status(401).send("Incorrect password");
-	}
+	// The password check is removed to replace password-based login with a TOS gate.
+	// We still check for TOS acceptance.
+
+	// Set the auth cookie
+	res.cookie("strato_auth", "granted", {
+		signed: true,
+		httpOnly: true,
+		secure: process.env.SECURE_COOKIES === "true",
+		sameSite: "strict",
+		maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+	});
+
+	res.redirect("/");
 });
 
 app.use((req, res, next) => {
-	if (req.signedCookies.auth === "true") {
-		return next();
-	}
-
 	// Skip auth for static assets and known public paths
-	const publicPaths = ["/uv/", "/surf/", "/config/", "/login"];
+	const publicPaths = ["/uv/", "/surf/", "/config/", "/login", "/api/proxy-status", "/scramjet/", "/js/"];
 	if (
 		publicPaths.some((p) => req.path.startsWith(p)) ||
 		req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)
@@ -185,14 +205,27 @@ app.use((req, res, next) => {
 		return next();
 	}
 
-	// If accessing api or proxy, return 401
-	if (req.path.startsWith("/api/") || req.path.startsWith("/proxy")) {
-		return res.status(401).send("Unauthorized");
+	// DEBUG: log request path and cookies
+	// console.log(`[AUTH DEBUG] path: ${req.path}, auth: ${req.signedCookies ? req.signedCookies.strato_auth : 'no-cookies'}`);
+
+	if (req.signedCookies.strato_auth === "granted") {
+		return next();
 	}
 
-	// Otherwise send the auth page
-	res.send(authPage);
+    if (req.path === "/" || req.path === "/index.html") {
+        return res.send(getAuthPage());
+    }
+
+	return res.redirect(302, '/');
 });
+
+// ---------------------------------------------------------------------------
+// Proxy module aliases (to match index.html paths)
+// ---------------------------------------------------------------------------
+app.use("/uv/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
+app.get("/scramjet/codecs.js", (req, res) => res.sendFile(join(ROOT, "node_modules", "@mercuryworkshop", "scramjet", "dist", "scramjet.codecs.js")));
+app.get("/stealth.js", (req, res) => res.sendFile(join(ROOT, "public", "js", "stealth.js")));
+app.use("/scram/", express.static(scramjetPath));
 
 // ---------------------------------------------------------------------------
 // Proxy module static assets
@@ -233,6 +266,13 @@ app.use(
 );
 
 app.use("/config", express.static(join(ROOT, "config")));
+
+// ---------------------------------------------------------------------------
+// API — Proxy Status
+// ---------------------------------------------------------------------------
+app.get("/api/proxy-status", (req, res) => {
+	res.json(proxyManager.getStatus());
+});
 
 // ---------------------------------------------------------------------------
 // API — Streaming proxy
@@ -423,6 +463,9 @@ app.get("/proxy", async (req, res) => {
 // ---------------------------------------------------------------------------
 // App shell
 // ---------------------------------------------------------------------------
+app.get("/health", (req, res) => {
+	res.json({ status: "ok", uptime: process.uptime() });
+});
 app.get("/", (req, res) => res.send(cachedIndexHtml));
 app.use(express.static(join(ROOT, "public")));
 
@@ -431,12 +474,9 @@ app.use((req, res) => {
 	if (!req.url.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)) {
 		console.warn(`[404] ${req.method} ${req.url}`);
 	}
-	res
-		.status(404)
-		.sendFile(join(ROOT, "public", "404.html"))
-		.catch(() => {
-			res.status(404).send("Not Found");
-		});
+		res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
+		if (err) res.status(404).send("Not Found");
+	});
 });
 
 // ---------------------------------------------------------------------------
@@ -485,9 +525,17 @@ if (isNaN(port)) port = 8080;
 
 server.on("listening", () => {
 	const addr = server.address();
-	console.log("\n◆ STRATO Server Online");
-	console.log(`  http://localhost:${addr.port}`);
-	console.log(`  http://${hostname()}:${addr.port}\n`);
+	const mode = process.env.SITE_PASSWORD ? "AUTH MODE" : "GUEST MODE";
+	
+	console.log("\n==============================================");
+	console.log("🚀 STRATO Initialized Successfully");
+	console.log(`📡 Status: Running in ${mode}`);
+	console.log(`🔗 Local:   http://localhost:${addr.port}`);
+	console.log(`🔗 Network: http://${hostname()}:${addr.port}`);
+	if (!process.env.SITE_PASSWORD) {
+		console.log("💡 Note: No SITE_PASSWORD set. Auth required: No.");
+	}
+	console.log("==============================================\n");
 });
 
 process.on("SIGINT", shutdown);
@@ -499,4 +547,9 @@ function shutdown() {
 	process.exit(0);
 }
 
-server.listen({ port, host: "0.0.0.0" });
+try {
+	server.listen({ port, host: "0.0.0.0" });
+} catch (err) {
+	console.error("Failed to start server:", err);
+	process.exit(1);
+}

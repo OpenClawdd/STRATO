@@ -5,15 +5,39 @@
 
   **The Most Polished Open-Source Proxy & Arcade Dashboard.**
 
+  [![Node CI](https://github.com/OpenClawdd/STRATO/actions/workflows/node.js.yml/badge.svg)](https://github.com/OpenClawdd/STRATO/actions/workflows/node.js.yml)
+  [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
   [![Version](https://img.shields.io/github/package-json/v/OpenClawdd/STRATO)](https://github.com/OpenClawdd/STRATO)
-  [![License](https://img.shields.io/github/license/OpenClawdd/STRATO)](https://github.com/OpenClawdd/STRATO/blob/master/LICENSE)
-  [![Node.js Version](https://img.shields.io/node/v/strato-cloud-dashboard)](https://nodejs.org)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+  [![GitHub stars](https://img.shields.io/github/stars/OpenClawdd/STRATO?style=social)](https://github.com/OpenClawdd/STRATO/stargazers)
+  [![GitHub forks](https://img.shields.io/github/forks/OpenClawdd/STRATO?style=social)](https://github.com/OpenClawdd/STRATO/network/members)
+  [![GitHub last commit](https://img.shields.io/github/last-commit/OpenClawdd/STRATO)](https://github.com/OpenClawdd/STRATO/commits/master)
+  <br>
+  <a href="https://huggingface.co/spaces/OpenClawdd/STRATO" target="_blank">
+    <img src="https://huggingface.co/datasets/huggingface/badges/raw/main/deploy-to-spaces-lg.svg" alt="Deploy to HF Spaces" />
+  </a>
 
   *Engineered for speed, built for low-end hardware, and designed with an uncompromising aesthetic.*
 
   [Live Demo](#) • [Documentation](https://github.com/OpenClawdd/STRATO/wiki) • [Report Bug](https://github.com/OpenClawdd/STRATO/issues) • [Request Feature](https://github.com/OpenClawdd/STRATO/issues)
 </div>
+
+---
+
+## ⚡ Deploy in 60 Seconds
+
+STRATO is built to be brain-dead simple to deploy anywhere.
+
+[![Deploy to Hugging Face](https://huggingface.co/datasets/huggingface/badges/resolve/main/deploy-to-spaces-lg.svg)](https://huggingface.co/spaces)
+
+### 🐧 Linux / macOS / ChromeOS (One-Line Setup)
+```bash
+curl -fsSL https://raw.githubusercontent.com/OpenClawdd/STRATO/master/scripts/setup.sh | bash
+```
+
+### 🐳 Docker (Production Ready)
+```bash
+docker run -d -p 8080:8080 -v strato_logs:/app/logs --restart unless-stopped --name strato ghcr.io/openclawdd/strato:latest
+```
 
 ---
 
@@ -37,6 +61,20 @@ Engineered specifically for low-end hardware (like Chromebooks). We use intellig
 
 ---
 
+### 🥊 Competitor Comparison
+
+| Feature | STRATO | Rammerhead | Ultraviolet |
+|---|:---:|:---:|:---:|
+| **Full Arcade Dashboard** | ✅ | ❌ | ❌ |
+| **Built-in Games** | ✅ | ❌ | ❌ |
+| **Cloaking & Privacy** | ✅ | ✅ | ✅ |
+| **Stealth about:blank** | ✅ | ❌ | ❌ |
+| **Dark/Light Themes** | ✅ | ❌ | ❌ |
+| **Memory Optimized** | ✅ | ❌ | ❌ |
+| **Local Storage Vault** | ✅ | ❌ | ❌ |
+
+---
+
 ## ✨ Feature Grid
 
 | Feature | Description |
@@ -50,26 +88,33 @@ Engineered specifically for low-end hardware (like Chromebooks). We use intellig
 
 ---
 
-## 📸 Screenshots
+## 🚀 Deploy in 60 Seconds
 
-| Dashboard View | Proxy View |
-|:---:|:---:|
-| <img src="https://raw.githubusercontent.com/OpenClawdd/STRATO/master/public/assets/dashboard-preview.png" alt="Dashboard" width="100%"/> | <img src="https://raw.githubusercontent.com/OpenClawdd/STRATO/master/public/assets/proxy-preview.png" alt="Proxy" width="100%"/> |
+Get STRATO running locally in under 2 minutes. Choose your preferred deployment method below:
 
----
+### Docker
+```bash
+docker build -t strato .
+docker run -p 8080:8080 --env-file .env strato
+```
 
-## 🚀 Quick Start
+### Cloudflare
+```bash
+cloudflared tunnel --url http://localhost:8080
+```
 
-Get STRATO running locally in under 2 minutes.
+### HF Spaces
+Click the **Deploy to HF Spaces** button at the top of the README.
 
-### 1. Clone & Install
+### Local Deployment
+#### 1. Clone & Install
 ```bash
 git clone https://github.com/OpenClawdd/STRATO.git
 cd STRATO
 npm install
 ```
 
-### 2. Configure
+#### 2. Configure
 ```bash
 cp .env.example .env
 ```
@@ -78,7 +123,7 @@ Edit `.env` to set your secure password and cookie secret. Need a secret quickly
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-### 3. Launch
+#### 3. Launch
 **Windows:**
 ```cmd
 start.bat
@@ -94,14 +139,11 @@ Your server is now live at `http://localhost:8080`.
 
 ---
 
-## 🐳 Docker Deployment
+## 📸 Screenshots
 
-Deploying to Hugging Face Spaces or your own server is a breeze.
-
-```bash
-docker build -t strato .
-docker run -p 8080:8080 --env-file .env strato
-```
+| Dashboard View | Proxy View |
+|:---:|:---:|
+| <img src="https://placehold.co/800x500/0a0a1a/00f0ff?text=Dashboard" alt="Dashboard" width="100%"/> | <img src="https://placehold.co/800x500/0a0a1a/00f0ff?text=Proxy" alt="Proxy" width="100%"/> |
 
 ---
 
@@ -119,16 +161,6 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) a
 
 ## 📜 License
 
-Distributed under the GPL-3.0-or-later License. See `LICENSE` for more information.
+Distributed under the AGPL-3.0 License. See `LICENSE` for more information.
 
-## 🥊 Competitor Comparison
-
-| Feature | STRATO | Rammerhead | Ultraviolet |
-|---|:---:|:---:|:---:|
-| **Full Arcade Dashboard** | ✅ | ❌ | ❌ |
-| **Built-in Games** | ✅ | ❌ | ❌ |
-| **Cloaking & Privacy** | ✅ | ✅ | ✅ |
-| **Stealth about:blank** | ✅ | ❌ | ❌ |
-| **Dark/Light Themes** | ✅ | ❌ | ❌ |
-| **Memory Optimized** | ✅ | ❌ | ❌ |
-| **Local Storage Vault** | ✅ | ❌ | ❌ |
+**Note on AGPL-3.0**: We use the GNU Affero General Public License (AGPL) because it explicitly states that if you run a modified program on a server and let other users communicate with it there, your server must also allow them to download the source code corresponding to the modified version running there. This ensures that the community always benefits from your improvements.

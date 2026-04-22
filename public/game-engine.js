@@ -113,6 +113,9 @@ const StratoGameEngine = (() => {
 
     async put(gameData) {
       if (!this._db) return;
+      if (!gameData.id) {
+        gameData.id = 'gen-' + (gameData.name || Date.now()).toString().toLowerCase().replace(/[^a-z0-9]/g, '-');
+      }
       const tx = this._db.transaction('games', 'readwrite');
       tx.objectStore('games').put({
         ...gameData,
