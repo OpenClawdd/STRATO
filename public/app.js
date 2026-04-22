@@ -729,15 +729,31 @@
   // ── FPS Vitals ────────────────────────────────────────
   function initFPS() {
     const pill = $('#fps-pill');
-    if (!pill) return;
+    let slowFramesCount = 0;
+    let lastFrameTime = performance.now();
 
     function tick(now) {
-      fpsFrames++;
-      if (now - fpsLast >= 1000) {
-        const fps = Math.round(fpsFrames * 1000 / (now - fpsLast));
-        pill.querySelector('.pill-label').textContent = fps;
-        fpsFrames = 0;
-        fpsLast = now;
+      const delta = now - lastFrameTime;
+      lastFrameTime = now;
+
+      if (delta > 33) {
+        slowFramesCount++;
+      } else {
+        slowFramesCount = 0;
+      }
+
+      if (slowFramesCount >= 5 && !document.body.classList.contains('eco-mode')) {
+        document.body.classList.add('eco-mode');
+      }
+
+      if (pill) {
+        fpsFrames++;
+        if (now - fpsLast >= 1000) {
+          const fps = Math.round(fpsFrames * 1000 / (now - fpsLast));
+          pill.querySelector('.pill-label').textContent = fps;
+          fpsFrames = 0;
+          fpsLast = now;
+        }
       }
       requestAnimationFrame(tick);
     }
