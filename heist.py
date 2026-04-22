@@ -1,133 +1,138 @@
-import os
 import json
-import asyncio
-from playwright.async_api import async_playwright
+import time
+import random
+import os
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlparse
 
 TARGETS = [
-    "http://Selenite.cc", "https://g-65j.pages.dev/projects", "https://fmhy.net/", 
-    "https://uunnblockedgames.weebly.com/bloons-tower-defense-5---works.html", "https://vapor.onl/", 
-    "https://splash.best/", "https://infamous.qzz.io/", 
-    "https://programming.writing.lecture.learning.literature.mybgarage.cl/", 
-    "https://chips.moktanram.com.np/g.html", "https://ismenirbytesm.gerenna.com/", 
-    "https://learn.gls-drone-pilot.com/", "https://daydreamx.global.ssl.fastly.net/", 
-    "https://dtxb.eclipsecastellon.net/", "https://s3.amazonaws.com/ghst/index.html", 
-    "https://school.agreca.com.ar/", "https://noterplusbunny52.b-cdn.net/", 
-    "https://thesymiproject.org/", "https://pluh.aletiatours.com/", 
-    "https://keoffical.oneapp.dev/", "https://follownirbytes-ynevj.ns8.org/", 
-    "https://endis.rest/", "https://helptired8.notinthearchives.net/", 
-    "https://everest.rip/", "https://www.korona.lat/", "https://play.frogiee.one/", 
-    "https://ubghub.org/", "https://pizagame.com/", "https://startmyeducation.top/", 
-    "https://byod.geeked.wtf/"
+    "https://g-65j.pages.dev/projects",
+    "https://fmhy.net/",
+    "https://splash.best/"
 ]
 
-BATCH_SIZE = 3
-EXPANSION_PACK_FILE = "public/assets/strato_expansion_pack.json"
-INTEL_REPORT_FILE = "competitor_intel_report.md"
+EXISTING_GAMES_FILE = "public/assets/games.json"
+OUTPUT_FILE = "scraped_games.json"
 
-os.makedirs("public/assets/thumbnails", exist_ok=True)
-os.makedirs("competitors", exist_ok=True)
-
-def initialize_files():
-    if not os.path.exists(EXPANSION_PACK_FILE):
-        with open(EXPANSION_PACK_FILE, "w") as f:
-            json.dump([], f)
-    if not os.path.exists(INTEL_REPORT_FILE):
-        with open(INTEL_REPORT_FILE, "w") as f:
-            f.write("# STRATO Competitor Intelligence Report\n\n")
-
-def append_to_json(new_data):
-    with open(EXPANSION_PACK_FILE, "r") as f:
-        data = json.load(f)
-    data.extend(new_data)
-    with open(EXPANSION_PACK_FILE, "w") as f:
-        json.dump(data, f, indent=4)
-
-def append_to_md(text):
-    with open(INTEL_REPORT_FILE, "a") as f:
-        f.write(text + "\n")
-
-async def process_target(context, url):
-    page = await context.new_page()
-    domain_name = url.split("//")[-1].split("/")[0]
-    print(f"Target locked: {domain_name}")
-
-    extracted_data = None
-    intel = ""
-
+def get_existing_urls():
+    if not os.path.exists(EXISTING_GAMES_FILE):
+        return set()
     try:
-        await page.goto(url, timeout=15000, wait_until="domcontentloaded")
-        await asyncio.sleep(3)
+        with open(EXISTING_GAMES_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            urls = set()
+            for game in data:
+                u = game.get('url') or game.get('iframe_url') or game.get('u')
+                if u:
+                    urls.add(u.strip().lower())
+            return urls
+    except Exception as e:
+        print(f"Error reading existing games: {e}")
+        return set()
 
-        if "startmyeducation.top" in url:
-            print("Bypassing auth wall...")
-            await page.fill("input[type='password']", "funni")
-            await page.press("input[type='password']", "Enter")
-            await asyncio.sleep(3)
+def infer_tags(title):
+    title_lower = title.lower()
+    tags = []
+    keywords = {
+        'action': ['gun', 'strike', 'war', 'battle', 'fight', 'action'],
+        'puzzle': ['puzzle', 'math', 'brain', 'logic', 'sudoku'],
+        'racing': ['car', 'drift', 'race', 'driving', 'moto'],
+        'sports': ['basketball', 'soccer', 'football', 'tennis', 'sports', 'bowl'],
+        'io': ['io', 'slither', 'agar', 'hole'],
+        'arcade': ['arcade', 'run', 'jump', 'dash', 'surfer']
+    }
+    for tag, words in keywords.items():
+        if any(word in title_lower for word in words):
+            tags.append(tag)
 
-        screenshot_path = f"competitors/{domain_name.replace('.', '_')}.png"
-        await page.screenshot(path=screenshot_path, full_page=True)
+    if not tags:
+        tags.append("other")
+    return tags
 
-        titles = await page.locator("h1, h2, h3, .game-title, .title").all_inner_texts()
+def scrape_site(url, existing_urls):
+    print(f"Targeting: {url}")
+    scraped = []
+    skipped = 0
+    
+    try:
+        delay = random.uniform(0.8, 1.5)
+        time.sleep(delay)
 
-        frames = await page.locator("iframe").all()
-        iframes = []
-        for frame in frames:
-            src = await frame.get_attribute("src")
-            iframes.append(src)
-
-        page_content = await page.content()
-        proxy_engine = "Unknown"
-        if "uv.config.js" in page_content or "/uv/" in page_content:
-            proxy_engine = "Ultraviolet (UV)"
-        elif "/scramjet/" in page_content or "/sj/" in page_content:
-            proxy_engine = "Scramjet"
-        elif "epoxy" in page_content or "bare-mux" in page_content:
-            proxy_engine = "Epoxy/Bare-Mux Detected"
-
-        panic_btn = "Yes" if "panic" in page_content.lower() else "No"
-
-        intel = f"## {domain_name}\n- **Proxy Engine**: {proxy_engine}\n- **Panic Button**: {panic_btn}\n- **Screenshot**: {screenshot_path}\n"
-
-        extracted_data = {
-            "source": domain_name,
-            "titles_found": [t for t in titles if t.strip()][:10],
-            "iframes_detected": [f for f in iframes if f][:10]
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
+        resp = requests.get(url, headers=headers, timeout=15)
+        resp.raise_for_status()
 
-        print(f"Extraction complete for {domain_name}")
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        # Generic heuristic: Find a tags that might represent games
+        for a_tag in soup.find_all('a', href=True):
+            game_url = urljoin(url, a_tag['href'])
+            
+            # Normalize url for dedup
+            norm_url = game_url.strip().lower()
+            if norm_url in existing_urls:
+                skipped += 1
+                continue
+
+            img_tag = a_tag.find('img')
+            if not img_tag:
+                continue
+
+            thumbnailUrl = urljoin(url, img_tag.get('src', ''))
+            
+            title = ""
+            heading = a_tag.find(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+            if heading and heading.text.strip():
+                title = heading.text.strip()
+            elif img_tag.get('alt'):
+                title = img_tag.get('alt').strip()
+            elif a_tag.text.strip():
+                title = a_tag.text.strip()
+            
+            if not title or len(title) < 2:
+                continue
+
+            if title.lower() in ['home', 'contact', 'about', 'privacy', 'terms', 'github', 'discord', 'settings']:
+                continue
+
+            game_data = {
+                'title': title,
+                'url': game_url,
+                'thumbnailUrl': thumbnailUrl,
+                'category': 'other',
+                'tags': infer_tags(title),
+                'source': urlparse(url).netloc
+            }
+            
+            scraped.append(game_data)
+            existing_urls.add(norm_url)
 
     except Exception as e:
-        print(f"Mission failed for {domain_name} (Timeout/Blocked)")
-        intel = f"## {domain_name}\n- Status: FAILED\n"
+        print(f"Error scraping {url}: {e}")
 
-    finally:
-        await page.close()
+    return scraped, skipped
 
-    return intel, extracted_data
+def main():
+    existing_urls = get_existing_urls()
+    print(f"Loaded {len(existing_urls)} existing game URLs for deduplication.")
 
-async def run_heist():
-    initialize_files()
-    
-    async with async_playwright() as p:
-        for i in range(0, len(TARGETS), BATCH_SIZE):
-            batch = TARGETS[i:i + BATCH_SIZE]
-            print(f"\n--- INITIATING BATCH {i//BATCH_SIZE + 1} ---")
-            
-            browser = await p.chromium.launch(headless=True)
-            context = await browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
-            
-            tasks = [process_target(context, url) for url in batch]
-            results = await asyncio.gather(*tasks)
-            
-            extracted_batch_data = []
-            for intel_text, extracted_data in results:
-                append_to_md(intel_text)
-                if extracted_data:
-                    extracted_batch_data.append(extracted_data)
-            
-            append_to_json(extracted_batch_data)
-            await browser.close()
-            print("Batch secured. Browser context destroyed. RAM cleared.")
+    all_scraped = []
+    total_skipped = 0
+
+    for target in TARGETS:
+        scraped, skipped = scrape_site(target, existing_urls)
+        all_scraped.extend(scraped)
+        total_skipped += skipped
+
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(all_scraped, f, indent=4)
+
+    print(f"\n--- HEIST SUMMARY ---")
+    print(f"Scraped {len(all_scraped)} games from {len(TARGETS)} sites.")
+    print(f"Skipped {total_skipped} duplicate games.")
 
 if __name__ == "__main__":
-    asyncio.run(run_heist())
+    main()

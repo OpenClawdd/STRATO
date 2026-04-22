@@ -60,6 +60,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.4)
+      cookie-signature:
+        specifier: ^1.2.2
+        version: 1.2.2
       eslint:
         specifier: ^9.39.2
         version: 9.39.4
