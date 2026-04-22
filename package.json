@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "lint": "eslint ./src/",
     "lint:fix": "eslint ./src/ --fix",
-    "test": "node --test tests/*.test.js || true"
+    "test": "node --test tests/*.test.js || true",
+    "expand": "python heist.py && node merge_library.js"
   },
   "keywords": [
     "cloud",
