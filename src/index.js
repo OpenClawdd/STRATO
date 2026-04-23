@@ -5,6 +5,8 @@ import { createServer } from "node:http";
 import { Readable } from "node:stream";
 import { createHash, randomUUID } from "node:crypto";
 import fs from "node:fs";
+import { promises as fsp } from "node:fs";
+import dns from "node:dns/promises";
 import "dotenv/config";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -23,16 +25,28 @@ import { decompress } from "./decompress.js";
 // ---------------------------------------------------------------------------
 // SSRF Guard — block requests to loopback, RFC-1918, link-local, metadata
 // ---------------------------------------------------------------------------
-function isSafeUrl(rawUrl) {
+async function isSafeUrl(rawUrl) {
 	try {
 		const { hostname: host, protocol } = new URL(rawUrl);
 		if (!["http:", "https:"].includes(protocol)) return false;
 
-		const BLOCKED =
+		const BLOCKED_REGEX =
 			/^(localhost|127\.|0\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1|fc[0-9a-f][0-9a-f]?|fd[0-9a-f][0-9a-f]?)/i;
 
 		const bare = host.startsWith("[") ? host.slice(1, -1) : host;
-		return !BLOCKED.test(bare);
+		if (BLOCKED_REGEX.test(bare)) return false;
+
+		// Resolve DNS to check for hidden local IPs (DNS Rebinding protection)
+		try {
+			const { address } = await dns.lookup(bare);
+			if (BLOCKED_REGEX.test(address)) return false;
+		} catch {
+			// If DNS lookup fails, it's safer to block it for sensitive proxy operations
+			// unless we want to allow unknown hosts. For STRATO, we'll allow it if 
+			// it's not explicitly blocked by the regex above.
+		}
+
+		return true;
 	} catch {
 		return false;
 	}
@@ -62,7 +76,7 @@ function refreshCache() {
 	}
 }
 refreshCache();
-setInterval(refreshCache, 120_000);
+setInterval(refreshCache, 120_000).unref();
 
 // ---------------------------------------------------------------------------
 // Express app
@@ -82,8 +96,9 @@ app.use((req, res, next) => {
 	res.on("finish", () => {
 		const duration = Date.now() - start;
 		const logLine = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl || req.url} ${res.statusCode} ${duration}ms ${req.ip}\n`;
-		fs.appendFile(join(ROOT, "server.log"), logLine, (err) => {
-			if (err) console.error("Log error:", err);
+		// Using fsp.appendFile for non-blocking I/O
+		fsp.appendFile(join(ROOT, "server.log"), logLine).catch((err) => {
+			console.error("Log error:", err);
 		});
 	});
 	next();
@@ -112,9 +127,11 @@ app.use(
 					"https://cdn.tailwindcss.com",
 				],
 				fontSrc: ["'self'", "https://fonts.gstatic.com", "https://r2cdn.perplexity.ai"],
+				upgradeInsecureRequests: null,
 			},
 		},
 		crossOriginEmbedderPolicy: false,
+		crossOriginOpenerPolicy: false,
 	})
 );
 
@@ -197,7 +214,7 @@ app.post("/login", loginLimiter, (req, res) => {
 
 app.use((req, res, next) => {
 	// Skip auth for static assets and known public paths
-	const publicPaths = ["/uv/", "/surf/", "/config/", "/login", "/api/proxy-status", "/scramjet/", "/js/"];
+	const publicPaths = ["/frog/", "/surf/", "/config/", "/login", "/api/proxy-status", "/scramjet/", "/js/"];
 	if (
 		publicPaths.some((p) => req.path.startsWith(p)) ||
 		req.path.match(/\.(js|css|png|jpg|webp|ico|wasm|json)$/)
@@ -220,26 +237,35 @@ app.use((req, res, next) => {
 });
 
 // ---------------------------------------------------------------------------
-// Proxy module aliases (to match index.html paths)
 // ---------------------------------------------------------------------------
-app.use("/uv/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")));
+// Proxy module static assets with correct MIME types
+// ---------------------------------------------------------------------------
+const staticConfig = {
+	setHeaders(res, filePath) {
+		if (filePath.endsWith(".js") || filePath.endsWith(".mjs"))
+			res.setHeader("Content-Type", "application/javascript");
+		if (filePath.endsWith(".wasm"))
+			res.setHeader("Content-Type", "application/wasm");
+	},
+};
+
+app.use("/frog/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist"), staticConfig));
 app.get("/scramjet/codecs.js", (req, res) => res.sendFile(join(ROOT, "node_modules", "@mercuryworkshop", "scramjet", "dist", "scramjet.codecs.js")));
 app.get("/stealth.js", (req, res) => res.sendFile(join(ROOT, "public", "js", "stealth.js")));
-app.use("/scram/", express.static(scramjetPath));
 
 // ---------------------------------------------------------------------------
 // Proxy module static assets
 // ---------------------------------------------------------------------------
-app.get("/uv/uv.config.js", (req, res) =>
-	res.sendFile(join(ROOT, "public", "uv", "uv.config.js"))
+app.get("/frog/uv.config.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "frog", "uv.config.js"))
 );
-app.get("/uv/sw.js", (req, res) =>
-	res.sendFile(join(ROOT, "public", "uv", "sw.js"))
+app.get("/frog/sw.js", (req, res) =>
+	res.sendFile(join(ROOT, "public", "frog", "sw.js"))
 );
-app.use("/uv/", express.static(uvPath));
+app.use("/frog/", express.static(uvPath, staticConfig));
 
 const scramjetPrefix = "/surf/scram/";
-app.use(scramjetPrefix, express.static(scramjetPath));
+app.use(scramjetPrefix, express.static(scramjetPath, staticConfig));
 app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
 	res.sendFile(join(ROOT, "public", "scramjet.config.js"))
 );
@@ -247,21 +273,15 @@ app.get(`${scramjetPrefix}scramjet.config.js`, (req, res) =>
 app.use(
 	"/surf/baremux/",
 	express.static(
-		join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist")
+		join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist"),
+		staticConfig
 	)
 );
 app.use(
 	"/surf/epoxy/",
 	express.static(
 		join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full"),
-		{
-			setHeaders(res, filePath) {
-				if (filePath.endsWith(".js"))
-					res.setHeader("Content-Type", "application/javascript");
-				if (filePath.endsWith(".wasm"))
-					res.setHeader("Content-Type", "application/wasm");
-			},
-		}
+		staticConfig
 	)
 );
 
@@ -280,7 +300,7 @@ app.get("/api/proxy-status", (req, res) => {
 app.post("/api/smuggle", async (req, res) => {
 	const { targetUrl } = req.body;
 	if (!targetUrl) return res.status(400).send("No targetUrl provided");
-	if (!isSafeUrl(targetUrl))
+	if (!(await isSafeUrl(targetUrl)))
 		return res.status(403).send("Blocked: unsafe URL target");
 
 	const controller = new AbortController();
@@ -320,7 +340,7 @@ app.post("/api/smuggle", async (req, res) => {
 // ---------------------------------------------------------------------------
 // API — Backup save endpoint (server-side persistence for save files)
 // ---------------------------------------------------------------------------
-app.post("/api/save", (req, res) => {
+app.post("/api/save", async (req, res) => {
 	try {
 		const data = req.body.data;
 		if (!data) return res.status(400).send("No data");
@@ -330,14 +350,17 @@ app.post("/api/save", (req, res) => {
 			return res.status(413).send("Data too large");
 
 		const saveDir = join(ROOT, "backups", "users");
-		if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
+		
+		// Use async fsp.mkdir instead of sync fs.mkdirSync
+		await fsp.mkdir(saveDir, { recursive: true });
 
 		const id = createHash("sha256")
 			.update(req.ip || "unknown")
 			.digest("hex")
 			.slice(0, 16);
 		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-		fs.writeFileSync(
+		
+		await fsp.writeFile(
 			join(saveDir, `save_${id}_${timestamp}.json`),
 			JSON.stringify({ data: serialized })
 		);
@@ -354,7 +377,7 @@ app.post("/api/save", (req, res) => {
 app.get("/proxy", async (req, res) => {
 	const { url: targetUrl } = req.query;
 	if (!targetUrl) return res.status(400).send("No URL provided");
-	if (!isSafeUrl(targetUrl)) return res.status(403).send("Blocked: unsafe URL");
+	if (!(await isSafeUrl(targetUrl))) return res.status(403).send("Blocked: unsafe URL");
 
 	try {
 		const response = await axios({
@@ -492,6 +515,16 @@ app.post("/api/p2p/signal", (req, res) => {
 	res.status(200).json({ status: "ok", activePeers: clients.size });
 });
 
+// Periodic cleanup of stale P2P clients (older than 2 minutes)
+setInterval(() => {
+	const now = Date.now();
+	for (const [id, data] of clients.entries()) {
+		if (now - data.lastSeen > 120_000) {
+			clients.delete(id);
+		}
+	}
+}, 60_000).unref();
+
 // ---------------------------------------------------------------------------
 // HTTP + WebSocket server
 // ---------------------------------------------------------------------------
@@ -503,8 +536,6 @@ server.on("request", (req, res) => {
 		bareServer.routeRequest(req, res);
 		return;
 	}
-	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-	res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
 	app(req, res);
 });
 
@@ -518,6 +549,14 @@ server.on("upgrade", (req, socket, head) => {
 		return;
 	}
 	socket.end();
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+	const logLine = `[${new Date().toISOString()}] ERROR ${req.method} ${req.url}: ${err.message}\n${err.stack}\n`;
+	fsp.appendFile(join(ROOT, "server.log"), logLine).catch(() => {});
+	console.error("Unhandled error:", err);
+	res.status(500).send("Internal Server Error");
 });
 
 let port = parseInt(PORT, 10);

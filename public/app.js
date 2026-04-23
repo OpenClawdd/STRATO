@@ -46,29 +46,21 @@
     const label = $('#proxy-label');
 
     try {
-      // WISP relay
-      if (typeof WispServerURL === 'function') {
-        wispRelay = new WispServerURL();
-      }
+      const engine = localStorage.getItem('strato-proxy') || CONFIG.PROXY_ENGINE;
+      const wispUrl = `wss://${location.host}/wisp/`;
 
-      // BareMux setup
-      if (typeof BareMux !== 'undefined' && BareMux.createConnection) {
-        proxyService = BareMux.createConnection('/baremux/index.html');
-
-        const engine = localStorage.getItem('strato-proxy') || CONFIG.PROXY_ENGINE;
-
-        if (engine === 'uv') {
-          await proxyService.setRemote({
-            wisp: wispRelay?.get() || `wss://${location.host}/wisp/`,
-            csp: `self https://${location.host}`,
-          });
-        } else {
-          await proxyService.setRemote('/scramjet/codecs.js');
-        }
+      if (typeof BareMux !== 'undefined') {
+        const connection = new BareMux.BareMuxConnection('/frog/baremux/worker.js');
+        
+        // Use Epoxy transport for maximum compatibility and performance
+        await connection.setTransport('/surf/epoxy/index.mjs', [{ wisp: wispUrl }]);
+        
+        proxyService = connection;
+        proxyReady = true;
 
         if (label) label.textContent = engine === 'uv' ? 'UV' : 'SJ';
         if (pill) pill.classList.remove('warn');
-        proxyReady = true;
+        console.log(`[STRATO] Proxy initialized with ${engine.toUpperCase()} engine and Epoxy transport`);
       }
     } catch (err) {
       console.warn('[STRATO] Proxy init failed:', err);
@@ -255,22 +247,30 @@
   function openAboutBlank(proxiedUrl, realUrl) {
     try {
       const win = window.open('about:blank', '_blank');
-      if (!win) return;
+      if (!win) {
+        // Fallback to regular window if blocked
+        window.open(proxiedUrl, '_blank');
+        return;
+      }
+      
       const doc = win.document;
-      doc.open();
-      doc.write(
-        '<!DOCTYPE html>' +
-        '<html><head>' +
-        '<title>' + (realUrl || 'STRATO') + '</title>' +
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
-        '<style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden}iframe{width:100%;height:100%;border:none}</style>' +
-        '</head><body>' +
-        '<iframe src="' + proxiedUrl + '" allow-scripts allow-same-origin allow-forms allow-popups></iframe>' +
-        '</body></html>'
-      );
-      doc.close();
+      doc.title = realUrl || 'STRATO';
+      
+      const iframe = doc.createElement('iframe');
+      iframe.src = proxiedUrl;
+      iframe.style.width = '100vw';
+      iframe.style.height = '100vh';
+      iframe.style.border = 'none';
+      iframe.style.margin = '0';
+      iframe.style.padding = '0';
+      iframe.setAttribute('allow', 'fullscreen');
+      
+      doc.body.style.margin = '0';
+      doc.body.style.padding = '0';
+      doc.body.style.overflow = 'hidden';
+      doc.body.appendChild(iframe);
     } catch (e) {
-      // Popup blocked — fallback to regular navigation
+      console.warn('[STRATO] About:blank fallback:', e);
       window.open(proxiedUrl, '_blank');
     }
   }
@@ -346,12 +346,18 @@
         }
         if (val === '=') {
           try {
-            // Safe eval — only allow numbers and basic operators
-            if (/^[\d\s+\-*/.%()]+$/.test(expression)) {
-              const result = Function('"use strict"; return (' + expression + ')')();
-              display.value = parseFloat(result.toFixed(10));
-              expression = String(display.value);
-              lastResult = true;
+            // Enhanced safety check — strictly allow arithmetic only
+            const sanitized = expression.replace(/\s+/g, '');
+            if (/^[\d+\-*/.%()]+$/.test(sanitized)) {
+              // Using a slightly safer eval wrapper with restricted context
+              const result = new Function(`"use strict"; return (${sanitized})`)();
+              if (typeof result === 'number' && isFinite(result)) {
+                display.value = parseFloat(result.toFixed(10));
+                expression = String(display.value);
+                lastResult = true;
+              } else {
+                throw new Error('Invalid');
+              }
             }
           } catch {
             display.value = 'Error';
@@ -377,11 +383,14 @@
     $('#view-ai')?.addEventListener('keydown', (e) => {
       if ($('#tool-calculator')?.style.display !== 'block') return;
       const key = e.key;
-      if (/[\d+\-*/.%]/.test(key)) {
+      if (/[\d+\-*/.%()]/.test(key)) {
         expression += key;
         display.value = expression;
       } else if (key === 'Enter') {
-        btn?.click();
+        e.preventDefault();
+        // Manually trigger the '=' logic
+        const equalsBtn = document.querySelector('.calc-btn[data-calc="="]');
+        if (equalsBtn) equalsBtn.click();
       } else if (key === 'Backspace') {
         expression = expression.slice(0, -1);
         display.value = expression || '0';
@@ -608,26 +617,29 @@
   // ── Theme System ──────────────────────────────────────
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
     switch (theme) {
       case 'midnight':
-        document.documentElement.style.setProperty('--bg-primary', '#0a0a0f');
-        document.documentElement.style.setProperty('--bg-secondary', '#0d0d14');
-        document.documentElement.style.setProperty('--accent', '#06b6d4');
+        root.style.setProperty('--bg-main', '#0a0a0f');
+        root.style.setProperty('--accent', '#00e5ff');
+        root.style.setProperty('--accent-glow', 'rgba(0, 229, 255, 0.4)');
         break;
       case 'sky':
-        document.documentElement.style.setProperty('--bg-primary', '#0f172a');
-        document.documentElement.style.setProperty('--bg-secondary', '#1e293b');
-        document.documentElement.style.setProperty('--accent', '#38bdf8');
+        root.style.setProperty('--bg-main', '#0f172a');
+        root.style.setProperty('--accent', '#38bdf8');
+        root.style.setProperty('--accent-glow', 'rgba(56, 189, 248, 0.4)');
         break;
       case 'terminal':
-        document.documentElement.style.setProperty('--bg-primary', '#0a0a0a');
-        document.documentElement.style.setProperty('--bg-secondary', '#141414');
-        document.documentElement.style.setProperty('--accent', '#10b981');
+        root.style.setProperty('--bg-main', '#050805');
+        root.style.setProperty('--accent', '#10b981');
+        root.style.setProperty('--accent-glow', 'rgba(16, 185, 129, 0.4)');
         break;
       case 'light':
-        document.documentElement.style.setProperty('--bg-primary', '#f8fafc');
-        document.documentElement.style.setProperty('--bg-secondary', '#f1f5f9');
-        document.documentElement.style.setProperty('--accent', '#0ea5e9');
+        root.style.setProperty('--bg-main', '#f8fafc');
+        root.style.setProperty('--accent', '#0ea5e9');
+        root.style.setProperty('--accent-glow', 'rgba(14, 165, 233, 0.2)');
+        root.style.setProperty('--text-main', '#0f172a');
+        root.style.setProperty('--text-dim', '#475569');
         break;
     }
   }
@@ -642,14 +654,15 @@
       const delta = now - lastFrameTime;
       lastFrameTime = now;
 
-      if (delta > 33) {
+      if (delta > 18) { // Target 55+ FPS
         slowFramesCount++;
       } else {
         slowFramesCount = 0;
       }
 
-      if (slowFramesCount >= 5 && !document.body.classList.contains('eco-mode')) {
+      if (slowFramesCount >= 3 && !document.body.classList.contains('eco-mode')) {
         document.body.classList.add('eco-mode');
+        console.log('[STRATO] Turbo Mode: Eco Active');
       }
 
       if (pill) {
@@ -677,80 +690,25 @@
       return;
     }
 
-    const steps = [10, 25, 40, 55, 70, 85, 95, 100];
+    const steps = [50, 100];
     let step = 0;
-
     const interval = setInterval(() => {
       if (step < steps.length) {
-        progress.style.width = steps[step] + '%';
+        progress.style.width = steps[step] + "%";
         step++;
       } else {
         clearInterval(interval);
         setTimeout(() => {
-          splash.classList.add('hidden');
-          app.classList.add('visible');
-          setTimeout(() => { splash.style.display = 'none'; }, 600);
-        }, 300);
+          splash.classList.add("hidden");
+          app.classList.add("visible");
+          setTimeout(() => { splash.style.display = "none"; }, 200);
+        }, 50);
       }
-    }, 200);
+    }, 50);
   }
-
-
-
-  // ── Particles (lightweight ambient) ───────────────────
-  function initParticles() {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'particleCanvas';
-    canvas.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.4;';
-    document.getElementById('ambient-canvas')?.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let animId;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Create particles
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.5 + 0.1,
-      });
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(6,182,212,${p.opacity})`;
-        ctx.fill();
-      });
-      animId = requestAnimationFrame(draw);
-    }
-    draw();
-
-    // Respect reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      cancelAnimationFrame(animId);
-    }
+  function initParticles() { 
+    // Stubbed for performance
+    return; 
   }
 
   // ── Boot Sequence ─────────────────────────────────────
@@ -762,26 +720,19 @@
       if (typeof registerSW === 'function') {
         await registerSW();
         console.log('[STRATO] Service Worker registered');
-        
-        // If SW just registered but isn't controlling the page yet, 
-        // we might need a quick reload or we wait for clients.claim()
-        if (!navigator.serviceWorker.controller) {
-          console.log('[STRATO] SW registered but not controlling. Waiting or reloading...');
-          // Optional: location.reload(); 
-        }
       }
     } catch (err) {
-      console.warn('[STRATO] Service Worker registration failed:', err);
+      console.warn('[STRATO] Service Worker initialization error:', err);
     }
+
+    // Give a small delay for SW to activate
+    await new Promise(r => setTimeout(r, 100));
 
     // 1. Apply saved theme
     const savedTheme = localStorage.getItem('strato-theme') || 'midnight';
     applyTheme(savedTheme);
 
 
-
-    // 3. Start particles
-    initParticles();
 
     // 4. Initialize proxy
     await initProxy();

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRATO | Arcade</title>
+    <link rel="stylesheet" href="technozen.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: #050508;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #game-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Floating Controls */
+        .controls-container {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+            padding: 12px;
+            background: rgba(13, 13, 20, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            opacity: 0.3;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .controls-container:hover {
+            opacity: 1;
+            background: rgba(13, 13, 20, 0.8);
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(4px);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .control-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Tooltip */
+        .control-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 60px;
+            background: #0d0d14;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            border: 1px solid var(--border);
+        }
+
+        .control-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Back Button - Special */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Focus Mode */
+        body.focus-mode .controls-container {
+            left: -100px;
+        }
+
+        #focus-trigger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            z-index: 1001;
+            opacity: 0;
+            cursor: pointer;
+        }
+        #focus-trigger:hover { opacity: 0.5; }
+
+        .game-info-overlay {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(13, 13, 20, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="dark">
+    <div id="game-container">
+        <iframe id="game-iframe" src="about:blank" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
+    </div>
+
+    <div class="game-info-overlay" id="game-title">STRATO ARCADE</div>
+
+    <div class="controls-container">
+        <button class="control-btn back-btn" id="btn-back" data-tooltip="Back to Arcade">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="control-btn" id="btn-refresh" data-tooltip="Reload Game">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        </button>
+        <button class="control-btn" id="btn-fullscreen" data-tooltip="Fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        </button>
+        <button class="control-btn" id="btn-focus" data-tooltip="Focus Mode (Hide Controls)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+    </div>
+
+    <script src="/frog/uv.bundle.js"></script>
+    <script src="/frog/uv.config.js"></script>
+    <script>
+        const params = new URLSearchParams(location.search);
+        const gameUrl = params.get('url');
+        const gameTitle = params.get('name') || 'Game';
+        const iframe = document.getElementById('game-iframe');
+        const titleEl = document.getElementById('game-title');
+
+        if (gameTitle) titleEl.textContent = gameTitle;
+
+        if (gameUrl) {
+            // Check if it's already proxied or needs proxying
+            if (gameUrl.startsWith('http')) {
+                // Encode using Ultraviolet
+                if (window.__uv$config) {
+                    iframe.src = __uv$config.prefix + __uv$config.encodeUrl(gameUrl);
+                } else {
+                    iframe.src = gameUrl;
+                }
+            } else {
+                iframe.src = gameUrl;
+            }
+        }
+
+        // Controls
+        document.getElementById('btn-back').onclick = () => {
+            location.href = '/';
+        };
+
+        document.getElementById('btn-refresh').onclick = () => {
+            iframe.contentWindow.location.reload();
+        };
+
+        document.getElementById('btn-fullscreen').onclick = () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.documentElement.requestFullscreen();
+            }
+        };
+
+        document.getElementById('btn-focus').onclick = () => {
+            document.body.classList.toggle('focus-mode');
+        };
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                iframe.contentWindow.location.reload();
+            }
+            if (e.key === 'Escape') {
+                document.body.classList.remove('focus-mode');
+            }
+        });
+    </script>
+</body>
+</html>

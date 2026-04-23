@@ -508,40 +508,17 @@ const StratoGameEngine = (() => {
 
   // ── Theater Mode ──────────────────────────────────────
   function openTheater(game) {
-    const overlay = document.getElementById('game-overlay');
-    const iframe = document.getElementById('theater-iframe');
-    const title = document.getElementById('theater-game-title');
-    if (!overlay || !iframe) return;
-
-    // Set title
-    if (title) title.textContent = game.name;
-
     // Build game URL
-    let gameUrl = game.url;
+    let gameUrl = game.url || game.iframe_url;
     if (!gameUrl) return;
 
-    // Proxify if needed
-    if (typeof proxifyUrl === 'function') {
-      gameUrl = proxifyUrl(gameUrl);
-    }
-
-    // Load with cache awareness
-    iframe.src = '';
-    setTimeout(() => {
-      iframe.src = gameUrl;
-    }, 50);
-
-    // Cache the game metadata
-    Vault.put(game);
-
-    // Show overlay
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Auto-request fullscreen after a small delay
-    setTimeout(() => {
-      tryFullscreen(overlay);
-    }, 300);
+    // Use standalone game page for better performance and "full details" feel
+    const params = new URLSearchParams({
+        url: gameUrl,
+        name: game.name || game.title
+    });
+    
+    window.location.href = `/game.html?${params.toString()}`;
   }
 
   function closeTheater() {

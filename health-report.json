@@ -1,0 +1,26 @@
+{
+    "online": 550,
+    "offline": 4,
+    "broken": [
+        {
+            "title": "Temple Run 2",
+            "url": "https://temple-run-2.io/",
+            "error": "getaddrinfo ENOTFOUND temple-run-2.io"
+        },
+        {
+            "title": "Learn to Fly 3",
+            "url": "https://learntofly3.io/",
+            "error": "getaddrinfo ENOTFOUND learntofly3.io"
+        },
+        {
+            "title": "Gunspin",
+            "url": "https://gunspin.io/",
+            "error": "timeout of 5000ms exceeded"
+        },
+        {
+            "title": "Rocket League 2D",
+            "url": "https://rocketleague2d.io/",
+            "error": "getaddrinfo ENOTFOUND rocketleague2d.io"
+        }
+    ]
+}

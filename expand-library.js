@@ -1,36 +1,54 @@
 /**
  * expand-library.js
  *
- * Fetches additional games from open-source unblocked game lists,
- * deduplicates against the existing public/assets/games.json,
- * downloads thumbnails via sharp, and merges into the local library.
+ * The Master Heist Engine for STRATO.
+ * Fetches games from Selenite, 3kh0-lite, and more.
+ * Deduplicates, normalizes, and maintains the library.
  *
- * Usage:  node expand-library.js
+ * Usage: node expand-library.js
  */
 
 import fs from "fs/promises";
 import path from "path";
+import axios from "axios";
 import sharp from "sharp";
+import google from "googlethis";
 import { fileURLToPath } from "url";
 
 const ASSETS_DIR = path.join(process.cwd(), "public", "assets");
 const THUMBS_DIR = path.join(ASSETS_DIR, "thumbnails");
 const GAMES_JSON = path.join(ASSETS_DIR, "games.json");
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+const SOURCES = [
+	{
+		name: "Selenite Games",
+		url: "https://gitlab.com/skysthelimit.dev/selenite/-/raw/main/data/games.json",
+		type: "selenite",
+		baseUrl: "https://selenite.cc/games/",
+		imgBaseUrl: "https://selenite.cc/games/",
+	},
+	{
+		name: "Selenite Apps",
+		url: "https://gitlab.com/skysthelimit.dev/selenite/-/raw/main/data/apps.json",
+		type: "selenite",
+		baseUrl: "https://selenite.cc/apps/",
+		imgBaseUrl: "https://selenite.cc/apps/",
+	},
+	{
+		name: "3kh0-Lite",
+		url: "https://raw.githubusercontent.com/3kh0/3kh0-lite/main/config/games.json",
+		type: "3kh0",
+		baseUrl: "https://3kh0.github.io/3kh0-lite/",
+		imgBaseUrl: "https://3kh0.github.io/3kh0-lite/",
+	},
+];
 
-/**
- * Hardcoded expansion list.
- * These are popular unblocked games that were previously loaded from the
- * now-dead 3kh0 CDN, plus extras to bulk out the library.
- */
 const EXPANSION_GAMES = [
 	{ n: "Retro Bowl", u: "https://retrobowl.eu.org/", t: "Sports" },
 	{ n: "Slope", u: "https://slope3d.io/", t: "Action" },
 	{ n: "1v1.LOL", u: "https://1v1.lol/", t: "Shooter" },
 	{ n: "Krunker.io", u: "https://krunker.io/", t: "Shooter" },
 	{ n: "Happy Wheels", u: "https://happywheels.io/", t: "Action" },
-	{ n: "Temple Run 2", u: "https://temple-run-2.io/", t: "Action" },
 	{ n: "Stickman Hook", u: "https://stickman-hook.com/", t: "Casual" },
 	{ n: "Chrome Dino", u: "https://chromedino.com/", t: "Classic" },
 	{ n: "Slither.io", u: "https://slither.io/", t: "Multiplayer" },
@@ -42,7 +60,6 @@ const EXPANSION_GAMES = [
 	{ n: "Tunnel Rush", u: "https://tunnelrush.io/", t: "Action" },
 	{ n: "A Small World Cup", u: "https://asmallworldcup.com/", t: "Sports" },
 	{ n: "House of Hazards", u: "https://houseofhazards.io/", t: "Multiplayer" },
-	{ n: "Learn to Fly 3", u: "https://learntofly3.io/", t: "Arcade" },
 	{ n: "Age of War", u: "https://ageofwar.io/", t: "Strategy" },
 	{ n: "Raft Wars", u: "https://raftwars.io/", t: "Action" },
 	{ n: "Tetris", u: "https://tetris.com/play-tetris", t: "Classic" },
@@ -51,158 +68,158 @@ const EXPANSION_GAMES = [
 	{ n: "Idle Breakout", u: "https://idlebreakout.io/", t: "Idle" },
 	{ n: "Eggy Car", u: "https://eggycar.io/", t: "Casual" },
 	{ n: "Drive Mad", u: "https://drivemad.io/", t: "Racing" },
-	{ n: "Rocket League 2D", u: "https://rocketleague2d.io/", t: "Sports" },
 	{ n: "Bob the Robber", u: "https://bobtherobber.io/", t: "Adventure" },
 	{ n: "Cut the Rope", u: "https://cuttherope.io/", t: "Puzzle" },
 	{ n: "Duck Life", u: "https://ducklife.io/", t: "Simulation" },
-	{
-		n: "Fireboy and Watergirl",
-		u: "https://fireboyandwatergirl.io/",
-		t: "Puzzle",
-	},
+	{ n: "Fireboy and Watergirl", u: "https://fireboyandwatergirl.io/", t: "Puzzle" },
 	{ n: "Tanuki Sunset", u: "https://tanukisunset.io/", t: "Arcade" },
 ];
 
-export function safeName(name) {
+function safeName(name) {
 	return name
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, "_")
 		.replace(/_$/, "");
 }
 
-async function downloadThumbnail(name) {
+async function downloadThumbnail(name, remoteUrl) {
 	const slug = safeName(name);
 	const destPath = path.join(THUMBS_DIR, `${slug}.webp`);
 	const localUrl = `/assets/thumbnails/${slug}.webp`;
 
-	// Skip if already downloaded
 	try {
 		await fs.access(destPath);
-		console.log(`  ⏭  Thumbnail exists: ${slug}.webp`);
 		return localUrl;
-	} catch {
-		/* doesn't exist, continue */
-	}
+	} catch {}
 
-	// Try to fetch a thumbnail from Google Images via a simple search
-	// Fall back to generating a placeholder via sharp
 	try {
-		const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(name + " game logo")}&tbm=isch&tbs=isz:m`;
-		const res = await fetch(searchUrl, {
-			headers: {
-				"User-Agent":
-					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-			},
-			signal: AbortSignal.timeout(8000),
-		});
-		const html = await res.text();
-
-		// Extract first image URL from Google Images HTML
-		const match = html.match(
-			/\["(https?:\/\/[^"]+\.(?:jpg|jpeg|png|webp))",\d+,\d+\]/i
-		);
-		if (match) {
-			const imgRes = await fetch(match[1], {
-				signal: AbortSignal.timeout(8000),
-			});
-			if (imgRes.ok) {
-				const buf = Buffer.from(await imgRes.arrayBuffer());
-				await sharp(buf)
-					.resize(400, 225, { fit: "cover" })
-					.webp({ quality: 78 })
-					.toFile(destPath);
-				console.log(`  ✓  Downloaded: ${slug}.webp`);
-				return localUrl;
+		let buffer;
+		if (remoteUrl && remoteUrl.startsWith("http")) {
+			const res = await axios.get(remoteUrl, { responseType: "arraybuffer", timeout: 5000 });
+			buffer = Buffer.from(res.data);
+		} else {
+			// Fallback to Google Search if no remote URL or it fails
+			const images = await google.image(name + " game logo", { safe: false });
+			if (images && images.length > 0) {
+				const res = await axios.get(images[0].url, { responseType: "arraybuffer", timeout: 5000 });
+				buffer = Buffer.from(res.data);
 			}
 		}
-		throw new Error("No suitable image found");
-	} catch (e) {
-		// Generate a solid-color placeholder with the game initial
-		console.log(`  ◇  Generating placeholder for: ${name} (${e.message})`);
-		const initial = (name[0] || "?").toUpperCase();
-		const hue = (name.charCodeAt(0) * 47) % 360;
 
-		const svg = `<svg width="400" height="225" xmlns="http://www.w3.org/2000/svg">
-			<rect width="400" height="225" fill="hsl(${hue}, 35%, 12%)"/>
-			<text x="200" y="130" text-anchor="middle" font-family="monospace" font-size="80" font-weight="bold" fill="hsl(${hue}, 60%, 40%)" opacity="0.5">${initial}</text>
-			<text x="200" y="175" text-anchor="middle" font-family="sans-serif" font-size="16" fill="hsl(${hue}, 30%, 50%)">${name}</text>
-		</svg>`;
-
-		await sharp(Buffer.from(svg)).webp({ quality: 78 }).toFile(destPath);
-		return localUrl;
-	}
-}
-
-async function loadExistingLibrary(gamesJsonPath) {
-	try {
-		const raw = await fs.readFile(gamesJsonPath, "utf8");
-		const existing = JSON.parse(raw);
-		console.log(`Loaded ${existing.length} existing games from games.json`);
-		return existing;
-	} catch {
-		console.log("No existing games.json found, starting fresh");
-		return [];
-	}
-}
-
-function filterNewGames(expansionGames, existingGames) {
-	const existingNames = new Set(
-		existingGames.map((g) => (g.n || "").toLowerCase().trim())
-	);
-	return expansionGames.filter(
-		(g) => !existingNames.has(g.n.toLowerCase().trim())
-	);
-}
-
-async function processNewGames(newGames) {
-	const results = [];
-	for (const game of newGames) {
-		console.log(`Processing: ${game.n}`);
-		try {
-			const img = await downloadThumbnail(game.n, THUMBS_DIR);
-			results.push({ ...game, img });
-		} catch (e) {
-			console.error(`  ✗  Failed: ${game.n} — ${e.message}`);
-			results.push({ ...game, img: null });
+		if (buffer) {
+			await sharp(buffer)
+				.resize(400, 250, { fit: "cover" })
+				.webp({ quality: 80 })
+				.toFile(destPath);
+			console.log(`  ✓  Saved thumbnail: ${slug}.webp`);
+			return localUrl;
 		}
-		await delay(1500); // Rate limit
+	} catch (e) {
+		console.warn(`  ⚠️  Failed thumbnail for ${name}: ${e.message}`);
 	}
-	return results;
+
+	return "/assets/thumbnails/placeholder.webp";
 }
 
-async function saveLibrary(gamesJsonPath, existing, results) {
-	const merged = [...existing, ...results];
-	await fs.writeFile(gamesJsonPath, JSON.stringify(merged, null, 4));
+function normalize(game, source) {
+	let title = "Unknown";
+	let remoteThumb = "";
+	let url = "";
+	let category = "Other";
 
-	console.log(`\n═══ Done ═══`);
-	console.log(`Added ${results.length} games (${merged.length} total)`);
-	console.log(`Saved to ${gamesJsonPath}`);
+	if (source.type === "selenite") {
+		title = game.name || "Unknown";
+		remoteThumb = source.imgBaseUrl + game.directory + "/" + (game.image || "cover.png");
+		url = source.baseUrl + game.directory + "/";
+	} else if (source.type === "3kh0") {
+		title = game.title || "Unknown";
+		remoteThumb = source.imgBaseUrl + game.imgSrc;
+		url = source.baseUrl + game.link;
+	} else {
+		title = game.n || game.name || game.title || "Unknown";
+		remoteThumb = game.img || game.thumbnail || "";
+		url = game.u || game.url || game.iframe_url || "";
+		category = game.t || game.category || "Other";
+	}
+
+	return {
+		title: title.trim(),
+		remoteThumb,
+		iframe_url: url,
+		source: source.name || "Expansion",
+		category,
+	};
 }
 
 async function main() {
-	console.log("═══ STRATO Library Expander ═══\n");
+	console.log("🚀 STRATO Master Heist Engine 🚀\n");
 
-	// Ensure directories exist
 	await fs.mkdir(THUMBS_DIR, { recursive: true });
 
-	const existing = await loadExistingLibrary(GAMES_JSON);
-	const newGames = filterNewGames(EXPANSION_GAMES, existing);
-
-	console.log(`\nFound ${newGames.length} new games to add\n`);
-
-	if (newGames.length === 0) {
-		console.log("Library is already up to date. Nothing to do.");
-		return;
+	let existing = [];
+	try {
+		const raw = await fs.readFile(GAMES_JSON, "utf8");
+		existing = JSON.parse(raw);
+	} catch (e) {
+		console.log("Starting with empty library.");
 	}
 
-	const results = await processNewGames(newGames);
-	await saveLibrary(GAMES_JSON, existing, results);
+	const masterList = new Map();
+	existing.forEach((g) => masterList.set(g.title.toLowerCase().trim(), g));
+
+	// 1. Expansion Games
+	EXPANSION_GAMES.forEach((g) => {
+		const norm = normalize(g, { type: "expansion" });
+		if (!masterList.has(norm.title.toLowerCase().trim())) {
+			masterList.set(norm.title.toLowerCase().trim(), norm);
+		}
+	});
+
+	// 2. Fetch from External Sources
+	for (const source of SOURCES) {
+		console.log(`📡 Heisting from ${source.name}...`);
+		try {
+			const res = await axios.get(source.url, { timeout: 15000 });
+			const games = res.data;
+
+			if (Array.isArray(games)) {
+				games.forEach((g) => {
+					const norm = normalize(g, source);
+					if (norm.iframe_url && !masterList.has(norm.title.toLowerCase().trim())) {
+						masterList.set(norm.title.toLowerCase().trim(), norm);
+					}
+				});
+			}
+		} catch (e) {
+			console.warn(`⚠️  Failed to fetch ${source.name}: ${e.message}`);
+		}
+	}
+
+	// 3. Process All (Download thumbs & finalize)
+	const finalGames = [];
+	const gamesArray = Array.from(masterList.values());
+	
+	console.log(`\n📦 Finalizing ${gamesArray.length} games...`);
+	
+	for (const g of gamesArray) {
+		// Download thumbnail if it's still a remote URL
+		if (!g.thumbnail || g.thumbnail.startsWith("http")) {
+			g.thumbnail = await downloadThumbnail(g.title, g.remoteThumb);
+		}
+		delete g.remoteThumb; // Cleanup
+		finalGames.push(g);
+	}
+
+	await fs.writeFile(GAMES_JSON, JSON.stringify(finalGames, null, 4));
+
+	console.log(`\n✅ Heist Successful!`);
+	console.log(`Total Library: ${finalGames.length} games (Added ${finalGames.length - existing.length} new)`);
 }
 
 const isMain = process.argv[1] === fileURLToPath(import.meta.url);
 if (isMain) {
 	main().catch((e) => {
-		console.error("Fatal error:", e);
+		console.error("Fatal Heist Error:", e);
 		process.exit(1);
 	});
 }

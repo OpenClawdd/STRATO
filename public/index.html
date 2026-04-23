@@ -11,26 +11,16 @@
   <title>Google Drive</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
 
-  <!-- Technozen Design System -->
-  <link rel="stylesheet" href="technozen.css" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="technozen.css" /></noscript>
+  <!-- Technozen Design System — Native CSS Only -->
+  <link rel="stylesheet" href="technozen.css?v=4.0" />
   <link rel="stylesheet" href="stealth-classroom.css" disabled />
-  <link rel="stylesheet" href="stealth-drive.css" disabled />
-
-  <!-- Tailwind Play CDN — Zero Build Tools -->
-  <script src="tailwind.config.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  <link rel="stylesheet" href="stealth-drive.css" disabled /></head>
 <body>
 
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- AMBIENT BACKGROUND                                  -->
   <!-- ═══════════════════════════════════════════════════ -->
-  <div id="ambient-canvas">
-    <div class="ambient-orb"></div>
-    <div class="ambient-orb"></div>
-    <div class="ambient-orb"></div>
-  </div>
+  <!-- Background handled by CSS for performance -->
 
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- SPLASH SCREEN                                       -->
@@ -174,9 +164,9 @@
       <!-- HOME VIEW -->
       <div id="view-home" class="view active">
         <div class="hero-section">
-          <h1>The Ultimate<br/>Unblocked Experience</h1>
+          <h1>The Ultimate<br/>Arcade Heist</h1>
           <p class="hero-sub">
-            Lightning-fast proxy, 150+ games, streaming media, and AI — all behind one seamless interface.
+            The biggest collection of unblocked games on the planet. Stealthy, snappy, and strictly for the elite.
           </p>
           <div class="hero-stats">
             <div class="hero-stat">
@@ -229,8 +219,8 @@
       <!-- ARCADE VIEW -->
       <div id="view-grid" class="view">
         <div class="section-header">
-          <h2>Arcade</h2>
-          <span class="section-badge" id="game-count">Loading...</span>
+          <h2>Ultimate Arcade</h2>
+          <span class="section-badge" id="game-count">550+ GAMES</span>
         </div>
         <div class="category-bar" id="category-bar">
           <!-- Populated dynamically -->
@@ -594,15 +584,16 @@
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- PROXY ENGINE SCRIPTS                               -->
   <!-- ═══════════════════════════════════════════════════ -->
-  <script src="/uv/baremux/index.js"></script>
-  <script src="/uv/uv.bundle.js"></script>
-  <script src="/uv/uv.config.js"></script>
+  <script src="/frog/baremux/index.js"></script>
+  <script src="/frog/uv.bundle.js"></script>
+  <script src="/frog/uv.config.js"></script>
   <script src="/scramjet/codecs.js"></script>
   <script src="/scramjet.config.js"></script>
 
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- APPLICATION SCRIPTS                                -->
   <!-- ═══════════════════════════════════════════════════ -->
+  <script src="/register-sw.js"></script>
   <script src="/js/proxy-client.js"></script>
   <script src="game-engine.js?v=3.0"></script>
   <script src="command-palette.js?v=3.0"></script>

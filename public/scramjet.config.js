@@ -1,6 +1,6 @@
 (() => {
 	self.__scramjet$config = {
-		prefix: "/scram/",
+		prefix: "/surf/scram/",
 		codec: self.__scramjet$codecs.base64,
 		config: "/scramjet.config.js",
 		bundle: "/surf/scram/scramjet.bundle.js",

@@ -27,7 +27,7 @@ importScripts(
 
 // Override default config paths to match our /surf/scram/ route
 self.__scramjet$config = Object.assign(self.__scramjet$config || {}, {
-	prefix: "/scramjet/",
+	prefix: "/surf/scram/",
 	config: "/surf/scram/scramjet.config.js",
 	bundle: "/surf/scram/scramjet.bundle.js",
 	worker: "/surf/scram/scramjet.worker.js",
@@ -200,40 +200,6 @@ async function initScramjet() {
 	if (scramjetReady) return;
 	await checkScramjetDb();
 	scramjet = new ScramjetServiceWorker();
-	scramjet.addEventListener("request", (e) => {
-		if (adblockEnabled && isBlocked(e.url.hostname, e.url.pathname)) {
-			e.response = new Response("Site Blocked", { status: 403 });
-			return;
-		}
-
-		if (playgroundData && e.url.href.startsWith(playgroundData.origin)) {
-			const routes = {
-				"/": { content: playgroundData.html, type: "text/html" },
-				"/style.css": { content: playgroundData.css, type: "text/css" },
-				"/script.js": {
-					content: playgroundData.js,
-					type: "application/javascript",
-				},
-			};
-
-			const route = routes[e.url.pathname];
-
-			if (route) {
-				const headers = { "content-type": route.type };
-				e.response = new Response(route.content, { headers });
-				e.response.rawHeaders = headers;
-				e.response.rawResponse = {
-					body: e.response.body,
-					headers: headers,
-					status: e.response.status,
-					statusText: e.response.statusText,
-				};
-				e.response.finalURL = e.url.toString();
-			} else {
-				e.response = new Response("empty response", { headers: {} });
-			}
-		}
-	});
 	scramjetReady = true;
 }
 
@@ -254,11 +220,12 @@ async function ensureScramjetConfig() {
 }
 
 async function handleRequest(event) {
+	const url = new URL(event.request.url);
+
 	if (
 		event.request.mode === "navigate" &&
 		event.request.destination === "document"
 	) {
-		const url = new URL(event.request.url);
 		if (url.pathname.startsWith(splashPrefix)) {
 			const encodedPath = url.pathname.slice(splashPrefix.length);
 			if (encodedPath) {
@@ -269,28 +236,31 @@ async function handleRequest(event) {
 			return Response.redirect("/", 302);
 		}
 	}
-	await initScramjet();
-	await ensureScramjetConfig();
 
-	if (scramjet.route(event)) {
-		const response = await scramjet.fetch(event);
-		const contentType = response.headers.get("content-type") || "";
+	// Only intercept if it's a scramjet request
+	if (url.pathname.startsWith("/surf/scram/")) {
+		await initScramjet();
+		await ensureScramjetConfig();
+		if (scramjet.route(event)) {
+			const response = await scramjet.fetch(event);
+			const contentType = response.headers.get("content-type") || "";
 
-		if (contentType.includes("text/html")) {
-			const originalText = await response.text();
-			const encoder = new TextEncoder();
-			const byteLength = encoder.encode(originalText).length;
-			const newHeaders = new Headers(response.headers);
-			newHeaders.set("content-length", byteLength.toString());
+			if (contentType.includes("text/html")) {
+				const originalText = await response.text();
+				const encoder = new TextEncoder();
+				const byteLength = encoder.encode(originalText).length;
+				const newHeaders = new Headers(response.headers);
+				newHeaders.set("content-length", byteLength.toString());
 
-			return new Response(originalText, {
-				status: response.status,
-				statusText: response.statusText,
-				headers: newHeaders,
-			});
+				return new Response(originalText, {
+					status: response.status,
+					statusText: response.statusText,
+					headers: newHeaders,
+				});
+			}
+
+			return response;
 		}
-
-		return response;
 	}
 
 	return fetch(event.request);

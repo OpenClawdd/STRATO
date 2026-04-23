@@ -14,5 +14,15 @@ async function registerSW() {
 		throw new Error("Your browser doesn't support service workers.");
 	}
 
-	await navigator.serviceWorker.register(stockSW, { scope: "/" });
+	// Register Scramjet SW (Global scope)
+	const reg = await navigator.serviceWorker.register(stockSW, { scope: "/" });
+    if (reg) await reg.update();
+
+	// Register Ultraviolet SW (UV scope)
+	if (typeof __uv$config !== 'undefined') {
+		const uvReg = await navigator.serviceWorker.register(__uv$config.sw || "/frog/uv.sw.js", {
+			scope: __uv$config.prefix || "/frog/service/",
+		});
+        if (uvReg) await uvReg.update();
+	}
 }
