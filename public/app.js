@@ -1,767 +1,281 @@
 /**
- * STRATO App Controller v3.0
- * ============================
- * Main application brain — wires all systems together:
- *   • View switching & navigation
- *   • Proxy initialization (Ultraviolet + Scramjet)
- *   • Theater Mode controls
- *   • FPS monitoring
- *   • Browser, AI, Media, Settings
- *   • Panic, Cloak, Stealth integration
- *   • Splash screen & ignition sequence
+ * STRATO App Controller v5.0 (Wii-Stealth Edition)
  */
 
 (function () {
   'use strict';
 
-  // ── Configuration ─────────────────────────────────────
-  const CONFIG = {
-    VERSION: '3.0.0',
-    PROXY_ENGINE: 'uv',
-    PANIC_URL: 'https://classroom.google.com',
-    DEBOUNCE_MS: 60,
-  };
-
   // ── State ─────────────────────────────────────────────
   let currentView = 'home';
-  let proxyService = null;
-  let wispRelay = null;
   let fpsFrames = 0;
   let fpsLast = performance.now();
-  let sidebarExpanded = false;
-  let proxyReady = false;
+  let isPanicked = false;
 
-  // ── DOM Helpers ───────────────────────────────────────
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
 
-  // ── Proxy System ──────────────────────────────────────
-
-  /**
-   * Initialize the BareMux connection to Ultraviolet or Scramjet.
-   * Exposes a global `proxifyUrl(url)` function for use by game engine.
-   */
-  async function initProxy() {
-    const pill = $('#proxy-pill');
-    const label = $('#proxy-label');
-
+  // ── about:blank Cloaking ─────────────────────────────
+  function cloak() {
     try {
-      const engine = localStorage.getItem('strato-proxy') || CONFIG.PROXY_ENGINE;
-      const wispUrl = `wss://${location.host}/wisp/`;
-
-      if (typeof BareMux !== 'undefined') {
-        const connection = new BareMux.BareMuxConnection('/frog/baremux/worker.js');
-        
-        // Use Epoxy transport for maximum compatibility and performance
-        await connection.setTransport('/surf/epoxy/index.mjs', [{ wisp: wispUrl }]);
-        
-        proxyService = connection;
-        proxyReady = true;
-
-        if (label) label.textContent = engine === 'uv' ? 'UV' : 'SJ';
-        if (pill) pill.classList.remove('warn');
-        console.log(`[STRATO] Proxy initialized with ${engine.toUpperCase()} engine and Epoxy transport`);
-      }
-    } catch (err) {
-      console.warn('[STRATO] Proxy init failed:', err);
-      if (label) label.textContent = 'Offline';
-      if (pill) pill.classList.add('warn');
-    }
-  }
-
-  /** Proxify a URL using the current proxy engine */
-  function proxifyUrl(url) {
-    if (!url) return '';
-
-    // Already proxied?
-    if (url.startsWith(location.origin) || url.startsWith('blob:')) return url;
-
-    // Relative URLs
-    if (url.startsWith('/')) return url;
-
-    // Absolute URL — encode through proxy
-    const engine = localStorage.getItem('strato-proxy') || CONFIG.PROXY_ENGINE;
-
-    try {
-      if (engine === 'uv' && typeof __uv$config !== 'undefined') {
-        return __uv$config.prefix + __uv$config.encodeUrl(url);
-      } else if (engine === 'scramjet' && typeof __scramjet$config !== 'undefined') {
-        return __scramjet$config.prefix + __scramjet$config.codec.encode(url);
-      }
-    } catch (err) {
-      console.warn('[STRATO] Proxify error:', err);
-    }
-
-    return url; // Fallback: return as-is
-  }
-
-  // Expose globally for game engine and other modules
-  window.proxifyUrl = proxifyUrl;
-
-  // ── View Switching ────────────────────────────────────
-  function switchView(viewName) {
-    currentView = viewName;
-
-    // Update views
-    $$('.view').forEach((v) => v.classList.remove('active'));
-    const target = $(`#view-${viewName}`);
-    if (target) target.classList.add('active');
-
-    // Update sidebar
-    $$('.nav-item[data-view]').forEach((n) => {
-      n.classList.toggle('active', n.dataset.view === viewName);
-    });
-
-    // Scroll main to top
-    const main = $('#main');
-    if (main) main.scrollTop = 0;
-
-    // Update tab title for stealth
-    if (typeof updateStealthTabTitle === 'function') {
-      updateStealthTabTitle(viewName);
-    }
-
-    // Close mobile sidebar
-    const sidebar = $('#sidebar');
-    if (sidebar) sidebar.classList.remove('mobile-open');
-  }
-  window.switchView = switchView;
-
-  // ── Navigation Wiring ─────────────────────────────────
-  function initNav() {
-    // Sidebar nav items
-    $$('.nav-item[data-view]').forEach((item) => {
-      item.addEventListener('click', () => switchView(item.dataset.view));
-    });
-
-    // Quick cards on home
-    $$('.quick-card[data-action="view"]').forEach((card) => {
-      card.addEventListener('click', () => switchView(card.dataset.target));
-    });
-
-    // Sidebar toggle
-    const sidebarToggle = $('#sidebar-toggle');
-    if (sidebarToggle) {
-      sidebarToggle.addEventListener('click', toggleSidebar);
-    }
-
-    // Mobile menu
-    const mobileBtn = $('#mobile-menu-btn');
-    if (mobileBtn) {
-      mobileBtn.addEventListener('click', () => {
-        const sidebar = $('#sidebar');
-        if (sidebar) sidebar.classList.toggle('mobile-open');
-      });
-    }
-  }
-
-  function toggleSidebar() {
-    const sidebar = $('#sidebar');
-    if (sidebar) {
-      sidebarExpanded = !sidebarExpanded;
-      sidebar.classList.toggle('expanded', sidebarExpanded);
-    }
-  }
-  window.toggleSidebar = toggleSidebar;
-
-  // ── Theater Mode Controls ─────────────────────────────
-  function initTheaterControls() {
-    const back = $('#theater-back');
-    const close = $('#theater-close');
-    const fullscreen = $('#theater-fullscreen');
-    const refresh = $('#theater-refresh');
-    const adStrip = $('#theater-ad-strip');
-
-    if (back) back.addEventListener('click', () => StratoGameEngine.close());
-    if (close) close.addEventListener('click', () => StratoGameEngine.close());
-    if (fullscreen) fullscreen.addEventListener('click', () => {
-      const overlay = $('#game-overlay');
-      if (overlay) StratoGameEngine.tryFullscreen(overlay);
-    });
-    if (refresh) refresh.addEventListener('click', () => StratoGameEngine.refresh());
-    if (adStrip) adStrip.addEventListener('click', () => {
-      StratoGameEngine.stripAds();
-      showToast('Ad-stripping attempted');
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && $('#game-overlay')?.classList.contains('active')) {
-        StratoGameEngine.close();
-      }
-    });
-  }
-
-  // ── Browser View ──────────────────────────────────────
-  function initBrowser() {
-    const urlInput = $('#browser-url');
-    const goBtn = $('#browser-go');
-    const iframe = $('#browser-iframe');
-    const newTab = $('#browser-new-tab');
-    const engineSelect = $('#proxy-engine');
-
-    if (!urlInput || !iframe) return;
-
-    function navigate() {
-      let url = urlInput.value.trim();
-      if (!url) return;
-
-      // Auto-add protocol
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        if (url.includes('.') && !url.includes(' ')) {
-          url = 'https://' + url;
-        } else {
-          url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
-        }
-      }
-
-      iframe.src = proxifyUrl(url);
-    }
-
-    if (goBtn) goBtn.addEventListener('click', navigate);
-    urlInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') navigate();
-    });
-
-    if (newTab) {
-      newTab.addEventListener('click', () => {
-        let url = urlInput.value.trim();
-        if (url) {
-          if (!url.startsWith('http')) url = 'https://' + url;
-          openAboutBlank(proxifyUrl(url), url);
-        }
-      });
-    }
-
-    if (engineSelect) {
-      engineSelect.value = localStorage.getItem('strato-proxy') || CONFIG.PROXY_ENGINE;
-      engineSelect.addEventListener('change', (e) => {
-        localStorage.setItem('strato-proxy', e.target.value);
-      });
-    }
-  }
-
-  // ── About:Blank Cloaking ─────────────────────────────
-  // Opens proxied URLs in about:blank tabs so the address bar shows
-  // "about:blank" instead of the STRATO URL — matching Rammerhead/TitaniumNetwork.
-  function openAboutBlank(proxiedUrl, realUrl) {
-    try {
+      const url = window.location.href;
       const win = window.open('about:blank', '_blank');
       if (!win) {
-        // Fallback to regular window if blocked
-        window.open(proxiedUrl, '_blank');
+        alert('Popup blocked! Please allow popups for STRATO to enable Stealth Mode.');
         return;
       }
-      
       const doc = win.document;
-      doc.title = realUrl || 'STRATO';
-      
       const iframe = doc.createElement('iframe');
-      iframe.src = proxiedUrl;
+      
+      doc.title = 'Google Drive'; // Default cloak title
+      iframe.src = url;
       iframe.style.width = '100vw';
       iframe.style.height = '100vh';
       iframe.style.border = 'none';
-      iframe.style.margin = '0';
-      iframe.style.padding = '0';
-      iframe.setAttribute('allow', 'fullscreen');
+      iframe.style.position = 'fixed';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
       
       doc.body.style.margin = '0';
       doc.body.style.padding = '0';
       doc.body.style.overflow = 'hidden';
       doc.body.appendChild(iframe);
+
+      // Close the original tab
+      window.close();
+      // If window.close() is blocked, just show the app normally
+      initApp();
     } catch (e) {
-      console.warn('[STRATO] About:blank fallback:', e);
-      window.open(proxiedUrl, '_blank');
-    }
-  }
-  window.openAboutBlank = openAboutBlank;
-
-  // ── Media Cards ───────────────────────────────────────
-  function initMediaCards() {
-    // Watch cards
-    $$('#watch-grid .media-card').forEach((card) => {
-      card.addEventListener('click', () => {
-        const url = card.dataset.url;
-        const title = card.dataset.title;
-        if (url) {
-          const id = 'media-' + (title || url).toLowerCase().replace(/[^a-z0-9]/g, '-');
-          StratoGameEngine.open({ id, name: title || url, url, category: 'Media' });
-        }
-      });
-    });
-
-    // Listen cards
-    $$('#listen-grid .media-card').forEach((card) => {
-      card.addEventListener('click', () => {
-        const url = card.dataset.url;
-        const title = card.dataset.title;
-        if (url) {
-          const id = 'media-' + (title || url).toLowerCase().replace(/[^a-z0-9]/g, '-');
-          StratoGameEngine.open({ id, name: title || url, url, category: 'Music' });
-        }
-      });
-    });
-  }
-
-  // ── Utility Tools (replaces fake AI decoy) ──────────────
-  function initTools() {
-    // Tab switching
-    $$('#view-ai .category-pill[data-tool]').forEach((pill) => {
-      pill.addEventListener('click', () => {
-        $$('#view-ai .category-pill[data-tool]').forEach((p) => p.classList.remove('active'));
-        pill.classList.add('active');
-        $$('.tool-panel').forEach((p) => p.style.display = 'none');
-        const target = $(`#tool-${pill.dataset.tool}`);
-        if (target) target.style.display = 'block';
-      });
-    });
-
-    initCalculator();
-    initTimer();
-    initNotes();
-    initConverter();
-  }
-
-  // ── Calculator ─────────────────────────────────────────
-  function initCalculator() {
-    const display = $('#calc-display');
-    if (!display) return;
-    let expression = '';
-    let lastResult = false;
-
-    $$('.calc-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const val = btn.dataset.calc;
-
-        if (val === 'clear') {
-          expression = '';
-          display.value = '0';
-          lastResult = false;
-          return;
-        }
-        if (val === 'backspace') {
-          expression = expression.slice(0, -1);
-          display.value = expression || '0';
-          return;
-        }
-        if (val === '=') {
-          try {
-            // Enhanced safety check — strictly allow arithmetic only
-            const sanitized = expression.replace(/\s+/g, '');
-            if (/^[\d+\-*/.%()]+$/.test(sanitized)) {
-              // Using a slightly safer eval wrapper with restricted context
-              const result = new Function(`"use strict"; return (${sanitized})`)();
-              if (typeof result === 'number' && isFinite(result)) {
-                display.value = parseFloat(result.toFixed(10));
-                expression = String(display.value);
-                lastResult = true;
-              } else {
-                throw new Error('Invalid');
-              }
-            }
-          } catch {
-            display.value = 'Error';
-            expression = '';
-          }
-          return;
-        }
-
-        // If last result was shown and user types a number, start fresh
-        if (lastResult && /^[\d.]$/.test(val)) {
-          expression = '';
-          lastResult = false;
-        } else {
-          lastResult = false;
-        }
-
-        expression += val;
-        display.value = expression;
-      });
-    });
-
-    // Keyboard support
-    $('#view-ai')?.addEventListener('keydown', (e) => {
-      if ($('#tool-calculator')?.style.display !== 'block') return;
-      const key = e.key;
-      if (/[\d+\-*/.%()]/.test(key)) {
-        expression += key;
-        display.value = expression;
-      } else if (key === 'Enter') {
-        e.preventDefault();
-        // Manually trigger the '=' logic
-        const equalsBtn = document.querySelector('.calc-btn[data-calc="="]');
-        if (equalsBtn) equalsBtn.click();
-      } else if (key === 'Backspace') {
-        expression = expression.slice(0, -1);
-        display.value = expression || '0';
-      } else if (key === 'Escape') {
-        expression = '';
-        display.value = '0';
-      }
-    });
-  }
-
-  // ── Timer / Stopwatch ──────────────────────────────────
-  function initTimer() {
-    const display = $('#timer-display');
-    const startBtn = $('#timer-start');
-    const pauseBtn = $('#timer-pause');
-    const resetBtn = $('#timer-reset');
-    const lapBtn = $('#timer-lap');
-    const lapsDiv = $('#timer-laps');
-    if (!display) return;
-
-    let elapsed = 0;
-    let running = false;
-    let interval = null;
-    let laps = [];
-
-    function formatTime(ms) {
-      const h = String(Math.floor(ms / 3600000)).padStart(2, '0');
-      const m = String(Math.floor((ms % 3600000) / 60000)).padStart(2, '0');
-      const s = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
-      return `${h}:${m}:${s}`;
-    }
-
-    function tick() {
-      elapsed += 10;
-      display.textContent = formatTime(elapsed);
-    }
-
-    if (startBtn) startBtn.addEventListener('click', () => {
-      if (!running) {
-        running = true;
-        interval = setInterval(tick, 10);
-      }
-    });
-    if (pauseBtn) pauseBtn.addEventListener('click', () => {
-      running = false;
-      clearInterval(interval);
-    });
-    if (resetBtn) resetBtn.addEventListener('click', () => {
-      running = false;
-      clearInterval(interval);
-      elapsed = 0;
-      laps = [];
-      display.textContent = '00:00:00';
-      if (lapsDiv) lapsDiv.innerHTML = '';
-    });
-    if (lapBtn) lapBtn.addEventListener('click', () => {
-      if (running) {
-        laps.push(elapsed);
-        if (lapsDiv) {
-          const lapEl = document.createElement('div');
-          lapEl.className = 'py-1 border-b border-glass-border';
-          lapEl.textContent = `Lap ${laps.length}: ${formatTime(elapsed)}`;
-          lapsDiv.prepend(lapEl);
-        }
-      }
-    });
-  }
-
-  // ── Notes (auto-save to localStorage) ──────────────────
-  function initNotes() {
-    const editor = $('#notes-editor');
-    const status = $('#notes-status');
-    const clearBtn = $('#notes-clear');
-    if (!editor) return;
-
-    // Load saved notes
-    const saved = localStorage.getItem('strato-notes') || '';
-    editor.value = saved;
-
-    let saveTimer = null;
-    editor.addEventListener('input', () => {
-      if (status) status.textContent = 'Saving...';
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
-        try { localStorage.setItem('strato-notes', editor.value); } catch {}
-        if (status) status.textContent = 'Auto-saved';
-      }, 500);
-    });
-
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        editor.value = '';
-        try { localStorage.setItem('strato-notes', ''); } catch {}
-        if (status) status.textContent = 'Cleared';
-      });
+      console.warn('Cloaking failed:', e);
+      initApp();
     }
   }
 
-  // ── Unit Converter ─────────────────────────────────────
-  function initConverter() {
-    const fromSel = $('#conv-from');
-    const toSel = $('#conv-to');
-    const input = $('#conv-input');
-    const result = $('#conv-result');
-    if (!input || !result) return;
+  // ── Panic System ──────────────────────────────────────
+  const PANIC_KEY = '`'; // Tilde key (without shift)
+  const DECOY_HTML = `
+    <div style="font-family: 'Roboto', Arial, sans-serif; background: #fff; color: #3c4043; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden;">
+      <header style="height: 64px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; padding: 0 16px; justify-content: space-between; flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button style="padding: 12px; border-radius: 50%; hover: background: #f1f3f4;">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          </button>
+          <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24dp.svg" height="24" />
+          <span style="font-size: 22px; color: #5f6368; padding-left: 4px;">Classroom</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button style="padding: 12px; border-radius: 50%;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg></button>
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: #1a73e8; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 14px;">S</div>
+        </div>
+      </header>
+      <nav style="height: 48px; border-bottom: 1px solid #e0e0e0; display: flex; padding: 0 64px; gap: 32px;">
+        <div style="height: 100%; display: flex; align-items: center; color: #1a73e8; border-bottom: 3px solid #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer;">To-do</div>
+        <div style="height: 100%; display: flex; align-items: center; color: #5f6368; font-weight: 500; font-size: 14px; cursor: pointer;">Calendar</div>
+      </nav>
+      <main style="flex: 1; padding: 24px; background: #f8f9fa; overflow-y: auto;">
+        <div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+          ${[
+            { name: "AP Computer Science A", teacher: "Mr. Henderson", color: "#1a73e8" },
+            { name: "Physics Honors — Period 4", teacher: "Dr. Aris", color: "#1e8e3e" },
+            { name: "English 101: Creative Writing", teacher: "Ms. Vance", color: "#d93025" },
+            { name: "World History — Section B", teacher: "Coach Miller", color: "#f29900" },
+          ].map(c => `
+            <div style="background: #fff; border: 1px solid #dadce0; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; height: 280px;">
+              <div style="background: ${c.color}; padding: 16px; height: 100px; color: #fff; position: relative;">
+                <h3 style="margin: 0; font-size: 22px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.name}</h3>
+                <p style="margin: 4px 0 0; font-size: 14px;">${c.teacher}</p>
+                <div style="position: absolute; bottom: -30px; right: 16px; width: 60px; height: 60px; border-radius: 50%; background: #eee; border: 2px solid #fff;"></div>
+              </div>
+              <div style="flex: 1;"></div>
+              <div style="height: 56px; border-top: 1px solid #e0e0e0; display: flex; justify-content: flex-end; padding: 0 12px; align-items: center; gap: 8px;">
+                <button style="padding: 8px;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></button>
+                <button style="padding: 8px;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg></button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </main>
+    </div>
+  `;
 
-    // Conversion factors to base units (meters, kg, or Celsius)
-    const LENGTH = { m: 1, km: 1000, mi: 1609.344, ft: 0.3048, in: 0.0254, cm: 0.01 };
-    const MASS = { kg: 1, lb: 0.453592, oz: 0.0283495 };
-
-    function convert() {
-      const val = parseFloat(input.value);
-      if (isNaN(val)) { result.textContent = '—'; return; }
-
-      const from = fromSel.value;
-      const to = toSel.value;
-
-      // Temperature special case
-      if (from === 'c' || from === 'f' || to === 'c' || to === 'f') {
-        let celsius;
-        if (from === 'c') celsius = val;
-        else if (from === 'f') celsius = (val - 32) * 5 / 9;
-        else celsius = val; // fallback
-
-        let output;
-        if (to === 'c') output = celsius;
-        else if (to === 'f') output = celsius * 9 / 5 + 32;
-        else output = celsius;
-
-        result.textContent = parseFloat(output.toFixed(4));
-        return;
-      }
-
-      // Length
-      if (LENGTH[from] !== undefined && LENGTH[to] !== undefined) {
-        const meters = val * LENGTH[from];
-        result.textContent = parseFloat((meters / LENGTH[to]).toFixed(6));
-        return;
-      }
-
-      // Mass
-      if (MASS[from] !== undefined && MASS[to] !== undefined) {
-        const kgs = val * MASS[from];
-        result.textContent = parseFloat((kgs / MASS[to]).toFixed(6));
-        return;
-      }
-
-      result.textContent = 'Incompatible units';
-    }
-
-    input.addEventListener('input', convert);
-    if (fromSel) fromSel.addEventListener('change', convert);
-    if (toSel) toSel.addEventListener('change', convert);
+  function panic() {
+    if (isPanicked) return;
+    isPanicked = true;
+    
+    // Completely replace the DOM
+    document.body.innerHTML = DECOY_HTML;
+    document.title = 'Google Classroom';
+    
+    // Block any further script execution by throwing an error or clearing intervals
+    window.location.hash = '#panicked';
+    // Remove background image/gradients
+    document.body.style.backgroundImage = 'none';
+    document.body.style.background = '#f8f9fa';
   }
 
-  // ── Settings ──────────────────────────────────────────
+  // ── Core App Logic ────────────────────────────────────
+  function initApp() {
+    $('#app').classList.add('visible');
+    $('#splash').style.opacity = '0';
+    setTimeout(() => $('#splash').style.display = 'none', 500);
+    
+    // Start systems
+    initSearch();
+    initBrowser();
+    initSettings();
+    initFPS();
+    
+    if (window.StratoGameEngine) {
+      StratoGameEngine.init();
+      renderRecentlyPlayed();
+      document.addEventListener('strato:recent_updated', renderRecentlyPlayed);
+    }
+  }
+
+  function initSearch() {
+    const search = $('#global-search');
+    if (search) {
+      search.oninput = (e) => {
+        const query = e.target.value.trim();
+        if (query.length > 0 && currentView !== 'arcade') switchView('arcade');
+        document.dispatchEvent(new CustomEvent('strato:search', { detail: query }));
+      };
+    }
+  }
+
+  function switchView(viewName) {
+    currentView = viewName;
+    $$('.view').forEach(v => v.classList.remove('active'));
+    $(`#view-${viewName}`)?.classList.add('active');
+    $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === viewName));
+    if ($('#main')) $('#main').scrollTop = 0;
+  }
+
+  function renderRecentlyPlayed() {
+    const recent = StratoGameEngine.getRecent();
+    const section = $('#section-recent');
+    const grid = $('#recent-grid');
+    if (!section || !grid) return;
+    if (recent.length === 0) { section.style.display = 'none'; return; }
+
+    section.style.display = 'block';
+    grid.innerHTML = '';
+    recent.forEach(game => {
+      const tile = document.createElement('div');
+      tile.className = 'game-tile';
+      tile.innerHTML = `<img src="${game.img || ''}" loading="lazy" /><div class="tile-overlay"><div class="tile-title">${game.name}</div></div>`;
+      tile.onclick = () => StratoGameEngine.open(game);
+      grid.appendChild(tile);
+    });
+  }
+
+  function initBrowser() {
+    const input = $('#browser-input');
+    const go = $('#browser-go');
+    const iframe = $('#browser-iframe');
+    if (!input || !iframe) return;
+
+    function navigate() {
+      let url = input.value.trim();
+      if (!url) return;
+      if (!url.startsWith('http')) url = url.includes('.') ? 'https://' + url : 'https://www.google.com/search?q=' + encodeURIComponent(url);
+      iframe.src = window.proxifyUrl(url);
+    }
+    go.onclick = navigate;
+    input.onkeydown = (e) => { if (e.key === 'Enter') navigate(); };
+  }
+
   function initSettings() {
-    // Theme
-    const themeSelect = $('#setting-theme');
-    if (themeSelect) {
-      themeSelect.value = localStorage.getItem('strato-theme') || 'midnight';
-      themeSelect.addEventListener('change', (e) => {
-        localStorage.setItem('strato-theme', e.target.value);
-        applyTheme(e.target.value);
-      });
-    }
-
-    // Proxy
-    const proxySelect = $('#setting-proxy');
-    if (proxySelect) {
-      proxySelect.value = localStorage.getItem('strato-proxy') || 'uv';
-      proxySelect.addEventListener('change', (e) => {
-        localStorage.setItem('strato-proxy', e.target.value);
-        // Also update browser view select
-        const browserEngine = $('#proxy-engine');
-        if (browserEngine) browserEngine.value = e.target.value;
-      });
-    }
-
-    // Panic URL
-
-    // Toggles
-    initToggle('setting-math-decoy', 'strato-math-decoy', false);
-    initToggle('setting-cache', 'strato-cache', true);
-
-    // Clear cache
-    const clearCache = $('#settings-clear-cache');
-    if (clearCache) {
-      clearCache.addEventListener('click', () => {
-        if (typeof StratoGameEngine !== 'undefined') {
-          StratoGameEngine.vault.clear();
-          showToast('StratoVault cache cleared');
-        }
-      });
-    }
-
-    // Save all
-    const saveAll = $('#settings-save-all');
-    if (saveAll) {
-      saveAll.addEventListener('click', () => showToast('All settings saved'));
+    const lowPerf = $('#setting-low-perf');
+    if (lowPerf) {
+      const active = localStorage.getItem('strato-low-perf') === 'true';
+      lowPerf.classList.toggle('on', active);
+      if (active) document.body.classList.add('low-perf-mode');
+      lowPerf.onclick = () => {
+        const isOn = lowPerf.classList.toggle('on');
+        localStorage.setItem('strato-low-perf', isOn);
+        document.body.classList.toggle('low-perf-mode', isOn);
+      };
     }
   }
 
-  function initToggle(elementId, storageKey, defaultValue) {
-    const el = $(`#${elementId}`);
-    if (!el) return;
-
-    const stored = localStorage.getItem(storageKey);
-    const isOn = stored !== null ? stored === 'true' : defaultValue;
-    el.classList.toggle('on', isOn);
-
-    el.addEventListener('click', () => {
-      el.classList.toggle('on');
-      localStorage.setItem(storageKey, el.classList.contains('on'));
-    });
-  }
-
-
-
-
-
-
-
-  // ── Theme System ──────────────────────────────────────
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    const root = document.documentElement;
-    switch (theme) {
-      case 'midnight':
-        root.style.setProperty('--bg-main', '#0a0a0f');
-        root.style.setProperty('--accent', '#00e5ff');
-        root.style.setProperty('--accent-glow', 'rgba(0, 229, 255, 0.4)');
-        break;
-      case 'sky':
-        root.style.setProperty('--bg-main', '#0f172a');
-        root.style.setProperty('--accent', '#38bdf8');
-        root.style.setProperty('--accent-glow', 'rgba(56, 189, 248, 0.4)');
-        break;
-      case 'terminal':
-        root.style.setProperty('--bg-main', '#050805');
-        root.style.setProperty('--accent', '#10b981');
-        root.style.setProperty('--accent-glow', 'rgba(16, 185, 129, 0.4)');
-        break;
-      case 'light':
-        root.style.setProperty('--bg-main', '#f8fafc');
-        root.style.setProperty('--accent', '#0ea5e9');
-        root.style.setProperty('--accent-glow', 'rgba(14, 165, 233, 0.2)');
-        root.style.setProperty('--text-main', '#0f172a');
-        root.style.setProperty('--text-dim', '#475569');
-        break;
-    }
-  }
-
-  // ── FPS Vitals ────────────────────────────────────────
   function initFPS() {
-    const pill = $('#fps-pill');
-    let slowFramesCount = 0;
-    let lastFrameTime = performance.now();
-
+    const el = $('#fps-counter');
     function tick(now) {
-      const delta = now - lastFrameTime;
-      lastFrameTime = now;
-
-      if (delta > 18) { // Target 55+ FPS
-        slowFramesCount++;
-      } else {
-        slowFramesCount = 0;
-      }
-
-      if (slowFramesCount >= 3 && !document.body.classList.contains('eco-mode')) {
-        document.body.classList.add('eco-mode');
-        console.log('[STRATO] Turbo Mode: Eco Active');
-      }
-
-      if (pill) {
-        fpsFrames++;
-        if (now - fpsLast >= 1000) {
-          const fps = Math.round(fpsFrames * 1000 / (now - fpsLast));
-          pill.querySelector('.pill-label').textContent = fps;
-          fpsFrames = 0;
-          fpsLast = now;
-        }
+      fpsFrames++;
+      if (now - fpsLast >= 1000) {
+        if (el) el.textContent = Math.round(fpsFrames * 1000 / (now - fpsLast)) + ' FPS';
+        fpsFrames = 0;
+        fpsLast = now;
       }
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
   }
 
-  // ── Splash & Ignition ─────────────────────────────────
-  function igniteStratosphere() {
-    const splash = $('#splash');
-    const app = $('#app');
-    const progress = $('#splash-progress');
-    if (!splash || !app || !progress) {
-      // No splash — show app immediately
-      if (app) app.classList.add('visible');
-      return;
+  // ── Boot sequence ─────────────────────────────────────
+  async function boot() {
+    // Register Service Workers
+    if ('serviceWorker' in navigator) {
+      const sws = [
+        { script: '/sw.js', scope: '/' },
+        { script: '/frog/sw.js', scope: '/frog/service/' },
+        { script: '/scramjet.sw.js', scope: '/surf/service/' }
+      ];
+      for (const sw of sws) {
+        navigator.serviceWorker.register(sw.script, { scope: sw.scope, updateViaCache: 'none' }).catch(e => {});
+      }
     }
 
-    const steps = [50, 100];
-    let step = 0;
+    const progress = $('#splash-progress');
+    const launchBtn = $('#launch-btn');
+    
+    // Simulate loading progress
+    let p = 0;
     const interval = setInterval(() => {
-      if (step < steps.length) {
-        progress.style.width = steps[step] + "%";
-        step++;
-      } else {
+      p += Math.random() * 10;
+      if (p >= 100) {
+        p = 100;
         clearInterval(interval);
-        setTimeout(() => {
-          splash.classList.add("hidden");
-          app.classList.add("visible");
-          setTimeout(() => { splash.style.display = "none"; }, 200);
-        }, 50);
+        // Show launch button instead of auto-running
+        if (progress) progress.style.width = '100%';
+        if (launchBtn) launchBtn.style.display = 'block';
+      } else {
+        if (progress) progress.style.width = p + '%';
       }
     }, 50);
-  }
-  function initParticles() { 
-    // Stubbed for performance
-    return; 
-  }
 
-  // ── Boot Sequence ─────────────────────────────────────
-  async function boot() {
-    console.log(`%c STRATO v${CONFIG.VERSION} %c Technozen UI `, 'background:#06b6d4;color:#000;font-weight:bold;padding:4px 8px;border-radius:4px 0 0 4px', 'background:#8b5cf6;color:#fff;padding:4px 8px;border-radius:0 4px 4px 0');
-
-    // 0. Register Service Worker (Critical for proxy)
-    try {
-      if (typeof registerSW === 'function') {
-        await registerSW();
-        console.log('[STRATO] Service Worker registered');
-      }
-    } catch (err) {
-      console.warn('[STRATO] Service Worker initialization error:', err);
+    // Manual Launch Trigger
+    if (launchBtn) {
+      launchBtn.onclick = () => {
+        // Only cloak if not already in about:blank (or if forced)
+        if (window.location.protocol === 'about:' || window.top !== window.self) {
+          initApp();
+        } else {
+          cloak();
+        }
+      };
     }
 
-    // Give a small delay for SW to activate
-    await new Promise(r => setTimeout(r, 100));
+    // Global Panic Listener
+    document.addEventListener('keydown', (e) => {
+      if (e.key === PANIC_KEY) {
+        e.preventDefault();
+        panic();
+      }
+    });
 
-    // 1. Apply saved theme
-    const savedTheme = localStorage.getItem('strato-theme') || 'midnight';
-    applyTheme(savedTheme);
-
-
-
-    // 4. Initialize proxy
-    await initProxy();
-
-    // 5. Wire all UI systems
-    initNav();
-    initTheaterControls();
-    initBrowser();
-    initMediaCards();
-    initTools();
-    initSettings();
-    initFPS();
-
-    // 6. Initialize command palette
-    CommandPalette.init();
-
-    // 7. Start game engine
-    StratoGameEngine.init();
-
-    // 8. Ignition sequence
-    igniteStratosphere();
-
-
+    // Nav wiring
+    $$('.nav-item').forEach(item => item.onclick = () => switchView(item.dataset.view));
+    $$('.quick-tile').forEach(tile => tile.onclick = () => switchView(tile.dataset.view));
+    $('#theater-close').onclick = () => $('#game-overlay').classList.remove('active');
   }
 
-  // ── Initialize on DOM ready ───────────────────────────
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
+  // Proxify helper
+  window.proxifyUrl = window.proxifyUrl || ((url) => {
+    const engine = localStorage.getItem('strato-proxy') || 'uv';
+    if (engine === 'uv' && window.__uv$config) return __uv$config.prefix + __uv$config.encodeUrl(url);
+    return url;
+  });
+
+  boot();
 })();

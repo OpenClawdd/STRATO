@@ -102,46 +102,43 @@
             opacity: 1;
         }
 
-        /* Back Button - Special */
-        .back-btn {
-            background: rgba(255, 255, 255, 0.08);
-            margin-bottom: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+        /* Wii Aesthetic Overrides */
+        .controls-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
 
-        /* Focus Mode */
-        body.focus-mode .controls-container {
-            left: -100px;
+        .control-btn {
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
         }
 
-        #focus-trigger {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            z-index: 1001;
-            opacity: 0;
-            cursor: pointer;
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 52%, transparent 55%);
+            transform: rotate(-25deg);
+            pointer-events: none;
+            transition: 0.3s;
         }
-        #focus-trigger:hover { opacity: 0.5; }
+
+        .control-btn:hover::before {
+            transform: rotate(-25deg) translate(20%, 20%);
+        }
 
         .game-info-overlay {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(13, 13, 20, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            pointer-events: none;
-            z-index: 999;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
         }
     </style>
 </head>

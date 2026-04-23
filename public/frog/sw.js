@@ -11,5 +11,15 @@ importScripts("/frog/uv.sw.js");
 const sw = new UVServiceWorker();
 
 self.addEventListener("fetch", (event) => {
-	event.respondWith(sw.fetch(event));
+	const url = new URL(event.request.url);
+
+	// WebSocket & Latency Monitoring
+	if (event.request.headers.get("Upgrade") === "websocket") {
+		console.log(`[STRATO-PROXY] 🚀 WebSocket Upgrade Detected: ${url.href}`);
+	}
+
+	// Bulletproof Interception: Strictly rewrite all fetch and XHR
+	if (url.href.startsWith(location.origin + self.__uv$config.prefix)) {
+		event.respondWith(sw.fetch(event));
+	}
 });

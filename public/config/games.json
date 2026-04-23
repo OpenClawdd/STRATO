@@ -1,0 +1,18 @@
+[
+  {
+    "id": "sandbox",
+    "name": "Sandbox",
+    "url": "/games/sandbox/index.html",
+    "img": "https://raw.githubusercontent.com/OpenClawdd/STRATO/main/public/assets/placeholder.webp",
+    "category": "Sandbox",
+    "t": "HTML5"
+  },
+  {
+    "id": "vogel",
+    "name": "Vogel",
+    "url": "/games/vogel/index.html",
+    "img": "https://raw.githubusercontent.com/OpenClawdd/STRATO/main/public/assets/placeholder.webp",
+    "category": "Sandbox",
+    "t": "HTML5"
+  }
+]

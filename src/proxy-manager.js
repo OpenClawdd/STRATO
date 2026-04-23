@@ -88,6 +88,7 @@ export class ProxyManager {
 
 	getStatus() {
 		return {
+			active: !!this.activeBackend,
 			activeBackend: this.activeBackend,
 			backends: this.backends,
 		};

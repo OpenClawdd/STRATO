@@ -7,5 +7,6 @@
 		worker: "/surf/scram/scramjet.worker.js",
 		client: "/surf/scram/scramjet.client.js",
 		codecs: "/surf/scram/scramjet.codecs.js",
+		bare: "/bare/",
 	};
 })();
