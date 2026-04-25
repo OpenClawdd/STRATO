@@ -79,13 +79,35 @@ export default class EpoxyTransport {
 	}
 
 	connect(url, protocols, requestHeaders, onopen, onmessage, onclose, onerror) {
+		// bare-mux expects connect() to synchronously return { send, close }.
+		// We buffer messages until the WebSocket is actually live.
+		const messageQueue = [];
+		let ws = null;
+		let isClosed = false;
+
 		const doConnect = () => {
+			if (isClosed) return;
 			try {
 				this.client
 					.connect_websocket(null, url, protocols, requestHeaders)
-					.then((ws) => {
+					.then((socket) => {
+						if (isClosed) {
+							// close() was called before the WS connected
+							try { socket.close?.(); } catch {}
+							return;
+						}
+						ws = socket;
+
 						// Fire onopen with the negotiated protocol
 						if (onopen) onopen(ws.protocol || []);
+
+						// Drain any queued messages
+						while (messageQueue.length > 0) {
+							const msg = messageQueue.shift();
+							try { ws.send(msg); } catch (e) {
+								console.warn("[EpoxyTransport] Queued send failed:", e);
+							}
+						}
 
 						// Wire up message forwarding
 						if (ws && typeof ws.addEventListener === "function") {
@@ -113,5 +135,27 @@ export default class EpoxyTransport {
 		} else {
 			doConnect();
 		}
+
+		// Return synchronous handles — bare-mux requires this
+		return {
+			send(data) {
+				if (ws) {
+					try { ws.send(data); } catch (e) {
+						console.warn("[EpoxyTransport] Send failed:", e);
+					}
+				} else if (!isClosed) {
+					// Buffer until WebSocket is ready
+					messageQueue.push(data);
+				}
+			},
+			close(code, reason) {
+				isClosed = true;
+				messageQueue.length = 0;
+				if (ws) {
+					try { ws.close(code, reason); } catch {}
+				}
+			},
+		};
 	}
 }
+

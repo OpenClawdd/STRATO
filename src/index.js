@@ -124,6 +124,35 @@ server.on("upgrade", (req, socket, head) => {
         socket.end();
 });
 
-server.listen({ port: parseInt(PORT, 10), host: "0.0.0.0" }, () => {
-        console.log(`\n🚀 STRATO running on http://localhost:${PORT}\n`);
+server.listen({ port: parseInt(PORT, 10), host: "0.0.0.0" }, async () => {
+	console.log(`\n🚀 STRATO running on http://localhost:${PORT}\n`);
+
+	// ── Startup Diagnostics ──────────────────────────────────
+	const { uvPath } = await import("@titaniumnetwork-dev/ultraviolet");
+	const criticalFiles = [
+		{ label: "UV Service Worker", path: join(uvPath, "uv.sw.js") },
+		{ label: "UV Bundle", path: join(uvPath, "uv.bundle.js") },
+		{ label: "UV Handler", path: join(uvPath, "uv.handler.js") },
+		{ label: "Epoxy Transport (bundled)", path: join(ROOT, "node_modules", "@mercuryworkshop", "epoxy-tls", "full", "epoxy-bundled.js") },
+		{ label: "Bare-Mux Worker", path: join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist", "worker.js") },
+		{ label: "Custom UV Config (/frog/)", path: join(ROOT, "public", "frog", "uv.config.js") },
+		{ label: "Custom UV SW (/frog/)", path: join(ROOT, "public", "frog", "sw.js") },
+		{ label: "Epoxy Transport (custom)", path: join(ROOT, "public", "epoxy-transport.mjs") },
+	];
+
+	console.log("─── STRATO Proxy Diagnostics ───");
+	let allOk = true;
+	for (const { label, path } of criticalFiles) {
+		if (fs.existsSync(path)) {
+			console.log(`  ✅ ${label}: ${path}`);
+		} else {
+			console.error(`  ❌ ${label} MISSING: ${path}`);
+			allOk = false;
+		}
+	}
+	if (allOk) {
+		console.log("  🟢 All critical proxy files verified.\n");
+	} else {
+		console.error("  🔴 Some critical files are missing! Run 'npm install' or check paths.\n");
+	}
 });

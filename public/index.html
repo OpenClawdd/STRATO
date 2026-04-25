@@ -2,48 +2,63 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>STRATO — Gaming Reimagined</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+  <meta name="description" content="STRATO — The most advanced unblocked gaming platform. 550+ games, secure proxy, premium UI." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%230084ff'/><stop offset='100%' stop-color='%2300c3ff'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><text x='16' y='23' text-anchor='middle' font-size='18' font-weight='800' fill='white' font-family='sans-serif'>S</text></svg>" />
   <link rel="stylesheet" href="technozen.css" />
 </head>
 <body>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       SPLASH SCREEN — Animated intro with particles + status
+       ═══════════════════════════════════════════════════════════ -->
   <div id="splash">
-    <div class="wordmark">STRATO</div>
-    <div class="progress-track"><div class="progress-fill" id="splash-progress"></div></div>
-    <button id="launch-btn" class="launch-btn" style="display:none; margin-top: 2rem;">Launch STRATO</button>
+    <canvas id="splash-particles" aria-hidden="true"></canvas>
+    <div class="splash-content">
+      <div class="splash-wordmark" aria-label="STRATO">STRATO</div>
+      <p class="splash-status" id="splash-status">Initializing...</p>
+      <div class="splash-progress">
+        <div class="splash-progress-bar" id="splash-progress"></div>
+      </div>
+      <button id="launch-btn" class="splash-launch" style="display:none;">
+        <span>Launch</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
   </div>
 
-  <div id="panic-decoy" style="display:none; position:fixed; inset:0; z-index:99999; background:#fff;">
-    <!-- Will be populated with Google Classroom clone -->
-  </div>
+  <!-- Panic decoy (untouched — functional) -->
+  <div id="panic-decoy" style="display:none; position:fixed; inset:0; z-index:99999; background:#fff;"></div>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN APP SHELL
+       ═══════════════════════════════════════════════════════════ -->
   <div id="app">
-    <!-- Sidebar Navigation -->
+    <!-- Desktop Sidebar -->
     <aside id="sidebar">
       <div class="brand">
-        <div class="brand-icon">S</div>
+        <div class="brand-icon" aria-hidden="true">S</div>
         <span class="brand-text">STRATO</span>
       </div>
 
-      <nav class="nav-links">
-        <div class="nav-item active" data-view="home" title="Home">
-          <span class="icon">🏠</span>
-          <span class="label">Home</span>
-        </div>
-        <div class="nav-item" data-view="arcade" title="Library">
-          <span class="icon">🎮</span>
-          <span class="label">Library</span>
-        </div>
-        <div class="nav-item" data-view="browser" title="Browser">
-          <span class="icon">🌐</span>
-          <span class="label">Browser</span>
-        </div>
-        <div class="nav-item" data-view="settings" title="Settings">
-          <span class="icon">⚙️</span>
-          <span class="label">Settings</span>
-        </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <button class="nav-item active" data-view="home" title="Home" aria-label="Home">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="nav-label">Home</span>
+        </button>
+        <button class="nav-item" data-view="arcade" title="Library" aria-label="Game Library">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+          <span class="nav-label">Library</span>
+        </button>
+        <button class="nav-item" data-view="browser" title="Browser" aria-label="Web Browser">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span class="nav-label">Browser</span>
+        </button>
+        <button class="nav-item" data-view="settings" title="Settings" aria-label="Settings">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="nav-label">Settings</span>
+        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -57,13 +72,18 @@
     <!-- Main Content -->
     <main id="main">
       <header id="topbar">
+        <!-- Mobile: wordmark only -->
+        <span class="topbar-brand-mobile">STRATO</span>
         <div class="search-wrap">
-          <span class="search-icon">🔍</span>
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input type="text" id="global-search" placeholder="Search games, apps, or URLs..." autocomplete="off" />
         </div>
         <div class="topbar-actions">
           <div id="fps-counter" class="stat-badge">60 FPS</div>
-          <button id="panic-btn" class="panic-btn">Panic</button>
+          <button id="panic-btn" class="panic-btn" aria-label="Panic button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+            <span>Panic</span>
+          </button>
         </div>
       </header>
 
@@ -90,14 +110,18 @@
               <h2>Quick Access</h2>
             </div>
             <div class="quick-grid">
-              <div class="quick-tile" data-view="arcade">
-                <span class="tile-icon">🎮</span>
+              <button class="quick-tile" data-view="arcade">
+                <span class="tile-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+                </span>
                 <div class="tile-info"><h3>Full Library</h3><p>550+ Games</p></div>
-              </div>
-              <div class="quick-tile" data-view="browser">
-                <span class="tile-icon">🌐</span>
+              </button>
+              <button class="quick-tile" data-view="browser">
+                <span class="tile-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </span>
                 <div class="tile-info"><h3>Web Browser</h3><p>Secure Access</p></div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -107,24 +131,32 @@
       <section id="view-arcade" class="view">
         <div class="view-header">
           <h2>Library</h2>
-          <span id="game-count" style="color:var(--text-muted);font-size:0.85rem;">0 GAMES</span>
+          <span id="game-count" class="game-count-badge">0 GAMES</span>
           <div class="filter-bar" id="category-bar"></div>
         </div>
-        <div class="game-grid" id="game-grid"></div>
+        <div class="game-grid" id="game-grid">
+          <!-- Skeleton loaders inserted by JS on init -->
+        </div>
+        <div class="infinite-scroll-indicator" id="load-more-indicator" style="display:none;">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <span>Loading more...</span>
+        </div>
       </section>
 
       <!-- View: Browser -->
       <section id="view-browser" class="view">
         <div class="browser-container">
           <div class="browser-controls">
-            <select id="proxy-select" class="browser-select">
+            <select id="proxy-select" class="browser-select" aria-label="Proxy engine">
               <option value="uv">Ultraviolet</option>
               <option value="scramjet">Scramjet</option>
             </select>
             <input type="text" id="browser-input" placeholder="Enter URL or search..." />
-            <button id="browser-go">Go</button>
+            <button id="browser-go" class="browser-go-btn" aria-label="Navigate">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
           </div>
-          <iframe id="browser-iframe" class="browser-frame"></iframe>
+          <iframe id="browser-iframe" class="browser-frame" title="Proxied browser"></iframe>
         </div>
       </section>
 
@@ -133,18 +165,24 @@
         <div class="view-header"><h2>Settings</h2></div>
         <div class="settings-grid">
           <div class="settings-card">
-            <h3>Performance</h3>
+            <div class="settings-card-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <h3>Performance</h3>
+            </div>
             <div class="setting-row">
               <label>Low Performance Mode</label>
-              <div class="toggle" id="setting-low-perf"></div>
+              <div class="toggle" id="setting-low-perf" role="switch" aria-label="Toggle low performance mode"></div>
             </div>
             <p class="setting-hint">Disables heavy blur and animations for Chromebooks.</p>
           </div>
           <div class="settings-card">
-            <h3>Privacy</h3>
+            <div class="settings-card-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <h3>Privacy</h3>
+            </div>
             <div class="setting-row">
               <label>Tab Cloak</label>
-              <select id="setting-cloak">
+              <select id="setting-cloak" aria-label="Tab cloak preset">
                 <option value="default">STRATO</option>
                 <option value="drive">Google Drive</option>
                 <option value="classroom">Google Classroom</option>
@@ -156,18 +194,62 @@
     </main>
   </div>
 
-  <!-- Game Overlay -->
+  <!-- Game Overlay / Theater -->
   <div id="game-overlay">
     <div class="overlay-header">
-      <button class="overlay-close" id="theater-close">✕</button>
+      <button class="overlay-close" id="theater-close" aria-label="Close game">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
       <h3 id="theater-game-title">Game Title</h3>
       <div class="overlay-actions">
-        <button id="theater-refresh">⟳</button>
-        <button id="theater-fullscreen">⛶</button>
+        <button id="theater-refresh" aria-label="Refresh game">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        </button>
+        <button id="theater-fullscreen" aria-label="Fullscreen">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
       </div>
     </div>
-    <iframe id="theater-iframe"></iframe>
+    <iframe id="theater-iframe" title="Game frame"></iframe>
   </div>
+
+  <!-- Game tile context menu -->
+  <div id="tile-context-menu" class="context-menu" style="display:none;">
+    <button class="context-item" data-action="favorite">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      Add to Favorites
+    </button>
+    <button class="context-item" data-action="share">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+      Share
+    </button>
+    <button class="context-item" data-action="report">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+      Report Broken
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MOBILE BOTTOM NAVIGATION (iOS-style, <768px only)
+       ═══════════════════════════════════════════════════════════ -->
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-tab active" data-view="home" aria-label="Home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="mobile-tab" data-view="arcade" aria-label="Games">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+      <span>Games</span>
+    </button>
+    <button class="mobile-tab" data-view="browser" aria-label="Browser">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      <span>Browser</span>
+    </button>
+    <button class="mobile-tab" data-view="settings" aria-label="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
 
   <!-- ═══════════════════════════════════════════════════════════
        SCRIPT LOADING ORDER (CRITICAL):

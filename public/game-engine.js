@@ -50,16 +50,27 @@
     });
   }, { rootMargin: '300px' });
 
+  // ── Category color map ────────────────────────────────────────────────
+  const CAT_COLORS = {
+    shooter: '#ef4444', fps: '#ef4444', puzzle: '#a855f7', action: '#f97316',
+    racing: '#06b6d4', strategy: '#eab308', sport: '#22c55e', sports: '#22c55e',
+    platformer: '#ec4899', adventure: '#8b5cf6', '3kh0': '#3b82f6', selenite: '#14b8a6',
+  };
+  function getCatColor(cat) { return (cat && CAT_COLORS[cat.toLowerCase()]) || '#64748b'; }
+
   // ── Create game tile ────────────────────────────────────────────────
   function createTile(game, index = 0) {
     const title = game.title || game.n || 'Unknown';
     const url   = game.iframe_url || game.u || game.url || '';
     const type  = game.t || 'GAME';
     const img   = game.thumbnail || game.img || '';
+    const catColor = getCatColor(type);
 
     const tile = document.createElement('div');
     tile.className = 'game-tile';
-    tile.style.animationDelay = `${Math.min(index * 25, 800)}ms`;
+    tile.style.animationDelay = `${Math.min(index * 30, 1200)}ms`;
+    tile.style.setProperty('--tile-accent', catColor);
+    tile.setAttribute('data-cat-color', '');
     tile.setAttribute('role', 'button');
     tile.setAttribute('tabindex', '0');
     tile.setAttribute('aria-label', `Play ${title}`);
@@ -67,18 +78,23 @@
     // Sanitize title for HTML output
     const safe = title.replace(/[<>"'&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'})[c]);
 
+    function addPlaceholder() {
+      const ph = document.createElement('div');
+      ph.className = 'game-tile-placeholder';
+      ph.textContent = (title || '?')[0].toUpperCase();
+      tile.prepend(ph);
+    }
+
     if (img) {
       const imgEl = document.createElement('img');
       imgEl.dataset.src = img;
       imgEl.alt = safe;
       imgEl.loading = 'lazy';
+      imgEl.onerror = () => { imgEl.remove(); addPlaceholder(); };
       tile.appendChild(imgEl);
       lazyObserver.observe(imgEl);
     } else {
-      const ph = document.createElement('div');
-      ph.className = 'game-tile-placeholder';
-      ph.textContent = '\uD83C\uDFAE';
-      tile.appendChild(ph);
+      addPlaceholder();
     }
 
     const badge = document.createElement('div');
@@ -91,11 +107,28 @@
     info.textContent = title;
     tile.appendChild(info);
 
-    const launch = () => { if (url) StratoGameEngine.open({ name: title, url, id: title, category: type, img }); };
+    const gameData = { name: title, url, id: title, category: type, img };
+    const launch = () => { if (url) StratoGameEngine.open(gameData); };
     tile.addEventListener('click', launch);
     tile.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); launch(); }
     });
+
+    // Context menu (right-click / long-press)
+    tile.addEventListener('contextmenu', e => {
+      if (window.__stratoShowContextMenu) window.__stratoShowContextMenu(e, gameData);
+    });
+    let longPressTimer;
+    tile.addEventListener('touchstart', e => {
+      longPressTimer = setTimeout(() => {
+        if (window.__stratoShowContextMenu) {
+          const touch = e.touches[0];
+          window.__stratoShowContextMenu({ preventDefault: ()=>{}, stopPropagation: ()=>{}, clientX: touch.clientX, clientY: touch.clientY }, gameData);
+        }
+      }, 500);
+    }, { passive: true });
+    tile.addEventListener('touchend', () => clearTimeout(longPressTimer), { passive: true });
+    tile.addEventListener('touchmove', () => clearTimeout(longPressTimer), { passive: true });
 
     return tile;
   }
@@ -346,7 +379,7 @@
       const grid = $('game-grid');
       if (grid) {
         grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);">
-          <div style="font-size:2rem;margin-bottom:0.5rem">\uD83C\uDFAE</div>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.5rem;opacity:0.5"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
           <div style="font-size:0.85rem">Could not load games. Check your connection.</div>
         </div>`;
       }

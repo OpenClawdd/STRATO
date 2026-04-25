@@ -17,10 +17,53 @@ const staticConfig = {
 	},
 };
 
-// Ultraviolet
-router.use("/frog/", express.static(uvPath, staticConfig));
+// Ultraviolet — primary /frog/ routes
+// IMPORTANT: Explicit handlers must come BEFORE express.static so they take priority
 router.get("/frog/uv.config.js", (req, res) => res.sendFile(join(ROOT, "public", "frog", "uv.config.js")));
 router.get("/frog/sw.js", (req, res) => res.sendFile(join(ROOT, "public", "frog", "sw.js")));
+router.use("/frog/", express.static(uvPath, staticConfig));
+
+// Ultraviolet — /uv/ alias (backward compat for 3kh0 games & legacy code)
+// IMPORTANT: Explicit handlers must come BEFORE express.static so they take priority
+router.get("/uv/uv.config.js", (req, res) => {
+	// Dynamically serve a config with /uv/ prefixed paths
+	const config = `self.__uv$config = {
+	prefix: "/uv/service/",
+	bare: "/bare/",
+	encodeUrl: Ultraviolet.codec.xor.encode,
+	decodeUrl: Ultraviolet.codec.xor.decode,
+	handler: "/uv/uv.handler.js",
+	bundle: "/uv/uv.bundle.js",
+	config: "/uv/uv.config.js",
+	sw: "/uv/sw.js",
+};`;
+	res.setHeader("Content-Type", "application/javascript");
+	res.send(config);
+});
+router.get("/uv/sw.js", (req, res) => {
+	// Serve the custom SW that bootstraps UV under /uv/ scope
+	const swCode = `importScripts("/uv/uv.bundle.js");
+importScripts("/uv/uv.config.js");
+if (typeof self.Ultraviolet === 'undefined' && typeof Ultraviolet !== 'undefined') {
+	self.Ultraviolet = Ultraviolet;
+}
+importScripts("/uv/uv.sw.js");
+const sw = new UVServiceWorker();
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
+self.addEventListener("fetch", (event) => {
+	const url = new URL(event.request.url);
+	if (url.href.startsWith(location.origin + self.__uv$config.prefix)) {
+		event.respondWith(sw.fetch(event));
+	}
+});`;
+	res.setHeader("Content-Type", "application/javascript");
+	res.send(swCode);
+});
+router.use("/uv/", express.static(uvPath, staticConfig));
+
+// Bare-mux for /uv/ scope
+router.use("/uv/baremux/", express.static(join(ROOT, "node_modules", "@mercuryworkshop", "bare-mux", "dist"), staticConfig));
 
 // Scramjet
 const scramjetPrefix = "/surf/scram/";

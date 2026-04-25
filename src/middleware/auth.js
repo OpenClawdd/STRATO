@@ -5,6 +5,7 @@ export const authMiddleware = (req, res, next) => {
         const publicPaths = [
                 "/frog/",
                 "/surf/",
+                "/uv/",
                 "/config/",
                 "/login",
                 "/api/proxy-status",
@@ -14,6 +15,10 @@ export const authMiddleware = (req, res, next) => {
                 "/wisp/",
                 "/proxy",
                 "/assets/",
+                "/sw.js",
+                "/scramjet.sw.js",
+                "/epoxy-transport.mjs",
+                "/transport-init.js",
         ];
 
         if (
