@@ -27,11 +27,11 @@ const bareServer = createBareServer("/bare/");
 // Pre-load index.html
 let cachedIndexHtml = "";
 function refreshCache() {
-	try {
-		cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
-	} catch (e) {
-		cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
-	}
+        try {
+                cachedIndexHtml = fs.readFileSync(join(ROOT, "public", "index.html"), "utf8");
+        } catch (e) {
+                cachedIndexHtml = "<h1>STRATO — index.html not found</h1>";
+        }
 }
 refreshCache();
 setInterval(refreshCache, 120_000).unref();
@@ -39,20 +39,22 @@ setInterval(refreshCache, 120_000).unref();
 // Middleware
 app.set("trust proxy", 1);
 app.use(helmet({
-	contentSecurityPolicy: {
-		directives: {
-			defaultSrc: ["'self'"],
-			scriptSrc: ["'self'", "'unsafe-inline'", "blob:", "https://cdnjs.cloudflare.com", "https://cdn.tailwindcss.com"],
-			scriptSrcAttr: ["'unsafe-inline'"],
-			frameSrc: ["'self'", "blob:", "https:", "http:"],
-			connectSrc: ["'self'", "ws:", "wss:", "https://cdn.tailwindcss.com", "https://raw.githubusercontent.com"],
-			imgSrc: ["'self'", "data:", "blob:", "https:"],
-			styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
-			fontSrc: ["'self'", "https://fonts.gstatic.com"],
-		},
-	},
-	crossOriginEmbedderPolicy: false,
-	crossOriginOpenerPolicy: false,
+        contentSecurityPolicy: {
+                directives: {
+                        defaultSrc: ["'self'"],
+                        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:", "https://cdnjs.cloudflare.com", "https://cdn.tailwindcss.com"],
+                        scriptSrcAttr: ["'unsafe-inline'"],
+                        frameSrc: ["'self'", "blob:", "https:", "http:"],
+                        connectSrc: ["'self'", "ws:", "wss:", "https://cdn.tailwindcss.com", "https://raw.githubusercontent.com", "https:", "http:"],
+                        imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+                        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
+                        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+                        workerSrc: ["'self'", "blob:"],
+                },
+        },
+        crossOriginEmbedderPolicy: false,
+        crossOriginOpenerPolicy: false,
+        crossOriginResourcePolicy: false,
 }));
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
@@ -61,20 +63,20 @@ app.use(cookieParser(COOKIE_SECRET));
 
 // Logging
 app.use((req, res, next) => {
-	const start = Date.now();
-	res.on("finish", () => {
-		const duration = Date.now() - start;
-		const logLine = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms\n`;
-		fsp.appendFile(join(ROOT, "server.log"), logLine).catch(() => {});
-	});
-	next();
+        const start = Date.now();
+        res.on("finish", () => {
+                const duration = Date.now() - start;
+                const logLine = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms\n`;
+                fsp.appendFile(join(ROOT, "server.log"), logLine).catch(() => {});
+        });
+        next();
 });
 
 // Rate Limiting
 const generalLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 100,
-	skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
+        windowMs: 15 * 60 * 1000,
+        max: 100,
+        skip: (req) => req.ip === "127.0.0.1" || req.ip === "::1"
 });
 app.use("/api/", generalLimiter);
 
@@ -90,38 +92,38 @@ app.use(express.static(join(ROOT, "public")));
 
 // 404
 app.use((req, res) => {
-	res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
-		if (err) res.status(404).send("Not Found");
-	});
+        res.status(404).sendFile(join(ROOT, "public", "404.html"), (err) => {
+                if (err) res.status(404).send("Not Found");
+        });
 });
 
 // Server wiring with enhanced Bare/Wisp handling
 server.on("request", (req, res) => {
-	if (bareServer.shouldRoute(req)) {
-		// Custom Bare Header Hardening
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-		res.setHeader("Access-Control-Allow-Headers", "*");
-		res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-		
-		bareServer.routeRequest(req, res);
-		return;
-	}
-	app(req, res);
+        if (bareServer.shouldRoute(req)) {
+                // Custom Bare Header Hardening
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+                res.setHeader("Access-Control-Allow-Headers", "*");
+                res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+                
+                bareServer.routeRequest(req, res);
+                return;
+        }
+        app(req, res);
 });
 
 server.on("upgrade", (req, socket, head) => {
-	if (bareServer.shouldRoute(req)) {
-		bareServer.routeUpgrade(req, socket, head);
-		return;
-	}
-	if (req.url.startsWith("/wisp/")) {
-		wispServer.server.routeRequest(req, socket, head);
-		return;
-	}
-	socket.end();
+        if (bareServer.shouldRoute(req)) {
+                bareServer.routeUpgrade(req, socket, head);
+                return;
+        }
+        if (req.url.startsWith("/wisp/")) {
+                wispServer.server.routeRequest(req, socket, head);
+                return;
+        }
+        socket.end();
 });
 
 server.listen({ port: parseInt(PORT, 10), host: "0.0.0.0" }, () => {
-	console.log(`\n🚀 STRATO running on http://localhost:${PORT}\n`);
+        console.log(`\n🚀 STRATO running on http://localhost:${PORT}\n`);
 });

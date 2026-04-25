@@ -12,6 +12,8 @@ export const authMiddleware = (req, res, next) => {
                 "/js/",
                 "/bare/",
                 "/wisp/",
+                "/proxy",
+                "/assets/",
         ];
 
         if (

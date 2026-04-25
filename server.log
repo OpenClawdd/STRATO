@@ -2819,3 +2819,5 @@ Shutting down...
 [2026-04-25T00:25:53.557Z] GET /scramjet.sw.js 200 1ms
 [2026-04-25T00:25:53.563Z] GET /epoxy-transport.mjs 200 0ms
 [2026-04-25T00:25:53.569Z] GET /transport-init.js 200 0ms
+[2026-04-25T00:50:29.429Z] HEAD / 200 4ms
+[2026-04-25T00:50:57.794Z] HEAD / 200 5ms

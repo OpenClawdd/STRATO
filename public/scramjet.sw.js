@@ -9,12 +9,21 @@ importScripts("/surf/scram/scramjet.worker.js");
 
 const sw = new ScramjetServiceWorker();
 
+// Take control immediately so the SW intercepts requests on first load
+self.addEventListener("install", () => {
+        self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+        event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener("fetch", (event) => {
-	try {
-		if (sw.route(event)) {
-			event.respondWith(sw.fetch(event));
-		}
-	} catch (e) {
-		console.error("[Scramjet SW] Error:", e);
-	}
+        try {
+                if (sw.route(event)) {
+                        event.respondWith(sw.fetch(event));
+                }
+        } catch (e) {
+                console.error("[Scramjet SW] Error:", e);
+        }
 });

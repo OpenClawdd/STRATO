@@ -79,21 +79,39 @@ export default class EpoxyTransport {
 	}
 
 	connect(url, protocols, requestHeaders, onopen, onmessage, onclose, onerror) {
-		if (!this.client) {
-			this._initPromise.then(() => this._connect(url, protocols, requestHeaders, onopen, onmessage, onclose, onerror)).catch(onerror);
-			return;
-		}
-		this._connect(url, protocols, requestHeaders, onopen, onmessage, onclose, onerror);
-	}
+		const doConnect = () => {
+			try {
+				this.client
+					.connect_websocket(null, url, protocols, requestHeaders)
+					.then((ws) => {
+						// Fire onopen with the negotiated protocol
+						if (onopen) onopen(ws.protocol || []);
 
-	_connect(url, protocols, requestHeaders, onopen, onmessage, onclose, onerror) {
-		this.client
-			.connect_websocket(null, url, protocols, requestHeaders)
-			.then((ws) => {
-				if (onopen) onopen(ws.protocol || []);
-			})
-			.catch((err) => {
+						// Wire up message forwarding
+						if (ws && typeof ws.addEventListener === "function") {
+							ws.addEventListener("message", (evt) => {
+								if (onmessage) onmessage(evt.data || evt);
+							});
+							ws.addEventListener("close", (evt) => {
+								if (onclose) onclose(evt.code || 1000, evt.reason || "");
+							});
+							ws.addEventListener("error", () => {
+								if (onerror) onerror(new Error("WebSocket error"));
+							});
+						}
+					})
+					.catch((err) => {
+						if (onerror) onerror(err);
+					});
+			} catch (err) {
 				if (onerror) onerror(err);
-			});
+			}
+		};
+
+		if (!this.client) {
+			this._initPromise.then(doConnect).catch(onerror || (() => {}));
+		} else {
+			doConnect();
+		}
 	}
 }

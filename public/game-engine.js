@@ -1,5 +1,5 @@
 /**
- * STRATO Game Engine v3.0
+ * STRATO Game Engine v3.1
  * =========================
  * Manages game library loading, tile rendering,
  * category filtering, theater mode, and StratoVault caching.
@@ -53,7 +53,7 @@
   // ── Create game tile ────────────────────────────────────────────────
   function createTile(game, index = 0) {
     const title = game.title || game.n || 'Unknown';
-    const url   = game.iframe_url || game.u || '';
+    const url   = game.iframe_url || game.u || game.url || '';
     const type  = game.t || 'GAME';
     const img   = game.thumbnail || game.img || '';
 
@@ -77,7 +77,7 @@
     } else {
       const ph = document.createElement('div');
       ph.className = 'game-tile-placeholder';
-      ph.textContent = '🎮';
+      ph.textContent = '\uD83C\uDFAE';
       tile.appendChild(ph);
     }
 
@@ -249,18 +249,53 @@
   function openTheater(game) {
     const overlay = $('game-overlay');
     const iframe  = $('theater-iframe');
-    const title   = $('theater-game-title');
+    const title   = $('theater-game-title') || $('theater-title');
     if (!overlay || !iframe) return;
 
-    const url = (typeof window.proxifyUrl === 'function')
-      ? window.proxifyUrl(game.url)
-      : game.url;
+    // Local paths load directly; external URLs go through proxy
+    const rawUrl = game.url || '';
+    const isLocal = rawUrl.startsWith('/') || rawUrl.startsWith('about:');
+    const url = isLocal ? rawUrl : (typeof window.proxifyUrl === 'function' ? window.proxifyUrl(rawUrl) : rawUrl);
 
     if (title) title.textContent = game.name || 'Loading...';
+
+    // Show loading state
+    overlay.classList.add('loading');
     iframe.src = url;
     overlay.classList.add('active');
     theaterOpen = true;
     document.body.style.overflow = 'hidden';
+
+    // Remove loading state when iframe loads or errors
+    const onLoad = () => {
+      overlay.classList.remove('loading');
+      cleanup();
+    };
+    const onError = () => {
+      overlay.classList.remove('loading');
+      // If UV/Scramjet proxy failed, try server-side fallback for external URLs
+      if (!isLocal && rawUrl.startsWith('http')) {
+        console.warn('[STRATO] Proxy failed for', rawUrl, '— trying server-side fallback');
+        iframe.src = '/proxy?url=' + encodeURIComponent(rawUrl);
+      }
+      cleanup();
+    };
+    const cleanup = () => {
+      iframe.removeEventListener('load', onLoad);
+      iframe.removeEventListener('error', onError);
+    };
+
+    iframe.addEventListener('load', onLoad);
+    iframe.addEventListener('error', onError);
+
+    // Timeout fallback — if iframe doesn't load in 15 seconds, try server-side proxy
+    setTimeout(() => {
+      if (overlay.classList.contains('loading') && !isLocal && rawUrl.startsWith('http')) {
+        console.warn('[STRATO] Proxy timeout for', rawUrl, '— trying server-side fallback');
+        overlay.classList.remove('loading');
+        iframe.src = '/proxy?url=' + encodeURIComponent(rawUrl);
+      }
+    }, 15000);
   }
 
   function closeTheater() {
@@ -268,6 +303,7 @@
     const iframe  = $('theater-iframe');
     if (!overlay) return;
     overlay.classList.remove('active');
+    overlay.classList.remove('loading');
     theaterOpen = false;
     document.body.style.overflow = '';
     // Delay clearing src to avoid flash
@@ -295,7 +331,7 @@
       const spam = /badge|listed|hunt|stash|vault|directory|powered|dang\.ai|launchlist/i;
       masterGames = games.filter(g => {
         const n = g.title || g.n || '';
-        const u = g.iframe_url || g.u || '';
+        const u = g.iframe_url || g.u || g.url || '';
         return n && u && !spam.test(n);
       });
 
@@ -310,7 +346,7 @@
       const grid = $('game-grid');
       if (grid) {
         grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);">
-          <div style="font-size:2rem;margin-bottom:0.5rem">🎮</div>
+          <div style="font-size:2rem;margin-bottom:0.5rem">\uD83C\uDFAE</div>
           <div style="font-size:0.85rem">Could not load games. Check your connection.</div>
         </div>`;
       }
