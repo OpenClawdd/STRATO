@@ -1,3 +1,7 @@
+/**
+ * STRATO Scramjet Service Worker
+ * Scope MUST match the prefix in scramjet.config.js: "/surf/scram/"
+ */
 importScripts("/surf/scram/scramjet.codecs.js");
 importScripts("/scramjet.config.js");
 importScripts("/surf/scram/scramjet.bundle.js");
@@ -7,16 +11,10 @@ const sw = new ScramjetServiceWorker();
 
 self.addEventListener("fetch", (event) => {
 	try {
-		// WebSocket & Latency Monitoring
-		if (event.request.headers.get("Upgrade") === "websocket") {
-			console.log(`[SCRAMJET-PROXY] 🚀 WebSocket Upgrade Detected: ${event.request.url}`);
-		}
-
-		// Bulletproof Interception: Strictly rewrite all fetch, XHR, and navigation
 		if (sw.route(event)) {
 			event.respondWith(sw.fetch(event));
 		}
 	} catch (e) {
-		console.error("[Scramjet SW] Bulletproof Interception Error:", e);
+		console.error("[Scramjet SW] Error:", e);
 	}
 });

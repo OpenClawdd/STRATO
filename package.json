@@ -7,6 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
+    "postinstall": "node scripts/setup-proxy.cjs",
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "launch": "./scripts/launch.sh",
@@ -15,7 +16,8 @@
     "lint": "eslint ./src/",
     "lint:fix": "eslint ./src/ --fix",
     "test": "node --test tests/*.test.js || true",
-    "expand": "python heist.py && node merge_library.js"
+    "expand": "python heist.py && node merge_library.js",
+    "setup": "node scripts/setup-proxy.cjs"
   },
   "keywords": [
     "cloud",

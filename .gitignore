@@ -3,3 +3,11 @@ venv/
 .DS_Store
 .env
 server.log
+
+# Proxy engine files (auto-copied by postinstall: npm run setup)
+public/frog/uv.bundle.js
+public/frog/uv.handler.js
+public/frog/uv.sw.js
+public/frog/baremux/
+public/surf/epoxy/
+public/surf/scram/

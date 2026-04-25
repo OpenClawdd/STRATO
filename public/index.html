@@ -49,7 +49,7 @@
       <div class="sidebar-footer">
         <div class="status-pill" id="proxy-pill">
           <span class="dot"></span>
-          <span id="proxy-label">Status</span>
+          <span id="proxy-label">Connecting...</span>
         </div>
       </div>
     </aside>
@@ -168,13 +168,24 @@
     <iframe id="theater-iframe"></iframe>
   </div>
 
-  <!-- Scripts -->
+  <!-- ═══════════════════════════════════════════════════════════
+       SCRIPT LOADING ORDER (CRITICAL):
+       1. bare-mux (provides BareMuxConnection)
+       2. UV bundle + config (provides __uv$config)
+       3. Scramjet codecs + config (provides __scramjet$config)
+       4. Transport init (connects Wisp, registers SWs, defines proxifyUrl)
+       5. App logic (game engine, UI)
+       ═══════════════════════════════════════════════════════════ -->
   <script src="/frog/baremux/index.js"></script>
   <script src="/frog/uv.bundle.js"></script>
   <script src="/frog/uv.config.js"></script>
-  <script src="/scramjet/codecs.js"></script>
+  <script src="/surf/scram/scramjet.codecs.js"></script>
   <script src="/scramjet.config.js"></script>
-  
+
+  <!-- Transport: connects bare-mux SharedWorker to Wisp WebSocket -->
+  <script src="transport-init.js"></script>
+
+  <!-- App logic -->
   <script src="game-engine.js"></script>
   <script src="app.js"></script>
 </body>
