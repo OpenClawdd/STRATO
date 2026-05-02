@@ -1,0 +1,95 @@
+name: Gatekeep Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-urls:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect real community URLs in diff
+        id: detect
+        run: |
+          # Get the diff between base and head
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- '*.js' '*.json' '*.html' '*.css' '*.yml' '*.md')
+
+          # Known community URL patterns that should NOT appear in the public repo.
+          # Real URLs must live in .env or private config — the public repo uses
+          # ${ENV_VAR} placeholders only.
+          PATTERNS=(
+            'https://[a-z0-9-]+\.glitch\.me'
+            'https://[a-z0-9-]+\.onrender\.com'
+            'https://[a-z0-9-]+\.railway\.app'
+            'https://[a-z0-9-]+\.fly\.dev'
+            'https://[a-z0-9-]+\.herokuapp\.com'
+            'https://[a-z0-9-]+\.repl\.co'
+            'https://[a-z0-9-]+\.replit\.app'
+            'https://[a-z0-9-]+\.vercel\.app'
+            'https://[a-z0-9-]+\.netlify\.app'
+            'https://[a-z0-9-]+\.pages\.dev'
+            'https://[a-z0-9-]+\.github\.io'
+            'https://[a-z0-9-]+\.cloudflare\.workers\.dev'
+          )
+
+          FOUND=0
+          FINDINGS=""
+
+          for PATTERN in "${PATTERNS[@]}"; do
+            MATCHES=$(echo "$DIFF" | grep -noP "$PATTERN" || true)
+            if [ -n "$MATCHES" ]; then
+              FOUND=1
+              FINDINGS="${FINDINGS}\n⚠️  Pattern \`$PATTERN\` matched:\n\`\`\`\n$MATCHES\n\`\`\`\n"
+            fi
+          done
+
+          # Whitelist: these are intentionally public (project's own URLs, well-known CDNs)
+          WHITELIST=(
+            'fonts.googleapis.com'
+            'fonts.gstatic.com'
+            'cdn.jsdelivr.net'
+            'unpkg.com'
+            'www.google.com/s2/favicons'
+            'icon.horse'
+          )
+
+          # Filter out whitelisted domains from findings
+          for WL in "${WHITELIST[@]}"; do
+            FINDINGS=$(echo "$FINDINGS" | grep -v "$WL" || true)
+          done
+
+          echo "found=$FOUND" >> "$GITHUB_OUTPUT"
+          echo "findings<<EOF" >> "$GITHUB_OUTPUT"
+          echo -e "$FINDINGS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR if URLs detected
+        if: steps.detect.outputs.found == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const findings = `${{ steps.detect.outputs.findings }}`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🚫 Gatekeep Check Failed\n\nThis PR contains **real community URLs** that should NOT be in the public repo.\n\n${findings}\n---\nReal URLs must use \`${'{ENV_VAR}'}\` placeholders in the public repo and only exist in \`.env\` or private config files.\n\nPlease sanitize these URLs before merging.`
+            });
+
+      - name: Fail if URLs detected
+        if: steps.detect.outputs.found == '1'
+        run: |
+          echo "::error::Gatekeep check failed — real community URLs detected in PR diff"
+          echo "See the PR comment for details."
+          exit 1
+
+      - name: Pass if clean
+        if: steps.detect.outputs.found != '1'
+        run: echo "✅ No community URLs detected — gatekeep check passed"
