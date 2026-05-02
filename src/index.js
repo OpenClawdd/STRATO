@@ -13,6 +13,7 @@ import authMiddleware from './middleware/auth.js';
 import proxyRoutes from './routes/proxy.js';
 import aiRoutes from './routes/ai.js';
 import smuggleRoutes from './routes/smuggle.js';
+import hubRoutes from './routes/hub.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -82,10 +83,44 @@ app.use(authMiddleware);
 // ── 8. Static files (only served if authenticated) ──
 app.use(express.static(join(__dirname, '..', 'public')));
 
-// ── 9. Routes ──
+// ── 9. Header-stripping middleware for proxy iframe support ──
+//     Strips X-Frame-Options and modifies CSP frame-ancestors on proxied responses
+//     This allows sites loaded through the proxy to be embedded in iframes
+app.use('/frog/service/', (req, res, next) => {
+  const originalSetHeader = res.setHeader.bind(res);
+  res.setHeader = function(name, value) {
+    const lower = String(name).toLowerCase();
+    if (lower === 'x-frame-options') return res; // Strip entirely
+    if (lower === 'content-security-policy') {
+      if (typeof value === 'string') {
+        value = value.replace(/frame-ancestors[^;]*;?/gi, 'frame-ancestors *;');
+      }
+    }
+    return originalSetHeader(name, value);
+  };
+  next();
+});
+
+app.use('/scramjet/service/', (req, res, next) => {
+  const originalSetHeader = res.setHeader.bind(res);
+  res.setHeader = function(name, value) {
+    const lower = String(name).toLowerCase();
+    if (lower === 'x-frame-options') return res;
+    if (lower === 'content-security-policy') {
+      if (typeof value === 'string') {
+        value = value.replace(/frame-ancestors[^;]*;?/gi, 'frame-ancestors *;');
+      }
+    }
+    return originalSetHeader(name, value);
+  };
+  next();
+});
+
+// ── 10. Routes ──
 app.use(proxyRoutes);
 app.use(aiRoutes);
 app.use(smuggleRoutes);
+app.use(hubRoutes);
 
 // ── Health check ──
 app.get('/health', (req, res) => {

@@ -1,0 +1,86 @@
+{
+  "mirrors": [
+    {
+      "id": "selenite",
+      "name": "Selenite",
+      "primary": "http://Selenite.cc",
+      "alternates": ["https://g-65j.pages.dev"],
+      "priority": 1,
+      "reliability": "yellow"
+    },
+    {
+      "id": "awp",
+      "name": "AWP",
+      "primary": "https://tinyurl.com/kingelijah1",
+      "alternates": ["https://multirip.lol"],
+      "priority": 2,
+      "reliability": "yellow"
+    },
+    {
+      "id": "sme",
+      "name": "SME",
+      "primary": "https://startmyeducation.top",
+      "alternates": ["https://startmyeducation.net"],
+      "priority": 2,
+      "reliability": "yellow",
+      "password": "funni"
+    },
+    {
+      "id": "petezah",
+      "name": "PeteZah",
+      "primary": "https://pluh.aletiatours.com",
+      "alternates": ["https://petezahgames.b-cdn.net"],
+      "priority": 2,
+      "reliability": "yellow"
+    },
+    {
+      "id": "splash",
+      "name": "SPLASH",
+      "primary": "https://splash.best/",
+      "alternates": [],
+      "priority": 1,
+      "reliability": "green"
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "primary": "https://school.agreca.com.ar/",
+      "alternates": [],
+      "priority": 1,
+      "reliability": "green"
+    },
+    {
+      "id": "vapor-v4",
+      "name": "VAPOR v4",
+      "primary": "https://vapor.onl/",
+      "alternates": [],
+      "priority": 2,
+      "reliability": "yellow"
+    },
+    {
+      "id": "lucide",
+      "name": "Lucide",
+      "primary": "https://byod.geeked.wtf",
+      "alternates": [],
+      "priority": 1,
+      "reliability": "green"
+    },
+    {
+      "id": "infamous",
+      "name": "Infamous",
+      "primary": "https://infamous.qzz.io",
+      "alternates": [],
+      "priority": 2,
+      "reliability": "yellow"
+    },
+    {
+      "id": "cherri",
+      "name": "Cherri",
+      "primary": "https://cherrion.top",
+      "alternates": [],
+      "priority": 3,
+      "reliability": "red"
+    }
+  ],
+  "lastUpdated": "2026-05-03"
+}

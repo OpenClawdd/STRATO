@@ -8,88 +8,14 @@
 
   // ──────────────────────────────────────────
   // PARTICLE SYSTEM
+  // Now handled by particles.js (rainbow + mouse repulsion)
   // ──────────────────────────────────────────
-  const canvas = document.getElementById('particle-canvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    const PARTICLE_COUNT = 70;
-    const COLORS = [
-      'rgba(0,229,255,', 'rgba(168,85,247,',
-      'rgba(244,114,182,', 'rgba(34,197,94,', 'rgba(251,146,60,',
-    ];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function createParticle() {
-      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        radius: Math.random() * 1.8 + 0.4,
-        alpha: Math.random() * 0.35 + 0.08,
-        alphaDir: Math.random() > 0.5 ? 0.001 : -0.001,
-        color: color,
-      };
-    }
-
-    function initParticles() {
-      resizeCanvas();
-      particles = [];
-      for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-        p.alpha += p.alphaDir;
-        if (p.alpha > 0.4) { p.alpha = 0.4; p.alphaDir = -0.001; }
-        if (p.alpha < 0.04) { p.alpha = 0.04; p.alphaDir = 0.001; }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + p.alpha + ')';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + (p.alpha * 0.15) + ')';
-        ctx.fill();
-      }
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0,229,255,${(1 - dist / 110) * 0.06})`;
-            ctx.lineWidth = 0.4;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animateParticles);
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    initParticles();
-    animateParticles();
-  }
 
   // ──────────────────────────────────────────
   // STATE
   // ──────────────────────────────────────────
   const startTime = Date.now();
+  let cpOpen = false; // Command palette state - declared early for keydown handler
   const state = {
     currentView: 'home',
     currentEngine: localStorage.getItem('strato-engine') || 'uv',
@@ -113,6 +39,13 @@
     achievements: JSON.parse(localStorage.getItem('strato-achievements') || '[]'),
     notifications: [],
     activityLog: JSON.parse(localStorage.getItem('strato-activity') || '[]'),
+    coins: parseInt(localStorage.getItem('strato-coins') || '0'),
+    hubSites: [],
+    filteredHubSites: [],
+    dailyChallenges: JSON.parse(localStorage.getItem('strato-dailyChallenges') || '{}'),
+    leaderboard: null, // REMOVED - fake feature
+    favorites: JSON.parse(localStorage.getItem('strato-favorites') || '[]'),
+    recentPlays: JSON.parse(localStorage.getItem('strato-recentPlays') || '[]'),
   };
 
   // Apply saved accent color
@@ -148,12 +81,18 @@
   // TAB CLOAKS
   // ──────────────────────────────────────────
   const CLOAKS = {
-    none:      { title: 'STRATO', favicon: '/favicon.ico' },
-    classroom: { title: 'Classes', favicon: '/cloaks/classroom.ico' },
-    quizlet:   { title: 'Your Sets | Quizlet', favicon: '/cloaks/quizlet.ico' },
-    canvas:    { title: 'Dashboard', favicon: '/cloaks/canvas.ico' },
-    clever:    { title: 'Clever | Portal', favicon: '/cloaks/clever.ico' },
-    ixl:       { title: 'IXL | Math', favicon: '/cloaks/ixl.ico' },
+    none:               { title: 'STRATO', favicon: '/favicon.ico' },
+    classroom:          { title: 'Classes', favicon: 'https://www.google.com/favicon.ico' },
+    quizlet:            { title: 'Your Sets | Quizlet', favicon: 'https://www.quizlet.com/favicon.ico' },
+    canvas:             { title: 'Dashboard', favicon: 'https://www.canvaslms.com/favicon.ico' },
+    clever:             { title: 'Clever | Portal', favicon: 'https://www.clever.com/favicon.ico' },
+    ixl:                { title: 'IXL | Math', favicon: 'https://www.ixl.com/favicon.ico' },
+    'school-agreca':    { title: 'Escuela Agreca', favicon: 'https://www.google.com/favicon.ico' },
+    'noahs-tutoring':   { title: "Noah's Tutoring — Programming & Writing", favicon: 'https://www.google.com/favicon.ico' },
+    'byod-portal':      { title: 'BYOD Portal', favicon: 'https://www.google.com/favicon.ico' },
+    'eclipse-castellon':{ title: 'Eclipse Castellon', favicon: 'https://www.google.com/favicon.ico' },
+    'learning-policy':  { title: 'Learning Policy Institute', favicon: 'https://www.google.com/favicon.ico' },
+    'petezah-games':    { title: 'Aletia Tours — Travel Deals', favicon: 'https://www.google.com/favicon.ico' },
   };
 
   function applyCloak(key) {
@@ -197,11 +136,11 @@
       showToast('Panic key updated', 'accent');
       return;
     }
-    if (e.key === state.panicKey) handlePanicKey();
+    if (e.key === state.panicKey || e.key === 'Escape') handlePanicKey();
 
     // Number key shortcuts for views
     if (!e.ctrlKey && !e.altKey && !e.metaKey) {
-      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', '4': 'ai', '5': 'settings' };
+      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', 'h': 'hub', '4': 'ai', '5': 'settings' };
       if (viewMap[e.key] && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         switchView(viewMap[e.key]);
       }
@@ -216,6 +155,7 @@
       if (e.key === 'Escape') {
         document.getElementById('shortcuts-overlay')?.classList.add('hidden');
         document.getElementById('notification-panel')?.classList.add('hidden');
+        document.getElementById('command-palette')?.classList.add('hidden');
       }
     }
 
@@ -223,12 +163,19 @@
       e.preventDefault();
       document.getElementById('snap-fab')?.click();
     }
+
+    // Command Palette: Cmd+K / Ctrl+K
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (cpOpen) closeCommandPalette();
+      else openCommandPalette();
+    }
   });
 
   // ──────────────────────────────────────────
   // VIEW SWITCHING
   // ──────────────────────────────────────────
-  const VIEWS = ['home', 'arcade', 'browser', 'ai', 'settings'];
+  const VIEWS = ['home', 'arcade', 'browser', 'hub', 'ai', 'settings'];
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;
@@ -358,6 +305,7 @@
     renderAchievements();
     showToast(`Achievement unlocked!`, 'accent');
     addNotification(`Achievement unlocked!`, 'info');
+    addCoins(5);
   }
 
   function renderAchievements() {
@@ -386,7 +334,30 @@
         url = 'https://' + url;
       }
     }
-    return engine === 'uv' ? `/frog/${encodeURIComponent(url)}` : `/scramjet/${encodeURIComponent(url)}`;
+    // Use the proper UV/SJ codec — the service workers expect XOR-encoded URLs
+    // NOT encodeURIComponent (which was causing proxy breakage)
+    const targetEngine = engine || state.currentEngine;
+    if (targetEngine === 'uv') {
+      // Ultraviolet uses Ultraviolet.codec.xor.encode at the SW level.
+      // The SW intercepts /frog/service/ prefixed URLs and decodes them.
+      // We just need to pass the raw URL — the SW handles encoding.
+      // The prefix /frog/service/ is defined in uv.config.js
+      try {
+        if (typeof Ultraviolet !== 'undefined' && Ultraviolet.codec && Ultraviolet.codec.xor) {
+          return `/frog/service/${Ultraviolet.codec.xor.encode(url)}`;
+        }
+      } catch (e) { /* fallback below */ }
+      // Fallback: use the config prefix + encodeURIComponent (UV SW can handle both)
+      return `/frog/service/${encodeURIComponent(url)}`;
+    } else {
+      // Scramjet uses Scramjet.codec.xor.encode
+      try {
+        if (typeof Scramjet !== 'undefined' && Scramjet.codec && Scramjet.codec.xor) {
+          return `/scramjet/service/${Scramjet.codec.xor.encode(url)}`;
+        }
+      } catch (e) { /* fallback below */ }
+      return `/scramjet/service/${encodeURIComponent(url)}`;
+    }
   }
 
   function setEngine(engine) {
@@ -447,6 +418,8 @@
     state.pagesLoaded++;
     localStorage.setItem('strato-pagesLoaded', String(state.pagesLoaded));
     updateStats();
+    addCoins(2);
+    updateDailyChallengeProgress('browse');
     logActivity(`Loaded ${url.substring(0, 30)}`, 'proxy');
     unlockAchievement('first-proxy');
 
@@ -591,10 +564,23 @@
       .filter(game => showUnavailable || (state.unavailableGames[game.id] || 0) < 3)
       .map(game => {
         const isUnavailable = (state.unavailableGames[game.id] || 0) >= 3;
+        const isFav = state.favorites.includes(game.id);
+        const rel = game.reliability || 'green';
+        const hasPassword = !!game.password;
+        const proxyTier = game.proxy_tier;
+        let tierIcon = '';
+        if (proxyTier === 'good') tierIcon = '<span class="tier-gold">&#9733;</span>';
+        else if (proxyTier === 'recommended') tierIcon = '<span class="tier-purple">&#9734;</span>';
+        else if (game.tier === 1) tierIcon = '<span class="tier-standalone">LOCAL</span>';
         return `
           <div class="game-card glass ${isUnavailable ? 'unavailable' : ''}" data-game-id="${game.id}">
             <div class="game-card-inner">
-              <span class="tier-badge tier-${game.tier}">T${game.tier}</span>
+              <div class="game-card-badges">
+                ${tierIcon}
+                <span class="reliability-dot rel-${rel}" title="${rel} reliability"></span>
+                ${hasPassword ? '<span class="auth-hint" title="Password: ' + game.password + '">&#128272; ' + game.password + '</span>' : ''}
+              </div>
+              <button class="fav-btn ${isFav ? 'active' : ''}" data-fav-id="${game.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '\u2605' : '\u2606'}</button>
               <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" onerror="this.style.display='none'">
               <div class="game-card-info">
                 <div class="game-card-name">${game.name}</div>
@@ -605,8 +591,30 @@
       }).join('');
 
     grid.querySelectorAll('.game-card:not(.unavailable)').forEach(card => {
-      card.addEventListener('click', () => launchGame(card.dataset.gameId));
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.fav-btn')) return;
+        launchGame(card.dataset.gameId);
+      });
     });
+
+    grid.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(btn.dataset.favId);
+      });
+    });
+
+    // Attach hover prefetch for faster loads
+    attachHoverPrefetch();
+  }
+
+  function toggleFavorite(gameId) {
+    const idx = state.favorites.indexOf(gameId);
+    if (idx === -1) state.favorites.push(gameId);
+    else state.favorites.splice(idx, 1);
+    localStorage.setItem('strato-favorites', JSON.stringify(state.favorites));
+    renderGames();
+    showToast(idx === -1 ? 'Added to favorites' : 'Removed from favorites', 'accent');
   }
 
   function renderFeatured() {
@@ -644,6 +652,8 @@
 
     state.gamesPlayed++;
     localStorage.setItem('strato-gamesPlayed', String(state.gamesPlayed));
+    addCoins(1);
+    updateDailyChallengeProgress('play');
     updateStats();
     logActivity(`Played ${game.name}`, 'game');
     unlockAchievement('first-game');
@@ -707,11 +717,19 @@
     const query = (searchInput?.value || '').toLowerCase().trim();
     const sort = sortSelect?.value || 'popular';
     state.filteredGames = state.games.filter(game => {
-      if (!activeCategories.has('all') && !activeCategories.has(game.category)) return false;
+      if (activeCategories.has('favorites')) {
+        if (!state.favorites.includes(game.id)) return false;
+      } else if (activeCategories.has('recent')) {
+        if (!state.recentlyPlayed.includes(game.id)) return false;
+      } else if (!activeCategories.has('all') && !activeCategories.has(game.category)) {
+        return false;
+      }
       if (query) {
         const nameMatch = game.name.toLowerCase().includes(query);
         const descMatch = (game.description || '').toLowerCase().includes(query);
-        if (!nameMatch && !descMatch) return false;
+        const tagMatch = (game.tags || []).some(t => t.toLowerCase().includes(query));
+        const catMatch = (game.category || '').toLowerCase().includes(query);
+        if (!nameMatch && !descMatch && !tagMatch && !catMatch) return false;
       }
       return true;
     });
@@ -819,6 +837,8 @@
     state.aiMessages.push({ role: 'user', content: text });
     state.aiMessagesSent++;
     localStorage.setItem('strato-aiMessagesSent', String(state.aiMessagesSent));
+    addCoins(1);
+    updateDailyChallengeProgress('chat');
     updateStats();
     unlockAchievement('first-ai');
 
@@ -1061,6 +1081,25 @@
     showToast('Press any key to set as panic key', 'accent');
   });
 
+  // Idle timeout setting
+  const idleInput = document.getElementById('setting-idle-seconds');
+  if (idleInput) {
+    idleInput.value = localStorage.getItem('strato-idleSeconds') || '45';
+    idleInput.addEventListener('change', (e) => {
+      localStorage.setItem('strato-idleSeconds', e.target.value);
+      showToast(`Auto-cloak timeout: ${e.target.value}s`, 'accent');
+    });
+  }
+
+  // Breadcrumb setting
+  const breadcrumbInput = document.getElementById('setting-breadcrumb');
+  if (breadcrumbInput) {
+    breadcrumbInput.value = localStorage.getItem('strato-breadcrumb') || 'Classroom > AP History > Unit 4';
+    breadcrumbInput.addEventListener('input', (e) => {
+      updateBreadcrumb(e.target.value);
+    });
+  }
+
   // Settings nav
   document.querySelectorAll('.settings-nav-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -1163,6 +1202,670 @@
   }
 
   // ──────────────────────────────────────────
+  // STRATO COINS
+  // ──────────────────────────────────────────
+  function addCoins(amount) {
+    state.coins += amount;
+    localStorage.setItem('strato-coins', String(state.coins));
+    updateCoinsDisplay();
+    // Show popup animation
+    const popup = document.createElement('div');
+    popup.className = 'coin-popup';
+    popup.textContent = `+${amount} coins`;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 2200);
+  }
+
+  function updateCoinsDisplay() {
+    const el = document.getElementById('coins-count');
+    if (el) el.textContent = state.coins;
+  }
+
+  // ──────────────────────────────────────────
+  // HUB — SITE DIRECTORY
+  // ──────────────────────────────────────────
+  let hubSearchDebounce = null;
+
+  async function loadHubSites() {
+    try {
+      const resp = await fetch('/api/hub/sites');
+      if (!resp.ok) throw new Error('Failed to load hub');
+      const data = await resp.json();
+      state.hubSites = data.sites || [];
+      state.filteredHubSites = [...state.hubSites];
+      renderHubSites();
+      const countEl = document.getElementById('hub-site-count');
+      if (countEl) countEl.textContent = `${state.hubSites.length} sites`;
+      const badgeEl = document.getElementById('hub-badge');
+      if (badgeEl) badgeEl.textContent = state.hubSites.length;
+      const homeCountEl = document.getElementById('home-hub-count');
+      if (homeCountEl) homeCountEl.textContent = state.hubSites.length;
+    } catch (err) {
+      showToast('Failed to load Hub directory', 'error');
+    }
+  }
+
+  function renderHubSites() {
+    const grid = document.getElementById('hub-cards-grid');
+    if (!grid) return;
+    const topTierOnly = document.getElementById('hub-top-tier-toggle')?.checked || false;
+    let sites = state.filteredHubSites;
+    if (topTierOnly) sites = sites.filter(s => s.stars === 3);
+
+    grid.innerHTML = sites.map(site => {
+      const stars = Array.from({length: 3}, (_, i) =>
+        `<svg class="hub-star ${i < site.stars ? 'filled' : ''}" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>`
+      ).join('');
+      const safeBadge = site.iframe_safe ? '<span class="hub-badge-iframe-safe">iframe-safe</span>' : '';
+      return `
+        <div class="hub-card" data-hub-url="${site.url}" data-hub-safe="${site.iframe_safe}">
+          <div class="hub-card-top">
+            <span class="hub-card-name">${site.name}</span>
+            <span class="hub-card-stars">${stars}</span>
+          </div>
+          <p class="hub-card-desc">${site.description}</p>
+          <div class="hub-card-bottom">
+            <span class="hub-card-category ${site.category}">${site.category}</span>
+            ${safeBadge}
+            <button class="hub-card-open-btn" data-hub-launch="${site.url}" data-hub-safe="${site.iframe_safe}">Open</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    // Attach click handlers for open buttons
+    grid.querySelectorAll('.hub-card-open-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = btn.dataset.hubLaunch;
+        const safe = btn.dataset.hubSafe === 'true';
+        launchSiteViaProxy(url, safe);
+      });
+    });
+  }
+
+  function launchSiteViaProxy(url, iframeSafe) {
+    if (iframeSafe) {
+      // Load in the browser iframe view
+      navigateProxy(url);
+      addCoins(2);
+    } else {
+      // Open in about:blank cloaked tab for non-iframe-safe sites
+      launchCloakedProxy(url);
+      addCoins(1);
+    }
+  }
+
+  // launchCloakedProxy is defined in the new features section below
+
+  // Hub search
+  const hubSearchInput = document.getElementById('hub-search-input');
+  if (hubSearchInput) {
+    hubSearchInput.addEventListener('input', () => {
+      clearTimeout(hubSearchDebounce);
+      hubSearchDebounce = setTimeout(() => {
+        const q = hubSearchInput.value.toLowerCase().trim();
+        state.filteredHubSites = state.hubSites.filter(s =>
+          s.name.toLowerCase().includes(q) || s.description.toLowerCase().includes(q) || s.category.toLowerCase().includes(q)
+        );
+        renderHubSites();
+      }, 200);
+    });
+  }
+
+  // Hub category filter
+  const hubCategoryFilter = document.getElementById('hub-category-filter');
+  if (hubCategoryFilter) {
+    hubCategoryFilter.addEventListener('change', () => {
+      const cat = hubCategoryFilter.value;
+      if (cat === 'all') {
+        state.filteredHubSites = [...state.hubSites];
+      } else {
+        state.filteredHubSites = state.hubSites.filter(s => s.category === cat);
+      }
+      // Re-apply search filter
+      const q = hubSearchInput?.value?.toLowerCase().trim();
+      if (q) {
+        state.filteredHubSites = state.filteredHubSites.filter(s =>
+          s.name.toLowerCase().includes(q) || s.description.toLowerCase().includes(q)
+        );
+      }
+      renderHubSites();
+    });
+  }
+
+  // Hub top tier toggle
+  document.getElementById('hub-top-tier-toggle')?.addEventListener('change', renderHubSites);
+
+  // Hub quick launch buttons
+  document.querySelectorAll('.hub-quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.dataset.hubUrl;
+      const safe = btn.dataset.hubSafe === 'true';
+      if (url) launchSiteViaProxy(url, safe);
+    });
+  });
+
+  // Hub error overlay handlers
+  document.getElementById('hub-error-other-engine')?.addEventListener('click', () => {
+    const otherEngine = state.currentEngine === 'uv' ? 'scramjet' : 'uv';
+    setEngine(otherEngine);
+    const url = document.getElementById('browser-url-input')?.value;
+    if (url) navigateProxy(url, otherEngine);
+    document.getElementById('hub-error-overlay')?.classList.add('hidden');
+  });
+
+  document.getElementById('hub-error-new-tab')?.addEventListener('click', () => {
+    const url = document.getElementById('browser-url-input')?.value;
+    if (url) launchCloakedProxy(url);
+    document.getElementById('hub-error-overlay')?.classList.add('hidden');
+  });
+
+  // ──────────────────────────────────────────
+  // DAILY CHALLENGES
+  // ──────────────────────────────────────────
+  function initDailyChallenges() {
+    const today = new Date().toDateString();
+    if (state.dailyChallenges.date !== today) {
+      // Reset challenges for new day
+      state.dailyChallenges = {
+        date: today,
+        gamesPlayed: 0,
+        pagesLoaded: 0,
+        aiMessagesSent: 0,
+        completed: { play: false, browse: false, chat: false },
+      };
+      localStorage.setItem('strato-dailyChallenges', JSON.stringify(state.dailyChallenges));
+    }
+    renderDailyChallenges();
+  }
+
+  function updateDailyChallengeProgress(type) {
+    if (!state.dailyChallenges.date) return;
+    if (type === 'play') {
+      state.dailyChallenges.gamesPlayed = (state.dailyChallenges.gamesPlayed || 0) + 1;
+      if (state.dailyChallenges.gamesPlayed >= 3 && !state.dailyChallenges.completed?.play) {
+        if (!state.dailyChallenges.completed) state.dailyChallenges.completed = {};
+        state.dailyChallenges.completed.play = true;
+        addCoins(5);
+        showToast('Daily challenge complete: Play 3 games!', 'accent');
+      }
+    } else if (type === 'browse') {
+      state.dailyChallenges.pagesLoaded = (state.dailyChallenges.pagesLoaded || 0) + 1;
+      if (state.dailyChallenges.pagesLoaded >= 5 && !state.dailyChallenges.completed?.browse) {
+        if (!state.dailyChallenges.completed) state.dailyChallenges.completed = {};
+        state.dailyChallenges.completed.browse = true;
+        addCoins(5);
+        showToast('Daily challenge complete: Browse 5 pages!', 'accent');
+      }
+    } else if (type === 'chat') {
+      state.dailyChallenges.aiMessagesSent = (state.dailyChallenges.aiMessagesSent || 0) + 1;
+      if (state.dailyChallenges.aiMessagesSent >= 2 && !state.dailyChallenges.completed?.chat) {
+        if (!state.dailyChallenges.completed) state.dailyChallenges.completed = {};
+        state.dailyChallenges.completed.chat = true;
+        addCoins(5);
+        showToast('Daily challenge complete: Chat with AI 2x!', 'accent');
+      }
+    }
+    localStorage.setItem('strato-dailyChallenges', JSON.stringify(state.dailyChallenges));
+    renderDailyChallenges();
+  }
+
+  function renderDailyChallenges() {
+    const playProgress = document.getElementById('challenge-play-progress');
+    const playCount = document.getElementById('challenge-play-count');
+    const browseProgress = document.getElementById('challenge-browse-progress');
+    const browseCount = document.getElementById('challenge-browse-count');
+    const chatProgress = document.getElementById('challenge-chat-progress');
+    const chatCount = document.getElementById('challenge-chat-count');
+
+    const ch = state.dailyChallenges;
+    const gamesPlayed = ch.gamesPlayed || 0;
+    const pagesLoaded = ch.pagesLoaded || 0;
+    const aiMessagesSent = ch.aiMessagesSent || 0;
+
+    if (playProgress) playProgress.style.width = `${Math.min(100, (gamesPlayed / 3) * 100)}%`;
+    if (playCount) playCount.textContent = `${gamesPlayed}/3`;
+    if (browseProgress) browseProgress.style.width = `${Math.min(100, (pagesLoaded / 5) * 100)}%`;
+    if (browseCount) browseCount.textContent = `${pagesLoaded}/5`;
+    if (chatProgress) chatProgress.style.width = `${Math.min(100, (aiMessagesSent / 2) * 100)}%`;
+    if (chatCount) chatCount.textContent = `${aiMessagesSent}/2`;
+
+    // Mark completed items
+    document.querySelectorAll('.challenge-item').forEach(item => {
+      const challenge = item.dataset.challenge;
+      if (challenge === 'play-games' && ch.completed?.play) item.classList.add('completed');
+      if (challenge === 'browse-sites' && ch.completed?.browse) item.classList.add('completed');
+      if (challenge === 'chat-ai' && ch.completed?.chat) item.classList.add('completed');
+    });
+  }
+
+  // ──────────────────────────────────────────
+  // CLOAKED PROXY LAUNCHER (about:blank)
+  // ──────────────────────────────────────────
+  function launchCloakedProxy(url) {
+    const proxyUrl = getProxyUrl(url);
+    if (!proxyUrl) return;
+    const cloak = CLOAKS[state.activeCloak] || CLOAKS['classroom'];
+    const newWin = window.open('about:blank', '_blank');
+    if (!newWin) { showToast('Popup blocked — allow popups for cloaked launch', 'error'); return; }
+    try {
+      const doc = newWin.document;
+      doc.open();
+      doc.write(`<!DOCTYPE html><html><head><title>${cloak.title}</title><link rel="icon" href="${cloak.favicon}"><style>body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden}iframe{width:100%;height:100%;border:none}</style></head><body><iframe src="${proxyUrl}"></iframe><script>document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.key==='l'){e.preventDefault();window.location.href=window.location.origin}})</script></body></html>`);
+      doc.close();
+      showToast('Cloaked window launched', 'accent');
+      logActivity('Launched cloaked proxy', 'proxy');
+    } catch (e) {
+      showToast('Failed to write cloaked window', 'error');
+    }
+  }
+
+  document.getElementById('browser-cloaked-btn')?.addEventListener('click', () => {
+    const url = document.getElementById('browser-url-input')?.value;
+    if (url) launchCloakedProxy(url);
+  });
+
+  // ──────────────────────────────────────────
+  // PROXY HEALTH CHECK (stealth bar)
+  // ──────────────────────────────────────────
+  let proxyHealth = { uv: false, scramjet: false, bare: false, wisp: false, lastChecked: 0 };
+
+  async function checkProxyHealth() {
+    try {
+      const resp = await fetch('/api/proxy/health');
+      proxyHealth = await resp.json();
+      updateStealthBar();
+    } catch (e) {
+      proxyHealth = { uv: false, scramjet: false, bare: false, wisp: false, lastChecked: Date.now() };
+      updateStealthBar();
+    }
+  }
+
+  function updateStealthBar() {
+    const dot = document.getElementById('stealth-health-dot');
+    if (!dot) return;
+    const up = [proxyHealth.uv, proxyHealth.scramjet, proxyHealth.bare, proxyHealth.wisp];
+    const upCount = up.filter(Boolean).length;
+    if (upCount >= 3) { dot.className = 'stealth-health-dot healthy'; dot.title = 'All systems go'; }
+    else if (upCount >= 1) { dot.className = 'stealth-health-dot warning'; dot.title = 'Partial service'; }
+    else { dot.className = 'stealth-health-dot error'; dot.title = 'Service down'; }
+  }
+
+  setInterval(checkProxyHealth, 30000);
+  checkProxyHealth();
+
+  // Stealth bar: cloak switcher
+  document.getElementById('stealth-cloak-switcher')?.addEventListener('change', (e) => {
+    applyCloak(e.target.value);
+    showToast(`Tab cloaked as ${CLOAKS[e.target.value]?.title || 'None'}`, 'accent');
+  });
+
+  // Stealth bar: breadcrumb text from settings
+  const savedBreadcrumb = localStorage.getItem('strato-breadcrumb') || 'Classroom > AP History > Unit 4';
+  const breadcrumbEl = document.getElementById('stealth-breadcrumb');
+  if (breadcrumbEl) breadcrumbEl.textContent = savedBreadcrumb;
+
+  function updateBreadcrumb(text) {
+    localStorage.setItem('strato-breadcrumb', text);
+    if (breadcrumbEl) breadcrumbEl.textContent = text;
+  }
+
+  // ──────────────────────────────────────────
+  // COMMAND PALETTE (Cmd+K / Ctrl+K)
+  // ──────────────────────────────────────────
+  const commandPalette = document.getElementById('command-palette');
+  const cpInput = document.getElementById('command-palette-input');
+  const cpResults = document.getElementById('command-palette-results');
+
+  function openCommandPalette() {
+    if (!commandPalette) return;
+    cpOpen = true;
+    commandPalette.classList.remove('hidden');
+    cpInput.value = '';
+    cpInput.focus();
+    renderCommandResults('');
+  }
+
+  function closeCommandPalette() {
+    if (!commandPalette) return;
+    cpOpen = false;
+    commandPalette.classList.add('hidden');
+    cpInput.value = '';
+  }
+
+  function renderCommandResults(query) {
+    if (!cpResults) return;
+    const q = query.toLowerCase().trim();
+    const results = [];
+
+    // Search games
+    if (state.games.length > 0) {
+      const gameResults = q ? state.games.filter(g => g.name.toLowerCase().includes(q) || (g.category || '').toLowerCase().includes(q)).slice(0, 5) : state.games.slice(0, 5);
+      gameResults.forEach(g => results.push({ type: 'game', label: g.name, sub: g.category, action: () => { closeCommandPalette(); launchGame(g.id); } }));
+    }
+
+    // Search quick links
+    document.querySelectorAll('.quick-link-btn').forEach(btn => {
+      const name = btn.textContent.trim();
+      const url = btn.dataset.url;
+      if (!q || name.toLowerCase().includes(q) || url.toLowerCase().includes(q)) {
+        results.push({ type: 'link', label: name, sub: url, action: () => { closeCommandPalette(); navigateProxy(url); } });
+      }
+    });
+
+    // View switches
+    VIEWS.forEach(v => {
+      if (!q || v.includes(q)) {
+        results.push({ type: 'view', label: `Go to ${v.charAt(0).toUpperCase() + v.slice(1)}`, sub: 'Switch view', action: () => { closeCommandPalette(); switchView(v); } });
+      }
+    });
+
+    // Actions
+    const actions = [
+      { label: 'Panic', sub: 'Activate panic mode', match: 'panic', action: () => { closeCommandPalette(); handlePanicKey(); } },
+      { label: 'Cloak: Classroom', sub: 'Switch cloak preset', match: 'cloak classroom', action: () => { closeCommandPalette(); applyCloak('classroom'); showToast('Cloaked as Classroom', 'accent'); } },
+      { label: 'Cloak: Quizlet', sub: 'Switch cloak preset', match: 'cloak quizlet', action: () => { closeCommandPalette(); applyCloak('quizlet'); showToast('Cloaked as Quizlet', 'accent'); } },
+      { label: 'Cloak: Canvas', sub: 'Switch cloak preset', match: 'cloak canvas', action: () => { closeCommandPalette(); applyCloak('canvas'); showToast('Cloaked as Canvas', 'accent'); } },
+      { label: 'Cloak: None', sub: 'Remove cloak', match: 'cloak none', action: () => { closeCommandPalette(); applyCloak('none'); showToast('Cloak removed', 'accent'); } },
+    ];
+    actions.forEach(a => {
+      if (!q || a.label.toLowerCase().includes(q) || a.match.includes(q)) results.push({ type: 'action', label: a.label, sub: a.sub, action: a.action });
+    });
+
+    // If query looks like a URL, offer to proxy it
+    if (q && (q.includes('.') || q.startsWith('http'))) {
+      const url = q.startsWith('http') ? q : 'https://' + q;
+      results.unshift({ type: 'proxy', label: `Proxy: ${url}`, sub: 'Open in browser', action: () => { closeCommandPalette(); navigateProxy(url); } });
+    }
+
+    if (results.length === 0) {
+      cpResults.innerHTML = '<div class="command-palette-empty">No results found</div>';
+      return;
+    }
+
+    const typeLabels = { game: 'Games', link: 'Quick Links', view: 'Views', action: 'Actions', proxy: 'Proxy' };
+    let html = '';
+    let lastType = '';
+    results.slice(0, 12).forEach((r, i) => {
+      if (r.type !== lastType) {
+        html += `<div class="command-palette-group">${typeLabels[r.type] || r.type}</div>`;
+        lastType = r.type;
+      }
+      html += `<div class="command-palette-item" data-cp-idx="${i}"><span class="cp-item-label">${r.label}</span><span class="cp-item-sub">${r.sub}</span></div>`;
+    });
+    cpResults.innerHTML = html;
+
+    cpResults.querySelectorAll('.command-palette-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const idx = parseInt(item.dataset.cpIdx);
+        if (results[idx]) results[idx].action();
+      });
+      item.addEventListener('mouseenter', () => {
+        cpResults.querySelectorAll('.command-palette-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+      });
+    });
+  }
+
+  if (cpInput) {
+    cpInput.addEventListener('input', () => renderCommandResults(cpInput.value));
+    cpInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); }
+      if (e.key === 'Enter') {
+        const sel = cpResults?.querySelector('.command-palette-item.selected, .command-palette-item:first-child');
+        if (sel) sel.click();
+      }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const items = cpResults?.querySelectorAll('.command-palette-item');
+        if (!items || items.length === 0) return;
+        const currentIdx = Array.from(items).findIndex(i => i.classList.contains('selected'));
+        items.forEach(i => i.classList.remove('selected'));
+        let next = e.key === 'ArrowDown' ? currentIdx + 1 : currentIdx - 1;
+        if (next < 0) next = items.length - 1;
+        if (next >= items.length) next = 0;
+        items[next]?.classList.add('selected');
+        items[next]?.scrollIntoView({ block: 'nearest' });
+      }
+    });
+  }
+
+  document.getElementById('command-palette-backdrop')?.addEventListener('click', closeCommandPalette);
+  document.getElementById('command-palette-btn')?.addEventListener('click', openCommandPalette);
+
+  // ──────────────────────────────────────────
+  // DAILY STREAK SYSTEM
+  // ──────────────────────────────────────────
+  function updateDailyStreak() {
+    const today = new Date().toDateString();
+    const lastVisit = localStorage.getItem('strato-lastVisit');
+    let streak = parseInt(localStorage.getItem('strato-streak') || '0');
+
+    if (lastVisit === today) {
+      // Same day, no change
+    } else if (lastVisit) {
+      const lastDate = new Date(lastVisit);
+      const todayDate = new Date(today);
+      const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (diffDays === 1) {
+        streak++;
+        localStorage.setItem('strato-streak', String(streak));
+        showToast(`Day ${streak} streak! 🔥`, 'accent');
+      } else if (diffDays > 1) {
+        streak = 1;
+        localStorage.setItem('strato-streak', '1');
+      }
+    } else {
+      streak = 1;
+      localStorage.setItem('strato-streak', '1');
+    }
+
+    localStorage.setItem('strato-lastVisit', today);
+
+    // Update display
+    const countEl = document.getElementById('streak-count');
+    const badgeEl = document.getElementById('streak-badge');
+    if (countEl) countEl.textContent = streak;
+
+    // Streak unlocks custom accent colors
+    if (badgeEl) {
+      badgeEl.className = 'streak-badge';
+      if (streak >= 14) {
+        badgeEl.classList.add('rainbow');
+        badgeEl.textContent = '🌈';
+        // Apply rainbow cycling accent
+        if (state.accentColor !== 'rainbow') {
+          state.accentColor = 'rainbow';
+          document.documentElement.setAttribute('data-accent', 'cyan'); // base
+          startRainbowCycle();
+        }
+      } else if (streak >= 7) {
+        badgeEl.classList.add('gold');
+        badgeEl.textContent = '⭐';
+      } else if (streak >= 3) {
+        badgeEl.classList.add('purple');
+        badgeEl.textContent = '💜';
+      }
+    }
+  }
+
+  function startRainbowCycle() {
+    const colors = ['cyan', 'purple', 'pink', 'green', 'orange', 'red'];
+    let idx = 0;
+    setInterval(() => {
+      if (state.accentColor !== 'rainbow') return;
+      idx = (idx + 1) % colors.length;
+      document.documentElement.setAttribute('data-accent', colors[idx]);
+    }, 3000);
+  }
+
+  updateDailyStreak();
+
+  // ──────────────────────────────────────────
+  // AUTO-CLOAK ON IDLE
+  // ──────────────────────────────────────────
+  let lastActivityTime = Date.now();
+  let autoCloakActive = false;
+
+  function getActivityIdleMs() {
+    return parseInt(localStorage.getItem('strato-idleSeconds') || '45') * 1000;
+  }
+
+  function recordActivity() {
+    lastActivityTime = Date.now();
+    if (autoCloakActive) dismissAutoCloak();
+  }
+
+  function dismissAutoCloak() {
+    autoCloakActive = false;
+    const overlay = document.getElementById('auto-cloak-overlay');
+    if (overlay) overlay.classList.add('hidden');
+    // Restore original title/favicon
+    const cloak = CLOAKS[state.activeCloak];
+    if (cloak) {
+      document.title = cloak.title;
+      const icon = document.querySelector('link[rel="icon"]');
+      if (icon) icon.href = cloak.favicon;
+    }
+  }
+
+  function triggerAutoCloak() {
+    autoCloakActive = true;
+    const overlay = document.getElementById('auto-cloak-overlay');
+    const iframe = document.getElementById('auto-cloak-iframe');
+    if (!overlay || !iframe) return;
+
+    // Change tab to Google Docs
+    document.title = 'Google Docs';
+    const icon = document.querySelector('link[rel="icon"]');
+    if (icon) icon.href = 'https://fonts.gstatic.com/s/i/productlogos/docs_2020q4/v6/192px.svg';
+
+    // Load a fake Google Doc in the overlay iframe
+    iframe.srcdoc = `<!DOCTYPE html><html><head><style>body{font-family:Arial,sans-serif;padding:40px 80px;color:#333;background:#fff}h1{font-size:22px;font-weight:normal;margin-bottom:8px}p{font-size:14px;color:#666;line-height:1.6}.toolbar{height:40px;background:#f1f3f4;border-bottom:1px solid #dadce0;margin:-40px -80px 24px;padding:8px 80px;display:flex;gap:16px;align-items:center}.toolbar span{font-size:13px;color:#5f6368}</style></head><body><div class="toolbar"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span></div><h1>Untitled document</h1><p>Start typing your document here...</p></body></html>`;
+    overlay.classList.remove('hidden');
+    logActivity('Auto-cloak activated (idle)', 'proxy');
+  }
+
+  setInterval(() => {
+    if (autoCloakActive) return;
+    const idleMs = Date.now() - lastActivityTime;
+    if (idleMs >= getActivityIdleMs()) triggerAutoCloak();
+  }, 2000);
+
+  document.addEventListener('mousemove', recordActivity);
+  document.addEventListener('keydown', recordActivity);
+  document.addEventListener('mousedown', recordActivity);
+  document.addEventListener('touchstart', recordActivity);
+
+  // ──────────────────────────────────────────
+  // PRELOAD-ON-HOVER
+  // ──────────────────────────────────────────
+  let hoverPrefetchTimer = null;
+  let hoverPrefetchLink = null;
+
+  function startHoverPrefetch(proxyUrl) {
+    clearHoverPrefetch();
+    hoverPrefetchTimer = setTimeout(() => {
+      hoverPrefetchLink = document.createElement('link');
+      hoverPrefetchLink.rel = 'prefetch';
+      hoverPrefetchLink.href = proxyUrl;
+      document.head.appendChild(hoverPrefetchLink);
+    }, 400);
+  }
+
+  function clearHoverPrefetch() {
+    clearTimeout(hoverPrefetchTimer);
+    if (hoverPrefetchLink) {
+      hoverPrefetchLink.remove();
+      hoverPrefetchLink = null;
+    }
+  }
+
+  // Attach hover prefetch to game cards after render
+  function attachHoverPrefetch() {
+    document.querySelectorAll('.game-card[data-game-id]').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const game = state.games.find(g => g.id === card.dataset.gameId);
+        if (!game || game.tier === 1 || game.tier === 2) return;
+        const proxyUrl = getProxyUrl(game.url);
+        if (proxyUrl) startHoverPrefetch(proxyUrl);
+      });
+      card.addEventListener('mouseleave', clearHoverPrefetch);
+    });
+
+    document.querySelectorAll('.quick-link-btn[data-url]').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        const proxyUrl = getProxyUrl(btn.dataset.url);
+        if (proxyUrl) startHoverPrefetch(proxyUrl);
+      });
+      btn.addEventListener('mouseleave', clearHoverPrefetch);
+    });
+  }
+
+  // ──────────────────────────────────────────
+  // SESSION PERSISTENCE
+  // ──────────────────────────────────────────
+  async function saveSession() {
+    try {
+      const db = await openVault();
+      const tx = db.transaction(VAULT_STORE, 'readwrite');
+      const store = tx.objectStore(VAULT_STORE);
+      store.put({
+        gameId: '__session__',
+        currentView: state.currentView,
+        browserUrl: document.getElementById('browser-url-input')?.value || '',
+        searchInput: document.getElementById('home-url-input')?.value || document.getElementById('search-input')?.value || '',
+        timestamp: Date.now(),
+      });
+    } catch (e) {}
+  }
+
+  async function restoreSession() {
+    try {
+      const db = await openVault();
+      const tx = db.transaction(VAULT_STORE, 'readonly');
+      const store = tx.objectStore(VAULT_STORE);
+      const req = store.get('__session__');
+      return new Promise((resolve) => {
+        req.onsuccess = () => {
+          const session = req.result;
+          if (session && session.timestamp && (Date.now() - session.timestamp) < 10 * 60 * 1000) {
+            resolve(session);
+          } else {
+            resolve(null);
+          }
+        };
+        req.onerror = () => resolve(null);
+      });
+    } catch (e) { return null; }
+  }
+
+  // Auto-save session periodically
+  setInterval(saveSession, 5000);
+
+  // Check for session restore on load
+  async function checkSessionRestore() {
+    const session = await restoreSession();
+    if (!session) return;
+    showToast('Resume previous session?', 'accent');
+    // Auto-restore after a brief moment
+    setTimeout(() => {
+      if (session.currentView) switchView(session.currentView);
+      if (session.browserUrl && session.currentView === 'browser') {
+        const urlInput = document.getElementById('browser-url-input');
+        if (urlInput) urlInput.value = session.browserUrl;
+      }
+      if (session.searchInput) {
+        const homeInput = document.getElementById('home-url-input');
+        const searchInput = document.getElementById('search-input');
+        if (homeInput) homeInput.value = session.searchInput;
+        if (searchInput) searchInput.value = session.searchInput;
+      }
+      showToast('Session restored', 'accent');
+    }, 1500);
+  }
+
+  // ──────────────────────────────────────────
   // INITIALIZATION
   // ──────────────────────────────────────────
   async function init() {
@@ -1221,6 +1924,12 @@
     updateStats();
     renderAchievements();
     renderActivity();
+    updateCoinsDisplay();
+    initDailyChallenges();
+    checkSessionRestore();
+
+    // Load Hub sites
+    loadHubSites();
 
     // Username
     const usernameEl = document.getElementById('username-display');

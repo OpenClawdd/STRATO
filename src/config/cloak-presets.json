@@ -1,0 +1,76 @@
+{
+  "presets": [
+    {
+      "id": "none",
+      "title": "STRATO",
+      "favicon": "/favicon.ico",
+      "description": "No cloak — show STRATO branding"
+    },
+    {
+      "id": "classroom",
+      "title": "Classes",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "Google Classroom disguise"
+    },
+    {
+      "id": "quizlet",
+      "title": "Your Sets | Quizlet",
+      "favicon": "https://www.quizlet.com/favicon.ico",
+      "description": "Quizlet study sets page"
+    },
+    {
+      "id": "canvas",
+      "title": "Dashboard",
+      "favicon": "https://www.canvaslms.com/favicon.ico",
+      "description": "Canvas LMS dashboard"
+    },
+    {
+      "id": "clever",
+      "title": "Clever | Portal",
+      "favicon": "https://www.clever.com/favicon.ico",
+      "description": "Clever student portal"
+    },
+    {
+      "id": "ixl",
+      "title": "IXL | Math",
+      "favicon": "https://www.ixl.com/favicon.ico",
+      "description": "IXL math practice"
+    },
+    {
+      "id": "school-agreca",
+      "title": "Escuela Agreca",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "Strawberry front — school Agreca disguise"
+    },
+    {
+      "id": "noahs-tutoring",
+      "title": "Noah's Tutoring — Programming & Writing",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "Longest subdomain = ultimate disguise"
+    },
+    {
+      "id": "byod-portal",
+      "title": "BYOD Portal",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "Lucide/BYOD front — bring your own device portal"
+    },
+    {
+      "id": "eclipse-castellon",
+      "title": "Eclipse Castellon",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "IMP front — travel/eclipse themed"
+    },
+    {
+      "id": "learning-policy",
+      "title": "Learning Policy Institute",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "Romanian educational front"
+    },
+    {
+      "id": "petezah-games",
+      "title": "Aletia Tours — Travel Deals",
+      "favicon": "https://www.google.com/favicon.ico",
+      "description": "PeteZah travel domain front"
+    }
+  ]
+}
