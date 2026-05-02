@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v12 — CHROMATIC STORM v2
-   Rainbow Particle System with Mouse Repulsion
+   STRATO v13 — NEXUS
+   Refined Particle System — subtle, ambient, Chromebook-friendly
    ══════════════════════════════════════════════════════════ */
 
 (function () {
@@ -15,25 +15,24 @@
   let animFrameId = null;
 
   const CONFIG = {
-    count: 80,
-    maxSpeed: 0.4,
-    minRadius: 0.5,
-    maxRadius: 2.2,
-    connectionDist: 120,
-    mouseRepelDist: 150,
-    mouseRepelForce: 0.08,
-    lineAlpha: 0.07,
-    glowAlpha: 0.15,
+    count: 50,
+    maxSpeed: 0.25,
+    minRadius: 0.4,
+    maxRadius: 1.6,
+    connectionDist: 100,
+    mouseRepelDist: 120,
+    mouseRepelForce: 0.05,
+    lineAlpha: 0.04,
+    glowAlpha: 0.08,
   };
 
+  // Muted color palette — no full rainbow, just accent tones
   const COLORS = [
     { r: 0, g: 229, b: 255 },    // cyan
     { r: 168, g: 85, b: 247 },    // purple
-    { r: 244, g: 114, b: 182 },   // pink
-    { r: 34, g: 197, b: 94 },     // green
-    { r: 251, g: 146, b: 60 },    // orange
-    { r: 239, g: 68, b: 68 },     // red
-    { r: 250, g: 204, b: 21 },    // yellow
+    { r: 59, g: 130, b: 246 },    // blue
+    { r: 139, g: 92, b: 246 },    // violet
+    { r: 99, g: 102, b: 241 },    // indigo
   ];
 
   function resize() {
@@ -49,11 +48,9 @@
       vx: (Math.random() - 0.5) * CONFIG.maxSpeed,
       vy: (Math.random() - 0.5) * CONFIG.maxSpeed,
       radius: Math.random() * (CONFIG.maxRadius - CONFIG.minRadius) + CONFIG.minRadius,
-      alpha: Math.random() * 0.35 + 0.1,
-      alphaDir: (Math.random() - 0.5) * 0.004,
+      alpha: Math.random() * 0.25 + 0.05,
+      alphaDir: (Math.random() - 0.5) * 0.002,
       color,
-      hue: Math.random() * 360,
-      hueSpeed: Math.random() * 0.3 + 0.1,
     };
   }
 
@@ -85,33 +82,30 @@
       }
 
       // Friction
-      p.vx *= 0.998;
-      p.vy *= 0.998;
+      p.vx *= 0.997;
+      p.vy *= 0.997;
 
       // Move
       p.x += p.vx;
       p.y += p.vy;
 
-      // Bounce
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      p.x = Math.max(0, Math.min(canvas.width, p.x));
-      p.y = Math.max(0, Math.min(canvas.height, p.y));
+      // Wrap around edges (smoother than bouncing)
+      if (p.x < -10) p.x = canvas.width + 10;
+      if (p.x > canvas.width + 10) p.x = -10;
+      if (p.y < -10) p.y = canvas.height + 10;
+      if (p.y > canvas.height + 10) p.y = -10;
 
-      // Alpha pulse
+      // Subtle alpha pulse
       p.alpha += p.alphaDir;
-      if (p.alpha > 0.45) { p.alpha = 0.45; p.alphaDir = -Math.abs(p.alphaDir); }
-      if (p.alpha < 0.05) { p.alpha = 0.05; p.alphaDir = Math.abs(p.alphaDir); }
-
-      // Rainbow hue shift
-      p.hue = (p.hue + p.hueSpeed) % 360;
+      if (p.alpha > 0.3) { p.alpha = 0.3; p.alphaDir = -Math.abs(p.alphaDir); }
+      if (p.alpha < 0.03) { p.alpha = 0.03; p.alphaDir = Math.abs(p.alphaDir); }
     }
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Connection lines
+    // Connection lines — use particle color, not rainbow hue
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -119,12 +113,12 @@
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < CONFIG.connectionDist) {
           const opacity = (1 - dist / CONFIG.connectionDist) * CONFIG.lineAlpha;
-          const hue = (particles[i].hue + particles[j].hue) / 2;
+          const c = particles[i].color;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `hsla(${hue}, 80%, 65%, ${opacity})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},${opacity})`;
+          ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       }
@@ -132,16 +126,18 @@
 
     // Particles
     for (const p of particles) {
-      // Glow
+      const { r, g, b } = p.color;
+
+      // Soft glow
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius * 4, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${p.hue}, 80%, 65%, ${p.alpha * CONFIG.glowAlpha})`;
+      ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${p.alpha * CONFIG.glowAlpha})`;
       ctx.fill();
 
-      // Core
+      // Core dot
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${p.hue}, 80%, 75%, ${p.alpha})`;
+      ctx.fillStyle = `rgba(${r},${g},${b},${p.alpha})`;
       ctx.fill();
     }
   }
@@ -163,9 +159,13 @@
     mouse.y = -9999;
   });
 
-  // Resize handler
+  // Resize handler with debounce
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    resize();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resize();
+    }, 150);
   });
 
   // Visibility optimization — pause when tab hidden
@@ -178,11 +178,13 @@
     }
   });
 
-  // Reduced motion preference
+  // Reduced motion preference — fully disable animation
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (motionQuery.matches) {
-    CONFIG.count = 20;
-    CONFIG.connectionDist = 60;
+    // Draw once, then stop
+    init();
+    draw();
+    return;
   }
 
   // Start

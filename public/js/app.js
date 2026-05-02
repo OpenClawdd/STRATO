@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v12 — CHROMATIC STORM ULTRA-MAXIMALIST
+   STRATO v13 — NEXUS
    Client Application
    ══════════════════════════════════════════════════════════ */
 
@@ -2028,7 +2028,7 @@
     unlockAchievement('first-launch');
 
     // Welcome notification
-    addNotification('STRATO v12 Chromatic Storm loaded', 'info');
+    addNotification('STRATO v13 NEXUS loaded', 'info');
 
     // Fade out splash
     await new Promise(resolve => setTimeout(resolve, 400));
