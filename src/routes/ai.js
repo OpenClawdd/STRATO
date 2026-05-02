@@ -25,6 +25,9 @@ async function initAI() {
 
 initAI();
 
+// ── Valid message roles ──
+const VALID_ROLES = new Set(['user', 'assistant', 'system']);
+
 // ── AI status endpoint ──
 router.get('/api/ai/status', (req, res) => {
   res.json({ online: aiOnline });
@@ -42,19 +45,19 @@ router.post('/api/ai/chat', async (req, res) => {
     return res.status(400).json({ error: 'Messages array is required' });
   }
 
-  // Validate message format
+  // Validate message format — don't reflect user input in errors
   for (const msg of messages) {
     if (!msg.role || !msg.content) {
       return res.status(400).json({ error: 'Each message must have role and content' });
     }
-    if (!['user', 'assistant', 'system'].includes(msg.role)) {
-      return res.status(400).json({ error: `Invalid role: ${msg.role}` });
+    if (!VALID_ROLES.has(msg.role)) {
+      return res.status(400).json({ error: 'Invalid role provided' });
     }
   }
 
-  // 10-second timeout via AbortController
+  // 15-second timeout via AbortController
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const timeout = setTimeout(() => controller.abort(), 15_000);
 
   try {
     const completion = await aiClient.chat.completions.create({
@@ -90,7 +93,8 @@ router.post('/api/ai/chat', async (req, res) => {
 });
 
 // ── AI Vision endpoint (Snap & Solve) ──
-router.post('/api/ai/vision', async (req, res) => {
+// Uses larger body limit for image uploads
+router.post('/api/ai/vision', express.json({ limit: '50mb' }), async (req, res) => {
   if (!aiOnline || !aiClient) {
     return res.status(503).json({ error: 'AI service is currently offline' });
   }
@@ -101,11 +105,14 @@ router.post('/api/ai/vision', async (req, res) => {
     return res.status(400).json({ error: 'Image data is required' });
   }
 
-  // Validate base64 image — must start with data:image/ or be raw base64
+  // Validate base64 image — must start with data:image/ or be valid base64
   const isDataUrl = image.startsWith('data:image/');
-  const base64Match = isDataUrl || /^[A-Za-z0-9+/=]+$/.test(image.substring(0, 100));
-  if (!base64Match) {
-    return res.status(400).json({ error: 'Invalid image format — must be base64 or data URL' });
+
+  if (!isDataUrl) {
+    // Validate entire string as base64 (not just first 100 chars)
+    if (!/^[A-Za-z0-9+/=]+$/.test(image)) {
+      return res.status(400).json({ error: 'Invalid image format — must be base64 or data URL' });
+    }
   }
 
   // Size limit: 10MB decoded
@@ -116,9 +123,9 @@ router.post('/api/ai/vision', async (req, res) => {
 
   const userPrompt = prompt || 'Solve this question. Show your work step by step and give the final answer clearly at the end.';
 
-  // 20-second timeout for vision (longer than chat)
+  // 25-second timeout for vision (longer than chat)
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20_000);
+  const timeout = setTimeout(() => controller.abort(), 25_000);
 
   try {
     const completion = await aiClient.chat.completions.create({

@@ -12,6 +12,16 @@ const LOGIN_TEMPLATE = fs.readFileSync(
   'utf8'
 );
 
+// ── HTML escape utility — prevents XSS in rendered error pages ──
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
 // ── CSRF Token Generation ──
 function generateCsrfToken() {
   return crypto.randomBytes(32).toString('hex');
@@ -140,6 +150,7 @@ export default function authMiddleware(req, res, next) {
         signed: true,
         httpOnly: true,
         sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
       });
@@ -182,6 +193,10 @@ export default function authMiddleware(req, res, next) {
 
 // ── Inline error page (glass aesthetic, no external CSS dependency) ──
 function renderErrorPage(message, status) {
+  // Escape dynamic content to prevent XSS
+  const safeMessage = escapeHtml(message);
+  const safeStatus = escapeHtml(String(status));
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -191,17 +206,17 @@ function renderErrorPage(message, status) {
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #06060e;
+      background: #0a0a12;
       color: #e2e8f0;
       font-family: 'Manrope', -apple-system, sans-serif;
       display: flex; align-items: center; justify-content: center;
       min-height: 100vh;
     }
     .card {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(24px) saturate(1.3);
-      -webkit-backdrop-filter: blur(24px) saturate(1.3);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 32px;
       max-width: 420px;
@@ -212,7 +227,7 @@ function renderErrorPage(message, status) {
     p { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
     a {
       display: inline-block;
-      background: rgba(0,229,255,0.15);
+      background: rgba(0,229,255,0.12);
       border: 1px solid rgba(0,229,255,0.25);
       color: #00e5ff;
       padding: 8px 24px;
@@ -221,13 +236,13 @@ function renderErrorPage(message, status) {
       font-size: 14px;
       transition: background 0.15s ease;
     }
-    a:hover { background: rgba(0,229,255,0.25); }
+    a:hover { background: rgba(0,229,255,0.2); }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Error ${status}</h1>
-    <p>${message}</p>
+    <h1>Error ${safeStatus}</h1>
+    <p>${safeMessage}</p>
     <a href="/login">Back to Login</a>
   </div>
 </body>

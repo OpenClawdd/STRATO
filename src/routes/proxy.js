@@ -2,6 +2,16 @@ import { Router } from 'express';
 
 const router = Router();
 
+// ── HTML escape utility — prevents XSS in rendered error pages ──
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
 // ── Ultraviolet config endpoint ──
 router.get('/frog/uv.config.js', (req, res) => {
   res.type('application/javascript');
@@ -34,8 +44,11 @@ router.get('/scramjet/config.js', (req, res) => {
 
 // ── Proxy error page generator ──
 function renderProxyError(errorCode, userMessage, buttons) {
+  // Escape all dynamic values to prevent XSS
+  const safeCode = escapeHtml(errorCode);
+  const safeMessage = escapeHtml(userMessage);
   const buttonHtml = buttons.map(b =>
-    `<a href="#" onclick="${b.action}; return false;" class="btn">${b.label}</a>`
+    `<a href="#" onclick="${escapeHtml(b.action)}; return false;" class="btn">${escapeHtml(b.label)}</a>`
   ).join(' ');
 
   return `<!DOCTYPE html>
@@ -47,17 +60,17 @@ function renderProxyError(errorCode, userMessage, buttons) {
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #06060e;
+      background: #0a0a12;
       color: #e2e8f0;
       font-family: 'Manrope', -apple-system, sans-serif;
       display: flex; align-items: center; justify-content: center;
       min-height: 100vh;
     }
     .card {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(24px) saturate(1.3);
-      -webkit-backdrop-filter: blur(24px) saturate(1.3);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 40px;
       max-width: 480px;
@@ -68,8 +81,8 @@ function renderProxyError(errorCode, userMessage, buttons) {
       font-family: 'JetBrains Mono', monospace;
       color: #f87171;
       font-size: 13px;
-      background: rgba(248,113,113,0.15);
-      border: 1px solid rgba(248,113,113,0.25);
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.2);
       border-radius: 8px;
       padding: 6px 14px;
       display: inline-block;
@@ -80,8 +93,8 @@ function renderProxyError(errorCode, userMessage, buttons) {
     .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .btn {
       display: inline-block;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
       color: #e2e8f0;
       padding: 8px 20px;
       border-radius: 12px;
@@ -92,23 +105,23 @@ function renderProxyError(errorCode, userMessage, buttons) {
       transition: background 0.15s ease, border-color 0.15s ease;
     }
     .btn:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.12);
     }
     .btn.primary {
       border-color: rgba(0,229,255,0.25);
       color: #00e5ff;
     }
     .btn.primary:hover {
-      background: rgba(0,229,255,0.15);
+      background: rgba(0,229,255,0.12);
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="code">${errorCode}</div>
+    <div class="code">${safeCode}</div>
     <h1>Unable to Reach Site</h1>
-    <p>${userMessage}</p>
+    <p>${safeMessage}</p>
     <div class="actions">${buttonHtml}</div>
   </div>
 </body>
@@ -157,7 +170,7 @@ const ERROR_MAP = {
 router.get('/proxy-error', (req, res) => {
   const code = req.query.code || 'UNKNOWN';
   const errorDef = ERROR_MAP[code] || {
-    message: `An unexpected error occurred (${code}).`,
+    message: 'An unexpected error occurred.',
     buttons: [
       { label: 'Retry', action: 'window.location.reload()' },
     ],

@@ -2,12 +2,15 @@ import { Router } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
-import { resolveConfig } from '../config/load-private-config.js';
+import { resolveConfig, isUnresolved } from '../config/load-private-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = Router();
+
+// ── Shared port constant — matches src/index.js default ──
+const DEFAULT_PORT = process.env.PORT || 8080;
 
 // ── Load sites data (cached in memory) ──
 let sitesCache = null;
@@ -47,9 +50,9 @@ router.get('/api/hub/sites', (req, res) => {
   if (search) {
     const q = search.toLowerCase();
     filtered = filtered.filter(s =>
-      s.name.toLowerCase().includes(q) ||
-      s.description.toLowerCase().includes(q) ||
-      s.category.toLowerCase().includes(q)
+      (s.name || '').toLowerCase().includes(q) ||
+      (s.description || '').toLowerCase().includes(q) ||
+      (s.category || '').toLowerCase().includes(q)
     );
   }
 
@@ -66,14 +69,14 @@ router.get('/api/hub/categories', (req, res) => {
   const categories = {};
 
   for (const site of sites) {
-    categories[site.category] = (categories[site.category] || 0) + 1;
+    const cat = site.category || 'uncategorized';
+    categories[cat] = (categories[cat] || 0) + 1;
   }
 
   res.json(categories);
 });
 
 // ── Extended API routes (mirrors + cloak presets) ──
-// These are added to the same router for simplicity.
 
 // ── GET /api/mirrors/status — Proxy mirror health status ──
 let mirrorsCache = null;
@@ -86,7 +89,6 @@ function loadMirrors() {
     return mirrorsCache;
   }
   try {
-    // Resolve ${ENV_VAR} placeholders via config loader
     const result = resolveConfig('src/config/proxy-mirrors.json');
     mirrorsCache = result.data;
     mirrorsCacheTime = now;
@@ -101,22 +103,19 @@ router.get('/api/mirrors/status', (req, res) => {
   const data = loadMirrors();
   res.json({
     status: 'ok',
-    count: data.mirrors.length,
+    count: data.mirrors?.length || 0,
     lastUpdated: data.lastUpdated,
-    mirrors: data.mirrors.map(m => {
-      const isUnresolved = (v) => typeof v === 'string' && /^\$\{/.test(v);
-      return {
-        id: m.id,
-        name: m.name,
-        resolved: !isUnresolved(m.primary),
-        priority: m.priority,
-        reliability: m.reliability,
-        hasPassword: !!m.password && !isUnresolved(m.password),
-        // Only send URLs if they're resolved
-        ...(isUnresolved(m.primary) ? {} : { primary: m.primary }),
-        ...(m.alternates?.some(a => !isUnresolved(a)) ? { alternates: m.alternates.filter(a => !isUnresolved(a)) } : {}),
-      };
-    }),
+    mirrors: (data.mirrors || []).map(m => ({
+      id: m.id,
+      name: m.name,
+      resolved: !isUnresolved(m.primary),
+      priority: m.priority,
+      reliability: m.reliability,
+      hasPassword: !!m.password && !isUnresolved(m.password),
+      // Only send URLs if they're resolved
+      ...(isUnresolved(m.primary) ? {} : { primary: m.primary }),
+      ...(m.alternates?.some(a => !isUnresolved(a)) ? { alternates: m.alternates.filter(a => !isUnresolved(a)) } : {}),
+    })),
   });
 });
 
@@ -131,7 +130,6 @@ function loadCloakPresets() {
     return cloakCache;
   }
   try {
-    // Resolve ${ENV_VAR} placeholders via config loader
     const result = resolveConfig('src/config/cloak-presets.json');
     cloakCache = result.data;
     cloakCacheTime = now;
@@ -144,11 +142,10 @@ function loadCloakPresets() {
 
 router.get('/api/cloak/presets', (req, res) => {
   const data = loadCloakPresets();
-  const isUnresolved = (v) => typeof v === 'string' && /^\$\{/.test(v);
   res.json({
     status: 'ok',
-    count: data.presets.length,
-    presets: data.presets.map(p => ({
+    count: data.presets?.length || 0,
+    presets: (data.presets || []).map(p => ({
       id: p.id,
       title: p.title,
       description: p.description,
@@ -163,57 +160,57 @@ router.get('/api/cloak/presets', (req, res) => {
 router.get('/api/proxy/health', async (req, res) => {
   const result = { uv: false, scramjet: false, bare: false, wisp: false, lastChecked: Date.now() };
 
-  // Check Bare server by fetching /bare/
+  // Check Bare server
   try {
-    const bareResp = await fetch(`http://localhost:${process.env.PORT || 3000}/bare/`, {
+    const bareResp = await fetch(`http://localhost:${DEFAULT_PORT}/bare/`, {
       method: 'GET',
       signal: AbortSignal.timeout(5000),
     });
     result.bare = bareResp.ok || bareResp.status === 200;
-  } catch (e) {
+  } catch {
     result.bare = false;
   }
 
-  // Check UV service worker — look for the UV config/worker file
+  // Check UV service worker
   try {
-    const uvResp = await fetch(`http://localhost:${process.env.PORT || 3000}/frog/uv.config.js`, {
+    const uvResp = await fetch(`http://localhost:${DEFAULT_PORT}/frog/uv.config.js`, {
       method: 'GET',
       signal: AbortSignal.timeout(3000),
     });
     result.uv = uvResp.ok || uvResp.status === 200;
-  } catch (e) {
+  } catch {
     result.uv = false;
   }
 
-  // Check Scramjet service worker — look for the SJ config
+  // Check Scramjet — use the correct config path (/scramjet/config.js, NOT sj.config.js)
   try {
-    const sjResp = await fetch(`http://localhost:${process.env.PORT || 3000}/scramjet/sj.config.js`, {
+    const sjResp = await fetch(`http://localhost:${DEFAULT_PORT}/scramjet/config.js`, {
       method: 'GET',
       signal: AbortSignal.timeout(3000),
     });
     result.scramjet = sjResp.ok || sjResp.status === 200;
-  } catch (e) {
-    // Try alternate path
+  } catch {
+    // Fallback: try the service worker file
     try {
-      const sjResp2 = await fetch(`http://localhost:${process.env.PORT || 3000}/scramjet/sw.js`, {
+      const sjResp2 = await fetch(`http://localhost:${DEFAULT_PORT}/scramjet/sw.js`, {
         method: 'GET',
         signal: AbortSignal.timeout(3000),
       });
       result.scramjet = sjResp2.ok || sjResp2.status === 200;
-    } catch (e2) {
+    } catch {
       result.scramjet = false;
     }
   }
 
-  // Check Wisp — look for the wisp endpoint
+  // Check Wisp endpoint
   try {
-    const wispResp = await fetch(`http://localhost:${process.env.PORT || 3000}/wisp/`, {
+    const wispResp = await fetch(`http://localhost:${DEFAULT_PORT}/wisp/`, {
       method: 'GET',
       signal: AbortSignal.timeout(3000),
     });
     // Wisp uses WebSocket, so even a 400/404 means the route exists
     result.wisp = wispResp.status !== 502 && wispResp.status !== 503;
-  } catch (e) {
+  } catch {
     result.wisp = false;
   }
 

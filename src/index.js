@@ -21,7 +21,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 8080;
-const COOKIE_SECRET = process.env.COOKIE_SECRET || 'dev-secret-change-me';
+
+// ── Cookie secret — fail loudly in production if not set ──
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
+if (!COOKIE_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('[STRATO] COOKIE_SECRET environment variable is required in production');
+}
+const cookieSecret = COOKIE_SECRET || 'dev-secret-change-me';
 
 const app = express();
 const server = createServer();
@@ -35,38 +41,46 @@ const LOGIN_HTML = fs.readFileSync(
   'utf8'
 );
 
-// ── 1. Helmet with explicit CSP ──
+// ── 1. Trust first proxy — correct req.ip behind reverse proxy ──
+app.set('trust proxy', 1);
+
+// ── 2. Helmet with explicit CSP + HSTS ──
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"],
       workerSrc: ["'self'", "blob:"],
-      frameSrc: ["'self'", "blob:", "*"],
-      connectSrc: ["'self'", "ws:", "wss:", "*"],
-      imgSrc: ["'self'", "data:", "blob:", "*"],
+      frameSrc: ["'self'", "blob:"],
+      connectSrc: ["'self'", "ws:", "wss:"],
+      imgSrc: ["'self'", "data:", "blob:", "https://www.google.com", "https://icon.horse"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      mediaSrc: ["'self'", "blob:", "*"],
+      mediaSrc: ["'self'", "blob:"],
     },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: false,
   },
   crossOriginEmbedderPolicy: false,
   crossOriginOpenerPolicy: false,
 }));
 
-// ── 2. Compression ──
+// ── 3. Compression ──
 app.use(compression());
 
-// ── 3. Cookie parser with secret ──
-app.use(cookieParser(COOKIE_SECRET));
+// ── 4. Cookie parser with secret ──
+app.use(cookieParser(cookieSecret));
 
-// ── 4. JSON body (50mb for emulator save states) ──
-app.use(express.json({ limit: '50mb' }));
+// ── 5. JSON body (10mb default — 50mb only for specific upload routes) ──
+app.use(express.json({ limit: '10mb' }));
 
-// ── 5. URL-encoded body ──
-app.use(express.urlencoded({ extended: true }));
+// ── 6. URL-encoded body ──
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// ── 6. Rate limiting on /api/* routes only ──
+// ── 7. Rate limiting on /api/* routes only ──
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
@@ -76,41 +90,44 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-// ── 7. Auth middleware (TOS gate) ──
+// ── 8. Auth middleware (TOS gate) ──
 //     Handles /login GET (serve login page) and POST (authenticate).
 //     Redirects unauthenticated users to /login for all other routes.
 //     Must come BEFORE static so unauthenticated users don't see broken SPA.
 app.use(authMiddleware);
 
-// ── 8. Static files (only served if authenticated) ──
-// Override /assets/games.json to serve resolved config (private URLs injected)
-const resolvedGames = resolveConfig('public/assets/games.json');
+// ── 9. Override /assets/games.json to serve resolved config (private URLs injected) ──
 app.get('/assets/games.json', (req, res) => {
-  // Re-resolve on each request in dev (allows hot-reload of .env)
   const result = resolveConfig('public/assets/games.json');
   res.json(result.data);
 });
 
-// Config status endpoint — frontend uses this to show CTA for unresolved URLs
+// ── Config status endpoint — frontend uses this to show CTA for unresolved URLs ──
 app.get('/api/config/status', (req, res) => {
   res.json(getConfigStatus());
 });
 
-// CSRF token endpoint — populates meta tag for API calls
+// ── CSRF token endpoint — populates meta tag for API calls ──
 app.get('/api/csrf-token', (req, res) => {
   const token = req.cookies['XSRF-TOKEN'] || crypto.randomBytes(32).toString('hex');
-  res.cookie('XSRF-TOKEN', token, { httpOnly: false, sameSite: 'strict' });
+  res.cookie('XSRF-TOKEN', token, {
+    httpOnly: false,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+  });
   res.json({ token });
 });
 
+// ── 10. Static files (only served if authenticated) ──
 app.use(express.static(join(__dirname, '..', 'public')));
 
-// ── 9. Header-stripping middleware for proxy iframe support ──
-//     Strips X-Frame-Options and modifies CSP frame-ancestors on proxied responses
-//     This allows sites loaded through the proxy to be embedded in iframes
-app.use('/frog/service/', (req, res, next) => {
+// ── 11. Header-stripping middleware for proxy iframe support ──
+//     Strips X-Frame-Options and modifies CSP frame-ancestors on proxied responses.
+//     This allows sites loaded through the proxy to be embedded in iframes.
+//     NOTE: This is an intentional security trade-off for proxy functionality.
+function stripFrameHeaders(req, res, next) {
   const originalSetHeader = res.setHeader.bind(res);
-  res.setHeader = function(name, value) {
+  res.setHeader = function (name, value) {
     const lower = String(name).toLowerCase();
     if (lower === 'x-frame-options') return res; // Strip entirely
     if (lower === 'content-security-policy') {
@@ -121,24 +138,12 @@ app.use('/frog/service/', (req, res, next) => {
     return originalSetHeader(name, value);
   };
   next();
-});
+}
 
-app.use('/scramjet/service/', (req, res, next) => {
-  const originalSetHeader = res.setHeader.bind(res);
-  res.setHeader = function(name, value) {
-    const lower = String(name).toLowerCase();
-    if (lower === 'x-frame-options') return res;
-    if (lower === 'content-security-policy') {
-      if (typeof value === 'string') {
-        value = value.replace(/frame-ancestors[^;]*;?/gi, 'frame-ancestors *;');
-      }
-    }
-    return originalSetHeader(name, value);
-  };
-  next();
-});
+app.use('/frog/service/', stripFrameHeaders);
+app.use('/scramjet/service/', stripFrameHeaders);
 
-// ── 10. Routes ──
+// ── 12. Routes ──
 app.use(proxyRoutes);
 app.use(aiRoutes);
 app.use(smuggleRoutes);
@@ -154,7 +159,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ── 10. Error handler (last middleware) ──
+// ── 13. Error handler (last middleware) ──
 app.use((err, req, res, _next) => {
   console.error('[STRATO] Unhandled error:', err);
 
@@ -184,9 +189,6 @@ try {
 }
 
 // ── HTTP request routing: Bare vs Express ──
-//     Bare handles /bare/* requests; everything else goes to Express.
-//     Key: if bare sends a response, we must NOT also call app().
-//     And if Express sends a response (e.g. redirect), bare must not interfere.
 server.on('request', (req, res) => {
   if (bare.shouldRoute(req)) {
     bare.routeRequest(req, res);
@@ -210,8 +212,8 @@ server.on('upgrade', (req, socket, head) => {
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v12.0.0                       ║
-  ║    Chromatic Storm — Ultra-Maximalist          ║
+  ║          STRATO v13.0.0                       ║
+  ║    NEXUS — Refined Premium Dashboard           ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║
@@ -220,21 +222,22 @@ server.listen(PORT, () => {
   `);
 });
 
-// ── Graceful shutdown ──
-process.on('SIGTERM', () => {
-  console.log('[STRATO] SIGTERM received — shutting down gracefully');
+// ── Graceful shutdown with forced timeout ──
+function gracefulShutdown(signal) {
+  console.log(`[STRATO] ${signal} received — shutting down gracefully`);
+  const forceTimer = setTimeout(() => {
+    console.warn('[STRATO] Forced shutdown after 10s timeout');
+    process.exit(1);
+  }, 10_000);
+
   server.close(() => {
+    clearTimeout(forceTimer);
     bare.close();
     process.exit(0);
   });
-});
+}
 
-process.on('SIGINT', () => {
-  console.log('[STRATO] SIGINT received — shutting down');
-  server.close(() => {
-    bare.close();
-    process.exit(0);
-  });
-});
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-export { app, server };
+export { app, server, PORT };

@@ -99,7 +99,7 @@ router.get('/api/smuggle', async (req, res) => {
     const fetchResponse = await fetch(url, {
       method: 'GET',
       headers: {
-        'User-Agent': 'STRATO/12.0 (Smuggle Proxy)',
+        'User-Agent': 'STRATO/13.0 (Smuggle Proxy)',
         'Accept': '*/*',
       },
       redirect: 'follow',
@@ -113,7 +113,7 @@ router.get('/api/smuggle', async (req, res) => {
     }
 
     // Stream the response — never buffer
-    // Strip original CORS headers
+    // Set safe CORS headers
     res.setHeader('Cross-Origin-Embedder-Policy', 'credentialless');
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
 
@@ -128,14 +128,14 @@ router.get('/api/smuggle', async (req, res) => {
       res.setHeader('Content-Length', contentLength);
     }
 
-    // Pipe the stream directly — Readable.fromWeb converts Web ReadableStream to Node stream
+    // Pipe the stream directly
     Readable.fromWeb(fetchResponse.body).pipe(res);
   } catch (err) {
     console.error('[STRATO] Smuggle error:', err.message);
     if (err.name === 'TimeoutError') {
       return res.status(504).json({ error: 'Upstream request timed out' });
     }
-    res.status(502).json({ error: `Failed to fetch resource: ${err.message}` });
+    res.status(502).json({ error: 'Failed to fetch resource' });
   }
 });
 

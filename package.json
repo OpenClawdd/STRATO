@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "12.0.0",
-  "description": "STRATO v12 — Web proxy and game hub for school Chromebooks. Chromatic Storm (Ultra-Maximalist).",
+  "version": "13.0.0",
+  "description": "STRATO v13 — Web proxy and game hub for school Chromebooks. NEXUS.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -29,6 +29,6 @@
     "ws": "^8.19.0",
     "z-ai-web-dev-sdk": "^0.0.17"
   },
-  "keywords": ["proxy", "ultraviolet", "scramjet", "games", "school", "chromebook", "maximalist"],
+  "keywords": ["proxy", "ultraviolet", "scramjet", "games", "school", "chromebook"],
   "license": "GPL-3.0"
 }
