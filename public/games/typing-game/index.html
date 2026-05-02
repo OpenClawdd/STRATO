@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Typing Game — STRATO</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a1e;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px;overflow:hidden}h1{font-size:1.4rem;margin-bottom:4px;color:#00e5ff}nav{margin-bottom:8px}nav button{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:6px 16px;border-radius:8px;cursor:pointer;font-size:0.8rem}.stats{display:flex;gap:16px;margin-bottom:8px;font-size:0.85rem;color:rgba(255,255,255,0.6)}canvas{border-radius:12px;border:1px solid rgba(0,229,255,0.2);background:rgba(0,0,0,0.3)}.btn{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:8px 24px;border-radius:10px;cursor:pointer;font-size:0.85rem;margin-top:8px}#input-display{font-family:monospace;font-size:1.1rem;margin-top:8px;padding:8px 16px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:8px;min-height:32px;color:#00e5ff;letter-spacing:2px}</style></head><body>
+<h1>Typing Game</h1>
+<nav><button onclick="history.back()">&larr; Back</button></nav>
+<div class="stats"><span>Score: <b id="score">0</b></span><span>WPM: <b id="wpm">0</b></span><span>Lives: <b id="lives">3</b></span></div>
+<canvas id="c" width="400" height="400"></canvas>
+<div id="input-display"></div>
+<button class="btn" onclick="startGame()">Start Game</button>
+<script>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+const WORDS=['the','quick','brown','fox','jumps','over','lazy','dog','code','type','fast','word','game','play','speed','test','hack','data','node','rust','java','html','css','sync','async','proxy','pixel','cloud','cyber','neon','glow','dark','void','byte','link','loop','func','array','stack','queue'];
+let words=[],score=0,lives=3,current='',startTime=0,running=false,wordsTyped=0,spawnTimer=0;
+
+function startGame(){words=[];score=0;lives=3;current='';wordsTyped=0;startTime=Date.now();running=true;spawnTimer=0;document.getElementById('score').textContent='0';document.getElementById('lives').textContent='3';document.getElementById('wpm').textContent='0';document.getElementById('input-display').textContent='';loop()}
+
+function spawnWord(){const w=WORDS[Math.floor(Math.random()*WORDS.length)];words.push({text:w,x:Math.random()*(canvas.width-60)+30,y:0,speed:0.3+Math.random()*0.4+score*0.01})}
+
+function loop(){if(!running)return;ctx.clearRect(0,0,canvas.width,canvas.height);
+spawnTimer++;if(spawnTimer>60-Math.min(score*2,40)){spawnWord();spawnTimer=0}
+for(let i=words.length-1;i>=0;i--){const w=words[i];w.y+=w.speed;ctx.fillStyle='rgba(0,229,255,0.8)';ctx.font='16px monospace';ctx.textAlign='center';ctx.fillText(w.text,w.x,w.y);
+if(w===words.find(ww=>ww.text.startsWith(current)&&current.length>0)){ctx.fillStyle='rgba(34,197,94,0.8)';ctx.fillText(current,w.x,w.y)}
+if(w.y>canvas.height){words.splice(i,1);lives--;document.getElementById('lives').textContent=lives;if(lives<=0){running=false;ctx.fillStyle='rgba(239,68,68,0.8)';ctx.font='24px sans-serif';ctx.fillText('Game Over! Score: '+score,canvas.width/2,canvas.height/2);return}}}
+requestAnimationFrame(loop)}
+
+document.addEventListener('keydown',e=>{if(!running)return;if(e.key==='Backspace'){current=current.slice(0,-1);document.getElementById('input-display').textContent=current;return}
+if(e.key.length!==1||e.ctrlKey||e.altKey)return;current+=e.key;document.getElementById('input-display').textContent=current;
+const match=words.find(w=>w.text===current);if(match){words.splice(words.indexOf(match),1);score++;wordsTyped++;current='';document.getElementById('score').textContent=score;document.getElementById('input-display').textContent='';
+const elapsed=(Date.now()-startTime)/60000;document.getElementById('wpm').textContent=Math.round(wordsTyped/Math.max(elapsed,0.01))}
+if(!words.some(w=>w.text.startsWith(current))){current='';document.getElementById('input-display').textContent=''}});
+
+ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='18px sans-serif';ctx.textAlign='center';ctx.fillText('Click Start Game to begin',canvas.width/2,canvas.height/2);
+</script></body></html>

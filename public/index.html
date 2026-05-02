@@ -13,28 +13,92 @@
 </head>
 <body>
 
-  <!-- Particle canvas background -->
+  <!-- Multi-layer animated background -->
   <canvas id="particle-canvas"></canvas>
+  <div class="bg-grid"></div>
+  <div class="bg-scanline"></div>
+  <div class="floating-orb orb-1"></div>
+  <div class="floating-orb orb-2"></div>
+  <div class="floating-orb orb-3"></div>
 
   <!-- ── Splash overlay ── -->
   <div id="splash" class="splash-overlay">
     <div class="splash-content">
-      <h1 class="splash-logo">STRATO</h1>
+      <div class="splash-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#splash-grad)" stroke-width="1.5">
+          <defs><linearGradient id="splash-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs>
+          <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+      </div>
+      <h1 class="splash-logo" data-text="STRATO">STRATO</h1>
       <div class="splash-bar-container">
         <div class="splash-bar"></div>
       </div>
       <p class="splash-status">Initializing proxy engines...</p>
+      <div class="splash-details">
+        <span id="splash-engine-uv" class="splash-detail-item"><span class="splash-dot pending"></span>UV</span>
+        <span id="splash-engine-sj" class="splash-detail-item"><span class="splash-dot pending"></span>SJ</span>
+        <span id="splash-engine-wisp" class="splash-detail-item"><span class="splash-dot pending"></span>Wisp</span>
+        <span id="splash-engine-bare" class="splash-detail-item"><span class="splash-dot pending"></span>Bare</span>
+      </div>
     </div>
   </div>
 
   <!-- ── Main app (hidden until init complete) ── -->
   <div id="app" class="hidden">
 
+    <!-- ── Live status bar (top-most) ── -->
+    <div id="status-bar" class="status-bar">
+      <div class="status-left">
+        <span class="status-item status-dot-wrap">
+          <span class="connection-dot" id="connection-dot" title="Connection status"></span>
+          <span class="status-label">Connected</span>
+        </span>
+        <span class="status-divider"></span>
+        <span class="status-item" id="status-engine">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Ultraviolet</span>
+        </span>
+        <span class="status-divider"></span>
+        <span class="status-item" id="status-proxy-state">
+          <span class="status-indicator active"></span>
+          <span>Proxy Ready</span>
+        </span>
+      </div>
+      <div class="status-center">
+        <span class="status-item" id="live-clock">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="clock-text">--:--:--</span>
+        </span>
+        <span class="status-divider"></span>
+        <span class="status-item" id="status-uptime">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span id="uptime-text">0:00</span>
+        </span>
+      </div>
+      <div class="status-right">
+        <span class="status-item" id="status-games-count">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
+          <span id="games-count-text">0 games</span>
+        </span>
+        <span class="status-divider"></span>
+        <span class="status-item username-status" id="username-status">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span id="username-display"></span>
+        </span>
+        <button class="status-notification-btn" id="notification-btn" title="Notifications">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="notification-badge hidden" id="notification-badge">0</span>
+        </button>
+      </div>
+    </div>
+
     <!-- ── Top navigation bar ── -->
     <nav id="topbar" class="glass topbar">
       <div class="topbar-left">
-        <span class="logo">STRATO</span>
+        <span class="logo glitch-hover" data-text="STRATO">STRATO</span>
         <span class="logo-version">v12</span>
+        <span class="logo-tagline">CHROMATIC STORM</span>
       </div>
       <div class="topbar-center">
         <button class="nav-link active" data-view="home">
@@ -44,6 +108,7 @@
         <button class="nav-link" data-view="arcade">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
           <span class="nav-link-text">Arcade</span>
+          <span class="nav-badge" id="arcade-badge">44</span>
         </button>
         <button class="nav-link" data-view="browser">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
@@ -52,6 +117,7 @@
         <button class="nav-link" data-view="ai">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="6" r="2" fill="currentColor"/></svg>
           <span class="nav-link-text">AI</span>
+          <span class="nav-dot" id="ai-nav-dot"></span>
         </button>
         <button class="nav-link" data-view="settings">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -59,132 +125,292 @@
         </button>
       </div>
       <div class="topbar-right">
-        <span class="username-display" id="username-display"></span>
-        <div class="connection-dot" id="connection-dot" title="Connection status"></div>
+        <button class="topbar-icon-btn" id="shortcuts-btn" title="Keyboard Shortcuts (?)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg>
+        </button>
+        <button class="topbar-icon-btn" id="theme-cycle-btn" title="Cycle theme accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
       </div>
     </nav>
 
     <!-- ── Main content area ── -->
     <main id="main">
 
-      <!-- ── Home view ── -->
+      <!-- ────────────────────────────────
+           HOME VIEW — MAXIMUM DENSITY
+           ──────────────────────────────── -->
       <section id="view-home" class="view view-active">
-        <div class="home-center">
-          <h2 class="home-greeting">STRATO</h2>
-          <div class="url-bar-container">
-            <div class="url-bar-wrapper">
-              <input
-                type="text"
-                id="home-url-input"
-                class="glass-input url-bar"
-                placeholder="Search or enter URL..."
-                spellcheck="false"
-                autocomplete="off"
-              >
+        <div class="home-layout">
+
+          <!-- Left: Hero + Search -->
+          <div class="home-hero-col">
+            <div class="home-hero">
+              <h2 class="home-greeting">
+                <span class="greeting-line">Welcome back to</span>
+                <span class="hero-title glitch-hover" data-text="STRATO">STRATO</span>
+              </h2>
+              <p class="hero-tagline">Above the clouds. Above restrictions.</p>
+              <div class="url-bar-container">
+                <div class="url-bar-wrapper">
+                  <div class="url-bar-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                  </div>
+                  <input type="text" id="home-url-input" class="glass-input url-bar" placeholder="Search or enter URL..." spellcheck="false" autocomplete="off">
+                </div>
+                <button id="home-go-btn" class="glass-btn primary go-btn">GO</button>
+              </div>
+              <div class="engine-selector home-engine">
+                <button class="glass-pill active" data-engine="uv" id="proxy-pill-uv">Ultraviolet</button>
+                <button class="glass-pill" data-engine="scramjet" id="proxy-pill-sj">Scramjet</button>
+                <div class="glass-toggle" id="auto-fallback-toggle" title="Auto-fallback">
+                  <div class="thumb"></div>
+                </div>
+                <span class="toggle-label">Auto-fallback</span>
+              </div>
             </div>
-            <button id="home-go-btn" class="glass-btn primary go-btn">GO</button>
-          </div>
-          <div class="engine-selector home-engine">
-            <button class="glass-pill active" data-engine="uv" id="proxy-pill-uv">Ultraviolet</button>
-            <button class="glass-pill" data-engine="scramjet" id="proxy-pill-sj">Scramjet</button>
-            <div class="glass-toggle" id="auto-fallback-toggle" title="Auto-fallback">
-              <div class="thumb"></div>
+
+            <!-- Quick category circles -->
+            <div class="category-circles">
+              <div class="category-circle games" data-nav="arcade">
+                <div class="category-circle-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
+                </div>
+                <span class="category-circle-label">Games</span>
+                <span class="category-circle-count" id="home-games-count">44</span>
+              </div>
+              <div class="category-circle proxy" data-nav="browser">
+                <div class="category-circle-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                </div>
+                <span class="category-circle-label">Proxy</span>
+                <span class="category-circle-count">2 engines</span>
+              </div>
+              <div class="category-circle ai" data-nav="ai">
+                <div class="category-circle-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
+                </div>
+                <span class="category-circle-label">AI</span>
+                <span class="category-circle-count" id="home-ai-status">Offline</span>
+              </div>
+              <div class="category-circle settings" data-nav="settings">
+                <div class="category-circle-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33"/></svg>
+                </div>
+                <span class="category-circle-label">Settings</span>
+                <span class="category-circle-count">Customize</span>
+              </div>
             </div>
-            <span class="toggle-label">Auto-fallback</span>
+
+            <!-- Featured games -->
+            <div class="featured-section">
+              <div class="section-header">
+                <h3 class="section-title">Featured Games</h3>
+                <button class="section-link" data-nav="arcade">View All</button>
+              </div>
+              <div class="featured-scroll" id="featured-scroll"></div>
+            </div>
           </div>
 
-          <!-- Category circles — byod.geeked.wtf inspired -->
-          <div class="category-circles">
-            <div class="category-circle games" data-nav="arcade">
-              <div class="category-circle-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
+          <!-- Right: Widgets Panel -->
+          <div class="home-widgets-col">
+            <!-- Stats widget -->
+            <div class="widget glass" id="widget-stats">
+              <div class="widget-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                <span>Live Stats</span>
               </div>
-              <span class="category-circle-label">Games</span>
-            </div>
-            <div class="category-circle proxy" data-nav="browser">
-              <div class="category-circle-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              <div class="widget-body">
+                <div class="stat-row">
+                  <span class="stat-label">Session Time</span>
+                  <span class="stat-value" id="stat-uptime">0:00</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Games Played</span>
+                  <span class="stat-value" id="stat-games-played">0</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Pages Loaded</span>
+                  <span class="stat-value" id="stat-pages-loaded">0</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">AI Messages</span>
+                  <span class="stat-value" id="stat-ai-messages">0</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Engine</span>
+                  <span class="stat-value" id="stat-engine">Ultraviolet</span>
+                </div>
               </div>
-              <span class="category-circle-label">Proxy</span>
             </div>
-            <div class="category-circle ai" data-nav="ai">
-              <div class="category-circle-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
-              </div>
-              <span class="category-circle-label">AI</span>
-            </div>
-            <div class="category-circle media" data-nav="settings">
-              <div class="category-circle-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4"/></svg>
-              </div>
-              <span class="category-circle-label">Settings</span>
-            </div>
-          </div>
 
-          <div class="featured-section">
-            <h3 class="section-title">Featured</h3>
-            <div class="featured-scroll" id="featured-scroll">
-              <!-- Populated by JS -->
+            <!-- Recent activity widget -->
+            <div class="widget glass" id="widget-recent">
+              <div class="widget-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Recent Activity</span>
+              </div>
+              <div class="widget-body" id="recent-activity-list">
+                <div class="activity-empty">No recent activity</div>
+              </div>
+            </div>
+
+            <!-- Quick links widget -->
+            <div class="widget glass" id="widget-quicklinks">
+              <div class="widget-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                <span>Quick Links</span>
+              </div>
+              <div class="widget-body">
+                <div class="quick-links-grid">
+                  <button class="quick-link-btn" data-url="https://www.google.com" title="Google">
+                    <span class="quick-link-icon">G</span>
+                    <span>Google</span>
+                  </button>
+                  <button class="quick-link-btn" data-url="https://www.youtube.com" title="YouTube">
+                    <span class="quick-link-icon yt">YT</span>
+                    <span>YouTube</span>
+                  </button>
+                  <button class="quick-link-btn" data-url="https://www.reddit.com" title="Reddit">
+                    <span class="quick-link-icon rd">R</span>
+                    <span>Reddit</span>
+                  </button>
+                  <button class="quick-link-btn" data-url="https://twitter.com" title="Twitter/X">
+                    <span class="quick-link-icon tw">X</span>
+                    <span>Twitter</span>
+                  </button>
+                  <button class="quick-link-btn" data-url="https://www.twitch.tv" title="Twitch">
+                    <span class="quick-link-icon twch">TV</span>
+                    <span>Twitch</span>
+                  </button>
+                  <button class="quick-link-btn" data-url="https://discord.com" title="Discord">
+                    <span class="quick-link-icon dc">D</span>
+                    <span>Discord</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievements widget -->
+            <div class="widget glass" id="widget-achievements">
+              <div class="widget-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Achievements</span>
+                <span class="achievement-count" id="achievement-count">0/8</span>
+              </div>
+              <div class="widget-body">
+                <div class="achievement-list" id="achievement-list">
+                  <div class="achievement-item locked" data-achievement="first-launch">
+                    <span class="ach-icon">🚀</span>
+                    <span class="ach-name">First Launch</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="first-game">
+                    <span class="ach-icon">🎮</span>
+                    <span class="ach-name">Gamer</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="first-proxy">
+                    <span class="ach-icon">🌐</span>
+                    <span class="ach-name">Proxy User</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="first-ai">
+                    <span class="ach-icon">🤖</span>
+                    <span class="ach-name">AI Chatter</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="snap-solve">
+                    <span class="ach-icon">📸</span>
+                    <span class="ach-name">Snap Solver</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="ten-games">
+                    <span class="ach-icon">🏆</span>
+                    <span class="ach-name">Arcade Pro</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="tab-cloak">
+                    <span class="ach-icon">🎭</span>
+                    <span class="ach-name">Disguised</span>
+                  </div>
+                  <div class="achievement-item locked" data-achievement="theme-change">
+                    <span class="ach-icon">🎨</span>
+                    <span class="ach-name">Stylist</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ── Arcade view ── -->
+      <!-- ────────────────────────────────
+           ARCADE VIEW — MAXIMUM FUN
+           ──────────────────────────────── -->
       <section id="view-arcade" class="view">
         <div class="arcade-header">
-          <input
-            type="text"
-            id="search-input"
-            class="glass-input arcade-search"
-            placeholder="Search games..."
-            spellcheck="false"
-            autocomplete="off"
-          >
-          <div class="category-pills" id="category-pills">
-            <button class="glass-pill active" data-category="all">All</button>
-            <button class="glass-pill" data-category="shooter">Shooter</button>
-            <button class="glass-pill" data-category="puzzle">Puzzle</button>
-            <button class="glass-pill" data-category="action">Action</button>
-            <button class="glass-pill" data-category="racing">Racing</button>
-            <button class="glass-pill" data-category="strategy">Strategy</button>
-            <button class="glass-pill" data-category="sports">Sports</button>
-            <button class="glass-pill" data-category="platformer">Platformer</button>
-            <button class="glass-pill" data-category="adventure">Adventure</button>
-            <button class="glass-pill" data-category="sandbox">Sandbox</button>
-            <button class="glass-pill" data-category="rhythm">Rhythm</button>
+          <div class="arcade-header-top">
+            <h2 class="arcade-title">Arcade</h2>
+            <div class="arcade-stats-bar">
+              <span class="arcade-stat"><span id="arcade-total">44</span> games</span>
+              <span class="arcade-stat-divider">|</span>
+              <span class="arcade-stat"><span id="arcade-available">44</span> available</span>
+              <span class="arcade-stat-divider">|</span>
+              <span class="arcade-stat"><span id="arcade-tier1">12</span> standalone</span>
+            </div>
           </div>
-          <div class="arcade-controls">
-            <select id="sort-select" class="glass-input arcade-sort">
-              <option value="popular">Popular</option>
-              <option value="az">A-Z</option>
-              <option value="recent">Recently played</option>
-              <option value="random">Random</option>
-            </select>
-            <label class="show-unavailable-label">
-              <input type="checkbox" id="show-unavailable" class="glass-checkbox">
-              <span>Show unavailable</span>
-            </label>
+          <input type="text" id="search-input" class="glass-input arcade-search" placeholder="Search games..." spellcheck="false" autocomplete="off">
+          <div class="arcade-filters">
+            <div class="category-pills" id="category-pills">
+              <button class="glass-pill active" data-category="all">All</button>
+              <button class="glass-pill" data-category="shooter">Shooter</button>
+              <button class="glass-pill" data-category="puzzle">Puzzle</button>
+              <button class="glass-pill" data-category="action">Action</button>
+              <button class="glass-pill" data-category="racing">Racing</button>
+              <button class="glass-pill" data-category="strategy">Strategy</button>
+              <button class="glass-pill" data-category="sports">Sports</button>
+              <button class="glass-pill" data-category="platformer">Platformer</button>
+              <button class="glass-pill" data-category="adventure">Adventure</button>
+              <button class="glass-pill" data-category="sandbox">Sandbox</button>
+              <button class="glass-pill" data-category="rhythm">Rhythm</button>
+            </div>
+            <div class="arcade-controls">
+              <select id="sort-select" class="glass-input arcade-sort">
+                <option value="popular">Popular</option>
+                <option value="az">A-Z</option>
+                <option value="recent">Recently played</option>
+                <option value="random">Random</option>
+                <option value="tier">By Tier</option>
+              </select>
+              <label class="show-unavailable-label">
+                <input type="checkbox" id="show-unavailable" class="glass-checkbox">
+                <span>Show unavailable</span>
+              </label>
+            </div>
           </div>
         </div>
-        <div id="game-grid" class="game-grid">
-          <!-- Populated by JS -->
-        </div>
+        <div id="game-grid" class="game-grid"></div>
       </section>
 
-      <!-- ── Browser view ── -->
+      <!-- ────────────────────────────────
+           BROWSER VIEW — IMMERSIVE
+           ──────────────────────────────── -->
       <section id="view-browser" class="view">
         <div class="browser-toolbar glass">
+          <div class="browser-toolbar-left">
+            <button class="browser-nav-btn" id="browser-back-btn" title="Back">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="browser-nav-btn" id="browser-forward-btn" title="Forward">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="browser-nav-btn" id="browser-refresh-btn" title="Refresh">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
           <div class="browser-url-container">
-            <input
-              type="text"
-              id="browser-url-input"
-              class="glass-input browser-url"
-              placeholder="Enter URL..."
-              spellcheck="false"
-              autocomplete="off"
-            >
-            <button id="browser-go-btn" class="glass-btn primary go-btn">GO</button>
+            <div class="browser-url-wrapper">
+              <div class="url-bar-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <input type="text" id="browser-url-input" class="glass-input browser-url" placeholder="Enter URL..." spellcheck="false" autocomplete="off">
+            </div>
+            <button id="browser-go-btn" class="glass-btn primary go-btn browser-go">GO</button>
           </div>
           <div class="browser-controls">
             <div class="engine-selector">
@@ -193,6 +419,9 @@
             </div>
             <div class="connection-dot browser-dot" id="browser-connection-dot"></div>
             <span id="proxy-label" class="proxy-label">Ultraviolet</span>
+            <button class="browser-fullscreen-btn" id="browser-fullscreen-btn" title="Fullscreen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </button>
           </div>
         </div>
         <div class="browser-frame-container">
@@ -203,140 +432,280 @@
         </div>
       </section>
 
-      <!-- ── AI view ── -->
+      <!-- ────────────────────────────────
+           AI VIEW — NEURAL GLOW
+           ──────────────────────────────── -->
       <section id="view-ai" class="view">
-        <div class="ai-header">
-          <h3>STRATO AI</h3>
-          <div class="connection-dot ai-dot" id="ai-connection-dot"></div>
-        </div>
-
-        <!-- AI mode tabs -->
-        <div class="ai-mode-tabs">
-          <button class="glass-pill active" data-ai-mode="chat">Chat</button>
-          <button class="glass-pill" data-ai-mode="snap">Snap & Solve</button>
-        </div>
-
-        <!-- Chat mode -->
-        <div id="ai-chat-panel" class="ai-panel">
-          <div id="ai-messages" class="ai-messages">
-            <div class="ai-welcome">
-              <p>Ask me anything. I can help with homework, browsing tips, or just chat.</p>
+        <div class="ai-layout">
+          <!-- AI sidebar -->
+          <div class="ai-sidebar glass">
+            <div class="ai-avatar">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            </div>
+            <h3 class="ai-title">STRATO AI</h3>
+            <div class="ai-status-row">
+              <div class="connection-dot ai-dot" id="ai-connection-dot"></div>
+              <span id="ai-status-text">Checking...</span>
+            </div>
+            <div class="ai-mode-tabs">
+              <button class="glass-pill active" data-ai-mode="chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                Chat
+              </button>
+              <button class="glass-pill" data-ai-mode="snap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Snap & Solve
+              </button>
+            </div>
+            <div class="ai-quick-prompts">
+              <span class="ai-quick-label">Quick prompts:</span>
+              <button class="ai-quick-btn" data-prompt="Help me with my homework">Homework help</button>
+              <button class="ai-quick-btn" data-prompt="Explain this concept simply">Explain simply</button>
+              <button class="ai-quick-btn" data-prompt="Write me a creative story">Write a story</button>
+              <button class="ai-quick-btn" data-prompt="Help me brainstorm ideas">Brainstorm</button>
+            </div>
+            <div class="ai-history-label">Chat history</div>
+            <div class="ai-history-list" id="ai-history-list">
+              <div class="ai-history-empty">No conversations yet</div>
             </div>
           </div>
-          <div id="ai-offline-banner" class="ai-offline-banner hidden">
-            AI service is currently offline. Try again later.
-          </div>
-          <div class="ai-input-container">
-            <input
-              type="text"
-              id="ai-input"
-              class="glass-input ai-input"
-              placeholder="Ask STRATO AI..."
-              spellcheck="true"
-              autocomplete="off"
-            >
-            <button id="ai-send-btn" class="glass-btn primary ai-send-btn">Send</button>
-          </div>
-        </div>
 
-        <!-- Snap & Solve mode -->
-        <div id="ai-snap-panel" class="ai-panel hidden">
-          <div id="snap-drop-zone" class="snap-drop-zone glass" tabindex="0">
-            <svg class="snap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-            <p class="snap-hint">Paste a screenshot (Ctrl+V) or click to upload</p>
-            <p class="snap-subhint">Solves IXL, math, science — any question from your screen</p>
-            <input type="file" id="snap-file-input" accept="image/*" class="hidden">
-          </div>
-          <div id="snap-preview-container" class="snap-preview-container hidden">
-            <img id="snap-preview-img" class="snap-preview-img" alt="Question screenshot">
-            <button id="snap-clear-btn" class="glass-btn snap-clear-btn">Clear</button>
-          </div>
-          <div class="snap-prompts">
-            <button class="glass-pill snap-prompt-pill" data-snap-prompt="Solve this question step by step. Show your work and give the final answer clearly.">Solve it</button>
-            <button class="glass-pill snap-prompt-pill" data-snap-prompt="Explain how to solve this type of question. I want to understand the method, not just the answer.">Explain method</button>
-            <button class="glass-pill snap-prompt-pill" data-snap-prompt="Just give me the final answer quickly, no steps.">Quick answer</button>
-          </div>
-          <button id="snap-solve-btn" class="glass-btn primary snap-solve-btn" disabled>Solve Question</button>
-          <div id="snap-result" class="snap-result hidden">
-            <div id="snap-result-content" class="snap-result-content"></div>
-            <button id="snap-copy-btn" class="glass-btn snap-copy-btn">Copy Answer</button>
+          <!-- AI chat panel -->
+          <div class="ai-main">
+            <!-- Chat mode -->
+            <div id="ai-chat-panel" class="ai-panel">
+              <div id="ai-messages" class="ai-messages">
+                <div class="ai-welcome">
+                  <div class="ai-welcome-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                  </div>
+                  <h3>Hey there! I'm STRATO AI</h3>
+                  <p>Ask me anything — homework, browsing tips, creative writing, or just chat. I can also solve questions from screenshots with Snap & Solve.</p>
+                </div>
+              </div>
+              <div id="ai-offline-banner" class="ai-offline-banner hidden">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                AI service is currently offline. Configure .z-ai-config to enable.
+              </div>
+              <div class="ai-input-container">
+                <input type="text" id="ai-input" class="glass-input ai-input" placeholder="Ask STRATO AI..." spellcheck="true" autocomplete="off">
+                <button id="ai-send-btn" class="glass-btn primary ai-send-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Snap & Solve mode -->
+            <div id="ai-snap-panel" class="ai-panel hidden">
+              <div id="snap-drop-zone" class="snap-drop-zone glass" tabindex="0">
+                <svg class="snap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <p class="snap-hint">Paste a screenshot (Ctrl+V) or click to upload</p>
+                <p class="snap-subhint">Solves IXL, math, science — any question from your screen</p>
+                <input type="file" id="snap-file-input" accept="image/*" class="hidden">
+              </div>
+              <div id="snap-preview-container" class="snap-preview-container hidden">
+                <img id="snap-preview-img" class="snap-preview-img" alt="Question screenshot">
+                <button id="snap-clear-btn" class="glass-btn snap-clear-btn">Clear</button>
+              </div>
+              <div class="snap-prompts">
+                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Solve this question step by step. Show your work and give the final answer clearly.">Solve it</button>
+                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Explain how to solve this type of question. I want to understand the method, not just the answer.">Explain method</button>
+                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Just give me the final answer quickly, no steps.">Quick answer</button>
+              </div>
+              <button id="snap-solve-btn" class="glass-btn primary snap-solve-btn" disabled>Solve Question</button>
+              <div id="snap-result" class="snap-result hidden">
+                <div id="snap-result-content" class="snap-result-content"></div>
+                <button id="snap-copy-btn" class="glass-btn snap-copy-btn">Copy Answer</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ── Settings view ── -->
+      <!-- ────────────────────────────────
+           SETTINGS VIEW — FULL CONTROL
+           ──────────────────────────────── -->
       <section id="view-settings" class="view">
-        <div class="settings-container">
-          <h2 class="settings-title">Settings</h2>
+        <div class="settings-layout">
+          <div class="settings-nav glass">
+            <h2 class="settings-nav-title">Settings</h2>
+            <button class="settings-nav-item active" data-settings-section="proxy">Proxy</button>
+            <button class="settings-nav-item" data-settings-section="privacy">Privacy</button>
+            <button class="settings-nav-item" data-settings-section="appearance">Appearance</button>
+            <button class="settings-nav-item" data-settings-section="performance">Performance</button>
+            <button class="settings-nav-item" data-settings-section="about">About</button>
+          </div>
 
-          <!-- Proxy section -->
-          <div class="glass settings-section">
-            <h3>Proxy</h3>
-            <div class="setting-row">
-              <span>Default Engine</span>
-              <select id="setting-engine" class="glass-input setting-select">
-                <option value="uv">Ultraviolet</option>
-                <option value="scramjet">Scramjet</option>
-              </select>
-            </div>
-            <div class="setting-row">
-              <span>Auto-Fallback</span>
-              <div class="glass-toggle on" id="setting-auto-fallback" data-setting="autoFallback">
-                <div class="thumb"></div>
+          <div class="settings-content">
+            <!-- Proxy section -->
+            <div class="settings-section glass" id="settings-proxy">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Proxy Configuration
+              </h3>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Default Engine</span>
+                  <span class="setting-desc">Choose which proxy engine to use for browsing</span>
+                </div>
+                <select id="setting-engine" class="glass-input setting-select">
+                  <option value="uv">Ultraviolet</option>
+                  <option value="scramjet">Scramjet</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Auto-Fallback</span>
+                  <span class="setting-desc">Switch to the other engine if the current one fails</span>
+                </div>
+                <div class="glass-toggle on" id="setting-auto-fallback" data-setting="autoFallback">
+                  <div class="thumb"></div>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Fallback Timeout</span>
+                  <span class="setting-desc">Seconds before switching engines</span>
+                </div>
+                <select id="setting-fallback-timeout" class="glass-input setting-select">
+                  <option value="10">10s</option>
+                  <option value="15" selected>15s</option>
+                  <option value="30">30s</option>
+                </select>
               </div>
             </div>
-          </div>
 
-          <!-- Privacy section -->
-          <div class="glass settings-section">
-            <h3>Privacy</h3>
-            <div class="setting-row">
-              <span>Tab Cloak</span>
-              <select id="setting-cloak" class="glass-input setting-select">
-                <option value="none">None</option>
-                <option value="classroom">Google Classroom</option>
-                <option value="quizlet">Quizlet</option>
-                <option value="canvas">Canvas</option>
-                <option value="clever">Clever</option>
-                <option value="ixl">IXL</option>
-              </select>
-            </div>
-            <div class="setting-row">
-              <span>Panic Key</span>
-              <div class="setting-row-inline">
-                <input type="text" id="setting-panic-key" class="glass-input setting-key-input" value="`" readonly>
-                <button id="change-panic-key" class="glass-btn">Change</button>
+            <!-- Privacy section -->
+            <div class="settings-section glass" id="settings-privacy">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Privacy & Stealth
+              </h3>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Tab Cloak</span>
+                  <span class="setting-desc">Disguise STRATO as an educational site</span>
+                </div>
+                <select id="setting-cloak" class="glass-input setting-select">
+                  <option value="none">None</option>
+                  <option value="classroom">Google Classroom</option>
+                  <option value="quizlet">Quizlet</option>
+                  <option value="canvas">Canvas</option>
+                  <option value="clever">Clever</option>
+                  <option value="ixl">IXL</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Panic Key</span>
+                  <span class="setting-desc">Instantly switch to a safe page when pressed</span>
+                </div>
+                <div class="setting-row-inline">
+                  <kbd class="panic-key-display" id="setting-panic-key">`</kbd>
+                  <button id="change-panic-key" class="glass-btn">Change</button>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Clear Browsing Data</span>
+                  <span class="setting-desc">Clear all local storage and cached data</span>
+                </div>
+                <button id="clear-all-data-btn" class="glass-btn accent-red">Clear All</button>
               </div>
             </div>
-          </div>
 
-          <!-- Performance section -->
-          <div class="glass settings-section">
-            <h3>Performance</h3>
-            <div class="setting-row">
-              <span>StratoVault Cache</span>
-              <span id="cache-size" class="setting-value">0 MB</span>
+            <!-- Appearance section -->
+            <div class="settings-section glass" id="settings-appearance">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                Appearance
+              </h3>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Accent Color</span>
+                  <span class="setting-desc">Choose the primary accent color theme</span>
+                </div>
+                <div class="color-picker-row">
+                  <button class="color-swatch active" data-color="cyan" style="background:#00e5ff" title="Cyan"></button>
+                  <button class="color-swatch" data-color="purple" style="background:#a855f7" title="Purple"></button>
+                  <button class="color-swatch" data-color="pink" style="background:#f472b6" title="Pink"></button>
+                  <button class="color-swatch" data-color="green" style="background:#22c55e" title="Green"></button>
+                  <button class="color-swatch" data-color="orange" style="background:#fb923c" title="Orange"></button>
+                  <button class="color-swatch" data-color="red" style="background:#ef4444" title="Red"></button>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Particle Effects</span>
+                  <span class="setting-desc">Animated background particles</span>
+                </div>
+                <div class="glass-toggle on" id="setting-particles" data-setting="particles">
+                  <div class="thumb"></div>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Animations</span>
+                  <span class="setting-desc">UI animations and transitions</span>
+                </div>
+                <div class="glass-toggle on" id="setting-animations" data-setting="animations">
+                  <div class="thumb"></div>
+                </div>
+              </div>
             </div>
-            <div class="setting-row">
-              <span>Clear game cache</span>
-              <button id="clear-cache-btn" class="glass-btn">Clear</button>
-            </div>
-          </div>
 
-          <!-- About section -->
-          <div class="glass settings-section">
-            <h3>About</h3>
-            <div class="setting-row">
-              <span>Version</span>
-              <span class="setting-value">12.0.0</span>
+            <!-- Performance section -->
+            <div class="settings-section glass" id="settings-performance">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Performance
+              </h3>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">StratoVault Cache</span>
+                  <span class="setting-desc">Local game cache for faster loading</span>
+                </div>
+                <span id="cache-size" class="setting-value">0 MB</span>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-label">Clear game cache</span>
+                  <span class="setting-desc">Remove all cached game data</span>
+                </div>
+                <button id="clear-cache-btn" class="glass-btn">Clear</button>
+              </div>
             </div>
-            <div class="setting-row">
-              <span>Engine Status</span>
-              <span id="engine-status" class="setting-value">Checking...</span>
-            </div>
-            <div class="setting-row">
-              <span>Logout</span>
-              <a href="/logout" class="glass-btn">Logout</a>
+
+            <!-- About section -->
+            <div class="settings-section glass" id="settings-about">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                About STRATO
+              </h3>
+              <div class="setting-row">
+                <span class="setting-label">Version</span>
+                <span class="setting-value accent">12.0.0 CHROMATIC STORM</span>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">Engine Status</span>
+                <span id="engine-status" class="setting-value">Checking...</span>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">Wisp Server</span>
+                <span id="wisp-status" class="setting-value">Checking...</span>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">AI Service</span>
+                <span id="ai-status-settings" class="setting-value">Checking...</span>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">Session</span>
+                <span id="session-status" class="setting-value">Active</span>
+              </div>
+              <div class="setting-row logout-row">
+                <span class="setting-label">Account</span>
+                <a href="/logout" class="glass-btn accent-red">Logout</a>
+              </div>
             </div>
           </div>
         </div>
@@ -344,8 +713,36 @@
 
     </main>
 
-    <!-- ── Sidebar (hidden, must exist for compatibility) ── -->
-    <aside id="sidebar" class="hidden"></aside>
+    <!-- ── Notification center panel ── -->
+    <div id="notification-panel" class="notification-panel glass hidden">
+      <div class="notification-header">
+        <h3>Notifications</h3>
+        <button id="clear-notifications-btn" class="glass-btn small">Clear all</button>
+      </div>
+      <div id="notification-list" class="notification-list">
+        <div class="notification-empty">No notifications</div>
+      </div>
+    </div>
+
+    <!-- ── Keyboard shortcuts overlay ── -->
+    <div id="shortcuts-overlay" class="shortcuts-overlay hidden">
+      <div class="shortcuts-card glass">
+        <h3>Keyboard Shortcuts</h3>
+        <div class="shortcut-grid">
+          <div class="shortcut-item"><kbd>1</kbd><span>Home</span></div>
+          <div class="shortcut-item"><kbd>2</kbd><span>Arcade</span></div>
+          <div class="shortcut-item"><kbd>3</kbd><span>Browser</span></div>
+          <div class="shortcut-item"><kbd>4</kbd><span>AI Chat</span></div>
+          <div class="shortcut-item"><kbd>5</kbd><span>Settings</span></div>
+          <div class="shortcut-item"><kbd>/</kbd><span>Focus URL bar</span></div>
+          <div class="shortcut-item"><kbd>?</kbd><span>This overlay</span></div>
+          <div class="shortcut-item"><kbd>`</kbd><span>Panic key</span></div>
+          <div class="shortcut-item"><kbd>Ctrl+Shift+S</kbd><span>Snap & Solve</span></div>
+          <div class="shortcut-item"><kbd>Esc</kbd><span>Close overlay</span></div>
+        </div>
+        <button class="glass-btn" id="close-shortcuts-btn">Got it</button>
+      </div>
+    </div>
 
     <!-- ── Bottom bar (mobile only) ── -->
     <nav id="bottom-bar" class="glass bottom-bar hidden">
@@ -362,13 +759,13 @@
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
       </button>
       <button class="bottom-link" data-view="settings">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4"/></svg>
       </button>
     </nav>
 
   </div>
 
-  <!-- ── Floating Snap & Solve button (accessible from any view) ── -->
+  <!-- ── Floating Snap & Solve button ── -->
   <button id="snap-fab" class="snap-fab glass" title="Snap & Solve (Ctrl+Shift+S)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
   </button>
@@ -377,7 +774,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ── Scripts ── -->
-  <!-- Proxy client scripts — must load before transport-init -->
   <script src="/bare-mux/index.js"></script>
   <script src="/frog/uv.bundle.js"></script>
   <script src="/frog/uv.config.js"></script>

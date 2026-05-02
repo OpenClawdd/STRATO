@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Simon Says — STRATO</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a1e;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px}h1{font-size:1.4rem;margin-bottom:4px;color:#00e5ff}nav{margin-bottom:10px}nav button{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:6px 16px;border-radius:8px;cursor:pointer;font-size:0.8rem}.info{font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:12px}.board{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.pad{width:120px;height:120px;border-radius:20px;cursor:pointer;opacity:0.5;transition:all 0.15s;border:2px solid transparent}.pad:hover{opacity:0.7}.pad.active{opacity:1;transform:scale(1.05);box-shadow:0 0 30px currentColor}.pad.red{background:#ef4444;color:#ef4444;border-color:rgba(239,68,68,0.4)}.pad.green{background:#22c55e;color:#22c55e;border-color:rgba(34,197,94,0.4)}.pad.blue{background:#3b82f6;color:#3b82f6;border-color:rgba(59,130,246,0.4)}.pad.yellow{background:#eab308;color:#eab308;border-color:rgba(234,179,8,0.4)}.status{font-size:1.1rem;font-weight:700;margin-bottom:8px}.btn{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:8px 24px;border-radius:10px;cursor:pointer;font-size:0.85rem}</style></head><body>
+<h1>Simon Says</h1>
+<nav><button onclick="history.back()">&larr; Back</button></nav>
+<div class="info">Watch the pattern, then repeat it!</div>
+<div id="status" class="status">Level: 1</div>
+<div class="board">
+  <div class="pad red" data-color="0" onclick="playerInput(0)"></div>
+  <div class="pad green" data-color="1" onclick="playerInput(1)"></div>
+  <div class="pad yellow" data-color="2" onclick="playerInput(2)"></div>
+  <div class="pad blue" data-color="3" onclick="playerInput(3)"></div>
+</div>
+<button class="btn" onclick="startGame()">Start Game</button>
+<script>
+const pads=document.querySelectorAll('.pad');let sequence=[],playerIndex=0,level=1,playing=false,showingPattern=false;
+function startGame(){sequence=[];level=1;playing=true;nextRound()}
+function nextRound(){sequence.push(Math.floor(Math.random()*4));playerIndex=0;document.getElementById('status').textContent='Level: '+level;showingPattern=true;showSequence(0)}
+function showSequence(i){if(i>=sequence.length){showingPattern=false;document.getElementById('status').textContent='Your turn!';return}
+const pad=pads[sequence[i]];pad.classList.add('active');setTimeout(()=>{pad.classList.remove('active');setTimeout(()=>showSequence(i+1),200)},500)}
+function playerInput(color){if(!playing||showingPattern)return;const pad=pads[color];pad.classList.add('active');setTimeout(()=>pad.classList.remove('active'),150);
+if(sequence[playerIndex]===color){playerIndex++;if(playerIndex===sequence.length){level++;document.getElementById('status').textContent='Correct! Level: '+level;setTimeout(nextRound,800)}}
+else{playing=false;document.getElementById('status').textContent='Game Over! Reached level '+level;document.getElementById('status').style.color='#ef4444'}}
+</script></body></html>

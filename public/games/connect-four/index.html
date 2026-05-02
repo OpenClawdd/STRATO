@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Connect Four — STRATO</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a1e;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px}h1{font-size:1.4rem;margin-bottom:4px;color:#00e5ff}nav{margin-bottom:12px}nav button{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:6px 16px;border-radius:8px;cursor:pointer;font-size:0.8rem}nav button:hover{background:rgba(0,229,255,0.2)}.info{font-size:0.85rem;margin-bottom:10px;color:rgba(255,255,255,0.6)}.board{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,229,255,0.08);padding:8px;border-radius:12px;border:2px solid rgba(0,229,255,0.2)}.cell{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:all 0.15s}.cell:hover{background:rgba(255,255,255,0.08)}.cell.red{background:#ef4444;border-color:#ef4444;box-shadow:0 0 10px rgba(239,68,68,0.4)}.cell.yellow{background:#eab308;border-color:#eab308;box-shadow:0 0 10px rgba(234,179,8,0.4)}.cell.win{animation:winPulse 0.5s ease infinite alternate}@keyframes winPulse{from{transform:scale(1)}to{transform:scale(1.1)}}.status{margin-top:12px;font-size:1rem;font-weight:700}.btn{background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;padding:8px 24px;border-radius:10px;cursor:pointer;font-size:0.85rem;margin-top:8px}.btn:hover{background:rgba(0,229,255,0.2)}</style></head><body>
+<h1>Connect Four</h1>
+<nav><button onclick="history.back()">&larr; Back</button></nav>
+<div class="info">You (Red) vs CPU (Yellow) — Click a column to drop!</div>
+<div id="status" class="status">Your turn</div>
+<div id="board" class="board"></div>
+<button class="btn" onclick="resetGame()">New Game</button>
+<script>
+const ROWS=6,COLS=7;let board=[],gameOver=false;
+function init(){board=Array.from({length:ROWS},()=>Array(COLS).fill(0));gameOver=false;render();document.getElementById('status').textContent='Your turn';document.getElementById('status').style.color='#ef4444'}
+function render(){const el=document.getElementById('board');el.innerHTML='';for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const cell=document.createElement('div');cell.className='cell'+(board[r][c]===1?' red':board[r][c]===2?' yellow':'');cell.onclick=()=>play(c);el.appendChild(cell)}}
+function play(col){if(gameOver||board[0][col]!==0)return;const row=drop(col,1);if(row===-1)return;render();if(checkWin(row,col,1)){document.getElementById('status').textContent='You win!';document.getElementById('status').style.color='#22c55e';gameOver=true;return}if(isFull()){document.getElementById('status').textContent='Draw!';gameOver=true;return}setTimeout(cpuPlay,300)}
+function cpuPlay(){const col=cpuMove();if(col===-1)return;const row=drop(col,2);render();if(checkWin(row,col,2)){document.getElementById('status').textContent='CPU wins!';document.getElementById('status').style.color='#ef4444';gameOver=true;return}if(isFull()){document.getElementById('status').textContent='Draw!';gameOver=true;return}document.getElementById('status').textContent='Your turn';document.getElementById('status').style.color='#ef4444'}
+function drop(col,p){for(let r=ROWS-1;r>=0;r--)if(board[r][col]===0){board[r][col]=p;return r}return-1}
+function cpuMove(){for(let c=0;c<COLS;c++){const r=drop(c,2);if(r!==-1){if(checkWin(r,c,2)){board[r][c]=0;return c}board[r][c]=0}}for(let c=0;c<COLS;c++){const r=drop(c,1);if(r!==-1){if(checkWin(r,c,1)){board[r][c]=0;return c}board[r][c]=0}}const avail=[];for(let c=0;c<COLS;c++)if(board[0][c]===0)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1}
+function checkWin(r,c,p){const dirs=[[0,1],[1,0],[1,1],[1,-1]];for(const[dr,dc]of dirs){let count=1;for(let i=1;i<4;i++){const nr=r+dr*i,nc=c+dc*i;if(nr<0||nr>=ROWS||nc<0||nc>=COLS||board[nr][nc]!==p)break;count++}for(let i=1;i<4;i++){const nr=r-dr*i,nc=c-dc*i;if(nr<0||nr>=ROWS||nc<0||nc>=COLS||board[nr][nc]!==p)break;count++}if(count>=4)return true}return false}
+function isFull(){return board[0].every(c=>c!==0)}
+function resetGame(){init()}
+init();
+</script></body></html>
