@@ -9,6 +9,7 @@ import rateLimit from 'express-rate-limit';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import authMiddleware from './middleware/auth.js';
 import proxyRoutes from './routes/proxy.js';
 import aiRoutes from './routes/ai.js';
@@ -93,6 +94,13 @@ app.get('/assets/games.json', (req, res) => {
 // Config status endpoint — frontend uses this to show CTA for unresolved URLs
 app.get('/api/config/status', (req, res) => {
   res.json(getConfigStatus());
+});
+
+// CSRF token endpoint — populates meta tag for API calls
+app.get('/api/csrf-token', (req, res) => {
+  const token = req.cookies['XSRF-TOKEN'] || crypto.randomBytes(32).toString('hex');
+  res.cookie('XSRF-TOKEN', token, { httpOnly: false, sameSite: 'strict' });
+  res.json({ token });
 });
 
 app.use(express.static(join(__dirname, '..', 'public')));

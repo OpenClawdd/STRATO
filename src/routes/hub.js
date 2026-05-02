@@ -72,8 +72,6 @@ router.get('/api/hub/categories', (req, res) => {
   res.json(categories);
 });
 
-export default router;
-
 // ── Extended API routes (mirrors + cloak presets) ──
 // These are added to the same router for simplicity.
 
@@ -221,3 +219,5 @@ router.get('/api/proxy/health', async (req, res) => {
 
   res.json(result);
 });
+
+export default router;

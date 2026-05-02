@@ -43,7 +43,7 @@
     hubSites: [],
     filteredHubSites: [],
     dailyChallenges: JSON.parse(localStorage.getItem('strato-dailyChallenges') || '{}'),
-    leaderboard: null, // REMOVED - fake feature
+
     favorites: JSON.parse(localStorage.getItem('strato-favorites') || '[]'),
     recentPlays: JSON.parse(localStorage.getItem('strato-recentPlays') || '[]'),
   };
@@ -138,7 +138,7 @@
       showToast('Panic key updated', 'accent');
       return;
     }
-    if (e.key === state.panicKey || e.key === 'Escape') handlePanicKey();
+    if (e.key === state.panicKey) handlePanicKey();
 
     // Number key shortcuts for views
     if (!e.ctrlKey && !e.altKey && !e.metaKey) {
@@ -586,7 +586,7 @@
                 ${hasPassword ? '<span class="auth-hint" title="Password: ' + passwordDisplay + '">&#128272; ' + passwordDisplay + '</span>' : ''}
               </div>
               <button class="fav-btn ${isFav ? 'active' : ''}" data-fav-id="${game.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '\u2605' : '\u2606'}</button>
-              <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" onerror="this.style.display='none'">
+              <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" data-game-url="${game.url || ''}" data-game-name="${game.name}">
               <div class="game-card-info">
                 <div class="game-card-name">${game.name}</div>
                 <div class="game-card-category">${game.category}</div>
@@ -611,6 +611,9 @@
 
     // Attach hover prefetch for faster loads
     attachHoverPrefetch();
+
+    // Apply favicon fallback for broken thumbnails
+    applyFaviconFallbacks(grid);
   }
 
   function toggleFavorite(gameId) {
@@ -1151,7 +1154,8 @@
       state.particlesEnabled = !state.particlesEnabled;
       localStorage.setItem('strato-particles', String(state.particlesEnabled));
       particlesToggle.classList.toggle('on');
-      if (canvas) canvas.style.display = state.particlesEnabled ? '' : 'none';
+      const particleCanvas = document.getElementById('particle-canvas');
+      if (particleCanvas) particleCanvas.style.display = state.particlesEnabled ? '' : 'none';
       document.querySelectorAll('.floating-orb, .bg-grid, .bg-scanline').forEach(el => {
         el.style.display = state.particlesEnabled ? '' : 'none';
       });
@@ -1777,6 +1781,59 @@
   document.addEventListener('touchstart', recordActivity);
 
   // ──────────────────────────────────────────
+  // FAVICON FALLBACK FOR BROKEN THUMBNAILS
+  // ──────────────────────────────────────────
+  function applyFaviconFallbacks(container) {
+    if (typeof window.FaviconFetcher === 'undefined') return;
+    const imgs = container.querySelectorAll('.game-card-thumb');
+    imgs.forEach(img => {
+      const gameUrl = img.dataset.gameUrl;
+      const gameName = img.dataset.gameName || '?';
+      if (!gameUrl || /^\$\{/.test(gameUrl)) return;
+
+      img.addEventListener('error', function onThumbError() {
+        img.removeEventListener('error', onThumbError);
+        img.style.display = 'none';
+
+        const wrapper = img.closest('.game-card-inner');
+        if (!wrapper) return;
+
+        window.FaviconFetcher.getFavicon(gameUrl).then(faviconUrl => {
+          if (faviconUrl) {
+            const faviconImg = document.createElement('img');
+            faviconImg.className = 'game-card-thumb game-card-thumb--favicon';
+            faviconImg.src = faviconUrl;
+            faviconImg.alt = gameName;
+            faviconImg.style.cssText = 'object-fit:contain;padding:20px;background:var(--bg-elevated);';
+            faviconImg.addEventListener('error', () => {
+              faviconImg.remove();
+              insertInitialPlaceholder(wrapper, gameName);
+            });
+            wrapper.insertBefore(faviconImg, wrapper.firstChild);
+          } else {
+            insertInitialPlaceholder(wrapper, gameName);
+          }
+        }).catch(() => insertInitialPlaceholder(wrapper, gameName));
+      });
+    });
+  }
+
+  function insertInitialPlaceholder(wrapper, gameName) {
+    if (wrapper.querySelector('.game-card-initial')) return;
+    const firstLetter = (gameName || '?').charAt(0).toUpperCase();
+    const colors = ['#00e5ff','#a855f7','#f472b6','#22c55e','#fb923c','#ef4444'];
+    const color = colors[firstLetter.charCodeAt(0) % colors.length];
+    if (typeof window.FaviconFetcher !== 'undefined') {
+      const svg = window.FaviconFetcher.renderInitial(firstLetter, color);
+      const div = document.createElement('div');
+      div.className = 'game-card-initial';
+      div.style.cssText = 'width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--bg-elevated);';
+      div.innerHTML = svg;
+      wrapper.insertBefore(div, wrapper.firstChild);
+    }
+  }
+
+  // ──────────────────────────────────────────
   // PRELOAD-ON-HOVER
   // ──────────────────────────────────────────
   let hoverPrefetchTimer = null;
@@ -1891,6 +1948,18 @@
     const splash = document.getElementById('splash');
     const splashBar = splash?.querySelector('.splash-bar');
     const splashStatus = splash?.querySelector('.splash-status');
+
+    // Step 0: Fetch CSRF token before any API calls
+    try {
+      const csrfResp = await fetch('/api/csrf-token');
+      if (csrfResp.ok) {
+        const csrfData = await csrfResp.json();
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        if (csrfMeta && csrfData.token) csrfMeta.setAttribute('content', csrfData.token);
+      }
+    } catch (e) {
+      // Non-fatal — proceed without CSRF token
+    }
 
     // Step 1: Transport
     if (splashBar) splashBar.style.width = '20%';
