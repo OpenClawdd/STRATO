@@ -87,12 +87,14 @@
     canvas:             { title: 'Dashboard', favicon: 'https://www.canvaslms.com/favicon.ico' },
     clever:             { title: 'Clever | Portal', favicon: 'https://www.clever.com/favicon.ico' },
     ixl:                { title: 'IXL | Math', favicon: 'https://www.ixl.com/favicon.ico' },
-    'school-agreca':    { title: 'Escuela Agreca', favicon: 'https://www.google.com/favicon.ico' },
-    'noahs-tutoring':   { title: "Noah's Tutoring — Programming & Writing", favicon: 'https://www.google.com/favicon.ico' },
-    'byod-portal':      { title: 'BYOD Portal', favicon: 'https://www.google.com/favicon.ico' },
-    'eclipse-castellon':{ title: 'Eclipse Castellon', favicon: 'https://www.google.com/favicon.ico' },
-    'learning-policy':  { title: 'Learning Policy Institute', favicon: 'https://www.google.com/favicon.ico' },
-    'petezah-games':    { title: 'Aletia Tours — Travel Deals', favicon: 'https://www.google.com/favicon.ico' },
+    'school-agreca':    { title: 'Escuela Agreca — Inicio', favicon: 'https://school.agreca.com.ar/favicon.ico' },
+    'noahs-tutoring':   { title: "Noah's Tutoring — Programming, Writing, Lecture, Learning & Literature", favicon: 'https://www.google.com/favicon.ico' },
+    'byod-portal':      { title: 'BYOD Portal — Geeked', favicon: 'https://byod.geeked.wtf/favicon.ico' },
+    'eclipse-castellon':{ title: 'Eclipse Castellon — Educacion', favicon: 'https://dtxb.eclipsecastellon.net/favicon.ico' },
+    'learning-policy':  { title: 'Learning Policy Institute — Research', favicon: 'https://learningpolicy.lervs.ro/favicon.ico' },
+    'petezah-games':    { title: 'Aletia Tours — Travel Deals', favicon: 'https://pluh.aletiatours.com/favicon.ico' },
+    'start-education':  { title: 'Start My Education — Home', favicon: 'https://startmyeducation.top/favicon.ico' },
+    'cherrion':         { title: 'Cherrion — Help & Resources', favicon: 'https://cherrion.top/favicon.ico' },
   };
 
   function applyCloak(key) {
@@ -1257,6 +1259,12 @@
         `<svg class="hub-star ${i < site.stars ? 'filled' : ''}" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>`
       ).join('');
       const safeBadge = site.iframe_safe ? '<span class="hub-badge-iframe-safe">iframe-safe</span>' : '';
+      // Tier badge for community proxy/hub sites
+      let tierBadge = '';
+      if (site.tier_badge === 'good') tierBadge = '<span class="hub-tier-badge tier-good">&#9733; Good Proxy</span>';
+      else if (site.tier_badge === 'recommended') tierBadge = '<span class="hub-tier-badge tier-recommended">&#9734; Recommended</span>';
+      // Password hint
+      const passwordHint = site.password ? `<span class="hub-password-hint">&#128272; ${site.password}</span>` : '';
       return `
         <div class="hub-card" data-hub-url="${site.url}" data-hub-safe="${site.iframe_safe}">
           <div class="hub-card-top">
@@ -1267,6 +1275,8 @@
           <div class="hub-card-bottom">
             <span class="hub-card-category ${site.category}">${site.category}</span>
             ${safeBadge}
+            ${tierBadge}
+            ${passwordHint}
             <button class="hub-card-open-btn" data-hub-launch="${site.url}" data-hub-safe="${site.iframe_safe}">Open</button>
           </div>
         </div>`;

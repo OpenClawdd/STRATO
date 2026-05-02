@@ -38,39 +38,51 @@
     },
     {
       "id": "school-agreca",
-      "title": "Escuela Agreca",
-      "favicon": "https://www.google.com/favicon.ico",
+      "title": "Escuela Agreca — Inicio",
+      "favicon": "https://school.agreca.com.ar/favicon.ico",
       "description": "Strawberry front — school Agreca disguise"
     },
     {
       "id": "noahs-tutoring",
-      "title": "Noah's Tutoring — Programming & Writing",
+      "title": "Noah's Tutoring — Programming, Writing, Lecture, Learning & Literature",
       "favicon": "https://www.google.com/favicon.ico",
-      "description": "Longest subdomain = ultimate disguise"
+      "description": "Longest subdomain = ultimate disguise — mybgarage.cl"
     },
     {
       "id": "byod-portal",
-      "title": "BYOD Portal",
-      "favicon": "https://www.google.com/favicon.ico",
+      "title": "BYOD Portal — Geeked",
+      "favicon": "https://byod.geeked.wtf/favicon.ico",
       "description": "Lucide/BYOD front — bring your own device portal"
     },
     {
       "id": "eclipse-castellon",
-      "title": "Eclipse Castellon",
-      "favicon": "https://www.google.com/favicon.ico",
-      "description": "IMP front — travel/eclipse themed"
+      "title": "Eclipse Castellon — Educacion",
+      "favicon": "https://dtxb.eclipsecastellon.net/favicon.ico",
+      "description": "IMP front — education themed"
     },
     {
       "id": "learning-policy",
-      "title": "Learning Policy Institute",
-      "favicon": "https://www.google.com/favicon.ico",
-      "description": "Romanian educational front"
+      "title": "Learning Policy Institute — Research",
+      "favicon": "https://learningpolicy.lervs.ro/favicon.ico",
+      "description": "Romanian educational front — Ghost backup"
     },
     {
       "id": "petezah-games",
       "title": "Aletia Tours — Travel Deals",
-      "favicon": "https://www.google.com/favicon.ico",
+      "favicon": "https://pluh.aletiatours.com/favicon.ico",
       "description": "PeteZah travel domain front"
+    },
+    {
+      "id": "start-education",
+      "title": "Start My Education — Home",
+      "favicon": "https://startmyeducation.top/favicon.ico",
+      "description": "SME education front — password: funni"
+    },
+    {
+      "id": "cherrion",
+      "title": "Cherrion — Help & Resources",
+      "favicon": "https://cherrion.top/favicon.ico",
+      "description": "Cherri proxy front — help site disguise"
     }
   ]
 }

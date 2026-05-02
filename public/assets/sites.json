@@ -60,5 +60,19 @@
   { "id": "splix-io", "name": "Splix.io", "url": "https://splix.io", "stars": 1, "category": "games", "description": "Claim territory and defend it from other players", "iframe_safe": true },
   { "id": "diep-io", "name": "Diep.io", "url": "https://diep.io", "stars": 2, "category": "games", "description": "Tank shooter — destroy shapes and other tanks to level up", "iframe_safe": true },
   { "id": "skribbl-io", "name": "Skribbl.io", "url": "https://skribbl.io", "stars": 3, "category": "games", "description": "Draw and guess with players worldwide", "iframe_safe": false },
-  { "id": "bonk-io", "name": "Bonk.io", "url": "https://bonk.io", "stars": 2, "category": "games", "description": "Push friends off the map in this physics brawler", "iframe_safe": false }
+  { "id": "bonk-io", "name": "Bonk.io", "url": "https://bonk.io", "stars": 2, "category": "games", "description": "Push friends off the map in this physics brawler", "iframe_safe": false },
+
+  { "id": "hub-splash", "name": "SPLASH", "url": "https://splash.best/", "stars": 3, "category": "proxies", "description": "Good proxy — clean interface, fast loading", "iframe_safe": false, "tier_badge": "good" },
+  { "id": "hub-strawberry", "name": "Strawberry", "url": "https://school.agreca.com.ar/", "stars": 3, "category": "proxies", "description": "Good proxy — school-themed front (Agreca)", "iframe_safe": false, "tier_badge": "good" },
+  { "id": "hub-selenite", "name": "Selenite", "url": "http://Selenite.cc", "stars": 3, "category": "proxies", "description": "Recommended proxy — has alternate mirror on pages.dev", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-fmhy", "name": "FMHY", "url": "https://fmhy.net/", "stars": 3, "category": "directories", "description": "Free media hell yeah — massive freemedia index", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-vapor", "name": "VAPOR v4", "url": "https://vapor.onl/", "stars": 3, "category": "proxies", "description": "Recommended proxy — clean design", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-awp", "name": "AWP", "url": "https://multirip.lol/", "stars": 3, "category": "proxies", "description": "Recommended proxy — multirip mirror available", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-frogies", "name": "frogiesarcade", "url": "https://play.frogiee.one/", "stars": 3, "category": "game-hubs", "description": "Arcade games hub — games-focused front", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-sme", "name": "SME", "url": "https://startmyeducation.top/", "stars": 3, "category": "proxies", "description": "Start My Education proxy — password: funni", "iframe_safe": false, "tier_badge": "recommended", "password": "funni" },
+  { "id": "hub-cherri", "name": "Cherri", "url": "https://cherrion.top/", "stars": 3, "category": "proxies", "description": "Intermittent proxy — backup at helptired8", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-lucide", "name": "Lucide", "url": "https://byod.geeked.wtf/", "stars": 3, "category": "proxies", "description": "BYOD front — the site that inspired STRATO's design", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-infamous", "name": "Infamous", "url": "https://infamous.qzz.io/", "stars": 3, "category": "proxies", "description": "Recommended proxy — reliable service", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-noahs", "name": "Noah's Tutoring", "url": "https://programming.writing.lecture.learning.literature.mybgarage.cl/", "stars": 3, "category": "proxies", "description": "Best cloak domain — longest subdomain chain = ultimate disguise", "iframe_safe": false, "tier_badge": "recommended" },
+  { "id": "hub-petezah", "name": "PeteZah", "url": "https://pluh.aletiatours.com/", "stars": 3, "category": "game-hubs", "description": "Game hub — travel domain front (was HypeStudy)", "iframe_safe": false, "tier_badge": "recommended" }
 ]

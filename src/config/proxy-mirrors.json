@@ -1,45 +1,13 @@
 {
   "mirrors": [
     {
-      "id": "selenite",
-      "name": "Selenite",
-      "primary": "http://Selenite.cc",
-      "alternates": ["https://g-65j.pages.dev"],
-      "priority": 1,
-      "reliability": "yellow"
-    },
-    {
-      "id": "awp",
-      "name": "AWP",
-      "primary": "https://tinyurl.com/kingelijah1",
-      "alternates": ["https://multirip.lol"],
-      "priority": 2,
-      "reliability": "yellow"
-    },
-    {
-      "id": "sme",
-      "name": "SME",
-      "primary": "https://startmyeducation.top",
-      "alternates": ["https://startmyeducation.net"],
-      "priority": 2,
-      "reliability": "yellow",
-      "password": "funni"
-    },
-    {
-      "id": "petezah",
-      "name": "PeteZah",
-      "primary": "https://pluh.aletiatours.com",
-      "alternates": ["https://petezahgames.b-cdn.net"],
-      "priority": 2,
-      "reliability": "yellow"
-    },
-    {
       "id": "splash",
       "name": "SPLASH",
       "primary": "https://splash.best/",
       "alternates": [],
       "priority": 1,
-      "reliability": "green"
+      "reliability": "green",
+      "tier_badge": "good"
     },
     {
       "id": "strawberry",
@@ -47,7 +15,72 @@
       "primary": "https://school.agreca.com.ar/",
       "alternates": [],
       "priority": 1,
-      "reliability": "green"
+      "reliability": "green",
+      "tier_badge": "good"
+    },
+    {
+      "id": "selenite",
+      "name": "Selenite",
+      "primary": "http://Selenite.cc",
+      "alternates": ["https://g-65j.pages.dev/projects"],
+      "priority": 2,
+      "reliability": "yellow",
+      "tier_badge": "recommended"
+    },
+    {
+      "id": "awp",
+      "name": "AWP",
+      "primary": "https://tinyurl.com/kingelijah1",
+      "alternates": ["https://multirip.lol/"],
+      "priority": 2,
+      "reliability": "yellow",
+      "tier_badge": "recommended"
+    },
+    {
+      "id": "sme",
+      "name": "SME",
+      "primary": "https://startmyeducation.top/",
+      "alternates": ["http://startmyeducation.net/"],
+      "priority": 2,
+      "reliability": "yellow",
+      "tier_badge": "recommended",
+      "password": "funni"
+    },
+    {
+      "id": "cherri",
+      "name": "Cherri",
+      "primary": "https://cherrion.top/",
+      "alternates": ["https://helptired8.notinthearchives.net/"],
+      "priority": 3,
+      "reliability": "red",
+      "tier_badge": "recommended"
+    },
+    {
+      "id": "lucide",
+      "name": "Lucide",
+      "primary": "https://byod.geeked.wtf/",
+      "alternates": [],
+      "priority": 1,
+      "reliability": "green",
+      "tier_badge": "recommended"
+    },
+    {
+      "id": "infamous",
+      "name": "Infamous",
+      "primary": "https://infamous.qzz.io/",
+      "alternates": [],
+      "priority": 2,
+      "reliability": "yellow",
+      "tier_badge": "recommended"
+    },
+    {
+      "id": "noahs-tutoring",
+      "name": "Noah's Tutoring",
+      "primary": "https://programming.writing.lecture.learning.literature.mybgarage.cl/",
+      "alternates": [],
+      "priority": 1,
+      "reliability": "green",
+      "tier_badge": "recommended"
     },
     {
       "id": "vapor-v4",
@@ -55,31 +88,26 @@
       "primary": "https://vapor.onl/",
       "alternates": [],
       "priority": 2,
-      "reliability": "yellow"
+      "reliability": "yellow",
+      "tier_badge": "recommended"
     },
     {
-      "id": "lucide",
-      "name": "Lucide",
-      "primary": "https://byod.geeked.wtf",
-      "alternates": [],
-      "priority": 1,
-      "reliability": "green"
+      "id": "petezah",
+      "name": "PeteZah",
+      "primary": "https://pluh.aletiatours.com/",
+      "alternates": ["https://petezahgames.freetls.fastly.net/"],
+      "priority": 2,
+      "reliability": "yellow",
+      "tier_badge": "recommended"
     },
     {
-      "id": "infamous",
-      "name": "Infamous",
-      "primary": "https://infamous.qzz.io",
+      "id": "frogiesarcade",
+      "name": "frogiesarcade",
+      "primary": "https://play.frogiee.one/",
       "alternates": [],
       "priority": 2,
-      "reliability": "yellow"
-    },
-    {
-      "id": "cherri",
-      "name": "Cherri",
-      "primary": "https://cherrion.top",
-      "alternates": [],
-      "priority": 3,
-      "reliability": "red"
+      "reliability": "yellow",
+      "tier_badge": "recommended"
     }
   ],
   "lastUpdated": "2026-05-03"
