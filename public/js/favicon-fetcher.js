@@ -65,10 +65,12 @@
 
   /**
    * Generate an SVG colored circle with a letter, for use as a fallback thumbnail.
+   * Input is sanitized to prevent SVG injection.
    */
   function renderInitial(letter, color) {
-    const c = color || '#00e5ff';
-    const ch = (letter || '?').charAt(0).toUpperCase();
+    // Sanitize inputs to prevent SVG/XSS injection
+    const ch = (letter || '?').charAt(0).toUpperCase().replace(/[^A-Z0-9?]/g, '?');
+    const c = (color || '#00e5ff').replace(/[^a-zA-Z0-9#(),.]/g, '');
     return `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
       <rect width="64" height="64" rx="12" fill="${c}"/>
       <text x="32" y="44" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="32" font-weight="700">${ch}</text>

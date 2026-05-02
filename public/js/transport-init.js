@@ -110,10 +110,11 @@
       line-height: 1.6;
       z-index: 99999;
     `;
+    // Escape message to prevent XSS — use textContent instead of innerHTML
     errorDiv.innerHTML = `
       <div style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(248,113,113,0.15);padding:4px 12px;border-radius:8px;display:inline-block;margin-bottom:12px;">PROXY ERROR</div>
-      <p style="margin:0;">${message}</p>
-      <button onclick="location.reload()" style="
+      <p style="margin:0;" id="proxy-error-msg"></p>
+      <button style="
         margin-top:16px;
         background:rgba(0,229,255,0.15);
         border:1px solid rgba(0,229,255,0.25);
@@ -123,8 +124,14 @@
         cursor:pointer;
         font-family:'Manrope',sans-serif;
         font-size:14px;
-      ">Retry</button>
+      " id="proxy-error-retry">Retry</button>
     `;
+    // Safely set the error message text (no HTML injection)
+    const msgEl = errorDiv.querySelector('#proxy-error-msg');
+    if (msgEl) msgEl.textContent = message;
+    // Add click handler via addEventListener instead of inline onclick
+    const retryBtn = errorDiv.querySelector('#proxy-error-retry');
+    if (retryBtn) retryBtn.addEventListener('click', () => location.reload());
     container.appendChild(errorDiv);
 
     // Also dispatch proxy-ready so app.js init doesn't hang forever

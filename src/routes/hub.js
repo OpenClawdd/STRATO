@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import fs from 'fs';
+import fs from 'fs/promises';
 import { resolveConfig, isUnresolved } from '../config/load-private-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,16 +23,23 @@ function loadSites() {
     return sitesCache;
   }
 
-  try {
-    const sitesPath = join(__dirname, '..', '..', 'public', 'assets', 'sites.json');
-    const data = fs.readFileSync(sitesPath, 'utf8');
-    sitesCache = JSON.parse(data);
-    sitesCacheTime = now;
-    return sitesCache;
-  } catch (err) {
+  // Return the cached result or a promise that resolves with data
+  // Since this is called from sync route handlers, we keep it sync when cached
+  // and refresh async in the background
+  const sitesPath = join(__dirname, '..', '..', 'public', 'assets', 'sites.json');
+  // Kick off async refresh in background
+  fs.readFile(sitesPath, 'utf8').then(data => {
+    try {
+      sitesCache = JSON.parse(data);
+      sitesCacheTime = Date.now();
+    } catch (err) {
+      console.error('[STRATO] Failed to parse sites.json:', err.message);
+    }
+  }).catch(err => {
     console.error('[STRATO] Failed to load sites.json:', err.message);
-    return [];
-  }
+  });
+
+  return sitesCache || [];
 }
 
 // ── GET /api/hub/sites — Return curated site directory ──

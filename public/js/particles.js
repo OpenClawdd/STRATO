@@ -184,10 +184,27 @@
     // Draw once, then stop
     init();
     draw();
-    return;
+  } else {
+    // Start normally
+    init();
+    loop();
   }
 
-  // Start
-  init();
-  loop();
+  // Listen for runtime changes to reduced-motion preference
+  motionQuery.addEventListener('change', (e) => {
+    if (e.matches) {
+      // User enabled reduced-motion — stop animation
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+      // Draw one static frame
+      draw();
+    } else {
+      // User disabled reduced-motion — resume animation
+      if (!animFrameId) {
+        loop();
+      }
+    }
+  });
 })();

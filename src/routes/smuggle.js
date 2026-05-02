@@ -96,15 +96,39 @@ router.get('/api/smuggle', async (req, res) => {
 
   try {
     // Fetch with streaming — never buffer
+    // Use 'manual' redirect handling to re-validate redirect targets against SSRF rules
     const fetchResponse = await fetch(url, {
       method: 'GET',
       headers: {
         'User-Agent': 'STRATO/13.0 (Smuggle Proxy)',
         'Accept': '*/*',
       },
-      redirect: 'follow',
+      redirect: 'manual',
       signal: AbortSignal.timeout(30_000),
     });
+
+    // Handle redirects manually — validate each redirect target against SSRF rules
+    if ([301, 302, 303, 307, 308].includes(fetchResponse.status)) {
+      const redirectUrl = fetchResponse.headers.get('location');
+      if (!redirectUrl) {
+        return res.status(502).json({ error: 'Redirect with no Location header' });
+      }
+      // Parse and validate the redirect target
+      let parsedRedirect;
+      try {
+        parsedRedirect = new URL(redirectUrl, url);
+      } catch {
+        return res.status(400).json({ error: 'Invalid redirect URL' });
+      }
+      if (!['http:', 'https:'].includes(parsedRedirect.protocol)) {
+        return res.status(400).json({ error: 'Redirect to non-HTTP protocol blocked' });
+      }
+      if (isPrivateIP(parsedRedirect.hostname) || parsedRedirect.hostname === 'localhost' || parsedRedirect.hostname === '[::1]' || parsedRedirect.hostname === '0.0.0.0') {
+        return res.status(403).json({ error: 'Redirect to private network address is blocked' });
+      }
+      // Safe redirect — tell client to follow manually or return the redirect URL
+      return res.status(fetchResponse.status).json({ redirect: redirectUrl });
+    }
 
     if (!fetchResponse.ok) {
       return res.status(fetchResponse.status).json({

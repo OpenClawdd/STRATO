@@ -16,6 +16,13 @@
   // ──────────────────────────────────────────
   const startTime = Date.now();
   let cpOpen = false; // Command palette state - declared early for keydown handler
+  // ── HTML escape utility — prevents XSS in all innerHTML rendering ──
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
   const state = {
     currentView: 'home',
     currentEngine: localStorage.getItem('strato-engine') || 'uv',
@@ -30,7 +37,6 @@
     aiMessages: [],
     aiOnline: false,
     proxyReady: false,
-    unavailableGames: JSON.parse(localStorage.getItem('strato-unavailable') || '{}'),
     recentlyPlayed: JSON.parse(localStorage.getItem('strato-recent') || '[]'),
     changingPanicKey: false,
     gamesPlayed: parseInt(localStorage.getItem('strato-gamesPlayed') || '0'),
@@ -43,9 +49,7 @@
     hubSites: [],
     filteredHubSites: [],
     dailyChallenges: JSON.parse(localStorage.getItem('strato-dailyChallenges') || '{}'),
-
     favorites: JSON.parse(localStorage.getItem('strato-favorites') || '[]'),
-    recentPlays: JSON.parse(localStorage.getItem('strato-recentPlays') || '[]'),
   };
 
   // Apply saved accent color
@@ -120,10 +124,11 @@
   function handlePanicKey() {
     const cloakKey = state.activeCloak !== 'none' ? state.activeCloak : 'classroom';
     applyCloak(cloakKey);
-    const cloak = CLOAKS[cloakKey];
-    if (state.currentView === 'browser' && cloak.url) {
+    // If in browser view, navigate the iframe to a safe educational page
+    // to quickly hide the proxied content
+    if (state.currentView === 'browser') {
       const iframe = document.getElementById('browser-iframe');
-      if (iframe) iframe.src = cloak.url;
+      if (iframe) iframe.src = 'https://www.google.com';
     }
   }
 
@@ -248,8 +253,8 @@
 
     list.innerHTML = state.notifications.map(n => `
       <div class="notification-item ${n.type === 'error' ? 'error' : ''}">
-        <span>${n.message}</span>
-        <span class="notification-time">${n.time}</span>
+        <span>${escapeHtml(n.message)}</span>
+        <span class="notification-time">${escapeHtml(n.time)}</span>
       </div>
     `).join('');
 
@@ -290,9 +295,9 @@
     }
     list.innerHTML = state.activityLog.slice(0, 8).map(a => `
       <div class="activity-item">
-        <span class="activity-dot ${a.type}"></span>
-        <span>${a.action}</span>
-        <span class="activity-time">${a.time}</span>
+        <span class="activity-dot ${escapeHtml(a.type)}"></span>
+        <span>${escapeHtml(a.action)}</span>
+        <span class="activity-time">${escapeHtml(a.time)}</span>
       </div>
     `).join('');
   }
@@ -511,6 +516,8 @@
   });
 
   window.addEventListener('message', (e) => {
+    // Only accept messages from same origin to prevent CSRF via postMessage
+    if (e.origin !== location.origin) return;
     if (e.data?.type === 'proxy-switch-engine') {
       const otherEngine = state.currentEngine === 'uv' ? 'scramjet' : 'uv';
       setEngine(otherEngine);
@@ -541,7 +548,7 @@
   function updateGameStats() {
     const total = state.games.length;
     const tier1 = state.games.filter(g => g.tier === 1).length;
-    const available = state.games.filter(g => (state.unavailableGames[g.id] || 0) < 3).length;
+    const available = state.games.length;
 
     const els = {
       'arcade-total': total,
@@ -563,9 +570,8 @@
     const showUnavailable = document.getElementById('show-unavailable')?.checked || false;
 
     grid.innerHTML = state.filteredGames
-      .filter(game => showUnavailable || (state.unavailableGames[game.id] || 0) < 3)
       .map(game => {
-        const isUnavailable = (state.unavailableGames[game.id] || 0) >= 3;
+        const isUnavailable = false;
         const isFav = state.favorites.includes(game.id);
         const rel = game.reliability || 'green';
         const hasPassword = !!game.password && !/^\$\{/.test(game.password);
@@ -577,19 +583,19 @@
         else if (proxyTier === 'recommended') tierIcon = '<span class="tier-purple">&#9734;</span>';
         else if (game.tier === 1) tierIcon = '<span class="tier-standalone">LOCAL</span>';
         return `
-          <div class="game-card glass ${isUnavailable ? 'unavailable' : ''} ${isUnresolved ? 'config-required' : ''}" data-game-id="${game.id}">
+          <div class="game-card glass ${isUnavailable ? 'unavailable' : ''} ${isUnresolved ? 'config-required' : ''}" data-game-id="${escapeHtml(game.id)}">
             <div class="game-card-inner">
               ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ''}
               <div class="game-card-badges">
                 ${tierIcon}
-                <span class="reliability-dot rel-${rel}" title="${rel} reliability"></span>
-                ${hasPassword ? '<span class="auth-hint" title="Password: ' + passwordDisplay + '">&#128272; ' + passwordDisplay + '</span>' : ''}
+                <span class="reliability-dot rel-${escapeHtml(rel)}" title="${escapeHtml(rel)} reliability"></span>
+                ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + '</span>' : ''}
               </div>
-              <button class="fav-btn ${isFav ? 'active' : ''}" data-fav-id="${game.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '\u2605' : '\u2606'}</button>
-              <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" data-game-url="${game.url || ''}" data-game-name="${game.name}">
+              <button class="fav-btn ${isFav ? 'active' : ''}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '\u2605' : '\u2606'}</button>
+              <img class="game-card-thumb" src="${escapeHtml(game.thumbnail)}" alt="${escapeHtml(game.name)}" loading="lazy" data-game-url="${escapeHtml(game.url || '')}" data-game-name="${escapeHtml(game.name)}">
               <div class="game-card-info">
-                <div class="game-card-name">${game.name}</div>
-                <div class="game-card-category">${game.category}</div>
+                <div class="game-card-name">${escapeHtml(game.name)}</div>
+                <div class="game-card-category">${escapeHtml(game.category)}</div>
               </div>
             </div>
           </div>`;
@@ -632,12 +638,12 @@
 
     scroll.innerHTML = featured.map(game => `
       <div class="featured-card">
-        <div class="game-card glass" data-game-id="${game.id}">
+        <div class="game-card glass" data-game-id="${escapeHtml(game.id)}">
           <div class="game-card-inner">
-            <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" onerror="this.style.display='none'">
+            <img class="game-card-thumb" src="${escapeHtml(game.thumbnail)}" alt="${escapeHtml(game.name)}" loading="lazy" onerror="this.style.display='none'">
             <div class="game-card-info">
-              <div class="game-card-name">${game.name}</div>
-              <div class="game-card-category">${game.category}</div>
+              <div class="game-card-name">${escapeHtml(game.name)}</div>
+              <div class="game-card-category">${escapeHtml(game.category)}</div>
             </div>
           </div>
         </div>
@@ -769,7 +775,6 @@
   // ──────────────────────────────────────────
   const VAULT_DB = 'stratoVault';
   const VAULT_STORE = 'gameCache';
-  const VAULT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
   async function openVault() {
     return new Promise((resolve, reject) => {
@@ -2015,6 +2020,22 @@
     updateCoinsDisplay();
     initDailyChallenges();
     checkSessionRestore();
+
+    // Fetch CSRF token from server and populate the meta tag
+    try {
+      const csrfResp = await fetch('/api/csrf-token');
+      if (csrfResp.ok) {
+        const csrfData = await csrfResp.json();
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        if (csrfMeta && csrfData.token) csrfMeta.content = csrfData.token;
+      }
+    } catch { /* CSRF token fetch failed — AI endpoints may not work */ }
+
+    // Apply particles/animations settings
+    if (!state.particlesEnabled) {
+      const canvas = document.getElementById('particle-canvas');
+      if (canvas) canvas.style.display = 'none';
+    }
 
     // Load Hub sites
     loadHubSites();

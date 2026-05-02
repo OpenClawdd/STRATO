@@ -44,9 +44,18 @@ function resolveValue(value, privateConfig = {}) {
 
 /**
  * Load the private config file (games-private.json) if it exists.
- * Returns a flat key→value map.
+ * Returns a flat key→value map. Results are cached for 5 minutes.
  */
+let privateConfigCache = null;
+let privateConfigCacheTime = 0;
+const PRIVATE_CONFIG_TTL = 5 * 60 * 1000; // 5 minutes
+
 function loadPrivateConfig() {
+  const now = Date.now();
+  if (privateConfigCache && (now - privateConfigCacheTime) < PRIVATE_CONFIG_TTL) {
+    return privateConfigCache;
+  }
+
   const privatePath = join(__dirname, 'games-private.json');
   try {
     if (fs.existsSync(privatePath)) {
@@ -71,11 +80,15 @@ function loadPrivateConfig() {
         if (key === 'mirrors' || key === '_comment') continue;
         if (typeof val === 'string') flat[key] = val;
       }
+      privateConfigCache = flat;
+      privateConfigCacheTime = now;
       return flat;
     }
   } catch (err) {
     console.warn('[STRATO] Failed to load private config:', err.message);
   }
+  privateConfigCache = {};
+  privateConfigCacheTime = now;
   return {};
 }
 

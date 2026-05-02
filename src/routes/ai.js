@@ -93,8 +93,15 @@ router.post('/api/ai/chat', async (req, res) => {
 });
 
 // ── AI Vision endpoint (Snap & Solve) ──
-// Uses larger body limit for image uploads
-router.post('/api/ai/vision', express.json({ limit: '50mb' }), async (req, res) => {
+// Uses larger body limit for image uploads — but validate size BEFORE full parse
+router.post('/api/ai/vision', express.json({ limit: '10mb', verify: (req, _res, buf) => {
+  // Reject oversized payloads at the raw buffer level before JSON parse
+  if (buf.length > 10 * 1024 * 1024) {
+    const err = new Error('Image too large — max 10MB');
+    err.status = 413;
+    throw err;
+  }
+} }), async (req, res) => {
   if (!aiOnline || !aiClient) {
     return res.status(503).json({ error: 'AI service is currently offline' });
   }

@@ -8,7 +8,7 @@
   --font-display: 'Syne', sans-serif;
   --font-body: 'Manrope', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --text-xs: clamp(0.625rem, 0.6rem + 0.15vw, 0.7rem);
+  --text-xs: clamp(0.688rem, 0.65rem + 0.2vw, 0.75rem);
   --text-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.85rem);
   --text-base: clamp(0.813rem, 0.75rem + 0.35vw, 0.95rem);
   --text-lg: clamp(0.95rem, 0.85rem + 0.5vw, 1.15rem);
@@ -32,7 +32,7 @@
   --accent-dim: rgba(0, 229, 255, 0.10);
   --accent-glow: rgba(0, 229, 255, 0.18);
   --accent-border: rgba(0, 229, 255, 0.30);
-  --accent-text-glow: 0 0 20px rgba(0, 229, 255, 0.35), 0 0 40px rgba(0, 229, 255, 0.12);
+  /* --accent-text-glow removed — unused after NEXUS redesign */
   --glass: rgba(255, 255, 255, 0.03);
   --glass-heavy: rgba(255, 255, 255, 0.05);
   --glass-hover: rgba(255, 255, 255, 0.07);
@@ -269,7 +269,7 @@ body::after {
 
 .splash-detail-item {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--fg-faint);
   display: flex;
   align-items: center;
@@ -321,7 +321,7 @@ body::after {
   background: rgba(10, 10, 18, 0.92);
   border-bottom: 1px solid rgba(255,255,255,0.03);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--fg-muted);
   z-index: 101;
 }
@@ -469,7 +469,7 @@ body::after {
 
 .logo-version {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   background: var(--glass);
   padding: 2px 7px;
@@ -540,7 +540,7 @@ body::after {
 
 .nav-badge {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   background: var(--accent-dim);
   border: 1px solid var(--accent-border);
@@ -1054,7 +1054,7 @@ body::after {
 
 .category-circle-count {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
 }
 
@@ -1167,7 +1167,7 @@ body::after {
   margin-left: auto;
   color: var(--fg-faint);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .activity-empty {
@@ -1192,7 +1192,7 @@ body::after {
   border-radius: var(--radius-sm);
   padding: 8px 4px;
   color: var(--fg-muted);
-  font-size: 9px;
+  font-size: 11px;
   cursor: pointer;
   transition: all var(--duration-fast);
 }
@@ -1210,7 +1210,7 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--accent);
   border: 1px solid var(--glass-border);
@@ -1234,7 +1234,7 @@ body::after {
   gap: 4px;
   padding: 4px 6px;
   border-radius: var(--radius-xs);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   background: var(--glass);
   border: 1px solid transparent;
@@ -1251,7 +1251,7 @@ body::after {
 .achievement-count {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
 }
 
@@ -1403,7 +1403,7 @@ body::after {
 }
 
 .game-card-category {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   text-transform: uppercase;
   font-weight: 600;
@@ -1748,7 +1748,7 @@ body::after {
 .ai-mode-tabs .glass-pill {
   flex: 1;
   justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   padding: 6px 8px;
 }
 
@@ -1759,7 +1759,7 @@ body::after {
 }
 
 .ai-quick-label {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1771,7 +1771,7 @@ body::after {
   border-radius: var(--radius-sm);
   color: var(--fg-muted);
   padding: 5px 8px;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
   text-align: left;
   transition: all var(--duration-fast);
@@ -1784,7 +1784,7 @@ body::after {
 }
 
 .ai-history-label {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1799,7 +1799,7 @@ body::after {
 
 .ai-history-empty {
   color: var(--fg-faint);
-  font-size: 10px;
+  font-size: 11px;
   text-align: center;
   padding: 8px;
 }
@@ -2073,7 +2073,7 @@ body::after {
 
 .setting-label { font-size: var(--text-sm); color: var(--fg); font-weight: 500; }
 
-.setting-desc { font-size: 9px; color: var(--fg-faint); }
+.setting-desc { font-size: 11px; color: var(--fg-faint); }
 
 .setting-select {
   width: auto;
@@ -2182,7 +2182,7 @@ body::after {
 
 .notification-time {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   margin-left: auto;
   white-space: nowrap;
@@ -2235,7 +2235,7 @@ body::after {
 
 kbd {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   background: var(--glass-heavy);
   border: 1px solid var(--glass-border);
   padding: 2px 8px;
@@ -2381,10 +2381,18 @@ kbd {
   .game-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
   .category-circles { gap: 10px; }
   .category-circle-icon { width: 44px; height: 44px; }
-  .status-bar { font-size: 9px; padding: 0 10px; }
+  .status-bar { font-size: 11px; padding: 0 10px; }
   .status-center { display: none; }
   .snap-fab { bottom: 70px; }
   .stealth-bar { overflow: hidden; }
+  .url-bar-container { flex-direction: column; gap: 6px; }
+  .go-btn { width: 100%; }
+  .arcade-filters { flex-direction: column; gap: 8px; }
+  .arcade-controls { width: 100%; justify-content: space-between; }
+  .featured-card { flex: 0 0 140px; }
+  .home-hero { padding: 16px 0 0; }
+  .browser-toolbar { flex-wrap: wrap; gap: 6px; padding: 8px; }
+  .browser-controls { width: 100%; justify-content: center; }
 }
 
 /* No backdrop-filter fallback */
@@ -2507,7 +2515,7 @@ kbd {
 
 .hub-card-category {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -2608,7 +2616,7 @@ kbd {
   padding: 4px 12px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--duration-fast);
@@ -2641,7 +2649,7 @@ kbd {
 
 .hub-filter-title {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--fg-muted);
   text-transform: uppercase;
@@ -2682,7 +2690,7 @@ kbd {
   padding: 6px 8px;
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   cursor: pointer;
   transition: all var(--duration-fast);
   text-align: center;
@@ -2797,7 +2805,7 @@ kbd {
 .challenge-reward {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--accent-yellow);
 }
 
@@ -2828,7 +2836,7 @@ kbd {
 
 .challenge-coins {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--accent-yellow);
 }
 
@@ -2922,7 +2930,7 @@ kbd {
   padding: 4px 12px;
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   cursor: pointer;
   transition: all var(--duration-fast);
   white-space: nowrap;
@@ -2946,7 +2954,7 @@ kbd {
 
 .leaderboard-table th {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--fg-faint);
   text-transform: uppercase;
@@ -2987,7 +2995,7 @@ kbd {
   padding: 0 16px;
   background: rgba(10, 10, 18, 0.85);
   border-bottom: 1px solid rgba(255,255,255,0.02);
-  font-size: 9px;
+  font-size: 11px;
   overflow: hidden;
   z-index: 101;
   transition: height 0.2s ease;
@@ -3007,7 +3015,7 @@ kbd {
 
 .stealth-breadcrumb {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: rgba(255,255,255,0.20);
   cursor: default;
   white-space: nowrap;
@@ -3124,7 +3132,7 @@ kbd {
 
 .command-palette-hint {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   background: var(--glass);
   padding: 2px 6px;
@@ -3152,7 +3160,7 @@ kbd {
 .command-palette-group {
   padding: 6px 10px 4px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -3181,7 +3189,7 @@ kbd {
 }
 
 .cp-item-sub {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   font-family: var(--font-mono);
   max-width: 200px;
@@ -3211,7 +3219,7 @@ kbd {
    STREAK BADGE
    ══════════════════════════════════════════════════════════ */
 .streak-badge {
-  font-size: 10px;
+  font-size: 11px;
   margin-left: 4px;
   vertical-align: middle;
 }
@@ -3281,7 +3289,7 @@ kbd {
 
 .config-text {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-faint);
   letter-spacing: 0.5px;
   text-transform: uppercase;
