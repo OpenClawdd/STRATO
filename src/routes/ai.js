@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, json } from 'express';
 
 const router = Router();
 
@@ -94,7 +94,7 @@ router.post('/api/ai/chat', async (req, res) => {
 
 // ── AI Vision endpoint (Snap & Solve) ──
 // Uses larger body limit for image uploads — but validate size BEFORE full parse
-router.post('/api/ai/vision', express.json({ limit: '10mb', verify: (req, _res, buf) => {
+router.post('/api/ai/vision', json({ limit: '10mb', verify: (req, _res, buf) => {
   // Reject oversized payloads at the raw buffer level before JSON parse
   if (buf.length > 10 * 1024 * 1024) {
     const err = new Error('Image too large — max 10MB');

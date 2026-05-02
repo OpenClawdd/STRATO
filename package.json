@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
+    "lint": "eslint src/",
+    "format": "prettier --write 'src/**/*.js' 'public/js/**/*.js'",
+    "format:check": "prettier --check 'src/**/*.js' 'public/js/**/*.js'",
     "postinstall": "node scripts/setup-proxy.cjs"
   },
   "engines": {
@@ -28,6 +31,10 @@
     "helmet": "^8.1.0",
     "ws": "^8.19.0",
     "z-ai-web-dev-sdk": "^0.0.17"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2"
   },
   "keywords": ["proxy", "ultraviolet", "scramjet", "games", "school", "chromebook"],
   "license": "GPL-3.0"
