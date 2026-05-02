@@ -1,20 +1,23 @@
 # STRATO v12.0.0
 
-**Liquid Glass in Deep Space**
+**Chromatic Storm — Ultra-Maximalist**
 
-STRATO is a web proxy and game hub designed for school Chromebooks. It combines a fast, sleek proxy experience with an arcade of 50+ games, an AI chat assistant, and a Snap & Solve feature that uses vision AI to solve homework questions from screenshots.
+STRATO is a web proxy and game hub designed for school Chromebooks. It combines a fast, visually stunning proxy experience with an arcade of 40+ games (12 standalone, no proxy needed), an AI chat assistant, and a Snap & Solve feature that uses vision AI to solve homework questions from screenshots. The Chromatic Storm UI features animated particle backgrounds, neon gradient borders, and rainbow accent colors for maximum visual impact.
 
 ---
 
 ## Features
 
 - **Web Proxy** — Browse the internet freely using Ultraviolet and Scramjet proxy engines with Wisp protocol support
-- **Arcade** — 50+ unblocked games with search, categories, and favorites
+- **Arcade** — 40+ games: 12 standalone (tier 1, no proxy needed!) + 30+ proxy-dependent games with search, categories, and favorites
 - **AI Chat** — Built-in AI assistant powered by the Z AI SDK for homework help and general questions
 - **Snap & Solve** — Screenshot a homework question, paste it, and get a step-by-step solution using vision AI
+- **Chromatic Storm UI** — Animated particle background, rainbow gradient borders, neon glow effects, category circle navigation
+- **Standalone Games** — 2048, Tetris, Snake, Flappy Bird, Pong, Breakout, Dino Runner, Space Invaders, Sudoku, Minesweeper, Doom, Quake
 - **TOS Gate** — Terms of service acknowledgment wall before access
+- **Tab Cloak** — Disguise tab as Google Classroom, Quizlet, Canvas, Clever, or IXL
+- **Panic Key** — Instantly swap to a school-safe page
 - **Rate Limiting** — API routes are rate-limited to prevent abuse
-- **Compression** — gzip compression on all responses
 - **Security** — Helmet middleware with configured CSP, cookie signing, and more
 
 ---
@@ -91,7 +94,7 @@ The server starts at `http://localhost:8080` by default.
 STRATO/
 ├── public/                  # Static frontend files
 │   ├── index.html           # Main SPA entry
-│   ├── css/style.css        # Liquid Glass theme
+│   ├── css/style.css        # Chromatic Storm theme
 │   ├── js/
 │   │   ├── app.js           # Main app logic
 │   │   └── transport-init.js # Proxy transport setup
