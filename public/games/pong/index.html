@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong - STRATO Games</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1e; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 10px; overflow: hidden; }
+h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.info { display: flex; gap: 30px; margin: 10px 0; }
+.score-box { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; padding: 8px 24px; text-align: center; }
+.score-box .label { font-size: 12px; color: #00e5ff; text-transform: uppercase; letter-spacing: 2px; }
+.score-box .value { font-size: 28px; font-weight: bold; }
+canvas { border-radius: 4px; border: 1px solid rgba(0,229,255,0.2); margin: 10px 0; }
+.controls { color: #667; font-size: 13px; text-align: center; margin-top: 8px; }
+.controls span { color: #00e5ff; }
+button { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); padding: 10px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; margin: 5px; transition: all 0.2s; }
+button:hover { background: rgba(0,229,255,0.3); }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+.overlay h2 { font-size: 36px; color: #00e5ff; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.overlay p { font-size: 18px; margin-bottom: 20px; color: #aac; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>PONG</h1>
+<div class="info">
+  <div class="score-box"><div class="label">You</div><div class="value" id="pScore">0</div></div>
+  <div class="score-box"><div class="label">CPU</div><div class="value" id="cScore">0</div></div>
+</div>
+<canvas id="game"></canvas>
+<div class="controls"><span>Mouse</span> or <span>↑↓</span> to move paddle | First to 11 wins</div>
+<div class="overlay" id="startScreen">
+  <h2>PONG</h2>
+  <p>Beat the AI! First to 11 points wins.</p>
+  <button onclick="startGame()">Play</button>
+</div>
+<div class="overlay hidden" id="gameOverScreen">
+  <h2 id="endTitle">Game Over</h2>
+  <p id="endMsg"></p>
+  <button onclick="startGame()">Play Again</button>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = 600, H = 400;
+canvas.width = W; canvas.height = H;
+
+const PW = 12, PH = 80, BALL_R = 7, WIN = 11;
+let player, cpu, ball, pScore, cScore, gameActive, animId;
+let keys = {};
+
+function resize() {
+  const scale = Math.min((window.innerWidth - 20) / W, (window.innerHeight - 200) / H, 1);
+  canvas.style.width = W * scale + 'px';
+  canvas.style.height = H * scale + 'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+function resetBall(dir) {
+  ball = {
+    x: W / 2, y: H / 2,
+    vx: 4 * dir * (0.8 + Math.random() * 0.4),
+    vy: (Math.random() - 0.5) * 5
+  };
+}
+
+function startGame() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('gameOverScreen').classList.add('hidden');
+  player = { x: 20, y: H / 2 - PH / 2 };
+  cpu = { x: W - 20 - PW, y: H / 2 - PH / 2 };
+  pScore = cScore = 0;
+  document.getElementById('pScore').textContent = 0;
+  document.getElementById('cScore').textContent = 0;
+  resetBall(Math.random() < 0.5 ? 1 : -1);
+  gameActive = true;
+  cancelAnimationFrame(animId);
+  loop();
+}
+
+function update() {
+  // Player movement
+  if (keys['ArrowUp'] || keys['w']) player.y -= 6;
+  if (keys['ArrowDown'] || keys['s']) player.y += 6;
+  player.y = Math.max(0, Math.min(H - PH, player.y));
+
+  // CPU AI
+  const cpuCenter = cpu.y + PH / 2;
+  const diff = ball.y - cpuCenter;
+  const cpuSpeed = 3.5 + Math.min(cScore * 0.2, 2);
+  if (Math.abs(diff) > 10) cpu.y += Math.sign(diff) * Math.min(cpuSpeed, Math.abs(diff));
+  cpu.y = Math.max(0, Math.min(H - PH, cpu.y));
+
+  // Ball
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+
+  // Top/bottom bounce
+  if (ball.y - BALL_R < 0) { ball.y = BALL_R; ball.vy *= -1; }
+  if (ball.y + BALL_R > H) { ball.y = H - BALL_R; ball.vy *= -1; }
+
+  // Paddle collision
+  if (ball.vx < 0 && ball.x - BALL_R < player.x + PW && ball.x + BALL_R > player.x &&
+      ball.y > player.y && ball.y < player.y + PH) {
+    ball.x = player.x + PW + BALL_R;
+    ball.vx = Math.abs(ball.vx) * 1.05;
+    ball.vy += (ball.y - (player.y + PH / 2)) * 0.15;
+  }
+  if (ball.vx > 0 && ball.x + BALL_R > cpu.x && ball.x - BALL_R < cpu.x + PW &&
+      ball.y > cpu.y && ball.y < cpu.y + PH) {
+    ball.x = cpu.x - BALL_R;
+    ball.vx = -Math.abs(ball.vx) * 1.05;
+    ball.vy += (ball.y - (cpu.y + PH / 2)) * 0.15;
+  }
+
+  // Speed cap
+  const maxSpeed = 12;
+  ball.vx = Math.sign(ball.vx) * Math.min(Math.abs(ball.vx), maxSpeed);
+  ball.vy = Math.sign(ball.vy) * Math.min(Math.abs(ball.vy), maxSpeed);
+
+  // Score
+  if (ball.x < 0) {
+    cScore++;
+    document.getElementById('cScore').textContent = cScore;
+    if (cScore >= WIN) return endGame('CPU Wins!', false);
+    resetBall(1);
+  }
+  if (ball.x > W) {
+    pScore++;
+    document.getElementById('pScore').textContent = pScore;
+    if (pScore >= WIN) return endGame('You Win!', true);
+    resetBall(-1);
+  }
+}
+
+function endGame(msg, won) {
+  gameActive = false;
+  document.getElementById('endTitle').textContent = won ? 'Victory!' : 'Defeat!';
+  document.getElementById('endMsg').textContent = `${pScore} - ${cScore}`;
+  document.getElementById('gameOverScreen').classList.remove('hidden');
+}
+
+function draw() {
+  ctx.fillStyle = '#0d0d2a';
+  ctx.fillRect(0, 0, W, H);
+
+  // Center line
+  ctx.setLineDash([8, 8]);
+  ctx.strokeStyle = 'rgba(0,229,255,0.15)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2, 0);
+  ctx.lineTo(W / 2, H);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Center circle
+  ctx.strokeStyle = 'rgba(0,229,255,0.08)';
+  ctx.beginPath();
+  ctx.arc(W / 2, H / 2, 50, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Player paddle
+  ctx.shadowColor = '#00e5ff';
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = '#00e5ff';
+  ctx.fillRect(player.x, player.y, PW, PH);
+
+  // CPU paddle
+  ctx.shadowColor = '#ff4081';
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = '#ff4081';
+  ctx.fillRect(cpu.x, cpu.y, PW, PH);
+
+  // Ball
+  ctx.shadowColor = '#fff';
+  ctx.shadowBlur = 15;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+}
+
+function loop() {
+  if (!gameActive) return;
+  update();
+  if (gameActive) { draw(); animId = requestAnimationFrame(loop); }
+  else draw();
+}
+
+// Initial draw
+ctx.fillStyle = '#0d0d2a';
+ctx.fillRect(0, 0, W, H);
+
+document.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if (['ArrowUp', 'ArrowDown'].includes(e.key)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.key] = false; });
+
+canvas.addEventListener('mousemove', e => {
+  if (!gameActive) return;
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  player.y = (e.clientY - rect.top) * scaleY - PH / 2;
+  player.y = Math.max(0, Math.min(H - PH, player.y));
+});
+</script>
+</body>
+</html>

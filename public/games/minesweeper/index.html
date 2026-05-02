@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minesweeper - STRATO Games</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1e; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 10px; }
+h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.info { display: flex; gap: 16px; margin: 10px 0; flex-wrap: wrap; justify-content: center; align-items: center; }
+.info-box { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; padding: 8px 16px; text-align: center; }
+.info-box .label { font-size: 11px; color: #00e5ff; text-transform: uppercase; letter-spacing: 2px; }
+.info-box .value { font-size: 20px; font-weight: bold; }
+.diff-buttons { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; justify-content: center; }
+.diff-buttons button { background: rgba(0,229,255,0.1); color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+.diff-buttons button:hover, .diff-buttons button.active { background: rgba(0,229,255,0.3); }
+.board { display: inline-grid; border: 2px solid rgba(0,229,255,0.3); border-radius: 4px; margin: 10px 0; user-select: none; }
+.cell { display: flex; align-items: center; justify-content: center; font-size: clamp(11px, 2vw, 16px); font-weight: bold; cursor: pointer; border: 1px solid rgba(0,229,255,0.08); background: rgba(0,229,255,0.08); transition: background 0.1s; }
+.cell:hover { background: rgba(0,229,255,0.15); }
+.cell.revealed { background: rgba(255,255,255,0.03); cursor: default; border-color: rgba(0,229,255,0.04); }
+.cell.revealed:hover { background: rgba(255,255,255,0.03); }
+.cell.mine { background: rgba(255,64,129,0.2); }
+.cell.flagged { background: rgba(255,193,7,0.1); }
+.cell.flagged::after { content: '⚑'; color: #ffc107; }
+.n1 { color: #00e5ff; } .n2 { color: #00e676; } .n3 { color: #ff4081; }
+.n4 { color: #7c4dff; } .n5 { color: #ff6d00; } .n6 { color: #00bcd4; }
+.n7 { color: #fff; } .n8 { color: #999; }
+.actions { display: flex; gap: 10px; margin: 10px 0; }
+.actions button { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+.actions button:hover { background: rgba(0,229,255,0.3); }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+.overlay h2 { font-size: 36px; margin-bottom: 10px; text-shadow: 0 0 20px currentColor; }
+.overlay p { font-size: 18px; margin-bottom: 20px; color: #aac; }
+.hidden { display: none; }
+.win h2 { color: #00e676; }
+.lose h2 { color: #ff4081; }
+</style>
+</head>
+<body>
+<h1>MINESWEEPER</h1>
+<div class="diff-buttons">
+  <button class="active" id="btn9" onclick="setDiff(9,10)">Easy 9×9</button>
+  <button id="btn16" onclick="setDiff(16,40)">Hard 16×16</button>
+</div>
+<div class="info">
+  <div class="info-box"><div class="label">Mines</div><div class="value" id="mineCount">10</div></div>
+  <div class="info-box"><div class="label">Time</div><div class="value" id="timer">000</div></div>
+  <div class="info-box"><div class="label">Flags</div><div class="value" id="flagCount">0</div></div>
+</div>
+<div class="board" id="board"></div>
+<div class="actions">
+  <button onclick="newGame()">New Game</button>
+</div>
+<div class="overlay hidden" id="endScreen">
+  <h2 id="endTitle"></h2>
+  <p id="endMsg"></p>
+  <button style="background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:6px;cursor:pointer;font-size:16px;" onclick="newGame()">Play Again</button>
+</div>
+
+<script>
+let SIZE = 9, MINES = 10;
+let grid, revealed, flagged, gameActive, firstClick, timerInterval, seconds, cellSize;
+
+function setDiff(size, mines) {
+  SIZE = size; MINES = mines;
+  document.getElementById('btn9').classList.toggle('active', size === 9);
+  document.getElementById('btn16').classList.toggle('active', size === 16);
+  document.getElementById('mineCount').textContent = MINES;
+  newGame();
+}
+
+function newGame() {
+  document.getElementById('endScreen').classList.add('hidden');
+  grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+  revealed = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
+  flagged = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
+  gameActive = true; firstClick = true; seconds = 0;
+  clearInterval(timerInterval);
+  document.getElementById('timer').textContent = '000';
+  document.getElementById('flagCount').textContent = '0';
+  document.getElementById('mineCount').textContent = MINES;
+  createBoard();
+}
+
+function createBoard() {
+  const el = document.getElementById('board');
+  el.innerHTML = '';
+  const maxBoardPx = Math.min(window.innerWidth - 20, window.innerHeight - 300, 500);
+  cellSize = Math.floor(maxBoardPx / SIZE);
+  cellSize = Math.max(cellSize, 20);
+  el.style.gridTemplateColumns = `repeat(${SIZE}, ${cellSize}px)`;
+  el.style.gridTemplateRows = `repeat(${SIZE}, ${cellSize}px)`;
+
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      cell.style.width = cellSize + 'px';
+      cell.style.height = cellSize + 'px';
+      cell.addEventListener('click', e => handleClick(r, c));
+      cell.addEventListener('contextmenu', e => { e.preventDefault(); handleRightClick(r, c); });
+      cell.addEventListener('touchstart', e => handleTouchStart(e, r, c), { passive: false });
+      cell.addEventListener('touchend', e => handleTouchEnd(e, r, c));
+      el.appendChild(cell);
+    }
+  }
+}
+
+let touchTimer = null;
+function handleTouchStart(e, r, c) {
+  touchTimer = setTimeout(() => { handleRightClick(r, c); touchTimer = 'flagged'; }, 400);
+}
+function handleTouchEnd(e, r, c) {
+  if (touchTimer === 'flagged') { e.preventDefault(); touchTimer = null; return; }
+  clearTimeout(touchTimer);
+  touchTimer = null;
+}
+
+function placeMines(safeR, safeC) {
+  let placed = 0;
+  while (placed < MINES) {
+    const r = Math.floor(Math.random() * SIZE);
+    const c = Math.floor(Math.random() * SIZE);
+    if (grid[r][c] !== -1 && !(Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1)) {
+      grid[r][c] = -1;
+      placed++;
+    }
+  }
+  // Calculate numbers
+  for (let r = 0; r < SIZE; r++)
+    for (let c = 0; c < SIZE; c++)
+      if (grid[r][c] !== -1) grid[r][c] = countAdjacentMines(r, c);
+}
+
+function countAdjacentMines(r, c) {
+  let count = 0;
+  for (let dr = -1; dr <= 1; dr++)
+    for (let dc = -1; dc <= 1; dc++) {
+      const nr = r + dr, nc = c + dc;
+      if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && grid[nr][nc] === -1) count++;
+    }
+  return count;
+}
+
+function handleClick(r, c) {
+  if (!gameActive || flagged[r][c] || revealed[r][c]) return;
+  if (firstClick) {
+    firstClick = false;
+    placeMines(r, c);
+    timerInterval = setInterval(() => {
+      seconds++;
+      document.getElementById('timer').textContent = String(seconds).padStart(3, '0');
+    }, 1000);
+  }
+  reveal(r, c);
+  updateDisplay();
+}
+
+function reveal(r, c) {
+  if (r < 0 || r >= SIZE || c < 0 || c >= SIZE || revealed[r][c] || flagged[r][c]) return;
+  revealed[r][c] = true;
+  if (grid[r][c] === -1) {
+    // Hit mine
+    gameOver(false);
+    return;
+  }
+  if (grid[r][c] === 0) {
+    for (let dr = -1; dr <= 1; dr++)
+      for (let dc = -1; dc <= 1; dc++)
+        reveal(r + dr, c + dc);
+  }
+  checkWin();
+}
+
+function handleRightClick(r, c) {
+  if (!gameActive || revealed[r][c]) return;
+  flagged[r][c] = !flagged[r][c];
+  const flagCount = flagged.flat().filter(Boolean).length;
+  document.getElementById('flagCount').textContent = flagCount;
+  document.getElementById('mineCount').textContent = MINES - flagCount;
+  updateDisplay();
+}
+
+function checkWin() {
+  let unrevealed = 0;
+  for (let r = 0; r < SIZE; r++)
+    for (let c = 0; c < SIZE; c++)
+      if (!revealed[r][c]) unrevealed++;
+  if (unrevealed === MINES) gameOver(true);
+}
+
+function gameOver(won) {
+  gameActive = false;
+  clearInterval(timerInterval);
+  if (!won) {
+    // Reveal all mines
+    for (let r = 0; r < SIZE; r++)
+      for (let c = 0; c < SIZE; c++)
+        if (grid[r][c] === -1) revealed[r][c] = true;
+  }
+  const endScreen = document.getElementById('endScreen');
+  endScreen.className = 'overlay ' + (won ? 'win' : 'lose');
+  document.getElementById('endTitle').textContent = won ? 'You Win!' : 'Game Over';
+  document.getElementById('endMsg').textContent = won ? `Cleared in ${seconds}s!` : 'You hit a mine!';
+  endScreen.classList.remove('hidden');
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const cells = document.querySelectorAll('.cell');
+  cells.forEach(cell => {
+    const r = +cell.dataset.row, c = +cell.dataset.col;
+    cell.className = 'cell';
+    cell.textContent = '';
+
+    if (revealed[r][c]) {
+      cell.classList.add('revealed');
+      if (grid[r][c] === -1) {
+        cell.classList.add('mine');
+        cell.textContent = '💣';
+      } else if (grid[r][c] > 0) {
+        cell.textContent = grid[r][c];
+        cell.classList.add('n' + grid[r][c]);
+      }
+    } else if (flagged[r][c]) {
+      cell.classList.add('flagged');
+    }
+  });
+}
+
+// Long-press for mobile flagging is handled in touch events above
+
+newGame();
+</script>
+</html>

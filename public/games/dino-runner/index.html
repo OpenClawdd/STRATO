@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dino Runner - STRATO Games</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1e; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 10px; overflow: hidden; }
+h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.info { display: flex; gap: 20px; margin: 10px 0; }
+.score-box { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; padding: 8px 20px; text-align: center; }
+.score-box .label { font-size: 12px; color: #00e5ff; text-transform: uppercase; letter-spacing: 2px; }
+.score-box .value { font-size: 24px; font-weight: bold; }
+canvas { border-radius: 4px; border: 1px solid rgba(0,229,255,0.2); margin: 10px 0; cursor: pointer; }
+.controls { color: #667; font-size: 13px; text-align: center; margin-top: 8px; }
+.controls span { color: #00e5ff; }
+button { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); padding: 10px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; margin: 5px; transition: all 0.2s; }
+button:hover { background: rgba(0,229,255,0.3); }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+.overlay h2 { font-size: 36px; color: #00e5ff; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.overlay p { font-size: 18px; margin-bottom: 20px; color: #aac; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>DINO RUNNER</h1>
+<div class="info">
+  <div class="score-box"><div class="label">Score</div><div class="value" id="score">0</div></div>
+  <div class="score-box"><div class="label">Best</div><div class="value" id="best">0</div></div>
+</div>
+<canvas id="game"></canvas>
+<div class="controls"><span>Space</span> or <span>Click</span> to jump</div>
+<div class="overlay" id="startScreen">
+  <h2>DINO RUNNER</h2>
+  <p>Jump over obstacles and survive!</p>
+  <button onclick="startGame()">Play</button>
+</div>
+<div class="overlay hidden" id="gameOverScreen">
+  <h2>Game Over</h2>
+  <p id="finalScore">Score: 0</p>
+  <button onclick="startGame()">Try Again</button>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = 700, H = 250;
+canvas.width = W; canvas.height = H;
+
+const GROUND_Y = H - 40;
+let dino, obstacles, score, best = 0, gameActive, animId, speed, spawnTimer, frameCount;
+let stars = [];
+
+function resize() {
+  const scale = Math.min((window.innerWidth - 20) / W, (window.innerHeight - 200) / H, 1);
+  canvas.style.width = W * scale + 'px';
+  canvas.style.height = H * scale + 'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Generate stars
+for (let i = 0; i < 50; i++) stars.push({ x: Math.random() * W, y: Math.random() * (GROUND_Y - 20), s: Math.random() * 1.5 + 0.5 });
+
+function startGame() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('gameOverScreen').classList.add('hidden');
+  dino = { x: 60, y: GROUND_Y, vy: 0, w: 30, h: 40, jumping: false, ducking: false };
+  obstacles = [];
+  score = 0; speed = 4; spawnTimer = 0; frameCount = 0;
+  document.getElementById('score').textContent = 0;
+  gameActive = true;
+  cancelAnimationFrame(animId);
+  loop();
+}
+
+function jump() {
+  if (!gameActive) return;
+  if (!dino.jumping) {
+    dino.vy = -12;
+    dino.jumping = true;
+  }
+}
+
+function spawnObstacle() {
+  const type = Math.random();
+  if (type < 0.4) {
+    // Small cactus
+    obstacles.push({ x: W + 20, y: GROUND_Y, w: 16, h: 30 + Math.random() * 15, type: 'cactus' });
+  } else if (type < 0.7) {
+    // Tall cactus
+    obstacles.push({ x: W + 20, y: GROUND_Y, w: 22, h: 45 + Math.random() * 15, type: 'cactus' });
+  } else {
+    // Double cactus
+    obstacles.push({ x: W + 20, y: GROUND_Y, w: 34, h: 30 + Math.random() * 10, type: 'double' });
+  }
+}
+
+function update() {
+  frameCount++;
+  score = Math.floor(frameCount / 6);
+  document.getElementById('score').textContent = score;
+
+  // Speed increase
+  speed = 4 + Math.floor(score / 100) * 0.5;
+  if (speed > 12) speed = 12;
+
+  // Dino physics
+  dino.vy += 0.6; // gravity
+  dino.y += dino.vy;
+  if (dino.y >= GROUND_Y) {
+    dino.y = GROUND_Y;
+    dino.vy = 0;
+    dino.jumping = false;
+  }
+
+  // Spawn obstacles
+  spawnTimer++;
+  const minInterval = Math.max(40, 80 - speed * 3);
+  if (spawnTimer > minInterval + Math.random() * 60) {
+    spawnObstacle();
+    spawnTimer = 0;
+  }
+
+  // Move obstacles
+  obstacles.forEach(o => o.x -= speed);
+  obstacles = obstacles.filter(o => o.x > -50);
+
+  // Collision
+  const dx = dino.x + 4, dy = dino.y - dino.h + 4, dw = dino.w - 8, dh = dino.h - 8;
+  for (const o of obstacles) {
+    const ox = o.x, oy = o.y - o.h, ow = o.w, oh = o.h;
+    if (dx < ox + ow && dx + dw > ox && dy < oy + oh && dy + dh > oy) {
+      return die();
+    }
+  }
+
+  // Move stars
+  stars.forEach(s => {
+    s.x -= speed * 0.2;
+    if (s.x < 0) { s.x = W; s.y = Math.random() * (GROUND_Y - 20); }
+  });
+}
+
+function die() {
+  gameActive = false;
+  if (score > best) { best = score; document.getElementById('best').textContent = best; }
+  document.getElementById('finalScore').textContent = 'Score: ' + score;
+  document.getElementById('gameOverScreen').classList.remove('hidden');
+}
+
+function drawDino() {
+  const x = dino.x, y = dino.y;
+  ctx.fillStyle = '#00e5ff';
+  ctx.shadowColor = '#00e5ff';
+  ctx.shadowBlur = 8;
+
+  // Body
+  ctx.fillRect(x, y - dino.h, dino.w - 4, dino.h - 6);
+  // Head
+  ctx.fillRect(x + 10, y - dino.h - 10, 20, 14);
+  // Eye
+  ctx.fillStyle = '#0a0a1e';
+  ctx.fillRect(x + 22, y - dino.h - 7, 4, 4);
+  ctx.fillStyle = '#00e5ff';
+  // Tail
+  ctx.fillRect(x - 8, y - dino.h + 8, 10, 6);
+  // Legs (animated)
+  if (dino.jumping) {
+    ctx.fillRect(x + 4, y - 6, 6, 6);
+    ctx.fillRect(x + 16, y - 6, 6, 6);
+  } else {
+    const step = Math.floor(frameCount / 4) % 2;
+    if (step === 0) {
+      ctx.fillRect(x + 4, y - 6, 6, 6);
+      ctx.fillRect(x + 18, y - 10, 6, 10);
+    } else {
+      ctx.fillRect(x + 4, y - 10, 6, 10);
+      ctx.fillRect(x + 18, y - 6, 6, 6);
+    }
+  }
+  ctx.shadowBlur = 0;
+}
+
+function drawObstacle(o) {
+  ctx.fillStyle = '#ff4081';
+  ctx.shadowColor = '#ff4081';
+  ctx.shadowBlur = 6;
+
+  if (o.type === 'double') {
+    ctx.fillRect(o.x, o.y - o.h, 8, o.h);
+    ctx.fillRect(o.x + 14, o.y - o.h + 5, 8, o.h - 5);
+    // Arms
+    ctx.fillRect(o.x - 4, o.y - o.h + 8, 6, 4);
+    ctx.fillRect(o.x + 20, o.y - o.h + 12, 6, 4);
+  } else {
+    ctx.fillRect(o.x, o.y - o.h, o.w, o.h);
+    // Arms
+    ctx.fillRect(o.x - 4, o.y - o.h + 8, 6, 4);
+    ctx.fillRect(o.x + o.w - 2, o.y - o.h + 12, 6, 4);
+  }
+  ctx.shadowBlur = 0;
+}
+
+function draw() {
+  // Sky
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#0a0a2e');
+  grad.addColorStop(1, '#0a1a2e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  stars.forEach(s => { ctx.fillRect(s.x, s.y, s.s, s.s); });
+
+  // Ground
+  ctx.strokeStyle = 'rgba(0,229,255,0.3)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, GROUND_Y + 2);
+  ctx.lineTo(W, GROUND_Y + 2);
+  ctx.stroke();
+
+  // Ground texture
+  ctx.strokeStyle = 'rgba(0,229,255,0.08)';
+  for (let i = 0; i < W; i += 15) {
+    const offset = (frameCount * speed) % 15;
+    const gx = ((i - offset) % W + W) % W;
+    ctx.beginPath();
+    ctx.moveTo(gx, GROUND_Y + 6);
+    ctx.lineTo(gx + 8, GROUND_Y + 6);
+    ctx.stroke();
+  }
+
+  obstacles.forEach(drawObstacle);
+  drawDino();
+}
+
+function loop() {
+  if (!gameActive) return;
+  update();
+  if (gameActive) { draw(); animId = requestAnimationFrame(loop); }
+  else draw();
+}
+
+// Initial draw
+ctx.fillStyle = '#0d0d2a';
+ctx.fillRect(0, 0, W, H);
+
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowUp') { e.preventDefault(); jump(); }
+});
+canvas.addEventListener('click', jump);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); jump(); });
+</script>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRATO — Login</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #030308;
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.1);
+      --glass-hover: rgba(255,255,255,0.1);
+      --text: #f1f5f9;
+      --text-dim: rgba(255,255,255,0.5);
+      --accent-cyan: #00e5ff;
+      --accent-purple: #a855f7;
+      --accent-pink: #f472b6;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Animated cosmic background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(0,229,255,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 80% 100%, rgba(168,85,247,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(244,114,182,0.07) 0%, transparent 40%),
+        radial-gradient(ellipse 50% 40% at 60% 60%, rgba(34,197,94,0.05) 0%, transparent 40%);
+      z-index: -2;
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { opacity: 0.7; filter: hue-rotate(0deg); }
+      50% { opacity: 1; filter: hue-rotate(10deg); }
+      100% { opacity: 0.8; filter: hue-rotate(-5deg); }
+    }
+
+    /* Particle canvas */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(32px) saturate(1.6);
+      -webkit-backdrop-filter: blur(32px) saturate(1.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 56px 48px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      animation: cardIn 0.8s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+      box-shadow:
+        0 0 60px rgba(0,229,255,0.06),
+        0 0 120px rgba(168,85,247,0.04),
+        0 24px 48px rgba(0,0,0,0.4);
+    }
+
+    /* Animated gradient border */
+    .login-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 28px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(168,85,247,0.3), rgba(244,114,182,0.3), rgba(0,229,255,0.3));
+      background-size: 300% auto;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderFlow 4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes borderFlow {
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+
+    @keyframes cardIn {
+      0% { opacity: 0; transform: translateY(32px) scale(0.94); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 52px;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #00e5ff, #a855f7, #f472b6, #fb923c, #22c55e, #00e5ff);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: logoShine 3s linear infinite;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 24px rgba(0,229,255,0.4));
+    }
+
+    @keyframes logoShine {
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+
+    .login-subtitle {
+      color: var(--text-dim);
+      font-size: 15px;
+      margin-bottom: 36px;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-family: var(--font-mono);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: rgba(0,229,255,0.4);
+      background: rgba(0,229,255,0.04);
+      box-shadow: 0 0 20px rgba(0,229,255,0.1), 0 0 40px rgba(0,229,255,0.05);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255,255,255,0.2);
+    }
+
+    .tos-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .tos-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      margin-top: 1px;
+    }
+
+    .tos-checkbox:checked {
+      background: rgba(0,229,255,0.15);
+      border-color: rgba(0,229,255,0.4);
+      box-shadow: 0 0 12px rgba(0,229,255,0.15);
+    }
+
+    .tos-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      width: 5px;
+      height: 10px;
+      border: solid var(--accent-cyan);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .tos-label {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .tos-label a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .tos-label a:hover {
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(168,85,247,0.15));
+      border: 1px solid rgba(0,229,255,0.3);
+      border-radius: 16px;
+      color: var(--accent-cyan);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(168,85,247,0.1));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(168,85,247,0.25));
+      box-shadow: 0 0 30px rgba(0,229,255,0.2), 0 8px 32px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:hover::before {
+      opacity: 1;
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 14px;
+      margin-top: 18px;
+      display: none;
+      animation: shake 0.4s ease;
+      font-weight: 500;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+
+    .login-footer {
+      margin-top: 28px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.15);
+    }
+
+    /* Version badge */
+    .version-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: rgba(255,255,255,0.05);
+      padding: 4px 12px;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 22px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="login-card">
+    <div class="login-logo">STRATO</div>
+    <p class="login-subtitle">Above the clouds. Above restrictions.</p>
+
+    <form id="login-form" method="POST" action="/login">
+      <input type="hidden" name="csrf_token" id="csrf-input" value="__CSRF_TOKEN__">
+
+      <div class="form-group">
+        <label class="form-label" for="username">Pick a display name</label>
+        <input
+          type="text"
+          class="form-input"
+          id="username"
+          name="username"
+          placeholder="e.g. coolkid42"
+          maxlength="24"
+          autocomplete="off"
+          spellcheck="false"
+          required
+        >
+      </div>
+
+      <div class="tos-group">
+        <input type="checkbox" class="tos-checkbox" id="tos-accepted" name="tos_accepted" value="true" required>
+        <label class="tos-label" for="tos-accepted">
+          I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and acknowledge that STRATO is for educational use only.
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Enter STRATO</button>
+
+      <p class="error-msg" id="error-msg"></p>
+    </form>
+
+    <div class="version-badge">v12.0.0 CHROMATIC STORM</div>
+  </div>
+
+  <script>
+    // ── Particle system for login page ──
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const PARTICLE_COUNT = 60;
+      const COLORS = [
+        'rgba(0,229,255,',
+        'rgba(168,85,247,',
+        'rgba(244,114,182,',
+        'rgba(34,197,94,',
+      ];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function createParticle() {
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        return {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          radius: Math.random() * 2 + 0.5,
+          alpha: Math.random() * 0.4 + 0.1,
+          alphaDir: Math.random() > 0.5 ? 0.002 : -0.002,
+          color: color,
+        };
+      }
+
+      function initParticles() {
+        resizeCanvas();
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(createParticle());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          p.alpha += p.alphaDir;
+          if (p.alpha > 0.5) { p.alpha = 0.5; p.alphaDir = -0.002; }
+          if (p.alpha < 0.05) { p.alpha = 0.05; p.alphaDir = 0.002; }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + (p.alpha * 0.15) + ')';
+          ctx.fill();
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100) {
+              const alpha = (1 - dist / 100) * 0.06;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(0,229,255,${alpha})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      initParticles();
+      animate();
+    })();
+
+    // ── Login form ──
+    (function() {
+      const form = document.getElementById('login-form');
+      const errorMsg = document.getElementById('error-msg');
+      const submitBtn = document.getElementById('submit-btn');
+      const usernameInput = document.getElementById('username');
+      const tosCheckbox = document.getElementById('tos-accepted');
+
+      function updateButton() {
+        const hasName = usernameInput.value.trim().length > 0;
+        const tosChecked = tosCheckbox.checked;
+        submitBtn.disabled = !(hasName && tosChecked);
+      }
+
+      usernameInput.addEventListener('input', updateButton);
+      tosCheckbox.addEventListener('change', updateButton);
+      updateButton();
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const tosAccepted = tosCheckbox.checked;
+
+        if (!username) { showError('Please enter a display name.'); return; }
+        if (username.length > 24) { showError('Name must be 24 characters or less.'); return; }
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) { showError('Only letters, numbers, and underscores allowed.'); return; }
+        if (!tosAccepted) { showError('You must accept the Terms of Service.'); return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'ENTERING...';
+
+        // Save username to localStorage for display in app
+        localStorage.setItem('strato-username', username);
+
+        fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            username: username,
+            tos_accepted: 'true',
+            csrf_token: document.getElementById('csrf-input').value,
+          }),
+        })
+        .then(resp => {
+          if (resp.redirected) {
+            window.location.href = resp.url;
+          } else if (resp.ok) {
+            window.location.href = '/';
+          } else {
+            return resp.text().then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const errorEl = doc.querySelector('p') || doc.querySelector('h1');
+              throw new Error(errorEl?.textContent || 'Login failed');
+            });
+          }
+        })
+        .catch(err => {
+          showError(err.message || 'Something went wrong. Try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enter STRATO';
+          if (err.message && err.message.includes('security token')) {
+            setTimeout(() => window.location.href = '/login', 1500);
+          }
+        });
+      });
+
+      function showError(msg) {
+        errorMsg.textContent = msg;
+        errorMsg.classList.add('visible');
+        setTimeout(() => errorMsg.classList.remove('visible'), 4000);
+      }
+
+      usernameInput.focus();
+    })();
+  </script>
+</body>
+</html>
