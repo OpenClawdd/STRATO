@@ -14,6 +14,7 @@ import proxyRoutes from './routes/proxy.js';
 import aiRoutes from './routes/ai.js';
 import smuggleRoutes from './routes/smuggle.js';
 import hubRoutes from './routes/hub.js';
+import { resolveConfig, getConfigStatus } from './config/load-private-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -81,6 +82,19 @@ app.use('/api/', apiLimiter);
 app.use(authMiddleware);
 
 // ── 8. Static files (only served if authenticated) ──
+// Override /assets/games.json to serve resolved config (private URLs injected)
+const resolvedGames = resolveConfig('public/assets/games.json');
+app.get('/assets/games.json', (req, res) => {
+  // Re-resolve on each request in dev (allows hot-reload of .env)
+  const result = resolveConfig('public/assets/games.json');
+  res.json(result.data);
+});
+
+// Config status endpoint — frontend uses this to show CTA for unresolved URLs
+app.get('/api/config/status', (req, res) => {
+  res.json(getConfigStatus());
+});
+
 app.use(express.static(join(__dirname, '..', 'public')));
 
 // ── 9. Header-stripping middleware for proxy iframe support ──

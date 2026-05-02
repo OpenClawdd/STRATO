@@ -1,4 +1,5 @@
 {
+  "_comment": "Community cloak presets use ${ENV_VAR} placeholders for real domains. Configure in .env or games-private.json.",
   "presets": [
     {
       "id": "none",
@@ -39,50 +40,50 @@
     {
       "id": "school-agreca",
       "title": "Escuela Agreca — Inicio",
-      "favicon": "https://school.agreca.com.ar/favicon.ico",
-      "description": "Strawberry front — school Agreca disguise"
+      "favicon": "${CLOAK_SCHOOL_AGRECA_FAVICON}",
+      "description": "Education front — school disguise (configure domain in .env)"
     },
     {
       "id": "noahs-tutoring",
       "title": "Noah's Tutoring — Programming, Writing, Lecture, Learning & Literature",
-      "favicon": "https://www.google.com/favicon.ico",
-      "description": "Longest subdomain = ultimate disguise — mybgarage.cl"
+      "favicon": "${CLOAK_NOAHS_FAVICON}",
+      "description": "Longest subdomain = ultimate disguise (configure domain in .env)"
     },
     {
       "id": "byod-portal",
       "title": "BYOD Portal — Geeked",
-      "favicon": "https://byod.geeked.wtf/favicon.ico",
-      "description": "Lucide/BYOD front — bring your own device portal"
+      "favicon": "${CLOAK_BYOD_FAVICON}",
+      "description": "BYOD portal front (configure domain in .env)"
     },
     {
       "id": "eclipse-castellon",
       "title": "Eclipse Castellon — Educacion",
-      "favicon": "https://dtxb.eclipsecastellon.net/favicon.ico",
-      "description": "IMP front — education themed"
+      "favicon": "${CLOAK_ECLIPSE_FAVICON}",
+      "description": "Education themed front (configure domain in .env)"
     },
     {
       "id": "learning-policy",
       "title": "Learning Policy Institute — Research",
-      "favicon": "https://learningpolicy.lervs.ro/favicon.ico",
-      "description": "Romanian educational front — Ghost backup"
+      "favicon": "${CLOAK_LEARNING_FAVICON}",
+      "description": "Educational front — research institute disguise (configure domain in .env)"
     },
     {
       "id": "petezah-games",
       "title": "Aletia Tours — Travel Deals",
-      "favicon": "https://pluh.aletiatours.com/favicon.ico",
-      "description": "PeteZah travel domain front"
+      "favicon": "${CLOAK_PETEZAH_FAVICON}",
+      "description": "Travel domain front (configure domain in .env)"
     },
     {
       "id": "start-education",
       "title": "Start My Education — Home",
-      "favicon": "https://startmyeducation.top/favicon.ico",
-      "description": "SME education front — password: funni"
+      "favicon": "${CLOAK_SME_FAVICON}",
+      "description": "Education front (configure domain in .env)"
     },
     {
       "id": "cherrion",
       "title": "Cherrion — Help & Resources",
-      "favicon": "https://cherrion.top/favicon.ico",
-      "description": "Cherri proxy front — help site disguise"
+      "favicon": "${CLOAK_CHERRI_FAVICON}",
+      "description": "Help site disguise (configure domain in .env)"
     }
   ]
 }

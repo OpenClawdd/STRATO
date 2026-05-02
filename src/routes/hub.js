@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
+import { resolveConfig } from '../config/load-private-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -87,9 +88,9 @@ function loadMirrors() {
     return mirrorsCache;
   }
   try {
-    const mirrorsPath = join(__dirname, '..', 'config', 'proxy-mirrors.json');
-    const data = fs.readFileSync(mirrorsPath, 'utf8');
-    mirrorsCache = JSON.parse(data);
+    // Resolve ${ENV_VAR} placeholders via config loader
+    const result = resolveConfig('src/config/proxy-mirrors.json');
+    mirrorsCache = result.data;
     mirrorsCacheTime = now;
     return mirrorsCache;
   } catch (err) {
@@ -104,15 +105,20 @@ router.get('/api/mirrors/status', (req, res) => {
     status: 'ok',
     count: data.mirrors.length,
     lastUpdated: data.lastUpdated,
-    mirrors: data.mirrors.map(m => ({
-      id: m.id,
-      name: m.name,
-      primary: m.primary,
-      alternates: m.alternates,
-      priority: m.priority,
-      reliability: m.reliability,
-      hasPassword: !!m.password,
-    })),
+    mirrors: data.mirrors.map(m => {
+      const isUnresolved = (v) => typeof v === 'string' && /^\$\{/.test(v);
+      return {
+        id: m.id,
+        name: m.name,
+        resolved: !isUnresolved(m.primary),
+        priority: m.priority,
+        reliability: m.reliability,
+        hasPassword: !!m.password && !isUnresolved(m.password),
+        // Only send URLs if they're resolved
+        ...(isUnresolved(m.primary) ? {} : { primary: m.primary }),
+        ...(m.alternates?.some(a => !isUnresolved(a)) ? { alternates: m.alternates.filter(a => !isUnresolved(a)) } : {}),
+      };
+    }),
   });
 });
 
@@ -127,9 +133,9 @@ function loadCloakPresets() {
     return cloakCache;
   }
   try {
-    const cloakPath = join(__dirname, '..', 'config', 'cloak-presets.json');
-    const data = fs.readFileSync(cloakPath, 'utf8');
-    cloakCache = JSON.parse(data);
+    // Resolve ${ENV_VAR} placeholders via config loader
+    const result = resolveConfig('src/config/cloak-presets.json');
+    cloakCache = result.data;
     cloakCacheTime = now;
     return cloakCache;
   } catch (err) {
@@ -140,10 +146,18 @@ function loadCloakPresets() {
 
 router.get('/api/cloak/presets', (req, res) => {
   const data = loadCloakPresets();
+  const isUnresolved = (v) => typeof v === 'string' && /^\$\{/.test(v);
   res.json({
     status: 'ok',
     count: data.presets.length,
-    presets: data.presets,
+    presets: data.presets.map(p => ({
+      id: p.id,
+      title: p.title,
+      description: p.description,
+      resolved: !isUnresolved(p.favicon),
+      // Only send favicon if resolved (not a placeholder)
+      ...(isUnresolved(p.favicon) ? { favicon: '/favicon.ico' } : { favicon: p.favicon }),
+    })),
   });
 });
 

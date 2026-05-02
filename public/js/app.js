@@ -568,19 +568,22 @@
         const isUnavailable = (state.unavailableGames[game.id] || 0) >= 3;
         const isFav = state.favorites.includes(game.id);
         const rel = game.reliability || 'green';
-        const hasPassword = !!game.password;
+        const hasPassword = !!game.password && !/^\$\{/.test(game.password);
+        const passwordDisplay = hasPassword ? game.password : '';
         const proxyTier = game.proxy_tier;
+        const isUnresolved = game.config_required && /^\$\{/.test(game.url);
         let tierIcon = '';
         if (proxyTier === 'good') tierIcon = '<span class="tier-gold">&#9733;</span>';
         else if (proxyTier === 'recommended') tierIcon = '<span class="tier-purple">&#9734;</span>';
         else if (game.tier === 1) tierIcon = '<span class="tier-standalone">LOCAL</span>';
         return `
-          <div class="game-card glass ${isUnavailable ? 'unavailable' : ''}" data-game-id="${game.id}">
+          <div class="game-card glass ${isUnavailable ? 'unavailable' : ''} ${isUnresolved ? 'config-required' : ''}" data-game-id="${game.id}">
             <div class="game-card-inner">
+              ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ''}
               <div class="game-card-badges">
                 ${tierIcon}
                 <span class="reliability-dot rel-${rel}" title="${rel} reliability"></span>
-                ${hasPassword ? '<span class="auth-hint" title="Password: ' + game.password + '">&#128272; ' + game.password + '</span>' : ''}
+                ${hasPassword ? '<span class="auth-hint" title="Password: ' + passwordDisplay + '">&#128272; ' + passwordDisplay + '</span>' : ''}
               </div>
               <button class="fav-btn ${isFav ? 'active' : ''}" data-fav-id="${game.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '\u2605' : '\u2606'}</button>
               <img class="game-card-thumb" src="${game.thumbnail}" alt="${game.name}" loading="lazy" onerror="this.style.display='none'">
@@ -646,6 +649,12 @@
   function launchGame(gameId) {
     const game = state.games.find(g => g.id === gameId);
     if (!game) return;
+
+    // Block launch if URL is still an unresolved ${ENV_VAR} placeholder
+    if (/^\$\{/.test(game.url)) {
+      showToast('Configure this site in .env or games-private.json', 'error');
+      return;
+    }
 
     state.recentlyPlayed = state.recentlyPlayed.filter(id => id !== gameId);
     state.recentlyPlayed.unshift(gameId);

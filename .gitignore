@@ -8,3 +8,4 @@ public/bare-mux/
 .DS_Store
 .vscode/
 .idea/
+src/config/games-private.json
