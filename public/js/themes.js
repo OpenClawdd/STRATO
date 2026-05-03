@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Theme Studio Module
+   STRATO v21 — Theme Studio Module
    Custom theme builder, presets, import/export, live preview,
    accent color management, CSS custom property updates
    Works with existing HTML elements

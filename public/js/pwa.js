@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — PWA Support Module
+   STRATO v21 — PWA Support Module
    Service worker registration, install prompt, offline detection,
    update notification, install banner
    ══════════════════════════════════════════════════════════ */
@@ -7,20 +7,24 @@
 (function() {
   'use strict';
 
+  const DEBUG_PWA = false;
+  const pwaLog = (...args) => { if (DEBUG_PWA) console.debug(...args); };
+  const pwaWarn = (...args) => { if (DEBUG_PWA) console.warn(...args); };
+
   let deferredPrompt = null;
   let swRegistration = null;
 
   // ── Register service worker at /sw.js ──
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) {
-      console.warn('[PWA] Service Workers not supported');
+      pwaWarn('[PWA] Service Workers not supported');
       return;
     }
 
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .then(reg => {
         swRegistration = reg;
-        console.log('[PWA] Service Worker registered:', reg.scope);
+        pwaLog('[PWA] Service Worker registered:', reg.scope);
 
         // Check for updates periodically
         setInterval(() => reg.update(), 60 * 60 * 1000);
@@ -36,12 +40,12 @@
         });
       })
       .catch(err => {
-        console.warn('[PWA] Service Worker registration failed:', err);
+        pwaWarn('[PWA] Service Worker registration failed:', err);
       });
 
     // Listen for controller change (new SW activated)
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      console.log('[PWA] New service worker activated');
+      pwaLog('[PWA] New service worker activated');
     });
   }
 
@@ -51,13 +55,13 @@
       e.preventDefault();
       deferredPrompt = e;
       showInstallBanner();
-      console.log('[PWA] Install prompt captured');
+      pwaLog('[PWA] Install prompt captured');
     });
 
     window.addEventListener('appinstalled', () => {
       deferredPrompt = null;
       hideInstallBanner();
-      console.log('[PWA] App installed successfully');
+      pwaLog('[PWA] App installed successfully');
       if (window.showToast) window.showToast('STRATO installed as app!', 'accent');
       if (window.STRATO_NOTIFY) window.STRATO_NOTIFY('STRATO installed as app!', 'info');
     });
@@ -95,7 +99,7 @@
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       const result = await deferredPrompt.userChoice;
-      console.log('[PWA] Install choice:', result.outcome);
+      pwaLog('[PWA] Install choice:', result.outcome);
       deferredPrompt = null;
     });
 
@@ -209,7 +213,7 @@
 
     // Show PWA status
     if (isPWA()) {
-      console.log('[PWA] Running as installed app');
+      pwaLog('[PWA] Running as installed app');
     }
 
     // Manual install button in settings

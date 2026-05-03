@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Media Player Module
+   STRATO v21 — Media Player Module
    Floating mini-player with audio controls, lo-fi playlist,
    file upload, minimize/expand, progress bar, volume
    Works with existing HTML media player elements

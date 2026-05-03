@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Profile & Leaderboard Module
+   STRATO v21 — Profile & Leaderboard Module
    Profile card, XP/level, progress bars, leaderboard,
    score submission, level-up celebration
    Works with existing HTML elements

@@ -261,6 +261,28 @@
   // ──────────────────────────────────────────
   // NOTIFICATION CENTER
   // ──────────────────────────────────────────
+  window.showToast = showToast;
+  window.STRATO_TOAST = showToast;
+  window.STRATO_NOTIFY = window.STRATO_NOTIFY || ((message, type = 'info') => {
+    addNotification(message, type);
+  });
+  window.STRATO_XP = window.STRATO_XP || ((actionType) => {
+    window.StratoProfile?.addXPAction?.(actionType);
+  });
+  window.STRATO_NAVIGATE = window.STRATO_NAVIGATE || ((url) => {
+    const targetUrl = String(url || '').trim();
+    if (!targetUrl) return;
+    const urlInput = document.getElementById('url-input') || document.getElementById('home-url-input');
+    if (urlInput) urlInput.value = targetUrl;
+    navigateProxy(targetUrl);
+  });
+  window.STRATO_CLOAK = window.STRATO_CLOAK || ((key) => {
+    const cloakSelect = document.getElementById('cloak-select');
+    if (cloakSelect) cloakSelect.value = key;
+    applyCloak(key);
+  });
+  window.STRATO_USERNAME = getUsername() || 'Anonymous';
+
   function addNotification(message, type = 'info') {
     const now = new Date();
     const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -570,8 +592,10 @@
       if (!resp.ok) throw new Error('Failed to load games');
       state.games = await resp.json();
       state.filteredGames = [...state.games];
+      renderCategoryPills();
       renderGames();
       renderFeatured();
+      renderQuickLaunch();
       updateGameStats();
     } catch (err) {
       showToast('Failed to load game library', 'error');
@@ -587,6 +611,7 @@
       'arcade-total': total,
       'arcade-available': available,
       'arcade-tier1': tier1,
+      'status-games': `${total} games`,
       'games-count-text': `${total} games`,
       'home-games-count': total,
       'arcade-badge': total,
@@ -634,7 +659,7 @@
           </div>`;
       }).join('');
 
-    grid.querySelectorAll('.game-card:not(.unavailable)').forEach(card => {
+      grid.querySelectorAll('.game-card:not(.unavailable)').forEach(card => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.fav-btn')) return;
         launchGame(card.dataset.gameId);
@@ -653,6 +678,51 @@
 
     // Apply favicon fallback for broken thumbnails
     applyFaviconFallbacks(grid);
+  }
+
+  function renderCategoryPills() {
+    const container = document.getElementById('category-pills');
+    if (!container) return;
+
+    const categories = [...new Set(state.games.map(game => game.category).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b));
+    const labels = [
+      ['all', 'All'],
+      ...categories.map(category => [category, category.replace(/-/g, ' ')]),
+    ];
+
+    container.innerHTML = labels.map(([value, label]) => `
+      <button class="glass-pill ${value === 'all' ? 'active' : ''}" data-category="${escapeHtml(value)}">
+        ${escapeHtml(label)}
+      </button>
+    `).join('');
+    activeCategories = new Set(['all']);
+  }
+
+  function renderQuickLaunch() {
+    const grid = document.getElementById('quick-launch');
+    if (!grid) return;
+
+    const recent = state.recentlyPlayed
+      .map(id => state.games.find(game => game.id === id))
+      .filter(Boolean);
+    const defaults = state.games
+      .filter(game => game.tier === 1)
+      .slice(0, 6);
+    const launchItems = [...recent, ...defaults]
+      .filter((game, index, arr) => arr.findIndex(item => item.id === game.id) === index)
+      .slice(0, 6);
+
+    grid.innerHTML = launchItems.map(game => `
+      <button class="quick-game-btn" data-game-id="${escapeHtml(game.id)}" title="${escapeHtml(game.name)}">
+        <img src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">
+        <span>${escapeHtml(game.name)}</span>
+      </button>
+    `).join('');
+
+    grid.querySelectorAll('.quick-game-btn').forEach(btn => {
+      btn.addEventListener('click', () => launchGame(btn.dataset.gameId));
+    });
   }
 
   function toggleFavorite(gameId) {
@@ -703,6 +773,7 @@
     state.recentlyPlayed.unshift(gameId);
     if (state.recentlyPlayed.length > 20) state.recentlyPlayed.pop();
     localStorage.setItem('strato-recent', JSON.stringify(state.recentlyPlayed));
+    renderQuickLaunch();
 
     state.gamesPlayed++;
     localStorage.setItem('strato-gamesPlayed', String(state.gamesPlayed));
@@ -744,6 +815,7 @@
   document.getElementById('category-pills')?.addEventListener('click', (e) => {
     const pill = e.target.closest('.glass-pill');
     if (!pill) return;
+    document.querySelectorAll('.arcade-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === 'all'));
     const cat = pill.dataset.category;
     if (cat === 'all') {
       activeCategories = new Set(['all']);
@@ -763,6 +835,18 @@
 
   const sortSelect = document.getElementById('game-sort');
   if (sortSelect) sortSelect.addEventListener('change', filterGames);
+
+  document.querySelector('.arcade-tabs')?.addEventListener('click', (e) => {
+    const tab = e.target.closest('.arcade-tab');
+    if (!tab) return;
+    document.querySelectorAll('.arcade-tab').forEach(btn => btn.classList.toggle('active', btn === tab));
+    const tabName = tab.dataset.tab || 'all';
+    activeCategories = new Set([tabName]);
+    document.querySelectorAll('#category-pills .glass-pill').forEach(pill => {
+      pill.classList.toggle('active', tabName === 'all' && pill.dataset.category === 'all');
+    });
+    filterGames();
+  });
 
   try {
     const showUnavailableCheckbox = document.getElementById('show-unavailable');
@@ -790,6 +874,7 @@
       return true;
     });
     switch (sort) {
+      case 'name':
       case 'az': state.filteredGames.sort((a, b) => a.name.localeCompare(b.name)); break;
       case 'recent': state.filteredGames.sort((a, b) => {
         const aIdx = state.recentlyPlayed.indexOf(a.id);
@@ -799,8 +884,10 @@
         if (bIdx === -1) return -1;
         return aIdx - bIdx;
       }); break;
-      case 'random': state.filteredGames.sort(() => Math.random() - 0.5); break;
+      case 'category': state.filteredGames.sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.name.localeCompare(b.name)); break;
+      case 'popular':
       case 'tier': state.filteredGames.sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name)); break;
+      case 'random': state.filteredGames.sort(() => Math.random() - 0.5); break;
       default: state.filteredGames.sort((a, b) => a.tier - b.tier); break;
     }
     renderGames();
@@ -1329,7 +1416,7 @@
     state.coins += amount;
     localStorage.setItem('strato-coins', String(state.coins));
     updateCoinsDisplay();
-    // XP is handled separately via addXPAction() in app-v20-patch.js
+    // XP is handled separately via StratoProfile.addXPAction()
     // to avoid double-counting (coins + action-type XP)
     // Show popup animation
     const popup = document.createElement('div');

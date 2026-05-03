@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Extension System Module
+   STRATO v21 — Extension System Module
    Load, manage, enable/disable extensions, sandboxed execution,
    gallery browsing, install from gallery
    ══════════════════════════════════════════════════════════ */
@@ -9,6 +9,9 @@
 
   const STORAGE_KEY = 'strato-extensions';
   const SANDBOX_KEY = 'strato-extension-sandbox';
+  const DEBUG_EXTENSIONS = false;
+  const extensionLog = (...args) => { if (DEBUG_EXTENSIONS) console.debug(...args); };
+  const extensionWarn = (...args) => { if (DEBUG_EXTENSIONS) console.warn(...args); };
 
   const DEFAULT_EXTENSIONS = [
     { id: 'adblocker', name: 'Ad Blocker', version: '1.2.0', description: 'Block ads in proxied pages for cleaner browsing', author: 'STRATO Team', enabled: true, icon: 'shield', category: 'privacy' },
@@ -60,8 +63,8 @@
       // Create a sandboxed scope for the extension
       const sandbox = {
         console: {
-          log: (...args) => console.log(`[Ext:${ext.id}]`, ...args),
-          warn: (...args) => console.warn(`[Ext:${ext.id}]`, ...args),
+          log: (...args) => extensionLog(`[Ext:${ext.id}]`, ...args),
+          warn: (...args) => extensionWarn(`[Ext:${ext.id}]`, ...args),
           error: (...args) => console.error(`[Ext:${ext.id}]`, ...args),
         },
         localStorage: {
@@ -101,7 +104,7 @@
           sandbox.console.log(`${ext.name} v${ext.version} activated`);
       }
 
-      console.log(`[Extensions] ${ext.name} v${ext.version} activated`);
+      extensionLog(`[Extensions] ${ext.name} v${ext.version} activated`);
     } catch (e) {
       console.error(`[Extensions] Failed to execute ${ext.id}:`, e);
     }
@@ -117,7 +120,7 @@
           removeDarkReader();
           break;
         default:
-          console.log(`[Extensions] ${ext.name} deactivated`);
+          extensionLog(`[Extensions] ${ext.name} deactivated`);
       }
       ext._sandbox = null;
     } catch (e) {
@@ -267,7 +270,7 @@
       const data = await resp.json();
       return data.extensions || data;
     } catch (e) {
-      console.warn('[Extensions] Load from server failed:', e);
+      extensionWarn('[Extensions] Load from server failed:', e);
       return [];
     }
   }
@@ -281,7 +284,7 @@
       renderGallery(data.extensions || data);
       return data.extensions || data;
     } catch (e) {
-      console.warn('[Extensions] Gallery load failed:', e);
+      extensionWarn('[Extensions] Gallery load failed:', e);
       return [];
     }
   }

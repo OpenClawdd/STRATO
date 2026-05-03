@@ -1,21 +1,20 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Service Worker
+   STRATO v22 Service Worker
    Cache static assets (CSS, JS, HTML, thumbnails),
-   cache-bust on version change (v20), offline fallback page,
+   cache-bust on version change (v22), offline fallback page,
    network-first for API calls, cache-first for static assets,
    skip waiting, claim clients
    ══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'strato-v20-apex';
-const CACHE_VERSION = 20;
+const CACHE_NAME = 'strato-v22-stability';
+const CACHE_VERSION = 22;
+const DEBUG_SW = false;
+const swLog = (...args) => { if (DEBUG_SW) console.debug(...args); };
+const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
 
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/login.html',
   '/css/style.css',
   '/js/app.js',
-  '/js/app-v20-patch.js',
   '/js/particles.js',
   '/js/favicon-fetcher.js',
   '/js/transport-init.js',
@@ -26,6 +25,9 @@ const STATIC_ASSETS = [
   '/js/bookmarks.js',
   '/js/extensions.js',
   '/js/pwa.js',
+  '/bare-mux/index.js',
+  '/bare-mux/worker.js',
+  '/epoxy/index.mjs',
   '/assets/games.json',
   '/assets/sites.json',
   '/favicon.ico',
@@ -34,7 +36,7 @@ const STATIC_ASSETS = [
 ];
 
 // Thumbnails to cache
-const THUMBNAIL_CACHE = 'strato-v20-thumbnails';
+const THUMBNAIL_CACHE = 'strato-v22-thumbnails';
 
 // Offline fallback page
 const OFFLINE_PAGE = `
@@ -68,18 +70,18 @@ const OFFLINE_PAGE = `
 
 // ── Install: cache static assets ──
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing STRATO v20 service worker');
+  swLog('[SW] Installing STRATO v22 service worker');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[SW] Caching static assets');
+        swLog('[SW] Caching static assets');
         // Use addAll with fallback — individual failures shouldn't break the whole install
         return cache.addAll(STATIC_ASSETS).catch(err => {
-          console.warn('[SW] Some assets failed to cache during install:', err.message);
+          swWarn('[SW] Some assets failed to cache during install:', err.message);
           // Try caching assets individually so one failure doesn't block all
           return Promise.allSettled(
             STATIC_ASSETS.map(url => cache.add(url).catch(e => {
-              console.warn('[SW] Failed to cache:', url, e.message);
+              swWarn('[SW] Failed to cache:', url, e.message);
             }))
           );
         });
@@ -90,19 +92,19 @@ self.addEventListener('install', (event) => {
 
 // ── Activate: clean old caches (cache-bust on version change) ──
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating STRATO v20 service worker');
+  swLog('[SW] Activating STRATO v22 service worker');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
           .filter((name) => name !== CACHE_NAME && name !== THUMBNAIL_CACHE)
           .map((name) => {
-            console.log('[SW] Deleting old cache:', name);
+            swLog('[SW] Deleting old cache:', name);
             return caches.delete(name);
           })
       );
     }).then(() => {
-      console.log('[SW] Claiming all clients');
+      swLog('[SW] Claiming all clients');
       return self.clients.claim();
     })
   );
@@ -125,6 +127,13 @@ self.addEventListener('fetch', (event) => {
   // API calls: network-first
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(networkFirst(request));
+    return;
+  }
+
+  // Authenticated documents and login pages carry user/session state and CSRF tokens.
+  // Keep them out of the static cache so users do not get stale login tokens or stale UI.
+  if (request.mode === 'navigate' || url.pathname === '/' || url.pathname === '/login' || url.pathname === '/index.html') {
+    event.respondWith(networkOnlyWithOffline(request));
     return;
   }
 
@@ -161,6 +170,20 @@ async function networkFirst(request) {
       status: 503,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+}
+
+async function networkOnlyWithOffline(request) {
+  try {
+    return await fetch(request);
+  } catch (e) {
+    if (request.headers.get('Accept')?.includes('text/html')) {
+      return new Response(OFFLINE_PAGE, {
+        status: 503,
+        headers: { 'Content-Type': 'text/html' },
+      });
+    }
+    return new Response('Offline', { status: 503, statusText: 'Offline' });
   }
 }
 

@@ -41,11 +41,13 @@ router.post('/api/bookmarks', async (req, res) => {
       return res.status(400).json({ error: 'URL is required' });
     }
 
-    // Validate URL format
-    try {
-      new URL(url);
-    } catch {
-      return res.status(400).json({ error: 'Invalid URL format' });
+    // Validate URL format. Local games are same-origin relative paths.
+    if (!url.startsWith('/')) {
+      try {
+        new URL(url);
+      } catch {
+        return res.status(400).json({ error: 'Invalid URL format' });
+      }
     }
 
     if (title && (typeof title !== 'string' || title.length > 500)) {

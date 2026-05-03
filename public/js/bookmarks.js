@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Bookmarks & History Module
+   STRATO v21 — Bookmarks & History Module
    Bookmark bar, sidebar, history sidebar, import/export,
    API integration for server-side persistence
    Works with existing HTML elements
@@ -105,10 +105,11 @@
     const csrfMeta = document.querySelector('meta[name="csrf-token"]');
     const csrf = csrfMeta ? csrfMeta.content : '';
     try {
+      const serverUrl = new URL(url, window.location.origin).href;
       await fetch('/api/history', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
-        body: JSON.stringify({ url, title }),
+        body: JSON.stringify({ url: serverUrl, title: title || url }),
       });
     } catch (e) {}
   }

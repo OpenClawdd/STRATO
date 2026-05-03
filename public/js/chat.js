@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — Chat Module
+   STRATO v21 — Chat Module
    Connects to WebSocket at ws://host/ws/chat
    Handles room joining/leaving, message sending/receiving
    ══════════════════════════════════════════════════════════ */
@@ -13,6 +13,9 @@
   const MAX_RECONNECT = 10;
   const messages = {};
   const onlineUsers = new Set();
+  const DEBUG_CHAT = false;
+  const chatLog = (...args) => { if (DEBUG_CHAT) console.debug(...args); };
+  const chatWarn = (...args) => { if (DEBUG_CHAT) console.warn(...args); };
 
   function escapeHtml(str) {
     const div = document.createElement('div');
@@ -25,7 +28,7 @@
     try {
       ws = new WebSocket(`${protocol}//${location.host}/ws/chat`);
     } catch (e) {
-      console.warn('[Chat] WebSocket creation failed:', e);
+      chatWarn('[Chat] WebSocket creation failed:', e);
       reconnect();
       return;
     }
@@ -34,7 +37,7 @@
       reconnectAttempts = 0;
       updateStatus(true);
       ws.send(JSON.stringify({ type: 'join', roomId: currentRoom }));
-      console.log('[Chat] Connected to chat server');
+      chatLog('[Chat] Connected to chat server');
     };
 
     ws.onmessage = (event) => {

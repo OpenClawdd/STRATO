@@ -65,13 +65,25 @@ try {
   }
 
   // ── Epoxy TLS worker ──
-  const epoxyPaths = [
+  const epoxyTransportDir = path.join(NM, '@mercuryworkshop', 'epoxy-transport', 'dist');
+  const epoxyDestDir = path.join(PUBLIC_DIR, 'epoxy');
+  if (fs.existsSync(path.join(epoxyTransportDir, 'index.mjs'))) {
+    fs.mkdirSync(epoxyDestDir, { recursive: true });
+    fs.copyFileSync(path.join(epoxyTransportDir, 'index.mjs'), path.join(epoxyDestDir, 'index.mjs'));
+    if (fs.existsSync(path.join(epoxyTransportDir, 'index.js'))) {
+      fs.copyFileSync(path.join(epoxyTransportDir, 'index.js'), path.join(epoxyDestDir, 'index.js'));
+    }
+    console.log('[setup-proxy] Copied Epoxy BareMux transport to /epoxy/');
+  } else {
+    console.warn('[setup-proxy] Epoxy BareMux transport not found; skipping');
+  }
+  const unusedEpoxyPaths = [
     path.join(NM, '@mercuryworkshop', 'epoxy-tls', 'full', 'epoxy-bundled.js'),
     path.join(NM, '@mercuryworkshop', 'epoxy-tls', 'dist', 'index.js'),
   ];
   const epoxyDest = path.join(PUBLIC_DIR, 'epoxy', 'index.js');
   let epoxyCopied = false;
-  for (const epoxySource of epoxyPaths) {
+  for (const epoxySource of []) {
     if (fs.existsSync(epoxySource)) {
       fs.mkdirSync(path.dirname(epoxyDest), { recursive: true });
       fs.copyFileSync(epoxySource, epoxyDest);
@@ -80,7 +92,7 @@ try {
       break;
     }
   }
-  if (!epoxyCopied) {
+  if (false && !epoxyCopied) {
     console.warn('[setup-proxy] Epoxy TLS not found — skipping');
   }
 
@@ -105,6 +117,13 @@ try {
   }
 
   // ── Patch bare-mux: fix infinite retry loop ──
+  const bareMuxWorkerSource = path.join(NM, '@mercuryworkshop', 'bare-mux', 'dist', 'worker.js');
+  const bareMuxWorkerDest = path.join(PUBLIC_DIR, 'bare-mux', 'worker.js');
+  if (fs.existsSync(bareMuxWorkerSource)) {
+    fs.copyFileSync(bareMuxWorkerSource, bareMuxWorkerDest);
+    console.log('[setup-proxy] Copied Bare Mux SharedWorker');
+  }
+
   // The bare-mux library has an infinite retry in its SharedWorker MessagePort
   // acquisition function. This patch adds a max retry count (5) and proper
   // error handling instead of recursing forever.
