@@ -255,6 +255,22 @@ export function initStore() {
   for (const col of VALID_COLLECTIONS) {
     ensureCollectionFile(col);
   }
+  // Seed default chat rooms if none exist
+  try {
+    const rooms = JSON.parse(fs.readFileSync(collectionPath('chat_rooms'), 'utf8'));
+    if (rooms.length === 0) {
+      const defaultRooms = [
+        { id: generateId(), name: 'general', description: 'General chat — talk about anything', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+        { id: generateId(), name: 'gaming', description: 'Gaming discussion and tips', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+        { id: generateId(), name: 'help', description: 'Get help with STRATO or homework', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+      ];
+      atomicWrite(collectionPath('chat_rooms'), defaultRooms);
+      cacheSet('chat_rooms', defaultRooms);
+      console.log('[STRATO] Seeded default chat rooms');
+    }
+  } catch (e) {
+    console.warn('[STRATO] Could not seed chat rooms:', e.message);
+  }
   console.log('[STRATO] Database store initialized');
 }
 

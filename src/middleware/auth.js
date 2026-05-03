@@ -134,8 +134,19 @@ export default function authMiddleware(req, res, next) {
     return next();
   }
 
+  // Allow bare-mux and epoxy transport scripts through without auth
+  // These are needed by the proxy transport layer before user authenticates
+  if (path.startsWith('/bare-mux/') || path.startsWith('/epoxy/')) {
+    return next();
+  }
+
   // Allow proxy engine static assets through without auth
   if (path.startsWith('/frog/') || path.startsWith('/scramjet/')) {
+    return next();
+  }
+
+  // Allow PWA assets through without auth (manifest, sw.js, icons)
+  if (path === '/manifest.json' || path === '/sw.js' || path === '/favicon.ico' || path === '/favicon.png') {
     return next();
   }
 
@@ -193,11 +204,14 @@ export default function authMiddleware(req, res, next) {
       }
 
       // Set auth cookie and redirect
+      // Only set secure:true when actually behind HTTPS — prevents the browser
+      // from silently dropping the cookie on HTTP (localhost, school Chromebooks, etc.)
+      const isHttps = process.env.HTTPS === 'true' || process.env.PORT === '443';
       res.cookie('strato_auth', cleanUsername, {
         signed: true,
         httpOnly: true,
         sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
+        secure: isHttps,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
       });
@@ -254,6 +268,11 @@ export default function authMiddleware(req, res, next) {
 
 // ── Auto-create user profile if it doesn't exist ──
 const profileCreated = new Set(); // Cache to avoid repeated DB lookups
+
+// Clean up the profileCreated cache periodically (prevent unbounded memory growth)
+setInterval(() => {
+  profileCreated.clear();
+}, 60 * 60 * 1000); // Clear every hour
 
 async function autoCreateUserProfile(username) {
   if (profileCreated.has(username)) return;

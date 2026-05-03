@@ -73,7 +73,16 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('[SW] Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+        // Use addAll with fallback — individual failures shouldn't break the whole install
+        return cache.addAll(STATIC_ASSETS).catch(err => {
+          console.warn('[SW] Some assets failed to cache during install:', err.message);
+          // Try caching assets individually so one failure doesn't block all
+          return Promise.allSettled(
+            STATIC_ASSETS.map(url => cache.add(url).catch(e => {
+              console.warn('[SW] Failed to cache:', url, e.message);
+            }))
+          );
+        });
       })
       .then(() => self.skipWaiting())
   );

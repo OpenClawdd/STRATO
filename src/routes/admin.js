@@ -131,10 +131,13 @@ router.delete('/api/admin/users/:id', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Also delete associated data
-    await store.deleteMany('scores', (s) => s.id === id || s.userId === id);
-    await store.deleteMany('bookmarks', (b) => b.userId === id);
-    await store.deleteMany('saves', (s) => s.userId === id);
+    // Also delete associated data — match by both userId and username
+    const user = await store.getOne('users', (u) => u.id === id);
+    const username = user?.username;
+    await store.deleteMany('scores', (s) => s.id === id || s.userId === id || s.username === username);
+    await store.deleteMany('bookmarks', (b) => b.userId === id || b.username === username);
+    await store.deleteMany('saves', (s) => s.userId === id || s.username === username);
+    await store.deleteMany('chat_messages', (m) => m.username === username);
 
     res.json({ success: true, message: 'User and associated data deleted' });
   } catch (err) {

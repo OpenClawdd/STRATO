@@ -122,7 +122,7 @@
 
   });
 
-  console.log('[STRATO v20] Keyboard shortcuts patched: 6=chat, 7=ai, 8=settings, m=media');
+  console.log('[STRATO v20] Keyboard shortcuts patched: m=media toggle');
 
   // ──────────────────────────────────────────
   // 3. ADD XP TRACKING TO APP ACTIONS

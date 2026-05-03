@@ -90,7 +90,7 @@ router.post('/api/bookmarks', async (req, res) => {
   }
 });
 
-// ── DELETE /api/bookmarks/:id — Remove a bookmark ──
+// ── DELETE /api/bookmarks/:id — Remove a bookmark by ID ──
 router.delete('/api/bookmarks/:id', async (req, res) => {
   try {
     const username = res.locals.username;
@@ -125,6 +125,49 @@ router.delete('/api/bookmarks/:id', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[STRATO] Bookmarks DELETE error:', err.message);
+    res.status(500).json({ error: 'Failed to delete bookmark' });
+  }
+});
+
+// ── DELETE /api/bookmarks — Remove a bookmark by URL (client compatibility) ──
+//     The client sends { url } in the body since it tracks bookmarks by URL, not ID
+router.delete('/api/bookmarks', async (req, res) => {
+  try {
+    const username = res.locals.username;
+    if (!username) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const { url } = req.body || {};
+    if (!url) {
+      return res.status(400).json({ error: 'URL is required' });
+    }
+
+    // Find and delete the bookmark by URL and username
+    const bookmark = await store.getOne(
+      'bookmarks',
+      (b) => b.url === url && b.username === username
+    );
+    if (!bookmark) {
+      return res.status(404).json({ error: 'Bookmark not found' });
+    }
+
+    await store.deleteOne('bookmarks', (b) => b.id === bookmark.id);
+
+    // Update user stats
+    const user = await store.getOne('users', (u) => u.username === username);
+    if (user) {
+      await store.update('users', (u) => u.username === username, {
+        stats: {
+          ...user.stats,
+          bookmarks_count: Math.max(0, (user.stats?.bookmarks_count || 0) - 1),
+        },
+      });
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[STRATO] Bookmarks DELETE by URL error:', err.message);
     res.status(500).json({ error: 'Failed to delete bookmark' });
   }
 });

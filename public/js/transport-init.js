@@ -14,10 +14,13 @@
 
   // ── Suppress BareMux infinite retry spam ──
   // Override console.warn/console.error to throttle bare-mux messages (max 3 then mute)
+  // Also patch the SharedWorker constructor to prevent infinite retries
   let bareMuxWarnings = 0;
   const MAX_BAREMUX_WARNINGS = 3;
+  const BAREMUX_RETRY_LIMIT = 10; // Stop retrying after this many attempts
   const originalWarn = console.warn;
   const originalError = console.error;
+
   function throttledWarn(...args) {
     const msg = args.join(' ');
     if (msg.includes('bare-mux') || msg.includes('SharedWorker MessagePort') || msg.includes('failed to get a bare-mux')) {
@@ -25,7 +28,7 @@
       if (bareMuxWarnings <= MAX_BAREMUX_WARNINGS) {
         originalWarn.apply(console, args);
         if (bareMuxWarnings === MAX_BAREMUX_WARNINGS) {
-          originalWarn.call(console, '[STRATO] Suppressing further bare-mux warnings — proxy transport not available. This is normal if BareMux is not installed.');
+          originalWarn.call(console, '[STRATO] Suppressing further bare-mux warnings — proxy transport not available. This is normal if BareMux SharedWorker is not reachable.');
         }
       }
       return;
@@ -45,6 +48,40 @@
   }
   console.warn = throttledWarn;
   console.error = throttledError;
+
+  // ── Patch bare-mux retry loop ──
+  // The bare-mux library has an infinite retry loop for SharedWorker connections.
+  // We monkey-patch the SharedWorker constructor to track attempts and abort after limit.
+  let sharedWorkerAttempts = 0;
+  const OriginalSharedWorker = window.SharedWorker;
+  if (OriginalSharedWorker) {
+    window.SharedWorker = function (url, options) {
+      sharedWorkerAttempts++;
+      if (sharedWorkerAttempts > BAREMUX_RETRY_LIMIT * 2) {
+        // Too many SharedWorker creation attempts — return a dummy that won't loop
+        originalWarn.call(console, '[STRATO] Aborting bare-mux SharedWorker retry loop after', sharedWorkerAttempts, 'attempts');
+        const dummy = {
+          port: {
+            start: () => {},
+            close: () => {},
+            addEventListener: () => {},
+            removeEventListener: () => {},
+            postMessage: () => {},
+          },
+          terminate: () => {},
+        };
+        // Dispatch a fake error event to stop the retry loop
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('proxy-ready', { detail: { uv: uvReady, scramjet: sjReady } }));
+        }, 100);
+        return dummy;
+      }
+      return new OriginalSharedWorker(url, options);
+    };
+    // Copy static properties
+    Object.setPrototypeOf(window.SharedWorker, OriginalSharedWorker);
+    window.SharedWorker.prototype = OriginalSharedWorker.prototype;
+  }
 
   async function initTransport() {
     try {
@@ -103,17 +140,34 @@
       }
 
       // ── Step 3: Register Scramjet service worker ──
+      // Scramjet has two SW entry points:
+      //   sw.js          — ESM: uses `import` (requires type: 'module')
+      //   sw.classic.js  — Classic: uses `importScripts` (IIFE bundle)
+      // Try module first, fall back to classic.
       try {
+        // Module-type registration — required for scramjet.bundle.js (ESM)
         const sjRegistration = await navigator.serviceWorker.register('/scramjet/sw.js', {
           scope: '/scramjet/',
+          type: 'module',
           updateViaCache: 'none',
         });
         await navigator.serviceWorker.ready;
         sjReady = true;
-        console.log('[STRATO] Scramjet service worker registered');
+        console.log('[STRATO] Scramjet service worker registered (module type)');
       } catch (err) {
-        console.warn('[STRATO] Scramjet service worker registration failed:', err.message);
-        // Scramjet is optional — UV may still work
+        // Classic-type fallback — uses importScripts + scramjet.all.js (IIFE)
+        try {
+          const sjReg2 = await navigator.serviceWorker.register('/scramjet/sw.classic.js', {
+            scope: '/scramjet/',
+            updateViaCache: 'none',
+          });
+          await navigator.serviceWorker.ready;
+          sjReady = true;
+          console.log('[STRATO] Scramjet SW registered (classic fallback)');
+        } catch (err2) {
+          console.warn('[STRATO] Scramjet service worker registration failed:', err.message, err2?.message);
+          // Scramjet is optional — UV may still work
+        }
       }
 
       // ── Step 4: Check if at least one engine is ready ──
@@ -136,58 +190,6 @@
       // Still emit proxy-ready so the app doesn't hang on the splash screen
       window.dispatchEvent(new CustomEvent('proxy-ready', { detail: { uv: false, scramjet: false } }));
     }
-  }
-
-  function showProxyError(message) {
-    // Show a specific error — not generic
-    const container = document.getElementById('splash') || document.body;
-    const errorDiv = document.createElement('div');
-    errorDiv.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(248,113,113,0.25);
-      border-radius: 16px;
-      padding: 32px;
-      max-width: 480px;
-      width: 90%;
-      text-align: center;
-      color: #f87171;
-      font-family: 'Manrope', sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      z-index: 99999;
-    `;
-    // Escape message to prevent XSS — use textContent instead of innerHTML
-    errorDiv.innerHTML = `
-      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(248,113,113,0.15);padding:4px 12px;border-radius:8px;display:inline-block;margin-bottom:12px;">PROXY ERROR</div>
-      <p style="margin:0;" id="proxy-error-msg"></p>
-      <button style="
-        margin-top:16px;
-        background:rgba(0,229,255,0.15);
-        border:1px solid rgba(0,229,255,0.25);
-        color:#00e5ff;
-        padding:8px 24px;
-        border-radius:12px;
-        cursor:pointer;
-        font-family:'Manrope',sans-serif;
-        font-size:14px;
-      " id="proxy-error-retry">Retry</button>
-    `;
-    // Safely set the error message text (no HTML injection)
-    const msgEl = errorDiv.querySelector('#proxy-error-msg');
-    if (msgEl) msgEl.textContent = message;
-    // Add click handler via addEventListener instead of inline onclick
-    const retryBtn = errorDiv.querySelector('#proxy-error-retry');
-    if (retryBtn) retryBtn.addEventListener('click', () => location.reload());
-    container.appendChild(errorDiv);
-
-    // Also dispatch proxy-ready so app.js init doesn't hang forever
-    window.dispatchEvent(new CustomEvent('proxy-ready', { detail: { uv: false, scramjet: false } }));
   }
 
   // ── Wait for DOM then initialize ──

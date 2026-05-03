@@ -9,7 +9,6 @@ import rateLimit from 'express-rate-limit';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
-import crypto from 'crypto';
 import authMiddleware from './middleware/auth.js';
 import proxyRoutes from './routes/proxy.js';
 import aiRoutes from './routes/ai.js';
@@ -27,7 +26,7 @@ import adminRoutes from './routes/admin.js';
 import notificationRoutes from './routes/notifications.js';
 import dataRoutes from './routes/data.js';
 import { sanitizeBody } from './middleware/sanitize.js';
-import { csrfProtection } from './middleware/csrf.js';
+import { csrfProtection, generateCsrfToken } from './middleware/csrf.js';
 import { initWebSocket } from './websocket.js';
 import { initStore } from './db/store.js';
 import { resolveConfig, getConfigStatus } from './config/load-private-config.js';
@@ -62,8 +61,41 @@ const LOGIN_HTML = fs.readFileSync(
 // ── 1. Trust first proxy — correct req.ip behind reverse proxy ──
 app.set('trust proxy', 1);
 
+// ── 0b. Health check — VERY FIRST route, before ALL middleware ──
+//     Must be before helmet/csrf/auth to guarantee it's always accessible
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    version: '21.0.0',
+    uptime: process.uptime(),
+    engines: { uv: true, scramjet: true },
+    wisp: true,
+    features: {
+      profiles: true,
+      leaderboards: true,
+      bookmarks: true,
+      saves: true,
+      chat: true,
+      themes: true,
+      extensions: true,
+      stealth: true,
+      aiTutor: true,
+      admin: true,
+      analytics: true,
+      notifications: true,
+      dataImportExport: true,
+      inputSanitization: true,
+      csrfProtection: true,
+      aiSubjects: 10,
+    },
+  });
+});
+
 // ── 2. Helmet with explicit CSP + HSTS ──
 const isProduction = process.env.NODE_ENV === 'production';
+// Detect if we're behind HTTPS (reverse proxy sets X-Forwarded-Proto)
+// Only enable HSTS when actual HTTPS is confirmed — prevents ERR_SSL_PROTOCOL_ERROR
+const enableHsts = isProduction && (process.env.HTTPS === 'true' || process.env.PORT === '443');
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -72,15 +104,16 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"],
       workerSrc: ["'self'", "blob:"],
       frameSrc: ["'self'", "blob:"],
-      connectSrc: ["'self'", "ws:", "wss:", "https:", "blob:"],
+      connectSrc: ["'self'", "ws:", "wss:", "https:", "blob:", "http:"],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "blob:"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net", "https://frontend-cdn.perplexity.ai"],
       mediaSrc: ["'self'", "blob:"],
     },
   },
-  // Only enable HSTS in production — prevents ERR_SSL_PROTOCOL_ERROR in dev
-  hsts: isProduction ? {
+  // Only enable HSTS when explicitly behind HTTPS — prevents ERR_SSL_PROTOCOL_ERROR
+  // on HTTP-only servers (localhost:8080, school Chromebooks without SSL, etc.)
+  hsts: enableHsts ? {
     maxAge: 31536000,
     includeSubDomains: true,
     preload: false,
@@ -137,35 +170,6 @@ const savesLimiter = rateLimit({
 });
 app.use('/api/saves/', savesLimiter);
 
-// ── 7b. Health check — BEFORE auth so it's always accessible ──
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    version: '21.0.0',
-    uptime: process.uptime(),
-    engines: { uv: true, scramjet: true },
-    wisp: true,
-    features: {
-      profiles: true,
-      leaderboards: true,
-      bookmarks: true,
-      saves: true,
-      chat: true,
-      themes: true,
-      extensions: true,
-      stealth: true,
-      aiTutor: true,
-      admin: true,
-      analytics: true,
-      notifications: true,
-      dataImportExport: true,
-      inputSanitization: true,
-      csrfProtection: true,
-      aiSubjects: 10,
-    },
-  });
-});
-
 // ── 8. Auth middleware (TOS gate) ──
 //     Handles /login GET (serve login page) and POST (authenticate).
 //     Redirects unauthenticated users to /login for all other routes.
@@ -185,11 +189,15 @@ app.get('/api/config/status', (req, res) => {
 
 // ── CSRF token endpoint — populates meta tag for API calls ──
 app.get('/api/csrf-token', (req, res) => {
-  const token = req.cookies['XSRF-TOKEN'] || crypto.randomBytes(32).toString('hex');
+  // Use generateCsrfToken() from csrf.js so the token is actually stored in the server-side store
+  // Previously used crypto.randomBytes() directly which created tokens that were never validated
+  const token = generateCsrfToken({ ip: req.ip, username: res.locals.username });
+  // Only set secure:true when actually behind HTTPS — matches auth cookie behavior
+  const isHttps = process.env.HTTPS === 'true' || process.env.PORT === '443';
   res.cookie('XSRF-TOKEN', token, {
     httpOnly: false,
     sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production',
+    secure: isHttps,
   });
   res.json({ token });
 });
@@ -280,18 +288,15 @@ server.on('request', (req, res) => {
 });
 
 // ── WebSocket upgrade routing: Bare vs Wisp vs Chat ──
-// Single upgrade handler — the WS chat module registers its own upgrade listener
+// The WS chat module (websocket.js) registers its own upgrade listener
 // via initWebSocket(), so we only handle Bare and Wisp here.
-// If the WS module already handled the upgrade, we skip it.
-let wsHandled = false;
 server.on('upgrade', (req, socket, head) => {
   if (bare.shouldRoute(req)) {
     bare.routeUpgrade(req, socket, head);
   } else if (req.url.startsWith('/wisp/') && wispRouteRequest) {
     wispRouteRequest(req, socket, head);
   } else if (req.url === '/ws/chat') {
-    // Handled by initWebSocket's own upgrade listener
-    // Do nothing here — let the WS server handle it
+    // Handled by initWebSocket's own upgrade listener — skip here
     return;
   } else {
     socket.destroy();

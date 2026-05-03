@@ -6,6 +6,34 @@
 (function () {
   'use strict';
 
+  // ── Safety: Ensure StratoProfile exists even if profile.js fails to load ──
+  // This prevents "addXp is not a function" crashes that block the entire app
+  if (!window.StratoProfile) {
+    window.StratoProfile = {
+      getLevel: () => ({ level: 1, currentXp: 0, requiredXp: 100, totalXp: 0 }),
+      getXp: () => parseInt(localStorage.getItem('strato-xp') || '0'),
+      addXP: (amount) => { const c = parseInt(localStorage.getItem('strato-xp') || '0'); localStorage.setItem('strato-xp', String(c + amount)); },
+      addXp: (amount) => { const c = parseInt(localStorage.getItem('strato-xp') || '0'); localStorage.setItem('strato-xp', String(c + amount)); },
+      addXPAction: () => {},
+      addXPActionAlias: () => {},
+      getProfile: () => ({ username: localStorage.getItem('strato-username') || 'Anonymous', xp: 0, level: 1 }),
+      updateProfile: async () => false,
+      loadProfile: async () => null,
+      submitScore: async () => false,
+      loadLeaderboard: async () => [],
+      updateXpUI: () => {},
+      XP_REWARDS: { game: 5, browse: 2, ai: 3, chat: 1, snap: 10 },
+    };
+  } else {
+    // Ensure aliases exist even if profile.js loaded but missed one
+    if (!window.StratoProfile.addXp && window.StratoProfile.addXP) {
+      window.StratoProfile.addXp = window.StratoProfile.addXP;
+    }
+    if (!window.StratoProfile.addXP && window.StratoProfile.addXp) {
+      window.StratoProfile.addXP = window.StratoProfile.addXp;
+    }
+  }
+
   // ──────────────────────────────────────────
   // PARTICLE SYSTEM
   // Now handled by particles.js (rainbow + mouse repulsion)
@@ -219,6 +247,7 @@
   // ──────────────────────────────────────────
   function showToast(message, type = 'default') {
     const container = document.getElementById('toast-container');
+    if (!container) return;
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.textContent = message;
@@ -368,6 +397,7 @@
   }
 
   function setEngine(engine) {
+    if (engine !== 'uv' && engine !== 'scramjet') return;
     state.currentEngine = engine;
     localStorage.setItem('strato-engine', engine);
     document.querySelectorAll('[data-engine]').forEach(btn => {
@@ -376,7 +406,8 @@
     const label = document.getElementById('proxy-label');
     if (label) label.textContent = engine === 'uv' ? 'Ultraviolet' : 'Scramjet';
     const statusEngine = document.getElementById('status-engine');
-    if (statusEngine) statusEngine.querySelector('span:last-child').textContent = engine === 'uv' ? 'Ultraviolet' : 'Scramjet';
+    const statusLabel = statusEngine?.querySelector('span:last-child');
+    if (statusLabel) statusLabel.textContent = engine === 'uv' ? 'Ultraviolet' : 'Scramjet';
     const statEngine = document.getElementById('stat-engine');
     if (statEngine) statEngine.textContent = engine === 'uv' ? 'Ultraviolet' : 'Scramjet';
     const settingEngine = document.getElementById('setting-engine');
@@ -827,7 +858,7 @@
     try {
       const resp = await fetch('/api/ai/status');
       const data = await resp.json();
-      state.aiOnline = data.online;
+      state.aiOnline = !!data.online;
       const aiDot = document.getElementById('ai-connection-dot');
       const aiNavDot = document.getElementById('ai-nav-dot');
       const aiStatusText = document.getElementById('ai-status-text');
@@ -846,6 +877,7 @@
   }
 
   function addAiBubble(role, content) {
+    if (!aiMessages) return;
     const bubble = document.createElement('div');
     bubble.className = `ai-bubble ${role}`;
     bubble.textContent = content;
@@ -1027,7 +1059,7 @@
       if (previewImg) previewImg.src = snapImage;
       document.getElementById('snap-preview-container')?.classList.remove('hidden');
       document.getElementById('vision-drop-zone')?.classList.add('hidden');
-      document.getElementById('snap-solve-btn').disabled = false;
+      document.getElementById('snap-solve-btn') && (document.getElementById('snap-solve-btn').disabled = false);
       document.getElementById('snap-result')?.classList.add('hidden');
     };
     reader.readAsDataURL(file);
@@ -1037,7 +1069,7 @@
     snapImage = null;
     document.getElementById('snap-preview-container')?.classList.add('hidden');
     document.getElementById('vision-drop-zone')?.classList.remove('hidden');
-    document.getElementById('snap-solve-btn').disabled = true;
+    document.getElementById('snap-solve-btn') && (document.getElementById('snap-solve-btn').disabled = true);
     document.getElementById('snap-result')?.classList.add('hidden');
     if (snapFileInput) snapFileInput.value = '';
   });
@@ -1297,13 +1329,8 @@
     state.coins += amount;
     localStorage.setItem('strato-coins', String(state.coins));
     updateCoinsDisplay();
-    // Add XP when earning coins — safely handle missing addXp/addXP
-    try {
-      if (window.StratoProfile) {
-        const xpFn = window.StratoProfile.addXp || window.StratoProfile.addXP;
-        if (typeof xpFn === 'function') xpFn(amount * 2);
-      }
-    } catch (e) { console.warn('[STRATO] addXP error:', e); }
+    // XP is handled separately via addXPAction() in app-v20-patch.js
+    // to avoid double-counting (coins + action-type XP)
     // Show popup animation
     const popup = document.createElement('div');
     popup.className = 'coin-popup';
@@ -1362,20 +1389,20 @@
       if (site.tier_badge === 'good') tierBadge = '<span class="hub-tier-badge tier-good">&#9733; Good Proxy</span>';
       else if (site.tier_badge === 'recommended') tierBadge = '<span class="hub-tier-badge tier-recommended">&#9734; Recommended</span>';
       // Password hint
-      const passwordHint = site.password ? `<span class="hub-password-hint">&#128272; ${site.password}</span>` : '';
+      const passwordHint = site.password ? `<span class="hub-password-hint">&#128272; ${escapeHtml(site.password)}</span>` : '';
       return `
-        <div class="hub-card" data-hub-url="${site.url}" data-hub-safe="${site.iframe_safe}">
+        <div class="hub-card" data-hub-url="${escapeHtml(site.url)}" data-hub-safe="${site.iframe_safe}">
           <div class="hub-card-top">
-            <span class="hub-card-name">${site.name}</span>
+            <span class="hub-card-name">${escapeHtml(site.name)}</span>
             <span class="hub-card-stars">${stars}</span>
           </div>
-          <p class="hub-card-desc">${site.description}</p>
+          <p class="hub-card-desc">${escapeHtml(site.description)}</p>
           <div class="hub-card-bottom">
-            <span class="hub-card-category ${site.category}">${site.category}</span>
+            <span class="hub-card-category ${escapeHtml(site.category)}">${escapeHtml(site.category)}</span>
             ${safeBadge}
             ${tierBadge}
             ${passwordHint}
-            <button class="hub-card-open-btn" data-hub-launch="${site.url}" data-hub-safe="${site.iframe_safe}">Open</button>
+            <button class="hub-card-open-btn" data-hub-launch="${escapeHtml(site.url)}" data-hub-safe="${site.iframe_safe}">Open</button>
           </div>
         </div>`;
     }).join('');
@@ -2017,9 +2044,7 @@
         if (urlInput) urlInput.value = session.browserUrl;
       }
       if (session.searchInput) {
-        const homeInput = document.getElementById('url-input');
         const searchInput = document.getElementById('game-search');
-        if (homeInput) homeInput.value = session.searchInput;
         if (searchInput) searchInput.value = session.searchInput;
       }
       showToast('Session restored', 'accent');
@@ -2125,16 +2150,6 @@
     try { updateCoinsDisplay(); } catch (e) {}
     try { initDailyChallenges(); } catch (e) {}
     try { checkSessionRestore(); } catch (e) {}
-
-    // Fetch CSRF token from server and populate the meta tag
-    try {
-      const csrfResp = await fetch('/api/csrf-token');
-      if (csrfResp.ok) {
-        const csrfData = await csrfResp.json();
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-        if (csrfMeta && csrfData.token) csrfMeta.content = csrfData.token;
-      }
-    } catch { /* CSRF token fetch failed — AI endpoints may not work */ }
 
     // Apply particles/animations settings
     try {

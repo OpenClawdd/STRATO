@@ -53,7 +53,11 @@
   }
 
   function reconnect() {
-    if (reconnectAttempts >= MAX_RECONNECT) return;
+    if (reconnectAttempts >= MAX_RECONNECT) {
+      // After 60 seconds of silence, allow retrying from scratch
+      setTimeout(() => { reconnectAttempts = 0; connect(); }, 60000);
+      return;
+    }
     const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
     reconnectAttempts++;
     setTimeout(connect, delay);
@@ -77,14 +81,19 @@
         if (window.STRATO_XP) window.STRATO_XP('chat');
         break;
       case 'join':
+      case 'user_joined':
         onlineUsers.add(data.username);
         renderOnlineUsers();
         addSystemMessage(`${data.username} joined the room`);
         break;
       case 'leave':
+      case 'user_left':
         onlineUsers.delete(data.username);
         renderOnlineUsers();
         addSystemMessage(`${data.username} left the room`);
+        break;
+      case 'joined':
+        // Room join confirmed by server
         break;
       case 'users':
         // Bulk user list from server

@@ -538,6 +538,14 @@
                 throw new Error(errorEl?.textContent || `Login failed (${resp.status})`);
               }
             } catch (err) {
+              // Handle SSL protocol errors — browser may try HTTPS due to cached HSTS
+              if (err.message?.includes('SSL') || err.message?.includes('ssl') || err.message?.includes('ERR_SSL')) {
+                // Try forcing HTTP protocol
+                if (attempt < 1 && location.protocol === 'https:' && location.hostname === 'localhost') {
+                  window.location.replace('http://localhost:' + location.port + '/login');
+                  return;
+                }
+              }
               if (err instanceof TypeError || err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError') || err.message?.includes('Load failed')) {
                 // Server might not be ready yet
                 if (attempt < retries) {

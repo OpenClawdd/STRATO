@@ -84,13 +84,11 @@ router.post('/api/data/import', async (req, res) => {
           b.url === bookmark.url && (b.userId === user.id || b.username === username)
         );
         if (!existing) {
+          const { id: _bid, created_at: _bca, updated_at: _bua, ...bookmarkData } = bookmark;
           await store.create('bookmarks', {
-            ...bookmark,
+            ...bookmarkData,
             userId: user.id,
             username,
-            id: undefined, // Let store generate new ID
-            created_at: undefined,
-            updated_at: undefined,
           });
           imported.bookmarks++;
         }
@@ -100,13 +98,11 @@ router.post('/api/data/import', async (req, res) => {
     // Import saves
     if (Array.isArray(importData.saves)) {
       for (const save of importData.saves) {
+        const { id: _sid, created_at: _sca, updated_at: _sua, ...saveData } = save;
         await store.create('saves', {
-          ...save,
+          ...saveData,
           userId: user.id,
           username,
-          id: undefined,
-          created_at: undefined,
-          updated_at: undefined,
         });
         imported.saves++;
       }
@@ -122,12 +118,10 @@ router.post('/api/data/import', async (req, res) => {
           if (existing) {
             await store.update('scores', (s) => s.id === existing.id, { score: score.score });
           } else {
+            const { id: _scid, created_at: _scca, updated_at: _scua, ...scoreData } = score;
             await store.create('scores', {
-              ...score,
+              ...scoreData,
               username,
-              id: undefined,
-              created_at: undefined,
-              updated_at: undefined,
             });
           }
           imported.scores++;
@@ -138,12 +132,10 @@ router.post('/api/data/import', async (req, res) => {
     // Import themes
     if (Array.isArray(importData.themes)) {
       for (const theme of importData.themes) {
+        const { id: _tid, created_at: _tca, updated_at: _tua, ...themeData } = theme;
         await store.create('themes', {
-          ...theme,
+          ...themeData,
           username,
-          id: undefined,
-          created_at: undefined,
-          updated_at: undefined,
         });
         imported.themes++;
       }

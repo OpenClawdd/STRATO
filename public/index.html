@@ -654,6 +654,8 @@
   </div><!-- /app -->
 
   <!-- ═══ SCRIPTS ═══ -->
+  <!-- BareMux must load BEFORE transport-init.js to set up SharedWorker transport -->
+  <script src="/bare-mux/index.js"></script>
   <script src="/js/particles.js"></script>
   <script src="/js/transport-init.js"></script>
   <script src="/js/favicon-fetcher.js"></script>

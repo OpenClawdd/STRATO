@@ -160,10 +160,18 @@ async function handleMessage(ws, data) {
       }
 
       // Verify room exists — search by ID or by name
-      const room = await store.getOne('chat_rooms', (r) => r.id === roomId || r.name === roomId);
+      let room = await store.getOne('chat_rooms', (r) => r.id === roomId || r.name === roomId);
       if (!room) {
-        ws.send(JSON.stringify({ type: 'error', error: 'Room not found' }));
-        return;
+        // Auto-create the room if it doesn't exist (supports ad-hoc room joining)
+        try {
+          room = await store.create('chat_rooms', {
+            name: roomId,
+            description: `${roomId} room`,
+          });
+        } catch (e) {
+          ws.send(JSON.stringify({ type: 'error', error: 'Could not create room' }));
+          return;
+        }
       }
 
       // Use the actual room ID for internal tracking
