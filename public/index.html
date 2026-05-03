@@ -30,12 +30,13 @@
     <div class="splash-content">
       <div class="splash-logo">STRATO</div>
       <div class="splash-version">v21.0.0 DEFINITIVE</div>
-      <div class="splash-dots">
-        <span class="dot" id="dot-bare"></span>
-        <span class="dot" id="dot-uv"></span>
-        <span class="dot" id="dot-sj"></span>
-        <span class="dot" id="dot-ai"></span>
-        <span class="dot" id="dot-ws"></span>
+      <div class="splash-bar-track"><div class="splash-bar" style="width:0%"></div></div>
+      <div class="splash-engines">
+        <span id="splash-engine-bare"><span class="splash-dot"></span> Bare</span>
+        <span id="splash-engine-uv"><span class="splash-dot"></span> UV</span>
+        <span id="splash-engine-sj"><span class="splash-dot"></span> SJ</span>
+        <span id="splash-engine-wisp"><span class="splash-dot"></span> Wisp</span>
+        <span id="splash-engine-ai"><span class="splash-dot"></span> AI</span>
       </div>
       <div class="splash-status" id="splash-status">Initializing...</div>
     </div>
@@ -188,7 +189,23 @@
           <!-- Daily Challenges -->
           <div class="glass-card home-challenges">
             <h3 class="card-title">Daily Challenges</h3>
-            <div id="daily-challenges" class="challenges-list"></div>
+            <div id="daily-challenges" class="challenges-list">
+              <div class="challenge-item" data-challenge="play-games">
+                <span class="challenge-label">Play 3 Games</span>
+                <div class="challenge-bar"><div class="challenge-fill" id="challenge-play-progress"></div></div>
+                <span class="challenge-count" id="challenge-play-count">0/3</span>
+              </div>
+              <div class="challenge-item" data-challenge="browse-sites">
+                <span class="challenge-label">Browse 5 Sites</span>
+                <div class="challenge-bar"><div class="challenge-fill" id="challenge-browse-progress"></div></div>
+                <span class="challenge-count" id="challenge-browse-count">0/5</span>
+              </div>
+              <div class="challenge-item" data-challenge="chat-ai">
+                <span class="challenge-label">Chat with AI 2x</span>
+                <div class="challenge-bar"><div class="challenge-fill" id="challenge-chat-progress"></div></div>
+                <span class="challenge-count" id="challenge-chat-count">0/2</span>
+              </div>
+            </div>
           </div>
           <!-- Quick Launch -->
           <div class="glass-card home-quicklaunch">

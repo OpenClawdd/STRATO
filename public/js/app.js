@@ -419,7 +419,7 @@
   });
 
   const autoFallbackToggle = document.getElementById('setting-autofallback');
-  const settingAutoFallback = document.getElementById('setting-auto-fallback');
+  const settingAutoFallback = document.getElementById('setting-auto-fallback') || document.getElementById('setting-autofallback');
 
   function setAutoFallback(on) {
     state.autoFallback = on;
@@ -1131,8 +1131,8 @@
   function updateStats() {
     const els = {
       'stat-games-played': state.gamesPlayed,
-      'stat-pages-loaded': state.pagesLoaded,
-      'stat-ai-messages': state.aiMessagesSent,
+      'stat-pages-browsed': state.pagesLoaded,
+      'stat-ai-chats': state.aiMessagesSent,
     };
     for (const [id, val] of Object.entries(els)) {
       const el = document.getElementById(id);
@@ -2078,14 +2078,25 @@
 
     // Step 0: Fetch CSRF token before any API calls
     try {
+      if (splashBar) splashBar.style.width = '10%';
+      if (splashStatus) splashStatus.textContent = 'Fetching security token...';
+      // Mark bare dot as pending
+      const bareDot = document.querySelector('#splash-engine-bare .splash-dot');
+      if (bareDot) bareDot.classList.add('pending');
+
       const csrfResp = await fetch('/api/csrf-token');
       if (csrfResp.ok) {
         const csrfData = await csrfResp.json();
         const csrfMeta = document.querySelector('meta[name="csrf-token"]');
         if (csrfMeta && csrfData.token) csrfMeta.setAttribute('content', csrfData.token);
+        if (bareDot) { bareDot.classList.remove('pending'); bareDot.classList.add('ready'); }
+      } else {
+        if (bareDot) { bareDot.classList.remove('pending'); bareDot.classList.add('error'); }
       }
     } catch (e) {
       // Non-fatal — proceed without CSRF token
+      const bareDot = document.querySelector('#splash-engine-bare .splash-dot');
+      if (bareDot) { bareDot.classList.remove('pending'); bareDot.classList.add('error'); }
     }
 
     // Step 1: Transport
@@ -2093,21 +2104,31 @@
       if (splashBar) splashBar.style.width = '20%';
       if (splashStatus) splashStatus.textContent = 'Initializing proxy transport...';
 
+      // Mark UV/SJ dots as pending
+      const uvDotEl = document.querySelector('#splash-engine-uv .splash-dot');
+      const sjDotEl = document.querySelector('#splash-engine-sj .splash-dot');
+      if (uvDotEl) uvDotEl.classList.add('pending');
+      if (sjDotEl) sjDotEl.classList.add('pending');
+
       await new Promise(resolve => {
         const onReady = (e) => {
           window.removeEventListener('proxy-ready', onReady);
           state.proxyReady = true;
           // Update splash engine indicators
           if (e.detail) {
-            const uvDot = document.querySelector('#splash-engine-uv .splash-dot');
-            const sjDot = document.querySelector('#splash-engine-sj .splash-dot');
-            if (uvDot) uvDot.className = `splash-dot ${e.detail.uv ? 'ready' : 'error'}`;
-            if (sjDot) sjDot.className = `splash-dot ${e.detail.scramjet ? 'ready' : 'error'}`;
+            if (uvDotEl) uvDotEl.className = `splash-dot ${e.detail.uv ? 'ready' : 'error'}`;
+            if (sjDotEl) sjDotEl.className = `splash-dot ${e.detail.scramjet ? 'ready' : 'error'}`;
           }
           resolve();
         };
         window.addEventListener('proxy-ready', onReady);
-        setTimeout(() => { window.removeEventListener('proxy-ready', onReady); resolve(); }, 8000);
+        setTimeout(() => {
+          window.removeEventListener('proxy-ready', onReady);
+          // Mark dots as error if timeout
+          if (uvDotEl && uvDotEl.classList.contains('pending')) uvDotEl.className = 'splash-dot error';
+          if (sjDotEl && sjDotEl.classList.contains('pending')) sjDotEl.className = 'splash-dot error';
+          resolve();
+        }, 8000);
       });
     } catch (e) { console.warn('[STRATO] Transport init failed:', e); }
 
@@ -2122,7 +2143,10 @@
     try {
       if (splashBar) splashBar.style.width = '75%';
       if (splashStatus) splashStatus.textContent = 'Checking AI service...';
+      const aiDotEl = document.querySelector('#splash-engine-ai .splash-dot');
+      if (aiDotEl) aiDotEl.classList.add('pending');
       await checkAiStatus();
+      if (aiDotEl) aiDotEl.className = `splash-dot ${state.aiOnline ? 'ready' : 'error'}`;
     } catch (e) { console.warn('[STRATO] AI status check failed:', e); }
 
     // Step 4: Health check
@@ -2132,9 +2156,10 @@
       await healthCheck();
     } catch (e) { console.warn('[STRATO] Health check failed:', e); }
 
-    // Mark all splash indicators ready
+    // Mark remaining splash indicators (wisp always ready since server is up)
     try {
-      document.querySelectorAll('#splash-engine-wisp .splash-dot, #splash-engine-bare .splash-dot').forEach(d => d.className = 'splash-dot ready');
+      const wispDotEl = document.querySelector('#splash-engine-wisp .splash-dot');
+      if (wispDotEl) wispDotEl.className = 'splash-dot ready';
     } catch (e) {}
 
     // Step 5: Apply settings — each wrapped individually so one failure doesn't block the rest
@@ -2164,9 +2189,11 @@
 
     // Username
     try {
-      const usernameEl = document.getElementById('username-display');
+      const usernameEl = document.getElementById('status-username') || document.getElementById('username-display');
+      const homeUsernameEl = document.getElementById('home-username');
       const username = getUsername();
       if (usernameEl && username) usernameEl.textContent = `@${username}`;
+      if (homeUsernameEl && username) homeUsernameEl.textContent = username;
     } catch (e) {}
 
     // Unlock first launch (wrapped — addCoins/addXP errors must not block UI)

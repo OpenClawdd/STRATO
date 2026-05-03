@@ -56,7 +56,7 @@ function loadPrivateConfig() {
     return privateConfigCache;
   }
 
-  const privatePath = join(__dirname, 'games-private.json');
+  const privatePath = join(__dirname, '..', '..', 'games-private.json');
   try {
     if (fs.existsSync(privatePath)) {
       const raw = JSON.parse(fs.readFileSync(privatePath, 'utf8'));
@@ -105,7 +105,8 @@ function isUnresolved(value) {
  * @returns {{ data: any, unresolved: string[], resolved: number }}
  */
 export function resolveConfig(relativePath) {
-  const rootDir = join(__dirname, '..');
+  // __dirname = .../src/config → go up TWO levels to reach project root
+  const rootDir = join(__dirname, '..', '..');
   const fullPath = join(rootDir, relativePath);
 
   let raw;
@@ -144,7 +145,7 @@ export function resolveConfig(relativePath) {
  */
 export function getConfigStatus() {
   const gamesResult = resolveConfig('public/assets/games.json');
-  const mirrorsResult = resolveConfig('src/config/proxy-mirrors.json');
+  const mirrorsResult = resolveConfig('public/assets/sites.json');
 
   return {
     games: {
