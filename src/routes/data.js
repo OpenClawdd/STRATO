@@ -5,7 +5,6 @@
 
 import { Router } from 'express';
 import store from '../db/store.js';
-import { sanitizeQuery } from '../middleware/sanitize.js';
 
 const router = Router();
 
@@ -13,6 +12,7 @@ const router = Router();
 router.get('/api/data/export', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const user = await store.getOne('users', (u) => u.username === username);
 
     if (!user) {
@@ -42,7 +42,7 @@ router.get('/api/data/export', async (req, res) => {
       bookmarks: bookmarks.filter(b => b.userId === user.id || b.username === username),
       saves: saves.filter(s => s.userId === user.id || s.username === username),
       scores: scores.filter(s => s.username === username),
-      themes: themes.filter(t => t.username === username),
+      themes: themes.filter(t => t.created_by === username || t.username === username),
     };
 
     res.setHeader('Content-Disposition', `attachment; filename="strato-backup-${username}-${Date.now()}.json"`);
@@ -57,6 +57,7 @@ router.get('/api/data/export', async (req, res) => {
 router.post('/api/data/import', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const importData = req.body;
 
     if (!importData || typeof importData !== 'object') {
@@ -170,6 +171,7 @@ router.post('/api/data/import', async (req, res) => {
 router.get('/api/data/export/bookmarks', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const user = await store.getOne('users', (u) => u.username === username);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -187,6 +189,7 @@ router.get('/api/data/export/bookmarks', async (req, res) => {
 router.post('/api/data/import/bookmarks', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const user = await store.getOne('users', (u) => u.username === username);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -221,6 +224,7 @@ router.post('/api/data/import/bookmarks', async (req, res) => {
 router.delete('/api/data/purge', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const { confirm } = req.body;
 
     if (confirm !== 'DELETE_EVERYTHING') {
@@ -236,7 +240,7 @@ router.delete('/api/data/purge', async (req, res) => {
     await store.deleteMany('bookmarks', (b) => b.userId === user.id || b.username === username);
     await store.deleteMany('saves', (s) => s.userId === user.id || s.username === username);
     await store.deleteMany('scores', (s) => s.username === username);
-    await store.deleteMany('themes', (t) => t.username === username);
+    await store.deleteMany('themes', (t) => t.created_by === username || t.username === username);
     await store.deleteMany('chat_messages', (m) => m.username === username);
 
     // Reset user stats

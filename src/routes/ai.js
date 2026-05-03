@@ -1,4 +1,4 @@
-import { Router, json } from 'express';
+import { Router } from 'express';
 import store from '../db/store.js';
 import { validateMessage } from '../middleware/sanitize.js';
 
@@ -95,15 +95,9 @@ router.post('/api/ai/chat', async (req, res) => {
 });
 
 // ── AI Vision endpoint (Snap & Solve) ──
-// Uses larger body limit for image uploads — but validate size BEFORE full parse
-router.post('/api/ai/vision', json({ limit: '10mb', verify: (req, _res, buf) => {
-  // Reject oversized payloads at the raw buffer level before JSON parse
-  if (buf.length > 10 * 1024 * 1024) {
-    const err = new Error('Image too large — max 10MB');
-    err.status = 413;
-    throw err;
-  }
-} }), async (req, res) => {
+// express.json() is already applied globally in index.js with 10MB limit.
+// No route-level json() middleware needed — the global parser handles it.
+router.post('/api/ai/vision', async (req, res) => {
   if (!aiOnline || !aiClient) {
     return res.status(503).json({ error: 'AI service is currently offline' });
   }
@@ -272,6 +266,7 @@ router.post('/api/ai/tutor', async (req, res) => {
 router.get('/api/ai/history', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const conversations = await store.query('chat_messages',
       (m) => m.username === username && m.roomId === 'ai_history',
       { sort: { field: 'created_at', order: 'desc' }, limit: 100 }
@@ -286,6 +281,7 @@ router.get('/api/ai/history', async (req, res) => {
 router.delete('/api/ai/history', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const removed = await store.deleteMany('chat_messages',
       (m) => m.username === username && m.roomId === 'ai_history'
     );

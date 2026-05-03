@@ -306,11 +306,14 @@
     init();
   }
 
+  // Expose with both casings so callers using addXP or addXp both work
   window.StratoProfile = {
     getLevel,
     getXp,
     addXP,
+    addXp: addXP,       // alias — app.js calls addXp (lowercase x)
     addXPAction,
+    addXPActionAlias: addXPAction,
     getProfile,
     updateProfile,
     loadProfile,

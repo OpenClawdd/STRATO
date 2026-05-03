@@ -63,6 +63,8 @@ const LOGIN_HTML = fs.readFileSync(
 app.set('trust proxy', 1);
 
 // ── 2. Helmet with explicit CSP + HSTS ──
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -70,18 +72,19 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"],
       workerSrc: ["'self'", "blob:"],
       frameSrc: ["'self'", "blob:"],
-      connectSrc: ["'self'", "ws:", "wss:"],
-      imgSrc: ["'self'", "data:", "blob:", "https://www.google.com", "https://icon.horse"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "ws:", "wss:", "https:", "blob:"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "blob:"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net", "https://frontend-cdn.perplexity.ai"],
       mediaSrc: ["'self'", "blob:"],
     },
   },
-  hsts: {
+  // Only enable HSTS in production — prevents ERR_SSL_PROTOCOL_ERROR in dev
+  hsts: isProduction ? {
     maxAge: 31536000,
     includeSubDomains: true,
     preload: false,
-  },
+  } : false,
   crossOriginEmbedderPolicy: false,
   crossOriginOpenerPolicy: false,
 }));
@@ -133,6 +136,35 @@ const savesLimiter = rateLimit({
   message: { error: 'Too many save requests, slow down.' },
 });
 app.use('/api/saves/', savesLimiter);
+
+// ── 7b. Health check — BEFORE auth so it's always accessible ──
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    version: '21.0.0',
+    uptime: process.uptime(),
+    engines: { uv: true, scramjet: true },
+    wisp: true,
+    features: {
+      profiles: true,
+      leaderboards: true,
+      bookmarks: true,
+      saves: true,
+      chat: true,
+      themes: true,
+      extensions: true,
+      stealth: true,
+      aiTutor: true,
+      admin: true,
+      analytics: true,
+      notifications: true,
+      dataImportExport: true,
+      inputSanitization: true,
+      csrfProtection: true,
+      aiSubjects: 10,
+    },
+  });
+});
 
 // ── 8. Auth middleware (TOS gate) ──
 //     Handles /login GET (serve login page) and POST (authenticate).
@@ -209,35 +241,6 @@ app.use(adminRoutes);
 app.use(notificationRoutes);
 app.use(dataRoutes);
 
-// ── Health check ──
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    version: '21.0.0',
-    uptime: process.uptime(),
-    engines: { uv: true, scramjet: true },
-    wisp: true,
-    features: {
-      profiles: true,
-      leaderboards: true,
-      bookmarks: true,
-      saves: true,
-      chat: true,
-      themes: true,
-      extensions: true,
-      stealth: true,
-      aiTutor: true,
-      admin: true,
-      analytics: true,
-      notifications: true,
-      dataImportExport: true,
-      inputSanitization: true,
-      csrfProtection: true,
-      aiSubjects: 10,
-    },
-  });
-});
-
 // ── 13. Error handler (last middleware) ──
 app.use((err, req, res, _next) => {
   console.error('[STRATO] Unhandled error:', err);
@@ -277,8 +280,10 @@ server.on('request', (req, res) => {
 });
 
 // ── WebSocket upgrade routing: Bare vs Wisp vs Chat ──
-// The chat WebSocket handler is set up by initWebSocket which adds its own
-// upgrade listener on the server. We keep the existing Bare/Wisp routing here.
+// Single upgrade handler — the WS chat module registers its own upgrade listener
+// via initWebSocket(), so we only handle Bare and Wisp here.
+// If the WS module already handled the upgrade, we skip it.
+let wsHandled = false;
 server.on('upgrade', (req, socket, head) => {
   if (bare.shouldRoute(req)) {
     bare.routeUpgrade(req, socket, head);

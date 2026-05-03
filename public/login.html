@@ -483,30 +483,75 @@
         // Save username to localStorage for display in app
         localStorage.setItem('strato-username', username);
 
-        fetch('/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            username: username,
-            tos_accepted: 'true',
-            csrf_token: document.getElementById('csrf-input').value,
-          }),
-        })
-        .then(resp => {
-          if (resp.redirected) {
-            window.location.href = resp.url;
-          } else if (resp.ok) {
-            window.location.href = '/';
-          } else {
-            return resp.text().then(html => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-              const errorEl = doc.querySelector('p') || doc.querySelector('h1');
-              throw new Error(errorEl?.textContent || 'Login failed');
-            });
+        // Login with retry — server may still be starting up
+        async function attemptLogin(retries = 3) {
+          for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+              const resp = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                  username: username,
+                  tos_accepted: 'true',
+                  csrf_token: document.getElementById('csrf-input').value,
+                }),
+              });
+
+              if (resp.redirected) {
+                window.location.href = resp.url;
+                return;
+              } else if (resp.ok) {
+                window.location.href = '/';
+                return;
+              } else if (resp.status === 403) {
+                // CSRF token expired — reload page to get a fresh one
+                const html = await resp.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const errorEl = doc.querySelector('p') || doc.querySelector('h1');
+                const errorMsgText = errorEl?.textContent || 'Security token expired';
+                if (errorMsgText.includes('security token') || errorMsgText.includes('CSRF') || errorMsgText.includes('token') || errorMsgText.includes('Token')) {
+                  // Refresh the page to get a new CSRF token, then retry
+                  if (attempt < retries) {
+                    try {
+                      const freshResp = await fetch('/login');
+                      const freshHtml = await freshResp.text();
+                      const freshDoc = parser.parseFromString(freshHtml, 'text/html');
+                      const newToken = freshDoc.getElementById('csrf-input')?.value;
+                      if (newToken) {
+                        document.getElementById('csrf-input').value = newToken;
+                        continue; // retry with new token
+                      }
+                    } catch (fetchErr) {
+                      // Network error fetching fresh token — retry with original
+                    }
+                  }
+                }
+                throw new Error(errorMsgText);
+              } else if (resp.status === 429) {
+                throw new Error('Too many login attempts. Wait 60 seconds.');
+              } else {
+                const html = await resp.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const errorEl = doc.querySelector('p') || doc.querySelector('h1');
+                throw new Error(errorEl?.textContent || `Login failed (${resp.status})`);
+              }
+            } catch (err) {
+              if (err instanceof TypeError || err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError') || err.message?.includes('Load failed')) {
+                // Server might not be ready yet
+                if (attempt < retries) {
+                  submitBtn.textContent = `RETRYING (${attempt + 1}/${retries})...`;
+                  await new Promise(r => setTimeout(r, 2000));
+                  continue;
+                }
+              }
+              throw err;
+            }
           }
-        })
-        .catch(err => {
+        }
+
+        attemptLogin().catch(err => {
           showError(err.message || 'Something went wrong. Try again.');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Enter STRATO';

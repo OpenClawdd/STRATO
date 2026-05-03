@@ -13,6 +13,7 @@ const router = Router();
 router.get('/api/notifications', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const user = await store.getOne('users', (u) => u.username === username);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -27,6 +28,7 @@ router.get('/api/notifications', async (req, res) => {
 router.post('/api/notifications/read', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const { ids } = req.body; // Array of notification IDs, or 'all'
 
     const user = await store.getOne('users', (u) => u.username === username);
@@ -54,6 +56,7 @@ router.post('/api/notifications/read', async (req, res) => {
 router.delete('/api/notifications/:id', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const { id } = req.params;
 
     const user = await store.getOne('users', (u) => u.username === username);
@@ -71,6 +74,7 @@ router.delete('/api/notifications/:id', async (req, res) => {
 router.get('/api/analytics/personal', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const user = await store.getOne('users', (u) => u.username === username);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -174,6 +178,7 @@ router.get('/api/analytics/global', async (req, res) => {
 router.post('/api/activity', async (req, res) => {
   try {
     const username = res.locals.username;
+    if (!username) return res.status(401).json({ error: 'Not authenticated' });
     const { action, category, metadata } = req.body;
 
     if (!action || typeof action !== 'string') {

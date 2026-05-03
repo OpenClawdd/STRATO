@@ -93,12 +93,9 @@
     if (e.ctrlKey || e.altKey || e.metaKey) return;
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
 
-    // v20-only keymap: 6=chat, 7=ai, 8=settings (non-conflicting with app.js)
-    const v20ViewMap = {
-      '6': 'chat',
-      '7': 'ai',
-      '8': 'settings',
-    };
+    // v20-only keymap — avoid conflict with app.js (5=chat, 6=ai, 7=settings)
+    // We no longer add separate shortcuts since app.js already handles them
+    const v20ViewMap = {};
 
     if (v20ViewMap[e.key]) {
       e.preventDefault();

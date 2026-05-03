@@ -48,8 +48,12 @@ export function validateCsrfToken(token) {
     return false;
   }
 
-  // Consume token (one-time use)
-  tokenStore.delete(token);
+  // DO NOT consume the token — keep it valid for the session.
+  // One-time-use tokens break sequential API calls from the SPA
+  // (frontend only fetches one token at page load).
+  // Instead, rotate the token periodically via the /api/csrf-token endpoint.
+  // Update last-used timestamp to track activity
+  record.lastUsed = Date.now();
   return true;
 }
 

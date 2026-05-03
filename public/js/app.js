@@ -1297,8 +1297,13 @@
     state.coins += amount;
     localStorage.setItem('strato-coins', String(state.coins));
     updateCoinsDisplay();
-    // Add XP when earning coins
-    if (window.StratoProfile) window.StratoProfile.addXp(amount * 2);
+    // Add XP when earning coins — safely handle missing addXp/addXP
+    try {
+      if (window.StratoProfile) {
+        const xpFn = window.StratoProfile.addXp || window.StratoProfile.addXP;
+        if (typeof xpFn === 'function') xpFn(amount * 2);
+      }
+    } catch (e) { console.warn('[STRATO] addXP error:', e); }
     // Show popup animation
     const popup = document.createElement('div');
     popup.className = 'coin-popup';
@@ -1309,7 +1314,11 @@
 
   function updateCoinsDisplay() {
     const el = document.getElementById('status-coins');
-    if (el) el.textContent = state.coins;
+    if (el) {
+      const coinSpan = el.querySelector('span');
+      if (coinSpan) coinSpan.textContent = state.coins;
+      else el.textContent = state.coins;
+    }
   }
 
   // ──────────────────────────────────────────
@@ -1613,8 +1622,8 @@
   // COMMAND PALETTE (Cmd+K / Ctrl+K)
   // ──────────────────────────────────────────
   const commandPalette = document.getElementById('command-palette');
-  const cpInput = document.getElementById('command-palette-input');
-  const cpResults = document.getElementById('command-palette-results');
+  const cpInput = document.getElementById('command-input');
+  const cpResults = document.getElementById('command-results');
 
   function openCommandPalette() {
     if (!commandPalette) return;
@@ -2020,6 +2029,23 @@
   // ──────────────────────────────────────────
   // INITIALIZATION
   // ──────────────────────────────────────────
+
+  // Safety: Always remove splash after max wait, even if init() crashes
+  function forceRemoveSplash() {
+    const splash = document.getElementById('splash');
+    if (splash && !splash.classList.contains('fade-out')) {
+      console.warn('[STRATO] Force-removing splash screen (init may have crashed)');
+      splash.classList.add('fade-out');
+      setTimeout(() => splash.remove(), 500);
+    }
+    const app = document.getElementById('app');
+    if (app && app.classList.contains('hidden')) {
+      app.classList.remove('hidden');
+    }
+  }
+  // Hard limit: 15 seconds — app WILL show even if something hangs
+  setTimeout(forceRemoveSplash, 15000);
+
   async function init() {
     const splash = document.getElementById('splash');
     const splashBar = splash?.querySelector('.splash-bar');
@@ -2038,10 +2064,10 @@
     }
 
     // Step 1: Transport
-    if (splashBar) splashBar.style.width = '20%';
-    if (splashStatus) splashStatus.textContent = 'Initializing proxy transport...';
-
     try {
+      if (splashBar) splashBar.style.width = '20%';
+      if (splashStatus) splashStatus.textContent = 'Initializing proxy transport...';
+
       await new Promise(resolve => {
         const onReady = (e) => {
           window.removeEventListener('proxy-ready', onReady);
@@ -2058,39 +2084,47 @@
         window.addEventListener('proxy-ready', onReady);
         setTimeout(() => { window.removeEventListener('proxy-ready', onReady); resolve(); }, 8000);
       });
-    } catch {}
+    } catch (e) { console.warn('[STRATO] Transport init failed:', e); }
 
     // Step 2: Load games
-    if (splashBar) splashBar.style.width = '50%';
-    if (splashStatus) splashStatus.textContent = 'Loading game library...';
-    await loadGames();
+    try {
+      if (splashBar) splashBar.style.width = '50%';
+      if (splashStatus) splashStatus.textContent = 'Loading game library...';
+      await loadGames();
+    } catch (e) { console.warn('[STRATO] Game loading failed:', e); }
 
     // Step 3: AI status
-    if (splashBar) splashBar.style.width = '75%';
-    if (splashStatus) splashStatus.textContent = 'Checking AI service...';
-    await checkAiStatus();
+    try {
+      if (splashBar) splashBar.style.width = '75%';
+      if (splashStatus) splashStatus.textContent = 'Checking AI service...';
+      await checkAiStatus();
+    } catch (e) { console.warn('[STRATO] AI status check failed:', e); }
 
     // Step 4: Health check
-    if (splashBar) splashBar.style.width = '90%';
-    if (splashStatus) splashStatus.textContent = 'Running health check...';
-    await healthCheck();
+    try {
+      if (splashBar) splashBar.style.width = '90%';
+      if (splashStatus) splashStatus.textContent = 'Running health check...';
+      await healthCheck();
+    } catch (e) { console.warn('[STRATO] Health check failed:', e); }
 
     // Mark all splash indicators ready
-    document.querySelectorAll('#splash-engine-wisp .splash-dot, #splash-engine-bare .splash-dot').forEach(d => d.className = 'splash-dot ready');
+    try {
+      document.querySelectorAll('#splash-engine-wisp .splash-dot, #splash-engine-bare .splash-dot').forEach(d => d.className = 'splash-dot ready');
+    } catch (e) {}
 
-    // Step 5: Apply settings
+    // Step 5: Apply settings — each wrapped individually so one failure doesn't block the rest
     if (splashBar) splashBar.style.width = '100%';
     if (splashStatus) splashStatus.textContent = 'Ready';
 
-    if (state.activeCloak !== 'none') applyCloak(state.activeCloak);
-    setEngine(state.currentEngine);
-    updateCacheSize();
-    updateStats();
-    renderAchievements();
-    renderActivity();
-    updateCoinsDisplay();
-    initDailyChallenges();
-    checkSessionRestore();
+    try { if (state.activeCloak !== 'none') applyCloak(state.activeCloak); } catch (e) {}
+    try { setEngine(state.currentEngine); } catch (e) {}
+    try { updateCacheSize(); } catch (e) {}
+    try { updateStats(); } catch (e) {}
+    try { renderAchievements(); } catch (e) {}
+    try { renderActivity(); } catch (e) {}
+    try { updateCoinsDisplay(); } catch (e) {}
+    try { initDailyChallenges(); } catch (e) {}
+    try { checkSessionRestore(); } catch (e) {}
 
     // Fetch CSRF token from server and populate the meta tag
     try {
@@ -2103,34 +2137,38 @@
     } catch { /* CSRF token fetch failed — AI endpoints may not work */ }
 
     // Apply particles/animations settings
-    if (!state.particlesEnabled) {
-      const canvas = document.getElementById('particles-canvas');
-      if (canvas) canvas.style.display = 'none';
-    }
+    try {
+      if (!state.particlesEnabled) {
+        const canvas = document.getElementById('particles-canvas');
+        if (canvas) canvas.style.display = 'none';
+      }
+    } catch (e) {}
 
     // Load Hub sites
-    loadHubSites();
+    try { loadHubSites(); } catch (e) {}
 
     // Username
-    const usernameEl = document.getElementById('username-display');
-    const username = getUsername();
-    if (usernameEl && username) usernameEl.textContent = `@${username}`;
+    try {
+      const usernameEl = document.getElementById('username-display');
+      const username = getUsername();
+      if (usernameEl && username) usernameEl.textContent = `@${username}`;
+    } catch (e) {}
 
-    // Unlock first launch
-    unlockAchievement('first-launch');
+    // Unlock first launch (wrapped — addCoins/addXP errors must not block UI)
+    try { unlockAchievement('first-launch'); } catch (e) { console.warn('[STRATO] Achievement unlock error:', e); }
 
     // Welcome notification
-    addNotification('STRATO v20 APEX loaded', 'info');
+    try { addNotification('STRATO v21 loaded', 'info'); } catch (e) {}
 
-    // Fade out splash
+    // Fade out splash — ALWAYS runs even if earlier steps had errors
     await new Promise(resolve => setTimeout(resolve, 400));
     if (splash) {
       splash.classList.add('fade-out');
       setTimeout(() => splash.remove(), 500);
     }
 
-    const app = document.getElementById('app');
-    if (app) app.classList.remove('hidden');
+    const appEl = document.getElementById('app');
+    if (appEl) appEl.classList.remove('hidden');
   }
 
   if (document.readyState === 'loading') {
