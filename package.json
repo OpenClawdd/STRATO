@@ -1,12 +1,15 @@
 {
   "name": "strato",
-  "version": "20.0.0",
-  "description": "STRATO v20 — Ultimate web proxy and game hub for school Chromebooks. NEXUS.",
+  "version": "21.0.0",
+  "description": "STRATO v21 — The Definitive Edition. Ultimate web proxy and game hub for school Chromebooks.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint src/",
     "format": "prettier --write 'src/**/*.js' 'public/js/**/*.js'",
     "format:check": "prettier --check 'src/**/*.js' 'public/js/**/*.js'",
@@ -37,7 +40,9 @@
   },
   "devDependencies": {
     "eslint": "^9.16.0",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "supertest": "^7.0.0",
+    "vitest": "^3.1.1"
   },
   "keywords": [
     "proxy",

@@ -1,0 +1,34 @@
+# ──────────────────────────────────────────────────
+# STRATO v21 — Render.com Blueprint
+# Deploy as a web service with health checks
+# ──────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: strato
+    runtime: node
+    plan: free
+    buildCommand: npm install && node scripts/setup-proxy.cjs
+    startCommand: node src/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: COOKIE_SECRET
+        sync: false
+        # Generate a strong random string:
+        # openssl rand -hex 32
+      - key: PORT
+        value: "8080"
+      - key: PROXY_SPLASH
+        sync: false
+      - key: PROXY_STRAWBERRY
+        sync: false
+      - key: PROXY_SELENITE
+        sync: false
+      - key: PROXY_SELENITE_ALT
+        sync: false
+      - key: HUB_DAYDREAM
+        sync: false
+      - key: HUB_EVEREST
+        sync: false

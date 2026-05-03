@@ -23,6 +23,11 @@ import chatRoutes from './routes/chat.js';
 import themesRoutes from './routes/themes.js';
 import extensionsRoutes from './routes/extensions.js';
 import stealthRoutes from './routes/stealth.js';
+import adminRoutes from './routes/admin.js';
+import notificationRoutes from './routes/notifications.js';
+import dataRoutes from './routes/data.js';
+import { sanitizeBody } from './middleware/sanitize.js';
+import { csrfProtection } from './middleware/csrf.js';
 import { initWebSocket } from './websocket.js';
 import { initStore } from './db/store.js';
 import { resolveConfig, getConfigStatus } from './config/load-private-config.js';
@@ -92,6 +97,12 @@ app.use(express.json({ limit: '10mb' }));
 
 // ── 6. URL-encoded body ──
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ── 6b. Input sanitization ──
+app.use(sanitizeBody);
+
+// ── 6c. CSRF protection on state-changing requests ──
+app.use(csrfProtection);
 
 // ── 7. Rate limiting on /api/* routes ──
 const apiLimiter = rateLimit({
@@ -183,7 +194,7 @@ app.use(aiRoutes);
 app.use(smuggleRoutes);
 app.use(hubRoutes);
 
-// ── New v20 routes ──
+// ── v20 routes ──
 app.use(profileRoutes);
 app.use(leaderboardRoutes);
 app.use(bookmarksRoutes);
@@ -193,10 +204,16 @@ app.use(themesRoutes);
 app.use(extensionsRoutes);
 app.use(stealthRoutes);
 
+// ── v21 routes ──
+app.use(adminRoutes);
+app.use(notificationRoutes);
+app.use(dataRoutes);
+
 // ── Health check ──
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
+    version: '21.0.0',
     uptime: process.uptime(),
     engines: { uv: true, scramjet: true },
     wisp: true,
@@ -210,6 +227,13 @@ app.get('/health', (req, res) => {
       extensions: true,
       stealth: true,
       aiTutor: true,
+      admin: true,
+      analytics: true,
+      notifications: true,
+      dataImportExport: true,
+      inputSanitization: true,
+      csrfProtection: true,
+      aiSubjects: 10,
     },
   });
 });
@@ -291,17 +315,18 @@ try {
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v20.0.0                       ║
-  ║    APEX — Ultimate Command Center               ║
+  ║          STRATO v21.0.0                       ║
+  ║    DEFINITIVE — The Ultimate Edition           ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║
   ║    UV:    /frog/     SJ:    /scramjet/         ║
   ║    Chat:  /ws/chat                             ║
   ║                                                ║
-  ║    Features: Profiles, Leaderboards, Saves,    ║
-  ║    Bookmarks, Chat, Themes, Extensions,        ║
-  ║    Stealth, AI Tutor                           ║
+  ║    v21: Admin, Analytics, Notifications,       ║
+  ║    Data Import/Export, 10 AI Subjects,         ║
+  ║    CSRF Protection, Input Sanitization,        ║
+  ║    Deployment Configs, Tests, Docs             ║
   ╚════════════════════════════════════════════════╝
   `);
 });

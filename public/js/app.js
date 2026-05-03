@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v20 — APEX
-   Client Application
+   STRATO v21 — DEFINITIVE
+   The Ultimate Edition — Client Application
    ══════════════════════════════════════════════════════════ */
 
 (function () {

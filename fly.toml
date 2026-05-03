@@ -1,0 +1,43 @@
+# ──────────────────────────────────────────────────
+# STRATO v21 — Fly.io Deployment Configuration
+# fly.io launch configuration for the STRATO web proxy
+# ──────────────────────────────────────────────────
+
+app = "strato"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[http_service.concurrency]
+  type = "requests"
+  soft_limit = 120
+  hard_limit = 200
+
+[[http_service.checks]]
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "15s"
+  method = "GET"
+  path = "/health"
+
+# Persistent volume for data/ directory (JSON database)
+[mounts]
+  source = "strato_data"
+  destination = "/app/data"
+
+# Secrets (set via `fly secrets set`):
+#   COOKIE_SECRET — Required. Strong random string for signing cookies.
+#   PROXY_SPLASH, PROXY_STRAWBERRY, etc. — Optional. Mirror URLs.
+#   HUB_DAYDREAM, HUB_EVEREST, etc. — Optional. Game hub URLs.

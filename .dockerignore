@@ -1,0 +1,69 @@
+# ──────────────────────────────────────────────────
+# STRATO v21 — Docker Ignore
+# Reduce build context size and prevent secret leaks
+# ──────────────────────────────────────────────────
+
+# Dependencies (rebuilt inside the container)
+node_modules/
+
+# Git history
+.git/
+.gitignore
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Data directory (persistent JSON database — mounted as volume)
+data/
+
+# Download cache (used by setup-proxy.cjs for asset extraction)
+download/
+
+# Generated proxy assets (rebuilt by setup-proxy.cjs during build)
+public/frog/
+public/scramjet/
+public/epoxy/
+public/bare-mux/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# CI/CD
+.github/
+
+# Documentation (not needed at runtime)
+docs/
+*.md
+!README.md
+
+# Docker files (no need to copy themselves)
+Dockerfile
+docker-compose.yml
+docker-compose*.yml
+.dockerignore
+
+# Deployment configs (not needed inside the image)
+railway.json
+render.yaml
+fly.toml
+
+# Private config (secrets)
+src/config/games-private.json
+
+# Lock files (pnpm-lock or package-lock used during build, not needed in final image context)
+# We keep them for the builder stage, but they won't be in production
