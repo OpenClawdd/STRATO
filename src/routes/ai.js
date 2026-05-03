@@ -173,4 +173,90 @@ router.post('/api/ai/vision', json({ limit: '10mb', verify: (req, _res, buf) => 
   }
 });
 
+// ── Subject-specific system prompts ──
+const SUBJECT_PROMPTS = {
+  math: 'You are STRATO Math Tutor, an expert mathematics tutor. Help students understand mathematical concepts, solve problems step by step, and check their work. Show clear reasoning, use proper mathematical notation when helpful, and explain the "why" behind each step. Keep responses concise but thorough.',
+  science: 'You are STRATO Science Tutor, an expert science tutor covering biology, chemistry, physics, and earth science. Help students understand scientific concepts, design experiments, and analyze data. Use clear explanations with real-world examples. Keep responses concise but thorough.',
+  history: 'You are STRATO History Tutor, an expert history tutor covering world history, US history, and government. Help students understand historical events, analyze primary sources, and draw connections between past and present. Provide context and multiple perspectives. Keep responses concise but thorough.',
+  english: 'You are STRATO English Tutor, an expert English language and literature tutor. Help students with writing, grammar, literary analysis, vocabulary, and reading comprehension. Provide constructive feedback on writing and guide analysis of texts. Keep responses concise but thorough.',
+  general: 'You are STRATO Tutor, a helpful and knowledgeable tutor across all academic subjects. Help students understand concepts, solve problems, and develop study skills. Adapt your approach to the subject and student level. Keep responses concise but thorough.',
+};
+
+// ── Socratic addition to system prompt ──
+const SOCRATIC_ADDITION = ' IMPORTANT: Use the Socratic method — guide the student to discover answers themselves by asking probing questions rather than giving direct answers. Ask follow-up questions that lead them to think critically. Only provide direct answers as a last resort or when explicitly asked.';
+
+// ── AI Tutor endpoint ──
+router.post('/api/ai/tutor', async (req, res) => {
+  if (!aiOnline || !aiClient) {
+    return res.status(503).json({ error: 'AI service is currently offline' });
+  }
+
+  const { messages, subject, socratic } = req.body;
+
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: 'Messages array is required' });
+  }
+
+  // Validate message format
+  for (const msg of messages) {
+    if (!msg.role || !msg.content) {
+      return res.status(400).json({ error: 'Each message must have role and content' });
+    }
+    if (!VALID_ROLES.has(msg.role)) {
+      return res.status(400).json({ error: 'Invalid role provided' });
+    }
+  }
+
+  // Validate subject
+  const normalizedSubject = (subject || 'general').toLowerCase().trim();
+  if (!SUBJECT_PROMPTS[normalizedSubject]) {
+    return res.status(400).json({
+      error: `Invalid subject. Valid subjects: ${Object.keys(SUBJECT_PROMPTS).join(', ')}`,
+    });
+  }
+
+  // Build system prompt based on subject and Socratic mode
+  let systemPrompt = SUBJECT_PROMPTS[normalizedSubject];
+  if (socratic === true) {
+    systemPrompt += SOCRATIC_ADDITION;
+  }
+
+  // 25-second timeout for tutor
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25_000);
+
+  try {
+    const completion = await aiClient.chat.completions.create({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages,
+      ],
+    }, {
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    const content = completion.choices?.[0]?.message?.content;
+    if (!content) {
+      return res.status(500).json({ error: 'AI returned an empty response' });
+    }
+
+    res.json({
+      message: { role: 'assistant', content },
+      subject: normalizedSubject,
+      socratic: socratic === true,
+    });
+  } catch (err) {
+    clearTimeout(timeout);
+
+    if (err.name === 'AbortError') {
+      return res.status(504).json({ error: 'AI tutor timed out' });
+    }
+
+    console.error('[STRATO] AI tutor error:', err.message);
+    res.status(500).json({ error: 'AI tutor error. Try again.' });
+  }
+});
+
 export default router;

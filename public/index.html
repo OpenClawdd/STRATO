@@ -1,894 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta tags, CSRF token, PWA manifest link, theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STRATO</title>
   <meta name="csrf-token" content="">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="description" content="STRATO v20 — Web proxy and game hub">
+  <title>STRATO</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body data-theme="cyan">
 
-  <!-- Multi-layer animated background -->
-  <canvas id="particle-canvas"></canvas>
-  <div class="bg-grid"></div>
-  <div class="bg-scanline"></div>
-  <div class="floating-orb orb-1"></div>
-  <div class="floating-orb orb-2"></div>
-  <div class="floating-orb orb-3"></div>
+  <!-- ═══ BACKGROUND LAYERS ═══ -->
+  <div id="bg-layers">
+    <canvas id="particles-canvas"></canvas>
+    <div class="bg-grid"></div>
+    <div class="bg-scanlines"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
 
-  <!-- ── Splash overlay ── -->
-  <div id="splash" class="splash-overlay">
+  <!-- ═══ SPLASH OVERLAY ═══ -->
+  <div id="splash" class="splash">
     <div class="splash-content">
-      <div class="splash-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#splash-grad)" stroke-width="1.5">
-          <defs><linearGradient id="splash-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs>
-          <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-        </svg>
+      <div class="splash-logo">STRATO</div>
+      <div class="splash-version">v20.0.0 APEX</div>
+      <div class="splash-dots">
+        <span class="dot" id="dot-bare"></span>
+        <span class="dot" id="dot-uv"></span>
+        <span class="dot" id="dot-sj"></span>
+        <span class="dot" id="dot-ai"></span>
+        <span class="dot" id="dot-ws"></span>
       </div>
-      <h1 class="splash-logo" data-text="STRATO">STRATO</h1>
-      <div class="splash-bar-container">
-        <div class="splash-bar"></div>
-      </div>
-      <p class="splash-status">Initializing proxy engines...</p>
-      <div class="splash-details">
-        <span id="splash-engine-uv" class="splash-detail-item"><span class="splash-dot pending"></span>UV</span>
-        <span id="splash-engine-sj" class="splash-detail-item"><span class="splash-dot pending"></span>SJ</span>
-        <span id="splash-engine-wisp" class="splash-detail-item"><span class="splash-dot pending"></span>Wisp</span>
-        <span id="splash-engine-bare" class="splash-detail-item"><span class="splash-dot pending"></span>Bare</span>
-      </div>
+      <div class="splash-status" id="splash-status">Initializing...</div>
     </div>
   </div>
 
-  <!-- ── Main app (hidden until init complete) ── -->
-  <div id="app" class="hidden">
+  <!-- ═══ ACHIEVEMENT POPUP ═══ -->
+  <div id="achievement-popup" class="achievement-popup hidden">
+    <div class="achievement-icon">🏆</div>
+    <div class="achievement-info">
+      <div class="achievement-title"></div>
+      <div class="achievement-desc"></div>
+    </div>
+  </div>
 
-    <!-- ── Live status bar (top-most) ── -->
-    <div id="status-bar" class="status-bar">
+  <!-- ═══ LEVEL UP CELEBRATION ═══ -->
+  <div id="level-up" class="level-up hidden">
+    <div class="level-up-content">
+      <div class="level-up-icon">⬆</div>
+      <div class="level-up-text">LEVEL UP!</div>
+      <div class="level-up-level"></div>
+    </div>
+  </div>
+
+  <!-- ═══ APP CONTAINER ═══ -->
+  <div id="app" class="app hidden">
+
+    <!-- ═══ STATUS BAR ═══ -->
+    <header class="status-bar">
       <div class="status-left">
-        <span class="status-item status-dot-wrap">
-          <span class="connection-dot" id="connection-dot" title="Connection status"></span>
-          <span class="status-label">Connected</span>
+        <span class="status-indicator" id="status-connection" title="Connection">
+          <span class="dot-indicator online"></span>
+          <span class="status-label">Online</span>
         </span>
-        <span class="status-divider"></span>
-        <span class="status-item" id="status-engine">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Ultraviolet</span>
+        <span class="status-indicator" id="status-engine" title="Proxy Engine">
+          <span class="dot-indicator"></span>
+          <span class="status-label">UV</span>
         </span>
-        <span class="status-divider"></span>
-        <span class="status-item" id="status-proxy-state">
-          <span class="status-indicator active"></span>
-          <span>Proxy Ready</span>
+        <span class="status-indicator" id="status-ws" title="Chat Connection">
+          <span class="dot-indicator"></span>
+          <span class="status-label">Chat</span>
         </span>
       </div>
       <div class="status-center">
-        <span class="status-item" id="live-clock">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span id="clock-text">--:--:--</span>
-        </span>
-        <span class="status-divider"></span>
-        <span class="status-item" id="status-uptime">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-          <span id="uptime-text">0:00</span>
-        </span>
+        <span class="status-item" id="status-clock"></span>
+        <span class="status-divider">|</span>
+        <span class="status-item" id="status-uptime"></span>
       </div>
       <div class="status-right">
-        <span class="status-item" id="status-games-count">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
-          <span id="games-count-text">0 games</span>
+        <span class="status-item" id="status-games">0 games</span>
+        <span class="status-divider">|</span>
+        <span class="status-item" id="status-coins" title="Coins">🪙 <span>0</span></span>
+        <span class="status-divider">|</span>
+        <span class="status-item xp-display" id="status-xp" title="XP / Level">
+          <span class="xp-level">Lv.1</span>
+          <div class="xp-bar-mini"><div class="xp-fill-mini"></div></div>
         </span>
-        <span class="status-divider"></span>
-        <span class="status-item coins-display" id="coins-display" title="STRATO Coins">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h6M9 15h6"/></svg>
-          <span id="coins-count">0</span>
-        </span>
-        <span class="status-divider"></span>
-        <span class="status-item username-status" id="username-status">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span id="username-display"></span>
-        </span>
-        <button class="status-notification-btn" id="notification-btn" title="Notifications">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-          <span class="notification-badge hidden" id="notification-badge">0</span>
+        <span class="status-divider">|</span>
+        <span class="status-item" id="status-username"></span>
+        <button class="status-btn" id="btn-notifications" title="Notifications">
+          🔔 <span class="notif-badge hidden">0</span>
         </button>
       </div>
-    </div>
+    </header>
 
-    <!-- ── Top navigation bar ── -->
-    <nav id="topbar" class="glass topbar">
-      <div class="topbar-left">
-        <span class="logo glitch-hover" data-text="STRATO">STRATO</span>
-        <span class="logo-version">v13</span>
-        <span class="logo-tagline">NEXUS</span>
+    <!-- ═══ TOP NAV ═══ -->
+    <nav class="topbar">
+      <div class="topbar-brand">
+        <span class="logo-text">STRATO</span>
+        <span class="logo-version">v20</span>
       </div>
-      <div class="topbar-center">
-        <button class="nav-link active" data-view="home">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span class="nav-link-text">Home</span>
-        </button>
-        <button class="nav-link" data-view="arcade">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
-          <span class="nav-link-text">Arcade</span>
-          <span class="nav-badge" id="arcade-badge">44</span>
-        </button>
-        <button class="nav-link" data-view="browser">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          <span class="nav-link-text">Browser</span>
-        </button>
-        <button class="nav-link" data-view="hub">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          <span class="nav-link-text">Hub</span>
-          <span class="nav-badge" id="hub-badge">60</span>
-        </button>
-        <button class="nav-link" data-view="ai">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="6" r="2" fill="currentColor"/></svg>
-          <span class="nav-link-text">AI</span>
-          <span class="nav-dot" id="ai-nav-dot"></span>
-        </button>
-        <button class="nav-link" data-view="settings">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          <span class="nav-link-text">Settings</span>
-        </button>
+      <div class="topbar-nav">
+        <button class="nav-btn active" data-view="home">Home</button>
+        <button class="nav-btn" data-view="arcade">Arcade</button>
+        <button class="nav-btn" data-view="browser">Browser</button>
+        <button class="nav-btn" data-view="hub">Hub</button>
+        <button class="nav-btn" data-view="chat">Chat</button>
+        <button class="nav-btn" data-view="ai">AI</button>
+        <button class="nav-btn" data-view="settings">Settings</button>
       </div>
-      <div class="topbar-right">
-        <button class="topbar-icon-btn" id="command-palette-btn" title="Command Palette (Ctrl+K)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-        <button class="topbar-icon-btn" id="shortcuts-btn" title="Keyboard Shortcuts (?)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg>
-        </button>
-        <button class="topbar-icon-btn" id="theme-cycle-btn" title="Cycle theme accent">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        </button>
+      <div class="topbar-actions">
+        <button class="topbar-action" id="btn-stealth" title="Stealth Mode">🛡</button>
+        <button class="topbar-action" id="btn-media" title="Media Player">🎵</button>
       </div>
     </nav>
 
-    <!-- ── Stealth mode bar ── -->
-    <div id="stealth-bar" class="stealth-bar">
+    <!-- ═══ STEALTH BAR ═══ -->
+    <div class="stealth-bar" id="stealth-bar">
       <div class="stealth-left">
-        <span id="stealth-breadcrumb" class="stealth-breadcrumb" title="Click to edit in Settings">Classroom &gt; AP History &gt; Unit 4</span>
+        <span class="stealth-label">CLOAK</span>
+        <select class="glass-select" id="cloak-select">
+          <option value="none">None</option>
+          <option value="classroom">Google Classroom</option>
+          <option value="drive">Google Drive</option>
+          <option value="docs">Google Docs</option>
+          <option value="canvas">Canvas LMS</option>
+          <option value="clever">Clever</option>
+          <option value="quizlet">Quizlet</option>
+          <option value="ixl">IXL</option>
+          <option value="khan">Khan Academy</option>
+          <option value="nearpod">Nearpod</option>
+        </select>
       </div>
       <div class="stealth-center">
-        <span class="stealth-health-dot" id="stealth-health-dot" title="Proxy engine health"></span>
+        <span class="stealth-breadcrumb" id="stealth-breadcrumb">STRATO / Home</span>
       </div>
       <div class="stealth-right">
-        <select id="stealth-cloak-switcher" class="stealth-cloak-select">
-          <option value="none">No Cloak</option>
-          <option value="classroom">Classes</option>
-          <option value="quizlet">Quizlet</option>
-          <option value="canvas">Canvas</option>
-          <option value="clever">Clever</option>
-          <option value="ixl">IXL</option>
-          <option value="school-agreca">Escuela Agreca</option>
-          <option value="noahs-tutoring">Noah's Tutoring</option>
-          <option value="byod-portal">BYOD Portal</option>
-          <option value="eclipse-castellon">Eclipse Castellon</option>
-          <option value="learning-policy">Learning Policy</option>
-          <option value="start-education">Start My Education</option>
-          <option value="petezah-games">Aletia Tours</option>
-          <option value="cherrion">Cherrion</option>
-        </select>
+        <label class="stealth-toggle-label">
+          <span>Auto-Stealth</span>
+          <input type="checkbox" id="auto-stealth" class="glass-toggle">
+        </label>
+        <span class="stealth-info">Panic: <kbd id="panic-key-display">`</kbd></span>
       </div>
     </div>
 
-    <!-- ── Main content area ── -->
-    <main id="main">
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
 
-      <!-- ────────────────────────────────
-           HOME VIEW — MAXIMUM DENSITY
-           ──────────────────────────────── -->
-      <section id="view-home" class="view view-active">
-        <div class="home-layout">
-
-          <!-- Left: Hero + Search -->
-          <div class="home-hero-col">
-            <div class="home-hero">
-              <h2 class="home-greeting">
-                <span class="greeting-line">Welcome back to</span>
-                <span class="hero-title glitch-hover" data-text="STRATO">STRATO</span>
-              </h2>
-              <p class="hero-tagline">Above the clouds. Above restrictions.</p>
-              <div class="url-bar-container">
-                <div class="url-bar-wrapper">
-                  <div class="url-bar-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                  </div>
-                  <input type="text" id="home-url-input" class="glass-input url-bar" placeholder="Search or enter URL..." spellcheck="false" autocomplete="off">
-                </div>
-                <button id="home-go-btn" class="glass-btn primary go-btn">GO</button>
-              </div>
-              <div class="engine-selector home-engine">
-                <button class="glass-pill active" data-engine="uv" id="proxy-pill-uv">Ultraviolet</button>
-                <button class="glass-pill" data-engine="scramjet" id="proxy-pill-sj">Scramjet</button>
-                <div class="glass-toggle" id="auto-fallback-toggle" title="Auto-fallback">
-                  <div class="thumb"></div>
-                </div>
-                <span class="toggle-label">Auto-fallback</span>
-              </div>
-            </div>
-
-            <!-- Quick category circles -->
-            <div class="category-circles">
-              <div class="category-circle games" data-nav="arcade">
-                <div class="category-circle-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
-                </div>
-                <span class="category-circle-label">Games</span>
-                <span class="category-circle-count" id="home-games-count">44</span>
-              </div>
-              <div class="category-circle proxy" data-nav="browser">
-                <div class="category-circle-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                </div>
-                <span class="category-circle-label">Proxy</span>
-                <span class="category-circle-count">2 engines</span>
-              </div>
-              <div class="category-circle ai" data-nav="ai">
-                <div class="category-circle-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
-                </div>
-                <span class="category-circle-label">AI</span>
-                <span class="category-circle-count" id="home-ai-status">Offline</span>
-              </div>
-              <div class="category-circle hub" data-nav="hub">
-                <div class="category-circle-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                </div>
-                <span class="category-circle-label">Hub</span>
-                <span class="category-circle-count" id="home-hub-count">60</span>
-              </div>
-              <div class="category-circle settings" data-nav="settings">
-                <div class="category-circle-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33"/></svg>
-                </div>
-                <span class="category-circle-label">Settings</span>
-                <span class="category-circle-count">Customize</span>
-              </div>
-            </div>
-
-            <!-- Featured games -->
-            <div class="featured-section">
-              <div class="section-header">
-                <h3 class="section-title">Featured Games</h3>
-                <button class="section-link" data-nav="arcade">View All</button>
-              </div>
-              <div class="featured-scroll" id="featured-scroll"></div>
+      <!-- ─── HOME VIEW ─── -->
+      <section id="view-home" class="view active">
+        <div class="home-grid">
+          <!-- Welcome Card -->
+          <div class="glass-card home-welcome">
+            <h2 class="card-title">Welcome back, <span id="home-username">User</span></h2>
+            <p class="card-subtitle">Your mission control awaits</p>
+            <div class="home-xp-display">
+              <div class="xp-level-badge" id="home-level">Lv.1</div>
+              <div class="xp-bar"><div class="xp-fill" id="home-xp-fill"></div></div>
+              <span class="xp-text" id="home-xp-text">0 / 100 XP</span>
             </div>
           </div>
-
-          <!-- Right: Widgets Panel -->
-          <div class="home-widgets-col">
-            <!-- Stats widget -->
-            <div class="widget glass" id="widget-stats">
-              <div class="widget-header">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-                <span>Live Stats</span>
-              </div>
-              <div class="widget-body">
-                <div class="stat-row">
-                  <span class="stat-label">Session Time</span>
-                  <span class="stat-value" id="stat-uptime">0:00</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-label">Games Played</span>
-                  <span class="stat-value" id="stat-games-played">0</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-label">Pages Loaded</span>
-                  <span class="stat-value" id="stat-pages-loaded">0</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-label">AI Messages</span>
-                  <span class="stat-value" id="stat-ai-messages">0</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-label">Engine</span>
-                  <span class="stat-value" id="stat-engine">Ultraviolet</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-label">Daily Streak</span>
-                  <span class="stat-value" id="stat-streak">
-                    <span id="streak-count">0</span>
-                    <span id="streak-badge" class="streak-badge"></span>
-                  </span>
-                </div>
-              </div>
+          <!-- Quick Stats -->
+          <div class="glass-card home-stats">
+            <div class="stat-item">
+              <span class="stat-value" id="stat-games-played">0</span>
+              <span class="stat-label">Games Played</span>
             </div>
-
-            <!-- Recent activity widget -->
-            <div class="widget glass" id="widget-recent">
-              <div class="widget-header">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <span>Recent Activity</span>
-              </div>
-              <div class="widget-body" id="recent-activity-list">
-                <div class="activity-empty">No recent activity</div>
-              </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-pages-browsed">0</span>
+              <span class="stat-label">Pages Browsed</span>
             </div>
-
-            <!-- Quick links widget -->
-            <div class="widget glass" id="widget-quicklinks">
-              <div class="widget-header">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                <span>Quick Links</span>
-              </div>
-              <div class="widget-body">
-                <div class="quick-links-grid">
-                  <button class="quick-link-btn" data-url="https://www.google.com" title="Google">
-                    <span class="quick-link-icon">G</span>
-                    <span>Google</span>
-                  </button>
-                  <button class="quick-link-btn" data-url="https://www.youtube.com" title="YouTube">
-                    <span class="quick-link-icon yt">YT</span>
-                    <span>YouTube</span>
-                  </button>
-                  <button class="quick-link-btn" data-url="https://www.reddit.com" title="Reddit">
-                    <span class="quick-link-icon rd">R</span>
-                    <span>Reddit</span>
-                  </button>
-                  <button class="quick-link-btn" data-url="https://twitter.com" title="Twitter/X">
-                    <span class="quick-link-icon tw">X</span>
-                    <span>Twitter</span>
-                  </button>
-                  <button class="quick-link-btn" data-url="https://www.twitch.tv" title="Twitch">
-                    <span class="quick-link-icon twch">TV</span>
-                    <span>Twitch</span>
-                  </button>
-                  <button class="quick-link-btn" data-url="https://discord.com" title="Discord">
-                    <span class="quick-link-icon dc">D</span>
-                    <span>Discord</span>
-                  </button>
-                </div>
-              </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-ai-chats">0</span>
+              <span class="stat-label">AI Chats</span>
             </div>
-
-            <!-- Achievements widget -->
-            <div class="widget glass" id="widget-achievements">
-              <div class="widget-header">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>Achievements</span>
-                <span class="achievement-count" id="achievement-count">0/8</span>
-              </div>
-              <div class="widget-body">
-                <div class="achievement-list" id="achievement-list">
-                  <div class="achievement-item locked" data-achievement="first-launch">
-                    <span class="ach-icon">🚀</span>
-                    <span class="ach-name">First Launch</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="first-game">
-                    <span class="ach-icon">🎮</span>
-                    <span class="ach-name">Gamer</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="first-proxy">
-                    <span class="ach-icon">🌐</span>
-                    <span class="ach-name">Proxy User</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="first-ai">
-                    <span class="ach-icon">🤖</span>
-                    <span class="ach-name">AI Chatter</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="snap-solve">
-                    <span class="ach-icon">📸</span>
-                    <span class="ach-name">Snap Solver</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="ten-games">
-                    <span class="ach-icon">🏆</span>
-                    <span class="ach-name">Arcade Pro</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="tab-cloak">
-                    <span class="ach-icon">🎭</span>
-                    <span class="ach-name">Disguised</span>
-                  </div>
-                  <div class="achievement-item locked" data-achievement="theme-change">
-                    <span class="ach-icon">🎨</span>
-                    <span class="ach-name">Stylist</span>
-                  </div>
-                </div>
-              </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-chat-msgs">0</span>
+              <span class="stat-label">Chat Messages</span>
             </div>
-
-            <!-- Daily Challenges widget -->
-            <div class="widget glass widget-challenges" id="widget-challenges">
-              <div class="widget-header">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                <span>Daily Challenges</span>
-                <span class="challenge-reward" id="challenge-reward">15 🪙</span>
-              </div>
-              <div class="widget-body" id="challenge-list">
-                <div class="challenge-item" data-challenge="play-games">
-                  <div class="challenge-info">
-                    <span class="challenge-name">Play 3 Games</span>
-                    <span class="challenge-coins">+5 🪙</span>
-                  </div>
-                  <div class="challenge-progress-bar">
-                    <div class="challenge-progress-fill" id="challenge-play-progress" style="width:0%"></div>
-                  </div>
-                  <span class="challenge-count" id="challenge-play-count">0/3</span>
-                </div>
-                <div class="challenge-item" data-challenge="browse-sites">
-                  <div class="challenge-info">
-                    <span class="challenge-name">Browse 5 Pages</span>
-                    <span class="challenge-coins">+5 🪙</span>
-                  </div>
-                  <div class="challenge-progress-bar">
-                    <div class="challenge-progress-fill" id="challenge-browse-progress" style="width:0%"></div>
-                  </div>
-                  <span class="challenge-count" id="challenge-browse-count">0/5</span>
-                </div>
-                <div class="challenge-item" data-challenge="chat-ai">
-                  <div class="challenge-info">
-                    <span class="challenge-name">Chat with AI 2x</span>
-                    <span class="challenge-coins">+5 🪙</span>
-                  </div>
-                  <div class="challenge-progress-bar">
-                    <div class="challenge-progress-fill" id="challenge-chat-progress" style="width:0%"></div>
-                  </div>
-                  <span class="challenge-count" id="challenge-chat-count">0/2</span>
-                </div>
-              </div>
-            </div>
+          </div>
+          <!-- Daily Challenges -->
+          <div class="glass-card home-challenges">
+            <h3 class="card-title">Daily Challenges</h3>
+            <div id="daily-challenges" class="challenges-list"></div>
+          </div>
+          <!-- Quick Launch -->
+          <div class="glass-card home-quicklaunch">
+            <h3 class="card-title">Quick Launch</h3>
+            <div id="quick-launch" class="quick-launch-grid"></div>
+          </div>
+          <!-- Recent Activity -->
+          <div class="glass-card home-activity">
+            <h3 class="card-title">Recent Activity</h3>
+            <div id="recent-activity" class="activity-list"></div>
+          </div>
+          <!-- Leaderboard Preview -->
+          <div class="glass-card home-leaderboard">
+            <h3 class="card-title">Top Players</h3>
+            <div id="home-leaderboard" class="mini-leaderboard"></div>
           </div>
         </div>
       </section>
 
-      <!-- ────────────────────────────────
-           ARCADE VIEW — MAXIMUM FUN
-           ──────────────────────────────── -->
+      <!-- ─── ARCADE VIEW ─── -->
       <section id="view-arcade" class="view">
         <div class="arcade-header">
-          <div class="arcade-header-top">
-            <h2 class="arcade-title">Arcade</h2>
-            <div class="arcade-stats-bar">
-              <span class="arcade-stat"><span id="arcade-total">44</span> games</span>
-              <span class="arcade-stat-divider">|</span>
-              <span class="arcade-stat"><span id="arcade-available">44</span> available</span>
-              <span class="arcade-stat-divider">|</span>
-              <span class="arcade-stat"><span id="arcade-tier1">12</span> standalone</span>
-            </div>
-          </div>
-          <input type="text" id="search-input" class="glass-input arcade-search" placeholder="Search games..." spellcheck="false" autocomplete="off">
-          <div class="arcade-filters">
-            <div class="category-pills" id="category-pills">
-              <button class="glass-pill active" data-category="all">All</button>
-              <button class="glass-pill" data-category="shooter">Shooter</button>
-              <button class="glass-pill" data-category="puzzle">Puzzle</button>
-              <button class="glass-pill" data-category="action">Action</button>
-              <button class="glass-pill" data-category="racing">Racing</button>
-              <button class="glass-pill" data-category="strategy">Strategy</button>
-              <button class="glass-pill" data-category="sports">Sports</button>
-              <button class="glass-pill" data-category="platformer">Platformer</button>
-              <button class="glass-pill" data-category="adventure">Adventure</button>
-              <button class="glass-pill" data-category="sandbox">Sandbox</button>
-              <button class="glass-pill" data-category="rhythm">Rhythm</button>
-              <button class="glass-pill" data-category="proxies">Proxies</button>
-              <button class="glass-pill" data-category="game-hubs">Game Hubs</button>
-              <button class="glass-pill" data-category="directories">Directories</button>
-              <button class="glass-pill" data-category="favorites">Favorites</button>
-              <button class="glass-pill" data-category="recent">Recent</button>
-            </div>
-            <div class="arcade-controls">
-              <select id="sort-select" class="glass-input arcade-sort">
-                <option value="popular">Popular</option>
-                <option value="az">A-Z</option>
-                <option value="recent">Recently played</option>
-                <option value="random">Random</option>
-                <option value="tier">By Tier</option>
-              </select>
-              <label class="show-unavailable-label">
-                <input type="checkbox" id="show-unavailable" class="glass-checkbox">
-                <span>Show unavailable</span>
-              </label>
-            </div>
+          <h2 class="view-title">Arcade</h2>
+          <div class="arcade-controls">
+            <input type="text" class="glass-input" id="game-search" placeholder="Search games...">
+            <div class="category-pills" id="category-pills"></div>
+            <select class="glass-select" id="game-sort">
+              <option value="name">A-Z</option>
+              <option value="popular">Popular</option>
+              <option value="recent">Recent</option>
+              <option value="category">Category</option>
+            </select>
           </div>
         </div>
-        <div id="game-grid" class="game-grid"></div>
+        <div class="arcade-tabs">
+          <button class="arcade-tab active" data-tab="all">All Games</button>
+          <button class="arcade-tab" data-tab="favorites">Favorites</button>
+          <button class="arcade-tab" data-tab="recent">Recently Played</button>
+        </div>
+        <div class="games-grid" id="games-grid"></div>
       </section>
 
-      <!-- ────────────────────────────────
-           BROWSER VIEW — IMMERSIVE
-           ──────────────────────────────── -->
+      <!-- ─── BROWSER VIEW ─── -->
       <section id="view-browser" class="view">
-        <div class="browser-toolbar glass">
-          <div class="browser-toolbar-left">
-            <button class="browser-nav-btn" id="browser-back-btn" title="Back">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button class="browser-nav-btn" id="browser-forward-btn" title="Forward">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-            <button class="browser-nav-btn" id="browser-refresh-btn" title="Refresh">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-            </button>
+        <div class="browser-toolbar">
+          <div class="browser-nav-btns">
+            <button class="glass-btn icon-btn" id="btn-back" title="Back">◀</button>
+            <button class="glass-btn icon-btn" id="btn-forward" title="Forward">▶</button>
+            <button class="glass-btn icon-btn" id="btn-refresh" title="Refresh">⟳</button>
+            <button class="glass-btn icon-btn" id="btn-home" title="Home">⌂</button>
           </div>
-          <div class="browser-url-container">
-            <div class="browser-url-wrapper">
-              <div class="url-bar-icon">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <input type="text" id="browser-url-input" class="glass-input browser-url" placeholder="Enter URL..." spellcheck="false" autocomplete="off">
-            </div>
-            <button id="browser-go-btn" class="glass-btn primary go-btn browser-go">GO</button>
+          <div class="browser-url-bar">
+            <select class="glass-select protocol-select" id="protocol-select">
+              <option value="https://">https://</option>
+              <option value="http://">http://</option>
+            </select>
+            <input type="text" class="glass-input url-input" id="url-input" placeholder="Enter URL or search..." autocomplete="off" spellcheck="false">
+            <button class="glass-btn" id="btn-go">GO</button>
           </div>
-          <div class="browser-controls">
-            <div class="engine-selector">
-              <button class="glass-pill active" data-engine="uv" id="browser-pill-uv">UV</button>
-              <button class="glass-pill" data-engine="scramjet" id="browser-pill-sj">SJ</button>
-            </div>
-            <div class="connection-dot browser-dot" id="browser-connection-dot"></div>
-            <span id="proxy-label" class="proxy-label">Ultraviolet</span>
-            <button class="browser-fullscreen-btn" id="browser-cloaked-btn" title="Open in Cloaked about:blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            </button>
-            <button class="browser-fullscreen-btn" id="browser-fullscreen-btn" title="Fullscreen">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-            </button>
+          <div class="browser-actions">
+            <button class="glass-btn icon-btn" id="btn-bookmark" title="Bookmark">☆</button>
+            <button class="glass-btn icon-btn" id="btn-bookmarks-panel" title="Bookmarks">📑</button>
+            <button class="glass-btn icon-btn" id="btn-history-panel" title="History">🕐</button>
           </div>
         </div>
-        <div class="browser-frame-container">
-          <div id="browser-shimmer" class="shimmer-container hidden">
-            <div class="shimmer"></div>
+        <div class="browser-bookmarks-bar" id="bookmarks-bar"></div>
+        <div class="browser-body">
+          <div class="browser-sidebar" id="browser-sidebar">
+            <!-- Bookmarks/History sidebar content -->
           </div>
-          <iframe id="browser-iframe" class="browser-iframe" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>
-          <div id="hub-error-overlay" class="hub-error-overlay hidden">
-            <div class="hub-error-content">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-              <h3>Page Failed to Load</h3>
-              <p>This site couldn't be loaded in the proxy frame.</p>
-              <div class="hub-error-actions">
-                <button class="glass-btn" id="hub-error-other-engine">Try Other Engine</button>
-                <button class="glass-btn primary" id="hub-error-new-tab">Open in New Tab</button>
-              </div>
-            </div>
-          </div>
+          <iframe id="proxy-iframe" class="proxy-iframe" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
         </div>
       </section>
 
-      <!-- ────────────────────────────────
-           HUB VIEW — SITE DIRECTORY
-           ──────────────────────────────── -->
+      <!-- ─── HUB VIEW ─── -->
       <section id="view-hub" class="view">
-        <div class="hub-layout">
-          <div class="hub-main-col">
-            <div class="hub-header">
-              <h2 class="hub-title">Hub</h2>
-              <span class="hub-site-count" id="hub-site-count">0 sites</span>
+        <div class="hub-header">
+          <h2 class="view-title">Hub</h2>
+          <input type="text" class="glass-input" id="hub-search" placeholder="Search sites...">
+        </div>
+        <div class="hub-categories" id="hub-categories"></div>
+        <div class="hub-grid" id="hub-grid"></div>
+      </section>
+
+      <!-- ─── CHAT VIEW ─── -->
+      <section id="view-chat" class="view">
+        <div class="chat-layout">
+          <!-- Room List -->
+          <div class="chat-sidebar">
+            <div class="chat-sidebar-header">
+              <h3>Rooms</h3>
+              <button class="glass-btn icon-btn" id="btn-create-room" title="Create Room">+</button>
             </div>
-            <div class="hub-cards-grid" id="hub-cards-grid">
-              <!-- Cards rendered by JS -->
+            <div class="chat-room-list" id="chat-room-list"></div>
+            <div class="chat-dm-section">
+              <h4>Direct Messages</h4>
+              <div class="chat-dm-list" id="chat-dm-list"></div>
+            </div>
+            <div class="chat-online-section">
+              <h4>Online — <span id="chat-online-count">0</span></h4>
+              <div class="chat-online-list" id="chat-online-list"></div>
             </div>
           </div>
-          <div class="hub-filter-panel glass">
-            <div class="hub-filter-section">
-              <h4 class="hub-filter-title">Search</h4>
-              <input type="text" id="hub-search-input" class="glass-input hub-search" placeholder="Search sites..." spellcheck="false" autocomplete="off">
+          <!-- Messages Area -->
+          <div class="chat-main">
+            <div class="chat-room-header">
+              <span class="chat-room-name" id="chat-room-name">General</span>
+              <span class="chat-room-desc" id="chat-room-desc"></span>
             </div>
-            <div class="hub-filter-section">
-              <h4 class="hub-filter-title">Category</h4>
-              <select id="hub-category-filter" class="glass-input hub-category-select">
-                <option value="all">All Categories</option>
-                <option value="proxies">Proxies</option>
-                <option value="game-hubs">Game Hubs</option>
-                <option value="directories">Directories</option>
-                <option value="games">Games</option>
-                <option value="social">Social</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="education">Education</option>
-                <option value="tools">Tools</option>
-              </select>
-            </div>
-            <div class="hub-filter-section">
-              <h4 class="hub-filter-title">Rating</h4>
-              <label class="hub-toggle-label">
-                <input type="checkbox" id="hub-top-tier-toggle" class="glass-checkbox">
-                <span>Top Tier Only (3★)</span>
-              </label>
-            </div>
-            <div class="hub-filter-section">
-              <h4 class="hub-filter-title">Quick Launch</h4>
-              <div class="hub-quick-launch">
-                <button class="hub-quick-btn" data-hub-url="https://www.google.com" data-hub-safe="true">Google</button>
-                <button class="hub-quick-btn" data-hub-url="https://www.youtube.com" data-hub-safe="false">YouTube</button>
-                <button class="hub-quick-btn" data-hub-url="https://discord.com" data-hub-safe="false">Discord</button>
-                <button class="hub-quick-btn" data-hub-url="https://splash.best/" data-hub-safe="false">SPLASH</button>
-                <button class="hub-quick-btn" data-hub-url="https://school.agreca.com.ar/" data-hub-safe="false">Strawberry</button>
-                <button class="hub-quick-btn" data-hub-url="https://fmhy.net/" data-hub-safe="false">FMHY</button>
-              </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-area">
+              <input type="text" class="glass-input chat-input" id="chat-input" placeholder="Type a message..." maxlength="500" autocomplete="off">
+              <button class="glass-btn" id="btn-send-message">Send</button>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ────────────────────────────────
-           AI VIEW — NEURAL GLOW
-           ──────────────────────────────── -->
+      <!-- ─── AI VIEW ─── -->
       <section id="view-ai" class="view">
-        <div class="ai-layout">
-          <!-- AI sidebar -->
-          <div class="ai-sidebar glass">
-            <div class="ai-avatar">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-            </div>
-            <h3 class="ai-title">STRATO AI</h3>
-            <div class="ai-status-row">
-              <div class="connection-dot ai-dot" id="ai-connection-dot"></div>
-              <span id="ai-status-text">Checking...</span>
-            </div>
-            <div class="ai-mode-tabs">
-              <button class="glass-pill active" data-ai-mode="chat">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                Chat
-              </button>
-              <button class="glass-pill" data-ai-mode="snap">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                Snap & Solve
-              </button>
-            </div>
-            <div class="ai-quick-prompts">
-              <span class="ai-quick-label">Quick prompts:</span>
-              <button class="ai-quick-btn" data-prompt="Help me with my homework">Homework help</button>
-              <button class="ai-quick-btn" data-prompt="Explain this concept simply">Explain simply</button>
-              <button class="ai-quick-btn" data-prompt="Write me a creative story">Write a story</button>
-              <button class="ai-quick-btn" data-prompt="Help me brainstorm ideas">Brainstorm</button>
-            </div>
-            <div class="ai-history-label">Chat history</div>
-            <div class="ai-history-list" id="ai-history-list">
-              <div class="ai-history-empty">No conversations yet</div>
+        <div class="ai-tabs">
+          <button class="ai-tab active" data-ai-tab="chat">Chat</button>
+          <button class="ai-tab" data-ai-tab="tutor">Tutor</button>
+          <button class="ai-tab" data-ai-tab="vision">Snap & Solve</button>
+        </div>
+        <!-- AI Chat -->
+        <div class="ai-panel active" id="ai-chat-panel">
+          <div class="ai-messages" id="ai-messages"></div>
+          <div class="ai-input-area">
+            <input type="text" class="glass-input ai-input" id="ai-input" placeholder="Ask anything..." autocomplete="off">
+            <button class="glass-btn" id="btn-ai-send">Send</button>
+          </div>
+        </div>
+        <!-- AI Tutor -->
+        <div class="ai-panel" id="ai-tutor-panel">
+          <div class="tutor-config">
+            <label class="tutor-label">Subject</label>
+            <select class="glass-select" id="tutor-subject">
+              <option value="general">General</option>
+              <option value="math">Math</option>
+              <option value="science">Science</option>
+              <option value="history">History</option>
+              <option value="english">English</option>
+            </select>
+            <label class="tutor-label">Mode</label>
+            <div class="tutor-mode-toggle">
+              <button class="glass-btn tutor-mode-btn active" data-mode="direct">Direct</button>
+              <button class="glass-btn tutor-mode-btn" data-mode="socratic">Socratic</button>
             </div>
           </div>
-
-          <!-- AI chat panel -->
-          <div class="ai-main">
-            <!-- Chat mode -->
-            <div id="ai-chat-panel" class="ai-panel">
-              <div id="ai-messages" class="ai-messages">
-                <div class="ai-welcome">
-                  <div class="ai-welcome-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                  </div>
-                  <h3>Hey there! I'm STRATO AI</h3>
-                  <p>Ask me anything — homework, browsing tips, creative writing, or just chat. I can also solve questions from screenshots with Snap & Solve.</p>
-                </div>
-              </div>
-              <div id="ai-offline-banner" class="ai-offline-banner hidden">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-                AI service is currently offline. Configure .z-ai-config to enable.
-              </div>
-              <div class="ai-input-container">
-                <input type="text" id="ai-input" class="glass-input ai-input" placeholder="Ask STRATO AI..." spellcheck="true" autocomplete="off">
-                <button id="ai-send-btn" class="glass-btn primary ai-send-btn">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                </button>
-              </div>
+          <div class="ai-messages" id="tutor-messages"></div>
+          <div class="ai-input-area">
+            <input type="text" class="glass-input ai-input" id="tutor-input" placeholder="Ask your tutor..." autocomplete="off">
+            <button class="glass-btn" id="btn-tutor-send">Send</button>
+          </div>
+        </div>
+        <!-- Snap & Solve -->
+        <div class="ai-panel" id="ai-vision-panel">
+          <div class="vision-drop-zone" id="vision-drop-zone">
+            <div class="vision-drop-content">
+              <span class="vision-icon">📸</span>
+              <p>Drop an image, paste from clipboard, or click to upload</p>
+              <input type="file" id="vision-file-input" accept="image/*" hidden>
             </div>
-
-            <!-- Snap & Solve mode -->
-            <div id="ai-snap-panel" class="ai-panel hidden">
-              <div id="snap-drop-zone" class="snap-drop-zone glass" tabindex="0">
-                <svg class="snap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                <p class="snap-hint">Paste a screenshot (Ctrl+V) or click to upload</p>
-                <p class="snap-subhint">Solves IXL, math, science — any question from your screen</p>
-                <input type="file" id="snap-file-input" accept="image/*" class="hidden">
-              </div>
-              <div id="snap-preview-container" class="snap-preview-container hidden">
-                <img id="snap-preview-img" class="snap-preview-img" alt="Question screenshot">
-                <button id="snap-clear-btn" class="glass-btn snap-clear-btn">Clear</button>
-              </div>
-              <div class="snap-prompts">
-                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Solve this question step by step. Show your work and give the final answer clearly.">Solve it</button>
-                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Explain how to solve this type of question. I want to understand the method, not just the answer.">Explain method</button>
-                <button class="glass-pill snap-prompt-pill" data-snap-prompt="Just give me the final answer quickly, no steps.">Quick answer</button>
-              </div>
-              <button id="snap-solve-btn" class="glass-btn primary snap-solve-btn" disabled>Solve Question</button>
-              <div id="snap-result" class="snap-result hidden">
-                <div id="snap-result-content" class="snap-result-content"></div>
-                <button id="snap-copy-btn" class="glass-btn snap-copy-btn">Copy Answer</button>
-              </div>
-            </div>
+          </div>
+          <div class="ai-messages" id="vision-messages"></div>
+          <div class="ai-input-area">
+            <input type="text" class="glass-input ai-input" id="vision-input" placeholder="Ask about the image..." autocomplete="off">
+            <button class="glass-btn" id="btn-vision-send">Solve</button>
           </div>
         </div>
       </section>
 
-      <!-- ────────────────────────────────
-           SETTINGS VIEW — FULL CONTROL
-           ──────────────────────────────── -->
+      <!-- ─── SETTINGS VIEW ─── -->
       <section id="view-settings" class="view">
         <div class="settings-layout">
-          <div class="settings-nav glass">
-            <h2 class="settings-nav-title">Settings</h2>
-            <button class="settings-nav-item active" data-settings-section="proxy">Proxy</button>
-            <button class="settings-nav-item" data-settings-section="privacy">Privacy</button>
-            <button class="settings-nav-item" data-settings-section="appearance">Appearance</button>
-            <button class="settings-nav-item" data-settings-section="performance">Performance</button>
-            <button class="settings-nav-item" data-settings-section="about">About</button>
-          </div>
-
+          <nav class="settings-nav">
+            <button class="settings-nav-btn active" data-settings-tab="general">General</button>
+            <button class="settings-nav-btn" data-settings-tab="appearance">Appearance</button>
+            <button class="settings-nav-btn" data-settings-tab="stealth">Stealth</button>
+            <button class="settings-nav-btn" data-settings-tab="data">Data</button>
+            <button class="settings-nav-btn" data-settings-tab="extensions">Extensions</button>
+            <button class="settings-nav-btn" data-settings-tab="profile">Profile</button>
+            <button class="settings-nav-btn" data-settings-tab="about">About</button>
+          </nav>
           <div class="settings-content">
-            <!-- Proxy section -->
-            <div class="settings-section glass" id="settings-proxy">
-              <h3>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                Proxy Configuration
-              </h3>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Default Engine</span>
-                  <span class="setting-desc">Choose which proxy engine to use for browsing</span>
-                </div>
-                <select id="setting-engine" class="glass-input setting-select">
+            <!-- General -->
+            <div class="settings-panel active" id="settings-general">
+              <h3>General Settings</h3>
+              <div class="setting-group">
+                <label class="setting-label">Proxy Engine</label>
+                <select class="glass-select" id="setting-engine">
                   <option value="uv">Ultraviolet</option>
                   <option value="scramjet">Scramjet</option>
+                  <option value="auto">Auto (Fallback)</option>
                 </select>
               </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Auto-Fallback</span>
-                  <span class="setting-desc">Switch to the other engine if the current one fails</span>
-                </div>
-                <div class="glass-toggle on" id="setting-auto-fallback" data-setting="autoFallback">
-                  <div class="thumb"></div>
-                </div>
+              <div class="setting-group">
+                <label class="setting-label">Auto-Fallback</label>
+                <input type="checkbox" id="setting-autofallback" class="glass-toggle" checked>
               </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Fallback Timeout</span>
-                  <span class="setting-desc">Seconds before switching engines</span>
-                </div>
-                <select id="setting-fallback-timeout" class="glass-input setting-select">
-                  <option value="10">10s</option>
-                  <option value="15" selected>15s</option>
-                  <option value="30">30s</option>
-                </select>
+              <div class="setting-group">
+                <label class="setting-label">Panic Key</label>
+                <input type="text" class="glass-input" id="setting-panic-key" value="`" maxlength="1" readonly>
+                <button class="glass-btn" id="btn-change-panic">Change</button>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Particles</label>
+                <input type="checkbox" id="setting-particles" class="glass-toggle" checked>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Animations</label>
+                <input type="checkbox" id="setting-animations" class="glass-toggle" checked>
               </div>
             </div>
-
-            <!-- Privacy section -->
-            <div class="settings-section glass" id="settings-privacy">
-              <h3>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Privacy & Stealth
-              </h3>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Tab Cloak</span>
-                  <span class="setting-desc">Disguise STRATO as an educational site</span>
+            <!-- Appearance -->
+            <div class="settings-panel" id="settings-appearance">
+              <h3>Theme Studio</h3>
+              <div class="theme-studio">
+                <div class="theme-preview" id="theme-preview">
+                  <div class="theme-preview-card glass-card">
+                    <h4>Preview</h4>
+                    <p>This is how your theme looks</p>
+                    <button class="glass-btn">Button</button>
+                  </div>
                 </div>
-                <select id="setting-cloak" class="glass-input setting-select">
-                  <option value="none">None</option>
+                <div class="theme-controls">
+                  <div class="setting-group">
+                    <label class="setting-label">Accent Color</label>
+                    <div class="color-swatches" id="accent-swatches">
+                      <button class="swatch active" data-color="cyan" style="background:#00e5ff"></button>
+                      <button class="swatch" data-color="purple" style="background:#b388ff"></button>
+                      <button class="swatch" data-color="pink" style="background:#ff80ab"></button>
+                      <button class="swatch" data-color="green" style="background:#69f0ae"></button>
+                      <button class="swatch" data-color="orange" style="background:#ffab40"></button>
+                      <button class="swatch" data-color="red" style="background:#ff5252"></button>
+                      <button class="swatch" data-color="gold" style="background:#ffd740"></button>
+                    </div>
+                  </div>
+                  <div class="setting-group">
+                    <label class="setting-label">Glass Opacity</label>
+                    <input type="range" class="glass-slider" id="setting-glass-opacity" min="0.02" max="0.2" step="0.01" value="0.08">
+                  </div>
+                  <div class="setting-group">
+                    <label class="setting-label">Blur Intensity</label>
+                    <input type="range" class="glass-slider" id="setting-blur" min="5" max="30" step="1" value="20">
+                  </div>
+                  <div class="setting-group">
+                    <label class="setting-label">Animated Background</label>
+                    <select class="glass-select" id="setting-bg-animation">
+                      <option value="particles">Particles</option>
+                      <option value="matrix">Matrix Rain</option>
+                      <option value="stars">Stars</option>
+                      <option value="none">None</option>
+                    </select>
+                  </div>
+                  <div class="theme-actions">
+                    <button class="glass-btn" id="btn-export-theme">Export Theme Code</button>
+                    <button class="glass-btn" id="btn-import-theme">Import Theme Code</button>
+                    <button class="glass-btn" id="btn-share-theme">Share to Gallery</button>
+                  </div>
+                </div>
+              </div>
+              <h4 class="mt-lg">Community Themes</h4>
+              <div class="themes-gallery" id="themes-gallery"></div>
+            </div>
+            <!-- Stealth -->
+            <div class="settings-panel" id="settings-stealth">
+              <h3>Stealth Settings</h3>
+              <div class="setting-group">
+                <label class="setting-label">Panic Key</label>
+                <input type="text" class="glass-input" id="stealth-panic-key" value="`" maxlength="1" readonly>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Auto-Stealth on Tab Blur</label>
+                <input type="checkbox" id="stealth-auto-blur" class="glass-toggle">
+                <p class="setting-hint">Automatically activates stealth when you switch tabs</p>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Dynamic Cloak Timer</label>
+                <input type="checkbox" id="stealth-dynamic-cloak" class="glass-toggle">
+                <p class="setting-hint">Rotates cloak every 5 minutes automatically</p>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Fake Page Type</label>
+                <select class="glass-select" id="stealth-fake-page">
                   <option value="classroom">Google Classroom</option>
-                  <option value="quizlet">Quizlet</option>
-                  <option value="canvas">Canvas</option>
-                  <option value="clever">Clever</option>
-                  <option value="ixl">IXL</option>
+                  <option value="drive">Google Drive</option>
+                  <option value="docs">Google Docs</option>
+                  <option value="slides">Google Slides</option>
+                  <option value="sheets">Google Sheets</option>
                 </select>
-              </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Panic Key</span>
-                  <span class="setting-desc">Instantly switch to a safe page when pressed</span>
-                </div>
-                <div class="setting-row-inline">
-                  <kbd class="panic-key-display" id="setting-panic-key">`</kbd>
-                  <button id="change-panic-key" class="glass-btn">Change</button>
-                </div>
-              </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Clear Browsing Data</span>
-                  <span class="setting-desc">Clear all local storage and cached data</span>
-                </div>
-                <button id="clear-all-data-btn" class="glass-btn accent-red">Clear All</button>
-              </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Auto-Cloak Idle Timeout</span>
-                  <span class="setting-desc">Seconds of inactivity before auto-cloak (0 = off)</span>
-                </div>
-                <input type="number" id="setting-idle-seconds" class="glass-input setting-input" min="0" max="300" value="45" style="width:70px;text-align:center">
-              </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Stealth Bar Breadcrumb</span>
-                  <span class="setting-desc">Fake educational breadcrumb shown in the stealth bar</span>
-                </div>
-                <input type="text" id="setting-breadcrumb" class="glass-input setting-input" value="Classroom > AP History > Unit 4" style="width:240px">
+                <p class="setting-hint">Page shown when panic key is pressed</p>
               </div>
             </div>
-
-            <!-- Appearance section -->
-            <div class="settings-section glass" id="settings-appearance">
-              <h3>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                Appearance
-              </h3>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Accent Color</span>
-                  <span class="setting-desc">Choose the primary accent color theme</span>
-                </div>
-                <div class="color-picker-row">
-                  <button class="color-swatch active" data-color="cyan" style="background:#00e5ff" title="Cyan"></button>
-                  <button class="color-swatch" data-color="purple" style="background:#a855f7" title="Purple"></button>
-                  <button class="color-swatch" data-color="pink" style="background:#f472b6" title="Pink"></button>
-                  <button class="color-swatch" data-color="green" style="background:#22c55e" title="Green"></button>
-                  <button class="color-swatch" data-color="orange" style="background:#fb923c" title="Orange"></button>
-                  <button class="color-swatch" data-color="red" style="background:#ef4444" title="Red"></button>
-                </div>
+            <!-- Data -->
+            <div class="settings-panel" id="settings-data">
+              <h3>Data Management</h3>
+              <div class="setting-group">
+                <label class="setting-label">Bookmarks</label>
+                <button class="glass-btn" id="btn-export-bookmarks">Export Bookmarks</button>
+                <button class="glass-btn" id="btn-import-bookmarks">Import Bookmarks</button>
+                <input type="file" id="import-bookmarks-file" accept=".json" hidden>
               </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Particle Effects</span>
-                  <span class="setting-desc">Animated background particles</span>
-                </div>
-                <div class="glass-toggle on" id="setting-particles" data-setting="particles">
-                  <div class="thumb"></div>
-                </div>
+              <div class="setting-group">
+                <label class="setting-label">Browsing History</label>
+                <button class="glass-btn danger" id="btn-clear-history">Clear History</button>
               </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Animations</span>
-                  <span class="setting-desc">UI animations and transitions</span>
-                </div>
-                <div class="glass-toggle on" id="setting-animations" data-setting="animations">
-                  <div class="thumb"></div>
-                </div>
+              <div class="setting-group">
+                <label class="setting-label">Game Cache</label>
+                <p class="setting-hint" id="cache-size">Calculating...</p>
+                <button class="glass-btn danger" id="btn-clear-cache">Clear Cache</button>
+              </div>
+              <div class="setting-group">
+                <label class="setting-label">Export All Data</label>
+                <button class="glass-btn" id="btn-export-data">Export Full Backup</button>
+                <button class="glass-btn" id="btn-import-data">Import Full Backup</button>
+                <input type="file" id="import-data-file" accept=".json" hidden>
               </div>
             </div>
-
-            <!-- Performance section -->
-            <div class="settings-section glass" id="settings-performance">
-              <h3>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                Performance
-              </h3>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">StratoVault Cache</span>
-                  <span class="setting-desc">Local game cache for faster loading</span>
-                </div>
-                <span id="cache-size" class="setting-value">0 MB</span>
+            <!-- Extensions -->
+            <div class="settings-panel" id="settings-extensions">
+              <h3>Extensions</h3>
+              <div class="extensions-header">
+                <button class="glass-btn" id="btn-browse-extensions">Browse Extensions</button>
               </div>
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-label">Clear game cache</span>
-                  <span class="setting-desc">Remove all cached game data</span>
-                </div>
-                <button id="clear-cache-btn" class="glass-btn">Clear</button>
+              <div class="extensions-list" id="extensions-list">
+                <p class="empty-state">No extensions installed</p>
+              </div>
+              <!-- Extension Gallery Modal (inline) -->
+              <div class="extension-gallery hidden" id="extension-gallery">
+                <h4>Browse Extensions</h4>
+                <div class="extension-gallery-grid" id="extension-gallery-grid"></div>
+                <button class="glass-btn" id="btn-close-gallery">Close</button>
               </div>
             </div>
-
-            <!-- About section -->
-            <div class="settings-section glass" id="settings-about">
-              <h3>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                About STRATO
-              </h3>
-              <div class="setting-row">
-                <span class="setting-label">Version</span>
-                <span class="setting-value accent">12.0.0 CHROMATIC STORM</span>
+            <!-- Profile -->
+            <div class="settings-panel" id="settings-profile">
+              <h3>Profile</h3>
+              <div class="profile-card glass-card">
+                <div class="profile-avatar" id="profile-avatar">👤</div>
+                <div class="profile-info">
+                  <div class="profile-username" id="profile-username"></div>
+                  <div class="profile-level" id="profile-level">Level 1</div>
+                  <div class="xp-bar"><div class="xp-fill" id="profile-xp-fill"></div></div>
+                  <span class="xp-text" id="profile-xp-text">0 / 100 XP</span>
+                </div>
               </div>
-              <div class="setting-row">
-                <span class="setting-label">Engine Status</span>
-                <span id="engine-status" class="setting-value">Checking...</span>
+              <div class="setting-group">
+                <label class="setting-label">Bio</label>
+                <textarea class="glass-input" id="profile-bio" maxlength="200" placeholder="Tell us about yourself..."></textarea>
               </div>
-              <div class="setting-row">
-                <span class="setting-label">Wisp Server</span>
-                <span id="wisp-status" class="setting-value">Checking...</span>
+              <div class="setting-group">
+                <label class="setting-label">Avatar</label>
+                <div class="avatar-picker" id="avatar-picker">
+                  <button class="avatar-option" data-avatar="👤">👤</button>
+                  <button class="avatar-option" data-avatar="🎮">🎮</button>
+                  <button class="avatar-option" data-avatar="🚀">🚀</button>
+                  <button class="avatar-option" data-avatar="⚡">⚡</button>
+                  <button class="avatar-option" data-avatar="🎯">🎯</button>
+                  <button class="avatar-option" data-avatar="🌟">🌟</button>
+                  <button class="avatar-option" data-avatar="🔥">🔥</button>
+                  <button class="avatar-option" data-avatar="💎">💎</button>
+                  <button class="avatar-option" data-avatar="🎭">🎭</button>
+                  <button class="avatar-option" data-avatar="🦊">🦊</button>
+                  <button class="avatar-option" data-avatar="🐺">🐺</button>
+                  <button class="avatar-option" data-avatar="🦁">🦁</button>
+                </div>
               </div>
-              <div class="setting-row">
-                <span class="setting-label">AI Service</span>
-                <span id="ai-status-settings" class="setting-value">Checking...</span>
-              </div>
-              <div class="setting-row">
-                <span class="setting-label">Session</span>
-                <span id="session-status" class="setting-value">Active</span>
-              </div>
-              <div class="setting-row logout-row">
-                <span class="setting-label">Account</span>
-                <a href="/logout" class="glass-btn accent-red">Logout</a>
+              <button class="glass-btn" id="btn-save-profile">Save Profile</button>
+              <h4 class="mt-lg">Leaderboard</h4>
+              <div class="leaderboard-table" id="settings-leaderboard"></div>
+            </div>
+            <!-- About -->
+            <div class="settings-panel" id="settings-about">
+              <h3>About STRATO</h3>
+              <div class="about-info">
+                <div class="about-logo">STRATO</div>
+                <div class="about-version">v20.0.0 APEX</div>
+                <p class="about-desc">The ultimate web proxy and game hub for school Chromebooks.</p>
+                <div class="about-credits">
+                  <p>Built with Express 5, Ultraviolet, Scramjet, and z-ai-web-dev-sdk</p>
+                </div>
+                <div class="about-links">
+                  <a href="https://github.com/OpenClawdd/STRATO" target="_blank" class="glass-btn">GitHub</a>
+                </div>
               </div>
             </div>
           </div>
@@ -897,97 +583,84 @@
 
     </main>
 
-    <!-- ── Notification center panel ── -->
-    <div id="notification-panel" class="notification-panel glass hidden">
-      <div class="notification-header">
+    <!-- ═══ NOTIFICATIONS PANEL ═══ -->
+    <div class="notifications-panel hidden" id="notifications-panel">
+      <div class="panel-header">
         <h3>Notifications</h3>
-        <button id="clear-notifications-btn" class="glass-btn small">Clear all</button>
+        <button class="glass-btn icon-btn" id="btn-clear-notifications">✕</button>
       </div>
-      <div id="notification-list" class="notification-list">
-        <div class="notification-empty">No notifications</div>
+      <div class="notifications-list" id="notifications-list"></div>
+    </div>
+
+    <!-- ═══ COMMAND PALETTE ═══ -->
+    <div class="command-palette hidden" id="command-palette">
+      <div class="command-palette-inner">
+        <input type="text" class="glass-input command-input" id="command-input" placeholder="Type a command..." autocomplete="off">
+        <div class="command-results" id="command-results"></div>
       </div>
     </div>
 
-    <!-- ── Keyboard shortcuts overlay ── -->
-    <div id="shortcuts-overlay" class="shortcuts-overlay hidden">
-      <div class="shortcuts-card glass">
+    <!-- ═══ MEDIA PLAYER ═══ -->
+    <div class="media-player hidden" id="media-player">
+      <div class="media-info">
+        <span class="media-title" id="media-title">No track playing</span>
+      </div>
+      <div class="media-controls">
+        <button class="media-btn" id="btn-media-prev">⏮</button>
+        <button class="media-btn" id="btn-media-play">▶</button>
+        <button class="media-btn" id="btn-media-next">⏭</button>
+      </div>
+      <div class="media-progress">
+        <input type="range" class="glass-slider media-slider" id="media-seek" min="0" max="100" value="0">
+        <span class="media-time" id="media-time">0:00</span>
+      </div>
+      <div class="media-volume">
+        <span>🔊</span>
+        <input type="range" class="glass-slider volume-slider" id="media-volume" min="0" max="100" value="80">
+      </div>
+      <div class="media-actions">
+        <button class="glass-btn icon-btn" id="btn-media-upload" title="Upload Audio">📂</button>
+        <button class="glass-btn icon-btn" id="btn-media-minimize" title="Minimize">▼</button>
+      </div>
+      <input type="file" id="media-file-input" accept="audio/*" hidden>
+      <audio id="media-audio" preload="auto"></audio>
+    </div>
+
+    <!-- ═══ TOAST CONTAINER ═══ -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ═══ KEYBOARD SHORTCUTS OVERLAY ═══ -->
+    <div class="shortcuts-overlay hidden" id="shortcuts-overlay">
+      <div class="shortcuts-content glass-card">
         <h3>Keyboard Shortcuts</h3>
-        <div class="shortcut-grid">
-          <div class="shortcut-item"><kbd>1</kbd><span>Home</span></div>
-          <div class="shortcut-item"><kbd>2</kbd><span>Arcade</span></div>
-          <div class="shortcut-item"><kbd>3</kbd><span>Browser</span></div>
-          <div class="shortcut-item"><kbd>H</kbd><span>Hub</span></div>
-          <div class="shortcut-item"><kbd>4</kbd><span>AI Chat</span></div>
-          <div class="shortcut-item"><kbd>5</kbd><span>Settings</span></div>
-          <div class="shortcut-item"><kbd>/</kbd><span>Focus URL bar</span></div>
-          <div class="shortcut-item"><kbd>?</kbd><span>This overlay</span></div>
-          <div class="shortcut-item"><kbd>`</kbd><span>Panic key</span></div>
-          <div class="shortcut-item"><kbd>Ctrl+Shift+S</kbd><span>Snap & Solve</span></div>
-          <div class="shortcut-item"><kbd>Esc</kbd><span>Close overlay</span></div>
+        <div class="shortcuts-grid">
+          <div class="shortcut"><kbd>1-3, 6-8</kbd><span>Switch views</span></div>
+          <div class="shortcut"><kbd>H</kbd><span>Hub view</span></div>
+          <div class="shortcut"><kbd>M</kbd><span>Media player</span></div>
+          <div class="shortcut"><kbd>/</kbd><span>Focus URL bar</span></div>
+          <div class="shortcut"><kbd>Ctrl+K</kbd><span>Command palette</span></div>
+          <div class="shortcut"><kbd>`</kbd><span>Panic key</span></div>
+          <div class="shortcut"><kbd>Esc</kbd><span>Close overlays</span></div>
         </div>
-        <button class="glass-btn" id="close-shortcuts-btn">Got it</button>
+        <button class="glass-btn" id="btn-close-shortcuts">Close</button>
       </div>
     </div>
 
-    <!-- ── Bottom bar (mobile only) ── -->
-    <nav id="bottom-bar" class="glass bottom-bar hidden">
-      <button class="bottom-link active" data-view="home">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </button>
-      <button class="bottom-link" data-view="arcade">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/></svg>
-      </button>
-      <button class="bottom-link" data-view="browser">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      </button>
-      <button class="bottom-link" data-view="hub">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      </button>
-      <button class="bottom-link" data-view="ai">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/></svg>
-      </button>
-      <button class="bottom-link" data-view="settings">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4"/></svg>
-      </button>
-    </nav>
+  </div><!-- /app -->
 
-  </div>
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="/js/particles.js"></script>
+  <script src="/js/transport-init.js"></script>
+  <script src="/js/favicon-fetcher.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/themes.js"></script>
+  <script src="/js/media-player.js"></script>
+  <script src="/js/profile.js"></script>
+  <script src="/js/bookmarks.js"></script>
+  <script src="/js/extensions.js"></script>
+  <script src="/js/pwa.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/app-v20-patch.js"></script>
 
-  <!-- ── Floating Snap & Solve button ── -->
-  <button id="snap-fab" class="snap-fab glass" title="Snap & Solve (Ctrl+Shift+S)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-  </button>
-
-  <!-- ── Command Palette overlay ── -->
-  <div id="command-palette" class="command-palette hidden">
-    <div class="command-palette-backdrop" id="command-palette-backdrop"></div>
-    <div class="command-palette-card glass">
-      <div class="command-palette-input-wrap">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="command-palette-input" class="command-palette-input" placeholder="Search games, URLs, actions..." spellcheck="false" autocomplete="off">
-        <span class="command-palette-hint">ESC</span>
-      </div>
-      <div class="command-palette-results" id="command-palette-results">
-        <div class="command-palette-empty">Type to search...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Auto-cloak overlay ── -->
-  <div id="auto-cloak-overlay" class="auto-cloak-overlay hidden">
-    <iframe id="auto-cloak-iframe" class="auto-cloak-iframe" src="about:blank"></iframe>
-  </div>
-
-  <!-- ── Toast container ── -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- ── Scripts ── -->
-  <script src="/bare-mux/index.js"></script>
-  <script src="/frog/uv.bundle.js"></script>
-  <script src="/frog/uv.config.js"></script>
-  <script src="/js/transport-init.js" defer></script>
-  <script src="/js/particles.js" defer></script>
-  <script src="/js/favicon-fetcher.js" defer></script>
-  <script src="/js/app.js" defer></script>
 </body>
 </html>

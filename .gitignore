@@ -9,3 +9,6 @@ public/bare-mux/
 .vscode/
 .idea/
 src/config/games-private.json
+
+# STRATO data directory (JSON database)
+data/

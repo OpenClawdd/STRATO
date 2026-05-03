@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "13.0.0",
-  "description": "STRATO v13 — Web proxy and game hub for school Chromebooks. NEXUS.",
+  "version": "20.0.0",
+  "description": "STRATO v20 — Ultimate web proxy and game hub for school Chromebooks. NEXUS.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -25,10 +25,12 @@
     "@tomphttp/bare-server-node": "^2.0.6",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
+    "cookie-signature": "^1.2.2",
     "dotenv": "^17.2.1",
     "express": "^5.2.1",
     "express-rate-limit": "^7.5.1",
     "helmet": "^8.1.0",
+    "uuid": "^11.1.1",
     "ws": "^8.19.0",
     "z-ai-web-dev-sdk": "^0.0.17"
   },
@@ -36,6 +38,13 @@
     "eslint": "^9.16.0",
     "prettier": "^3.4.2"
   },
-  "keywords": ["proxy", "ultraviolet", "scramjet", "games", "school", "chromebook"],
+  "keywords": [
+    "proxy",
+    "ultraviolet",
+    "scramjet",
+    "games",
+    "school",
+    "chromebook"
+  ],
   "license": "GPL-3.0"
 }

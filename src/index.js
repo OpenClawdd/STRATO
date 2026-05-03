@@ -15,12 +15,25 @@ import proxyRoutes from './routes/proxy.js';
 import aiRoutes from './routes/ai.js';
 import smuggleRoutes from './routes/smuggle.js';
 import hubRoutes from './routes/hub.js';
+import profileRoutes from './routes/profile.js';
+import leaderboardRoutes from './routes/leaderboard.js';
+import bookmarksRoutes from './routes/bookmarks.js';
+import savesRoutes from './routes/saves.js';
+import chatRoutes from './routes/chat.js';
+import themesRoutes from './routes/themes.js';
+import extensionsRoutes from './routes/extensions.js';
+import stealthRoutes from './routes/stealth.js';
+import { initWebSocket } from './websocket.js';
+import { initStore } from './db/store.js';
 import { resolveConfig, getConfigStatus } from './config/load-private-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 8080;
+
+// ── Initialize database store ──
+initStore();
 
 // ── Cookie secret — fail loudly in production if not set ──
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
@@ -80,7 +93,7 @@ app.use(express.json({ limit: '10mb' }));
 // ── 6. URL-encoded body ──
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// ── 7. Rate limiting on /api/* routes only ──
+// ── 7. Rate limiting on /api/* routes ──
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
@@ -89,6 +102,26 @@ const apiLimiter = rateLimit({
   message: { error: 'Too many requests, slow down.' },
 });
 app.use('/api/', apiLimiter);
+
+// ── Chat rate limiter: 30/min ──
+const chatLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many chat requests, slow down.' },
+});
+app.use('/api/chat/', chatLimiter);
+
+// ── Saves rate limiter: 10/min ──
+const savesLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many save requests, slow down.' },
+});
+app.use('/api/saves/', savesLimiter);
 
 // ── 8. Auth middleware (TOS gate) ──
 //     Handles /login GET (serve login page) and POST (authenticate).
@@ -144,10 +177,21 @@ app.use('/frog/service/', stripFrameHeaders);
 app.use('/scramjet/service/', stripFrameHeaders);
 
 // ── 12. Routes ──
+// ── Original routes ──
 app.use(proxyRoutes);
 app.use(aiRoutes);
 app.use(smuggleRoutes);
 app.use(hubRoutes);
+
+// ── New v20 routes ──
+app.use(profileRoutes);
+app.use(leaderboardRoutes);
+app.use(bookmarksRoutes);
+app.use(savesRoutes);
+app.use(chatRoutes);
+app.use(themesRoutes);
+app.use(extensionsRoutes);
+app.use(stealthRoutes);
 
 // ── Health check ──
 app.get('/health', (req, res) => {
@@ -156,6 +200,17 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
     engines: { uv: true, scramjet: true },
     wisp: true,
+    features: {
+      profiles: true,
+      leaderboards: true,
+      bookmarks: true,
+      saves: true,
+      chat: true,
+      themes: true,
+      extensions: true,
+      stealth: true,
+      aiTutor: true,
+    },
   });
 });
 
@@ -197,27 +252,56 @@ server.on('request', (req, res) => {
   }
 });
 
-// ── WebSocket upgrade routing: Bare vs Wisp ──
+// ── WebSocket upgrade routing: Bare vs Wisp vs Chat ──
+// The chat WebSocket handler is set up by initWebSocket which adds its own
+// upgrade listener on the server. We keep the existing Bare/Wisp routing here.
 server.on('upgrade', (req, socket, head) => {
   if (bare.shouldRoute(req)) {
     bare.routeUpgrade(req, socket, head);
   } else if (req.url.startsWith('/wisp/') && wispRouteRequest) {
     wispRouteRequest(req, socket, head);
+  } else if (req.url === '/ws/chat') {
+    // Handled by initWebSocket's own upgrade listener
+    // Do nothing here — let the WS server handle it
+    return;
   } else {
     socket.destroy();
   }
 });
 
+// ── Initialize WebSocket chat server ──
+initWebSocket(server);
+
+// ── Ensure data/ directory is gitignored ──
+const gitignorePath = join(__dirname, '..', '.gitignore');
+try {
+  let gitignore = '';
+  if (fs.existsSync(gitignorePath)) {
+    gitignore = fs.readFileSync(gitignorePath, 'utf8');
+  }
+  if (!gitignore.includes('data/')) {
+    gitignore += '\n# STRATO data directory (JSON database)\ndata/\n';
+    fs.writeFileSync(gitignorePath, gitignore, 'utf8');
+  }
+} catch (err) {
+  console.warn('[STRATO] Could not update .gitignore:', err.message);
+}
+
 // ── Start server ──
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v13.0.0                       ║
-  ║    NEXUS — Refined Premium Dashboard           ║
+  ║          STRATO v20.0.0                       ║
+  ║    APEX — Ultimate Command Center               ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║
   ║    UV:    /frog/     SJ:    /scramjet/         ║
+  ║    Chat:  /ws/chat                             ║
+  ║                                                ║
+  ║    Features: Profiles, Leaderboards, Saves,    ║
+  ║    Bookmarks, Chat, Themes, Extensions,        ║
+  ║    Stealth, AI Tutor                           ║
   ╚════════════════════════════════════════════════╝
   `);
 });

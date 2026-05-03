@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
+import cookieSignature from 'cookie-signature';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -72,6 +73,34 @@ setInterval(() => {
     }
   }
 }, 60_000);
+
+// ── Exported cookie validation function for WebSocket and other modules ──
+export function validateAuthCookie(cookieHeader) {
+  if (!cookieHeader) return null;
+
+  // Parse cookies manually from header string
+  const cookies = {};
+  cookieHeader.split(';').forEach((cookie) => {
+    const [name, ...rest] = cookie.trim().split('=');
+    cookies[name] = rest.join('=');
+  });
+
+  const authCookie = cookies['strato_auth'];
+  if (!authCookie) return null;
+
+  // Unsign the cookie using cookie-signature (same as cookie-parser uses internally)
+  try {
+    const cookieSecret = process.env.COOKIE_SECRET || 'dev-secret-change-me';
+    const unsigned = cookieSignature.unsign(authCookie, cookieSecret);
+    if (unsigned !== false) {
+      return unsigned;
+    }
+  } catch (err) {
+    console.error('[STRATO] Cookie validation error:', err.message);
+  }
+
+  return null;
+}
 
 // ── Auth Middleware ──
 export default function authMiddleware(req, res, next) {
@@ -173,6 +202,14 @@ export default function authMiddleware(req, res, next) {
     if (!authCookie) {
       return res.status(401).json({ error: 'Not authenticated' });
     }
+    // Inject username for downstream route handlers
+    res.locals.username = authCookie;
+
+    // Auto-create user profile on first API request after login
+    autoCreateUserProfile(authCookie).catch((err) => {
+      console.error('[STRATO] Auto-create profile error:', err.message);
+    });
+
     return next();
   }
 
@@ -188,7 +225,50 @@ export default function authMiddleware(req, res, next) {
 
   // Authenticated — inject username for downstream
   res.locals.username = authCookie;
+
+  // Auto-create user profile on first authenticated request
+  autoCreateUserProfile(authCookie).catch((err) => {
+    console.error('[STRATO] Auto-create profile error:', err.message);
+  });
+
   next();
+}
+
+// ── Auto-create user profile if it doesn't exist ──
+const profileCreated = new Set(); // Cache to avoid repeated DB lookups
+
+async function autoCreateUserProfile(username) {
+  if (profileCreated.has(username)) return;
+
+  try {
+    const { default: store } = await import('../db/store.js');
+    const existing = await store.getOne('users', (u) => u.username === username);
+    if (!existing) {
+      await store.create('users', {
+        username,
+        avatar: null,
+        bio: '',
+        coins: 0,
+        xp: 0,
+        level: 1,
+        theme: 'default',
+        stats: {
+          games_played: 0,
+          total_score: 0,
+          achievements: [],
+          bookmarks_count: 0,
+          history_count: 0,
+          saves_count: 0,
+          chat_messages: 0,
+        },
+      });
+      console.log(`[STRATO] Auto-created profile for user: ${username}`);
+    }
+    profileCreated.add(username);
+  } catch (err) {
+    // Store might not be initialized yet — that's OK, will retry on next request
+    console.warn('[STRATO] Could not auto-create profile:', err.message);
+  }
 }
 
 // ── Inline error page (glass aesthetic, no external CSS dependency) ──

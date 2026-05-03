@@ -147,7 +147,7 @@
 
     // Number key shortcuts for views
     if (!e.ctrlKey && !e.altKey && !e.metaKey) {
-      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', 'h': 'hub', '4': 'ai', '5': 'settings' };
+      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', 'h': 'hub', '6': 'chat', '4': 'ai', '5': 'settings' };
       if (viewMap[e.key] && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         switchView(viewMap[e.key]);
       }
@@ -182,7 +182,7 @@
   // ──────────────────────────────────────────
   // VIEW SWITCHING
   // ──────────────────────────────────────────
-  const VIEWS = ['home', 'arcade', 'browser', 'hub', 'ai', 'settings'];
+  const VIEWS = ['home', 'arcade', 'browser', 'hub', 'chat', 'ai', 'settings'];
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;
@@ -897,9 +897,71 @@
       tab.classList.add('active');
       const mode = tab.dataset.aiMode;
       document.getElementById('ai-chat-panel')?.classList.toggle('hidden', mode !== 'chat');
+      document.getElementById('ai-tutor-panel')?.classList.toggle('hidden', mode !== 'tutor');
       document.getElementById('ai-snap-panel')?.classList.toggle('hidden', mode !== 'snap');
+      // Show/hide tutor options and quick prompts
+      document.getElementById('ai-tutor-options')?.classList.toggle('hidden', mode !== 'tutor');
+      document.getElementById('ai-quick-prompts')?.classList.toggle('hidden', mode === 'tutor');
     });
   });
+
+  // Tutor subject selection
+  document.querySelectorAll('[data-tutor-subject]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-tutor-subject]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Socratic mode toggle
+  document.getElementById('socratic-toggle')?.addEventListener('click', function() {
+    this.classList.toggle('on');
+  });
+
+  // AI tutor send
+  const aiTutorInput = document.getElementById('ai-tutor-input');
+  const aiTutorSendBtn = document.getElementById('ai-tutor-send-btn');
+  if (aiTutorSendBtn) aiTutorSendBtn.addEventListener('click', sendAiTutorMessage);
+  if (aiTutorInput) aiTutorInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); sendAiTutorMessage(); }
+  });
+
+  async function sendAiTutorMessage() {
+    const text = aiTutorInput?.value?.trim();
+    if (!text || !state.aiOnline) return;
+    const tutorMessages = document.getElementById('ai-tutor-messages');
+    if (!tutorMessages) return;
+    // Add user bubble
+    const userBubble = document.createElement('div');
+    userBubble.className = 'ai-bubble user';
+    userBubble.textContent = text;
+    tutorMessages.appendChild(userBubble);
+    aiTutorInput.value = '';
+
+    const subject = document.querySelector('[data-tutor-subject].active')?.dataset.tutorSubject || 'general';
+    const socratic = document.getElementById('socratic-toggle')?.classList.contains('on') ? 'Use the Socratic method: guide me through questions rather than giving direct answers.' : '';
+
+    try {
+      const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+      const resp = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfMeta?.content || '' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: `[Tutor Mode - ${subject}] ${socratic} ${text}` }] }),
+      });
+      const data = await resp.json();
+      const respBubble = document.createElement('div');
+      respBubble.className = `ai-bubble ${resp.ok && data.message ? 'assistant' : 'error'}`;
+      respBubble.textContent = data.message?.content || data.error || 'Unknown error';
+      tutorMessages.appendChild(respBubble);
+      tutorMessages.scrollTop = tutorMessages.scrollHeight;
+    } catch {
+      const errBubble = document.createElement('div');
+      errBubble.className = 'ai-bubble error';
+      errBubble.textContent = 'Failed to reach AI service';
+      tutorMessages.appendChild(errBubble);
+    }
+    tutorMessages.scrollTop = tutorMessages.scrollHeight;
+  }
 
   // ──────────────────────────────────────────
   // SNAP & SOLVE
@@ -1228,6 +1290,8 @@
     state.coins += amount;
     localStorage.setItem('strato-coins', String(state.coins));
     updateCoinsDisplay();
+    // Add XP when earning coins
+    if (window.STRATO_PROFILE) window.STRATO_PROFILE.addXp(amount * 2);
     // Show popup animation
     const popup = document.createElement('div');
     popup.className = 'coin-popup';
