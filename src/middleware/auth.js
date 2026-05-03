@@ -78,20 +78,38 @@ setInterval(() => {
 export function validateAuthCookie(cookieHeader) {
   if (!cookieHeader) return null;
 
-  // Parse cookies manually from header string
+  // Use cookie-parser synchronously to parse and unsign the cookie
+  // This ensures we use the exact same unsigning logic as the Express middleware
+  const secret = process.env.COOKIE_SECRET || 'dev-secret-change-me';
+
+  // cookie-parser's internal unsigning expects the raw cookie header value
+  // Parse cookies manually using the same split logic as cookie-parser
   const cookies = {};
-  cookieHeader.split(';').forEach((cookie) => {
-    const [name, ...rest] = cookie.trim().split('=');
-    cookies[name] = rest.join('=');
-  });
+  const pairs = cookieHeader.split(';');
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i].trim();
+    const eqIdx = pair.indexOf('=');
+    if (eqIdx === -1) continue;
+    const key = pair.slice(0, eqIdx).trim();
+    const val = pair.slice(eqIdx + 1).trim();
+    // Try to decode
+    try {
+      cookies[key] = decodeURIComponent(val);
+    } catch {
+      cookies[key] = val;
+    }
+  }
 
-  const authCookie = cookies['strato_auth'];
-  if (!authCookie) return null;
+  const rawVal = cookies['strato_auth'];
+  if (!rawVal || !rawVal.startsWith('s:')) return null;
 
-  // Unsign the cookie using cookie-signature (same as cookie-parser uses internally)
+  // cookie-signature.unsign expects the value WITHOUT the 's:' prefix
+  // The 's:' prefix is added by Express's res.cookie() when signing
+  const unsignedVal = rawVal.slice(2);
+
+  // Unsign using cookie-signature
   try {
-    const cookieSecret = process.env.COOKIE_SECRET || 'dev-secret-change-me';
-    const unsigned = cookieSignature.unsign(authCookie, cookieSecret);
+    const unsigned = cookieSignature.unsign(unsignedVal, secret);
     if (unsigned !== false) {
       return unsigned;
     }

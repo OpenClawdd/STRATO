@@ -103,24 +103,37 @@ async function handleMessage(ws, data) {
         return;
       }
 
-      // Verify user is in the room
+      // Resolve room ID (client may send name or ID)
+      let actualRoomId = roomId;
       if (!client.rooms.has(roomId)) {
+        // Check if they're in the room by name — find the actual ID
+        for (const rid of client.rooms) {
+          const room = await store.getOne('chat_rooms', (r) => r.id === rid);
+          if (room && (room.name === roomId || room.id === roomId)) {
+            actualRoomId = rid;
+            break;
+          }
+        }
+      }
+
+      // Verify user is in the room
+      if (!client.rooms.has(actualRoomId)) {
         ws.send(JSON.stringify({ type: 'error', error: 'You are not in this room' }));
         return;
       }
 
-      // Store message in DB
+      // Store message in DB (use actual room ID)
       const stored = await store.create('chat_messages', {
-        roomId,
+        roomId: actualRoomId,
         username: client.username,
         message: message.trim(),
       });
 
-      // Broadcast to room
-      broadcastToRoom(roomId, {
+      // Broadcast to room (use actual room ID for matching)
+      broadcastToRoom(actualRoomId, {
         type: 'chat',
         id: stored.id,
-        roomId,
+        roomId: actualRoomId,
         username: client.username,
         message: message.trim(),
         created_at: stored.created_at,
@@ -146,20 +159,22 @@ async function handleMessage(ws, data) {
         return;
       }
 
-      // Verify room exists
-      const room = await store.getOne('chat_rooms', (r) => r.id === roomId);
+      // Verify room exists — search by ID or by name
+      const room = await store.getOne('chat_rooms', (r) => r.id === roomId || r.name === roomId);
       if (!room) {
         ws.send(JSON.stringify({ type: 'error', error: 'Room not found' }));
         return;
       }
 
-      client.rooms.add(roomId);
-      ws.send(JSON.stringify({ type: 'joined', roomId, roomName: room.name }));
+      // Use the actual room ID for internal tracking
+      const actualRoomId = room.id;
+      client.rooms.add(actualRoomId);
+      ws.send(JSON.stringify({ type: 'joined', roomId: actualRoomId, roomName: room.name }));
 
       // Notify room
-      broadcastToRoom(roomId, {
+      broadcastToRoom(actualRoomId, {
         type: 'user_joined',
-        roomId,
+        roomId: actualRoomId,
         username: client.username,
       }, ws);
       break;
