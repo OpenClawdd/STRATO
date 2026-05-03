@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v13 — NEXUS
+   STRATO v20 — APEX
    Client Application
    ══════════════════════════════════════════════════════════ */
 
@@ -63,7 +63,7 @@
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const s = String(now.getSeconds()).padStart(2, '0');
-    const el = document.getElementById('clock-text');
+    const el = document.getElementById('status-clock');
     if (el) el.textContent = `${h}:${m}:${s}`;
   }
 
@@ -72,7 +72,7 @@
     const mins = Math.floor(elapsed / 60);
     const secs = elapsed % 60;
     const text = `${mins}:${String(secs).padStart(2, '0')}`;
-    const els = [document.getElementById('uptime-text'), document.getElementById('stat-uptime')];
+    const els = [document.getElementById('status-uptime'), document.getElementById('stat-uptime')];
     els.forEach(el => { if (el) el.textContent = text; });
   }
 
@@ -127,7 +127,7 @@
     // If in browser view, navigate the iframe to a safe educational page
     // to quickly hide the proxied content
     if (state.currentView === 'browser') {
-      const iframe = document.getElementById('browser-iframe');
+      const iframe = document.getElementById('proxy-iframe');
       if (iframe) iframe.src = 'https://www.google.com';
     }
   }
@@ -147,13 +147,13 @@
 
     // Number key shortcuts for views
     if (!e.ctrlKey && !e.altKey && !e.metaKey) {
-      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', 'h': 'hub', '6': 'chat', '4': 'ai', '5': 'settings' };
+      const viewMap = { '1': 'home', '2': 'arcade', '3': 'browser', '4': 'hub', '5': 'chat', '6': 'ai', '7': 'settings' };
       if (viewMap[e.key] && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         switchView(viewMap[e.key]);
       }
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
         e.preventDefault();
-        const urlInput = document.getElementById('home-url-input');
+        const urlInput = document.getElementById('url-input');
         if (urlInput) { switchView('home'); urlInput.focus(); }
       }
       if (e.key === '?' && document.activeElement.tagName !== 'INPUT') {
@@ -161,14 +161,14 @@
       }
       if (e.key === 'Escape') {
         document.getElementById('shortcuts-overlay')?.classList.add('hidden');
-        document.getElementById('notification-panel')?.classList.add('hidden');
+        document.getElementById('notifications-panel')?.classList.add('hidden');
         document.getElementById('command-palette')?.classList.add('hidden');
       }
     }
 
     if (e.ctrlKey && e.shiftKey && e.key === 'S') {
       e.preventDefault();
-      document.getElementById('snap-fab')?.click();
+      try { document.getElementById('snap-fab')?.click(); } catch(e) {}
     }
 
     // Command Palette: Cmd+K / Ctrl+K
@@ -186,16 +186,16 @@
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;
-    document.querySelectorAll('.view').forEach(el => el.classList.remove('view-active'));
+    document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     const target = document.getElementById(`view-${viewName}`);
-    if (target) target.classList.add('view-active');
-    document.querySelectorAll('.nav-link, .bottom-link').forEach(btn => {
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.view === viewName);
     });
     state.currentView = viewName;
   }
 
-  document.querySelectorAll('.nav-link, .bottom-link').forEach(btn => {
+  document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.dataset.view) switchView(btn.dataset.view);
     });
@@ -241,8 +241,8 @@
   }
 
   function renderNotifications() {
-    const list = document.getElementById('notification-list');
-    const badge = document.getElementById('notification-badge');
+    const list = document.getElementById('notifications-list');
+    const badge = document.querySelector('.notif-badge');
     if (!list) return;
 
     if (state.notifications.length === 0) {
@@ -264,12 +264,12 @@
     }
   }
 
-  document.getElementById('notification-btn')?.addEventListener('click', () => {
-    const panel = document.getElementById('notification-panel');
+  document.getElementById('btn-notifications')?.addEventListener('click', () => {
+    const panel = document.getElementById('notifications-panel');
     if (panel) panel.classList.toggle('hidden');
   });
 
-  document.getElementById('clear-notifications-btn')?.addEventListener('click', () => {
+  document.getElementById('btn-clear-notifications')?.addEventListener('click', () => {
     state.notifications = [];
     renderNotifications();
   });
@@ -287,7 +287,7 @@
   }
 
   function renderActivity() {
-    const list = document.getElementById('recent-activity-list');
+    const list = document.getElementById('recent-activity');
     if (!list) return;
     if (state.activityLog.length === 0) {
       list.innerHTML = '<div class="activity-empty">No recent activity</div>';
@@ -387,7 +387,7 @@
     btn.addEventListener('click', () => setEngine(btn.dataset.engine));
   });
 
-  const autoFallbackToggle = document.getElementById('auto-fallback-toggle');
+  const autoFallbackToggle = document.getElementById('setting-autofallback');
   const settingAutoFallback = document.getElementById('setting-auto-fallback');
 
   function setAutoFallback(on) {
@@ -415,9 +415,9 @@
     if (!proxyUrl) return;
 
     switchView('browser');
-    const iframe = document.getElementById('browser-iframe');
-    const shimmer = document.getElementById('browser-shimmer');
-    const urlInput = document.getElementById('browser-url-input');
+    const iframe = document.getElementById('proxy-iframe');
+    let shimmer = null; try { shimmer = document.getElementById('browser-shimmer'); } catch(e) {}
+    const urlInput = document.getElementById('url-input');
     if (urlInput) urlInput.value = url;
     if (shimmer) shimmer.classList.remove('hidden');
     iframe.src = proxyUrl;
@@ -479,15 +479,15 @@
   }
 
   // URL bar handlers
-  const homeUrlInput = document.getElementById('home-url-input');
+  const homeUrlInput = document.getElementById('url-input');
   const homeGoBtn = document.getElementById('home-go-btn');
   if (homeGoBtn) homeGoBtn.addEventListener('click', () => navigateProxy(homeUrlInput.value));
   if (homeUrlInput) homeUrlInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') navigateProxy(homeUrlInput.value);
   });
 
-  const browserUrlInput = document.getElementById('browser-url-input');
-  const browserGoBtn = document.getElementById('browser-go-btn');
+  const browserUrlInput = document.getElementById('url-input');
+  const browserGoBtn = document.getElementById('btn-go');
   if (browserGoBtn) browserGoBtn.addEventListener('click', () => navigateProxy(browserUrlInput.value));
   if (browserUrlInput) browserUrlInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') navigateProxy(browserUrlInput.value);
@@ -502,18 +502,20 @@
   });
 
   // Browser nav buttons
-  document.getElementById('browser-refresh-btn')?.addEventListener('click', () => {
-    const iframe = document.getElementById('browser-iframe');
+  document.getElementById('btn-refresh')?.addEventListener('click', () => {
+    const iframe = document.getElementById('proxy-iframe');
     if (iframe) iframe.src = iframe.src;
   });
 
-  document.getElementById('browser-fullscreen-btn')?.addEventListener('click', () => {
-    const container = document.querySelector('.browser-frame-container');
-    if (container) {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else container.requestFullscreen?.();
-    }
-  });
+  try {
+    document.getElementById('browser-fullscreen-btn')?.addEventListener('click', () => {
+      const container = document.querySelector('.browser-frame-container');
+      if (container) {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else container.requestFullscreen?.();
+      }
+    });
+  } catch(e) {}
 
   window.addEventListener('message', (e) => {
     // Only accept messages from same origin to prevent CSRF via postMessage
@@ -565,9 +567,9 @@
   }
 
   function renderGames() {
-    const grid = document.getElementById('game-grid');
+    const grid = document.getElementById('games-grid');
     if (!grid) return;
-    const showUnavailable = document.getElementById('show-unavailable')?.checked || false;
+    const showUnavailable = (() => { try { return document.getElementById('show-unavailable')?.checked || false; } catch(e) { return false; } })();
 
     grid.innerHTML = state.filteredGames
       .map(game => {
@@ -632,7 +634,8 @@
   }
 
   function renderFeatured() {
-    const scroll = document.getElementById('featured-scroll');
+    let scroll = null;
+    try { scroll = document.getElementById('featured-scroll'); } catch(e) {}
     if (!scroll) return;
     const featured = [...state.games].sort((a, b) => a.tier - b.tier).slice(0, 10);
 
@@ -681,16 +684,16 @@
 
     if (game.tier === 1) {
       switchView('browser');
-      const iframe = document.getElementById('browser-iframe');
-      const urlInput = document.getElementById('browser-url-input');
+      const iframe = document.getElementById('proxy-iframe');
+      const urlInput = document.getElementById('url-input');
       if (urlInput) urlInput.value = game.url;
       if (iframe) iframe.src = game.url;
     } else if (game.tier === 2) {
       const cdnBase = window.__CDN_BASE_URL || '';
       const gameUrl = cdnBase ? `${cdnBase}/${game.url}` : game.url;
       switchView('browser');
-      const iframe = document.getElementById('browser-iframe');
-      const urlInput = document.getElementById('browser-url-input');
+      const iframe = document.getElementById('proxy-iframe');
+      const urlInput = document.getElementById('url-input');
       if (urlInput) urlInput.value = gameUrl;
       if (iframe) iframe.src = gameUrl;
     } else {
@@ -698,7 +701,7 @@
     }
   }
 
-  const searchInput = document.getElementById('search-input');
+  const searchInput = document.getElementById('game-search');
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       clearTimeout(searchDebounce);
@@ -727,11 +730,13 @@
     filterGames();
   });
 
-  const sortSelect = document.getElementById('sort-select');
+  const sortSelect = document.getElementById('game-sort');
   if (sortSelect) sortSelect.addEventListener('change', filterGames);
 
-  const showUnavailableCheckbox = document.getElementById('show-unavailable');
-  if (showUnavailableCheckbox) showUnavailableCheckbox.addEventListener('change', renderGames);
+  try {
+    const showUnavailableCheckbox = document.getElementById('show-unavailable');
+    if (showUnavailableCheckbox) showUnavailableCheckbox.addEventListener('change', renderGames);
+  } catch(e) {}
 
   function filterGames() {
     const query = (searchInput?.value || '').toLowerCase().trim();
@@ -808,13 +813,13 @@
     } catch {}
   }
 
-  document.getElementById('clear-cache-btn')?.addEventListener('click', clearVault);
+  document.getElementById('btn-clear-cache')?.addEventListener('click', clearVault);
 
   // ──────────────────────────────────────────
   // AI CHAT
   // ──────────────────────────────────────────
   const aiInput = document.getElementById('ai-input');
-  const aiSendBtn = document.getElementById('ai-send-btn');
+  const aiSendBtn = document.getElementById('btn-ai-send');
   const aiMessages = document.getElementById('ai-messages');
   const aiOfflineBanner = document.getElementById('ai-offline-banner');
 
@@ -898,7 +903,7 @@
       const mode = tab.dataset.aiMode;
       document.getElementById('ai-chat-panel')?.classList.toggle('hidden', mode !== 'chat');
       document.getElementById('ai-tutor-panel')?.classList.toggle('hidden', mode !== 'tutor');
-      document.getElementById('ai-snap-panel')?.classList.toggle('hidden', mode !== 'snap');
+      document.getElementById('ai-vision-panel')?.classList.toggle('hidden', mode !== 'snap');
       // Show/hide tutor options and quick prompts
       document.getElementById('ai-tutor-options')?.classList.toggle('hidden', mode !== 'tutor');
       document.getElementById('ai-quick-prompts')?.classList.toggle('hidden', mode === 'tutor');
@@ -919,8 +924,8 @@
   });
 
   // AI tutor send
-  const aiTutorInput = document.getElementById('ai-tutor-input');
-  const aiTutorSendBtn = document.getElementById('ai-tutor-send-btn');
+  const aiTutorInput = document.getElementById('tutor-input');
+  const aiTutorSendBtn = document.getElementById('btn-tutor-send');
   if (aiTutorSendBtn) aiTutorSendBtn.addEventListener('click', sendAiTutorMessage);
   if (aiTutorInput) aiTutorInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); sendAiTutorMessage(); }
@@ -929,7 +934,7 @@
   async function sendAiTutorMessage() {
     const text = aiTutorInput?.value?.trim();
     if (!text || !state.aiOnline) return;
-    const tutorMessages = document.getElementById('ai-tutor-messages');
+    const tutorMessages = document.getElementById('tutor-messages');
     if (!tutorMessages) return;
     // Add user bubble
     const userBubble = document.createElement('div');
@@ -970,16 +975,18 @@
   let snapPrompt = 'Solve this question step by step. Show your work and give the final answer clearly.';
   let snapSolving = false;
 
-  document.getElementById('snap-fab')?.addEventListener('click', () => {
-    switchView('ai');
-    document.querySelectorAll('[data-ai-mode]').forEach(t => t.classList.remove('active'));
-    document.querySelector('[data-ai-mode="snap"]')?.classList.add('active');
-    document.getElementById('ai-chat-panel')?.classList.add('hidden');
-    document.getElementById('ai-snap-panel')?.classList.remove('hidden');
-  });
+  try {
+    document.getElementById('snap-fab')?.addEventListener('click', () => {
+      switchView('ai');
+      document.querySelectorAll('[data-ai-mode]').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-ai-mode="snap"]')?.classList.add('active');
+      document.getElementById('ai-chat-panel')?.classList.add('hidden');
+      document.getElementById('ai-vision-panel')?.classList.remove('hidden');
+    });
+  } catch(e) {}
 
-  const snapDropZone = document.getElementById('snap-drop-zone');
-  const snapFileInput = document.getElementById('snap-file-input');
+  const snapDropZone = document.getElementById('vision-drop-zone');
+  const snapFileInput = document.getElementById('vision-file-input');
 
   snapDropZone?.addEventListener('click', () => snapFileInput?.click());
   snapFileInput?.addEventListener('change', (e) => { if (e.target.files?.[0]) handleSnapFile(e.target.files[0]); });
@@ -993,7 +1000,7 @@
   });
 
   document.addEventListener('paste', (e) => {
-    const snapPanel = document.getElementById('ai-snap-panel');
+    const snapPanel = document.getElementById('ai-vision-panel');
     if (snapPanel?.classList.contains('hidden') && state.currentView !== 'ai') return;
     for (const item of e.clipboardData?.items || []) {
       if (item.type.startsWith('image/')) {
@@ -1004,7 +1011,7 @@
           document.querySelectorAll('[data-ai-mode]').forEach(t => t.classList.remove('active'));
           document.querySelector('[data-ai-mode="snap"]')?.classList.add('active');
           document.getElementById('ai-chat-panel')?.classList.add('hidden');
-          document.getElementById('ai-snap-panel')?.classList.remove('hidden');
+          document.getElementById('ai-vision-panel')?.classList.remove('hidden');
           handleSnapFile(file);
         }
         break;
@@ -1019,7 +1026,7 @@
       const previewImg = document.getElementById('snap-preview-img');
       if (previewImg) previewImg.src = snapImage;
       document.getElementById('snap-preview-container')?.classList.remove('hidden');
-      document.getElementById('snap-drop-zone')?.classList.add('hidden');
+      document.getElementById('vision-drop-zone')?.classList.add('hidden');
       document.getElementById('snap-solve-btn').disabled = false;
       document.getElementById('snap-result')?.classList.add('hidden');
     };
@@ -1029,7 +1036,7 @@
   document.getElementById('snap-clear-btn')?.addEventListener('click', () => {
     snapImage = null;
     document.getElementById('snap-preview-container')?.classList.add('hidden');
-    document.getElementById('snap-drop-zone')?.classList.remove('hidden');
+    document.getElementById('vision-drop-zone')?.classList.remove('hidden');
     document.getElementById('snap-solve-btn').disabled = true;
     document.getElementById('snap-result')?.classList.add('hidden');
     if (snapFileInput) snapFileInput.value = '';
@@ -1108,7 +1115,7 @@
     try {
       const resp = await fetch('/health');
       const data = await resp.json();
-      const dot = document.getElementById('connection-dot');
+      const dot = document.getElementById('status-connection');
       const browserDot = document.getElementById('browser-connection-dot');
       [dot, browserDot].forEach(d => {
         if (!d) return;
@@ -1136,7 +1143,7 @@
         if (label) label.textContent = data.status === 'ok' ? 'Proxy Ready' : 'Issues';
       }
     } catch {
-      const dot = document.getElementById('connection-dot');
+      const dot = document.getElementById('status-connection');
       const browserDot = document.getElementById('browser-connection-dot');
       [dot, browserDot].forEach(d => {
         if (d) { d.className = 'connection-dot error'; if (d.classList.contains('browser-dot')) d.className += ' browser-dot'; }
@@ -1150,12 +1157,12 @@
   // SETTINGS
   // ──────────────────────────────────────────
   document.getElementById('setting-engine')?.addEventListener('change', (e) => setEngine(e.target.value));
-  document.getElementById('setting-cloak')?.addEventListener('change', (e) => {
+  document.getElementById('cloak-select')?.addEventListener('change', (e) => {
     applyCloak(e.target.value);
     showToast(`Tab cloaked as ${CLOAKS[e.target.value]?.title || 'None'}`, 'accent');
   });
 
-  document.getElementById('change-panic-key')?.addEventListener('click', () => {
+  document.getElementById('btn-change-panic')?.addEventListener('click', () => {
     state.changingPanicKey = true;
     const el = document.getElementById('setting-panic-key');
     if (el) el.textContent = '...';
@@ -1182,11 +1189,11 @@
   }
 
   // Settings nav
-  document.querySelectorAll('.settings-nav-item').forEach(item => {
+  document.querySelectorAll('.settings-nav-btn').forEach(item => {
     item.addEventListener('click', () => {
-      document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.settings-nav-btn').forEach(i => i.classList.remove('active'));
       item.classList.add('active');
-      const section = item.dataset.settingsSection;
+      const section = item.dataset.settingsTab;
       if (section) {
         document.querySelectorAll('.settings-section').forEach(s => s.style.display = 'none');
         const target = document.getElementById(`settings-${section}`);
@@ -1196,13 +1203,13 @@
   });
 
   // Accent color picker
-  document.querySelectorAll('.color-swatch').forEach(swatch => {
+  document.querySelectorAll('.swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
       const color = swatch.dataset.color;
       document.documentElement.setAttribute('data-accent', color);
       state.accentColor = color;
       localStorage.setItem('strato-accent', color);
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
       swatch.classList.add('active');
       unlockAchievement('theme-change');
       showToast(`Accent changed to ${color}`, 'accent');
@@ -1210,7 +1217,7 @@
   });
 
   // Apply saved color swatch
-  document.querySelector(`.color-swatch[data-color="${state.accentColor}"]`)?.classList.add('active');
+  document.querySelector(`.swatch[data-color="${state.accentColor}"]`)?.classList.add('active');
 
   // Particles toggle
   const particlesToggle = document.getElementById('setting-particles');
@@ -1221,9 +1228,9 @@
       state.particlesEnabled = !state.particlesEnabled;
       localStorage.setItem('strato-particles', String(state.particlesEnabled));
       particlesToggle.classList.toggle('on');
-      const particleCanvas = document.getElementById('particle-canvas');
+      const particleCanvas = document.getElementById('particles-canvas');
       if (particleCanvas) particleCanvas.style.display = state.particlesEnabled ? '' : 'none';
-      document.querySelectorAll('.floating-orb, .bg-grid, .bg-scanline').forEach(el => {
+      document.querySelectorAll('.bg-orb, .bg-grid, .bg-scanlines').forEach(el => {
         el.style.display = state.particlesEnabled ? '' : 'none';
       });
     });
@@ -1257,8 +1264,8 @@
     if (overlay) overlay.classList.toggle('hidden');
   }
 
-  document.getElementById('shortcuts-btn')?.addEventListener('click', toggleShortcuts);
-  document.getElementById('close-shortcuts-btn')?.addEventListener('click', () => {
+  try { document.getElementById('shortcuts-btn')?.addEventListener('click', toggleShortcuts); } catch(e) {}
+  document.getElementById('btn-close-shortcuts')?.addEventListener('click', () => {
     document.getElementById('shortcuts-overlay')?.classList.add('hidden');
   });
 
@@ -1271,7 +1278,7 @@
     document.documentElement.setAttribute('data-accent', nextColor);
     state.accentColor = nextColor;
     localStorage.setItem('strato-accent', nextColor);
-    document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('active', s.dataset.color === nextColor));
+    document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('active', s.dataset.color === nextColor));
     unlockAchievement('theme-change');
     showToast(`Accent: ${nextColor}`, 'accent');
   });
@@ -1291,7 +1298,7 @@
     localStorage.setItem('strato-coins', String(state.coins));
     updateCoinsDisplay();
     // Add XP when earning coins
-    if (window.STRATO_PROFILE) window.STRATO_PROFILE.addXp(amount * 2);
+    if (window.StratoProfile) window.StratoProfile.addXp(amount * 2);
     // Show popup animation
     const popup = document.createElement('div');
     popup.className = 'coin-popup';
@@ -1301,7 +1308,7 @@
   }
 
   function updateCoinsDisplay() {
-    const el = document.getElementById('coins-count');
+    const el = document.getElementById('status-coins');
     if (el) el.textContent = state.coins;
   }
 
@@ -1330,7 +1337,7 @@
   }
 
   function renderHubSites() {
-    const grid = document.getElementById('hub-cards-grid');
+    const grid = document.getElementById('hub-grid');
     if (!grid) return;
     const topTierOnly = document.getElementById('hub-top-tier-toggle')?.checked || false;
     let sites = state.filteredHubSites;
@@ -1390,7 +1397,7 @@
   // launchCloakedProxy is defined in the new features section below
 
   // Hub search
-  const hubSearchInput = document.getElementById('hub-search-input');
+  const hubSearchInput = document.getElementById('hub-search');
   if (hubSearchInput) {
     hubSearchInput.addEventListener('input', () => {
       clearTimeout(hubSearchDebounce);
@@ -1441,13 +1448,13 @@
   document.getElementById('hub-error-other-engine')?.addEventListener('click', () => {
     const otherEngine = state.currentEngine === 'uv' ? 'scramjet' : 'uv';
     setEngine(otherEngine);
-    const url = document.getElementById('browser-url-input')?.value;
+    const url = document.getElementById('url-input')?.value;
     if (url) navigateProxy(url, otherEngine);
     document.getElementById('hub-error-overlay')?.classList.add('hidden');
   });
 
   document.getElementById('hub-error-new-tab')?.addEventListener('click', () => {
-    const url = document.getElementById('browser-url-input')?.value;
+    const url = document.getElementById('url-input')?.value;
     if (url) launchCloakedProxy(url);
     document.getElementById('hub-error-overlay')?.classList.add('hidden');
   });
@@ -1553,7 +1560,7 @@
   }
 
   document.getElementById('browser-cloaked-btn')?.addEventListener('click', () => {
-    const url = document.getElementById('browser-url-input')?.value;
+    const url = document.getElementById('url-input')?.value;
     if (url) launchCloakedProxy(url);
   });
 
@@ -1958,8 +1965,8 @@
       store.put({
         gameId: '__session__',
         currentView: state.currentView,
-        browserUrl: document.getElementById('browser-url-input')?.value || '',
-        searchInput: document.getElementById('home-url-input')?.value || document.getElementById('search-input')?.value || '',
+        browserUrl: document.getElementById('url-input')?.value || '',
+        searchInput: document.getElementById('url-input')?.value || document.getElementById('game-search')?.value || '',
         timestamp: Date.now(),
       });
     } catch (e) {}
@@ -1997,12 +2004,12 @@
     setTimeout(() => {
       if (session.currentView) switchView(session.currentView);
       if (session.browserUrl && session.currentView === 'browser') {
-        const urlInput = document.getElementById('browser-url-input');
+        const urlInput = document.getElementById('url-input');
         if (urlInput) urlInput.value = session.browserUrl;
       }
       if (session.searchInput) {
-        const homeInput = document.getElementById('home-url-input');
-        const searchInput = document.getElementById('search-input');
+        const homeInput = document.getElementById('url-input');
+        const searchInput = document.getElementById('game-search');
         if (homeInput) homeInput.value = session.searchInput;
         if (searchInput) searchInput.value = session.searchInput;
       }
@@ -2097,7 +2104,7 @@
 
     // Apply particles/animations settings
     if (!state.particlesEnabled) {
-      const canvas = document.getElementById('particle-canvas');
+      const canvas = document.getElementById('particles-canvas');
       if (canvas) canvas.style.display = 'none';
     }
 
@@ -2113,7 +2120,7 @@
     unlockAchievement('first-launch');
 
     // Welcome notification
-    addNotification('STRATO v13 NEXUS loaded', 'info');
+    addNotification('STRATO v20 APEX loaded', 'info');
 
     // Fade out splash
     await new Promise(resolve => setTimeout(resolve, 400));

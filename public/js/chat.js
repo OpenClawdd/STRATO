@@ -206,9 +206,11 @@
     container.appendChild(msgEl);
     container.scrollTop = container.scrollHeight;
 
-    // Update home chat count
-    const homeCount = document.getElementById('home-chat-count');
-    if (homeCount) homeCount.textContent = `${onlineUsers.size} online`;
+    // Update home chat count (element may not exist on all views)
+    try {
+      const homeCount = document.getElementById('home-chat-count');
+      if (homeCount) homeCount.textContent = `${onlineUsers.size} online`;
+    } catch (e) { /* element not in DOM */ }
   }
 
   function renderMessages() {
@@ -220,7 +222,7 @@
   }
 
   function renderOnlineUsers() {
-    const list = document.getElementById('chat-users-list') || document.getElementById('chat-online-list');
+    const list = document.getElementById('chat-online-list');
     const count = document.getElementById('chat-online-count');
     if (!list) return;
     list.innerHTML = '';
@@ -242,35 +244,28 @@
       list.appendChild(item);
     });
 
-    // Update home widget
-    const homeCount = document.getElementById('home-chat-count');
-    if (homeCount) homeCount.textContent = `${onlineUsers.size} online`;
+    // Update home widget (element may not exist on all views)
+    try {
+      const homeCount = document.getElementById('home-chat-count');
+      if (homeCount) homeCount.textContent = `${onlineUsers.size} online`;
+    } catch (e) { /* element not in DOM */ }
 
-    // Update status bar
-    const statusCount = document.getElementById('chat-online-status-count');
+    // Update status bar count
+    const statusCount = document.getElementById('chat-online-count');
     if (statusCount) statusCount.textContent = `${onlineUsers.size} online`;
   }
 
   function updateStatus(connected) {
-    const indicator = document.getElementById('chat-connection-dot');
-    const text = document.getElementById('chat-connection-text');
-    const navDot = document.getElementById('chat-nav-dot');
-    const wsDot = document.querySelector('#status-ws .dot-indicator') || document.querySelector('.status-indicator#status-ws .dot-indicator');
+    // Update via status-ws dot indicator and label
+    const wsDot = document.querySelector('#status-ws .dot-indicator');
+    const wsLabel = document.querySelector('#status-ws .status-label');
 
-    if (indicator) {
-      indicator.className = `connection-dot ${connected ? '' : 'error'}`;
-      indicator.style.width = '6px';
-      indicator.style.height = '6px';
-    }
-    if (text) {
-      text.textContent = connected ? 'Connected' : 'Disconnected';
-      text.style.color = connected ? 'var(--success)' : 'var(--error)';
-    }
-    if (navDot) {
-      navDot.className = `nav-dot ${connected ? 'online' : 'offline'}`;
-    }
     if (wsDot) {
       wsDot.className = `dot-indicator ${connected ? 'online' : 'offline'}`;
+    }
+    if (wsLabel) {
+      wsLabel.textContent = connected ? 'Connected' : 'Disconnected';
+      wsLabel.style.color = connected ? 'var(--success)' : 'var(--error)';
     }
   }
 
@@ -335,7 +330,7 @@
   // Setup input listeners
   function init() {
     const chatInput = document.getElementById('chat-input');
-    const chatSendBtn = document.getElementById('chat-send-btn') || document.getElementById('btn-send-message');
+    const chatSendBtn = document.getElementById('btn-send-message');
     const chatCreateRoomBtn = document.getElementById('chat-create-room-btn') || document.getElementById('btn-create-room');
 
     if (chatSendBtn) chatSendBtn.addEventListener('click', () => {

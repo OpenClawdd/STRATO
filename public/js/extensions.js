@@ -172,8 +172,8 @@
     darkReaderStyle = document.createElement('style');
     darkReaderStyle.id = 'dark-reader-style';
     darkReaderStyle.textContent = `
-      #browser-iframe { filter: invert(1) hue-rotate(180deg); }
-      #browser-iframe img, #browser-iframe video { filter: invert(1) hue-rotate(180deg); }
+      #proxy-iframe { filter: invert(1) hue-rotate(180deg); }
+      #proxy-iframe img, #proxy-iframe video { filter: invert(1) hue-rotate(180deg); }
     `;
     document.head.appendChild(darkReaderStyle);
     sandbox.console.log('Dark Reader: dark mode applied to browser iframe');
@@ -346,7 +346,6 @@
     extensions.filter(e => e.enabled).forEach(executeExtension);
 
     // Gallery browse button
-    document.getElementById('extension-gallery-btn')?.addEventListener('click', browseGallery);
     document.getElementById('btn-browse-extensions')?.addEventListener('click', browseGallery);
   }
 

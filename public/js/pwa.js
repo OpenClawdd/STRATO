@@ -65,22 +65,28 @@
 
   // ── Show install banner ──
   function showInstallBanner() {
-    const container = document.getElementById('pwa-install-container');
-    if (!container) return;
-
     // Don't show if dismissed recently
     const dismissed = localStorage.getItem('strato-pwa-dismissed');
     if (dismissed && Date.now() - parseInt(dismissed) < 86400000) return;
 
+    // Try existing container first, otherwise create dynamic overlay
+    let container = document.getElementById('pwa-install-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'pwa-install-container';
+      container.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%';
+      document.body.appendChild(container);
+    }
+
     container.innerHTML = `
-      <div class="pwa-install-prompt" id="pwa-install-prompt">
+      <div class="pwa-install-prompt" id="pwa-install-prompt" style="background:var(--glass-heavy);backdrop-filter:var(--blur);border:1px solid var(--accent-border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px">
         <div class="pwa-install-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </div>
-        <div class="pwa-install-text">Install <strong>STRATO</strong> for quick access and offline support</div>
-        <div class="pwa-install-actions">
+        <div class="pwa-install-text" style="flex:1;color:var(--fg)">Install <strong>STRATO</strong> for quick access and offline support</div>
+        <div class="pwa-install-actions" style="display:flex;gap:8px">
           <button class="glass-btn small primary" id="pwa-install-btn">Install</button>
-          <button class="pwa-dismiss" id="pwa-dismiss-btn">&times;</button>
+          <button class="pwa-dismiss" id="pwa-dismiss-btn" style="background:none;border:none;color:var(--fg-faint);font-size:18px;cursor:pointer">&times;</button>
         </div>
       </div>
     `;
@@ -102,32 +108,43 @@
   function hideInstallBanner() {
     const prompt = document.getElementById('pwa-install-prompt');
     if (prompt) prompt.remove();
+    const container = document.getElementById('pwa-install-container');
+    if (container && !container.querySelector('#pwa-install-prompt')) container.remove();
   }
 
   // ── Show update available notification ──
   function showUpdateNotification() {
-    const container = document.getElementById('pwa-update-container');
-    if (container) {
-      container.innerHTML = `
-        <div class="pwa-update-prompt" id="pwa-update-prompt">
-          <div class="pwa-update-text">A new version of STRATO is available</div>
-          <div class="pwa-update-actions">
-            <button class="glass-btn small primary" id="pwa-update-btn">Update Now</button>
-            <button class="pwa-dismiss" id="pwa-update-dismiss-btn">&times;</button>
-          </div>
-        </div>
-      `;
-      document.getElementById('pwa-update-btn')?.addEventListener('click', () => {
-        if (swRegistration && swRegistration.waiting) {
-          swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-        window.location.reload();
-      });
-      document.getElementById('pwa-update-dismiss-btn')?.addEventListener('click', () => {
-        const p = document.getElementById('pwa-update-prompt');
-        if (p) p.remove();
-      });
+    // Try existing container, otherwise create dynamic overlay
+    let container = document.getElementById('pwa-update-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'pwa-update-container';
+      container.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%';
+      document.body.appendChild(container);
     }
+
+    container.innerHTML = `
+      <div class="pwa-update-prompt" id="pwa-update-prompt" style="background:var(--glass-heavy);backdrop-filter:var(--blur);border:1px solid var(--accent-border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px">
+        <div class="pwa-update-text" style="flex:1;color:var(--fg)">A new version of STRATO is available</div>
+        <div class="pwa-update-actions" style="display:flex;gap:8px">
+          <button class="glass-btn small primary" id="pwa-update-btn">Update Now</button>
+          <button class="pwa-dismiss" id="pwa-update-dismiss-btn" style="background:none;border:none;color:var(--fg-faint);font-size:18px;cursor:pointer">&times;</button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('pwa-update-btn')?.addEventListener('click', () => {
+      if (swRegistration && swRegistration.waiting) {
+        swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+      window.location.reload();
+    });
+    document.getElementById('pwa-update-dismiss-btn')?.addEventListener('click', () => {
+      const p = document.getElementById('pwa-update-prompt');
+      if (p) p.remove();
+      const c = document.getElementById('pwa-update-container');
+      if (c && !c.querySelector('#pwa-update-prompt')) c.remove();
+    });
 
     // Also show a toast
     if (window.showToast) {
@@ -141,18 +158,17 @@
   // ── Offline/Online detection ──
   function handleOfflineDetection() {
     function updateStatus() {
-      const dot = document.getElementById('connection-dot');
-      const label = document.querySelector('.status-dot-wrap .status-label');
-      const offlineBanner = document.getElementById('offline-banner');
+      const dot = document.getElementById('status-connection');
+      const label = document.querySelector('#status-connection .status-label') || document.querySelector('.status-dot-wrap .status-label');
 
       if (navigator.onLine) {
         if (dot) { dot.classList.remove('error', 'warning'); }
         if (label) label.textContent = 'Connected';
-        if (offlineBanner) offlineBanner.classList.add('hidden');
       } else {
         if (dot) { dot.classList.add('error'); dot.classList.remove('warning'); }
         if (label) label.textContent = 'Offline';
-        if (offlineBanner) offlineBanner.classList.remove('hidden');
+        // Show offline notification via toast (no offline-banner element)
+        if (window.showToast) window.showToast('You are offline', 'error');
       }
     }
 

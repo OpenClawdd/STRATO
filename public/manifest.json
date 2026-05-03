@@ -1,5 +1,5 @@
 {
-  "name": "STRATO — NEXUS Browser",
+  "name": "STRATO — APEX",
   "short_name": "STRATO",
   "description": "The ultimate school browser — games, proxy, AI tutor, chat, and more. Browse freely with STRATO.",
   "start_url": "/",
@@ -13,15 +13,15 @@
   "categories": ["education", "entertainment", "utilities", "productivity"],
   "icons": [
     {
-      "src": "/favicon.png",
-      "sizes": "64x64",
+      "src": "/assets/icons/icon-48.png",
+      "sizes": "48x48",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon",
+      "src": "/assets/icons/icon-64.png",
+      "sizes": "64x64",
+      "type": "image/png",
       "purpose": "any"
     },
     {

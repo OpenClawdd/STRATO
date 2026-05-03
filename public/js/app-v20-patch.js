@@ -42,7 +42,13 @@
         const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const item = document.createElement('div');
         item.className = `notification-item ${type || 'info'}`;
-        item.innerHTML = `<span>${message}</span><span class="notification-time">${time}</span>`;
+        const msgSpan = document.createElement('span');
+        msgSpan.textContent = message;
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'notification-time';
+        timeSpan.textContent = time;
+        item.appendChild(msgSpan);
+        item.appendChild(timeSpan);
         list.prepend(item);
       }
     };
@@ -81,23 +87,20 @@
   // 2. UPDATE KEYBOARD SHORTCUTS
   // ──────────────────────────────────────────
 
+  // Only add v20-specific shortcuts that don't conflict with app.js
+  // app.js already handles: 1=home, 2=arcade, 3=browser, h=hub
   document.addEventListener('keydown', function(e) {
     if (e.ctrlKey || e.altKey || e.metaKey) return;
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
 
-    // New v20 keymap: 6=chat, 7=ai, 8=settings
+    // v20-only keymap: 6=chat, 7=ai, 8=settings (non-conflicting with app.js)
     const v20ViewMap = {
-      '1': 'home',
-      '2': 'arcade',
-      '3': 'browser',
-      'h': 'hub',
       '6': 'chat',
       '7': 'ai',
       '8': 'settings',
     };
 
     if (v20ViewMap[e.key]) {
-      e.stopImmediatePropagation();
       e.preventDefault();
       // Click the nav button for this view
       const navBtn = document.querySelector(`[data-view="${v20ViewMap[e.key]}"]`);
@@ -112,7 +115,7 @@
     }
 
     // Media player toggle: 'm' key
-    if (e.key === 'm' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    if (e.key === 'm') {
       if (window.StratoMedia) {
         const mpState = window.StratoMedia.getState();
         if (mpState.visible) window.StratoMedia.hidePlayer();
@@ -120,7 +123,7 @@
       }
     }
 
-  }, true); // Capture phase to intercept before app.js handler
+  });
 
   console.log('[STRATO v20] Keyboard shortcuts patched: 6=chat, 7=ai, 8=settings, m=media');
 
