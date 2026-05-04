@@ -6,8 +6,8 @@
    skip waiting, claim clients
    ══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'strato-v23-open-home';
-const CACHE_VERSION = 23;
+const CACHE_NAME = 'strato-v24-open-home-polish';
+const CACHE_VERSION = 24;
 const DEBUG_SW = false;
 const swLog = (...args) => { if (DEBUG_SW) console.debug(...args); };
 const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
@@ -38,7 +38,8 @@ const STATIC_ASSETS = [
 ];
 
 // Thumbnails to cache
-const THUMBNAIL_CACHE = 'strato-v23-thumbnails';
+const THUMBNAIL_CACHE = 'strato-v24-thumbnails';
+const FALLBACK_THUMBNAIL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><rect width="320" height="200" rx="18" fill="#0b1020"/><circle cx="252" cy="42" r="52" fill="#00e5ff" opacity=".16"/><circle cx="74" cy="170" r="80" fill="#a855f7" opacity=".12"/><path d="M44 138h232" stroke="#00e5ff" stroke-opacity=".22"/><text x="160" y="113" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="800" fill="#00e5ff">STRATO</text></svg>`;
 
 // Offline fallback page
 const OFFLINE_PAGE = `
@@ -152,7 +153,7 @@ self.addEventListener('fetch', (event) => {
 
   // Thumbnail images: cache-first with separate cache
   if (url.pathname.includes('/assets/thumbnails/')) {
-    event.respondWith(cacheFirstWithCache(request, THUMBNAIL_CACHE));
+    event.respondWith(cacheFirstThumbnail(request));
     return;
   }
 
@@ -229,6 +230,32 @@ async function cacheFirstWithCache(request, cacheName) {
   } catch (e) {
     return new Response('', { status: 404 });
   }
+}
+
+async function cacheFirstThumbnail(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cloned = response.clone();
+      caches.open(THUMBNAIL_CACHE).then((cache) => {
+        cache.put(request, cloned);
+      });
+      return response;
+    }
+  } catch (e) {
+    // Fall through to the inline fallback below.
+  }
+
+  return new Response(FALLBACK_THUMBNAIL, {
+    status: 200,
+    headers: {
+      'Content-Type': 'image/svg+xml; charset=UTF-8',
+      'Cache-Control': 'no-store',
+    },
+  });
 }
 
 // ── Stale-while-revalidate strategy (for static assets) ──

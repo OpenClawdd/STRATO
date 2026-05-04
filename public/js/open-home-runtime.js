@@ -82,6 +82,10 @@
     return homeSafe(game) && ['ready', 'thumbnail-fallback', 'playable'].includes(status) && game.reliability !== 'red';
   }
 
+  function isSelfHosted(game) {
+    return String(game?.url || '').startsWith('/games/');
+  }
+
   function catalog() {
     return games.filter(promotable);
   }
@@ -183,7 +187,11 @@
     const key = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
     const picked = [];
     const categoryCounts = new Map();
-    for (const game of [...list].sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))) {
+    for (const game of [...list].sort((a, b) => {
+      const localWeight = Number(isSelfHosted(b)) - Number(isSelfHosted(a));
+      if (localWeight) return localWeight;
+      return hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`);
+    })) {
       const cat = game.category || 'arcade';
       if ((categoryCounts.get(cat) || 0) >= 2 && picked.length < 5) continue;
       picked.push(game);
@@ -339,9 +347,11 @@
       button.classList.add('shuffle-lock');
       setTimeout(() => button.classList.remove('shuffle-lock'), 480);
     }
-    const recent = new Set(readJson(keys.recent, []).slice(0, Math.min(6, list.length - 1)));
-    const pool = list.filter(game => !recent.has(game.id));
-    launch((pool.length ? pool : list)[Math.floor(Math.random() * (pool.length ? pool.length : list.length))].id);
+    const stable = list.filter(isSelfHosted);
+    const choices = stable.length ? stable : list;
+    const recent = new Set(readJson(keys.recent, []).slice(0, Math.min(6, choices.length - 1)));
+    const pool = choices.filter(game => !recent.has(game.id));
+    launch((pool.length ? pool : choices)[Math.floor(Math.random() * (pool.length ? pool.length : choices.length))].id);
   }
 
   function toggleFavorite(id) {

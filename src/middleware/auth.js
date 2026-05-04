@@ -145,8 +145,16 @@ export default function authMiddleware(req, res, next) {
     return next();
   }
 
-  // Allow PWA assets through without auth (manifest, sw.js, icons)
-  if (path === '/manifest.json' || path === '/sw.js' || path === '/favicon.ico' || path === '/favicon.png') {
+  // Allow PWA/catalog visual assets through without auth so manifests and cached cards
+  // never receive login HTML in place of images.
+  if (
+    path === '/manifest.json' ||
+    path === '/sw.js' ||
+    path === '/favicon.ico' ||
+    path === '/favicon.png' ||
+    path.startsWith('/assets/icons/') ||
+    path.startsWith('/assets/thumbnails/')
+  ) {
     return next();
   }
 

@@ -706,6 +706,10 @@
     return isLaunchableStatus(getGameHealth(game).status);
   }
 
+  function isSelfHostedGame(game) {
+    return String(game?.url || '').startsWith('/games/');
+  }
+
   function isPromotableGame(game) {
     if (!isHomeSafeGame(game)) return false;
     const health = getGameHealth(game);
@@ -827,6 +831,8 @@
   function selectDailyPicks(games, count = 6) {
     const key = dailyKey();
     const sorted = [...games].sort((a, b) => {
+      const localWeight = Number(isSelfHostedGame(b)) - Number(isSelfHostedGame(a));
+      if (localWeight) return localWeight;
       const aScore = hashString(`${key}:${a.id}`) + (hasUsableThumbnail(a) ? 0 : 500000);
       const bScore = hashString(`${key}:${b.id}`) + (hasUsableThumbnail(b) ? 0 : 500000);
       return aScore - bScore;
@@ -1232,6 +1238,8 @@
 
   function surpriseMe() {
     const valid = homeCatalog().filter(isLaunchableGame);
+    const stable = valid.filter(isSelfHostedGame);
+    const choicesBase = stable.length ? stable : valid;
     if (!valid.length) {
       const fallback = selectDailyPicks(homeCatalog(), 1)[0];
       if (fallback) launchGame(fallback.id);
@@ -1245,9 +1253,9 @@
       btn.classList.add('shuffle-lock');
       setTimeout(() => btn.classList.remove('shuffle-lock'), 480);
     }
-    const recent = new Set(state.recentlyPlayed.slice(0, Math.min(6, valid.length - 1)));
-    const pool = valid.filter(game => !recent.has(game.id));
-    const choices = pool.length ? pool : valid;
+    const recent = new Set(state.recentlyPlayed.slice(0, Math.min(6, choicesBase.length - 1)));
+    const pool = choicesBase.filter(game => !recent.has(game.id));
+    const choices = pool.length ? pool : choicesBase;
     const pick = choices[Math.floor(Math.random() * choices.length)];
     launchGame(pick.id);
   }
