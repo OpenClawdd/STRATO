@@ -6,8 +6,8 @@
    skip waiting, claim clients
    ══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'strato-v22-stability';
-const CACHE_VERSION = 22;
+const CACHE_NAME = 'strato-v23-open-home';
+const CACHE_VERSION = 23;
 const DEBUG_SW = false;
 const swLog = (...args) => { if (DEBUG_SW) console.debug(...args); };
 const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
@@ -25,6 +25,8 @@ const STATIC_ASSETS = [
   '/js/bookmarks.js',
   '/js/extensions.js',
   '/js/pwa.js',
+  '/js/open-home-runtime.js',
+  '/games/strato-game-shell.js',
   '/bare-mux/index.js',
   '/bare-mux/worker.js',
   '/epoxy/index.mjs',
@@ -36,7 +38,7 @@ const STATIC_ASSETS = [
 ];
 
 // Thumbnails to cache
-const THUMBNAIL_CACHE = 'strato-v22-thumbnails';
+const THUMBNAIL_CACHE = 'strato-v23-thumbnails';
 
 // Offline fallback page
 const OFFLINE_PAGE = `
@@ -137,6 +139,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Versioned shell assets should update immediately after product patches.
+  if (url.searchParams.has('v') || url.pathname === '/js/app.js' || url.pathname === '/css/style.css' || url.pathname === '/sw.js') {
+    event.respondWith(networkFirstStatic(request));
+    return;
+  }
+
   // Proxy routes: never cache (dynamic proxied content)
   if (url.pathname.startsWith('/frog/') || url.pathname.startsWith('/scramjet/')) {
     return;
@@ -170,6 +178,23 @@ async function networkFirst(request) {
       status: 503,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+}
+
+async function networkFirstStatic(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cloned = response.clone();
+      caches.open(CACHE_NAME).then((cache) => {
+        cache.put(request, cloned);
+      });
+    }
+    return response;
+  } catch (e) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    return new Response('Offline', { status: 503, statusText: 'Offline' });
   }
 }
 

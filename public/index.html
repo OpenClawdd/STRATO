@@ -11,7 +11,7 @@
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=3-open-home-6">
 </head>
 <body data-theme="cyan">
 
@@ -156,72 +156,82 @@
 
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
-        <div class="home-grid">
-          <!-- Welcome Card -->
-          <div class="glass-card home-welcome">
-            <h2 class="card-title">Welcome back, <span id="home-username">User</span></h2>
-            <p class="card-subtitle">Your mission control awaits</p>
-            <div class="home-xp-display">
-              <div class="xp-level-badge" id="home-level">Lv.1</div>
-              <div class="xp-bar"><div class="xp-fill" id="home-xp-fill"></div></div>
-              <span class="xp-text" id="home-xp-text">0 / 100 XP</span>
+        <div class="open-home">
+          <header class="open-home-header">
+            <div>
+              <p class="open-kicker">Open here first.</p>
+              <h1 class="open-title">STRATO</h1>
+              <p class="open-subtitle">Ready to launch.</p>
             </div>
-          </div>
-          <!-- Quick Stats -->
-          <div class="glass-card home-stats">
-            <div class="stat-item">
-              <span class="stat-value" id="stat-games-played">0</span>
-              <span class="stat-label">Games Played</span>
+            <button class="home-pref-toggle" id="low-power-toggle" type="button" aria-pressed="false">Low Power</button>
+          </header>
+
+          <section class="glass-card search-spotlight" aria-label="Search the catalog">
+            <label class="spotlight-label" for="home-search">Launch something.</label>
+            <div class="spotlight-row">
+              <input type="search" class="spotlight-input" id="home-search" placeholder="Search the catalog" autocomplete="off" spellcheck="false">
+              <button class="glass-btn spotlight-arcade" type="button" data-home-nav="arcade">Arcade</button>
             </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-pages-browsed">0</span>
-              <span class="stat-label">Pages Browsed</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-ai-chats">0</span>
-              <span class="stat-label">AI Chats</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-chat-msgs">0</span>
-              <span class="stat-label">Chat Messages</span>
-            </div>
-          </div>
-          <!-- Daily Challenges -->
-          <div class="glass-card home-challenges">
-            <h3 class="card-title">Daily Challenges</h3>
-            <div id="daily-challenges" class="challenges-list">
-              <div class="challenge-item" data-challenge="play-games">
-                <span class="challenge-label">Play 3 Games</span>
-                <div class="challenge-bar"><div class="challenge-fill" id="challenge-play-progress"></div></div>
-                <span class="challenge-count" id="challenge-play-count">0/3</span>
+            <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
+          </section>
+
+          <nav class="home-actions" aria-label="Quick actions">
+            <button class="home-action primary" type="button" id="surprise-me">Surprise Me</button>
+            <button class="home-action" type="button" data-home-nav="arcade">Arcade</button>
+            <button class="home-action" type="button" id="home-favorites-action">Favorites</button>
+            <button class="home-action" type="button" id="home-recent-action">Recently Played</button>
+          </nav>
+
+          <section class="home-section" id="daily-picks-section">
+            <div class="home-section-head">
+              <div>
+                <p class="section-eyebrow">Picked for today.</p>
+                <h2 class="section-title">Daily Picks</h2>
               </div>
-              <div class="challenge-item" data-challenge="browse-sites">
-                <span class="challenge-label">Browse 5 Sites</span>
-                <div class="challenge-bar"><div class="challenge-fill" id="challenge-browse-progress"></div></div>
-                <span class="challenge-count" id="challenge-browse-count">0/5</span>
-              </div>
-              <div class="challenge-item" data-challenge="chat-ai">
-                <span class="challenge-label">Chat with AI 2x</span>
-                <div class="challenge-bar"><div class="challenge-fill" id="challenge-chat-progress"></div></div>
-                <span class="challenge-count" id="challenge-chat-count">0/2</span>
+              <span class="section-signal">Signal locked.</span>
+            </div>
+            <div class="home-card-row" id="daily-picks"></div>
+          </section>
+
+          <section class="home-section" id="home-favorites-section">
+            <div class="home-section-head">
+              <div>
+                <p class="section-eyebrow">Saved here.</p>
+                <h2 class="section-title">Favorites</h2>
               </div>
             </div>
-          </div>
-          <!-- Quick Launch -->
-          <div class="glass-card home-quicklaunch">
-            <h3 class="card-title">Quick Launch</h3>
-            <div id="quick-launch" class="quick-launch-grid"></div>
-          </div>
-          <!-- Recent Activity -->
-          <div class="glass-card home-activity">
-            <h3 class="card-title">Recent Activity</h3>
-            <div id="recent-activity" class="activity-list"></div>
-          </div>
-          <!-- Leaderboard Preview -->
-          <div class="glass-card home-leaderboard">
-            <h3 class="card-title">Top Players</h3>
-            <div id="home-leaderboard" class="mini-leaderboard"></div>
-          </div>
+            <div class="home-card-row" id="home-favorites"></div>
+          </section>
+
+          <section class="home-section" id="home-recent-section">
+            <div class="home-section-head">
+              <div>
+                <p class="section-eyebrow">Back to STRATO.</p>
+                <h2 class="section-title">Recently Played</h2>
+              </div>
+            </div>
+            <div class="home-card-row" id="home-recent"></div>
+          </section>
+
+          <section class="home-section hidden" id="home-most-played-section">
+            <div class="home-section-head">
+              <div>
+                <p class="section-eyebrow">Local play data.</p>
+                <h2 class="section-title">Most Played</h2>
+              </div>
+            </div>
+            <div class="home-card-row" id="home-most-played"></div>
+          </section>
+
+          <section class="home-section hidden" id="home-recently-added-section">
+            <div class="home-section-head">
+              <div>
+                <p class="section-eyebrow">New signal.</p>
+                <h2 class="section-title">Recently Added</h2>
+              </div>
+            </div>
+            <div class="home-card-row" id="home-recently-added"></div>
+          </section>
         </div>
       </section>
 
@@ -276,7 +286,7 @@
           <div class="browser-sidebar" id="browser-sidebar">
             <!-- Bookmarks/History sidebar content -->
           </div>
-          <iframe id="proxy-iframe" class="proxy-iframe" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
+          <iframe id="proxy-iframe" class="proxy-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
         </div>
       </section>
 
@@ -683,7 +693,8 @@
   <script src="/js/bookmarks.js"></script>
   <script src="/js/extensions.js"></script>
   <script src="/js/pwa.js"></script>
-  <script src="/js/app.js"></script>
+  <script src="/js/open-home-runtime.js?v=3-open-home-6"></script>
+  <script src="/js/app.js?v=3-open-home-6"></script>
 
 </body>
 </html>

@@ -59,10 +59,11 @@
   @media (max-width: 600px) { .dpad { display: block; } }
   @media (hover: none) { .dpad { display: block; } }
 </style>
+<script src="/games/strato-game-shell.js" defer></script>
 </head>
 <body>
   <div class="header">
-    <button class="back-btn" onclick="history.back();">&#8592; STRATO</button>
+    <button class="back-btn" data-action="back-strato">&#8592; STRATO</button>
     <div class="game-title">PAC-MAN</div>
   </div>
   <div class="score-bar">
@@ -74,10 +75,10 @@
   </div>
   <div class="controls-hint">Arrow keys to move</div>
   <div class="dpad">
-    <button class="up" ontouchstart="setDir(0,-1)" onclick="setDir(0,-1)">&#9650;</button>
-    <button class="down" ontouchstart="setDir(0,1)" onclick="setDir(0,1)">&#9660;</button>
-    <button class="left" ontouchstart="setDir(-1,0)" onclick="setDir(-1,0)">&#9664;</button>
-    <button class="right" ontouchstart="setDir(1,0)" onclick="setDir(1,0)">&#9654;</button>
+    <button class="up" data-dir-x="0" data-dir-y="-1">&#9650;</button>
+    <button class="down" data-dir-x="0" data-dir-y="1">&#9660;</button>
+    <button class="left" data-dir-x="-1" data-dir-y="0">&#9664;</button>
+    <button class="right" data-dir-x="1" data-dir-y="0">&#9654;</button>
   </div>
 
 <script>

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "manual",
+    "adapter": "manual-list",
+    "enabled": true,
+    "type": "manual",
+    "description": "Local review-friendly list used for hand-entered catalog candidates."
+  },
+  {
+    "name": "generic-json-example",
+    "adapter": "generic-json",
+    "enabled": false,
+    "url": "",
+    "itemsPath": "",
+    "description": "Disabled template for public JSON metadata sources."
+  },
+  {
+    "name": "generic-html-example",
+    "adapter": "generic-html",
+    "enabled": false,
+    "url": "",
+    "description": "Disabled template for public HTML pages that explicitly allow metadata extraction."
+  }
+]

@@ -1,7 +1,7 @@
 {
   "name": "STRATO — APEX",
   "short_name": "STRATO",
-  "description": "The ultimate school browser — games, proxy, AI tutor, chat, and more. Browse freely with STRATO.",
+  "description": "A self-hosted arcade and app hub with catalog search, local personalization, chat, and optional AI tools.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",
@@ -49,7 +49,7 @@
       "name": "Browse",
       "short_name": "Browser",
       "url": "/?view=browser",
-      "description": "Browse the web with STRATO"
+      "description": "Open the STRATO browser view"
     },
     {
       "name": "AI Tutor",

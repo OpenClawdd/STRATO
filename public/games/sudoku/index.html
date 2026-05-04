@@ -38,6 +38,7 @@ h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-sha
 .overlay p { font-size: 18px; margin-bottom: 20px; color: #aac; }
 .hidden { display: none; }
 </style>
+<script src="/games/strato-game-shell.js" defer></script>
 </head>
 <body>
 <h1>SUDOKU</h1>
@@ -48,13 +49,13 @@ h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-sha
 <div class="board" id="board"></div>
 <div class="numpad" id="numpad"></div>
 <div class="actions">
-  <button onclick="newGame()">New Game</button>
-  <button onclick="checkSolution()">Check</button>
+  <button data-action="new-game">New Game</button>
+  <button data-action="check-solution">Check</button>
 </div>
 <div class="overlay hidden" id="winScreen">
   <h2>Puzzle Solved!</h2>
   <p id="winMsg"></p>
-  <button style="background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:6px;cursor:pointer;font-size:16px;" onclick="newGame()">New Puzzle</button>
+  <button style="background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:6px;cursor:pointer;font-size:16px;" data-action="new-game">New Puzzle</button>
 </div>
 
 <script>
