@@ -22,7 +22,7 @@ describe('Hub Route Logic', () => {
     it('should search by name', () => {
       const q = 'tube';
       const filtered = sites.filter(s => s.name.toLowerCase().includes(q));
-      expect(filtered.length).toBe(2); // YouTube and Twitch
+      expect(filtered.length).toBe(1); // YouTube
     });
 
     it('should search by description', () => {

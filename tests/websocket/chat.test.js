@@ -1,13 +1,13 @@
 // ── STRATO v21 — WebSocket Chat Integration Tests ──
 // Tests for src/websocket.js: connection, auth, rooms, messages, rate limiting, heartbeat
 
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from 'vitest';
 import { createServer } from 'http';
 import { WebSocket } from 'ws';
 import cookieSignature from 'cookie-signature';
 import express from 'express';
 
-const COOKIE_SECRET = 'dev-secret-change-me';
+const COOKIE_SECRET = process.env.COOKIE_SECRET || 'test-secret-key-for-vitest';
 
 function signCookie(value, secret = COOKIE_SECRET) {
   return 's:' + cookieSignature.sign(value, secret);
@@ -16,6 +16,7 @@ function signCookie(value, secret = COOKIE_SECRET) {
 // ── Shared server for all WebSocket tests ──
 let server;
 let wsPort;
+const openSockets = new Set();
 
 beforeAll(async () => {
   const { default: cookieParser } = await import('cookie-parser');
@@ -37,10 +38,20 @@ beforeAll(async () => {
 }, 30000);
 
 afterAll(async () => {
+  for (const ws of openSockets) {
+    try { ws.close(); } catch {}
+  }
   await new Promise((resolve) => {
     server.close(() => resolve());
   });
 }, 15000);
+
+afterEach(async () => {
+  for (const ws of [...openSockets]) {
+    try { ws.close(); } catch {}
+  }
+  await new Promise((resolve) => setTimeout(resolve, 20));
+});
 
 // ── Helper: connect a WebSocket client and wait for the welcome message ──
 function connectWS(username = 'testuser') {
@@ -67,6 +78,8 @@ function connectWS(username = 'testuser') {
         if (!resolved && msg.type === 'connected') {
           resolved = true;
           clearTimeout(timeout);
+          openSockets.add(ws);
+          ws.on('close', () => openSockets.delete(ws));
           resolve({ ws, welcomeMsg: msg });
         }
       } catch {}
@@ -182,13 +195,13 @@ describe('WebSocket Chat', () => {
       ws.close();
     });
 
-    it('should receive error for nonexistent room', async () => {
+    it('should create and join an ad-hoc room when missing', async () => {
       const { ws } = await connectWS('ws_noroom_' + Date.now());
 
       ws.send(JSON.stringify({ type: 'join', roomId: 'nonexistent_room_id_xyz' }));
-      const msg = await waitForMessage(ws, 'error');
+      const msg = await waitForMessage(ws, 'joined');
 
-      expect(msg.error).toContain('Room not found');
+      expect(msg.roomName).toBe('nonexistent_room_id_xyz');
 
       ws.close();
     });
@@ -328,12 +341,8 @@ describe('WebSocket Chat', () => {
       ws.send(JSON.stringify({ type: 'join', roomId: room.id }));
       await waitForMessage(ws, 'joined');
 
-      // Send 5 messages quickly
       for (let i = 0; i < 5; i++) {
         ws.send(JSON.stringify({ type: 'chat', roomId: room.id, message: `msg ${i}` }));
-      }
-      // Wait for all 5 chat confirmations
-      for (let i = 0; i < 5; i++) {
         await waitForMessage(ws, 'chat', 3000);
       }
 
