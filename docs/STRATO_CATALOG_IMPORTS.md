@@ -7,6 +7,7 @@ STRATO imports are review-first. The importer never dumps new entries directly i
 ```bash
 node scripts/import-catalog.mjs --source manual --file scripts/manual-games.txt --dry-run
 node scripts/import-catalog.mjs --source all --dry-run
+node scripts/import-catalog.mjs --source all --quarantine
 node scripts/import-catalog.mjs --source all --review
 node scripts/import-catalog.mjs --merge-approved
 node scripts/validate-games.mjs
@@ -24,7 +25,9 @@ Run the dry run first. If the output looks right, run `--review` to write `publi
 
 ## Review Files
 
-Imported entries are quarantined in `public/assets/games.imported.review.json`.
+Imported entries are staged in `public/assets/games.imported.review.json`.
+
+`--quarantine` writes high-risk/incomplete entries to `public/assets/games.imported.quarantine.json` (for example, missing URL/title, config-required placeholders, or metadata that looks like bypass/directory surfaces).
 
 Set `approved: true` for entries that are ready to merge. Set `rejected: true` for entries that should stay out. `--merge-approved` only merges approved entries that are not rejected.
 

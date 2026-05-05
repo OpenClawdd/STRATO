@@ -1,13 +1,13 @@
-# STRATO
+# STRATO v4 — The Launch Universe
 
-STRATO is a self-hosted arcade and app hub built around one job: open here first, search the catalog, and launch something without dead ends.
+STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
 
 The current app is an Express 5 server with a single-page frontend, a local game catalog, WebSocket chat support, optional AI features, PWA assets, and local personalization powered by `localStorage`.
 
 ## What Is Implemented
 
-- STRATO 3.0 Home with catalog search, one-click launch, Daily Picks, Favorites, Recently Played, and Surprise Me.
-- Real personalization using `strato-favorites`, `strato-recent`, `strato-playCounts`, `strato-lastPlayed`, and `strato-preferences`.
+- STRATO v4 Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
+- Real personalization using `strato-favorites`, `strato-recent`, `strato-playCounts`, `strato-lastPlayed`, `strato-preferences`, and `strato-recentFailures`.
 - Signal Health checks that keep missing URLs, config-required entries, local failures, and non-game surfaces out of featured home sections.
 - Launch recovery modal with Retry, Try Surprise Me, Back to STRATO, and similar game suggestions when metadata allows it.
 - Fallback thumbnail art for missing or broken images.
@@ -70,6 +70,7 @@ pnpm test
 node scripts/validate-games.mjs
 node scripts/import-catalog.mjs --source manual --file scripts/manual-games.txt --dry-run
 node scripts/import-catalog.mjs --source all --dry-run
+node scripts/import-catalog.mjs --source all --quarantine
 node scripts/import-catalog.mjs --source all --review
 node scripts/import-catalog.mjs --merge-approved
 ```
@@ -96,6 +97,8 @@ Import docs live at `docs/STRATO_CATALOG_IMPORTS.md`.
 
 The importer writes candidates to `public/assets/games.imported.review.json`. Nothing is merged into `games.json` until an entry is manually marked `approved: true` and `node scripts/import-catalog.mjs --merge-approved` is run.
 
+`--quarantine` writes high-risk or incomplete entries to `public/assets/games.imported.quarantine.json` so review can focus on playable candidates first.
+
 `--merge-approved` creates a timestamped `.bak` backup of `games.json`, de-dupes aggressively, prefers existing STRATO entries, and prints added/skipped/rejected counts.
 
 ## Troubleshooting
@@ -111,7 +114,9 @@ The importer writes candidates to `public/assets/games.imported.review.json`. No
 
 ```text
 public/index.html             STRATO single-page UI
-public/js/app.js              Home, arcade, launch, personalization logic
+public/js/app.js              Legacy app/runtime systems for non-v4 views
+public/js/open-home-runtime.js Tiny v4 bootstrap
+public/js/v4/                 Modular v4 Home/search/launch frontend
 public/css/style.css          Main visual system
 public/assets/games.json      Catalog
 public/games/                 Local standalone games

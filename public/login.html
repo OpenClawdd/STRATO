@@ -12,7 +12,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #030308;
+      --bg: #06111f;
       --glass-bg: rgba(255,255,255,0.06);
       --glass-border: rgba(255,255,255,0.1);
       --glass-hover: rgba(255,255,255,0.1);
@@ -20,7 +20,7 @@
       --text-dim: rgba(255,255,255,0.5);
       --accent-cyan: #00e5ff;
       --accent-purple: #a855f7;
-      --accent-pink: #f472b6;
+      --accent-green: #5eead4;
       --font-display: 'Syne', sans-serif;
       --font-body: 'Manrope', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -45,7 +45,7 @@
       background:
         radial-gradient(ellipse 120% 80% at 50% 0%, rgba(0,229,255,0.1) 0%, transparent 50%),
         radial-gradient(ellipse 80% 60% at 80% 100%, rgba(168,85,247,0.1) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(244,114,182,0.07) 0%, transparent 40%),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(94,234,212,0.09) 0%, transparent 40%),
         radial-gradient(ellipse 50% 40% at 60% 60%, rgba(34,197,94,0.05) 0%, transparent 40%);
       z-index: -2;
       animation: bgPulse 8s ease-in-out infinite alternate;
@@ -78,9 +78,10 @@
       animation: cardIn 0.8s cubic-bezier(0.16,1,0.3,1);
       position: relative;
       box-shadow:
-        0 0 60px rgba(0,229,255,0.06),
-        0 0 120px rgba(168,85,247,0.04),
-        0 24px 48px rgba(0,0,0,0.4);
+        inset 0 1px 0 rgba(255,255,255,0.24),
+        0 0 60px rgba(112,211,255,0.12),
+        0 0 120px rgba(168,85,247,0.07),
+        0 28px 56px rgba(0,0,0,0.46);
     }
 
     /* Animated gradient border */
@@ -90,7 +91,7 @@
       inset: -1px;
       border-radius: 28px;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(168,85,247,0.3), rgba(244,114,182,0.3), rgba(0,229,255,0.3));
+      background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(168,85,247,0.3), rgba(94,234,212,0.34), rgba(0,229,255,0.3));
       background-size: 300% auto;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -115,7 +116,7 @@
       font-weight: 800;
       font-size: 52px;
       letter-spacing: 6px;
-      background: linear-gradient(135deg, #00e5ff, #a855f7, #f472b6, #fb923c, #22c55e, #00e5ff);
+      background: linear-gradient(135deg, #dffbff, #67e8f9, #5eead4, #a7f3d0, #60a5fa);
       background-size: 300% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -235,10 +236,10 @@
     .submit-btn {
       width: 100%;
       padding: 18px;
-      background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(168,85,247,0.15));
-      border: 1px solid rgba(0,229,255,0.3);
+      background: linear-gradient(180deg, rgba(197,247,255,0.95), rgba(142, 199, 244, 0.88));
+      border: 1px solid rgba(179, 229, 255, 0.65);
       border-radius: 16px;
-      color: var(--accent-cyan);
+      color: #082036;
       font-family: var(--font-display);
       font-size: 16px;
       font-weight: 700;
@@ -260,8 +261,8 @@
     }
 
     .submit-btn:hover {
-      background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(168,85,247,0.25));
-      box-shadow: 0 0 30px rgba(0,229,255,0.2), 0 8px 32px rgba(0,0,0,0.3);
+      background: linear-gradient(180deg, rgba(223,251,255,0.98), rgba(167, 216, 252, 0.94));
+      box-shadow: 0 0 26px rgba(160,230,255,0.34), 0 10px 30px rgba(0,0,0,0.33);
       transform: translateY(-2px);
     }
 
@@ -326,7 +327,7 @@
 
   <div class="login-card">
     <div class="login-logo">STRATO</div>
-    <p class="login-subtitle">Above the clouds. Above restrictions.</p>
+    <p class="login-subtitle">Open here first. Enter the STRATO digital hideout.</p>
 
     <form id="login-form" method="POST" action="/login">
       <input type="hidden" name="csrf_token" id="csrf-input" value="__CSRF_TOKEN__">
@@ -338,7 +339,7 @@
           class="form-input"
           id="username"
           name="username"
-          placeholder="e.g. coolkid42"
+          placeholder="e.g. skyfarer"
           maxlength="24"
           autocomplete="off"
           spellcheck="false"
@@ -349,7 +350,7 @@
       <div class="tos-group">
         <input type="checkbox" class="tos-checkbox" id="tos-accepted" name="tos_accepted" value="true" required>
         <label class="tos-label" for="tos-accepted">
-          I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and acknowledge that STRATO is for educational use only.
+          I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and will use this self-hosted arcade hub responsibly.
         </label>
       </div>
 
@@ -358,7 +359,7 @@
       <p class="error-msg" id="error-msg"></p>
     </form>
 
-    <div class="version-badge">v21.0.0 DEFINITIVE</div>
+    <div class="version-badge">v4.0.0 THE LAUNCH UNIVERSE</div>
   </div>
 
   <script>
@@ -368,11 +369,11 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let particles = [];
-      const PARTICLE_COUNT = 60;
+      const PARTICLE_COUNT = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 24;
       const COLORS = [
         'rgba(0,229,255,',
         'rgba(168,85,247,',
-        'rgba(244,114,182,',
+        'rgba(94,234,212,',
         'rgba(34,197,94,',
       ];
 

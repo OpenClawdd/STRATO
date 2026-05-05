@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const gamesPath = path.join(rootDir, 'public', 'assets', 'games.json');
 const reviewPath = path.join(rootDir, 'public', 'assets', 'games.imported.review.json');
+const quarantinePath = path.join(rootDir, 'public', 'assets', 'games.imported.quarantine.json');
 const sourcesPath = path.join(__dirname, 'catalog-sources.json');
 const cacheDir = path.join(rootDir, '.strato-cache');
 
@@ -20,7 +21,7 @@ function parseArgs(argv) {
       continue;
     }
     const key = arg.slice(2);
-    if (['dry-run', 'review', 'merge-approved'].includes(key)) args[key] = true;
+    if (['dry-run', 'review', 'merge-approved', 'quarantine'].includes(key)) args[key] = true;
     else args[key] = argv[++i];
   }
   return args;
@@ -67,6 +68,8 @@ function normalizeEntry(entry, source) {
     playable: entry.playable !== false,
     approved: false,
     rejected: false,
+    quarantined: false,
+    quarantineReason: '',
   };
 }
 
@@ -170,6 +173,22 @@ async function writeReview(entries) {
   return merged.length;
 }
 
+function quarantineRule(entry) {
+  const text = `${entry.name || ''} ${entry.description || ''} ${entry.category || ''} ${(entry.tags || []).join(' ')}`.toLowerCase();
+  if (!entry.url || !entry.name) return 'missing required name/url';
+  if (/\b(proxy|unblocked|bypass|exploit|cloak|mirror)\b/.test(text)) return 'non-playable or bypass-looking metadata';
+  if (entry.needsConfig) return 'requires config before review';
+  return '';
+}
+
+async function writeQuarantine(entries) {
+  const quarantined = entries
+    .map(entry => ({ ...entry, quarantineReason: quarantineRule(entry) }))
+    .filter(entry => entry.quarantineReason);
+  await fs.writeFile(quarantinePath, JSON.stringify(quarantined, null, 2) + '\n', 'utf8');
+  return quarantined.length;
+}
+
 async function mergeApproved() {
   const games = await readJson(gamesPath, []);
   const review = await readJson(reviewPath, []);
@@ -211,7 +230,10 @@ async function main() {
   console.log(`Duplicates/skipped: ${duplicates.length}`);
   if (failures.length) console.log(`Source failures: ${failures.length}`);
 
-  if (args.review) {
+  if (args.quarantine) {
+    const count = await writeQuarantine(output);
+    console.log(`Quarantine file written: ${path.relative(rootDir, quarantinePath)} (${count} entries)`);
+  } else if (args.review) {
     const count = await writeReview(output);
     console.log(`Review file written: ${path.relative(rootDir, reviewPath)} (${count} entries)`);
   } else if (args['dry-run']) {

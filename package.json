@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "21.0.0",
-  "description": "STRATO v21: a self-hosted arcade and app hub with catalog search and local personalization.",
+  "version": "4.0.0",
+  "description": "STRATO v4 — The Launch Universe: a self-hosted arcade and app hub with catalog search and local personalization.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

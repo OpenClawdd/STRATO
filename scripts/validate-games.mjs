@@ -12,6 +12,7 @@ const PLACEHOLDER_URL = /^(#|about:blank|\$\{[^}]+\}|https?:\/\/(example\.(com|o
 const ADULT_TERMS = /\b(porn|xxx|adult|sex|hentai|nsfw)\b/i;
 const GAMBLING_TERMS = /\b(casino|slots?|poker|betting|blackjack|roulette)\b/i;
 const DIRECTORY_TERMS = /\b(proxy|mirror|directory|index|hub|unblocked|exploit|cloak|bypass)\b/i;
+const SUSPICIOUS_HOST_TERMS = /\b(proxy|mirror|unblock|bypass|cloak)\b/i;
 const SAFE_SCHEMES = new Set(['http:', 'https:']);
 
 function normalize(value) {
@@ -59,6 +60,7 @@ export async function validateGames(filePath = catalogPath) {
   }
 
   const issues = [];
+  const quarantine = [];
   const seenTitles = new Map();
   const seenUrls = new Map();
   const seenTitleUrl = new Map();
@@ -80,6 +82,14 @@ export async function validateGames(filePath = catalogPath) {
       if (!urlStatus.ok) {
         const severity = game.config_required || game.needsConfig ? 'warning' : 'error';
         addIssue(issues, severity, urlStatus.reason.replace(/\s+/g, '-'), game, urlStatus.reason);
+        if (severity === 'error') quarantine.push({ id: game.id, title: title || game.id, reason: urlStatus.reason });
+      } else if (!String(url).startsWith('/')) {
+        try {
+          const parsed = new URL(String(url));
+          if (SUSPICIOUS_HOST_TERMS.test(parsed.hostname)) {
+            addIssue(issues, 'warning', 'suspicious-hostname', game, `Hostname looks like a bypass surface: ${parsed.hostname}`);
+          }
+        } catch {}
       }
     }
 
@@ -120,10 +130,11 @@ export async function validateGames(filePath = catalogPath) {
     if (DIRECTORY_TERMS.test(searchableText) || ['proxies', 'directories', 'game-hubs'].includes(normalize(game.category))) {
       const severity = game.config_required || game.needsConfig ? 'warning' : 'error';
       addIssue(issues, severity, 'not-playable-game-surface', game, 'Entry looks like a directory/proxy surface rather than a playable game');
+      if (severity === 'error') quarantine.push({ id: game.id, title: title || game.id, reason: 'non-playable-game-surface' });
     }
   }
 
-  return { games, issues };
+  return { games, issues, quarantine };
 }
 
 function groupIssues(issues) {
@@ -136,7 +147,7 @@ function groupIssues(issues) {
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
-    const { games, issues } = await validateGames(process.argv[2] ? path.resolve(process.argv[2]) : catalogPath);
+    const { games, issues, quarantine } = await validateGames(process.argv[2] ? path.resolve(process.argv[2]) : catalogPath);
     const groups = groupIssues(issues);
     const errorCount = issues.filter(issue => issue.severity === 'error').length;
     const warningCount = issues.filter(issue => issue.severity === 'warning').length;
@@ -144,6 +155,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     console.log(`STRATO catalog validation`);
     console.log(`Total games: ${games.length}`);
     console.log(`Issue count: ${issues.length} (${errorCount} errors, ${warningCount} warnings)`);
+    console.log(`Quarantine candidates: ${quarantine.length}`);
 
     for (const [type, group] of Object.entries(groups).sort(([a], [b]) => a.localeCompare(b))) {
       console.log(`\n${type}: ${group.length}`);
