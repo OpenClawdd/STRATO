@@ -1,0 +1,6 @@
+# Manual STRATO import list.
+# One game per line:
+# Title | URL | Category | tag-one, tag-two | Optional description | Optional thumbnail
+#
+# Example:
+# Example Puzzle | /games/example/index.html | puzzle | logic, offline | Short description | /assets/thumbnails/example.webp

@@ -1,12 +1,12 @@
 {
-  "name": "STRATO — APEX",
+  "name": "STRATO v4 - The Launch Universe",
   "short_name": "STRATO",
-  "description": "The ultimate school browser — games, proxy, AI tutor, chat, and more. Browse freely with STRATO.",
+  "description": "STRATO is the place you open first: a self-hosted launch universe for search, discovery, and fast game starts.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#00e5ff",
-  "background_color": "#06060e",
+  "background_color": "#050914",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
@@ -49,7 +49,7 @@
       "name": "Browse",
       "short_name": "Browser",
       "url": "/?view=browser",
-      "description": "Browse the web with STRATO"
+      "description": "Open the STRATO browser view"
     },
     {
       "name": "AI Tutor",

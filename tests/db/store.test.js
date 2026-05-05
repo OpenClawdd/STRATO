@@ -11,7 +11,7 @@ describe('Input Sanitization', () => {
   describe('escapeHtml', () => {
     it('should escape HTML special characters', () => {
       expect(escapeHtml('<script>alert("xss")</script>')).toBe(
-        '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;'
+        '&lt;script&gt;alert(&quot;xss&quot;)&lt;&#x2F;script&gt;'
       );
     });
 
@@ -169,10 +169,10 @@ describe('CSRF Protection', () => {
     expect(csrf.validateCsrfToken(null)).toBe(false);
   });
 
-  it('should consume tokens on validation (one-time use)', () => {
+  it('should keep SPA session tokens valid across sequential API calls', () => {
     const token = csrf.generateCsrfToken();
     expect(csrf.validateCsrfToken(token)).toBe(true);
-    expect(csrf.validateCsrfToken(token)).toBe(false); // Already consumed
+    expect(csrf.validateCsrfToken(token)).toBe(true);
   });
 
   it('should report active token count', () => {

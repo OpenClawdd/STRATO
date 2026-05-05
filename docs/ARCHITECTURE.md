@@ -1,6 +1,6 @@
 # STRATO Architecture
 
-Complete technical architecture documentation for STRATO v21. This document describes the system design, request flows, data models, and security architecture of the application.
+Complete technical architecture documentation for STRATO v4. This document describes the system design, request flows, data models, and security architecture of the application.
 
 ---
 
@@ -1052,10 +1052,10 @@ Fetch → Route to appropriate strategy
 
 ### Cache-Busting
 
-When a new version is deployed, the service worker cache name changes (`strato-v21`). On activation, all caches that don't match the current name are deleted:
+When a new version is deployed, the service worker cache name changes (`strato-v4`). On activation, all caches that don't match the current name are deleted:
 
 ```javascript
-const CACHE_NAME = 'strato-v21';
+const CACHE_NAME = 'strato-v4';
 const CACHE_VERSION = 21;
 
 // Activate: delete old caches

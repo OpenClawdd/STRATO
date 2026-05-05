@@ -87,8 +87,13 @@ async function handleMessage(ws, data) {
     case 'chat': {
       const { roomId, message } = msg;
 
-      if (!roomId || !message) {
-        ws.send(JSON.stringify({ type: 'error', error: 'roomId and message are required' }));
+      if (!roomId) {
+        ws.send(JSON.stringify({ type: 'error', error: 'roomId is required' }));
+        return;
+      }
+
+      if (message === undefined || message === null) {
+        ws.send(JSON.stringify({ type: 'error', error: 'message is required' }));
         return;
       }
 

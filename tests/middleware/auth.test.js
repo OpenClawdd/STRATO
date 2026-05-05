@@ -7,7 +7,7 @@ import request from 'supertest';
 import cookieSignature from 'cookie-signature';
 import { validateAuthCookie } from '../../src/middleware/auth.js';
 
-const COOKIE_SECRET = 'dev-secret-change-me';
+const COOKIE_SECRET = process.env.COOKIE_SECRET || 'test-secret-key-for-vitest';
 
 // ── Helper: create a signed cookie value ──
 function signCookie(value, secret = COOKIE_SECRET) {

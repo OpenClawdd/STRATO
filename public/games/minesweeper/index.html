@@ -36,12 +36,13 @@ h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-sha
 .win h2 { color: #00e676; }
 .lose h2 { color: #ff4081; }
 </style>
+<script src="/games/strato-game-shell.js" defer></script>
 </head>
 <body>
 <h1>MINESWEEPER</h1>
 <div class="diff-buttons">
-  <button class="active" id="btn9" onclick="setDiff(9,10)">Easy 9×9</button>
-  <button id="btn16" onclick="setDiff(16,40)">Hard 16×16</button>
+  <button class="active" id="btn9" data-action="set-diff" data-size="9" data-mines="10">Easy 9×9</button>
+  <button id="btn16" data-action="set-diff" data-size="16" data-mines="40">Hard 16×16</button>
 </div>
 <div class="info">
   <div class="info-box"><div class="label">Mines</div><div class="value" id="mineCount">10</div></div>
@@ -50,12 +51,12 @@ h1 { color: #00e5ff; font-size: clamp(24px, 5vw, 40px); margin: 10px 0; text-sha
 </div>
 <div class="board" id="board"></div>
 <div class="actions">
-  <button onclick="newGame()">New Game</button>
+  <button data-action="new-game">New Game</button>
 </div>
 <div class="overlay hidden" id="endScreen">
   <h2 id="endTitle"></h2>
   <p id="endMsg"></p>
-  <button style="background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:6px;cursor:pointer;font-size:16px;" onclick="newGame()">Play Again</button>
+  <button style="background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);padding:10px 24px;border-radius:6px;cursor:pointer;font-size:16px;" data-action="new-game">Play Again</button>
 </div>
 
 <script>

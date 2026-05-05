@@ -246,7 +246,7 @@ app.use(themesRoutes);
 app.use(extensionsRoutes);
 app.use(stealthRoutes);
 
-// ── v21 routes ──
+// ── STRATO routes ──
 app.use(adminRoutes);
 app.use(notificationRoutes);
 app.use(dataRoutes);
@@ -327,18 +327,18 @@ try {
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v21.0.0                       ║
-  ║    DEFINITIVE — The Ultimate Edition           ║
+  ║          STRATO v4.0.0                         ║
+  ║        The Launch Universe                     ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║
   ║    UV:    /frog/     SJ:    /scramjet/         ║
   ║    Chat:  /ws/chat                             ║
   ║                                                ║
-  ║    v21: Admin, Analytics, Notifications,       ║
-  ║    Data Import/Export, 10 AI Subjects,         ║
-  ║    CSRF Protection, Input Sanitization,        ║
-  ║    Deployment Configs, Tests, Docs             ║
+  ║    Open here first. Launch something.          ║
+  ║    Search / Picks / Orbit / Launch Bay         ║
+  ║    Local personalization + safer imports       ║
+  ║    Tests + catalog validation included         ║
   ╚════════════════════════════════════════════════╝
   `);
 });

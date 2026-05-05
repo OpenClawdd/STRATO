@@ -22,6 +22,7 @@ button:hover { background: rgba(0,229,255,0.3); }
 .overlay p { font-size: 18px; margin-bottom: 20px; color: #aac; }
 .hidden { display: none; }
 </style>
+<script src="/games/strato-game-shell.js" defer></script>
 </head>
 <body>
 <h1>PONG</h1>
@@ -34,12 +35,12 @@ button:hover { background: rgba(0,229,255,0.3); }
 <div class="overlay" id="startScreen">
   <h2>PONG</h2>
   <p>Beat the AI! First to 11 points wins.</p>
-  <button onclick="startGame()">Play</button>
+  <button data-action="start-game">Play</button>
 </div>
 <div class="overlay hidden" id="gameOverScreen">
   <h2 id="endTitle">Game Over</h2>
   <p id="endMsg"></p>
-  <button onclick="startGame()">Play Again</button>
+  <button data-action="start-game">Play Again</button>
 </div>
 
 <script>
