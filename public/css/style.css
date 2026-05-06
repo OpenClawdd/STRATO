@@ -2503,7 +2503,11 @@ body.low-power .home-search-result {
 }
 
 /* ══════════════════════════════════════════════════════════
+<<<<<<< ours
    STRATO v4 HUMAN HIDEOUT FRONTEND
+=======
+   STRATO v5 LIVING HIDEOUT FRONTEND
+>>>>>>> theirs
    Purpose-built Launch Deck layer. Keeps old app surfaces intact.
    ══════════════════════════════════════════════════════════ */
 .sr-only {
@@ -3126,3 +3130,82 @@ body.low-power .home-search-result {
   .launch-button,
   .glass-btn { width: 100%; min-height: 44px; }
 }
+<<<<<<< ours
+=======
+
+/* STRATO v5 — The Living Hideout refinements */
+.first-run-hint {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(167, 243, 208, 0.32);
+  border-radius: 18px;
+  color: rgba(239, 253, 255, 0.92);
+  background: linear-gradient(120deg, rgba(94, 234, 212, 0.14), rgba(14, 45, 78, 0.38));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.first-run-hint button {
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #effcff;
+  background: rgba(8, 26, 45, 0.72);
+  cursor: pointer;
+}
+
+.browser-body.is-loading::after {
+  content: 'Preparing launch…';
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 5;
+  border: 1px solid rgba(153, 246, 228, 0.35);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: #f2fffd;
+  background: rgba(3, 20, 35, 0.82);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.launch-bay-empty[data-state="failed"] {
+  border-color: rgba(251, 191, 36, 0.38);
+  background: linear-gradient(160deg, rgba(253, 230, 138, 0.12), rgba(88,129,181,.12) 55%, rgba(16,28,51,.84));
+}
+
+.launch-bay-empty[data-state="loaded"] {
+  border-color: rgba(94, 234, 212, 0.36);
+}
+
+.hideout-card.featured {
+  min-height: 100%;
+  background: linear-gradient(180deg, rgba(223, 247, 255, 0.15), rgba(8, 23, 42, 0.86));
+}
+
+.hideout-card.featured .hideout-thumb-wrap {
+  aspect-ratio: 16 / 9;
+}
+
+.hideout-card:active,
+.hideout-action:active,
+.launch-button:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+.low-power .first-run-hint,
+.low-power .browser-body.is-loading::after {
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .first-run-hint {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+>>>>>>> theirs
