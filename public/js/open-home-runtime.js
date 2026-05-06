@@ -3,7 +3,7 @@
   window.STRATO_OPEN_HOME_RUNTIME_ACTIVE = true;
 
   async function boot() {
-    const { initOpenHome } = await import('/js/v4/main.js');
+    const { initOpenHome } = await import('/js/v5/main.js');
     await initOpenHome();
   }
 

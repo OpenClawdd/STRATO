@@ -1,4 +1,4 @@
-# STRATO v4 — The Launch Universe
+# STRATO v5 — The Living Hideout
 
 STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
 
@@ -6,7 +6,7 @@ The current app is an Express 5 server with a single-page frontend, a local game
 
 ## What Is Implemented
 
-- STRATO v4 Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
+- STRATO v5 Living Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
 - Real personalization using `strato-favorites`, `strato-recent`, `strato-playCounts`, `strato-lastPlayed`, `strato-preferences`, and `strato-recentFailures`.
 - Signal Health checks that keep missing URLs, config-required entries, local failures, and non-game surfaces out of featured home sections.
 - Launch recovery modal with Retry, Try Surprise Me, Back to STRATO, and similar game suggestions when metadata allows it.
@@ -15,6 +15,7 @@ The current app is an Express 5 server with a single-page frontend, a local game
 - Local standalone games in `public/games/*`.
 - Catalog validation with `scripts/validate-games.mjs`.
 - Review-first catalog imports with `scripts/import-catalog.mjs`.
+- Source Radar for review-only source health checks, candidate discovery, quarantine, and catalog intelligence reports.
 - Express routes for auth, profile, bookmarks, saves, themes, extensions, chat, hub data, and AI endpoints.
 - WebSocket chat tests and backend route tests.
 
@@ -73,6 +74,9 @@ node scripts/import-catalog.mjs --source all --dry-run
 node scripts/import-catalog.mjs --source all --quarantine
 node scripts/import-catalog.mjs --source all --review
 node scripts/import-catalog.mjs --merge-approved
+node scripts/check-sources.mjs
+node scripts/check-sources.mjs --json
+node scripts/catalog-report.mjs
 ```
 
 ## Catalog Validation
@@ -93,7 +97,7 @@ Current expected audit shape: the catalog has playable local/external games plus
 
 ## Catalog Imports
 
-Import docs live at `docs/STRATO_CATALOG_IMPORTS.md`.
+Import docs live at `docs/STRATO_CATALOG_IMPORTS.md`. Source Radar docs live at `docs/SOURCE_RADAR.md`, `docs/CATALOG_REVIEW_GUIDE.md`, and `docs/ADDING_SOURCES.md`.
 
 The importer writes candidates to `public/assets/games.imported.review.json`. Nothing is merged into `games.json` until an entry is manually marked `approved: true` and `node scripts/import-catalog.mjs --merge-approved` is run.
 
@@ -115,8 +119,8 @@ The importer writes candidates to `public/assets/games.imported.review.json`. No
 ```text
 public/index.html             STRATO single-page UI
 public/js/app.js              Legacy app/runtime systems for non-v4 views
-public/js/open-home-runtime.js Tiny v4 bootstrap
-public/js/v4/                 Modular v4 Home/search/launch frontend
+public/js/open-home-runtime.js Tiny v5 bootstrap
+public/js/v5/                 Modular v5 Home/search/launch frontend
 public/css/style.css          Main visual system
 public/assets/games.json      Catalog
 public/games/                 Local standalone games

@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-05-06T11:43:05.509Z",
+  "results": [
+    {
+      "name": "manual",
+      "url": "",
+      "status": "disabled",
+      "httpStatus": null,
+      "finalUrl": "",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:03.757Z",
+      "error": ""
+    },
+    {
+      "name": "GN Math",
+      "url": "https://gn-math.com",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://gn-math.com/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.103Z",
+      "error": ""
+    },
+    {
+      "name": "Selenite",
+      "url": "https://selenite.cc",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://selenite.cc/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.162Z",
+      "error": ""
+    },
+    {
+      "name": "Truffled",
+      "url": "https://truffled.lol",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://truffled.lol/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.307Z",
+      "error": ""
+    },
+    {
+      "name": "Splash",
+      "url": "https://splash.wtf",
+      "status": "blocked",
+      "httpStatus": 403,
+      "finalUrl": "https://domains.atom.com/lpd/name/splash.wtf",
+      "redirected": true,
+      "checkedAt": "2026-05-06T11:43:04.511Z",
+      "error": ""
+    },
+    {
+      "name": "Strawberry",
+      "url": "https://strawberrymath.com",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://strawberrymath.com",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.518Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "Vapor",
+      "url": "https://vapor.my",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://vapor.my",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.609Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "Frogie",
+      "url": "https://frogiesarcade.com",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://frogiesarcade.com/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.660Z",
+      "error": ""
+    },
+    {
+      "name": "Cherri",
+      "url": "https://cherrigames.com",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://cherrigames.com",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.664Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "Lucide",
+      "url": "https://lucide.dev",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://lucide.dev/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.805Z",
+      "error": ""
+    },
+    {
+      "name": "Infamous",
+      "url": "https://infamous.lol",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://infamous.lol",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:04.913Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "Petezah",
+      "url": "https://petezahgames.com",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://petezahgames.com/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.084Z",
+      "error": ""
+    },
+    {
+      "name": "UBGHub",
+      "url": "https://ubghub.com",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://ubghub.com/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.356Z",
+      "error": ""
+    },
+    {
+      "name": "Duck Math",
+      "url": "https://duckmath.org",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://duckmath.org/",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.434Z",
+      "error": ""
+    },
+    {
+      "name": "Coffee Arcade",
+      "url": "https://coffeearcade.org",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://coffeearcade.org",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.437Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "Interstellar",
+      "url": "https://interstellar.games",
+      "status": "dead",
+      "httpStatus": null,
+      "finalUrl": "https://interstellar.games",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.509Z",
+      "error": "fetch failed"
+    },
+    {
+      "name": "generic-json-example",
+      "url": "",
+      "status": "disabled",
+      "httpStatus": null,
+      "finalUrl": "",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.509Z",
+      "error": ""
+    },
+    {
+      "name": "generic-html-example",
+      "url": "",
+      "status": "disabled",
+      "httpStatus": null,
+      "finalUrl": "",
+      "redirected": false,
+      "checkedAt": "2026-05-06T11:43:05.509Z",
+      "error": ""
+    }
+  ]
+}

@@ -1,16 +1,21 @@
 {
-  "name": "STRATO v4 - The Launch Universe",
-  "short_name": "STRATO",
-  "description": "STRATO is the place you open first: a self-hosted launch universe for search, discovery, and fast game starts.",
+  "name": "STRATO v5 - The Living Hideout",
+  "short_name": "STRATO v5",
+  "description": "A clean digital hideout for the fun side of the internet.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",
-  "theme_color": "#00e5ff",
-  "background_color": "#050914",
+  "theme_color": "#071827",
+  "background_color": "#071827",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["education", "entertainment", "utilities", "productivity"],
+  "categories": [
+    "education",
+    "entertainment",
+    "utilities",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/assets/icons/icon-48.png",

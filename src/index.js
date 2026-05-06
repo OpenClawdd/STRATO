@@ -327,16 +327,16 @@ try {
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v4.0.0                         ║
-  ║        The Launch Universe                     ║
+  ║          STRATO v5.0.0                         ║
+  ║        The Living Hideout                     ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║
   ║    UV:    /frog/     SJ:    /scramjet/         ║
   ║    Chat:  /ws/chat                             ║
   ║                                                ║
-  ║    Open here first. Launch something.          ║
-  ║    Search / Picks / Orbit / Launch Bay         ║
+  ║    Open here first. Enter the hideout.          ║
+  ║    Search / Picks / Shelf / Launch Bay         ║
   ║    Local personalization + safer imports       ║
   ║    Tests + catalog validation included         ║
   ╚════════════════════════════════════════════════╝

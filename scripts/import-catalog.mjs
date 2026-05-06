@@ -2,6 +2,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import {
+  normalizeCandidate as normalizeRadarCandidate,
+  normalizeTags as normalizeRadarTags,
+  normalizeTitle as normalizeRadarTitle,
+  normalizeUrl as normalizeRadarUrl,
+  splitCandidates,
+} from './source-radar-lib.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,36 +47,17 @@ function normalizeKey(value) {
 }
 
 function normalizeTags(tags) {
-  if (Array.isArray(tags)) return [...new Set(tags.map(String).map(tag => tag.trim()).filter(Boolean))].slice(0, 8);
-  if (typeof tags === 'string') return normalizeTags(tags.split(','));
-  return [];
+  return normalizeRadarTags(tags);
 }
 
 function normalizeEntry(entry, source) {
-  const title = entry.title || entry.name;
-  const id = entry.id || slugify(title);
-  const importedAt = new Date().toISOString();
+  const candidate = normalizeRadarCandidate(entry, source);
   return {
-    id,
-    title,
-    name: title,
-    url: entry.url || '',
-    category: entry.category || 'arcade',
-    tags: normalizeTags(entry.tags),
-    description: entry.description || '',
-    thumbnail: entry.thumbnail || '',
-    sourceType: source.type || source.adapter || 'unknown',
-    sourceName: source.name,
-    importedAt,
-    addedDate: entry.addedDate || importedAt.slice(0, 10),
-    licenseNote: entry.licenseNote || source.licenseNote || '',
+    ...candidate,
+    addedDate: entry.addedDate || candidate.discoveredAt.slice(0, 10),
     status: entry.status || 'review',
     needsConfig: !!entry.needsConfig,
     playable: entry.playable !== false,
-    approved: false,
-    rejected: false,
-    quarantined: false,
-    quarantineReason: '',
   };
 }
 
@@ -115,14 +103,14 @@ async function loadAdapter(name) {
 }
 
 function dedupeImported(entries, existingGames) {
-  const existingKeys = new Set(existingGames.map(game => `${normalizeKey(game.name || game.title)}|${normalizeKey(game.url)}`));
+  const existingKeys = new Set(existingGames.map(game => `${normalizeRadarTitle(game.name || game.title)}|${normalizeRadarUrl(game.url)}`));
   const seen = new Set();
   const output = [];
   const duplicates = [];
   for (const entry of entries) {
-    const key = `${normalizeKey(entry.name || entry.title)}|${normalizeKey(entry.url)}`;
+    const key = `${normalizeRadarTitle(entry.name || entry.title)}|${normalizeRadarUrl(entry.url)}`;
     if (!entry.name || !entry.url || seen.has(key) || existingKeys.has(key)) {
-      duplicates.push(entry);
+      duplicates.push({ ...entry, duplicateReason: entry.name && entry.url ? 'duplicate-title-url' : 'missing required name/url' });
       continue;
     }
     seen.add(key);
@@ -132,6 +120,7 @@ function dedupeImported(entries, existingGames) {
 }
 
 async function loadSource(source, args) {
+  if (source.importMode === 'disabled' || source.status === 'disabled') return [];
   const adapter = await loadAdapter(source.adapter);
   const file = args.file ? path.resolve(args.file) : source.file ? path.resolve(rootDir, source.file) : undefined;
   const rawEntries = await adapter.loadSource({ source, file, fetchCached });
@@ -141,7 +130,7 @@ async function loadSource(source, args) {
 async function collectEntries(args) {
   const sources = await readJson(sourcesPath, []);
   const selected = args.source === 'all'
-    ? sources.filter(source => source.enabled !== false)
+    ? sources.filter(source => source.enabled !== false && source.importMode !== 'disabled' && source.status !== 'disabled')
     : sources.filter(source => source.name === (args.source || 'manual'));
 
   if (!selected.length) throw new Error(`No catalog source matched "${args.source || 'manual'}"`);
@@ -222,27 +211,33 @@ async function main() {
   }
 
   const games = await readJson(gamesPath, []);
+  const sources = await readJson(sourcesPath, []);
   const { entries, failures } = await collectEntries(args);
   const { output, duplicates } = dedupeImported(entries, games);
+  const { review, quarantine } = splitCandidates(output, sources, games);
 
   console.log(`Candidates: ${entries.length}`);
-  console.log(`Reviewable: ${output.length}`);
+  console.log(`Reviewable: ${review.length}`);
+  console.log(`Quarantine candidates: ${quarantine.length}`);
   console.log(`Duplicates/skipped: ${duplicates.length}`);
   if (failures.length) console.log(`Source failures: ${failures.length}`);
 
   if (args.quarantine) {
-    const count = await writeQuarantine(output);
-    console.log(`Quarantine file written: ${path.relative(rootDir, quarantinePath)} (${count} entries)`);
+    await fs.writeFile(quarantinePath, JSON.stringify(quarantine, null, 2) + '\n', 'utf8');
+    console.log(`Quarantine file written: ${path.relative(rootDir, quarantinePath)} (${quarantine.length} entries)`);
   } else if (args.review) {
-    const count = await writeReview(output);
+    const count = await writeReview(review);
+    await fs.writeFile(quarantinePath, JSON.stringify(quarantine, null, 2) + '\n', 'utf8');
     console.log(`Review file written: ${path.relative(rootDir, reviewPath)} (${count} entries)`);
+    console.log(`Quarantine file written: ${path.relative(rootDir, quarantinePath)} (${quarantine.length} entries)`);
   } else if (args['dry-run']) {
-    for (const entry of output.slice(0, 20)) {
-      console.log(`- ${entry.name} | ${entry.url} | ${entry.category}`);
+    for (const entry of review.slice(0, 20)) {
+      console.log(`- ${entry.name} | ${entry.url} | ${entry.category} | license=${entry.licenseStatus}`);
     }
-    if (output.length > 20) console.log(`... ${output.length - 20} more`);
+    if (review.length > 20) console.log(`... ${review.length - 20} more reviewable`);
+    if (quarantine.length) console.log(`... ${quarantine.length} entries would be quarantined`);
   } else {
-    console.log('No file written. Use --dry-run or --review.');
+    console.log('No file written. Use --dry-run, --review, or --quarantine.');
   }
 }
 

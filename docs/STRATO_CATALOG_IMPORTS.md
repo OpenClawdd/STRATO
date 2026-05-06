@@ -48,3 +48,7 @@ Only import public metadata from allowed sources. Do not scrape aggressively. Do
 ## Merge Behavior
 
 `--merge-approved` creates a timestamped `.bak` backup of `games.json`, prefers existing STRATO entries, de-dupes by normalized title and URL, and prints added, skipped, rejected, and duplicate counts.
+
+## Source Radar
+
+Source Radar lives in `scripts/catalog-sources.json` and related tools. Use `node scripts/check-sources.mjs` to check source health and `node scripts/catalog-report.mjs` to review source/candidate/quarantine workload. Source Radar is review-first: competitor/source entries are metadata signals only, unknown-license candidates quarantine, and nothing is auto-merged into `public/assets/games.json`.

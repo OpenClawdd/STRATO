@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "4.0.0",
-  "description": "STRATO v4 — The Launch Universe: a self-hosted arcade and app hub with catalog search and local personalization.",
+  "version": "5.0.0",
+  "description": "STRATO v5 \u2014 The Living Hideout: a self-hosted arcade and app hub with fast launch search, local personalization, and honest catalog quality.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -13,7 +13,10 @@
     "lint": "eslint src/",
     "format": "prettier --write 'src/**/*.js' 'public/js/**/*.js'",
     "format:check": "prettier --check 'src/**/*.js' 'public/js/**/*.js'",
-    "postinstall": "node scripts/setup-proxy.cjs"
+    "postinstall": "node scripts/setup-proxy.cjs",
+    "source:check": "node scripts/check-sources.mjs",
+    "source:check:json": "node scripts/check-sources.mjs --json",
+    "source:report": "node scripts/catalog-report.mjs"
   },
   "engines": {
     "node": ">=18.0.0"
