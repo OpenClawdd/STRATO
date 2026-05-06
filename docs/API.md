@@ -1,10 +1,6 @@
 # STRATO API Reference
 
-<<<<<<< ours
-Complete API documentation for STRATO v4. All endpoints require authentication (cookie-based) unless otherwise noted. API routes are rate-limited to 60 requests per minute by default, with stricter limits on specific endpoints.
-=======
 Complete API documentation for STRATO v5. All endpoints require authentication (cookie-based) unless otherwise noted. API routes are rate-limited to 60 requests per minute by default, with stricter limits on specific endpoints.
->>>>>>> theirs
 
 ---
 

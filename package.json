@@ -1,12 +1,7 @@
 {
   "name": "strato",
-<<<<<<< ours
-  "version": "4.0.0",
-  "description": "STRATO v4 — The Launch Universe: a self-hosted arcade and app hub with catalog search and local personalization.",
-=======
   "version": "5.0.0",
   "description": "STRATO v5 \u2014 The Living Hideout: a self-hosted arcade and app hub with fast launch search, local personalization, and honest catalog quality.",
->>>>>>> theirs
   "type": "module",
   "main": "src/index.js",
   "scripts": {

@@ -2503,11 +2503,7 @@ body.low-power .home-search-result {
 }
 
 /* ══════════════════════════════════════════════════════════
-<<<<<<< ours
-   STRATO v4 HUMAN HIDEOUT FRONTEND
-=======
    STRATO v5 LIVING HIDEOUT FRONTEND
->>>>>>> theirs
    Purpose-built Launch Deck layer. Keeps old app surfaces intact.
    ══════════════════════════════════════════════════════════ */
 .sr-only {
@@ -3130,9 +3126,6 @@ body.low-power .home-search-result {
   .launch-button,
   .glass-btn { width: 100%; min-height: 44px; }
 }
-<<<<<<< ours
-=======
-
 /* STRATO v5 — The Living Hideout refinements */
 .first-run-hint {
   grid-column: 1 / -1;
@@ -3208,4 +3201,3 @@ body.low-power .home-search-result {
     flex-direction: column;
   }
 }
->>>>>>> theirs

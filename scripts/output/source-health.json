@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T11:41:24.850Z",
+  "generatedAt": "2026-05-06T11:43:05.509Z",
   "results": [
     {
       "name": "manual",
@@ -8,7 +8,7 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:21.937Z",
+      "checkedAt": "2026-05-06T11:43:03.757Z",
       "error": ""
     },
     {
@@ -18,7 +18,7 @@
       "httpStatus": 200,
       "finalUrl": "https://gn-math.com/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:22.318Z",
+      "checkedAt": "2026-05-06T11:43:04.103Z",
       "error": ""
     },
     {
@@ -28,7 +28,7 @@
       "httpStatus": 200,
       "finalUrl": "https://selenite.cc/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:22.397Z",
+      "checkedAt": "2026-05-06T11:43:04.162Z",
       "error": ""
     },
     {
@@ -38,7 +38,7 @@
       "httpStatus": 200,
       "finalUrl": "https://truffled.lol/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:22.613Z",
+      "checkedAt": "2026-05-06T11:43:04.307Z",
       "error": ""
     },
     {
@@ -48,7 +48,7 @@
       "httpStatus": 403,
       "finalUrl": "https://domains.atom.com/lpd/name/splash.wtf",
       "redirected": true,
-      "checkedAt": "2026-05-06T11:41:22.973Z",
+      "checkedAt": "2026-05-06T11:43:04.511Z",
       "error": ""
     },
     {
@@ -58,7 +58,7 @@
       "httpStatus": null,
       "finalUrl": "https://strawberrymath.com",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:23.000Z",
+      "checkedAt": "2026-05-06T11:43:04.518Z",
       "error": "fetch failed"
     },
     {
@@ -68,7 +68,7 @@
       "httpStatus": null,
       "finalUrl": "https://vapor.my",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:23.295Z",
+      "checkedAt": "2026-05-06T11:43:04.609Z",
       "error": "fetch failed"
     },
     {
@@ -78,7 +78,7 @@
       "httpStatus": 200,
       "finalUrl": "https://frogiesarcade.com/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:23.383Z",
+      "checkedAt": "2026-05-06T11:43:04.660Z",
       "error": ""
     },
     {
@@ -88,7 +88,7 @@
       "httpStatus": null,
       "finalUrl": "https://cherrigames.com",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:23.407Z",
+      "checkedAt": "2026-05-06T11:43:04.664Z",
       "error": "fetch failed"
     },
     {
@@ -98,7 +98,7 @@
       "httpStatus": 200,
       "finalUrl": "https://lucide.dev/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:23.592Z",
+      "checkedAt": "2026-05-06T11:43:04.805Z",
       "error": ""
     },
     {
@@ -108,7 +108,7 @@
       "httpStatus": null,
       "finalUrl": "https://infamous.lol",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.033Z",
+      "checkedAt": "2026-05-06T11:43:04.913Z",
       "error": "fetch failed"
     },
     {
@@ -118,7 +118,7 @@
       "httpStatus": 200,
       "finalUrl": "https://petezahgames.com/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.250Z",
+      "checkedAt": "2026-05-06T11:43:05.084Z",
       "error": ""
     },
     {
@@ -128,7 +128,7 @@
       "httpStatus": 200,
       "finalUrl": "https://ubghub.com/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.571Z",
+      "checkedAt": "2026-05-06T11:43:05.356Z",
       "error": ""
     },
     {
@@ -138,7 +138,7 @@
       "httpStatus": 200,
       "finalUrl": "https://duckmath.org/",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.672Z",
+      "checkedAt": "2026-05-06T11:43:05.434Z",
       "error": ""
     },
     {
@@ -148,7 +148,7 @@
       "httpStatus": null,
       "finalUrl": "https://coffeearcade.org",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.723Z",
+      "checkedAt": "2026-05-06T11:43:05.437Z",
       "error": "fetch failed"
     },
     {
@@ -158,7 +158,7 @@
       "httpStatus": null,
       "finalUrl": "https://interstellar.games",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.850Z",
+      "checkedAt": "2026-05-06T11:43:05.509Z",
       "error": "fetch failed"
     },
     {
@@ -168,7 +168,7 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.850Z",
+      "checkedAt": "2026-05-06T11:43:05.509Z",
       "error": ""
     },
     {
@@ -178,7 +178,7 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-06T11:41:24.850Z",
+      "checkedAt": "2026-05-06T11:43:05.509Z",
       "error": ""
     }
   ]

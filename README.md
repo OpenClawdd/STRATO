@@ -1,8 +1,4 @@
-<<<<<<< ours
-# STRATO v4 — The Launch Universe
-=======
 # STRATO v5 — The Living Hideout
->>>>>>> theirs
 
 STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
 
@@ -10,11 +6,7 @@ The current app is an Express 5 server with a single-page frontend, a local game
 
 ## What Is Implemented
 
-<<<<<<< ours
-- STRATO v4 Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
-=======
 - STRATO v5 Living Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
->>>>>>> theirs
 - Real personalization using `strato-favorites`, `strato-recent`, `strato-playCounts`, `strato-lastPlayed`, `strato-preferences`, and `strato-recentFailures`.
 - Signal Health checks that keep missing URLs, config-required entries, local failures, and non-game surfaces out of featured home sections.
 - Launch recovery modal with Retry, Try Surprise Me, Back to STRATO, and similar game suggestions when metadata allows it.
@@ -127,13 +119,8 @@ The importer writes candidates to `public/assets/games.imported.review.json`. No
 ```text
 public/index.html             STRATO single-page UI
 public/js/app.js              Legacy app/runtime systems for non-v4 views
-<<<<<<< ours
-public/js/open-home-runtime.js Tiny v4 bootstrap
-public/js/v4/                 Modular v4 Home/search/launch frontend
-=======
 public/js/open-home-runtime.js Tiny v5 bootstrap
 public/js/v5/                 Modular v5 Home/search/launch frontend
->>>>>>> theirs
 public/css/style.css          Main visual system
 public/assets/games.json      Catalog
 public/games/                 Local standalone games

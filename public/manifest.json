@@ -1,14 +1,4 @@
 {
-<<<<<<< ours
-  "name": "STRATO v4 - The Launch Universe",
-  "short_name": "STRATO",
-  "description": "STRATO is the place you open first: a self-hosted launch universe for search, discovery, and fast game starts.",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "any",
-  "theme_color": "#00e5ff",
-  "background_color": "#050914",
-=======
   "name": "STRATO v5 - The Living Hideout",
   "short_name": "STRATO v5",
   "description": "A clean digital hideout for the fun side of the internet.",
@@ -17,7 +7,6 @@
   "orientation": "any",
   "theme_color": "#071827",
   "background_color": "#071827",
->>>>>>> theirs
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
