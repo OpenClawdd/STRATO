@@ -249,12 +249,12 @@ export function splitCandidates(entries, sources, existingGames = []) {
 }
 
 export function parseHealthStatus({ status, redirected, finalUrl, url, error }) {
-  if (error) return error === 'timeout' ? 'timeout' : 'dead';
+  if (error) return error === 'timeout' ? 'timeout' : 'needs-review';
   if (status === 403 || status === 401) return 'blocked';
   if (status >= 300 && status < 400) return 'redirected';
   if (redirected || (finalUrl && normalizeUrl(finalUrl) !== normalizeUrl(url))) return 'redirected';
   if (status >= 200 && status < 300) return 'active';
-  if (status >= 400) return 'dead';
+  if (status >= 400) return 'needs-review';
   return 'review';
 }
 

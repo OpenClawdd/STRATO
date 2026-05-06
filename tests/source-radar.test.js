@@ -40,12 +40,12 @@ describe('Source Radar registry and health helpers', () => {
     expect(normalizeUrl('HTTPS://www.Example.com/games///2048/?b=2&a=1#top')).toBe('https://example.com/games/2048?a=1&b=2');
   });
 
-  it('parses source health statuses for active, redirected, blocked, and dead sources', () => {
+  it('parses source health statuses for active, redirected, blocked, and review sources', () => {
     expect(parseHealthStatus({ status: 200, url: 'https://a.test', finalUrl: 'https://a.test' })).toBe('active');
     expect(parseHealthStatus({ status: 200, redirected: true, url: 'https://a.test', finalUrl: 'https://b.test' })).toBe('redirected');
     expect(parseHealthStatus({ status: 403 })).toBe('blocked');
     expect(parseHealthStatus({ error: 'timeout' })).toBe('timeout');
-    expect(parseHealthStatus({ status: 500 })).toBe('dead');
+    expect(parseHealthStatus({ status: 500 })).toBe('needs-review');
   });
 });
 
