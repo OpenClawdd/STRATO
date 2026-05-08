@@ -1879,6 +1879,71 @@
     .getElementById("btn-clear-cache")
     ?.addEventListener("click", clearVault);
 
+  // Export full backup
+  document
+    .getElementById("btn-export-data")
+    ?.addEventListener("click", async () => {
+      try {
+        const resp = await fetch("/api/data/export");
+        if (!resp.ok) throw new Error(`Export failed (${resp.status})`);
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `strato-backup-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast("Full backup downloaded.", "accent");
+      } catch (err) {
+        showToast(`Export failed: ${err.message}`, "error");
+      }
+    });
+
+  // Import full backup
+  document
+    .getElementById("btn-import-data")
+    ?.addEventListener("click", () => {
+      document.getElementById("import-data-file")?.click();
+    });
+  document
+    .getElementById("import-data-file")
+    ?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const csrfMeta = document.querySelector(
+          'meta[name="csrf-token"]',
+        );
+        const resp = await fetch("/api/data/import", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfMeta?.content || "",
+          },
+          body: JSON.stringify(data),
+        });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          throw new Error(err.error || `Import failed (${resp.status})`);
+        }
+        const result = await resp.json();
+        showToast(
+          result.message ||
+            `Imported: ${result.imported?.bookmarks || 0} bookmarks, ${result.imported?.saves || 0} saves.`,
+          "accent",
+        );
+        // Reset file input so same file can be re-imported
+        e.target.value = "";
+      } catch (err) {
+        showToast(`Import failed: ${err.message}`, "error");
+        e.target.value = "";
+      }
+    });
+
   // ──────────────────────────────────────────
   // AI CHAT
   // ──────────────────────────────────────────
