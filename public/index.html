@@ -161,32 +161,38 @@
             <div class="identity-mark" aria-hidden="true">S</div>
             <div class="identity-copy">
               <p class="open-kicker">Open here first.</p>
-              <h1>STRATO <span>v5</span></h1>
-              <p> A living hideout for games, tools, music, discoveries, and fast launches.</p>
+              <h1>STRATO <span>v5.03</span></h1>
+              <p>A fast launch desk for real games only — search, pick, favorite, and get moving.</p>
+            </div>
+            <div class="identity-metrics" aria-label="Live STRATO stats">
+              <div><span id="home-live-games">54</span><small>playable</small></div>
+              <div><span id="home-live-picks">6</span><small>daily picks</small></div>
+              <div><span id="home-live-moods">0</span><small>moods</small></div>
             </div>
             <div class="identity-status" id="catalog-status-chip">Scanning catalog…</div>
           </header>
 
           <section class="hideout-search" aria-label="Search the STRATO catalog">
             <div class="search-intro">
-              <p class="section-eyebrow">Launch Deck</p>
-              <h2>Search the catalog. Launch something.</h2>
-              <p>Search local catalog entries, return to what you love, and recover when a launch route goes quiet.</p>
+              <p class="section-eyebrow">Launch Deck · v5.03</p>
+              <h2>Find the next run.</h2>
+              <p>Type a title, tag, or mood. STRATO keeps the catalog real and turns search into the fastest way to play.</p>
             </div>
             <div class="search-controls">
               <label class="sr-only" for="home-search">Search the catalog</label>
-              <input type="search" class="spotlight-input" id="home-search" placeholder="Search the catalog" autocomplete="off" spellcheck="false">
+              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false">
               <button class="launch-button" id="surprise-me" type="button">Surprise Me</button>
             </div>
+            <div class="spotlight-helper" aria-hidden="true"><span>↑↓ move</span><span>Enter launch</span><span>Esc clear</span><span id="home-last-action">Ready</span></div>
             <div class="mood-strip" id="home-filter-row" aria-label="Quick mood filters"></div>
             <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
           </section>
 
           <nav class="hideout-actions" aria-label="Quick actions">
             <button class="hideout-action" type="button" id="home-recent-action"><span>Continue</span><strong>Recent launches</strong></button>
-            <button class="hideout-action" type="button" id="home-favorites-action"><span>Favorites</span><strong>Your picks</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="arcade"><span>Browse</span><strong>Full arcade</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="browser"><span>Launch Bay</span><strong>Open browser</strong></button>
+            <button class="hideout-action" type="button" id="home-favorites-action"><span>Favorites</span><strong>Your shelf</strong></button>
+            <button class="hideout-action" type="button" data-focus-home-search><span>Spotlight</span><strong>Focus search</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="browser"><span>Launch Bay</span><strong>Open player</strong></button>
           </nav>
 
           <div class="hideout-layout">
@@ -230,6 +236,17 @@
                   </div>
                 </div>
                 <div class="home-card-row" id="home-most-played"></div>
+              </section>
+
+              <section class="hideout-section" id="home-all-games-section">
+                <div class="home-section-head">
+                  <div>
+                    <p class="section-eyebrow">Clean catalog.</p>
+                    <h2 class="section-title">Browse the Launch Shelf</h2>
+                  </div>
+                  <span class="section-signal">54 playable games</span>
+                </div>
+                <div class="home-card-row dense-grid" id="home-all-games"></div>
               </section>
             </div>
 
@@ -301,10 +318,10 @@
       <section id="view-browser" class="view">
         <div class="browser-toolbar">
           <div class="browser-nav-btns">
-            <button class="glass-btn icon-btn" id="btn-back" title="Back">◀</button>
-            <button class="glass-btn icon-btn" id="btn-forward" title="Forward">▶</button>
+            <button class="glass-btn icon-btn" id="btn-back" title="Back" hidden>◀</button>
+            <button class="glass-btn icon-btn" id="btn-forward" title="Forward" hidden>▶</button>
             <button class="glass-btn icon-btn" id="btn-refresh" title="Refresh">⟳</button>
-            <button class="glass-btn icon-btn" id="btn-home" title="Home">⌂</button>
+            <button class="glass-btn icon-btn" id="btn-home" title="Home" hidden>⌂</button>
           </div>
           <div class="browser-url-bar">
             <select class="glass-select protocol-select" id="protocol-select">
@@ -437,7 +454,7 @@
           <div class="ai-messages" id="vision-messages"></div>
           <div class="ai-input-area">
             <input type="text" class="glass-input ai-input" id="vision-input" placeholder="Ask about the image..." autocomplete="off">
-            <button class="glass-btn" id="btn-vision-send">Solve</button>
+            <button class="glass-btn" id="snap-solve-btn">Solve</button>
           </div>
         </div>
       </section>
@@ -741,8 +758,8 @@
   <script src="/js/bookmarks.js"></script>
   <script src="/js/extensions.js"></script>
   <script src="/js/pwa.js"></script>
-  <script src="/js/open-home-runtime.js?v=5.0.1-hotfix"></script>
-  <script src="/js/app.js?v=3-open-home-6"></script>
+  <script src="/js/open-home-runtime.js?v=5.0.3-polish"></script>
+  <script src="/js/app.js?v=5.0.3-polish"></script>
 
 </body>
 </html>

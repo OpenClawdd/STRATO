@@ -1013,11 +1013,9 @@
       btn.addEventListener("click", () => {
         if (btn.dataset.homeEmptyAction === "surprise") surpriseMe();
         if (btn.dataset.homeEmptyAction === "daily")
-          document
-            .getElementById("daily-picks-section")
-            ?.scrollIntoView({
-              behavior: prefersReducedMotion ? "auto" : "smooth",
-            });
+          document.getElementById("daily-picks-section")?.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
       });
     });
   }
@@ -1670,26 +1668,22 @@
     document
       .getElementById("home-favorites-action")
       ?.addEventListener("click", () => {
-        document
-          .getElementById("home-favorites-section")
-          ?.scrollIntoView({
-            behavior:
-              prefersReducedMotion || state.preferences.lowPower
-                ? "auto"
-                : "smooth",
-          });
+        document.getElementById("home-favorites-section")?.scrollIntoView({
+          behavior:
+            prefersReducedMotion || state.preferences.lowPower
+              ? "auto"
+              : "smooth",
+        });
       });
     document
       .getElementById("home-recent-action")
       ?.addEventListener("click", () => {
-        document
-          .getElementById("home-recent-section")
-          ?.scrollIntoView({
-            behavior:
-              prefersReducedMotion || state.preferences.lowPower
-                ? "auto"
-                : "smooth",
-          });
+        document.getElementById("home-recent-section")?.scrollIntoView({
+          behavior:
+            prefersReducedMotion || state.preferences.lowPower
+              ? "auto"
+              : "smooth",
+        });
       });
     document
       .getElementById("low-power-toggle")
@@ -2338,6 +2332,10 @@
       `Tab cloaked as ${CLOAKS[e.target.value]?.title || "None"}`,
       "accent",
     );
+  });
+
+  document.getElementById("btn-stealth")?.addEventListener("click", () => {
+    document.getElementById("stealth-bar")?.classList.toggle("hidden");
   });
 
   document.getElementById("btn-change-panic")?.addEventListener("click", () => {
