@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-check:
+  lint-test-and-catalog:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,15 +26,22 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile || pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Syntax check
+        run: |
+          node --check src/index.js
+          node --check public/js/app.js
+          node --check public/js/open-home-runtime.js
 
       - name: Format check
         run: pnpm run format:check
-        continue-on-error: true
 
       - name: Lint
         run: pnpm run lint
-        continue-on-error: true
 
-      - name: Syntax check (dry start)
-        run: node --check src/index.js
+      - name: Unit tests
+        run: pnpm test -- --maxWorkers=1
+
+      - name: Catalog validation
+        run: node scripts/validate-games.mjs

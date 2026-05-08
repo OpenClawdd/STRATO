@@ -4,81 +4,92 @@
    update notification, install banner
    ══════════════════════════════════════════════════════════ */
 
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   const DEBUG_PWA = false;
-  const pwaLog = (...args) => { if (DEBUG_PWA) console.debug(...args); };
-  const pwaWarn = (...args) => { if (DEBUG_PWA) console.warn(...args); };
+  const pwaLog = (...args) => {
+    if (DEBUG_PWA) console.debug(...args);
+  };
+  const pwaWarn = (...args) => {
+    if (DEBUG_PWA) console.warn(...args);
+  };
 
   let deferredPrompt = null;
   let swRegistration = null;
 
   // ── Register service worker at /sw.js ──
   function registerServiceWorker() {
-    if (!('serviceWorker' in navigator)) {
-      pwaWarn('[PWA] Service Workers not supported');
+    if (!("serviceWorker" in navigator)) {
+      pwaWarn("[PWA] Service Workers not supported");
       return;
     }
 
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(reg => {
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/" })
+      .then((reg) => {
         swRegistration = reg;
-        pwaLog('[PWA] Service Worker registered:', reg.scope);
+        pwaLog("[PWA] Service Worker registered:", reg.scope);
 
         // Check for updates periodically
         setInterval(() => reg.update(), 60 * 60 * 1000);
 
         // Listen for update found
-        reg.addEventListener('updatefound', () => {
+        reg.addEventListener("updatefound", () => {
           const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          newWorker.addEventListener("statechange", () => {
+            if (
+              newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
               showUpdateNotification();
             }
           });
         });
       })
-      .catch(err => {
-        pwaWarn('[PWA] Service Worker registration failed:', err);
+      .catch((err) => {
+        pwaWarn("[PWA] Service Worker registration failed:", err);
       });
 
     // Listen for controller change (new SW activated)
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      pwaLog('[PWA] New service worker activated');
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      pwaLog("[PWA] New service worker activated");
     });
   }
 
   // ── Handle beforeinstallprompt event ──
   function handleInstallPrompt() {
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
       showInstallBanner();
-      pwaLog('[PWA] Install prompt captured');
+      pwaLog("[PWA] Install prompt captured");
     });
 
-    window.addEventListener('appinstalled', () => {
+    window.addEventListener("appinstalled", () => {
       deferredPrompt = null;
       hideInstallBanner();
-      pwaLog('[PWA] App installed successfully');
-      if (window.showToast) window.showToast('STRATO installed as app!', 'accent');
-      if (window.STRATO_NOTIFY) window.STRATO_NOTIFY('STRATO installed as app!', 'info');
+      pwaLog("[PWA] App installed successfully");
+      if (window.showToast)
+        window.showToast("STRATO installed as app!", "accent");
+      if (window.STRATO_NOTIFY)
+        window.STRATO_NOTIFY("STRATO installed as app!", "info");
     });
   }
 
   // ── Show install banner ──
   function showInstallBanner() {
     // Don't show if dismissed recently
-    const dismissed = localStorage.getItem('strato-pwa-dismissed');
+    const dismissed = localStorage.getItem("strato-pwa-dismissed");
     if (dismissed && Date.now() - parseInt(dismissed) < 86400000) return;
 
     // Try existing container first, otherwise create dynamic overlay
-    let container = document.getElementById('pwa-install-container');
+    let container = document.getElementById("pwa-install-container");
     if (!container) {
-      container = document.createElement('div');
-      container.id = 'pwa-install-container';
-      container.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%';
+      container = document.createElement("div");
+      container.id = "pwa-install-container";
+      container.style.cssText =
+        "position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%";
       document.body.appendChild(container);
     }
 
@@ -95,35 +106,41 @@
       </div>
     `;
 
-    document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const result = await deferredPrompt.userChoice;
-      pwaLog('[PWA] Install choice:', result.outcome);
-      deferredPrompt = null;
-    });
+    document
+      .getElementById("pwa-install-btn")
+      ?.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const result = await deferredPrompt.userChoice;
+        pwaLog("[PWA] Install choice:", result.outcome);
+        deferredPrompt = null;
+      });
 
-    document.getElementById('pwa-dismiss-btn')?.addEventListener('click', () => {
-      hideInstallBanner();
-      localStorage.setItem('strato-pwa-dismissed', String(Date.now()));
-    });
+    document
+      .getElementById("pwa-dismiss-btn")
+      ?.addEventListener("click", () => {
+        hideInstallBanner();
+        localStorage.setItem("strato-pwa-dismissed", String(Date.now()));
+      });
   }
 
   function hideInstallBanner() {
-    const prompt = document.getElementById('pwa-install-prompt');
+    const prompt = document.getElementById("pwa-install-prompt");
     if (prompt) prompt.remove();
-    const container = document.getElementById('pwa-install-container');
-    if (container && !container.querySelector('#pwa-install-prompt')) container.remove();
+    const container = document.getElementById("pwa-install-container");
+    if (container && !container.querySelector("#pwa-install-prompt"))
+      container.remove();
   }
 
   // ── Show update available notification ──
   function showUpdateNotification() {
     // Try existing container, otherwise create dynamic overlay
-    let container = document.getElementById('pwa-update-container');
+    let container = document.getElementById("pwa-update-container");
     if (!container) {
-      container = document.createElement('div');
-      container.id = 'pwa-update-container';
-      container.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%';
+      container = document.createElement("div");
+      container.id = "pwa-update-container";
+      container.style.cssText =
+        "position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:10000;max-width:400px;width:90%";
       document.body.appendChild(container);
     }
 
@@ -137,52 +154,64 @@
       </div>
     `;
 
-    document.getElementById('pwa-update-btn')?.addEventListener('click', () => {
+    document.getElementById("pwa-update-btn")?.addEventListener("click", () => {
       if (swRegistration && swRegistration.waiting) {
-        swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        swRegistration.waiting.postMessage({ type: "SKIP_WAITING" });
       }
       window.location.reload();
     });
-    document.getElementById('pwa-update-dismiss-btn')?.addEventListener('click', () => {
-      const p = document.getElementById('pwa-update-prompt');
-      if (p) p.remove();
-      const c = document.getElementById('pwa-update-container');
-      if (c && !c.querySelector('#pwa-update-prompt')) c.remove();
-    });
+    document
+      .getElementById("pwa-update-dismiss-btn")
+      ?.addEventListener("click", () => {
+        const p = document.getElementById("pwa-update-prompt");
+        if (p) p.remove();
+        const c = document.getElementById("pwa-update-container");
+        if (c && !c.querySelector("#pwa-update-prompt")) c.remove();
+      });
 
     // Also show a toast
     if (window.showToast) {
-      window.showToast('STRATO updated! Refresh to get the latest version.', 'accent');
+      window.showToast(
+        "STRATO updated! Refresh to get the latest version.",
+        "accent",
+      );
     }
     if (window.STRATO_NOTIFY) {
-      window.STRATO_NOTIFY('Update available — refresh to update', 'info');
+      window.STRATO_NOTIFY("Update available — refresh to update", "info");
     }
   }
 
   // ── Offline/Online detection ──
   function handleOfflineDetection() {
     function updateStatus() {
-      const dot = document.getElementById('status-connection');
-      const label = document.querySelector('#status-connection .status-label') || document.querySelector('.status-dot-wrap .status-label');
+      const dot = document.getElementById("status-connection");
+      const label =
+        document.querySelector("#status-connection .status-label") ||
+        document.querySelector(".status-dot-wrap .status-label");
 
       if (navigator.onLine) {
-        if (dot) { dot.classList.remove('error', 'warning'); }
-        if (label) label.textContent = 'Connected';
+        if (dot) {
+          dot.classList.remove("error", "warning");
+        }
+        if (label) label.textContent = "Connected";
       } else {
-        if (dot) { dot.classList.add('error'); dot.classList.remove('warning'); }
-        if (label) label.textContent = 'Offline';
+        if (dot) {
+          dot.classList.add("error");
+          dot.classList.remove("warning");
+        }
+        if (label) label.textContent = "Offline";
         // Show offline notification via toast (no offline-banner element)
-        if (window.showToast) window.showToast('You are offline', 'error');
+        if (window.showToast) window.showToast("You are offline", "error");
       }
     }
 
-    window.addEventListener('online', () => {
+    window.addEventListener("online", () => {
       updateStatus();
-      if (window.showToast) window.showToast('Back online', 'accent');
+      if (window.showToast) window.showToast("Back online", "accent");
     });
-    window.addEventListener('offline', () => {
+    window.addEventListener("offline", () => {
       updateStatus();
-      if (window.showToast) window.showToast('You are offline', 'error');
+      if (window.showToast) window.showToast("You are offline", "error");
     });
     updateStatus();
   }
@@ -190,19 +219,25 @@
   // ── Manual install trigger ──
   async function promptInstall() {
     if (!deferredPrompt) {
-      if (window.showToast) window.showToast('App is already installed or not available for install', 'default');
+      if (window.showToast)
+        window.showToast(
+          "App is already installed or not available for install",
+          "default",
+        );
       return false;
     }
     deferredPrompt.prompt();
     const result = await deferredPrompt.userChoice;
     deferredPrompt = null;
-    return result.outcome === 'accepted';
+    return result.outcome === "accepted";
   }
 
   // ── Check if running as PWA ──
   function isPWA() {
-    return window.matchMedia('(display-mode: standalone)').matches ||
-           window.navigator.standalone === true;
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
   }
 
   // ── Initialize ──
@@ -213,15 +248,17 @@
 
     // Show PWA status
     if (isPWA()) {
-      pwaLog('[PWA] Running as installed app');
+      pwaLog("[PWA] Running as installed app");
     }
 
     // Manual install button in settings
-    document.getElementById('pwa-install-settings-btn')?.addEventListener('click', promptInstall);
+    document
+      .getElementById("pwa-install-settings-btn")
+      ?.addEventListener("click", promptInstall);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
   }

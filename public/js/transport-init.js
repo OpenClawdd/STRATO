@@ -4,12 +4,16 @@
    ══════════════════════════════════════════════════════════ */
 
 (function () {
-  'use strict';
+  "use strict";
 
-  const WISP_URL = `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/wisp/`;
+  const WISP_URL = `${location.protocol === "https:" ? "wss:" : "ws:"}//${location.host}/wisp/`;
   const DEBUG_TRANSPORT = false;
-  const transportLog = (...args) => { if (DEBUG_TRANSPORT) console.debug(...args); };
-  const transportWarn = (...args) => { if (DEBUG_TRANSPORT) console.warn(...args); };
+  const transportLog = (...args) => {
+    if (DEBUG_TRANSPORT) console.debug(...args);
+  };
+  const transportWarn = (...args) => {
+    if (DEBUG_TRANSPORT) console.warn(...args);
+  };
 
   let uvReady = false;
   let sjReady = false;
@@ -24,13 +28,20 @@
   const originalError = console.error;
 
   function throttledWarn(...args) {
-    const msg = args.join(' ');
-    if (msg.includes('bare-mux') || msg.includes('SharedWorker MessagePort') || msg.includes('failed to get a bare-mux')) {
+    const msg = args.join(" ");
+    if (
+      msg.includes("bare-mux") ||
+      msg.includes("SharedWorker MessagePort") ||
+      msg.includes("failed to get a bare-mux")
+    ) {
       bareMuxWarnings++;
       if (DEBUG_TRANSPORT && bareMuxWarnings <= MAX_BAREMUX_WARNINGS) {
         originalWarn.apply(console, args);
         if (bareMuxWarnings === MAX_BAREMUX_WARNINGS) {
-          originalWarn.call(console, '[STRATO] Suppressing further bare-mux warnings — proxy transport not available. This is normal if BareMux SharedWorker is not reachable.');
+          originalWarn.call(
+            console,
+            "[STRATO] Suppressing further bare-mux warnings — proxy transport not available. This is normal if BareMux SharedWorker is not reachable.",
+          );
         }
       }
       return;
@@ -38,8 +49,12 @@
     originalWarn.apply(console, args);
   }
   function throttledError(...args) {
-    const msg = args.join(' ');
-    if (msg.includes('bare-mux') || msg.includes('SharedWorker MessagePort') || msg.includes('failed to get a bare-mux')) {
+    const msg = args.join(" ");
+    if (
+      msg.includes("bare-mux") ||
+      msg.includes("SharedWorker MessagePort") ||
+      msg.includes("failed to get a bare-mux")
+    ) {
       bareMuxWarnings++;
       if (bareMuxWarnings <= MAX_BAREMUX_WARNINGS) {
         originalError.apply(console, args);
@@ -61,7 +76,11 @@
       sharedWorkerAttempts++;
       if (sharedWorkerAttempts > BAREMUX_RETRY_LIMIT * 2) {
         // Too many SharedWorker creation attempts — return a dummy that won't loop
-        transportWarn('[STRATO] Aborting bare-mux SharedWorker retry loop after', sharedWorkerAttempts, 'attempts');
+        transportWarn(
+          "[STRATO] Aborting bare-mux SharedWorker retry loop after",
+          sharedWorkerAttempts,
+          "attempts",
+        );
         const dummy = {
           port: {
             start: () => {},
@@ -74,7 +93,11 @@
         };
         // Dispatch a fake error event to stop the retry loop
         setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('proxy-ready', { detail: { uv: uvReady, scramjet: sjReady } }));
+          window.dispatchEvent(
+            new CustomEvent("proxy-ready", {
+              detail: { uv: uvReady, scramjet: sjReady },
+            }),
+          );
         }, 100);
         return dummy;
       }
@@ -90,43 +113,60 @@
       // ── Step 1: Set up BareMux transport with timeout ──
       if (window.BareMux?.BareMuxConnection) {
         try {
-          const conn = new BareMux.BareMuxConnection('/bare-mux/worker.js');
-          const transportPromise = conn.setTransport('/epoxy/index.mjs', [{ wisp: WISP_URL }]);
+          const conn = new BareMux.BareMuxConnection("/bare-mux/worker.js");
+          const transportPromise = conn.setTransport("/epoxy/index.mjs", [
+            { wisp: WISP_URL },
+          ]);
           await Promise.race([
             transportPromise,
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000)),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Timeout")), 5000),
+            ),
           ]);
           window.STRATO_BAREMUX = conn;
-          transportLog('[STRATO] BareMux transport ready:', await conn.getTransport());
+          transportLog(
+            "[STRATO] BareMux transport ready:",
+            await conn.getTransport(),
+          );
         } catch (err) {
-          transportWarn('[STRATO] BareMux transport setup failed:', err.message);
+          transportWarn(
+            "[STRATO] BareMux transport setup failed:",
+            err.message,
+          );
         }
       } else {
-        transportLog('[STRATO] Continuing with available service workers.');
+        transportLog("[STRATO] Continuing with available service workers.");
       }
 
       // ── Step 2: Register Ultraviolet service worker ──
       try {
         // UV SW file is uv.sw.js (from setup-proxy.cjs copy), registered at /frog/ scope
-        const uvRegistration = await navigator.serviceWorker.register('/frog/uv.sw.js', {
-          scope: '/frog/',
-          updateViaCache: 'none',
-        });
+        const uvRegistration = await navigator.serviceWorker.register(
+          "/frog/uv.sw.js",
+          {
+            scope: "/frog/",
+            updateViaCache: "none",
+          },
+        );
         await navigator.serviceWorker.ready;
         uvReady = true;
-        transportLog('[STRATO] Ultraviolet service worker registered');
+        transportLog("[STRATO] Ultraviolet service worker registered");
       } catch (err) {
         // Try fallback: /frog/sw.js
         try {
-          const uvReg2 = await navigator.serviceWorker.register('/frog/sw.js', {
-            scope: '/frog/',
-            updateViaCache: 'none',
+          const uvReg2 = await navigator.serviceWorker.register("/frog/sw.js", {
+            scope: "/frog/",
+            updateViaCache: "none",
           });
           await navigator.serviceWorker.ready;
           uvReady = true;
-          transportLog('[STRATO] Ultraviolet SW registered (fallback path)');
+          transportLog("[STRATO] Ultraviolet SW registered (fallback path)");
         } catch (err2) {
-          transportWarn('[STRATO] UV service worker registration failed:', err.message, err2?.message);
+          transportWarn(
+            "[STRATO] UV service worker registration failed:",
+            err.message,
+            err2?.message,
+          );
         }
       }
 
@@ -137,33 +177,45 @@
       // Try module first, fall back to classic.
       try {
         // Module-type registration — required for scramjet.bundle.js (ESM)
-        const sjRegistration = await navigator.serviceWorker.register('/scramjet/sw.js', {
-          scope: '/scramjet/',
-          type: 'module',
-          updateViaCache: 'none',
-        });
+        const sjRegistration = await navigator.serviceWorker.register(
+          "/scramjet/sw.js",
+          {
+            scope: "/scramjet/",
+            type: "module",
+            updateViaCache: "none",
+          },
+        );
         await navigator.serviceWorker.ready;
         sjReady = true;
-        transportLog('[STRATO] Scramjet service worker registered (module type)');
+        transportLog(
+          "[STRATO] Scramjet service worker registered (module type)",
+        );
       } catch (err) {
         // Classic-type fallback — uses importScripts + scramjet.all.js (IIFE)
         try {
-          const sjReg2 = await navigator.serviceWorker.register('/scramjet/sw.classic.js', {
-            scope: '/scramjet/',
-            updateViaCache: 'none',
-          });
+          const sjReg2 = await navigator.serviceWorker.register(
+            "/scramjet/sw.classic.js",
+            {
+              scope: "/scramjet/",
+              updateViaCache: "none",
+            },
+          );
           await navigator.serviceWorker.ready;
           sjReady = true;
-          transportLog('[STRATO] Scramjet SW registered (classic fallback)');
+          transportLog("[STRATO] Scramjet SW registered (classic fallback)");
         } catch (err2) {
-          transportWarn('[STRATO] Scramjet service worker registration failed:', err.message, err2?.message);
+          transportWarn(
+            "[STRATO] Scramjet service worker registration failed:",
+            err.message,
+            err2?.message,
+          );
           // Scramjet is optional — UV may still work
         }
       }
 
       // ── Step 4: Check if at least one engine is ready ──
       if (!uvReady && !sjReady) {
-        console.error('[STRATO] No proxy engine is available');
+        console.error("[STRATO] No proxy engine is available");
         // Don't show blocking error — app can still function for games, chat, AI
         // Proxy just won't work
       }
@@ -173,19 +225,22 @@
         uv: uvReady,
         scramjet: sjReady,
       };
-      window.dispatchEvent(new CustomEvent('proxy-ready', { detail }));
-      transportLog('[STRATO] Proxy ready:', detail);
-
+      window.dispatchEvent(new CustomEvent("proxy-ready", { detail }));
+      transportLog("[STRATO] Proxy ready:", detail);
     } catch (err) {
-      console.error('[STRATO] Transport initialization error:', err);
+      console.error("[STRATO] Transport initialization error:", err);
       // Still emit proxy-ready so the app doesn't hang on the splash screen
-      window.dispatchEvent(new CustomEvent('proxy-ready', { detail: { uv: false, scramjet: false } }));
+      window.dispatchEvent(
+        new CustomEvent("proxy-ready", {
+          detail: { uv: false, scramjet: false },
+        }),
+      );
     }
   }
 
   // ── Wait for DOM then initialize ──
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTransport);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTransport);
   } else {
     initTransport();
   }

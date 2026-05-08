@@ -1,26 +1,26 @@
-import fs from 'fs';
-import path from 'path';
-import crypto from 'crypto';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const DATA_DIR = path.join(__dirname, '..', '..', 'data');
+const DATA_DIR = path.join(__dirname, "..", "..", "data");
 const CACHE_TTL = 30_000; // 30 seconds
 
 // ── Valid collections ──
 const VALID_COLLECTIONS = new Set([
-  'users',
-  'scores',
-  'bookmarks',
-  'history',
-  'saves',
-  'themes',
-  'extensions',
-  'chat_rooms',
-  'chat_messages',
+  "users",
+  "scores",
+  "bookmarks",
+  "history",
+  "saves",
+  "themes",
+  "extensions",
+  "chat_rooms",
+  "chat_messages",
 ]);
 
 // ── In-memory cache ──
@@ -73,14 +73,14 @@ function ensureCollectionFile(collection) {
   ensureDataDir();
   const filePath = collectionPath(collection);
   if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify([], null, 2), 'utf8');
+    fs.writeFileSync(filePath, JSON.stringify([], null, 2), "utf8");
   }
 }
 
 // ── Atomic write: write to temp file, then rename ──
 function atomicWrite(filePath, data) {
-  const tmpPath = filePath + '.tmp.' + crypto.randomBytes(6).toString('hex');
-  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), 'utf8');
+  const tmpPath = filePath + ".tmp." + crypto.randomBytes(6).toString("hex");
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), "utf8");
   fs.renameSync(tmpPath, filePath);
 }
 
@@ -110,7 +110,7 @@ function readCollection(collection) {
 
   ensureCollectionFile(collection);
   try {
-    const raw = fs.readFileSync(collectionPath(collection), 'utf8');
+    const raw = fs.readFileSync(collectionPath(collection), "utf8");
     const data = JSON.parse(raw);
     cacheSet(collection, data);
     return data;
@@ -137,7 +137,7 @@ async function writeCollection(collection, data) {
 
 // ── Generate unique ID ──
 export function generateId() {
-  return crypto.randomBytes(12).toString('hex');
+  return crypto.randomBytes(12).toString("hex");
 }
 
 // ── Validate collection name ──
@@ -216,12 +216,12 @@ export async function query(collection, predicate, options = {}) {
 
   // Sort
   if (options.sort) {
-    const { field, order = 'asc' } = options.sort;
+    const { field, order = "asc" } = options.sort;
     results.sort((a, b) => {
       const aVal = a[field];
       const bVal = b[field];
-      if (aVal < bVal) return order === 'asc' ? -1 : 1;
-      if (aVal > bVal) return order === 'asc' ? 1 : -1;
+      if (aVal < bVal) return order === "asc" ? -1 : 1;
+      if (aVal > bVal) return order === "asc" ? 1 : -1;
       return 0;
     });
   }
@@ -257,21 +257,41 @@ export function initStore() {
   }
   // Seed default chat rooms if none exist
   try {
-    const rooms = JSON.parse(fs.readFileSync(collectionPath('chat_rooms'), 'utf8'));
+    const rooms = JSON.parse(
+      fs.readFileSync(collectionPath("chat_rooms"), "utf8"),
+    );
     if (rooms.length === 0) {
       const defaultRooms = [
-        { id: generateId(), name: 'general', description: 'General chat — talk about anything', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
-        { id: generateId(), name: 'gaming', description: 'Gaming discussion and tips', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
-        { id: generateId(), name: 'help', description: 'Get help with STRATO or homework', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+        {
+          id: generateId(),
+          name: "general",
+          description: "General chat — talk about anything",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: generateId(),
+          name: "gaming",
+          description: "Gaming discussion and tips",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: generateId(),
+          name: "help",
+          description: "Get help with STRATO or homework",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
       ];
-      atomicWrite(collectionPath('chat_rooms'), defaultRooms);
-      cacheSet('chat_rooms', defaultRooms);
-      console.log('[STRATO] Seeded default chat rooms');
+      atomicWrite(collectionPath("chat_rooms"), defaultRooms);
+      cacheSet("chat_rooms", defaultRooms);
+      console.log("[STRATO] Seeded default chat rooms");
     }
   } catch (e) {
-    console.warn('[STRATO] Could not seed chat rooms:', e.message);
+    console.warn("[STRATO] Could not seed chat rooms:", e.message);
   }
-  console.log('[STRATO] Database store initialized');
+  console.log("[STRATO] Database store initialized");
 }
 
 export default {

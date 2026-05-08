@@ -1,20 +1,20 @@
-import { Router } from 'express';
+import { Router } from "express";
 
 const router = Router();
 
 // ── HTML escape utility — prevents XSS in rendered error pages ──
 function escapeHtml(str) {
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
 }
 
 // ── Ultraviolet config endpoint ──
-router.get('/frog/uv.config.js', (req, res) => {
-  res.type('application/javascript');
+router.get("/frog/uv.config.js", (req, res) => {
+  res.type("application/javascript");
   res.send(`self.__uv$config = {
   prefix: '/frog/service/',
   bare: '/bare/',
@@ -28,8 +28,8 @@ router.get('/frog/uv.config.js', (req, res) => {
 });
 
 // ── Scramjet config endpoint ──
-router.get('/scramjet/config.js', (req, res) => {
-  res.type('application/javascript');
+router.get("/scramjet/config.js", (req, res) => {
+  res.type("application/javascript");
   res.send(`self.__scramjet$config = {
   prefix: '/scramjet/service/',
   bare: '/bare/',
@@ -47,9 +47,12 @@ function renderProxyError(errorCode, userMessage, buttons) {
   // Escape all dynamic values to prevent XSS
   const safeCode = escapeHtml(errorCode);
   const safeMessage = escapeHtml(userMessage);
-  const buttonHtml = buttons.map(b =>
-    `<a href="#" onclick="${escapeHtml(b.action)}; return false;" class="btn">${escapeHtml(b.label)}</a>`
-  ).join(' ');
+  const buttonHtml = buttons
+    .map(
+      (b) =>
+        `<a href="#" onclick="${escapeHtml(b.action)}; return false;" class="btn">${escapeHtml(b.label)}</a>`,
+    )
+    .join(" ");
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -131,51 +134,61 @@ function renderProxyError(errorCode, userMessage, buttons) {
 // ── Error mapping ──
 const ERROR_MAP = {
   ECONNREFUSED: {
-    message: 'This site is currently unreachable.',
+    message: "This site is currently unreachable.",
     buttons: [
-      { label: 'Retry', action: 'window.location.reload()' },
-      { label: 'Try other engine', action: 'window.postMessage({type:"proxy-switch-engine"}, "*")' },
+      { label: "Retry", action: "window.location.reload()" },
+      {
+        label: "Try other engine",
+        action: 'window.postMessage({type:"proxy-switch-engine"}, "*")',
+      },
     ],
   },
   ETIMEDOUT: {
-    message: 'Connection timed out. Site may be slow or blocked.',
+    message: "Connection timed out. Site may be slow or blocked.",
     buttons: [
-      { label: 'Retry', action: 'window.location.reload()' },
-      { label: 'Try other engine', action: 'window.postMessage({type:"proxy-switch-engine"}, "*")' },
+      { label: "Retry", action: "window.location.reload()" },
+      {
+        label: "Try other engine",
+        action: 'window.postMessage({type:"proxy-switch-engine"}, "*")',
+      },
     ],
   },
   ENOTFOUND: {
-    message: 'Could not find this website. Check the URL.',
-    buttons: [
-      { label: 'Retry', action: 'window.location.reload()' },
-    ],
+    message: "Could not find this website. Check the URL.",
+    buttons: [{ label: "Retry", action: "window.location.reload()" }],
   },
   ERR_SSL_PROTOCOL: {
-    message: 'This site has a security issue.',
+    message: "This site has a security issue.",
     buttons: [
-      { label: 'Proceed anyway', action: 'window.location.reload()' },
-      { label: 'Try other engine', action: 'window.postMessage({type:"proxy-switch-engine"}, "*")' },
+      { label: "Proceed anyway", action: "window.location.reload()" },
+      {
+        label: "Try other engine",
+        action: 'window.postMessage({type:"proxy-switch-engine"}, "*")',
+      },
     ],
   },
   502: {
-    message: 'Proxy error: Bad Gateway',
+    message: "Proxy error: Bad Gateway",
     buttons: [
-      { label: 'Retry', action: 'window.location.reload()' },
-      { label: 'Try other engine', action: 'window.postMessage({type:"proxy-switch-engine"}, "*")' },
+      { label: "Retry", action: "window.location.reload()" },
+      {
+        label: "Try other engine",
+        action: 'window.postMessage({type:"proxy-switch-engine"}, "*")',
+      },
     ],
   },
 };
 
 // ── Proxy error endpoint ──
-router.get('/proxy-error', (req, res) => {
-  const code = req.query.code || 'UNKNOWN';
+router.get("/proxy-error", (req, res) => {
+  const code = req.query.code || "UNKNOWN";
   const errorDef = ERROR_MAP[code] || {
-    message: 'An unexpected error occurred.',
-    buttons: [
-      { label: 'Retry', action: 'window.location.reload()' },
-    ],
+    message: "An unexpected error occurred.",
+    buttons: [{ label: "Retry", action: "window.location.reload()" }],
   };
-  res.status(502).send(renderProxyError(code, errorDef.message, errorDef.buttons));
+  res
+    .status(502)
+    .send(renderProxyError(code, errorDef.message, errorDef.buttons));
 });
 
 export default router;

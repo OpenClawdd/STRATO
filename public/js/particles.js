@@ -4,12 +4,12 @@
    ══════════════════════════════════════════════════════════ */
 
 (function () {
-  'use strict';
+  "use strict";
 
-  const canvas = document.getElementById('particles-canvas');
+  const canvas = document.getElementById("particles-canvas");
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let particles = [];
   let mouse = { x: -9999, y: -9999 };
   let animFrameId = null;
@@ -28,11 +28,11 @@
 
   // Muted color palette — no full rainbow, just accent tones
   const COLORS = [
-    { r: 0, g: 229, b: 255 },    // cyan
-    { r: 168, g: 85, b: 247 },    // purple
-    { r: 59, g: 130, b: 246 },    // blue
-    { r: 139, g: 92, b: 246 },    // violet
-    { r: 99, g: 102, b: 241 },    // indigo
+    { r: 0, g: 229, b: 255 }, // cyan
+    { r: 168, g: 85, b: 247 }, // purple
+    { r: 59, g: 130, b: 246 }, // blue
+    { r: 139, g: 92, b: 246 }, // violet
+    { r: 99, g: 102, b: 241 }, // indigo
   ];
 
   function resize() {
@@ -47,7 +47,9 @@
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * CONFIG.maxSpeed,
       vy: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      radius: Math.random() * (CONFIG.maxRadius - CONFIG.minRadius) + CONFIG.minRadius,
+      radius:
+        Math.random() * (CONFIG.maxRadius - CONFIG.minRadius) +
+        CONFIG.minRadius,
       alpha: Math.random() * 0.25 + 0.05,
       alphaDir: (Math.random() - 0.5) * 0.002,
       color,
@@ -69,7 +71,9 @@
       const dy = p.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < CONFIG.mouseRepelDist && dist > 0) {
-        const force = (CONFIG.mouseRepelDist - dist) / CONFIG.mouseRepelDist * CONFIG.mouseRepelForce;
+        const force =
+          ((CONFIG.mouseRepelDist - dist) / CONFIG.mouseRepelDist) *
+          CONFIG.mouseRepelForce;
         p.vx += (dx / dist) * force;
         p.vy += (dy / dist) * force;
       }
@@ -97,8 +101,14 @@
 
       // Subtle alpha pulse
       p.alpha += p.alphaDir;
-      if (p.alpha > 0.3) { p.alpha = 0.3; p.alphaDir = -Math.abs(p.alphaDir); }
-      if (p.alpha < 0.03) { p.alpha = 0.03; p.alphaDir = Math.abs(p.alphaDir); }
+      if (p.alpha > 0.3) {
+        p.alpha = 0.3;
+        p.alphaDir = -Math.abs(p.alphaDir);
+      }
+      if (p.alpha < 0.03) {
+        p.alpha = 0.03;
+        p.alphaDir = Math.abs(p.alphaDir);
+      }
     }
   }
 
@@ -149,19 +159,19 @@
   }
 
   // Mouse tracking
-  document.addEventListener('mousemove', (e) => {
+  document.addEventListener("mousemove", (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   });
 
-  document.addEventListener('mouseleave', () => {
+  document.addEventListener("mouseleave", () => {
     mouse.x = -9999;
     mouse.y = -9999;
   });
 
   // Resize handler with debounce
   let resizeTimer;
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       resize();
@@ -169,7 +179,7 @@
   });
 
   // Visibility optimization — pause when tab hidden
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       if (animFrameId) cancelAnimationFrame(animFrameId);
       animFrameId = null;
@@ -179,7 +189,7 @@
   });
 
   // Reduced motion preference — fully disable animation
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (motionQuery.matches) {
     // Draw once, then stop
     init();
@@ -191,7 +201,7 @@
   }
 
   // Listen for runtime changes to reduced-motion preference
-  motionQuery.addEventListener('change', (e) => {
+  motionQuery.addEventListener("change", (e) => {
     if (e.matches) {
       // User enabled reduced-motion — stop animation
       if (animFrameId) {

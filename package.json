@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "5.0.0",
-  "description": "STRATO v5 \u2014 The Living Hideout: a self-hosted arcade and app hub with fast launch search, local personalization, and honest catalog quality.",
+  "version": "5.0.1",
+  "description": "STRATO v5.01 — The Living Hideout hotfix: stable Home ownership, honest QA, local personalization, and real catalog quality.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src/",
+    "lint": "eslint src/ public/js/v5/ scripts/validate-games.mjs",
     "format": "prettier --write 'src/**/*.js' 'public/js/**/*.js'",
     "format:check": "prettier --check 'src/**/*.js' 'public/js/**/*.js'",
     "postinstall": "node scripts/setup-proxy.cjs",

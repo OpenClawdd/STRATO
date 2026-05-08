@@ -1,12 +1,12 @@
-import { Router } from 'express';
+import { Router } from "express";
 
 const router = Router();
 
 // ── Fake page templates ──
 const FAKE_PAGES = {
   classroom: {
-    title: 'Google Classroom',
-    favicon: 'https://www.google.com/favicon.ico',
+    title: "Google Classroom",
+    favicon: "https://www.google.com/favicon.ico",
     body: () => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,8 +69,8 @@ const FAKE_PAGES = {
   },
 
   drive: {
-    title: 'Google Drive',
-    favicon: 'https://www.google.com/favicon.ico',
+    title: "Google Drive",
+    favicon: "https://www.google.com/favicon.ico",
     body: () => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,8 +110,8 @@ const FAKE_PAGES = {
   },
 
   docs: {
-    title: 'Google Docs',
-    favicon: 'https://www.google.com/favicon.ico',
+    title: "Google Docs",
+    favicon: "https://www.google.com/favicon.ico",
     body: () => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,8 +151,8 @@ const FAKE_PAGES = {
   },
 
   slides: {
-    title: 'Google Slides',
-    favicon: 'https://www.google.com/favicon.ico',
+    title: "Google Slides",
+    favicon: "https://www.google.com/favicon.ico",
     body: () => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,8 +186,8 @@ const FAKE_PAGES = {
   },
 
   sheets: {
-    title: 'Google Sheets',
-    favicon: 'https://www.google.com/favicon.ico',
+    title: "Google Sheets",
+    favicon: "https://www.google.com/favicon.ico",
     body: () => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -232,35 +232,56 @@ const FAKE_PAGES = {
 };
 
 // ── POST /api/stealth/classroom — Generate fake Google Classroom page ──
-router.post('/api/stealth/classroom', (req, res) => {
+router.post("/api/stealth/classroom", (req, res) => {
   try {
     const username = res.locals.username;
     if (!username) {
-      return res.status(401).json({ error: 'Not authenticated' });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     const { classes } = req.body;
     const defaultClasses = [
-      { name: 'Mathematics', section: 'Period 2', teacher: 'Mr. Johnson', color: '#1a73e8' },
-      { name: 'English Language Arts', section: 'Period 3', teacher: 'Ms. Williams', color: '#34a853' },
-      { name: 'Science', section: 'Period 4', teacher: 'Mrs. Davis', color: '#ea4335' },
-      { name: 'Social Studies', section: 'Period 5', teacher: 'Mr. Brown', color: '#fbbc04' },
+      {
+        name: "Mathematics",
+        section: "Period 2",
+        teacher: "Mr. Johnson",
+        color: "#1a73e8",
+      },
+      {
+        name: "English Language Arts",
+        section: "Period 3",
+        teacher: "Ms. Williams",
+        color: "#34a853",
+      },
+      {
+        name: "Science",
+        section: "Period 4",
+        teacher: "Mrs. Davis",
+        color: "#ea4335",
+      },
+      {
+        name: "Social Studies",
+        section: "Period 5",
+        teacher: "Mr. Brown",
+        color: "#fbbc04",
+      },
     ];
 
-    const classList = Array.isArray(classes) && classes.length > 0 ? classes : defaultClasses;
+    const classList =
+      Array.isArray(classes) && classes.length > 0 ? classes : defaultClasses;
 
     const classCards = classList
       .map(
         (c) => `
     <div class="class-card">
-      <div class="class-banner" style="background: ${c.color || '#1a73e8'};"></div>
+      <div class="class-banner" style="background: ${c.color || "#1a73e8"};"></div>
       <div class="class-info">
-        <div class="class-name">${escapeHtml(c.name || 'Class')}</div>
-        <div class="class-section">${escapeHtml(c.section || '')} - ${escapeHtml(c.teacher || '')}</div>
+        <div class="class-name">${escapeHtml(c.name || "Class")}</div>
+        <div class="class-section">${escapeHtml(c.section || "")} - ${escapeHtml(c.teacher || "")}</div>
       </div>
-    </div>`
+    </div>`,
       )
-      .join('');
+      .join("");
 
     const html = `<!DOCTYPE html>
 <html lang="en">
@@ -293,48 +314,48 @@ router.post('/api/stealth/classroom', (req, res) => {
 </body>
 </html>`;
 
-    res.type('html').send(html);
+    res.type("html").send(html);
   } catch (err) {
-    console.error('[STRATO] Stealth classroom error:', err.message);
-    res.status(500).json({ error: 'Failed to generate stealth page' });
+    console.error("[STRATO] Stealth classroom error:", err.message);
+    res.status(500).json({ error: "Failed to generate stealth page" });
   }
 });
 
 // ── GET /api/stealth/fake/:type — Get fake page HTML ──
-router.get('/api/stealth/fake/:type', (req, res) => {
+router.get("/api/stealth/fake/:type", (req, res) => {
   try {
     const { type } = req.params;
 
     const page = FAKE_PAGES[type];
     if (!page) {
       return res.status(400).json({
-        error: `Invalid stealth type. Valid types: ${Object.keys(FAKE_PAGES).join(', ')}`,
+        error: `Invalid stealth type. Valid types: ${Object.keys(FAKE_PAGES).join(", ")}`,
       });
     }
 
-    res.type('html').send(page.body());
+    res.type("html").send(page.body());
   } catch (err) {
-    console.error('[STRATO] Stealth fake page error:', err.message);
-    res.status(500).json({ error: 'Failed to generate stealth page' });
+    console.error("[STRATO] Stealth fake page error:", err.message);
+    res.status(500).json({ error: "Failed to generate stealth page" });
   }
 });
 
 // ── POST /api/stealth/auto — Returns config for auto-stealth behavior ──
-router.post('/api/stealth/auto', (req, res) => {
+router.post("/api/stealth/auto", (req, res) => {
   try {
     const username = res.locals.username;
     if (!username) {
-      return res.status(401).json({ error: 'Not authenticated' });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     const { enabled, fakePage, keyBinding, hideOnBlur, panicKey } = req.body;
 
     const config = {
       enabled: enabled !== false,
-      fakePage: fakePage || 'classroom',
-      keyBinding: keyBinding || 'Escape',
+      fakePage: fakePage || "classroom",
+      keyBinding: keyBinding || "Escape",
       hideOnBlur: hideOnBlur !== false,
-      panicKey: panicKey || '`',
+      panicKey: panicKey || "`",
       availablePages: Object.keys(FAKE_PAGES),
       behavior: {
         hideOnBlur: hideOnBlur !== false,
@@ -342,26 +363,27 @@ router.post('/api/stealth/auto', (req, res) => {
         restoreOnFocus: true,
         changeTitleOnBlur: true,
         changeFaviconOnBlur: true,
-        blurTitle: FAKE_PAGES[fakePage || 'classroom']?.title || 'Google Classroom',
-        blurFavicon: 'https://www.google.com/favicon.ico',
+        blurTitle:
+          FAKE_PAGES[fakePage || "classroom"]?.title || "Google Classroom",
+        blurFavicon: "https://www.google.com/favicon.ico",
       },
     };
 
     res.json(config);
   } catch (err) {
-    console.error('[STRATO] Stealth auto config error:', err.message);
-    res.status(500).json({ error: 'Failed to get stealth config' });
+    console.error("[STRATO] Stealth auto config error:", err.message);
+    res.status(500).json({ error: "Failed to get stealth config" });
   }
 });
 
 // ── HTML escape utility ──
 function escapeHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
 }
 
 export default router;

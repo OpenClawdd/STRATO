@@ -1,5 +1,17 @@
 # STRATO v5 Release Checklist
 
+## v5.01 hotfix gate
+
+- [x] v5 Home owns Home rendering after boot.
+- [x] Legacy refresh bridge points into v5.
+- [x] Recursive refresh fallback removed.
+- [x] Service worker and visible version strings moved to v5.01.
+- [x] CI fails on format, lint, tests, and catalog errors.
+- [ ] Manual browser QA on desktop, Chromebook width, and mobile width.
+
+See `docs/STRATO_V5_01_HOTFIX.md`.
+
+
 - [x] Branch created: `strato-v5-living-hideout`.
 - [x] Package version updated to `5.0.0`.
 - [x] Manifest updated for STRATO v5 — The Living Hideout.

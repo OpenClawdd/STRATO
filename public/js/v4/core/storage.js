@@ -1,10 +1,10 @@
 export const keys = {
-  favorites: 'strato-favorites',
-  recent: 'strato-recent',
-  playCounts: 'strato-playCounts',
-  lastPlayed: 'strato-lastPlayed',
-  preferences: 'strato-preferences',
-  failures: 'strato-recentFailures',
+  favorites: "strato-favorites",
+  recent: "strato-recent",
+  playCounts: "strato-playCounts",
+  lastPlayed: "strato-lastPlayed",
+  preferences: "strato-preferences",
+  failures: "strato-recentFailures",
 };
 
 export function readJson(key, fallback) {

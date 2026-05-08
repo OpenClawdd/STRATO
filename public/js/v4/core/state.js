@@ -1,7 +1,7 @@
 export const state = {
   games: [],
-  activeMood: 'all',
-  searchQuery: '',
+  activeMood: "all",
+  searchQuery: "",
   searchIndex: 0,
   lastLaunchId: null,
 };

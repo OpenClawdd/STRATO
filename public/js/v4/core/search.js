@@ -1,8 +1,14 @@
-import { descriptionOf, nameOf, categoryOf, tagsOf, visibleCatalog } from './catalog.js';
+import {
+  descriptionOf,
+  nameOf,
+  categoryOf,
+  tagsOf,
+  visibleCatalog,
+} from "./catalog.js";
 
 export function levenshtein(a, b) {
-  const left = String(a || '');
-  const right = String(b || '');
+  const left = String(a || "");
+  const right = String(b || "");
   const matrix = Array.from({ length: left.length + 1 }, (_, i) => [i]);
   for (let j = 1; j <= right.length; j += 1) matrix[0][j] = j;
   for (let i = 1; i <= left.length; i += 1) {
@@ -18,16 +24,18 @@ export function levenshtein(a, b) {
 }
 
 export function searchGames(query) {
-  const q = String(query || '').trim().toLowerCase();
+  const q = String(query || "")
+    .trim()
+    .toLowerCase();
   if (!q) return [];
 
   return visibleCatalog()
     .map((game) => {
       const title = nameOf(game).toLowerCase();
       const category = categoryOf(game).toLowerCase();
-      const tags = tagsOf(game).join(' ').toLowerCase();
+      const tags = tagsOf(game).join(" ").toLowerCase();
       const description = descriptionOf(game).toLowerCase();
-      const blob = [title, category, tags, description].join(' ');
+      const blob = [title, category, tags, description].join(" ");
       let score = 100;
       if (title === q) score = 0;
       else if (title.startsWith(q)) score = 2;
@@ -38,7 +46,10 @@ export function searchGames(query) {
       return { game, score };
     })
     .filter(({ score }) => score < 82)
-    .sort((a, b) => a.score - b.score || nameOf(a.game).localeCompare(nameOf(b.game)))
+    .sort(
+      (a, b) =>
+        a.score - b.score || nameOf(a.game).localeCompare(nameOf(b.game)),
+    )
     .slice(0, 10)
     .map(({ game }) => game);
 }

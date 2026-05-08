@@ -1,10 +1,10 @@
 export const state = {
   games: [],
   normalized: [],
-  activeMood: 'all',
-  searchQuery: '',
+  activeMood: "all",
+  searchQuery: "",
   searchIndex: 0,
-  launchBay: { status: 'empty', gameId: null, reason: '' },
+  launchBay: { status: "empty", gameId: null, reason: "" },
 };
 
 export function setGames(games, normalizer = (game) => game) {
@@ -12,6 +12,6 @@ export function setGames(games, normalizer = (game) => game) {
   state.normalized = state.games.map(normalizer);
 }
 
-export function setLaunchBay(status, gameId = null, reason = '') {
+export function setLaunchBay(status, gameId = null, reason = "") {
   state.launchBay = { status, gameId, reason };
 }

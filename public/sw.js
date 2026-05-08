@@ -1,13 +1,13 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v22 Service Worker
+   STRATO v5.01 Service Worker
    Cache static assets (CSS, JS, HTML, thumbnails),
    cache-bust on version change (v22), offline fallback page,
    network-first for API calls, cache-first for static assets,
    skip waiting, claim clients
    ══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'strato-v24-open-home-polish';
-const CACHE_VERSION = 24;
+const CACHE_NAME = 'strato-v5-01-hotfix';
+const CACHE_VERSION = 501;
 const DEBUG_SW = false;
 const swLog = (...args) => { if (DEBUG_SW) console.debug(...args); };
 const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
@@ -26,6 +26,21 @@ const STATIC_ASSETS = [
   '/js/extensions.js',
   '/js/pwa.js',
   '/js/open-home-runtime.js',
+  '/js/v5/main.js',
+  '/js/v5/core/catalog.js',
+  '/js/v5/core/health.js',
+  '/js/v5/core/launch.js',
+  '/js/v5/core/picks.js',
+  '/js/v5/core/search.js',
+  '/js/v5/core/state.js',
+  '/js/v5/core/storage.js',
+  '/js/v5/ui/cards.js',
+  '/js/v5/ui/home.js',
+  '/js/v5/ui/recovery.js',
+  '/js/v5/ui/settings.js',
+  '/js/v5/ui/sheet.js',
+  '/js/v5/ui/sheets.js',
+  '/js/v5/ui/toast.js',
   '/games/strato-game-shell.js',
   '/bare-mux/index.js',
   '/bare-mux/worker.js',
@@ -38,7 +53,7 @@ const STATIC_ASSETS = [
 ];
 
 // Thumbnails to cache
-const THUMBNAIL_CACHE = 'strato-v24-thumbnails';
+const THUMBNAIL_CACHE = 'strato-v5-01-thumbnails';
 const FALLBACK_THUMBNAIL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><rect width="320" height="200" rx="18" fill="#0b1020"/><circle cx="252" cy="42" r="52" fill="#00e5ff" opacity=".16"/><circle cx="74" cy="170" r="80" fill="#a855f7" opacity=".12"/><path d="M44 138h232" stroke="#00e5ff" stroke-opacity=".22"/><text x="160" y="113" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="800" fill="#00e5ff">STRATO</text></svg>`;
 
 // Offline fallback page
@@ -73,7 +88,7 @@ const OFFLINE_PAGE = `
 
 // ── Install: cache static assets ──
 self.addEventListener('install', (event) => {
-  swLog('[SW] Installing STRATO v22 service worker');
+  swLog('[SW] Installing STRATO v5.01 service worker');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -95,7 +110,7 @@ self.addEventListener('install', (event) => {
 
 // ── Activate: clean old caches (cache-bust on version change) ──
 self.addEventListener('activate', (event) => {
-  swLog('[SW] Activating STRATO v22 service worker');
+  swLog('[SW] Activating STRATO v5.01 service worker');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(

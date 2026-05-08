@@ -1,6 +1,6 @@
-import { categoryOf, playableCatalog } from './catalog.js';
-import { health } from './health.js';
-import { keys, readJson } from './storage.js';
+import { categoryOf, playableCatalog } from "./catalog.js";
+import { health } from "./health.js";
+import { keys, readJson } from "./storage.js";
 
 export function hash(value) {
   let output = 2166136261;
@@ -18,7 +18,7 @@ export function dailyPicks() {
   const output = [];
 
   const candidates = playableCatalog()
-    .filter((game) => health(game).status !== 'recently-failed')
+    .filter((game) => health(game).status !== "recently-failed")
     .sort((a, b) => {
       const aThumb = a.thumbnail ? 0 : 1;
       const bThumb = b.thumbnail ? 0 : 1;
@@ -38,7 +38,9 @@ export function dailyPicks() {
 
 export function surpriseCandidate() {
   const recent = new Set(readJson(keys.recent, []).slice(0, 6));
-  const candidates = playableCatalog().filter((game) => health(game).status !== 'recently-failed');
+  const candidates = playableCatalog().filter(
+    (game) => health(game).status !== "recently-failed",
+  );
   const fresh = candidates.filter((game) => !recent.has(game.id));
   const pool = fresh.length ? fresh : candidates;
   return pool[Math.floor(Math.random() * pool.length)] || null;
