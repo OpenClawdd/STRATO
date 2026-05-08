@@ -260,8 +260,12 @@
       e.preventDefault();
       state.panicKey = e.key;
       localStorage.setItem("strato-panicKey", e.key);
-      const el = document.getElementById("setting-panic-key");
-      if (el) el.textContent = e.key;
+      const settingKey = document.getElementById("setting-panic-key");
+      const stealthKey = document.getElementById("stealth-panic-key");
+      const barKey = document.getElementById("panic-key-display");
+      if (settingKey) settingKey.textContent = e.key;
+      if (stealthKey) stealthKey.value = e.key;
+      if (barKey) barKey.textContent = e.key;
       state.changingPanicKey = false;
       showToast("Panic key updated", "accent");
       return;
@@ -2355,6 +2359,16 @@
     });
   }
 
+  // Auto-stealth toggle (enable/disable idle auto-cloak)
+  const autoStealthToggle = document.getElementById("auto-stealth");
+  if (autoStealthToggle) {
+    autoStealthToggle.checked =
+      localStorage.getItem("strato-auto-stealth") !== "false";
+    autoStealthToggle.addEventListener("change", () => {
+      localStorage.setItem("strato-auto-stealth", autoStealthToggle.checked);
+    });
+  }
+
   // Breadcrumb setting
   const breadcrumbInput = document.getElementById("setting-breadcrumb");
   if (breadcrumbInput) {
@@ -3274,6 +3288,7 @@
 
   setInterval(() => {
     if (autoCloakActive) return;
+    if (localStorage.getItem("strato-auto-stealth") === "false") return;
     const idleMs = Date.now() - lastActivityTime;
     if (idleMs >= getActivityIdleMs()) triggerAutoCloak();
   }, 2000);
