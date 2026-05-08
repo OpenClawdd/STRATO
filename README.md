@@ -132,3 +132,10 @@ tests/                        Vitest test suite
 ## License
 
 GPL-3.0.
+
+
+## STRATO v5.02 catalog split
+
+`public/assets/games.json` is now reserved for real launchable games that can appear in Home, Search, Daily Picks, Surprise Me, Favorites, and Recently Played.
+
+Non-playable directories, hubs, configured external surfaces, and resource entries live in `public/assets/surfaces.json`. They are still available for review/config workflows, but they no longer inflate arcade counts or pollute player-facing game surfaces.

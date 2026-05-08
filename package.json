@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "5.0.1",
-  "description": "STRATO v5.01 — The Living Hideout hotfix: stable Home ownership, honest QA, local personalization, and real catalog quality.",
+  "version": "5.0.2",
+  "description": "STRATO v5.02 — Catalog Purge + Surface Split: playable games stay clean, non-playable surfaces live outside Home/Search/Picks.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

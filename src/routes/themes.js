@@ -117,10 +117,12 @@ router.post("/api/themes", async (req, res) => {
       !/^[a-z0-9-]+$/.test(code) ||
       code.length > 50
     ) {
-      return res.status(400).json({
-        error:
-          "Theme code must be lowercase alphanumeric with dashes, max 50 chars",
-      });
+      return res
+        .status(400)
+        .json({
+          error:
+            "Theme code must be lowercase alphanumeric with dashes, max 50 chars",
+        });
     }
 
     if (!config || typeof config !== "object") {

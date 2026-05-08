@@ -7,6 +7,7 @@
  * Usage:
  *   import { resolveConfig } from './config/load-private-config.js';
  *   const games = resolveConfig('./assets/games.json');
+ *   const surfaces = resolveConfig('./assets/surfaces.json');
  */
 
 import fs from "fs";
@@ -157,6 +158,7 @@ export function resolveConfig(relativePath) {
  */
 export function getConfigStatus() {
   const gamesResult = resolveConfig("public/assets/games.json");
+  const surfacesResult = resolveConfig("public/assets/surfaces.json");
   const mirrorsResult = resolveConfig("public/assets/sites.json");
 
   return {
@@ -165,8 +167,17 @@ export function getConfigStatus() {
       unresolved: gamesResult.unresolved,
       resolved: gamesResult.resolved,
     },
+    surfaces: {
+      total: Array.isArray(surfacesResult.data)
+        ? surfacesResult.data.length
+        : 0,
+      unresolved: surfacesResult.unresolved,
+      resolved: surfacesResult.resolved,
+    },
     mirrors: {
-      total: mirrorsResult.data?.mirrors?.length || 0,
+      total: Array.isArray(mirrorsResult.data)
+        ? mirrorsResult.data.length
+        : mirrorsResult.data?.mirrors?.length || 0,
       unresolved: mirrorsResult.unresolved,
       resolved: mirrorsResult.resolved,
     },

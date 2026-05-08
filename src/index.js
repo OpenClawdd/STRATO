@@ -199,9 +199,14 @@ app.use("/api/saves/", savesLimiter);
 //     Must come BEFORE static so unauthenticated users don't see broken SPA.
 app.use(authMiddleware);
 
-// ── 9. Override /assets/games.json to serve resolved config (private URLs injected) ──
+// ── 9. Catalog config endpoints (private URLs injected where needed) ──
 app.get("/assets/games.json", (req, res) => {
   const result = resolveConfig("public/assets/games.json");
+  res.json(result.data);
+});
+
+app.get("/assets/surfaces.json", (req, res) => {
+  const result = resolveConfig("public/assets/surfaces.json");
   res.json(result.data);
 });
 

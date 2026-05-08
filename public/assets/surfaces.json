@@ -1,0 +1,657 @@
+[
+  {
+    "id": "awp",
+    "name": "AWP",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/1v1-lol.webp",
+    "url": "${PROXY_AWP}",
+    "alt_url": "${PROXY_AWP_ALT}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Recommended proxy — mirror available",
+    "tags": [
+      "proxy",
+      "mirror",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "boredom-v3",
+    "name": "Boredom V3",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/among-us.webp",
+    "url": "${HUB_BOREDOM}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Boredom game hub v3 — educational games",
+    "tags": [
+      "games",
+      "hub",
+      "boredom"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "cherri",
+    "name": "Cherri",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/basketball-stars.webp",
+    "url": "${PROXY_CHERRI}",
+    "alt_url": "${PROXY_CHERRI_ALT}",
+    "tier": 2,
+    "reliability": "red",
+    "description": "Intermittent proxy — backup available",
+    "tags": [
+      "proxy",
+      "intermittent",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "daydream-x",
+    "name": "DayDream X",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/bloons-td.webp",
+    "url": "${HUB_DAYDREAM}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Game hub with lots of titles on CDN",
+    "tags": [
+      "games",
+      "hub",
+      "dream"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "endis",
+    "name": "Endis",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/fnf.webp",
+    "url": "${HUB_ENDIS}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Endis game hub",
+    "tags": [
+      "games",
+      "hub"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "everest",
+    "name": "Everest",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/vex-5.webp",
+    "url": "${HUB_EVEREST}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Everest game hub",
+    "tags": [
+      "games",
+      "hub",
+      "everest"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "fmhy",
+    "name": "FMHY",
+    "category": "directories",
+    "thumbnail": "/assets/thumbnails/wordle.webp",
+    "url": "${PROXY_FMHY}",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Massive freemedia index and directory",
+    "tags": [
+      "index",
+      "directory",
+      "media"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "directory",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "frogiesarcade",
+    "name": "frogiesarcade",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/smash-karts.webp",
+    "url": "${PROXY_FROGIES}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Arcade games hub — games-focused",
+    "tags": [
+      "arcade",
+      "games",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "ghost-hub",
+    "name": "Ghost",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/osu.webp",
+    "url": "${HUB_GHOST}",
+    "alt_url": "${HUB_GHOST_ALT}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Ghost game hub — dual CDN",
+    "tags": [
+      "games",
+      "hub",
+      "ghost"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "imp",
+    "name": "IMP",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/solitaire.webp",
+    "url": "${HUB_IMP}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Game hub — education front",
+    "tags": [
+      "games",
+      "hub",
+      "eclipse"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "infamous",
+    "name": "Infamous",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/krunker.webp",
+    "url": "${PROXY_INFAMOUS}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Recommended proxy — reliable service",
+    "tags": [
+      "proxy",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "infinitygame",
+    "name": "InfinityGame",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/run-3.webp",
+    "url": "${HUB_INFINITY}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "InfinityGame hub",
+    "tags": [
+      "games",
+      "hub",
+      "infinity"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "keoffical",
+    "name": "Keoffical",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/bonk-io.webp",
+    "url": "${HUB_KEOFFICAL}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Keoffical game hub",
+    "tags": [
+      "games",
+      "hub"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "korona",
+    "name": "Korona",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/skribbl-io.webp",
+    "url": "${HUB_KORONA}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Korona game hub",
+    "tags": [
+      "games",
+      "hub"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "learning-policy",
+    "name": "Learning Policy",
+    "category": "directories",
+    "thumbnail": "/assets/thumbnails/doom.webp",
+    "url": "${HUB_LEARNING}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Education-front directory",
+    "tags": [
+      "directory",
+      "education",
+      "cloak"
+    ],
+    "config_required": true,
+    "surfaceType": "directory",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "lucide",
+    "name": "Lucide",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/drift-hunters.webp",
+    "url": "${PROXY_LUCIDE}",
+    "tier": 2,
+    "reliability": "green",
+    "description": "BYOD front — education disguise",
+    "tags": [
+      "proxy",
+      "byod",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "mist-hub",
+    "name": "Mist",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/chess.webp",
+    "url": "${HUB_MIST}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Mist game hub",
+    "tags": [
+      "games",
+      "hub",
+      "mist"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "nexora",
+    "name": "Nexora",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/happy-wheels.webp",
+    "url": "${HUB_NEXORA}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Nexora game hub on CDN",
+    "tags": [
+      "games",
+      "hub",
+      "nexora"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "noahs-tutoring",
+    "name": "Noah's Tutoring",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/wordle.webp",
+    "url": "${PROXY_NOAHS}",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Best cloak domain — long subdomain chain disguise",
+    "tags": [
+      "proxy",
+      "cloak",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "petezah",
+    "name": "PeteZah",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/zombs-royale.webp",
+    "url": "${PROXY_PETEZAH}",
+    "alt_url": "${PROXY_PETEZAH_ALT}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Game hub — travel domain front",
+    "tags": [
+      "games",
+      "hub",
+      "travel-domain"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "pizagame",
+    "name": "PizaGame",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/cookie-clicker.webp",
+    "url": "${HUB_PIZAGAME}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Pizza edition game hub",
+    "tags": [
+      "games",
+      "hub"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "quasar",
+    "name": "Quasar",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/moto-x3m.webp",
+    "url": "${HUB_QUASAR}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Quasar game hub — project front",
+    "tags": [
+      "games",
+      "hub",
+      "quasar"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "reds-exploit",
+    "name": "Reds Exploit Corner",
+    "category": "directories",
+    "thumbnail": "/assets/thumbnails/crossy-road.webp",
+    "url": "${HUB_REDS}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Exploits and tools directory",
+    "tags": [
+      "exploits",
+      "directory",
+      "tools"
+    ],
+    "config_required": true,
+    "surfaceType": "directory",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "ronin",
+    "name": "Ronin",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/slither-io.webp",
+    "url": "${HUB_RONIN}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Ronin game hub",
+    "tags": [
+      "games",
+      "hub",
+      "ronin"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "sakura",
+    "name": "Sakura",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/bitlife.webp",
+    "url": "${HUB_SAKURA}",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Game hub — high takedown risk host",
+    "tags": [
+      "games",
+      "hub",
+      "sakura"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "selenite",
+    "name": "Selenite",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/geometry-dash.webp",
+    "url": "${PROXY_SELENITE}",
+    "alt_url": "${PROXY_SELENITE_ALT}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Recommended proxy — has alternate mirror",
+    "tags": [
+      "proxy",
+      "mirror",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "sme",
+    "name": "SME",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/retro-bowl.webp",
+    "url": "${PROXY_SME}",
+    "alt_url": "${PROXY_SME_ALT}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Education-front proxy — password protected",
+    "tags": [
+      "proxy",
+      "school",
+      "password"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "password": "${PROXY_SME_PASSWORD}",
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "splash",
+    "name": "SPLASH",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/slope.webp",
+    "url": "${PROXY_SPLASH}",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Fast, reliable web proxy — clean interface",
+    "tags": [
+      "proxy",
+      "fast",
+      "recommended"
+    ],
+    "proxy_tier": "good",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "strawberry",
+    "name": "Strawberry",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/agar-io.webp",
+    "url": "${PROXY_STRAWBERRY}",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Education-front proxy — school themed",
+    "tags": [
+      "proxy",
+      "school",
+      "recommended"
+    ],
+    "proxy_tier": "good",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "ubghub",
+    "name": "UBGHub",
+    "category": "directories",
+    "thumbnail": "/assets/thumbnails/stickman-hook.webp",
+    "url": "${HUB_UBGHUB}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Unblocked games directory",
+    "tags": [
+      "games",
+      "hub",
+      "unblocked"
+    ],
+    "config_required": true,
+    "surfaceType": "directory",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "uunnblockedgames",
+    "name": "UunnblockedGames",
+    "category": "game-hubs",
+    "thumbnail": "/assets/thumbnails/minecraft-classic.webp",
+    "url": "${HUB_UUNNBLOCKED}",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Unblocked games hub",
+    "tags": [
+      "games",
+      "unblocked",
+      "hub"
+    ],
+    "config_required": true,
+    "surfaceType": "game-hub",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  },
+  {
+    "id": "vapor-v4",
+    "name": "VAPOR v4",
+    "category": "proxies",
+    "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
+    "url": "${PROXY_VAPOR}",
+    "tier": 2,
+    "reliability": "yellow",
+    "description": "Recommended proxy — clean design",
+    "tags": [
+      "proxy",
+      "modern",
+      "recommended"
+    ],
+    "proxy_tier": "recommended",
+    "config_required": true,
+    "surfaceType": "proxy",
+    "launchMode": "surface",
+    "listedInHome": false,
+    "source": "legacy-games-json"
+  }
+]

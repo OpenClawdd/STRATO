@@ -1,91 +1,812 @@
 [
-  { "id": "2048", "name": "2048", "category": "puzzle", "thumbnail": "/assets/thumbnails/2048.webp", "url": "/games/2048/index.html", "tier": 1, "reliability": "green", "description": "Slide tiles to reach 2048 — the classic number puzzle", "tags": ["numbers", "strategy", "offline"] },
-  { "id": "tetris", "name": "Tetris", "category": "puzzle", "thumbnail": "/assets/thumbnails/tetris.webp", "url": "/games/tetris/index.html", "tier": 1, "reliability": "green", "description": "The timeless block-stacking puzzle game", "tags": ["blocks", "classic", "offline"] },
-  { "id": "snake", "name": "Snake", "category": "puzzle", "thumbnail": "/assets/thumbnails/snake.webp", "url": "/games/snake/index.html", "tier": 1, "reliability": "green", "description": "Guide the snake and eat to grow — classic arcade fun", "tags": ["arcade", "retro", "offline"] },
-  { "id": "flappy-bird", "name": "Flappy Bird", "category": "action", "thumbnail": "/assets/thumbnails/flappy-bird.webp", "url": "/games/flappy-bird/index.html", "tier": 1, "reliability": "green", "description": "Tap to fly through pipes — deceptively simple, impossibly addictive", "tags": ["tap", "birds", "offline"] },
-  { "id": "pong", "name": "Pong", "category": "action", "thumbnail": "/assets/thumbnails/pong.webp", "url": "/games/pong/index.html", "tier": 1, "reliability": "green", "description": "Classic Pong vs AI — first to 11 wins", "tags": ["retro", "two-player", "offline"] },
-  { "id": "breakout", "name": "Breakout", "category": "action", "thumbnail": "/assets/thumbnails/breakout.webp", "url": "/games/breakout/index.html", "tier": 1, "reliability": "green", "description": "Smash bricks with a bouncing ball — the arcade original", "tags": ["bricks", "arcade", "offline"] },
-  { "id": "dino-runner", "name": "Dino Runner", "category": "action", "thumbnail": "/assets/thumbnails/dino-runner.webp", "url": "/games/dino-runner/index.html", "tier": 1, "reliability": "green", "description": "Jump over cacti in this endless runner — just like Chrome", "tags": ["endless", "chrome", "offline"] },
-  { "id": "space-invaders", "name": "Space Invaders", "category": "shooter", "thumbnail": "/assets/thumbnails/space-invaders.webp", "url": "/games/space-invaders/index.html", "tier": 1, "reliability": "green", "description": "Defend Earth from descending alien invaders", "tags": ["aliens", "retro", "offline"] },
-  { "id": "sudoku", "name": "Sudoku", "category": "puzzle", "thumbnail": "/assets/thumbnails/sudoku.webp", "url": "/games/sudoku/index.html", "tier": 1, "reliability": "green", "description": "Fill the 9x9 grid with numbers — classic brain teaser", "tags": ["numbers", "logic", "offline"] },
-  { "id": "minesweeper", "name": "Minesweeper", "category": "puzzle", "thumbnail": "/assets/thumbnails/minesweeper.webp", "url": "/games/minesweeper/index.html", "tier": 1, "reliability": "green", "description": "Flag the mines and clear the board — logic puzzle classic", "tags": ["logic", "windows", "offline"] },
-  { "id": "connect-four", "name": "Connect Four", "category": "strategy", "thumbnail": "/assets/thumbnails/chess.webp", "url": "/games/connect-four/index.html", "tier": 1, "reliability": "green", "description": "Drop discs to connect four in a row — vs CPU", "tags": ["board", "two-player", "offline"] },
-  { "id": "memory-match", "name": "Memory Match", "category": "puzzle", "thumbnail": "/assets/thumbnails/solitaire.webp", "url": "/games/memory-match/index.html", "tier": 1, "reliability": "green", "description": "Flip cards to find matching pairs — test your memory", "tags": ["memory", "cards", "offline"] },
-  { "id": "typing-game", "name": "Typing Game", "category": "action", "thumbnail": "/assets/thumbnails/wordle.webp", "url": "/games/typing-game/index.html", "tier": 1, "reliability": "green", "description": "Type falling words before they hit the bottom — speed test", "tags": ["words", "speed", "offline"] },
-  { "id": "simon-says", "name": "Simon Says", "category": "puzzle", "thumbnail": "/assets/thumbnails/geometry-dash.webp", "url": "/games/simon-says/index.html", "tier": 1, "reliability": "green", "description": "Repeat the color pattern — memory challenge classic", "tags": ["memory", "colors", "offline"] },
-  { "id": "tower-of-hanoi", "name": "Tower of Hanoi", "category": "puzzle", "thumbnail": "/assets/thumbnails/2048.webp", "url": "/games/tower-of-hanoi/index.html", "tier": 1, "reliability": "green", "description": "Move all disks to the last peg — logic puzzle", "tags": ["logic", "classic", "offline"] },
-  { "id": "pacman", "name": "Pacman", "category": "action", "thumbnail": "/assets/thumbnails/solitaire.webp", "url": "/games/pacman/index.html", "tier": 1, "reliability": "green", "description": "Eat pellets and avoid ghosts — the arcade legend", "tags": ["arcade", "retro", "offline"] },
-
-  { "id": "slope", "name": "Slope", "category": "action", "thumbnail": "/assets/thumbnails/slope.webp", "url": "https://slope-game.com", "tier": 3, "reliability": "yellow", "description": "Roll down the slope and avoid obstacles at high speed", "tags": ["3d", "speed", "reflex"] },
-  { "id": "cookie-clicker", "name": "Cookie Clicker", "category": "strategy", "thumbnail": "/assets/thumbnails/cookie-clicker.webp", "url": "https://orteil.dashnet.org/cookieclicker/", "tier": 2, "reliability": "green", "description": "Click cookies, buy upgrades, bake millions — the original idle game", "tags": ["idle", "clicker", "addictive"] },
-  { "id": "1v1-lol", "name": "1v1.LOL", "category": "shooter", "thumbnail": "/assets/thumbnails/1v1-lol.webp", "url": "https://1v1.lol", "tier": 3, "reliability": "yellow", "description": "Build and battle in this 1v1 shooter", "tags": ["shooter", "building", "multiplayer"] },
-  { "id": "retro-bowl", "name": "Retro Bowl", "category": "sports", "thumbnail": "/assets/thumbnails/retro-bowl.webp", "url": "https://retro-bowl.com", "tier": 3, "reliability": "yellow", "description": "Classic American football with pixel art style", "tags": ["football", "pixel", "sports"] },
-  { "id": "fnf", "name": "Friday Night Funkin'", "category": "rhythm", "thumbnail": "/assets/thumbnails/fnf.webp", "url": "https://www.newgrounds.com/portal/view/770371", "tier": 3, "reliability": "yellow", "description": "Rap battle your way to victory — open source rhythm hit", "tags": ["music", "rhythm", "rap"] },
-  { "id": "among-us", "name": "Among Us", "category": "strategy", "thumbnail": "/assets/thumbnails/among-us.webp", "url": "https://among-us.io", "tier": 3, "reliability": "red", "description": "Find the impostor among the crew — social deduction", "tags": ["social", "deduction", "multiplayer"] },
-  { "id": "basketball-stars", "name": "Basketball Stars", "category": "sports", "thumbnail": "/assets/thumbnails/basketball-stars.webp", "url": "https://basketball-stars.com", "tier": 3, "reliability": "yellow", "description": "Fast-paced 1v1 basketball action", "tags": ["basketball", "sports", "multiplayer"] },
-  { "id": "madalin-stunt-cars-2", "name": "Madalin Stunt Cars 2", "category": "racing", "thumbnail": "/assets/thumbnails/madalin-stunt-cars-2.webp", "url": "https://madalinstuntcars2.io", "tier": 3, "reliability": "yellow", "description": "Super cars, massive maps, insane stunts", "tags": ["cars", "stunts", "3d"] },
-  { "id": "krunker", "name": "Krunker", "category": "shooter", "thumbnail": "/assets/thumbnails/krunker.webp", "url": "https://krunker.io", "tier": 3, "reliability": "yellow", "description": "Fast-paced browser FPS with movement mechanics", "tags": ["fps", "shooter", "multiplayer"] },
-  { "id": "slither-io", "name": "Slither.io", "category": "action", "thumbnail": "/assets/thumbnails/slither-io.webp", "url": "https://slither.io", "tier": 2, "reliability": "green", "description": "Eat orbs, grow longer, outsnake your rivals", "tags": ["io", "snake", "multiplayer"] },
-  { "id": "hole-io", "name": "Hole.io", "category": "action", "thumbnail": "/assets/thumbnails/hole-io.webp", "url": "https://hole-io.com", "tier": 3, "reliability": "yellow", "description": "Control a black hole and swallow everything in sight", "tags": ["io", "physics", "multiplayer"] },
-  { "id": "stickman-hook", "name": "Stickman Hook", "category": "platformer", "thumbnail": "/assets/thumbnails/stickman-hook.webp", "url": "https://stickmanhook.com", "tier": 3, "reliability": "yellow", "description": "Swing from hook to hook in this physics platformer", "tags": ["physics", "swing", "platformer"] },
-  { "id": "vex-5", "name": "Vex 5", "category": "platformer", "thumbnail": "/assets/thumbnails/vex-5.webp", "url": "https://vex5.com", "tier": 3, "reliability": "yellow", "description": "Run, jump, and survive deadly obstacle courses", "tags": ["obstacle", "platformer", "hard"] },
-  { "id": "geometry-dash", "name": "Geometry Dash", "category": "rhythm", "thumbnail": "/assets/thumbnails/geometry-dash.webp", "url": "https://geometrydash.io", "tier": 3, "reliability": "yellow", "description": "Jump and fly through spiky rhythm-based levels", "tags": ["rhythm", "jump", "hard"] },
-  { "id": "drift-hunters", "name": "Drift Hunters", "category": "racing", "thumbnail": "/assets/thumbnails/drift-hunters.webp", "url": "https://drifthunters.com", "tier": 3, "reliability": "yellow", "description": "Drift your way through challenging tracks for points", "tags": ["drift", "cars", "3d"] },
-  { "id": "paper-io-2", "name": "Paper.io 2", "category": "strategy", "thumbnail": "/assets/thumbnails/paper-io-2.webp", "url": "https://paper-io.com", "tier": 3, "reliability": "yellow", "description": "Claim territory by drawing lines — don't get cut off", "tags": ["io", "territory", "multiplayer"] },
-  { "id": "tunnel-rush", "name": "Tunnel Rush", "category": "action", "thumbnail": "/assets/thumbnails/tunnel-rush.webp", "url": "https://tunnelrush.co", "tier": 3, "reliability": "yellow", "description": "Blaze through a neon tunnel avoiding obstacles", "tags": ["neon", "speed", "3d"] },
-  { "id": "run-3", "name": "Run 3", "category": "platformer", "thumbnail": "/assets/thumbnails/run-3.webp", "url": "https://run3.site", "tier": 3, "reliability": "yellow", "description": "Run through an endless tunnel in space", "tags": ["endless", "space", "platformer"] },
-  { "id": "smash-karts", "name": "Smash Karts", "category": "action", "thumbnail": "/assets/thumbnails/smash-karts.webp", "url": "https://smashkarts.io", "tier": 3, "reliability": "yellow", "description": "Kart battle royale with power-ups and explosions", "tags": ["kart", "battle", "multiplayer"] },
-  { "id": "subway-surfers", "name": "Subway Surfers", "category": "action", "thumbnail": "/assets/thumbnails/subway-surfers.webp", "url": "https://subwaysurfers.com", "tier": 3, "reliability": "red", "description": "Dash through the subway and dodge trains", "tags": ["endless", "runner", "mobile"] },
-  { "id": "moto-x3m", "name": "Moto X3M", "category": "racing", "thumbnail": "/assets/thumbnails/moto-x3m.webp", "url": "https://motox3m.io", "tier": 3, "reliability": "yellow", "description": "Extreme motorcycle trials with insane stunts", "tags": ["motorcycle", "stunts", "racing"] },
-  { "id": "wordle", "name": "Wordle", "category": "puzzle", "thumbnail": "/assets/thumbnails/wordle.webp", "url": "https://www.nytimes.com/games/wordle/index.html", "tier": 3, "reliability": "yellow", "description": "Guess the five-letter word in six tries", "tags": ["words", "daily", "puzzle"] },
-  { "id": "chess", "name": "Chess", "category": "strategy", "thumbnail": "/assets/thumbnails/chess.webp", "url": "https://chess.com", "tier": 3, "reliability": "yellow", "description": "Play chess online against players worldwide", "tags": ["board", "strategy", "multiplayer"] },
-  { "id": "bitlife", "name": "BitLife", "category": "adventure", "thumbnail": "/assets/thumbnails/bitlife.webp", "url": "https://bitlife.online", "tier": 3, "reliability": "red", "description": "Live your best (or worst) virtual life", "tags": ["life", "simulator", "choices"] },
-  { "id": "agar-io", "name": "Agar.io", "category": "action", "thumbnail": "/assets/thumbnails/agar-io.webp", "url": "https://agar.io", "tier": 2, "reliability": "green", "description": "Eat cells smaller than you, grow bigger", "tags": ["io", "cells", "multiplayer"] },
-  { "id": "crossy-road", "name": "Crossy Road", "category": "action", "thumbnail": "/assets/thumbnails/crossy-road.webp", "url": "https://crossyroad.com", "tier": 3, "reliability": "red", "description": "Help the chicken cross the road — and the train tracks", "tags": ["crossing", "retro", "endless"] },
-  { "id": "minecraft-classic", "name": "Minecraft Classic", "category": "sandbox", "thumbnail": "/assets/thumbnails/minecraft-classic.webp", "url": "https://minecraft.net/en-us/classic", "tier": 3, "reliability": "red", "description": "Build together in the original Minecraft — free official web version", "tags": ["blocks", "building", "multiplayer"] },
-  { "id": "bonk-io", "name": "Bonk.io", "category": "action", "thumbnail": "/assets/thumbnails/bonk-io.webp", "url": "https://bonk.io", "tier": 3, "reliability": "yellow", "description": "Push friends off the map in this physics brawler", "tags": ["physics", "multiplayer", "io"] },
-  { "id": "skribbl-io", "name": "Skribbl.io", "category": "strategy", "thumbnail": "/assets/thumbnails/skribbl-io.webp", "url": "https://skribbl.io", "tier": 3, "reliability": "yellow", "description": "Draw and guess with players worldwide", "tags": ["drawing", "guessing", "multiplayer"] },
-  { "id": "zombs-royale", "name": "ZombsRoyale.io", "category": "shooter", "thumbnail": "/assets/thumbnails/zombs-royale.webp", "url": "https://zombsroyale.io", "tier": 3, "reliability": "yellow", "description": "2D battle royale with building mechanics", "tags": ["battle-royale", "shooter", "multiplayer"] },
-  { "id": "bloons-td", "name": "Bloons TD", "category": "strategy", "thumbnail": "/assets/thumbnails/bloons-td.webp", "url": "https://bloonstd6.com", "tier": 3, "reliability": "red", "description": "Pop balloons with monkey towers — tower defense classic", "tags": ["tower-defense", "monkeys", "strategy"] },
-  { "id": "osu", "name": "osu!", "category": "rhythm", "thumbnail": "/assets/thumbnails/osu.webp", "url": "https://osu.ppy.sh/home", "tier": 3, "reliability": "red", "description": "Rhythm game — click circles to the beat", "tags": ["rhythm", "music", "click"] },
-  { "id": "happy-wheels", "name": "Happy Wheels", "category": "action", "thumbnail": "/assets/thumbnails/retro-bowl.webp", "url": "https://happywheels2.io", "tier": 3, "reliability": "red", "description": "Gory ragdoll physics obstacle course", "tags": ["ragdoll", "gore", "physics"] },
-  { "id": "helix-jump", "name": "Helix Jump", "category": "action", "thumbnail": "/assets/thumbnails/tunnel-rush.webp", "url": "https://helixjump.io", "tier": 3, "reliability": "red", "description": "Drop the ball through gaps in the helix tower", "tags": ["ball", "drop", "3d"] },
-  { "id": "raft-wars", "name": "Raft Wars", "category": "action", "thumbnail": "/assets/thumbnails/subway-surfers.webp", "url": "https://raftwars.com", "tier": 3, "reliability": "red", "description": "Launch tennis balls at enemies on rafts", "tags": ["projectile", "turn-based", "fun"] },
-  { "id": "dead-zed", "name": "Dead Zed", "category": "shooter", "thumbnail": "/assets/thumbnails/dead-zed.webp", "url": "https://deadzed.com", "tier": 3, "reliability": "red", "description": "Survive the zombie apocalypse — first person shooter", "tags": ["zombies", "fps", "survival"] },
-  { "id": "google-snake", "name": "Google Snake", "category": "action", "thumbnail": "/assets/thumbnails/snake.webp", "url": "https://googlesnake.com", "tier": 3, "reliability": "yellow", "description": "The Google version of Snake — clean and smooth", "tags": ["snake", "google", "classic"] },
-  { "id": "parkour-race", "name": "Parkour Race", "thumbnail": "/assets/thumbnails/parkour-race.webp", "category": "platformer", "url": "https://parkourrace.com", "tier": 3, "reliability": "red", "description": "Race through parkour maps against other players", "tags": ["parkour", "race", "multiplayer"] },
-
-  { "id": "splash", "name": "SPLASH", "category": "proxies", "thumbnail": "/assets/thumbnails/slope.webp", "url": "${PROXY_SPLASH}", "tier": 2, "reliability": "green", "description": "Fast, reliable web proxy — clean interface", "tags": ["proxy", "fast", "recommended"], "proxy_tier": "good", "config_required": true },
-  { "id": "strawberry", "name": "Strawberry", "category": "proxies", "thumbnail": "/assets/thumbnails/agar-io.webp", "url": "${PROXY_STRAWBERRY}", "tier": 2, "reliability": "green", "description": "Education-front proxy — school themed", "tags": ["proxy", "school", "recommended"], "proxy_tier": "good", "config_required": true },
-  { "id": "selenite", "name": "Selenite", "category": "proxies", "thumbnail": "/assets/thumbnails/geometry-dash.webp", "url": "${PROXY_SELENITE}", "alt_url": "${PROXY_SELENITE_ALT}", "tier": 2, "reliability": "yellow", "description": "Recommended proxy — has alternate mirror", "tags": ["proxy", "mirror", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "fmhy", "name": "FMHY", "category": "directories", "thumbnail": "/assets/thumbnails/wordle.webp", "url": "${PROXY_FMHY}", "tier": 2, "reliability": "green", "description": "Massive freemedia index and directory", "tags": ["index", "directory", "media"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "vapor-v4", "name": "VAPOR v4", "category": "proxies", "thumbnail": "/assets/thumbnails/tunnel-rush.webp", "url": "${PROXY_VAPOR}", "tier": 2, "reliability": "yellow", "description": "Recommended proxy — clean design", "tags": ["proxy", "modern", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "awp", "name": "AWP", "category": "proxies", "thumbnail": "/assets/thumbnails/1v1-lol.webp", "url": "${PROXY_AWP}", "alt_url": "${PROXY_AWP_ALT}", "tier": 2, "reliability": "yellow", "description": "Recommended proxy — mirror available", "tags": ["proxy", "mirror", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "frogiesarcade", "name": "frogiesarcade", "category": "game-hubs", "thumbnail": "/assets/thumbnails/smash-karts.webp", "url": "${PROXY_FROGIES}", "tier": 2, "reliability": "yellow", "description": "Arcade games hub — games-focused", "tags": ["arcade", "games", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "sme", "name": "SME", "category": "proxies", "thumbnail": "/assets/thumbnails/retro-bowl.webp", "url": "${PROXY_SME}", "alt_url": "${PROXY_SME_ALT}", "tier": 2, "reliability": "yellow", "description": "Education-front proxy — password protected", "tags": ["proxy", "school", "password"], "proxy_tier": "recommended", "config_required": true, "password": "${PROXY_SME_PASSWORD}" },
-  { "id": "cherri", "name": "Cherri", "category": "proxies", "thumbnail": "/assets/thumbnails/basketball-stars.webp", "url": "${PROXY_CHERRI}", "alt_url": "${PROXY_CHERRI_ALT}", "tier": 2, "reliability": "red", "description": "Intermittent proxy — backup available", "tags": ["proxy", "intermittent", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "lucide", "name": "Lucide", "category": "proxies", "thumbnail": "/assets/thumbnails/drift-hunters.webp", "url": "${PROXY_LUCIDE}", "tier": 2, "reliability": "green", "description": "BYOD front — education disguise", "tags": ["proxy", "byod", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "infamous", "name": "Infamous", "category": "proxies", "thumbnail": "/assets/thumbnails/krunker.webp", "url": "${PROXY_INFAMOUS}", "tier": 2, "reliability": "yellow", "description": "Recommended proxy — reliable service", "tags": ["proxy", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "noahs-tutoring", "name": "Noah's Tutoring", "category": "proxies", "thumbnail": "/assets/thumbnails/wordle.webp", "url": "${PROXY_NOAHS}", "tier": 2, "reliability": "green", "description": "Best cloak domain — long subdomain chain disguise", "tags": ["proxy", "cloak", "recommended"], "proxy_tier": "recommended", "config_required": true },
-  { "id": "petezah", "name": "PeteZah", "category": "game-hubs", "thumbnail": "/assets/thumbnails/zombs-royale.webp", "url": "${PROXY_PETEZAH}", "alt_url": "${PROXY_PETEZAH_ALT}", "tier": 2, "reliability": "yellow", "description": "Game hub — travel domain front", "tags": ["games", "hub", "travel-domain"], "proxy_tier": "recommended", "config_required": true },
-
-  { "id": "uunnblockedgames", "name": "UunnblockedGames", "category": "game-hubs", "thumbnail": "/assets/thumbnails/minecraft-classic.webp", "url": "${HUB_UUNNBLOCKED}", "tier": 3, "reliability": "yellow", "description": "Unblocked games hub", "tags": ["games", "unblocked", "hub"], "config_required": true },
-  { "id": "imp", "name": "IMP", "category": "game-hubs", "thumbnail": "/assets/thumbnails/solitaire.webp", "url": "${HUB_IMP}", "tier": 3, "reliability": "yellow", "description": "Game hub — education front", "tags": ["games", "hub", "eclipse"], "config_required": true },
-  { "id": "daydream-x", "name": "DayDream X", "category": "game-hubs", "thumbnail": "/assets/thumbnails/bloons-td.webp", "url": "${HUB_DAYDREAM}", "tier": 3, "reliability": "yellow", "description": "Game hub with lots of titles on CDN", "tags": ["games", "hub", "dream"], "config_required": true },
-  { "id": "ghost-hub", "name": "Ghost", "category": "game-hubs", "thumbnail": "/assets/thumbnails/osu.webp", "url": "${HUB_GHOST}", "alt_url": "${HUB_GHOST_ALT}", "tier": 3, "reliability": "red", "description": "Ghost game hub — dual CDN", "tags": ["games", "hub", "ghost"], "config_required": true },
-  { "id": "nexora", "name": "Nexora", "category": "game-hubs", "thumbnail": "/assets/thumbnails/happy-wheels.webp", "url": "${HUB_NEXORA}", "tier": 3, "reliability": "yellow", "description": "Nexora game hub on CDN", "tags": ["games", "hub", "nexora"], "config_required": true },
-  { "id": "quasar", "name": "Quasar", "category": "game-hubs", "thumbnail": "/assets/thumbnails/moto-x3m.webp", "url": "${HUB_QUASAR}", "tier": 3, "reliability": "yellow", "description": "Quasar game hub — project front", "tags": ["games", "hub", "quasar"], "config_required": true },
-  { "id": "keoffical", "name": "Keoffical", "category": "game-hubs", "thumbnail": "/assets/thumbnails/bonk-io.webp", "url": "${HUB_KEOFFICAL}", "tier": 3, "reliability": "red", "description": "Keoffical game hub", "tags": ["games", "hub"], "config_required": true },
-  { "id": "boredom-v3", "name": "Boredom V3", "category": "game-hubs", "thumbnail": "/assets/thumbnails/among-us.webp", "url": "${HUB_BOREDOM}", "tier": 3, "reliability": "yellow", "description": "Boredom game hub v3 — educational games", "tags": ["games", "hub", "boredom"], "config_required": true },
-  { "id": "endis", "name": "Endis", "category": "game-hubs", "thumbnail": "/assets/thumbnails/fnf.webp", "url": "${HUB_ENDIS}", "tier": 3, "reliability": "red", "description": "Endis game hub", "tags": ["games", "hub"], "config_required": true },
-  { "id": "everest", "name": "Everest", "category": "game-hubs", "thumbnail": "/assets/thumbnails/vex-5.webp", "url": "${HUB_EVEREST}", "tier": 3, "reliability": "yellow", "description": "Everest game hub", "tags": ["games", "hub", "everest"], "config_required": true },
-  { "id": "korona", "name": "Korona", "category": "game-hubs", "thumbnail": "/assets/thumbnails/skribbl-io.webp", "url": "${HUB_KORONA}", "tier": 3, "reliability": "yellow", "description": "Korona game hub", "tags": ["games", "hub"], "config_required": true },
-  { "id": "ubghub", "name": "UBGHub", "category": "directories", "thumbnail": "/assets/thumbnails/stickman-hook.webp", "url": "${HUB_UBGHUB}", "tier": 3, "reliability": "yellow", "description": "Unblocked games directory", "tags": ["games", "hub", "unblocked"], "config_required": true },
-  { "id": "pizagame", "name": "PizaGame", "category": "game-hubs", "thumbnail": "/assets/thumbnails/cookie-clicker.webp", "url": "${HUB_PIZAGAME}", "tier": 3, "reliability": "red", "description": "Pizza edition game hub", "tags": ["games", "hub"], "config_required": true },
-  { "id": "ronin", "name": "Ronin", "category": "game-hubs", "thumbnail": "/assets/thumbnails/slither-io.webp", "url": "${HUB_RONIN}", "tier": 3, "reliability": "yellow", "description": "Ronin game hub", "tags": ["games", "hub", "ronin"], "config_required": true },
-  { "id": "learning-policy", "name": "Learning Policy", "category": "directories", "thumbnail": "/assets/thumbnails/doom.webp", "url": "${HUB_LEARNING}", "tier": 3, "reliability": "yellow", "description": "Education-front directory", "tags": ["directory", "education", "cloak"], "config_required": true },
-  { "id": "mist-hub", "name": "Mist", "category": "game-hubs", "thumbnail": "/assets/thumbnails/chess.webp", "url": "${HUB_MIST}", "tier": 3, "reliability": "yellow", "description": "Mist game hub", "tags": ["games", "hub", "mist"], "config_required": true },
-  { "id": "sakura", "name": "Sakura", "category": "game-hubs", "thumbnail": "/assets/thumbnails/bitlife.webp", "url": "${HUB_SAKURA}", "tier": 3, "reliability": "red", "description": "Game hub — high takedown risk host", "tags": ["games", "hub", "sakura"], "config_required": true },
-  { "id": "infinitygame", "name": "InfinityGame", "category": "game-hubs", "thumbnail": "/assets/thumbnails/run-3.webp", "url": "${HUB_INFINITY}", "tier": 3, "reliability": "red", "description": "InfinityGame hub", "tags": ["games", "hub", "infinity"], "config_required": true },
-  { "id": "reds-exploit", "name": "Reds Exploit Corner", "category": "directories", "thumbnail": "/assets/thumbnails/crossy-road.webp", "url": "${HUB_REDS}", "tier": 3, "reliability": "red", "description": "Exploits and tools directory", "tags": ["exploits", "directory", "tools"], "config_required": true }
+  {
+    "id": "2048",
+    "name": "2048",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/2048.webp",
+    "url": "/games/2048/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Slide tiles to reach 2048 — the classic number puzzle",
+    "tags": [
+      "numbers",
+      "strategy",
+      "offline"
+    ]
+  },
+  {
+    "id": "tetris",
+    "name": "Tetris",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/tetris.webp",
+    "url": "/games/tetris/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "The timeless block-stacking puzzle game",
+    "tags": [
+      "blocks",
+      "classic",
+      "offline"
+    ]
+  },
+  {
+    "id": "snake",
+    "name": "Snake",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/snake.webp",
+    "url": "/games/snake/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Guide the snake and eat to grow — classic arcade fun",
+    "tags": [
+      "arcade",
+      "retro",
+      "offline"
+    ]
+  },
+  {
+    "id": "flappy-bird",
+    "name": "Flappy Bird",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/flappy-bird.webp",
+    "url": "/games/flappy-bird/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Tap to fly through pipes — deceptively simple, impossibly addictive",
+    "tags": [
+      "tap",
+      "birds",
+      "offline"
+    ]
+  },
+  {
+    "id": "pong",
+    "name": "Pong",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/pong.webp",
+    "url": "/games/pong/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Classic Pong vs AI — first to 11 wins",
+    "tags": [
+      "retro",
+      "two-player",
+      "offline"
+    ]
+  },
+  {
+    "id": "breakout",
+    "name": "Breakout",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/breakout.webp",
+    "url": "/games/breakout/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Smash bricks with a bouncing ball — the arcade original",
+    "tags": [
+      "bricks",
+      "arcade",
+      "offline"
+    ]
+  },
+  {
+    "id": "dino-runner",
+    "name": "Dino Runner",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/dino-runner.webp",
+    "url": "/games/dino-runner/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Jump over cacti in this endless runner — just like Chrome",
+    "tags": [
+      "endless",
+      "chrome",
+      "offline"
+    ]
+  },
+  {
+    "id": "space-invaders",
+    "name": "Space Invaders",
+    "category": "shooter",
+    "thumbnail": "/assets/thumbnails/space-invaders.webp",
+    "url": "/games/space-invaders/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Defend Earth from descending alien invaders",
+    "tags": [
+      "aliens",
+      "retro",
+      "offline"
+    ]
+  },
+  {
+    "id": "sudoku",
+    "name": "Sudoku",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/sudoku.webp",
+    "url": "/games/sudoku/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Fill the 9x9 grid with numbers — classic brain teaser",
+    "tags": [
+      "numbers",
+      "logic",
+      "offline"
+    ]
+  },
+  {
+    "id": "minesweeper",
+    "name": "Minesweeper",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/minesweeper.webp",
+    "url": "/games/minesweeper/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Flag the mines and clear the board — logic puzzle classic",
+    "tags": [
+      "logic",
+      "windows",
+      "offline"
+    ]
+  },
+  {
+    "id": "connect-four",
+    "name": "Connect Four",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/chess.webp",
+    "url": "/games/connect-four/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Drop discs to connect four in a row — vs CPU",
+    "tags": [
+      "board",
+      "two-player",
+      "offline"
+    ]
+  },
+  {
+    "id": "memory-match",
+    "name": "Memory Match",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/solitaire.webp",
+    "url": "/games/memory-match/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Flip cards to find matching pairs — test your memory",
+    "tags": [
+      "memory",
+      "cards",
+      "offline"
+    ]
+  },
+  {
+    "id": "typing-game",
+    "name": "Typing Game",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/wordle.webp",
+    "url": "/games/typing-game/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Type falling words before they hit the bottom — speed test",
+    "tags": [
+      "words",
+      "speed",
+      "offline"
+    ]
+  },
+  {
+    "id": "simon-says",
+    "name": "Simon Says",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/geometry-dash.webp",
+    "url": "/games/simon-says/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Repeat the color pattern — memory challenge classic",
+    "tags": [
+      "memory",
+      "colors",
+      "offline"
+    ]
+  },
+  {
+    "id": "tower-of-hanoi",
+    "name": "Tower of Hanoi",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/2048.webp",
+    "url": "/games/tower-of-hanoi/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Move all disks to the last peg — logic puzzle",
+    "tags": [
+      "logic",
+      "classic",
+      "offline"
+    ]
+  },
+  {
+    "id": "pacman",
+    "name": "Pacman",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/solitaire.webp",
+    "url": "/games/pacman/index.html",
+    "tier": 1,
+    "reliability": "green",
+    "description": "Eat pellets and avoid ghosts — the arcade legend",
+    "tags": [
+      "arcade",
+      "retro",
+      "offline"
+    ]
+  },
+  {
+    "id": "slope",
+    "name": "Slope",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/slope.webp",
+    "url": "https://slope-game.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Roll down the slope and avoid obstacles at high speed",
+    "tags": [
+      "3d",
+      "speed",
+      "reflex"
+    ]
+  },
+  {
+    "id": "cookie-clicker",
+    "name": "Cookie Clicker",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/cookie-clicker.webp",
+    "url": "https://orteil.dashnet.org/cookieclicker/",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Click cookies, buy upgrades, bake millions — the original idle game",
+    "tags": [
+      "idle",
+      "clicker",
+      "addictive"
+    ]
+  },
+  {
+    "id": "1v1-lol",
+    "name": "1v1.LOL",
+    "category": "shooter",
+    "thumbnail": "/assets/thumbnails/1v1-lol.webp",
+    "url": "https://1v1.lol",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Build and battle in this 1v1 shooter",
+    "tags": [
+      "shooter",
+      "building",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "retro-bowl",
+    "name": "Retro Bowl",
+    "category": "sports",
+    "thumbnail": "/assets/thumbnails/retro-bowl.webp",
+    "url": "https://retro-bowl.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Classic American football with pixel art style",
+    "tags": [
+      "football",
+      "pixel",
+      "sports"
+    ]
+  },
+  {
+    "id": "fnf",
+    "name": "Friday Night Funkin'",
+    "category": "rhythm",
+    "thumbnail": "/assets/thumbnails/fnf.webp",
+    "url": "https://www.newgrounds.com/portal/view/770371",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Rap battle your way to victory — open source rhythm hit",
+    "tags": [
+      "music",
+      "rhythm",
+      "rap"
+    ]
+  },
+  {
+    "id": "among-us",
+    "name": "Among Us",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/among-us.webp",
+    "url": "https://among-us.io",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Find the impostor among the crew — social deduction",
+    "tags": [
+      "social",
+      "deduction",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "basketball-stars",
+    "name": "Basketball Stars",
+    "category": "sports",
+    "thumbnail": "/assets/thumbnails/basketball-stars.webp",
+    "url": "https://basketball-stars.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Fast-paced 1v1 basketball action",
+    "tags": [
+      "basketball",
+      "sports",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "madalin-stunt-cars-2",
+    "name": "Madalin Stunt Cars 2",
+    "category": "racing",
+    "thumbnail": "/assets/thumbnails/madalin-stunt-cars-2.webp",
+    "url": "https://madalinstuntcars2.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Super cars, massive maps, insane stunts",
+    "tags": [
+      "cars",
+      "stunts",
+      "3d"
+    ]
+  },
+  {
+    "id": "krunker",
+    "name": "Krunker",
+    "category": "shooter",
+    "thumbnail": "/assets/thumbnails/krunker.webp",
+    "url": "https://krunker.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Fast-paced browser FPS with movement mechanics",
+    "tags": [
+      "fps",
+      "shooter",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "slither-io",
+    "name": "Slither.io",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/slither-io.webp",
+    "url": "https://slither.io",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Eat orbs, grow longer, outsnake your rivals",
+    "tags": [
+      "io",
+      "snake",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "hole-io",
+    "name": "Hole.io",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/hole-io.webp",
+    "url": "https://hole-io.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Control a black hole and swallow everything in sight",
+    "tags": [
+      "io",
+      "physics",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "stickman-hook",
+    "name": "Stickman Hook",
+    "category": "platformer",
+    "thumbnail": "/assets/thumbnails/stickman-hook.webp",
+    "url": "https://stickmanhook.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Swing from hook to hook in this physics platformer",
+    "tags": [
+      "physics",
+      "swing",
+      "platformer"
+    ]
+  },
+  {
+    "id": "vex-5",
+    "name": "Vex 5",
+    "category": "platformer",
+    "thumbnail": "/assets/thumbnails/vex-5.webp",
+    "url": "https://vex5.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Run, jump, and survive deadly obstacle courses",
+    "tags": [
+      "obstacle",
+      "platformer",
+      "hard"
+    ]
+  },
+  {
+    "id": "geometry-dash",
+    "name": "Geometry Dash",
+    "category": "rhythm",
+    "thumbnail": "/assets/thumbnails/geometry-dash.webp",
+    "url": "https://geometrydash.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Jump and fly through spiky rhythm-based levels",
+    "tags": [
+      "rhythm",
+      "jump",
+      "hard"
+    ]
+  },
+  {
+    "id": "drift-hunters",
+    "name": "Drift Hunters",
+    "category": "racing",
+    "thumbnail": "/assets/thumbnails/drift-hunters.webp",
+    "url": "https://drifthunters.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Drift your way through challenging tracks for points",
+    "tags": [
+      "drift",
+      "cars",
+      "3d"
+    ]
+  },
+  {
+    "id": "paper-io-2",
+    "name": "Paper.io 2",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/paper-io-2.webp",
+    "url": "https://paper-io.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Claim territory by drawing lines — don't get cut off",
+    "tags": [
+      "io",
+      "territory",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "tunnel-rush",
+    "name": "Tunnel Rush",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
+    "url": "https://tunnelrush.co",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Blaze through a neon tunnel avoiding obstacles",
+    "tags": [
+      "neon",
+      "speed",
+      "3d"
+    ]
+  },
+  {
+    "id": "run-3",
+    "name": "Run 3",
+    "category": "platformer",
+    "thumbnail": "/assets/thumbnails/run-3.webp",
+    "url": "https://run3.site",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Run through an endless tunnel in space",
+    "tags": [
+      "endless",
+      "space",
+      "platformer"
+    ]
+  },
+  {
+    "id": "smash-karts",
+    "name": "Smash Karts",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/smash-karts.webp",
+    "url": "https://smashkarts.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Kart battle royale with power-ups and explosions",
+    "tags": [
+      "kart",
+      "battle",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "subway-surfers",
+    "name": "Subway Surfers",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/subway-surfers.webp",
+    "url": "https://subwaysurfers.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Dash through the subway and dodge trains",
+    "tags": [
+      "endless",
+      "runner",
+      "mobile"
+    ]
+  },
+  {
+    "id": "moto-x3m",
+    "name": "Moto X3M",
+    "category": "racing",
+    "thumbnail": "/assets/thumbnails/moto-x3m.webp",
+    "url": "https://motox3m.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Extreme motorcycle trials with insane stunts",
+    "tags": [
+      "motorcycle",
+      "stunts",
+      "racing"
+    ]
+  },
+  {
+    "id": "wordle",
+    "name": "Wordle",
+    "category": "puzzle",
+    "thumbnail": "/assets/thumbnails/wordle.webp",
+    "url": "https://www.nytimes.com/games/wordle/index.html",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Guess the five-letter word in six tries",
+    "tags": [
+      "words",
+      "daily",
+      "puzzle"
+    ]
+  },
+  {
+    "id": "chess",
+    "name": "Chess",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/chess.webp",
+    "url": "https://chess.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Play chess online against players worldwide",
+    "tags": [
+      "board",
+      "strategy",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "bitlife",
+    "name": "BitLife",
+    "category": "adventure",
+    "thumbnail": "/assets/thumbnails/bitlife.webp",
+    "url": "https://bitlife.online",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Live your best (or worst) virtual life",
+    "tags": [
+      "life",
+      "simulator",
+      "choices"
+    ]
+  },
+  {
+    "id": "agar-io",
+    "name": "Agar.io",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/agar-io.webp",
+    "url": "https://agar.io",
+    "tier": 2,
+    "reliability": "green",
+    "description": "Eat cells smaller than you, grow bigger",
+    "tags": [
+      "io",
+      "cells",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "crossy-road",
+    "name": "Crossy Road",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/crossy-road.webp",
+    "url": "https://crossyroad.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Help the chicken cross the road — and the train tracks",
+    "tags": [
+      "crossing",
+      "retro",
+      "endless"
+    ]
+  },
+  {
+    "id": "minecraft-classic",
+    "name": "Minecraft Classic",
+    "category": "sandbox",
+    "thumbnail": "/assets/thumbnails/minecraft-classic.webp",
+    "url": "https://minecraft.net/en-us/classic",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Build together in the original Minecraft — free official web version",
+    "tags": [
+      "blocks",
+      "building",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "bonk-io",
+    "name": "Bonk.io",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/bonk-io.webp",
+    "url": "https://bonk.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Push friends off the map in this physics brawler",
+    "tags": [
+      "physics",
+      "multiplayer",
+      "io"
+    ]
+  },
+  {
+    "id": "skribbl-io",
+    "name": "Skribbl.io",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/skribbl-io.webp",
+    "url": "https://skribbl.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Draw and guess with players worldwide",
+    "tags": [
+      "drawing",
+      "guessing",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "zombs-royale",
+    "name": "ZombsRoyale.io",
+    "category": "shooter",
+    "thumbnail": "/assets/thumbnails/zombs-royale.webp",
+    "url": "https://zombsroyale.io",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "2D battle royale with building mechanics",
+    "tags": [
+      "battle-royale",
+      "shooter",
+      "multiplayer"
+    ]
+  },
+  {
+    "id": "bloons-td",
+    "name": "Bloons TD",
+    "category": "strategy",
+    "thumbnail": "/assets/thumbnails/bloons-td.webp",
+    "url": "https://bloonstd6.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Pop balloons with monkey towers — tower defense classic",
+    "tags": [
+      "tower-defense",
+      "monkeys",
+      "strategy"
+    ]
+  },
+  {
+    "id": "osu",
+    "name": "osu!",
+    "category": "rhythm",
+    "thumbnail": "/assets/thumbnails/osu.webp",
+    "url": "https://osu.ppy.sh/home",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Rhythm game — click circles to the beat",
+    "tags": [
+      "rhythm",
+      "music",
+      "click"
+    ]
+  },
+  {
+    "id": "happy-wheels",
+    "name": "Happy Wheels",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/retro-bowl.webp",
+    "url": "https://happywheels2.io",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Gory ragdoll physics obstacle course",
+    "tags": [
+      "ragdoll",
+      "gore",
+      "physics"
+    ]
+  },
+  {
+    "id": "helix-jump",
+    "name": "Helix Jump",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
+    "url": "https://helixjump.io",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Drop the ball through gaps in the helix tower",
+    "tags": [
+      "ball",
+      "drop",
+      "3d"
+    ]
+  },
+  {
+    "id": "raft-wars",
+    "name": "Raft Wars",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/subway-surfers.webp",
+    "url": "https://raftwars.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Launch tennis balls at enemies on rafts",
+    "tags": [
+      "projectile",
+      "turn-based",
+      "fun"
+    ]
+  },
+  {
+    "id": "dead-zed",
+    "name": "Dead Zed",
+    "category": "shooter",
+    "thumbnail": "/assets/thumbnails/dead-zed.webp",
+    "url": "https://deadzed.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Survive the zombie apocalypse — first person shooter",
+    "tags": [
+      "zombies",
+      "fps",
+      "survival"
+    ]
+  },
+  {
+    "id": "google-snake",
+    "name": "Google Snake",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/snake.webp",
+    "url": "https://googlesnake.com",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "The Google version of Snake — clean and smooth",
+    "tags": [
+      "snake",
+      "google",
+      "classic"
+    ]
+  },
+  {
+    "id": "parkour-race",
+    "name": "Parkour Race",
+    "thumbnail": "/assets/thumbnails/parkour-race.webp",
+    "category": "platformer",
+    "url": "https://parkourrace.com",
+    "tier": 3,
+    "reliability": "red",
+    "description": "Race through parkour maps against other players",
+    "tags": [
+      "parkour",
+      "race",
+      "multiplayer"
+    ]
+  }
 ]
