@@ -78,8 +78,12 @@ export function openSheet(game, { onLaunch, onToggleFavorite } = {}) {
     const favoriteId = event.target.closest("[data-fav-id]")?.dataset.favId;
     if (favoriteId) {
       onToggleFavorite?.(favoriteId);
-      overlay.remove();
-      openSheet(findGame(favoriteId) || game, { onLaunch, onToggleFavorite });
+      const isFav = readJson(keys.favorites, []).includes(favoriteId);
+      const btn = event.target.closest("[data-fav-id]");
+      if (btn) {
+        btn.classList.toggle("active", isFav);
+        btn.textContent = isFav ? "Unfavorite" : "Favorite";
+      }
     }
     const nextId = event.target.closest("[data-open-id]")?.dataset.openId;
     if (nextId) {

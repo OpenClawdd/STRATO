@@ -278,14 +278,23 @@ export function createHomeController() {
     moveSearch(delta) {
       const items = document.querySelectorAll(".search-result");
       if (!items.length) return;
+
+      const oldIndex = state.searchIndex;
       state.searchIndex =
         (state.searchIndex + delta + items.length) % items.length;
-      controller.search(state.searchQuery);
-      window.requestAnimationFrame?.(() => {
-        document
-          .querySelector(".search-result.active")
-          ?.scrollIntoView({ block: "nearest" });
-      });
+
+      if (items[oldIndex]) {
+        items[oldIndex].classList.remove("active");
+        items[oldIndex].setAttribute("aria-selected", "false");
+      }
+
+      if (items[state.searchIndex]) {
+        items[state.searchIndex].classList.add("active");
+        items[state.searchIndex].setAttribute("aria-selected", "true");
+        window.requestAnimationFrame?.(() => {
+          items[state.searchIndex].scrollIntoView({ block: "nearest" });
+        });
+      }
     },
 
     launchSelected() {
