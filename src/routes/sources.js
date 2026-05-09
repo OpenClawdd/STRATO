@@ -64,6 +64,45 @@ router.post("/api/admin/quarantine/:id/approve", async (req, res) => {
     if (!item)
       return res.status(404).json({ error: "Source not found in quarantine" });
 
+    // Validate the source before approval
+    const SAFE_URL_RE = /^https?:\/\//i;
+    if (!item.title || typeof item.title !== "string" || !item.title.trim()) {
+      return res
+        .status(400)
+        .json({ error: "Validation failed: missing or empty title" });
+    }
+    if (
+      !item.normalizedUrl ||
+      typeof item.normalizedUrl !== "string" ||
+      !item.normalizedUrl.trim()
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Validation failed: missing normalizedUrl" });
+    }
+    if (!SAFE_URL_RE.test(item.normalizedUrl)) {
+      return res
+        .status(400)
+        .json({ error: "Validation failed: invalid normalizedUrl" });
+    }
+
+    const VALID_SOURCE_TYPES = new Set([
+      "game-hub",
+      "math-tool",
+      "proxy",
+      "tool",
+      "personal",
+      "unknown",
+    ]);
+    const sourceType = item.sourceType || "unknown";
+    if (!VALID_SOURCE_TYPES.has(sourceType)) {
+      return res
+        .status(400)
+        .json({
+          error: `Validation failed: invalid sourceType "${sourceType}"`,
+        });
+    }
+
     // Move to sources
     const newSource = await store.create("sources", {
       title: item.title,
