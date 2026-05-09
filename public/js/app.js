@@ -305,6 +305,7 @@
         document.getElementById("shortcuts-overlay")?.classList.add("hidden");
         document.getElementById("notifications-panel")?.classList.add("hidden");
         document.getElementById("command-palette")?.classList.add("hidden");
+        document.getElementById("extension-gallery")?.classList.add("hidden");
       }
     }
 
