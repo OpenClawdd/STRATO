@@ -75,11 +75,9 @@ router.post("/api/data/import", async (req, res) => {
 
     // Validate the import format
     if (!importData.version || !importData.user) {
-      return res
-        .status(400)
-        .json({
-          error: "Invalid backup format — missing version or user data",
-        });
+      return res.status(400).json({
+        error: "Invalid backup format — missing version or user data",
+      });
     }
 
     const user = await store.getOne("users", (u) => u.username === username);
