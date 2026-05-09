@@ -30,7 +30,7 @@ function extractComment(raw) {
 
 function splitConcatenatedUrls(line) {
   // Catches "https://a.com/https://b.com/path" patterns
-  const parts = line.split(/(https?:\/\/[^\s]+)/g).filter(Boolean);
+  const parts = line.split(/(?=https?:\/\/)/g).filter(Boolean);
   return parts.length > 1 ? parts : [line];
 }
 
@@ -103,6 +103,15 @@ function guessTitle(rawUrl, comment) {
   } catch {
     return rawUrl;
   }
+}
+
+function shortHash(value) {
+  let hash = 0;
+  const text = String(value || "");
+  for (let i = 0; i < text.length; i += 1) {
+    hash = Math.imul(31, hash) + text.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(36).slice(0, 6);
 }
 
 // ── Classification ──
@@ -236,6 +245,7 @@ function clusterMirrors(entries) {
 
 // ── Main ──
 async function main() {
+  await fs.mkdir(outDir, { recursive: true });
   const text = await fs.readFile(rawPath, 'utf8');
   const lines = text.split('\n');
   const parsed = [];
@@ -250,10 +260,12 @@ async function main() {
     const normalizedUrl = normalize(rawUrl);
     if (!normalizedUrl) continue;
     if (seenUrls.has(normalizedUrl)) {
+      const title = guessTitle(rawUrl, comment);
       entries.push({
+        id: slugify(`${title}-${hostnameOf(normalizedUrl)}-${shortHash(normalizedUrl)}`),
         rawUrl,
         normalizedUrl,
-        title: guessTitle(rawUrl, comment),
+        title,
         comment,
         sourceType: 'unknown',
         status: 'duplicate',
@@ -266,7 +278,7 @@ async function main() {
     const title = guessTitle(rawUrl, comment);
     const sourceType = classifyUrl(rawUrl, comment);
     entries.push({
-      id: slugify(`${title}-${hostnameOf(normalizedUrl)}`),
+      id: slugify(`${title}-${hostnameOf(normalizedUrl)}-${shortHash(normalizedUrl)}`),
       title,
       rawUrl,
       normalizedUrl,
