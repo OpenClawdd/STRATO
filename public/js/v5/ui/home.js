@@ -6,6 +6,7 @@ import {
   nameOf,
   playableCatalog,
   tagsOf,
+  typeLabel,
   visibleCatalog,
 } from "../core/catalog.js";
 import { health } from "../core/health.js";
@@ -79,9 +80,47 @@ function renderCards(id, list, emptyText, controller, variant = "") {
   bindCards(container, controller);
 }
 
+function shortDate(timestamp) {
+  if (!timestamp) return "Ready";
+  try {
+    return new Intl.DateTimeFormat([], {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date(timestamp));
+  } catch {
+    return "Ready";
+  }
+}
+
+function renderHeroStats() {
+  const playable = playableCatalog();
+  const picks = dailyPicks();
+  const moods = moodClusters();
+  const recent = readJson(keys.recent, []);
+  const lastPlayed = readJson(keys.lastPlayed, {});
+  const last = recent[0] ? findGame(recent[0]) : null;
+  const lastAction = document.getElementById("home-last-action");
+
+  const games = document.getElementById("home-live-games");
+  const pickNode = document.getElementById("home-live-picks");
+  const moodNode = document.getElementById("home-live-moods");
+  const statusChip = document.getElementById("catalog-status-chip");
+
+  if (games) games.textContent = String(playable.length);
+  if (pickNode) pickNode.textContent = String(picks.length);
+  if (moodNode) moodNode.textContent = String(moods.length);
+  if (statusChip)
+    statusChip.textContent = `${playable.length} launchable · v5.03`;
+  if (lastAction)
+    lastAction.textContent = last
+      ? `Last: ${nameOf(last)} · ${shortDate(lastPlayed[last.id])}`
+      : "Ready";
+}
+
 function renderPulse() {
   const pulse = document.getElementById("signal-health");
-  const statusChip = document.getElementById("catalog-status-chip");
   if (!pulse) return;
   const stats = state.games.reduce((acc, game) => {
     const status = health(game).status;
@@ -89,13 +128,10 @@ function renderPulse() {
     return acc;
   }, {});
   const playable = playableCatalog().length;
-  if (statusChip) statusChip.textContent = `${playable} launchable`;
   pulse.innerHTML = [
     ["Launchable", playable],
     ["Ready", stats.ready || 0],
     ["Fallback art", stats["fallback-art"] || 0],
-    ["Needs config", stats["needs-config"] || 0],
-    ["Missing URL", stats["missing-url"] || 0],
     ["Paused", stats["failed-locally"] || 0],
   ]
     .map(
@@ -112,7 +148,7 @@ function renderMoods(controller) {
   const clusters = moodClusters();
   section?.classList.toggle("hidden", clusters.length < 2);
   const buttons = [
-    `<button class="mood-chip ${state.activeMood === "all" ? "active" : ""}" data-mood="all" type="button">All</button>`,
+    `<button class="mood-chip ${state.activeMood === "all" ? "active" : ""}" data-mood="all" type="button">All <span>${playableCatalog().length}</span></button>`,
   ]
     .concat(
       clusters.map(
@@ -124,7 +160,7 @@ function renderMoods(controller) {
   if (container) container.innerHTML = buttons;
   if (quick)
     quick.innerHTML = clusters
-      .slice(0, 5)
+      .slice(0, 6)
       .map(
         ({ name }) =>
           `<button class="mood-chip ${state.activeMood === name ? "active" : ""}" data-mood="${escapeHtml(name)}" type="button">${escapeHtml(name)}</button>`,
@@ -143,15 +179,15 @@ function renderMoods(controller) {
 function renderSearchResult(game, index) {
   const favorite = readJson(keys.favorites, []).includes(game.id);
   const tags = tagsOf(game).slice(0, 3).join(" / ");
-  return `<article class="search-result ${index === state.searchIndex ? "active" : ""}" data-game-id="${escapeHtml(game.id)}">
+  return `<article class="search-result ${index === state.searchIndex ? "active" : ""}" data-game-id="${escapeHtml(game.id)}" aria-selected="${index === state.searchIndex ? "true" : "false"}" tabindex="0">
     <img src="${escapeHtml(thumb(game))}" data-fallback-src="${escapeHtml(fallbackThumb(game))}" loading="lazy" alt="">
-    <div>
+    <div class="search-result-copy">
       <h3>${escapeHtml(nameOf(game))}</h3>
-      <p>${escapeHtml(categoryOf(game))}${tags ? ` / ${escapeHtml(tags)}` : ""}</p>
+      <p><span class="result-type-badge">${escapeHtml(typeLabel(game))}</span>${escapeHtml(categoryOf(game))}${tags ? ` / ${escapeHtml(tags)}` : ""}</p>
     </div>
     ${statusLabel(game) ? `<span class="status-pill">${escapeHtml(statusLabel(game))}</span>` : ""}
     <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="Favorite ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
-    <button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Launch</button>
+    <button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button>
   </article>`;
 }
 
@@ -177,6 +213,7 @@ export function createHomeController() {
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
+      const allGames = list.slice(0, 12);
 
       renderMoods(controller);
       renderCards(
@@ -202,7 +239,15 @@ export function createHomeController() {
         .getElementById("home-most-played-section")
         ?.classList.toggle("hidden", most.length === 0);
       renderCards("home-most-played", most, "", controller);
+      renderCards(
+        "home-all-games",
+        allGames,
+        "The filtered shelf is empty. Clear the mood filter or search directly.",
+        controller,
+        "shelf",
+      );
       renderPulse();
+      renderHeroStats();
       controller.search(document.getElementById("home-search")?.value || "");
     },
 
@@ -216,7 +261,7 @@ export function createHomeController() {
         return;
       }
       if (!results.length) {
-        container.innerHTML = `<div class="hideout-empty"><strong>No signal. Try another search.</strong><button class="glass-btn" id="empty-surprise" type="button">Surprise Me</button></div>`;
+        container.innerHTML = `<div class="hideout-empty search-empty"><strong>No signal. Try another title, tag, or mood.</strong><button class="glass-btn" id="empty-surprise" type="button">Surprise Me</button></div>`;
         container
           .querySelector("#empty-surprise")
           ?.addEventListener("click", () => controller.surprise());
@@ -226,7 +271,7 @@ export function createHomeController() {
         0,
         Math.min(state.searchIndex, results.length - 1),
       );
-      container.innerHTML = `<div class="search-count">${results.length} result${results.length === 1 ? "" : "s"}</div>${results.map(renderSearchResult).join("")}`;
+      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"} · Enter launches, click opens details</div>${results.map(renderSearchResult).join("")}`;
       bindCards(container, controller);
     },
 
@@ -236,6 +281,11 @@ export function createHomeController() {
       state.searchIndex =
         (state.searchIndex + delta + items.length) % items.length;
       controller.search(state.searchQuery);
+      window.requestAnimationFrame?.(() => {
+        document
+          .querySelector(".search-result.active")
+          ?.scrollIntoView({ block: "nearest" });
+      });
     },
 
     launchSelected() {
@@ -254,6 +304,7 @@ export function createHomeController() {
           }),
         onUpdate: () => controller.render(),
       });
+      renderHeroStats();
     },
 
     open(id) {
@@ -290,6 +341,7 @@ export function createHomeController() {
         button.classList.add("shuffle-lock");
         window.setTimeout(() => button.classList.remove("shuffle-lock"), 520);
       }
+      toast(`Launching ${nameOf(game)}.`);
       controller.launch(game.id);
     },
 

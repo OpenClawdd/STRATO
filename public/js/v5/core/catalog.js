@@ -2,6 +2,7 @@ import { state } from "./state.js";
 import {
   blockedCategories,
   blockedTerms,
+  health,
   isLaunchable,
   launchability,
 } from "./health.js";
@@ -12,6 +13,17 @@ export const categoryOf = (game) =>
 export const tagsOf = (game) =>
   Array.isArray(game?.tags) ? game.tags.filter(Boolean).map(String) : [];
 export const descriptionOf = (game) => String(game?.description || "");
+
+export function typeLabel(game) {
+  const surface = game?.surfaceType || "";
+  const category = String(game?.category || "arcade");
+  if (surface === "proxy") return "Proxy";
+  if (surface === "game-hub") return "External Collection";
+  if (surface === "directory") return "Directory";
+  if (category === "tools" || category === "utilities") return "Tool";
+  if (category === "math" || category === "education") return "Learning";
+  return "Game";
+}
 
 export function normalizeGame(game) {
   const title = nameOf(game).trim();
@@ -67,6 +79,12 @@ export function visibleCatalog() {
       tagsOf(game).some((tag) => tag.toLowerCase() === mood)
     );
   });
+}
+
+export function promotableCatalog() {
+  return playableCatalog().filter(
+    (game) => game.reliability === "green" && health(game).status !== "fallback-art",
+  );
 }
 
 export function findGame(id) {

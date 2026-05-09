@@ -972,6 +972,19 @@ body::after {
   display: none;
 }
 
+.result-type-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent-text);
+  background: rgba(75, 85, 255, 0.12);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm, 4px);
+  margin-right: 6px;
+}
+
 .home-search-result {
   display: grid;
   grid-template-columns: 56px 1fr auto;
@@ -3199,5 +3212,192 @@ body.low-power .home-search-result {
   .first-run-hint {
     align-items: stretch;
     flex-direction: column;
+  }
+}
+
+
+/* STRATO v5.03 — Frontend Launch Polish */
+.hideout-identity.v503-hero,
+.hideout-identity {
+  position: relative;
+}
+
+.identity-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(72px, 1fr));
+  gap: 8px;
+  min-width: min(320px, 100%);
+}
+
+.identity-metrics div {
+  border: 1px solid rgba(190, 241, 255, 0.22);
+  border-radius: 18px;
+  padding: 10px;
+  background: linear-gradient(180deg, rgba(221, 250, 255, 0.12), rgba(8, 26, 49, 0.48));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.identity-metrics span {
+  display: block;
+  color: #f2fffd;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.identity-metrics small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(207, 234, 246, 0.72);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.spotlight-helper {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+  margin-top: -4px;
+}
+
+.spotlight-helper span {
+  border: 1px solid rgba(190, 241, 255, 0.18);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: rgba(221, 241, 250, 0.78);
+  background: rgba(5, 22, 42, 0.44);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.hideout-action:hover,
+.hideout-action:focus-visible {
+  border-color: rgba(159, 244, 227, 0.42);
+  background: linear-gradient(150deg, rgba(213, 249, 255, 0.17), rgba(17, 57, 91, 0.62));
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.dense-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.hideout-card.shelf .hideout-thumb-wrap {
+  aspect-ratio: 16 / 8.5;
+}
+
+.hideout-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.08) 42%, transparent 62%);
+  opacity: 0;
+  transform: translateX(-40%);
+  transition: opacity 180ms ease, transform 260ms ease;
+}
+
+.hideout-card:hover::after,
+.hideout-card:focus-visible::after {
+  opacity: 1;
+  transform: translateX(26%);
+}
+
+.status-pill.ready {
+  color: rgba(191, 255, 238, 0.92);
+  border-color: rgba(125, 255, 221, 0.2);
+  background: rgba(45, 212, 191, 0.08);
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.card-actions span {
+  color: rgba(207, 234, 246, 0.66);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.search-result {
+  grid-template-columns: 72px minmax(0, 1fr) auto auto auto;
+}
+
+.search-result[aria-selected="true"] {
+  box-shadow: 0 0 0 1px rgba(159, 244, 227, 0.16), 0 18px 34px rgba(0, 18, 42, 0.28);
+}
+
+.search-result-copy {
+  min-width: 0;
+}
+
+.search-empty {
+  grid-column: 1 / -1;
+}
+
+.game-sheet {
+  scroll-padding-top: 60px;
+}
+
+.sheet-art {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.sheet-art::after {
+  content: "Ready to launch";
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(159, 244, 227, 0.26);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: rgba(227, 255, 249, 0.88);
+  background: rgba(8, 35, 56, 0.62);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 980px) {
+  .identity-metrics {
+    grid-column: 1 / -1;
+  }
+  .spotlight-helper {
+    grid-column: 1;
+  }
+  .search-result {
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+  }
+  .search-result .launch-button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .identity-metrics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .identity-metrics span {
+    font-size: 19px;
+  }
+  .spotlight-helper span:last-child {
+    width: 100%;
+  }
+  .card-actions {
+    grid-template-columns: 1fr;
+  }
+  .card-actions span {
+    text-align: center;
   }
 }

@@ -49,7 +49,9 @@ export function scoreGame(game, query) {
   if (title.startsWith(q)) return 2;
   if (abbr.startsWith(q)) return 4;
   if (title.includes(q)) return 8 + title.indexOf(q);
+  if (title.split(/\s+/).some((word) => word.startsWith(q))) return 12;
   if (category.includes(q)) return 22;
+  if (tags.split(/\s+/).some((word) => word.startsWith(q))) return 24;
   if (tags.includes(q)) return 28;
   if (description.includes(q)) return 46;
   if (blob.includes(q)) return 54;
