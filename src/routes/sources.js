@@ -30,6 +30,22 @@ router.get("/api/admin/sources/pulse", async (req, res) => {
   try {
     const sources = await store.getAll("sources");
     const quarantine = await store.getAll("quarantine");
+    const trustScores = await store.getAll("trust_scores");
+
+    // Aggregate trust metrics
+    let avgTrust = 0;
+    const distribution = { high: 0, medium: 0, low: 0 };
+
+    if (trustScores.length > 0) {
+      let total = 0;
+      trustScores.forEach((ts) => {
+        total += ts.score;
+        if (ts.score >= 90) distribution.high++;
+        else if (ts.score >= 70) distribution.medium++;
+        else distribution.low++;
+      });
+      avgTrust = Math.round(total / trustScores.length);
+    }
 
     res.json({
       success: true,
@@ -37,6 +53,8 @@ router.get("/api/admin/sources/pulse", async (req, res) => {
         totalHealthy: sources.filter((s) => s.status === "healthy").length,
         totalQuarantined: quarantine.length,
         totalMirrors: sources.filter((s) => s.status === "duplicate").length,
+        averageTrustScore: avgTrust,
+        trustDistribution: distribution,
       },
     });
   } catch (err) {

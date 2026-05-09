@@ -37,13 +37,18 @@ describe('Source Hydra Routes (Admin)', () => {
   });
 
   describe('GET /api/admin/sources/pulse', () => {
-    it('should return aggregate pulse counts', async () => {
+    it('should return aggregate pulse counts and trust metrics', async () => {
       mockStore._seed('sources', [
         { id: 's1', status: 'healthy' },
         { id: 's2', status: 'duplicate' },
         { id: 's3', status: 'healthy' },
       ]);
       mockStore._seed('quarantine', [{ id: 'q1' }]);
+      mockStore._seed('trust_scores', [
+        { id: 't1', sourceId: 's1', score: 100 },
+        { id: 't2', sourceId: 's3', score: 80 },
+        { id: 't3', sourceId: 's4', score: 40 },
+      ]);
 
       const res = await request(app)
         .get('/api/admin/sources/pulse')
@@ -53,6 +58,14 @@ describe('Source Hydra Routes (Admin)', () => {
       expect(res.body.pulse.totalHealthy).toBe(2);
       expect(res.body.pulse.totalQuarantined).toBe(1);
       expect(res.body.pulse.totalMirrors).toBe(1);
+      
+      // (100 + 80 + 40) / 3 = 220 / 3 = 73.333... rounded to 73
+      expect(res.body.pulse.averageTrustScore).toBe(73);
+      expect(res.body.pulse.trustDistribution).toEqual({
+        high: 1,
+        medium: 1,
+        low: 1
+      });
     });
   });
 

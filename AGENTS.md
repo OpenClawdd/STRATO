@@ -121,3 +121,4 @@ pnpm format:check && pnpm lint && pnpm test && node scripts/validate-games.mjs &
 - **In-memory rate limiting**: Login attempts, CSRF tokens, and WebSocket rate limits use `Map` with `setInterval` cleanup (all timers `.unref()` so they don't block shutdown).
 - **Graceful degradation**: AI features disable without `.z-ai-config`. Proxy engines log warnings if packages are missing but don't crash. Private config is optional.
 - **Admin Security**: `ADMIN_SECRET` is strictly passed via `x-admin-secret` headers. The Admin secret may be kept only in `sessionStorage` for the active admin session, never `localStorage`, never URL query params, never committed, and never embedded in HTML.
+- **Source Hydra Dashboard**: `sources.js` exposes the Source Hydra Admin API. Use this API to manage sources, quarantine entries, and view pulse metrics.

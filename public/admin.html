@@ -56,7 +56,7 @@
     }
     .pulse-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem; margin-bottom: 2rem;
     }
     .pulse-stat {
@@ -125,6 +125,31 @@
           <div class="glass-card pulse-stat">
             <div class="pulse-value" id="pulse-mirrors">--</div>
             <div class="pulse-label">Mirror Clusters</div>
+          </div>
+          <div class="glass-card pulse-stat">
+            <div class="pulse-value" id="pulse-trust">--</div>
+            <div class="pulse-label">Avg Trust Score</div>
+          </div>
+        </div>
+
+        <div id="trust-distribution" class="hidden" style="margin-bottom: 2rem; padding: 1.5rem;" class="glass-card">
+          <h3 style="margin-top: 0; margin-bottom: 1rem;">Trust Signal Distribution</h3>
+          <div style="display: flex; gap: 1rem; align-items: flex-end; height: 100px; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 0.5rem;">
+              <div id="dist-high-bar" style="width: 50%; background: #4caf50; border-radius: 4px 4px 0 0; transition: height 0.5s;"></div>
+              <span style="font-size: 0.8rem; opacity: 0.8;">High (90+)</span>
+              <span id="dist-high-val" style="font-weight: 600;">0</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 0.5rem;">
+              <div id="dist-med-bar" style="width: 50%; background: #ff9800; border-radius: 4px 4px 0 0; transition: height 0.5s;"></div>
+              <span style="font-size: 0.8rem; opacity: 0.8;">Medium (70-89)</span>
+              <span id="dist-med-val" style="font-weight: 600;">0</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 0.5rem;">
+              <div id="dist-low-bar" style="width: 50%; background: #f44336; border-radius: 4px 4px 0 0; transition: height 0.5s;"></div>
+              <span style="font-size: 0.8rem; opacity: 0.8;">Low (<70)</span>
+              <span id="dist-low-val" style="font-weight: 600;">0</span>
+            </div>
           </div>
         </div>
       </section>

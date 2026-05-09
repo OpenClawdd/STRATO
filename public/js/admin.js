@@ -110,6 +110,29 @@ async function loadPulse() {
     data.pulse.totalQuarantined;
   document.getElementById("pulse-mirrors").textContent =
     data.pulse.totalMirrors;
+  document.getElementById("pulse-trust").textContent =
+    data.pulse.averageTrustScore || "--";
+
+  const distContainer = document.getElementById("trust-distribution");
+  const dist = data.pulse.trustDistribution;
+
+  if (dist && (dist.high > 0 || dist.medium > 0 || dist.low > 0)) {
+    distContainer.classList.remove("hidden");
+    const total = dist.high + dist.medium + dist.low;
+
+    document.getElementById("dist-high-val").textContent = dist.high;
+    document.getElementById("dist-med-val").textContent = dist.medium;
+    document.getElementById("dist-low-val").textContent = dist.low;
+
+    document.getElementById("dist-high-bar").style.height =
+      `${(dist.high / total) * 100}%`;
+    document.getElementById("dist-med-bar").style.height =
+      `${(dist.medium / total) * 100}%`;
+    document.getElementById("dist-low-bar").style.height =
+      `${(dist.low / total) * 100}%`;
+  } else {
+    distContainer.classList.add("hidden");
+  }
 }
 
 async function loadQuarantine() {
