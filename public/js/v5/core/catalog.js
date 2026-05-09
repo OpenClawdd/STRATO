@@ -83,7 +83,8 @@ export function visibleCatalog() {
 
 export function promotableCatalog() {
   return playableCatalog().filter(
-    (game) => game.reliability === "green" && health(game).status !== "fallback-art",
+    (game) =>
+      game.reliability === "green" && health(game).status !== "fallback-art",
   );
 }
 

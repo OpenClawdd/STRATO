@@ -1903,11 +1903,9 @@
     });
 
   // Import full backup
-  document
-    .getElementById("btn-import-data")
-    ?.addEventListener("click", () => {
-      document.getElementById("import-data-file")?.click();
-    });
+  document.getElementById("btn-import-data")?.addEventListener("click", () => {
+    document.getElementById("import-data-file")?.click();
+  });
   document
     .getElementById("import-data-file")
     ?.addEventListener("change", async (e) => {
@@ -1916,9 +1914,7 @@
       try {
         const text = await file.text();
         const data = JSON.parse(text);
-        const csrfMeta = document.querySelector(
-          'meta[name="csrf-token"]',
-        );
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
         const resp = await fetch("/api/data/import", {
           method: "POST",
           headers: {

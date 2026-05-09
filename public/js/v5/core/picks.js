@@ -17,11 +17,12 @@ export function dailyPicks(date = new Date()) {
   const output = [];
 
   const pool = promotableCatalog();
-  const candidates = pool.length >= 6
-    ? pool.sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))
-    : playableCatalog()
-        .filter((game) => health(game).status !== "failed-locally")
-        .sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`));
+  const candidates =
+    pool.length >= 6
+      ? pool.sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))
+      : playableCatalog()
+          .filter((game) => health(game).status !== "failed-locally")
+          .sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`));
 
   for (const game of candidates) {
     const category = categoryOf(game).toLowerCase();
