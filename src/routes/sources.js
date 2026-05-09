@@ -96,11 +96,9 @@ router.post("/api/admin/quarantine/:id/approve", async (req, res) => {
     ]);
     const sourceType = item.sourceType || "unknown";
     if (!VALID_SOURCE_TYPES.has(sourceType)) {
-      return res
-        .status(400)
-        .json({
-          error: `Validation failed: invalid sourceType "${sourceType}"`,
-        });
+      return res.status(400).json({
+        error: `Validation failed: invalid sourceType "${sourceType}"`,
+      });
     }
 
     // Move to sources
