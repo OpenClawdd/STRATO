@@ -12,7 +12,7 @@ const router = Router();
 const ADMIN_SECRET = process.env.ADMIN_SECRET || null;
 
 function requireAdmin(req, res, next) {
-  const provided = req.headers["x-admin-secret"] || req.query.admin_secret;
+  const provided = req.headers["x-admin-secret"];
   if (!ADMIN_SECRET) {
     return res.status(403).json({ error: "Admin disabled" });
   }
@@ -101,6 +101,12 @@ router.post("/api/admin/quarantine/:id/approve", async (req, res) => {
       });
     }
 
+    if (item.promotable === true && item.launchable !== true) {
+      return res.status(400).json({
+        error: `Validation failed: promotable sources must also be launchable`,
+      });
+    }
+
     // Move to sources
     const newSource = await store.create("sources", {
       title: item.title,
@@ -109,6 +115,8 @@ router.post("/api/admin/quarantine/:id/approve", async (req, res) => {
       sourceType: item.sourceType || "unknown",
       status: "healthy",
       comment: item.comment || "",
+      launchable: item.launchable === true,
+      promotable: item.promotable === true,
     });
 
     // Create initial trust score history
@@ -131,6 +139,16 @@ router.post("/api/admin/quarantine/:id/duplicate", async (req, res) => {
     const { canonicalId } = req.body;
     if (!canonicalId)
       return res.status(400).json({ error: "Canonical ID required" });
+
+    const canonicalSource = await store.getOne(
+      "sources",
+      (i) => i.id === canonicalId,
+    );
+    if (!canonicalSource) {
+      return res
+        .status(400)
+        .json({ error: "Canonical source not found in catalog" });
+    }
 
     const item = await store.getOne(
       "quarantine",

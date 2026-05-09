@@ -115,6 +115,9 @@ describe('Source Hydra Routes (Admin)', () => {
 
   describe('POST /api/admin/quarantine/:id/duplicate', () => {
     it('should mark source as duplicate and set duplicateOf', async () => {
+      mockStore._seed('sources', [
+        { id: 'canonical-123', status: 'healthy', title: 'Original Source' }
+      ]);
       mockStore._seed('quarantine', [
         {
           id: 'q1',
