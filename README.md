@@ -133,9 +133,23 @@ tests/                        Vitest test suite
 
 GPL-3.0.
 
-
 ## STRATO v5.02 catalog split
 
 `public/assets/games.json` is now reserved for real launchable games that can appear in Home, Search, Daily Picks, Surprise Me, Favorites, and Recently Played.
 
 Non-playable directories, hubs, configured external surfaces, and resource entries live in `public/assets/surfaces.json`. They are still available for review/config workflows, but they no longer inflate arcade counts or pollute player-facing game surfaces.
+
+## v5.03 — Frontend Launch Polish
+
+STRATO v5.03 is the visual polish pass after the v5.02 catalog split. It keeps the clean 54-game catalog, upgrades the Home hero, makes Search feel more like a launch spotlight, improves game cards with local play metadata, adds a Browse the Launch Shelf section, and tightens the pre-launch sheet.
+
+Validation target:
+
+```bash
+npm run format:check
+npm run lint
+npm test -- --maxWorkers=1
+node scripts/validate-games.mjs
+```
+
+Expected catalog result: `54` games, `0` warnings.

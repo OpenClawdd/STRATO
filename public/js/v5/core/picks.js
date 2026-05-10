@@ -1,4 +1,4 @@
-import { categoryOf, playableCatalog } from "./catalog.js";
+import { categoryOf, playableCatalog, promotableCatalog } from "./catalog.js";
 import { health } from "./health.js";
 import { keys, readJson } from "./storage.js";
 
@@ -16,13 +16,13 @@ export function dailyPicks(date = new Date()) {
   const categoryCounts = new Map();
   const output = [];
 
-  const candidates = playableCatalog()
-    .filter((game) => health(game).status !== "failed-locally")
-    .sort((a, b) => {
-      const aThumb = a.thumbnail ? 0 : 1;
-      const bThumb = b.thumbnail ? 0 : 1;
-      return aThumb - bThumb || hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`);
-    });
+  const pool = promotableCatalog();
+  const candidates =
+    pool.length >= 6
+      ? pool.sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))
+      : playableCatalog()
+          .filter((game) => health(game).status !== "failed-locally")
+          .sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`));
 
   for (const game of candidates) {
     const category = categoryOf(game).toLowerCase();

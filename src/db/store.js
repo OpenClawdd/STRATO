@@ -21,6 +21,9 @@ const VALID_COLLECTIONS = new Set([
   "extensions",
   "chat_rooms",
   "chat_messages",
+  "sources",
+  "quarantine",
+  "trust_scores",
 ]);
 
 // ── In-memory cache ──

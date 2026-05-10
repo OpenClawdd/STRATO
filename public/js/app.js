@@ -260,8 +260,12 @@
       e.preventDefault();
       state.panicKey = e.key;
       localStorage.setItem("strato-panicKey", e.key);
-      const el = document.getElementById("setting-panic-key");
-      if (el) el.textContent = e.key;
+      const settingKey = document.getElementById("setting-panic-key");
+      const stealthKey = document.getElementById("stealth-panic-key");
+      const barKey = document.getElementById("panic-key-display");
+      if (settingKey) settingKey.textContent = e.key;
+      if (stealthKey) stealthKey.value = e.key;
+      if (barKey) barKey.textContent = e.key;
       state.changingPanicKey = false;
       showToast("Panic key updated", "accent");
       return;
@@ -301,6 +305,7 @@
         document.getElementById("shortcuts-overlay")?.classList.add("hidden");
         document.getElementById("notifications-panel")?.classList.add("hidden");
         document.getElementById("command-palette")?.classList.add("hidden");
+        document.getElementById("extension-gallery")?.classList.add("hidden");
       }
     }
 
@@ -1013,11 +1018,9 @@
       btn.addEventListener("click", () => {
         if (btn.dataset.homeEmptyAction === "surprise") surpriseMe();
         if (btn.dataset.homeEmptyAction === "daily")
-          document
-            .getElementById("daily-picks-section")
-            ?.scrollIntoView({
-              behavior: prefersReducedMotion ? "auto" : "smooth",
-            });
+          document.getElementById("daily-picks-section")?.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
       });
     });
   }
@@ -1670,26 +1673,22 @@
     document
       .getElementById("home-favorites-action")
       ?.addEventListener("click", () => {
-        document
-          .getElementById("home-favorites-section")
-          ?.scrollIntoView({
-            behavior:
-              prefersReducedMotion || state.preferences.lowPower
-                ? "auto"
-                : "smooth",
-          });
+        document.getElementById("home-favorites-section")?.scrollIntoView({
+          behavior:
+            prefersReducedMotion || state.preferences.lowPower
+              ? "auto"
+              : "smooth",
+        });
       });
     document
       .getElementById("home-recent-action")
       ?.addEventListener("click", () => {
-        document
-          .getElementById("home-recent-section")
-          ?.scrollIntoView({
-            behavior:
-              prefersReducedMotion || state.preferences.lowPower
-                ? "auto"
-                : "smooth",
-          });
+        document.getElementById("home-recent-section")?.scrollIntoView({
+          behavior:
+            prefersReducedMotion || state.preferences.lowPower
+              ? "auto"
+              : "smooth",
+        });
       });
     document
       .getElementById("low-power-toggle")
@@ -1880,6 +1879,67 @@
   document
     .getElementById("btn-clear-cache")
     ?.addEventListener("click", clearVault);
+
+  // Export full backup
+  document
+    .getElementById("btn-export-data")
+    ?.addEventListener("click", async () => {
+      try {
+        const resp = await fetch("/api/data/export");
+        if (!resp.ok) throw new Error(`Export failed (${resp.status})`);
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `strato-backup-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast("Full backup downloaded.", "accent");
+      } catch (err) {
+        showToast(`Export failed: ${err.message}`, "error");
+      }
+    });
+
+  // Import full backup
+  document.getElementById("btn-import-data")?.addEventListener("click", () => {
+    document.getElementById("import-data-file")?.click();
+  });
+  document
+    .getElementById("import-data-file")
+    ?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        const resp = await fetch("/api/data/import", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfMeta?.content || "",
+          },
+          body: JSON.stringify(data),
+        });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          throw new Error(err.error || `Import failed (${resp.status})`);
+        }
+        const result = await resp.json();
+        showToast(
+          result.message ||
+            `Imported: ${result.imported?.bookmarks || 0} bookmarks, ${result.imported?.saves || 0} saves.`,
+          "accent",
+        );
+        // Reset file input so same file can be re-imported
+        e.target.value = "";
+      } catch (err) {
+        showToast(`Import failed: ${err.message}`, "error");
+        e.target.value = "";
+      }
+    });
 
   // ──────────────────────────────────────────
   // AI CHAT
@@ -2340,6 +2400,10 @@
     );
   });
 
+  document.getElementById("btn-stealth")?.addEventListener("click", () => {
+    document.getElementById("stealth-bar")?.classList.toggle("hidden");
+  });
+
   document.getElementById("btn-change-panic")?.addEventListener("click", () => {
     state.changingPanicKey = true;
     const el = document.getElementById("setting-panic-key");
@@ -2354,6 +2418,16 @@
     idleInput.addEventListener("change", (e) => {
       localStorage.setItem("strato-idleSeconds", e.target.value);
       showToast(`Auto-cloak timeout: ${e.target.value}s`, "accent");
+    });
+  }
+
+  // Auto-stealth toggle (enable/disable idle auto-cloak)
+  const autoStealthToggle = document.getElementById("auto-stealth");
+  if (autoStealthToggle) {
+    autoStealthToggle.checked =
+      localStorage.getItem("strato-auto-stealth") !== "false";
+    autoStealthToggle.addEventListener("change", () => {
+      localStorage.setItem("strato-auto-stealth", autoStealthToggle.checked);
     });
   }
 
@@ -3276,6 +3350,7 @@
 
   setInterval(() => {
     if (autoCloakActive) return;
+    if (localStorage.getItem("strato-auto-stealth") === "false") return;
     const idleMs = Date.now() - lastActivityTime;
     if (idleMs >= getActivityIdleMs()) triggerAutoCloak();
   }, 2000);

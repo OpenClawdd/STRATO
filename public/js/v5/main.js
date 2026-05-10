@@ -100,6 +100,9 @@ function bindNavigation(home) {
         .getElementById("home-recent-section")
         ?.scrollIntoView({ behavior: "smooth", block: "start" }),
     );
+  document
+    .querySelector("[data-focus-home-search]")
+    ?.addEventListener("click", () => home.focusSearch());
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -139,5 +142,6 @@ export async function initOpenHome() {
     renderLaunchBay();
   });
   window.STRATO_OPEN_HOME_RUNTIME_ACTIVE = true;
+  window.STRATO_V5_FRONTEND_VERSION = "5.0.3";
   window.STRATO_V5_HOME = home;
 }

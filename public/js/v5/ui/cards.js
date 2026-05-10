@@ -65,20 +65,29 @@ export function statusLabel(game) {
   return labels[health(game).status] || "";
 }
 
+function localMeta(game) {
+  const count = Number(readJson(keys.playCounts, {})[game.id] || 0);
+  const last = readJson(keys.lastPlayed, {})[game.id];
+  if (count > 0) return `${count} launch${count === 1 ? "" : "es"}`;
+  if (last) return "Seen before";
+  return "Ready";
+}
+
 export function card(game, variant = "") {
   const favorite = readJson(keys.favorites, []).includes(game.id);
   const tags = tagsOf(game).slice(0, 3);
   const description = descriptionOf(game);
   const label = statusLabel(game);
+  const category = categoryOf(game);
   return `<article class="hideout-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="Open ${escapeHtml(nameOf(game))}">
     <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="${favorite ? "Unfavorite" : "Favorite"} ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
     <div class="hideout-thumb-wrap"><img class="hideout-thumb" src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt=""></div>
     <div class="hideout-card-body">
-      <div class="hideout-card-topline"><span>${escapeHtml(categoryOf(game))}</span>${label ? `<span class="status-pill">${escapeHtml(label)}</span>` : ""}</div>
+      <div class="hideout-card-topline"><span>${escapeHtml(category)}</span>${label ? `<span class="status-pill">${escapeHtml(label)}</span>` : `<span class="status-pill ready">${escapeHtml(localMeta(game))}</span>`}</div>
       <h3>${escapeHtml(nameOf(game))}</h3>
       ${description ? `<p>${escapeHtml(description)}</p>` : ""}
       <div class="hideout-tags">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-      <button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Launch</button>
+      <div class="card-actions"><button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button><span>${escapeHtml(localMeta(game))}</span></div>
     </div>
   </article>`;
 }

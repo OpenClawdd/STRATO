@@ -88,11 +88,9 @@ router.patch("/api/profile/:username", async (req, res) => {
 
     if (avatar !== undefined) {
       if (typeof avatar !== "string" || avatar.length > 500) {
-        return res
-          .status(400)
-          .json({
-            error: "Avatar must be a valid string under 500 characters",
-          });
+        return res.status(400).json({
+          error: "Avatar must be a valid string under 500 characters",
+        });
       }
       updates.avatar = avatar;
     }

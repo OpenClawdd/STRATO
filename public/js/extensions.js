@@ -355,6 +355,7 @@
       if (!resp.ok) return [];
       const data = await resp.json();
       renderGallery(data.extensions || data);
+      document.getElementById("extension-gallery")?.classList.remove("hidden");
       return data.extensions || data;
     } catch (e) {
       extensionWarn("[Extensions] Gallery load failed:", e);
@@ -434,6 +435,21 @@
     document
       .getElementById("btn-browse-extensions")
       ?.addEventListener("click", browseGallery);
+
+    // Gallery close button
+    document
+      .getElementById("btn-close-gallery")
+      ?.addEventListener("click", () => {
+        document.getElementById("extension-gallery")?.classList.add("hidden");
+      });
+
+    // Click backdrop to close gallery
+    document
+      .getElementById("extension-gallery")
+      ?.addEventListener("click", (e) => {
+        if (e.target === e.currentTarget)
+          e.currentTarget.classList.add("hidden");
+      });
   }
 
   if (document.readyState === "loading") {

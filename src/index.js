@@ -25,6 +25,7 @@ import stealthRoutes from "./routes/stealth.js";
 import adminRoutes from "./routes/admin.js";
 import notificationRoutes from "./routes/notifications.js";
 import dataRoutes from "./routes/data.js";
+import sourcesRoutes from "./routes/sources.js";
 import { sanitizeBody } from "./middleware/sanitize.js";
 import { csrfProtection, generateCsrfToken } from "./middleware/csrf.js";
 import { initWebSocket } from "./websocket.js";
@@ -279,6 +280,7 @@ app.use(stealthRoutes);
 app.use(adminRoutes);
 app.use(notificationRoutes);
 app.use(dataRoutes);
+app.use(sourcesRoutes);
 
 // ── 13. Error handler (last middleware) ──
 app.use((err, req, res, _next) => {

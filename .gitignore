@@ -12,3 +12,7 @@ src/config/games-private.json
 
 # STRATO data directory (JSON database)
 data/
+
+# Source Hydra generated output (raw URLs, ingested data, reports)
+scripts/output/
+scripts/raw-sources.txt
