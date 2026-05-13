@@ -58,12 +58,6 @@ const server = createServer();
 // ── Bare server (must be created before routes) ──
 const bare = createBareServer("/bare/");
 
-// ── Pre-load login page HTML for fast serving ──
-const LOGIN_HTML = fs.readFileSync(
-  join(__dirname, "..", "public", "login.html"),
-  "utf8",
-);
-
 // ── 1. Trust first proxy — correct req.ip behind reverse proxy ──
 app.set("trust proxy", 1);
 
