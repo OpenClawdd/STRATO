@@ -3,6 +3,8 @@
  * Prevents XSS, injection, and malformed data across all API routes
  */
 
+import sanitizeHtml from "sanitize-html";
+
 // ── HTML entities map for escaping ──
 const HTML_ENTITIES = {
   "&": "&amp;",
@@ -29,7 +31,10 @@ export function escapeHtml(str) {
  */
 export function stripHtml(str) {
   if (typeof str !== "string") return str;
-  return str.replace(/<[^>]*>/g, "");
+  return sanitizeHtml(str, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
 }
 
 /**
