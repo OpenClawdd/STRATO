@@ -82,7 +82,7 @@ export function validateAuthCookie(cookieHeader) {
 
   // Use cookie-parser synchronously to parse and unsign the cookie
   // This ensures we use the exact same unsigning logic as the Express middleware
-  const secret = process.env.COOKIE_SECRET || "dev-secret-change-me";
+  const secret = process.env.COOKIE_SECRET;
 
   // cookie-parser's internal unsigning expects the raw cookie header value
   // Parse cookies manually using the same split logic as cookie-parser

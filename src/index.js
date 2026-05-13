@@ -1,4 +1,5 @@
 import "dotenv/config";
+import crypto from "crypto";
 import express from "express";
 import { createServer } from "http";
 import { createBareServer } from "@tomphttp/bare-server-node";
@@ -50,7 +51,10 @@ if (!COOKIE_SECRET && process.env.NODE_ENV === "production") {
     "[STRATO] COOKIE_SECRET environment variable is required in production",
   );
 }
-const cookieSecret = COOKIE_SECRET || "dev-secret-change-me";
+const cookieSecret = COOKIE_SECRET || crypto.randomBytes(32).toString("hex");
+if (!process.env.COOKIE_SECRET) {
+  process.env.COOKIE_SECRET = cookieSecret;
+}
 
 const app = express();
 const server = createServer();
