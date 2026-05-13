@@ -102,10 +102,6 @@ function cacheSet(collection, data) {
   cache.set(collection, { data, ts: Date.now() });
 }
 
-function cacheInvalidate(collection) {
-  cache.delete(collection);
-}
-
 // ── Read collection from disk (with cache) ──
 function readCollection(collection) {
   const cached = cacheGet(collection);
