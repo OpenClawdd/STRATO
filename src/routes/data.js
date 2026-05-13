@@ -89,15 +89,18 @@ router.post("/api/data/import", async (req, res) => {
 
     // Import bookmarks
     if (Array.isArray(importData.bookmarks)) {
+      const allBookmarks = await store.getAll("bookmarks");
+      const existingUrls = new Set(
+        allBookmarks
+          .filter((b) => b.userId === user.id || b.username === username)
+          .map((b) => b.url),
+      );
+
       for (const bookmark of importData.bookmarks) {
+        if (!bookmark.url || typeof bookmark.url !== "string") continue;
+
         // Skip if already exists
-        const existing = await store.getOne(
-          "bookmarks",
-          (b) =>
-            b.url === bookmark.url &&
-            (b.userId === user.id || b.username === username),
-        );
-        if (!existing) {
+        if (!existingUrls.has(bookmark.url)) {
           const {
             id: _bid,
             created_at: _bca,
@@ -109,6 +112,7 @@ router.post("/api/data/import", async (req, res) => {
             userId: user.id,
             username,
           });
+          existingUrls.add(bookmark.url);
           imported.bookmarks++;
         }
       }
@@ -237,16 +241,17 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
       : req.body.bookmarks || [];
     let imported = 0;
 
+    const allBookmarks = await store.getAll("bookmarks");
+    const existingUrls = new Set(
+      allBookmarks
+        .filter((b) => b.userId === user.id || b.username === username)
+        .map((b) => b.url),
+    );
+
     for (const bookmark of bookmarks) {
       if (!bookmark.url || typeof bookmark.url !== "string") continue;
 
-      const existing = await store.getOne(
-        "bookmarks",
-        (b) =>
-          b.url === bookmark.url &&
-          (b.userId === user.id || b.username === username),
-      );
-      if (!existing) {
+      if (!existingUrls.has(bookmark.url)) {
         await store.create("bookmarks", {
           url: bookmark.url,
           title: bookmark.title || bookmark.url,
@@ -254,6 +259,7 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
           userId: user.id,
           username,
         });
+        existingUrls.add(bookmark.url);
         imported++;
       }
     }
