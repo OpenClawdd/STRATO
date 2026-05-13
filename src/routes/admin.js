@@ -170,31 +170,31 @@ router.get("/api/admin/analytics", async (req, res) => {
     const scores = await store.getAll("scores");
     const chatMessages = await store.getAll("chat_messages");
 
-    // Calculate aggregate stats
-    const totalGamesPlayed = users.reduce(
-      (sum, u) => sum + (u.stats?.games_played || 0),
-      0,
-    );
     const totalChatMessages = chatMessages.length;
-    const totalXp = users.reduce((sum, u) => sum + (u.xp || 0), 0);
-    const avgLevel =
-      users.length > 0
-        ? (
-            users.reduce((sum, u) => sum + (u.level || 1), 0) / users.length
-          ).toFixed(1)
-        : 0;
 
-    // Recent signups (last 7 days)
     const sevenDaysAgo = new Date(
       Date.now() - 7 * 24 * 60 * 60 * 1000,
     ).toISOString();
-    const recentSignups = users.filter(
-      (u) => u.created_at > sevenDaysAgo,
-    ).length;
-
-    // Active users (updated in last 24 hours)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
+
+    // Calculate aggregate stats in a single pass
+    let totalGamesPlayed = 0;
+    let totalXp = 0;
+    let totalLevel = 0;
+    let recentSignups = 0;
+    let activeUsers = 0;
+
+    for (const u of users) {
+      totalGamesPlayed += u.stats?.games_played || 0;
+      totalXp += u.xp || 0;
+      totalLevel += u.level || 1;
+
+      if (u.created_at > sevenDaysAgo) recentSignups++;
+      if (u.updated_at > oneDayAgo) activeUsers++;
+    }
+
+    const avgLevel =
+      users.length > 0 ? (totalLevel / users.length).toFixed(1) : 0;
 
     // Top users by XP
     const topUsers = [...users]
