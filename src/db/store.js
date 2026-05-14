@@ -102,7 +102,7 @@ function cacheSet(collection, data) {
   cache.set(collection, { data, ts: Date.now() });
 }
 
-function cacheInvalidate(collection) {
+function _cacheInvalidate(collection) {
   cache.delete(collection);
 }
 

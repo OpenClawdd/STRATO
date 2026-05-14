@@ -7,6 +7,6 @@ export default [
       sourceType: 'module',
       globals: { AbortController: 'readonly', AbortSignal: 'readonly', Buffer: 'readonly', CustomEvent: 'readonly', Event: 'readonly', FormData: 'readonly', URL: 'readonly', URLSearchParams: 'readonly', clearInterval: 'readonly', clearTimeout: 'readonly', console: 'readonly', document: 'readonly', fetch: 'readonly', globalThis: 'readonly', indexedDB: 'readonly', localStorage: 'readonly', process: 'readonly', setInterval: 'readonly', setTimeout: 'readonly', window: 'readonly' },
     },
-    rules: { 'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }], 'no-undef': 'error' },
+    rules: { 'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }], 'no-undef': 'error' },
   },
 ];

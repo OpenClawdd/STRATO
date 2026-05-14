@@ -59,7 +59,7 @@ const server = createServer();
 const bare = createBareServer("/bare/");
 
 // ── Pre-load login page HTML for fast serving ──
-const LOGIN_HTML = fs.readFileSync(
+const _LOGIN_HTML = fs.readFileSync(
   join(__dirname, "..", "public", "login.html"),
   "utf8",
 );
@@ -256,8 +256,8 @@ function stripFrameHeaders(req, res, next) {
   next();
 }
 
-app.use("/frog/", stripFrameHeaders);
-app.use("/scramjet/", stripFrameHeaders);
+app.use("/frog/service/", stripFrameHeaders);
+app.use("/scramjet/service/", stripFrameHeaders);
 
 // ── 12. Routes ──
 // ── Original routes ──
