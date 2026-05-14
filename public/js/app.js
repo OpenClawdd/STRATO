@@ -545,12 +545,16 @@
       try {
         return `/frog/${Ultraviolet.codec.xor.encode(url)}`;
       } catch (e) {
-        window.addEventListener('strato:transport-ready', () => {
-          const iframe = document.getElementById('proxy-iframe');
-          if (iframe) {
-            iframe.src = `/frog/${Ultraviolet.codec.xor.encode(url)}`;
-          }
-        }, { once: true });
+        window.addEventListener(
+          "strato:transport-ready",
+          () => {
+            const iframe = document.getElementById("proxy-iframe");
+            if (iframe) {
+              iframe.src = `/frog/${Ultraviolet.codec.xor.encode(url)}`;
+            }
+          },
+          { once: true },
+        );
         return `about:blank`;
       }
     } else {
