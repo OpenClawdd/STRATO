@@ -3401,3 +3401,16 @@ body.low-power .home-search-result {
     text-align: center;
   }
 }
+body.low-power #particles-canvas,
+body.low-power .bg-orb,
+body.low-power .floating-orb,
+body.low-power .bg-scanline,
+body.low-power .bg-scanlines,
+body.low-power .bg-grid,
+body.low-power::before,
+body.low-power::after { display: none !important; animation: none !important; }
+body.low-power * { animation-duration: 0.01ms !important; transition-duration: 0.08s !important; }
+body.low-power .game-card:hover,
+body.low-power .home-game-card:hover,
+body.low-power .hideout-card:hover { transform: none !important; box-shadow: none !important; }
+body.low-power .glass, body.low-power .glass-card { backdrop-filter: none !important; }

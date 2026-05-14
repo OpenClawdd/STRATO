@@ -124,15 +124,14 @@
   const prefersReducedMotion =
     window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || false;
 
-  function applyPerformancePreferences() {
-    const lowPower = !!state.preferences.lowPower || prefersReducedMotion;
-    document.body.classList.toggle("low-power", lowPower);
-    const toggle = document.getElementById("low-power-toggle");
-    if (toggle)
-      toggle.setAttribute("aria-pressed", String(!!state.preferences.lowPower));
+  if (localStorage.getItem('strato_low_power') === 'true' || prefersReducedMotion) {
+    document.body.classList.add('low-power');
+    const tb = document.getElementById("low-power-toggle");
+    if (tb) tb.setAttribute("aria-pressed", "true");
+    const sb = document.getElementById("sidebar-low-power-toggle");
+    if (sb) sb.setAttribute("aria-pressed", "true");
   }
 
-  applyPerformancePreferences();
   document.documentElement.dataset.openHome = "3";
 
   // ──────────────────────────────────────────
@@ -1690,13 +1689,18 @@
               : "smooth",
         });
       });
-    document
-      .getElementById("low-power-toggle")
-      ?.addEventListener("click", () => {
-        state.preferences.lowPower = !state.preferences.lowPower;
-        writeStorageJson("strato-preferences", state.preferences);
-        applyPerformancePreferences();
-      });
+    function handleLowPowerToggle() {
+      document.body.classList.toggle('low-power');
+      const isLowPower = document.body.classList.contains('low-power');
+      localStorage.setItem('strato_low_power', isLowPower);
+      const tb = document.getElementById("low-power-toggle");
+      if (tb) tb.setAttribute("aria-pressed", String(isLowPower));
+      const sb = document.getElementById("sidebar-low-power-toggle");
+      if (sb) sb.setAttribute("aria-pressed", String(isLowPower));
+    }
+
+    document.getElementById("low-power-toggle")?.addEventListener("click", handleLowPowerToggle);
+    document.getElementById("sidebar-low-power-toggle")?.addEventListener("click", handleLowPowerToggle);
     document.documentElement.dataset.homeEvents = "1";
   }
 
