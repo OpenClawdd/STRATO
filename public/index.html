@@ -340,12 +340,9 @@
         <div class="browser-bookmarks-bar" id="bookmarks-bar"></div>
         <div class="browser-body">
           <div class="launch-bay-empty" id="launch-bay-empty">
-            <div class="launch-bay-kicker">STRATO Launch Bay</div>
-            <h3>Open here first.</h3>
-            <p>Search from Home, lock signal, and launch.</p>
-            <div class="home-filter-row">
-              <button class="glass-btn" type="button" data-home-nav="home">Back to Home</button>
-              <button class="glass-btn" type="button" data-home-nav="arcade">Open Arcade</button>
+            <div class="lb-search-wrap">
+              <input type="text" id="lb-url-input" class="lb-input" placeholder="Search or enter URL..." autocomplete="off" spellcheck="false">
+              <button class="lb-go-btn" id="lb-go-btn">GO</button>
             </div>
           </div>
           <div class="browser-sidebar" id="browser-sidebar">

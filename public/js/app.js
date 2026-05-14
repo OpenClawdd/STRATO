@@ -3578,6 +3578,10 @@
       document.body.classList.toggle('low-power');
       localStorage.setItem('strato_low_power', document.body.classList.contains('low-power'));
     });
+    const lbInput = document.getElementById('lb-url-input');
+    const lbGoBtn = document.getElementById('lb-go-btn');
+    if (lbGoBtn) lbGoBtn.addEventListener('click', () => { if (lbInput?.value) navigateProxy(lbInput.value); });
+    if (lbInput) lbInput.addEventListener('keydown', e => { if (e.key === 'Enter' && lbInput.value) navigateProxy(lbInput.value); });
 
     const splash = document.getElementById("splash");
     const splashBar = splash?.querySelector(".splash-bar");
