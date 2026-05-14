@@ -112,7 +112,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"],
         scriptSrcAttr: ["'unsafe-inline'"],
         workerSrc: ["'self'", "blob:"],
-        frameSrc: ["'self'", "blob:"],
+        frameSrc: ["'self'", "blob:", "https:", "http:"],
         connectSrc: ["'self'", "ws:", "wss:", "https:", "blob:", "http:"],
         imgSrc: ["'self'", "data:", "blob:", "https:"],
         styleSrc: [
