@@ -540,41 +540,26 @@
         url = "https://" + url;
       }
     }
-    // Use the proper UV/SJ codec — the service workers expect XOR-encoded URLs
-    // NOT encodeURIComponent (which was causing proxy breakage)
     const targetEngine = engine || state.currentEngine;
     if (targetEngine === "uv") {
-      // Ultraviolet uses Ultraviolet.codec.xor.encode at the SW level.
-      // The SW intercepts /frog/service/ prefixed URLs and decodes them.
-      // We just need to pass the raw URL — the SW handles encoding.
-      // The prefix /frog/service/ is defined in uv.config.js
-      try {
-        if (
-          typeof Ultraviolet !== "undefined" &&
-          Ultraviolet.codec &&
-          Ultraviolet.codec.xor
-        ) {
-          return `/frog/service/${Ultraviolet.codec.xor.encode(url)}`;
-        }
-      } catch (e) {
-        /* fallback below */
+      if (
+        typeof Ultraviolet !== "undefined" &&
+        Ultraviolet.codec &&
+        Ultraviolet.codec.xor
+      ) {
+        return `/frog/${Ultraviolet.codec.xor.encode(url)}`;
       }
-      // Fallback: use the config prefix + encodeURIComponent (UV SW can handle both)
-      return `/frog/service/${encodeURIComponent(url)}`;
+      // UV not ready yet — return null, caller must wait for strato:transport-ready
+      return null;
     } else {
-      // Scramjet uses Scramjet.codec.xor.encode
-      try {
-        if (
-          typeof Scramjet !== "undefined" &&
-          Scramjet.codec &&
-          Scramjet.codec.xor
-        ) {
-          return `/scramjet/service/${Scramjet.codec.xor.encode(url)}`;
-        }
-      } catch (e) {
-        /* fallback below */
+      if (
+        typeof Scramjet !== "undefined" &&
+        Scramjet.codec &&
+        Scramjet.codec.xor
+      ) {
+        return `/scramjet/${Scramjet.codec.xor.encode(url)}`;
       }
-      return `/scramjet/service/${encodeURIComponent(url)}`;
+      return null;
     }
   }
 
@@ -631,7 +616,11 @@
     if (!url) return;
     const targetEngine = engine || state.currentEngine;
     const proxyUrl = getProxyUrl(url, targetEngine);
-    if (!proxyUrl) return;
+    if (!proxyUrl) {
+      // proxy-ready may have already fired — retry immediately after short delay
+      setTimeout(() => navigateProxy(url, engine), 500);
+      return;
+    }
 
     switchView("browser");
     const iframe = document.getElementById("proxy-iframe");
@@ -3582,6 +3571,14 @@
   setTimeout(forceRemoveSplash, 15000);
 
   async function init() {
+    const lp = localStorage.getItem('strato_low_power') === 'true';
+    document.body.classList.toggle('low-power', lp);
+    const lpToggle = document.getElementById('low-power-toggle');
+    if (lpToggle) lpToggle.addEventListener('click', () => {
+      document.body.classList.toggle('low-power');
+      localStorage.setItem('strato_low_power', document.body.classList.contains('low-power'));
+    });
+
     const splash = document.getElementById("splash");
     const splashBar = splash?.querySelector(".splash-bar");
     const splashStatus = splash?.querySelector(".splash-status");
