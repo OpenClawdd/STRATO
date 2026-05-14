@@ -540,41 +540,21 @@
         url = "https://" + url;
       }
     }
-    // Use the proper UV/SJ codec — the service workers expect XOR-encoded URLs
-    // NOT encodeURIComponent (which was causing proxy breakage)
     const targetEngine = engine || state.currentEngine;
     if (targetEngine === "uv") {
-      // Ultraviolet uses Ultraviolet.codec.xor.encode at the SW level.
-      // The SW intercepts /frog/service/ prefixed URLs and decodes them.
-      // We just need to pass the raw URL — the SW handles encoding.
-      // The prefix /frog/service/ is defined in uv.config.js
       try {
-        if (
-          typeof Ultraviolet !== "undefined" &&
-          Ultraviolet.codec &&
-          Ultraviolet.codec.xor
-        ) {
-          return `/frog/service/${Ultraviolet.codec.xor.encode(url)}`;
-        }
+        return `/frog/${Ultraviolet.codec.xor.encode(url)}`;
       } catch (e) {
-        /* fallback below */
+        window.addEventListener('strato:transport-ready', () => {
+          const iframe = document.getElementById('proxy-iframe');
+          if (iframe) {
+            iframe.src = `/frog/${Ultraviolet.codec.xor.encode(url)}`;
+          }
+        }, { once: true });
+        return `about:blank`;
       }
-      // Fallback: use the config prefix + encodeURIComponent (UV SW can handle both)
-      return `/frog/service/${encodeURIComponent(url)}`;
     } else {
-      // Scramjet uses Scramjet.codec.xor.encode
-      try {
-        if (
-          typeof Scramjet !== "undefined" &&
-          Scramjet.codec &&
-          Scramjet.codec.xor
-        ) {
-          return `/scramjet/service/${Scramjet.codec.xor.encode(url)}`;
-        }
-      } catch (e) {
-        /* fallback below */
-      }
-      return `/scramjet/service/${encodeURIComponent(url)}`;
+      return `/scramjet/${btoa(url)}`;
     }
   }
 
