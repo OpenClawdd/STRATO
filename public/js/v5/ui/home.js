@@ -5,6 +5,7 @@ import {
   moodClusters,
   nameOf,
   playableCatalog,
+  promotableCatalog,
   tagsOf,
   typeLabel,
   visibleCatalog,
@@ -212,7 +213,9 @@ export function createHomeController() {
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
-      const allGames = list.slice(0, 12);
+      const allGames = promotableCatalog()
+        .filter((game) => state.activeMood === "all" || list.includes(game))
+        .slice(0, 12);
 
       renderMoods(controller);
       renderCards(

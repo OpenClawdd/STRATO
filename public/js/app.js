@@ -881,13 +881,25 @@
     return String(game?.url || "").startsWith("/games/");
   }
 
+  function isExternalSourceGame(game) {
+    const tags = getGameTags(game).map((tag) => tag.toLowerCase());
+    return Boolean(
+      game?.provider ||
+        game?.source ||
+        game?.needsCheck ||
+        game?.needsReview ||
+        tags.includes("external") ||
+        tags.includes("needs-check"),
+    );
+  }
+
   function isPromotableGame(game) {
     if (!isHomeSafeGame(game)) return false;
+    if (!isSelfHostedGame(game)) return false;
+    if (isExternalSourceGame(game) || game.needsReview) return false;
+    if (game.reliability !== "green" && game.tier !== 1) return false;
     const health = getGameHealth(game);
-    return (
-      ["ready", "thumbnail-fallback"].includes(health.status) ||
-      (health.status === "playable" && game.reliability !== "red")
-    );
+    return ["ready", "thumbnail-fallback", "playable"].includes(health.status);
   }
 
   function homeCatalog() {
@@ -1233,6 +1245,8 @@
     const sourceBadge = (() => {
       const url = String(game.url || "");
       const reliability = String(game.reliability || "").toLowerCase();
+      const provider = String(game.provider || game.source || "").toLowerCase();
+      if (provider === "selenite") return "Selenite";
       if (game.category === "import-review" || getGameTags(game).includes("captured"))
         return "Source";
       if (url.startsWith("/games/")) return "Local";
@@ -1522,6 +1536,7 @@
     const traceText = JSON.stringify(trace, null, 2);
     const hasAlternateEngine = state.currentEngine === "uv" || state.currentEngine === "scramjet";
     const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
+    const canOpenSource = game && /^https?:\/\//i.test(String(game.url || ""));
     const overlay = document.createElement("div");
     overlay.className = "launch-failure-overlay";
     overlay.id = "launch-failure-overlay";
@@ -1531,6 +1546,7 @@
         <p class="launch-failure-copy">${escapeHtml(title)} could not launch: ${escapeHtml(reason)}.</p>
         <div class="home-failure-actions">
           <button class="glass-btn" type="button" data-failure-action="retry">Retry page</button>
+          ${canOpenSource ? '<button class="glass-btn" type="button" data-failure-action="open-source">Open source link</button>' : ""}
           <button class="glass-btn" type="button" data-failure-action="copy">Copy trace</button>
           ${hasAlternateEngine ? '<button class="glass-btn" type="button" data-failure-action="alternate">Try alternate engine</button>' : ""}
           ${hasServiceWorkerReset ? '<button class="glass-btn" type="button" data-failure-action="reset-sw">Reset SW</button>' : ""}
@@ -1548,6 +1564,8 @@
       if (action === "retry" && game) {
         closeLaunchFailure();
         launchGame(game.id, { retry: true });
+      } else if (action === "open-source" && game) {
+        window.open(game.url, "_blank", "noopener");
       } else if (action === "copy") {
         navigator.clipboard?.writeText(traceText);
         showToast("Trace copied", "accent");
@@ -1820,6 +1838,16 @@
         if (!state.favorites.includes(game.id)) return false;
       } else if (activeCategories.has("recent")) {
         if (!state.recentlyPlayed.includes(game.id)) return false;
+      } else if (activeCategories.has("local")) {
+        if (!isSelfHostedGame(game)) return false;
+      } else if (activeCategories.has("external")) {
+        if (isSelfHostedGame(game)) return false;
+      } else if (activeCategories.has("selenite")) {
+        const provider = String(game.provider || game.source || "").toLowerCase();
+        if (provider !== "selenite") return false;
+      } else if (activeCategories.has("needs-check")) {
+        const reliability = String(game.reliability || "").toLowerCase();
+        if (!(game.needsCheck || game.needsReview || reliability === "yellow")) return false;
       } else if (
         !activeCategories.has("all") &&
         !activeCategories.has(game.category)
