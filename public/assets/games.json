@@ -820,7 +820,7 @@
   },
   {
     "id": "1-datedanger",
-    "name": "1 Datedanger",
+    "name": "1 Date Danger",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/1datedanger/1date.webp",
     "url": "https://selenite.cc/projects/1datedanger",
@@ -968,7 +968,7 @@
   },
   {
     "id": "2-drocketleague",
-    "name": "2 Drocketleague",
+    "name": "2D Rocket League",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/2drocketleague/unnamed.png",
     "url": "https://selenite.cc/projects/2drocketleague",
@@ -1079,7 +1079,7 @@
   },
   {
     "id": "60-sburgerrun",
-    "name": "60 Sburgerrun",
+    "name": "60 Second Burger Run",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/60sburgerrun/icon.png",
     "url": "https://selenite.cc/projects/60sburgerrun",
@@ -1153,7 +1153,7 @@
   },
   {
     "id": "adofai",
-    "name": "Adofai",
+    "name": "A Dance of Fire and Ice",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/adofai/splash.png",
     "url": "https://selenite.cc/projects/adofai",
@@ -1190,7 +1190,7 @@
   },
   {
     "id": "adarkroom",
-    "name": "Adarkroom",
+    "name": "A Dark Room",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/adarkroom/favicon.ico",
     "url": "https://selenite.cc/projects/adarkroom",
@@ -1264,7 +1264,7 @@
   },
   {
     "id": "abudathealien",
-    "name": "Abudathealien",
+    "name": "Abuda the Alien",
     "category": "games",
     "thumbnail": null,
     "url": "https://selenite.cc/projects/abudathealien",
@@ -1301,7 +1301,7 @@
   },
   {
     "id": "aceattorneyinvestigations",
-    "name": "Aceattorneyinvestigations",
+    "name": "Ace Attorney Investigations",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aceattorneyinvestigations/logo.png",
     "url": "https://selenite.cc/projects/aceattorneyinvestigations",
@@ -1338,7 +1338,7 @@
   },
   {
     "id": "aceattorneyapollojustice",
-    "name": "Aceattorneyapollojustice",
+    "name": "Ace Attorney: Apollo Justice",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aceattorneyapollojustice/logo.png",
     "url": "https://selenite.cc/projects/aceattorneyapollojustice",
@@ -1375,7 +1375,7 @@
   },
   {
     "id": "aceattorneyjusticeforall",
-    "name": "Aceattorneyjusticeforall",
+    "name": "Ace Attorney: Justice for All",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aceattorneyjusticeforall/logo.png",
     "url": "https://selenite.cc/projects/aceattorneyjusticeforall",
@@ -1412,7 +1412,7 @@
   },
   {
     "id": "aceattorneyphoenixwright",
-    "name": "Aceattorneyphoenixwright",
+    "name": "Ace Attorney: Phoenix Wright",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aceattorneyphoenixwright/logo.png",
     "url": "https://selenite.cc/projects/aceattorneyphoenixwright",
@@ -1449,7 +1449,7 @@
   },
   {
     "id": "aceattorneytnt",
-    "name": "Aceattorneytnt",
+    "name": "Ace Attorney: Trials and Tribulations",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aceattorneytnt/logo.png",
     "url": "https://selenite.cc/projects/aceattorneytnt",
@@ -1486,7 +1486,7 @@
   },
   {
     "id": "achieveunlocked",
-    "name": "Achieveunlocked",
+    "name": "Achievement Unlocked",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/achieveunlocked/icon.png",
     "url": "https://selenite.cc/projects/achieveunlocked",
@@ -1634,7 +1634,7 @@
   },
   {
     "id": "advancewars",
-    "name": "Advancewars",
+    "name": "Advance Wars",
     "category": "games",
     "thumbnail": null,
     "url": "https://selenite.cc/projects/advancewars",
@@ -1708,7 +1708,7 @@
   },
   {
     "id": "advancewarsdayofruin",
-    "name": "Advancewarsdayofruin",
+    "name": "Advance Wars: Days of Ruin",
     "category": "games",
     "thumbnail": null,
     "url": "https://selenite.cc/projects/advancewarsdayofruin",
@@ -1819,7 +1819,7 @@
   },
   {
     "id": "adventuretime",
-    "name": "Adventuretime",
+    "name": "Adventure Time",
     "category": "games",
     "thumbnail": null,
     "url": "https://selenite.cc/projects/adventuretime",
@@ -1856,7 +1856,7 @@
   },
   {
     "id": "agariolite",
-    "name": "Agariolite",
+    "name": "Agar.io Lite",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/agariolite/cover.png",
     "url": "https://selenite.cc/projects/agariolite",
@@ -2041,7 +2041,7 @@
   },
   {
     "id": "ddlcplus",
-    "name": "Ddlcplus",
+    "name": "DDLC Plus",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/ddlcplus/game/images/LauncherAssets/DDLC%20logo.png",
     "url": "https://selenite.cc/projects/ddlcplus",
@@ -2151,45 +2151,8 @@
     }
   },
   {
-    "id": "fridaynightfunkin",
-    "name": "Fridaynightfunkin",
-    "category": "games",
-    "thumbnail": "https://selenite.cc/resources/semag/fridaynightfunkin/favicon.png",
-    "url": "https://selenite.cc/projects/fridaynightfunkin",
-    "type": "game",
-    "tier": 3,
-    "reliability": "yellow",
-    "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
-    "tags": [
-      "captured",
-      "reviewed",
-      "external",
-      "needs-check",
-      "selenite"
-    ],
-    "source": "selenite",
-    "provider": "selenite",
-    "needsCheck": true,
-    "needsReview": false,
-    "sourceUrl": "https://selenite.cc/projects",
-    "sourceEvidence": "performance.resource:/resources/semag/",
-    "evidence": {
-      "sourceFile": "captures/selenite-resources.raw.json",
-      "provider": "selenite",
-      "sourceUrl": "https://selenite.cc/projects",
-      "sourceEvidence": "performance.resource:/resources/semag/",
-      "title": "Projects | Selenite",
-      "text": "Fridaynightfunkin",
-      "href": "https://selenite.cc/projects/fridaynightfunkin",
-      "image": "https://selenite.cc/resources/semag/fridaynightfunkin/favicon.png",
-      "capturedAt": "2026-05-15T12:02:35.109Z",
-      "className": "",
-      "tag": ""
-    }
-  },
-  {
     "id": "halflife",
-    "name": "Halflife",
+    "name": "Half-Life",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/halflife/favicon.ico",
     "url": "https://selenite.cc/projects/halflife",
@@ -2226,7 +2189,7 @@
   },
   {
     "id": "gtavc",
-    "name": "Gtavc",
+    "name": "GTA Vice City",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/gtavc/256x256.png",
     "url": "https://selenite.cc/projects/gtavc",
@@ -2263,7 +2226,7 @@
   },
   {
     "id": "hollowknight",
-    "name": "Hollowknight",
+    "name": "Hollow Knight",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/hollowknight/logo.jpg",
     "url": "https://selenite.cc/projects/hollowknight",
@@ -2374,7 +2337,7 @@
   },
   {
     "id": "stardewvalley",
-    "name": "Stardewvalley",
+    "name": "Stardew Valley",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/stardewvalley/star.webp",
     "url": "https://selenite.cc/projects/stardewvalley",
@@ -2559,7 +2522,7 @@
   },
   {
     "id": "alteredbeast",
-    "name": "Alteredbeast",
+    "name": "Altered Beast",
     "category": "games",
     "thumbnail": null,
     "url": "https://selenite.cc/projects/alteredbeast",
@@ -2744,7 +2707,7 @@
   },
   {
     "id": "amongusnew",
-    "name": "Amongusnew",
+    "name": "Among Us New",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/amongusnew/amgojs]_.png",
     "url": "https://selenite.cc/projects/amongusnew",
@@ -2818,7 +2781,7 @@
   },
   {
     "id": "antimatterdimensions",
-    "name": "Antimatterdimensions",
+    "name": "Antimatter Dimensions",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/antimatterdimensions/icon.png",
     "url": "https://selenite.cc/projects/antimatterdimensions",
@@ -2855,7 +2818,7 @@
   },
   {
     "id": "apesvshelium",
-    "name": "Apesvshelium",
+    "name": "Apes vs Helium",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/apesvshelium/apesvshelium.webp",
     "url": "https://selenite.cc/projects/apesvshelium",
@@ -2929,7 +2892,7 @@
   },
   {
     "id": "aquaparkslides",
-    "name": "Aquaparkslides",
+    "name": "Aquapark Slides",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/aquaparkslides/splash.png",
     "url": "https://selenite.cc/projects/aquaparkslides",
@@ -3003,7 +2966,7 @@
   },
   {
     "id": "awesometanks",
-    "name": "Awesometanks",
+    "name": "Awesome Tanks",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/awesometanks/cover.png",
     "url": "https://selenite.cc/projects/awesometanks",
@@ -3040,7 +3003,7 @@
   },
   {
     "id": "baconmaydie",
-    "name": "Baconmaydie",
+    "name": "Bacon May Die",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/baconmaydie/splash.png",
     "url": "https://selenite.cc/projects/baconmaydie",
@@ -3188,7 +3151,7 @@
   },
   {
     "id": "badparenting",
-    "name": "Badparenting",
+    "name": "Bad Parenting",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/badparenting/badparenting.webp",
     "url": "https://selenite.cc/projects/badparenting",
@@ -3225,7 +3188,7 @@
   },
   {
     "id": "badpiggies",
-    "name": "Badpiggies",
+    "name": "Bad Piggies",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/badpiggies/badpiggies.png",
     "url": "https://selenite.cc/projects/badpiggies",
@@ -3262,7 +3225,7 @@
   },
   {
     "id": "badtimesimulator",
-    "name": "Badtimesimulator",
+    "name": "Bad Time Simulator",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/badtimesimulator/icon-114.png",
     "url": "https://selenite.cc/projects/badtimesimulator",
@@ -3336,7 +3299,7 @@
   },
   {
     "id": "baldis-basics",
-    "name": "Baldis Basics",
+    "name": "Baldi's Basics",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/baldis-basics/splash.png",
     "url": "https://selenite.cc/projects/baldis-basics",
@@ -3484,7 +3447,7 @@
   },
   {
     "id": "ballisticchickens",
-    "name": "Ballisticchickens",
+    "name": "Ballistic Chickens",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/ballisticchickens/logo.png",
     "url": "https://selenite.cc/projects/ballisticchickens",
@@ -3558,7 +3521,7 @@
   },
   {
     "id": "banjokazooie",
-    "name": "Banjokazooie",
+    "name": "Banjo-Kazooie",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/banjokazooie/banjokazooie.png",
     "url": "https://selenite.cc/projects/banjokazooie",
@@ -3595,7 +3558,7 @@
   },
   {
     "id": "banjopilot",
-    "name": "Banjopilot",
+    "name": "Banjo-Pilot",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/banjopilot/banjopilot-sq-1643391580626.jpg",
     "url": "https://selenite.cc/projects/banjopilot",
@@ -3632,7 +3595,7 @@
   },
   {
     "id": "banjotooie",
-    "name": "Banjotooie",
+    "name": "Banjo-Tooie",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/banjotooie/banjo-tooie_7htk.128.webp",
     "url": "https://selenite.cc/projects/banjotooie",
@@ -3743,7 +3706,7 @@
   },
   {
     "id": "basketbros",
-    "name": "Basketbros",
+    "name": "Basket Bros",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/basketbros/thumb.jpg",
     "url": "https://selenite.cc/projects/basketbros",
@@ -3780,7 +3743,7 @@
   },
   {
     "id": "basketrandom",
-    "name": "Basketrandom",
+    "name": "Basket Random",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/basketrandom/test.png",
     "url": "https://selenite.cc/projects/basketrandom",
@@ -3854,7 +3817,7 @@
   },
   {
     "id": "battlebeavers",
-    "name": "Battlebeavers",
+    "name": "Battle Beavers",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/battlebeavers/battlebeavers.jpeg",
     "url": "https://selenite.cc/projects/battlebeavers",
@@ -4076,7 +4039,7 @@
   },
   {
     "id": "bergentruck",
-    "name": "Bergentruck",
+    "name": "Bergen Truck",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/bergentruck/BERGENTRUCK_201X.apple-touch-icon.png",
     "url": "https://selenite.cc/projects/bergentruck",
@@ -4150,7 +4113,7 @@
   },
   {
     "id": "bigredbutton",
-    "name": "Bigredbutton",
+    "name": "Big Red Button",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/bigredbutton/big-red-button.webp",
     "url": "https://selenite.cc/projects/bigredbutton",
@@ -4187,7 +4150,7 @@
   },
   {
     "id": "bikechamp",
-    "name": "Bikechamp",
+    "name": "Bike Champ",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/bikechamp/logo.png",
     "url": "https://selenite.cc/projects/bikechamp",
@@ -4372,7 +4335,7 @@
   },
   {
     "id": "blockblast",
-    "name": "Blockblast",
+    "name": "Block Blast",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/blockblast/blockblast.webp",
     "url": "https://selenite.cc/projects/blockblast",
@@ -4409,7 +4372,7 @@
   },
   {
     "id": "blockzappers",
-    "name": "Blockzappers",
+    "name": "Block Zappers",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/blockzappers/logo.png",
     "url": "https://selenite.cc/projects/blockzappers",
@@ -4483,7 +4446,7 @@
   },
   {
     "id": "bloodtournament",
-    "name": "Bloodtournament",
+    "name": "Blood Tournament",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/bloodtournament/blood-tournament.jpg",
     "url": "https://selenite.cc/projects/bloodtournament",
@@ -4520,7 +4483,7 @@
   },
   {
     "id": "bloodmoney",
-    "name": "Bloodmoney",
+    "name": "Blood Money",
     "category": "games",
     "thumbnail": "https://selenite.cc/resources/semag/bloodmoney/logo.png",
     "url": "https://selenite.cc/projects/bloodmoney",
