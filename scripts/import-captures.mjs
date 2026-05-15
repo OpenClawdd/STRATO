@@ -11,6 +11,8 @@ const candidatesPath = path.join(reviewDir, "captured-candidates.json");
 const reportPath = path.join(reviewDir, "captured-report.json");
 const gamesPath = path.join(root, "public", "assets", "games.json");
 const apply = process.argv.includes("--apply");
+const hasPriorReview = fs.existsSync(candidatesPath);
+const priorReview = hasPriorReview ? readJson(candidatesPath) : [];
 
 const NAV_JUNK = new Set([
   "home",
@@ -218,6 +220,41 @@ function safeUrl(value, sourceUrl = "") {
   }
 }
 
+function frogieResolvedHref(rawHref, sourceUrl) {
+  const raw = clean(rawHref).replace(/;$/, "");
+  if (!raw || /^loadthething\(\)$/i.test(raw)) return null;
+
+  const match =
+    raw.match(
+      /^(?:window\.location\.href|window\.open|launch)\s*\(\s*['"]([^'"]+)['"]\s*\)\s*;?$/i,
+    ) ||
+    raw.match(
+      /^window\.location\.href\s*=\s*['"]([^'"]+)['"]\s*;?$/i,
+    );
+
+  if (!match) return null;
+
+  let pathValue = clean(match[1]);
+  if (!pathValue) return null;
+  if (/^https?:\/\//i.test(pathValue)) return pathValue;
+  if (!pathValue.startsWith("/")) pathValue = `/${pathValue}`;
+  if ([
+    "/",
+    "/math/",
+    "/reading/",
+    "/partners.html",
+    "/extras.html",
+  ].includes(pathValue)) {
+    return null;
+  }
+
+  try {
+    return new URL(pathValue, new URL(sourceUrl).origin).toString();
+  } catch {
+    return null;
+  }
+}
+
 function slugFromHref(value, sourceUrl = "") {
   const href = clean(value);
   if (!href) return "";
@@ -275,6 +312,9 @@ function normalizeImage(value) {
 function normalizeCandidateHref(item, sourceUrl, provider) {
   const rawHref = clean(item.href || item.url);
   const slug = slugify(item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title);
+  if (provider === "frogie") {
+    return frogieResolvedHref(rawHref, sourceUrl);
+  }
   if (provider === "selenite" && slug) {
     return `https://selenite.cc/projects/${slug}`;
   }
@@ -317,6 +357,9 @@ function normalizeCapture(raw, file, stats) {
     .map((item, index) => {
       const rawHref = clean(item.href || item.url);
       const href = normalizeCandidateHref(item, sourceUrl, provider);
+      if (provider === "frogie" && !href) {
+        return null;
+      }
       const slug = slugify(item.slug || slugFromHref(rawHref || href, sourceUrl));
       const title = prettifyTitle(item.text || item.title || item.name || item.alt, slug);
       const image = normalizeImage(item.image || item.thumbnail || item.img);
@@ -350,6 +393,7 @@ function normalizeCapture(raw, file, stats) {
           provider,
           sourceUrl,
           sourceEvidence: clean(item.sourceEvidence || item.evidence),
+          rawHref,
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
           href,
@@ -360,7 +404,7 @@ function normalizeCapture(raw, file, stats) {
         },
       };
     })
-    .filter((candidate) => candidate.title || candidate.href || candidate.image);
+    .filter((candidate) => candidate && (candidate.title || candidate.href || candidate.image));
 }
 
 function dedupe(candidates, stats) {
@@ -384,6 +428,14 @@ function uniqueGameId(base, existing) {
   }
   existing.add(id);
   return id;
+}
+
+function reviewKey(candidate) {
+  return [
+    normalizeText(candidate.provider || candidate.source || ""),
+    normalizeHref(candidate.href, candidate.sourceUrl),
+    normalizeText(candidate.title),
+  ].join("|");
 }
 
 fs.mkdirSync(reviewDir, { recursive: true });
@@ -429,7 +481,26 @@ const candidates = dedupe(
   stats,
 );
 
-const providerCounts = candidates.reduce((counts, candidate) => {
+const priorReviewMap = new Map(
+  priorReview
+    .filter((entry) => entry && typeof entry === "object")
+    .map((entry) => [reviewKey(entry), entry]),
+);
+
+const mergedCandidates = candidates.map((candidate) => {
+  const prior = priorReviewMap.get(reviewKey(candidate));
+  if (!prior) return candidate;
+  return {
+    ...candidate,
+    approved: prior.approved ?? candidate.approved,
+    reviewStatus: prior.reviewStatus ?? candidate.reviewStatus,
+    status: prior.status ?? candidate.status,
+    needsReview: prior.needsReview ?? candidate.needsReview,
+    notes: prior.notes ?? candidate.notes,
+  };
+});
+
+const providerCounts = mergedCandidates.reduce((counts, candidate) => {
   counts[candidate.provider] = (counts[candidate.provider] || 0) + 1;
   return counts;
 }, {});
@@ -438,8 +509,8 @@ const report = {
   generatedAt: new Date().toISOString(),
   captureFiles: files.map((file) => path.relative(root, file)),
   rawItems: stats.rawItems,
-  candidatesFound: candidates.length,
-  candidates: candidates.length,
+  candidatesFound: mergedCandidates.length,
+  candidates: mergedCandidates.length,
   duplicatesSkipped: stats.duplicatesSkipped,
   navJunkSkipped: stats.navJunkSkipped,
   nullThumbnails: stats.nullThumbnails,
@@ -450,11 +521,11 @@ const report = {
   note: "Review-first capture output. Selenite candidates are source-backed yellow/external entries; Cherri is screenshot-only.",
 };
 
-fs.writeFileSync(candidatesPath, `${JSON.stringify(candidates, null, 2)}\n`);
+fs.writeFileSync(candidatesPath, `${JSON.stringify(mergedCandidates, null, 2)}\n`);
 fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
 if (apply) {
-  const approved = candidates.filter(
+  const approved = mergedCandidates.filter(
     (candidate) =>
       candidate.approved === true ||
       candidate.reviewStatus === "approved" ||
@@ -492,5 +563,5 @@ if (apply) {
 }
 
 console.log(
-  `[import-captures] ${candidates.length} candidates written to ${path.relative(root, candidatesPath)}${apply ? " (--apply checked approved candidates)" : ""}`,
+  `[import-captures] ${mergedCandidates.length} candidates written to ${path.relative(root, candidatesPath)}${apply ? " (--apply checked approved candidates)" : ""}`,
 );
