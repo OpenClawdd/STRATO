@@ -220,6 +220,33 @@ function safeUrl(value, sourceUrl = "") {
   }
 }
 
+function oneKeySlug(value) {
+  return clean(value)
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 72);
+}
+
+function oneKeyRouteHref(title) {
+  const slug = oneKeySlug(title);
+  if (!slug) return null;
+  return `https://1key.lol/games/game/?id=${slug}`;
+}
+
+function cleanOneKeyTitle(value) {
+  return clean(value)
+    .replace(/^★\s*/u, "")
+    .replace(/\s+\d+(?:\.\d+)?(?:k|m)?\s*Plays?$/iu, "")
+    .replace(/\s+Plays?$/iu, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 function gnMathResolvedHref(rawHref) {
   const raw = clean(rawHref);
   const match = raw.match(/openGame\((\-?\d+)\)/i);
@@ -340,6 +367,9 @@ function normalizeImage(value) {
 function normalizeCandidateHref(item, sourceUrl, provider) {
   const rawHref = clean(item.href || item.url);
   const slug = slugify(item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title);
+  if (provider === "1key") {
+    return oneKeyRouteHref(item.text || item.title || item.name || item.alt);
+  }
   if (provider === "gn-math") {
     return gnMathResolvedHref(rawHref);
   }
@@ -366,6 +396,13 @@ function isNavJunk(item) {
   return !href && !item.image && NAV_JUNK.has(key.replace(/[^a-z]/g, ""));
 }
 
+function isOneKeyCard(item) {
+  const evidence = clean(item.sourceEvidence || item.evidence);
+  const text = clean(item.text || item.title || item.name || item.alt);
+  const image = clean(item.image || item.thumbnail || item.img);
+  return evidence === "onekey-card" && Boolean(text) && Boolean(image);
+}
+
 function isGnMathGameCard(item) {
   const className = clean(item.className);
   const href = clean(item.href);
@@ -379,17 +416,24 @@ function normalizeCapture(raw, file, stats) {
   const sourceUrl = clean(raw.sourceUrl || raw.url || raw.origin || "");
   const capturedAt = clean(raw.capturedAt || raw.timestamp || "");
   const provider = providerFromSource(sourceUrl);
-  const items = Array.isArray(raw.items)
-    ? raw.items
-    : Array.isArray(raw)
-      ? raw
-      : [];
+  let items = [];
+  if (provider === "1key" && Array.isArray(raw.cards)) {
+    items = raw.cards;
+  } else if (Array.isArray(raw.items)) {
+    items = raw.items;
+  } else if (Array.isArray(raw)) {
+    items = raw;
+  }
 
   stats.rawItems += items.length;
 
   return items
     .filter((item) => item && typeof item === "object")
     .filter((item) => {
+      if (provider === "1key" && !isOneKeyCard(item)) {
+        stats.navJunkSkipped += 1;
+        return false;
+      }
       if (provider === "gn-math" && !isGnMathGameCard(item)) {
         stats.navJunkSkipped += 1;
         return false;
@@ -401,6 +445,9 @@ function normalizeCapture(raw, file, stats) {
     .map((item, index) => {
       const rawHref = clean(item.href || item.url);
       const href = normalizeCandidateHref(item, sourceUrl, provider);
+      if (provider === "1key" && !href) {
+        return null;
+      }
       if (provider === "gn-math" && !href) {
         return null;
       }
@@ -412,9 +459,13 @@ function normalizeCapture(raw, file, stats) {
       const titleSource =
         provider === "gn-math"
           ? cleanGnMathTitle(item.text || item.title || item.name || item.alt)
+          : provider === "1key"
+            ? cleanOneKeyTitle(item.text || item.title || item.name || item.alt)
           : item.text || item.title || item.name || item.alt;
       const title = provider === "gn-math"
         ? prettifyTitle(titleSource, slug)
+        : provider === "1key"
+          ? prettifyTitle(titleSource, slug)
         : prettifyTitle(titleSource, slug);
       const image = normalizeImage(item.image || item.thumbnail || item.img);
       const idBase = slugify(title || slug || href || `${path.basename(file)}-${index}`);
@@ -447,8 +498,10 @@ function normalizeCapture(raw, file, stats) {
           provider,
           sourceUrl,
           sourceEvidence: clean(item.sourceEvidence || item.evidence),
-          rawHref,
+          rawHref: provider === "1key" ? null : rawHref,
           gnMathId,
+          generatedFromTitle: provider === "1key" ? true : undefined,
+          routePattern: provider === "1key" ? "/games/game/?id=<slug>" : undefined,
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
           href,

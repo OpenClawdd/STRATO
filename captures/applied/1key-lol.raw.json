@@ -1,0 +1,4498 @@
+{
+  "sourceUrl": "https://1key.lol/games/",
+  "title": "1key",
+  "capturedAt": "2026-05-15T22:38:14.705Z",
+  "count": 449,
+  "items": [
+    {
+      "index": 1,
+      "text": "",
+      "href": "https://1key.lol/home/",
+      "image": "https://1key.lol/images/ui/key-turning.gif",
+      "alt": "",
+      "className": "proto-rail-brand pt-5",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 4,
+      "text": "Games",
+      "href": "https://1key.lol/games/",
+      "image": null,
+      "alt": "",
+      "className": "proto-rail-link w-10 px-0 py-2 proto-rail-link-active",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 5,
+      "text": "",
+      "href": "https://1key.lol/games/",
+      "image": null,
+      "alt": "",
+      "className": "[object SVGAnimatedString]",
+      "tag": "svg",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 6,
+      "text": "Apps",
+      "href": "https://1key.lol/apps/",
+      "image": null,
+      "alt": "",
+      "className": "proto-rail-link w-10 px-0 py-2",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 7,
+      "text": "Links",
+      "href": "https://1key.lol/links/",
+      "image": null,
+      "alt": "",
+      "className": "proto-rail-link w-10 px-0 py-2",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 8,
+      "text": "Proxy",
+      "href": "https://1key.lol/proxy/",
+      "image": null,
+      "alt": "",
+      "className": "proto-rail-link w-10 px-0 py-2",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 9,
+      "text": "Data",
+      "href": "https://1key.lol/data/",
+      "image": null,
+      "alt": "",
+      "className": "proto-rail-link w-10 px-0 py-2",
+      "tag": "A",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 19,
+      "text": "223/223 games loaded",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "rounded-2xl border border-border/70 bg-card/18 p-4 sm:p-5 backdrop-blur-xl",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 20,
+      "text": "Favorite 0 Favorite some games to pin them here.",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "rounded-2xl border border-border/70 bg-card/18 p-4 sm:p-5 backdrop-blur-xl",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 21,
+      "text": "10 Minutes Till Dawn",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/10-minutes-till-dawn.webp",
+      "alt": "10 Minutes Till Dawn",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 23,
+      "text": "Favorite 10 Minutes Till Dawn",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 24,
+      "text": "12 Mini Battles",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/12-mini-battles.webp",
+      "alt": "12 Mini Battles",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 26,
+      "text": "Favorite 12 Mini Battles",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 27,
+      "text": "1v1.lol",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/1v1-lol.webp",
+      "alt": "1v1.lol",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 29,
+      "text": "Favorite 1v1.lol",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 30,
+      "text": "2048",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/2048.png",
+      "alt": "2048",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 32,
+      "text": "Favorite 2048",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 33,
+      "text": "A Small World Cup",
+      "href": null,
+      "image": "https://1key.lol/images/asmallworldcup.png",
+      "alt": "A Small World Cup",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 35,
+      "text": "Favorite A Small World Cup",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 36,
+      "text": "Agar.io Lite",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/agarlite.jpg",
+      "alt": "Agar.io Lite",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 38,
+      "text": "Favorite Agar.io Lite",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 39,
+      "text": "Ages of Conflict",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ages-of-conflict.webp",
+      "alt": "Ages of Conflict",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 41,
+      "text": "Favorite Ages of Conflict",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 42,
+      "text": "Amanda the Adventurer",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/amanda-the-adventurer.webp",
+      "alt": "Amanda the Adventurer",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 44,
+      "text": "Favorite Amanda the Adventurer",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 45,
+      "text": "Among Us",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/amongus.jpg",
+      "alt": "Among Us",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 47,
+      "text": "Favorite Among Us",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 48,
+      "text": "Andy's Apple Farm",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/andys-apple-farm.webp",
+      "alt": "Andy's Apple Farm",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 50,
+      "text": "Favorite Andy's Apple Farm",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 51,
+      "text": "Angry Birds",
+      "href": null,
+      "image": "https://1key.lol/images/bird.webp",
+      "alt": "Angry Birds",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 53,
+      "text": "Favorite Angry Birds",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 54,
+      "text": "Aqua Park",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/aquapark.png",
+      "alt": "Aqua Park",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 56,
+      "text": "Favorite Aqua Park",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 57,
+      "text": "Awesome Tanks 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/awesome-tanks-2.webp",
+      "alt": "Awesome Tanks 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 59,
+      "text": "Favorite Awesome Tanks 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 60,
+      "text": "Babel Tower",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/babeltower.png",
+      "alt": "Babel Tower",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 62,
+      "text": "Favorite Babel Tower",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 63,
+      "text": "Baby Sniper In Vietnam",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/babysniper.webp",
+      "alt": "Baby Sniper In Vietnam",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 65,
+      "text": "Favorite Baby Sniper In Vietnam",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 69,
+      "text": "Bacon May Die",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bacon-may-die.webp",
+      "alt": "Bacon May Die",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 71,
+      "text": "Favorite Bacon May Die",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 72,
+      "text": "Bad Parenting 1",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bad-parenting-1.webp",
+      "alt": "Bad Parenting 1",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 74,
+      "text": "Favorite Bad Parenting 1",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 75,
+      "text": "Bad Time Simulator",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bad-time-simulator.webp",
+      "alt": "Bad Time Simulator",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 77,
+      "text": "Favorite Bad Time Simulator",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 78,
+      "text": "Balatro",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/balatro.webp",
+      "alt": "Balatro",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 80,
+      "text": "Favorite Balatro",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 81,
+      "text": "Bank Robbery 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bank-robbery-3.webp",
+      "alt": "Bank Robbery 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 83,
+      "text": "Favorite Bank Robbery 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 84,
+      "text": "Bart Blast",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bart-blast-cover.png",
+      "alt": "Bart Blast",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 86,
+      "text": "Favorite Bart Blast",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 87,
+      "text": "Baseball Bros",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/baseball-bros.webp",
+      "alt": "Baseball Bros",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 89,
+      "text": "Favorite Baseball Bros",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 90,
+      "text": "Basketball Random",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/basketball-random.png",
+      "alt": "Basketball Random",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 92,
+      "text": "Favorite Basketball Random",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 93,
+      "text": "Basketball Stars",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/basketball-stars.png",
+      "alt": "Basketball Stars",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 95,
+      "text": "Favorite Basketball Stars",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 96,
+      "text": "Ben 10 Omniverse",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ogom.jpg",
+      "alt": "Ben 10 Omniverse",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 98,
+      "text": "Favorite Ben 10 Omniverse",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 99,
+      "text": "Ben 10 Protector of Earth",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/protecotr.webp",
+      "alt": "Ben 10 Protector of Earth",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 101,
+      "text": "Favorite Ben 10 Protector of Earth",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 102,
+      "text": "Bendy and the Ink Machine",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bendy-and-the-ink-machine.webp",
+      "alt": "Bendy and the Ink Machine",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 104,
+      "text": "Favorite Bendy and the Ink Machine",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 105,
+      "text": "Binding of Isaac Wrath of The Lamb",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bidningofissac.webp",
+      "alt": "Binding of Isaac Wrath of The Lamb",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 107,
+      "text": "Favorite Binding of Isaac Wrath of The Lamb",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 108,
+      "text": "Bit Life",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bot-life.png",
+      "alt": "Bit Life",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 110,
+      "text": "Favorite Bit Life",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 111,
+      "text": "BitPlanes",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bitplanes.png",
+      "alt": "BitPlanes",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 113,
+      "text": "Favorite BitPlanes",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 114,
+      "text": "BlackJack",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/blackjack.webp",
+      "alt": "BlackJack",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 116,
+      "text": "Favorite BlackJack",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 117,
+      "text": "Blade Ball",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/blade-ball.webp",
+      "alt": "Blade Ball",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 119,
+      "text": "Favorite Blade Ball",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 120,
+      "text": "Block Blast",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/block-blast.webp",
+      "alt": "Block Blast",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 122,
+      "text": "Favorite Block Blast",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 123,
+      "text": "BLOODMONEY!",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bloodmoney.png",
+      "alt": "BLOODMONEY!",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 125,
+      "text": "Favorite BLOODMONEY!",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 126,
+      "text": "Bloons TD 4",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bloons-td-4.png",
+      "alt": "Bloons TD 4",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 128,
+      "text": "Favorite Bloons TD 4",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 129,
+      "text": "Bloxorz",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bloxorz.webp",
+      "alt": "Bloxorz",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 131,
+      "text": "Favorite Bloxorz",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 132,
+      "text": "Bob The Robber 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bob-the-robber-2.webp",
+      "alt": "Bob The Robber 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 134,
+      "text": "Favorite Bob The Robber 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 135,
+      "text": "Boxing Random",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/boxing-random.webp",
+      "alt": "Boxing Random",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 137,
+      "text": "Favorite Boxing Random",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 138,
+      "text": "Bridge Race",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bridge-race.avif",
+      "alt": "Bridge Race",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 140,
+      "text": "Favorite Bridge Race",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 141,
+      "text": "Brotato",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/brooo.png",
+      "alt": "Brotato",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 143,
+      "text": "Favorite Brotato",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 144,
+      "text": "Buckshot Roulette",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/buckshot-roulette.png",
+      "alt": "Buckshot Roulette",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 146,
+      "text": "Favorite Buckshot Roulette",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 147,
+      "text": "BuildNow.gg",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/buildnow-gg.png",
+      "alt": "BuildNow.gg",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 149,
+      "text": "Favorite BuildNow.gg",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 150,
+      "text": "Bust a Loop",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/bust-a-loop.webp",
+      "alt": "Bust a Loop",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 152,
+      "text": "Favorite Bust a Loop",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 153,
+      "text": "Celeste",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/celeste.png",
+      "alt": "Celeste",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 155,
+      "text": "Favorite Celeste",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 156,
+      "text": "Cell Machine",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cell-machine-cover.png",
+      "alt": "Cell Machine",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 158,
+      "text": "Favorite Cell Machine",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 159,
+      "text": "Cheese Rolling",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cheese-rolling.png",
+      "alt": "Cheese Rolling",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 161,
+      "text": "Favorite Cheese Rolling",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 162,
+      "text": "Christmas Massacre",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/christmas-massacre-cover.png",
+      "alt": "Christmas Massacre",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 164,
+      "text": "Favorite Christmas Massacre",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 165,
+      "text": "Clash Of Vikings",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/clash-of-vikings.webp",
+      "alt": "Clash Of Vikings",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 167,
+      "text": "Favorite Clash Of Vikings",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 168,
+      "text": "Class of '09",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/class-of-09.webp",
+      "alt": "Class of '09",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 170,
+      "text": "Favorite Class of '09",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 171,
+      "text": "Cloverpit",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cloverpit.jpeg",
+      "alt": "Cloverpit",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 173,
+      "text": "Favorite Cloverpit",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 174,
+      "text": "Cluster Rush",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cluster-rush.webp",
+      "alt": "Cluster Rush",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 176,
+      "text": "Favorite Cluster Rush",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 177,
+      "text": "Code Editor",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/codeeditor.png",
+      "alt": "Code Editor",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 179,
+      "text": "Favorite Code Editor",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 180,
+      "text": "Cookie Clicker",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cookie-clicker.webp",
+      "alt": "Cookie Clicker",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 182,
+      "text": "Favorite Cookie Clicker",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 183,
+      "text": "Cooking Mama",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cooking-mama.webp",
+      "alt": "Cooking Mama",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 185,
+      "text": "Favorite Cooking Mama",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 186,
+      "text": "Core Ball",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/core-ball.png",
+      "alt": "Core Ball",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 188,
+      "text": "Favorite Core Ball",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 189,
+      "text": "Crazy Cattle 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/crazy-cattle-3d.webp",
+      "alt": "Crazy Cattle 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 191,
+      "text": "Favorite Crazy Cattle 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 192,
+      "text": "Crazy Chicken 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/crazy-chicken-3d.webp",
+      "alt": "Crazy Chicken 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 194,
+      "text": "Favorite Crazy Chicken 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 195,
+      "text": "Crazy Kitty 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/crazy-kitty-3d.webp",
+      "alt": "Crazy Kitty 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 197,
+      "text": "Favorite Crazy Kitty 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 198,
+      "text": "Crossy Road",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/crossy-road.webp",
+      "alt": "Crossy Road",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 200,
+      "text": "Favorite Crossy Road",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 201,
+      "text": "CSGO Clicker",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/csgo-clicker.webp",
+      "alt": "CSGO Clicker",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 203,
+      "text": "Favorite CSGO Clicker",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 204,
+      "text": "Cube Field",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cube-field.webp",
+      "alt": "Cube Field",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 206,
+      "text": "Favorite Cube Field",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 207,
+      "text": "Cuphead",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/cuphead.webp",
+      "alt": "Cuphead",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 209,
+      "text": "Favorite Cuphead",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 210,
+      "text": "Death Run 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/death-run-3d.png",
+      "alt": "Death Run 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 212,
+      "text": "Favorite Death Run 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 213,
+      "text": "Deltarune",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/deltarune.webp",
+      "alt": "Deltarune",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 215,
+      "text": "Favorite Deltarune",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 216,
+      "text": "Deltatraveler",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/deltatraveler.webp",
+      "alt": "Deltatraveler",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 218,
+      "text": "Favorite Deltatraveler",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 219,
+      "text": "Destroy The Car 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/destroy-the-car-3d.webp",
+      "alt": "Destroy The Car 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 221,
+      "text": "Favorite Destroy The Car 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 222,
+      "text": "Dice A Million",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/dice-a-million.png",
+      "alt": "Dice A Million",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 224,
+      "text": "Favorite Dice A Million",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 225,
+      "text": "Doge Miner",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/doge-miner.webp",
+      "alt": "Doge Miner",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 227,
+      "text": "Favorite Doge Miner",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 228,
+      "text": "Draw Joust",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/draw-joust.webp",
+      "alt": "Draw Joust",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 230,
+      "text": "Favorite Draw Joust",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 231,
+      "text": "Drift Boss",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/drift-boss.png",
+      "alt": "Drift Boss",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 233,
+      "text": "Favorite Drift Boss",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 234,
+      "text": "Drift Hunters",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/drift-hunters.png",
+      "alt": "Drift Hunters",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 236,
+      "text": "Favorite Drift Hunters",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 237,
+      "text": "Drive Mad",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/drive-mad.webp",
+      "alt": "Drive Mad",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 239,
+      "text": "Favorite Drive Mad",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 240,
+      "text": "Dungeons & Degenerate Gamblers",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/dungeons-degenerate-gamblers.jpeg",
+      "alt": "Dungeons & Degenerate Gamblers",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 242,
+      "text": "Favorite Dungeons & Degenerate Gamblers",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 243,
+      "text": "Elastic Man",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/elastic-man.webp",
+      "alt": "Elastic Man",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 245,
+      "text": "Favorite Elastic Man",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 246,
+      "text": "Endoparasitic",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/endoparasitic.webp",
+      "alt": "Endoparasitic",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 248,
+      "text": "Favorite Endoparasitic",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 249,
+      "text": "Escape Road 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/escape-road-2.webp",
+      "alt": "Escape Road 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 251,
+      "text": "Favorite Escape Road 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 252,
+      "text": "Escape Road 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/escape-road-3.png",
+      "alt": "Escape Road 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 254,
+      "text": "Favorite Escape Road 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 255,
+      "text": "Escape Road City 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/escape-road-city-2.png",
+      "alt": "Escape Road City 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 257,
+      "text": "Favorite Escape Road City 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 258,
+      "text": "Evil Glitch",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/evil-glitch.webp",
+      "alt": "Evil Glitch",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 260,
+      "text": "Favorite Evil Glitch",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 261,
+      "text": "Fear & Hunger",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fear-and-hunger.webp",
+      "alt": "Fear & Hunger",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 263,
+      "text": "Favorite Fear & Hunger",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 267,
+      "text": "Five Nights at Epstein's",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/five-nights-at-epsteins.webp",
+      "alt": "Five Nights at Epstein's",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 269,
+      "text": "Favorite Five Nights at Epstein's",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 270,
+      "text": "Flappy Bird",
+      "href": null,
+      "image": "https://1key.lol/images/flap.webp",
+      "alt": "Flappy Bird",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 272,
+      "text": "Favorite Flappy Bird",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 273,
+      "text": "Flight Simulator",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/flight-simulator.png",
+      "alt": "Flight Simulator",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 275,
+      "text": "Favorite Flight Simulator",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 276,
+      "text": "FNAF 1",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf-1.avif",
+      "alt": "FNAF 1",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 278,
+      "text": "Favorite FNAF 1",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 279,
+      "text": "FNAF 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf-2.webp",
+      "alt": "FNAF 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 281,
+      "text": "Favorite FNAF 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 282,
+      "text": "FNAF 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf-3.webp",
+      "alt": "FNAF 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 284,
+      "text": "Favorite FNAF 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 285,
+      "text": "FNAF 4",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf-4.webp",
+      "alt": "FNAF 4",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 287,
+      "text": "Favorite FNAF 4",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 288,
+      "text": "FNAF Sister Location",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf.webp",
+      "alt": "FNAF Sister Location",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 290,
+      "text": "Favorite FNAF Sister Location",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 291,
+      "text": "FNAF Ultimate Custom Night",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fnaf-ucn.webp",
+      "alt": "FNAF Ultimate Custom Night",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 293,
+      "text": "Favorite FNAF Ultimate Custom Night",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 294,
+      "text": "Football Bros",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/football-bros.webp",
+      "alt": "Football Bros",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 296,
+      "text": "Favorite Football Bros",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 297,
+      "text": "Fruit Ninja",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fruit-ninja.webp",
+      "alt": "Fruit Ninja",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 299,
+      "text": "Favorite Fruit Ninja",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 300,
+      "text": "Funny Shooter 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/funny-shooter-2.webp",
+      "alt": "Funny Shooter 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 302,
+      "text": "Favorite Funny Shooter 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 303,
+      "text": "Fused 240",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/fused240-cover.png",
+      "alt": "Fused 240",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 305,
+      "text": "Favorite Fused 240",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 306,
+      "text": "Geometry Dash",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/geometry-dash.png",
+      "alt": "Geometry Dash",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 308,
+      "text": "Favorite Geometry Dash",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 309,
+      "text": "Geometry Dash Subzero",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/geometry-dash-subzero.webp",
+      "alt": "Geometry Dash Subzero",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 311,
+      "text": "Favorite Geometry Dash Subzero",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 312,
+      "text": "Get Yoked",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/get-yoked.webp",
+      "alt": "Get Yoked",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 314,
+      "text": "Favorite Get Yoked",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 315,
+      "text": "Getting Over It",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/getting-over-it.webp",
+      "alt": "Getting Over It",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 317,
+      "text": "Favorite Getting Over It",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 318,
+      "text": "Gladihoppers",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/gladihoppers.webp",
+      "alt": "Gladihoppers",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 320,
+      "text": "Favorite Gladihoppers",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 321,
+      "text": "Goblin Goopmaxxing",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/goblin-goopmaxxing.jpg",
+      "alt": "Goblin Goopmaxxing",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 323,
+      "text": "Favorite Goblin Goopmaxxing",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 324,
+      "text": "Google Baseball",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/google-baseball.webp",
+      "alt": "Google Baseball",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 326,
+      "text": "Favorite Google Baseball",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 327,
+      "text": "Google Dino",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/google-dino.webp",
+      "alt": "Google Dino",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 329,
+      "text": "Favorite Google Dino",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 330,
+      "text": "Gorilla Tag",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/gorilla-tag.webp",
+      "alt": "Gorilla Tag",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 332,
+      "text": "Favorite Gorilla Tag",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 333,
+      "text": "Grand Theft Auto: Vice City",
+      "href": null,
+      "image": "https://1key.lol/images/gta.png",
+      "alt": "Grand Theft Auto: Vice City",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 335,
+      "text": "Favorite Grand Theft Auto: Vice City",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 336,
+      "text": "Granny",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/granny.png",
+      "alt": "Granny",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 338,
+      "text": "Favorite Granny",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 339,
+      "text": "Growden.io",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/growden-io.webp",
+      "alt": "Growden.io",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 341,
+      "text": "Favorite Growden.io",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 342,
+      "text": "Gun Spin",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/gun-spin.png",
+      "alt": "Gun Spin",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 344,
+      "text": "Favorite Gun Spin",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 345,
+      "text": "Half Life",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/half-life.webp",
+      "alt": "Half Life",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 347,
+      "text": "Favorite Half Life",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 348,
+      "text": "Happy Wheels",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/happy-wheels.webp",
+      "alt": "Happy Wheels",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 350,
+      "text": "Favorite Happy Wheels",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 351,
+      "text": "Highway Racer 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/highway-racer-2.webp",
+      "alt": "Highway Racer 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 353,
+      "text": "Favorite Highway Racer 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 354,
+      "text": "Hollow Knight",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/hollow-knight.png",
+      "alt": "Hollow Knight",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 356,
+      "text": "Favorite Hollow Knight",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 357,
+      "text": "Hollow Knight: Silksong",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/hollow-knight-silksong.png",
+      "alt": "Hollow Knight: Silksong",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 359,
+      "text": "Favorite Hollow Knight: Silksong",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 360,
+      "text": "Hotline Miami",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/hotline-miami.webp",
+      "alt": "Hotline Miami",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 362,
+      "text": "Favorite Hotline Miami",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 363,
+      "text": "Idle Breakout",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/idle-breakout.png",
+      "alt": "Idle Breakout",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 365,
+      "text": "Favorite Idle Breakout",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 366,
+      "text": "Idle Dice",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/idle-dice.png",
+      "alt": "Idle Dice",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 368,
+      "text": "Favorite Idle Dice",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 369,
+      "text": "Idle Mining Empire",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/idle-mining-empire.webp",
+      "alt": "Idle Mining Empire",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 371,
+      "text": "Favorite Idle Mining Empire",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 372,
+      "text": "Iron Lung",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/iron-lung.webp",
+      "alt": "Iron Lung",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 374,
+      "text": "Favorite Iron Lung",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 375,
+      "text": "Iron Snout",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/iron-snout.webp",
+      "alt": "Iron Snout",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 377,
+      "text": "Favorite Iron Snout",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 378,
+      "text": "Jelly Drift",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/jelly-drift.webp",
+      "alt": "Jelly Drift",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 380,
+      "text": "Favorite Jelly Drift",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 381,
+      "text": "Jelly Mario",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/jelly-mario.png",
+      "alt": "Jelly Mario",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 383,
+      "text": "Favorite Jelly Mario",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 384,
+      "text": "Johnny Trigger",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/johnny-trigger.webp",
+      "alt": "Johnny Trigger",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 386,
+      "text": "Favorite Johnny Trigger",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 387,
+      "text": "Karlson",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/karlson.webp",
+      "alt": "Karlson",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 389,
+      "text": "Favorite Karlson",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 390,
+      "text": "Kindergarten",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/kindergarten.webp",
+      "alt": "Kindergarten",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 392,
+      "text": "Favorite Kindergarten",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 393,
+      "text": "Kindergarten 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/kindergarten-2.png",
+      "alt": "Kindergarten 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 395,
+      "text": "Favorite Kindergarten 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 396,
+      "text": "Kindergarten 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/kindergarten-3.png",
+      "alt": "Kindergarten 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 398,
+      "text": "Favorite Kindergarten 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 399,
+      "text": "Legend Of Zelda",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/legend-of-zelda.webp",
+      "alt": "Legend Of Zelda",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 401,
+      "text": "Favorite Legend Of Zelda",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 402,
+      "text": "Legend of Zelda Ocarina of Time",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/legend-of-zelda-ocarina-of-time.webp",
+      "alt": "Legend of Zelda Ocarina of Time",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 404,
+      "text": "Favorite Legend of Zelda Ocarina of Time",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 405,
+      "text": "Legend Of Zelda Phantom Hourglass",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/legend-of-zelda-phantom-hourglass.jpg",
+      "alt": "Legend Of Zelda Phantom Hourglass",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 407,
+      "text": "Favorite Legend Of Zelda Phantom Hourglass",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 408,
+      "text": "Legend Of Zelda The Minish Cap",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/zelda-minish-cap.jpg",
+      "alt": "Legend Of Zelda The Minish Cap",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 410,
+      "text": "Favorite Legend Of Zelda The Minish Cap",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 411,
+      "text": "Legend Of Zelda The Spirit Tracks",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/legend-of-zelda-the-spirit-tracks.jpg",
+      "alt": "Legend Of Zelda The Spirit Tracks",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 413,
+      "text": "Favorite Legend Of Zelda The Spirit Tracks",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 414,
+      "text": "Madalin Stunt Cars 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/car.png",
+      "alt": "Madalin Stunt Cars 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 416,
+      "text": "Favorite Madalin Stunt Cars 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 417,
+      "text": "Masked Forces Unlimited",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/masked-forces-unlimited.webp",
+      "alt": "Masked Forces Unlimited",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 419,
+      "text": "Favorite Masked Forces Unlimited",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 420,
+      "text": "Melon Playground",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/melon-playground.webp",
+      "alt": "Melon Playground",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 422,
+      "text": "Favorite Melon Playground",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 423,
+      "text": "Midnight Shift",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/midnight-shift.webp",
+      "alt": "Midnight Shift",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 425,
+      "text": "Favorite Midnight Shift",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 426,
+      "text": "Minecraft 1.12.2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/minecraft.png",
+      "alt": "Minecraft 1.12.2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 428,
+      "text": "Favorite Minecraft 1.12.2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 429,
+      "text": "Minecraft 1.8.8",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/minecraft-1-8-8.png",
+      "alt": "Minecraft 1.8.8",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 431,
+      "text": "Favorite Minecraft 1.8.8",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 432,
+      "text": "Minecraft Pocket Edition",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/minecraft-pocket-edition.jpg",
+      "alt": "Minecraft Pocket Edition",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 434,
+      "text": "Favorite Minecraft Pocket Edition",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 435,
+      "text": "Minesweeper Mania",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/minesweeper-mania.webp",
+      "alt": "Minesweeper Mania",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 437,
+      "text": "Favorite Minesweeper Mania",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 438,
+      "text": "Monkey Mart",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/monkey-mart.png",
+      "alt": "Monkey Mart",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 440,
+      "text": "Favorite Monkey Mart",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 441,
+      "text": "Monster Tracks",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/monster-tracks.webp",
+      "alt": "Monster Tracks",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 443,
+      "text": "Favorite Monster Tracks",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 444,
+      "text": "Moto X3M 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/moto-x3m-3.webp",
+      "alt": "Moto X3M 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 446,
+      "text": "Favorite Moto X3M 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 447,
+      "text": "Moto X3M Spooky",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/moto-x3m-spooky.webp",
+      "alt": "Moto X3M Spooky",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 449,
+      "text": "Favorite Moto X3M Spooky",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 450,
+      "text": "Mountain Bike Runner",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/mountain-bike-runner.webp",
+      "alt": "Mountain Bike Runner",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 452,
+      "text": "Favorite Mountain Bike Runner",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 453,
+      "text": "My Friend Pedro",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/my-friend-pedro.webp",
+      "alt": "My Friend Pedro",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 455,
+      "text": "Favorite My Friend Pedro",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 456,
+      "text": "My Friend Pedro Arena",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/arena.jpg",
+      "alt": "My Friend Pedro Arena",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 458,
+      "text": "Favorite My Friend Pedro Arena",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 459,
+      "text": "Offroad Mountain Bike",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/offroad-mountain-bike.png",
+      "alt": "Offroad Mountain Bike",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 461,
+      "text": "Favorite Offroad Mountain Bike",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 462,
+      "text": "Omori",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/omori.png",
+      "alt": "Omori",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 464,
+      "text": "Favorite Omori",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 465,
+      "text": "OvO",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ovo.avif",
+      "alt": "OvO",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 467,
+      "text": "Favorite OvO",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 468,
+      "text": "Papa's Bakeria",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/papas-bakeria.webp",
+      "alt": "Papa's Bakeria",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 470,
+      "text": "Favorite Papa's Bakeria",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 471,
+      "text": "Papa's Cheeseria",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/papas-cheeseria.webp",
+      "alt": "Papa's Cheeseria",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 473,
+      "text": "Favorite Papa's Cheeseria",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 474,
+      "text": "Papa's Cupcakeria",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/papas-cupcakeria.webp",
+      "alt": "Papa's Cupcakeria",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 476,
+      "text": "Favorite Papa's Cupcakeria",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 477,
+      "text": "Papa's Sushiria",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/papas-sushiria.jpeg",
+      "alt": "Papa's Sushiria",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 479,
+      "text": "Favorite Papa's Sushiria",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 480,
+      "text": "Paper.io 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/paper-io-2.webp",
+      "alt": "Paper.io 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 482,
+      "text": "Favorite Paper.io 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 483,
+      "text": "People Playground",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/people-playground.png",
+      "alt": "People Playground",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 485,
+      "text": "Favorite People Playground",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 486,
+      "text": "Plants vs Zombies",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/plants-vs-deads.webp",
+      "alt": "Plants vs Zombies",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 488,
+      "text": "Favorite Plants vs Zombies",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 489,
+      "text": "Please Dont Touch Anything",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/please-dont-touch-anything.jpg",
+      "alt": "Please Dont Touch Anything",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 491,
+      "text": "Favorite Please Dont Touch Anything",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 492,
+      "text": "Plinko",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/plinko.webp",
+      "alt": "Plinko",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 494,
+      "text": "Favorite Plinko",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 495,
+      "text": "Plinko With Cheats",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/modded-plinko.webp",
+      "alt": "Plinko With Cheats",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 497,
+      "text": "Favorite Plinko With Cheats",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 498,
+      "text": "Poly Track",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/poly-track.png",
+      "alt": "Poly Track",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 500,
+      "text": "Favorite Poly Track",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 501,
+      "text": "Postal",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/postal.jpg",
+      "alt": "Postal",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 503,
+      "text": "Favorite Postal",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 504,
+      "text": "R.E.P.O",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/repo.webp",
+      "alt": "R.E.P.O",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 506,
+      "text": "Favorite R.E.P.O",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 507,
+      "text": "Ragdoll Archers",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ragdoll-archers.png",
+      "alt": "Ragdoll Archers",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 509,
+      "text": "Favorite Ragdoll Archers",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 510,
+      "text": "Ragdoll Hit",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ragdoll-hit.avif",
+      "alt": "Ragdoll Hit",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 512,
+      "text": "Favorite Ragdoll Hit",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 513,
+      "text": "RE:RUN",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/re-run.webp",
+      "alt": "RE:RUN",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 515,
+      "text": "Favorite RE:RUN",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 516,
+      "text": "Recoil",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/recoil.webp",
+      "alt": "Recoil",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 518,
+      "text": "Favorite Recoil",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 519,
+      "text": "Resident Evil 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/resident-evil-3.avif",
+      "alt": "Resident Evil 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 521,
+      "text": "Favorite Resident Evil 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 522,
+      "text": "Retro Bowl",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/old-bowl.png",
+      "alt": "Retro Bowl",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 524,
+      "text": "Favorite Retro Bowl",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 525,
+      "text": "Retro Bowl College",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/old-bowl-college.png",
+      "alt": "Retro Bowl College",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 527,
+      "text": "Favorite Retro Bowl College",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 528,
+      "text": "Rio Rex",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/rio-rex.webp",
+      "alt": "Rio Rex",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 530,
+      "text": "Favorite Rio Rex",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 531,
+      "text": "Rogue Sergeant",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/rogue-sergeant-the-final-operation.webp",
+      "alt": "Rogue Sergeant",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 533,
+      "text": "Favorite Rogue Sergeant",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 534,
+      "text": "Rolly Vortex",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/rolly-vortex.webp",
+      "alt": "Rolly Vortex",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 536,
+      "text": "Favorite Rolly Vortex",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 537,
+      "text": "Rooftop Snipers",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/rooftop-snipers.png",
+      "alt": "Rooftop Snipers",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 539,
+      "text": "Favorite Rooftop Snipers",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 540,
+      "text": "Roulette Hero",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/hero.png",
+      "alt": "Roulette Hero",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 542,
+      "text": "Favorite Roulette Hero",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 543,
+      "text": "Run 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/run-3.webp",
+      "alt": "Run 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 545,
+      "text": "Favorite Run 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 546,
+      "text": "Saul Goodman Run",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/saulgoodam.png",
+      "alt": "Saul Goodman Run",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 548,
+      "text": "Favorite Saul Goodman Run",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 549,
+      "text": "SchoolBoy Runaway",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/schoolboy-runaway.png",
+      "alt": "SchoolBoy Runaway",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 551,
+      "text": "Favorite SchoolBoy Runaway",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 552,
+      "text": "Scrap Metal 3",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/scrap-metal-3.webp",
+      "alt": "Scrap Metal 3",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 554,
+      "text": "Favorite Scrap Metal 3",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 555,
+      "text": "Shred Sauce",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/shred-sauce-cover.png",
+      "alt": "Shred Sauce",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 557,
+      "text": "Favorite Shred Sauce",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 558,
+      "text": "Side Effects",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/side-effects.webp",
+      "alt": "Side Effects",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 560,
+      "text": "Favorite Side Effects",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 564,
+      "text": "Slender",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/slender.jpg",
+      "alt": "Slender",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 566,
+      "text": "Favorite Slender",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 567,
+      "text": "Slendy Tubbies",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/slendy-tubbies.webp",
+      "alt": "Slendy Tubbies",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 569,
+      "text": "Favorite Slendy Tubbies",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 570,
+      "text": "Slime Rancher",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/slime-rancher.webp",
+      "alt": "Slime Rancher",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 572,
+      "text": "Favorite Slime Rancher",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 573,
+      "text": "Slope",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/slope.png",
+      "alt": "Slope",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 575,
+      "text": "Favorite Slope",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 576,
+      "text": "Slow Roads",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/slow-roads.webp",
+      "alt": "Slow Roads",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 578,
+      "text": "Favorite Slow Roads",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 579,
+      "text": "Snow Rider 3D",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/snow-rider-3d.png",
+      "alt": "Snow Rider 3D",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 581,
+      "text": "Favorite Snow Rider 3D",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 582,
+      "text": "Soccer Random",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/soccer-random.webp",
+      "alt": "Soccer Random",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 584,
+      "text": "Favorite Soccer Random",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 585,
+      "text": "Solar Smash",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/solar-smash.png",
+      "alt": "Solar Smash",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 587,
+      "text": "Favorite Solar Smash",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 588,
+      "text": "Soundboard",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/soundboard.webp",
+      "alt": "Soundboard",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 590,
+      "text": "Favorite Soundboard",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 591,
+      "text": "Space Waves",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/space-waves.webp",
+      "alt": "Space Waves",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 593,
+      "text": "Favorite Space Waves",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 594,
+      "text": "Spacebar Clicker",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/spacebar-clicker.webp",
+      "alt": "Spacebar Clicker",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 596,
+      "text": "Favorite Spacebar Clicker",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 597,
+      "text": "Stackball io",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/stackball-io.webp",
+      "alt": "Stackball io",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 599,
+      "text": "Favorite Stackball io",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 600,
+      "text": "Stake Mines",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/stake-mines.webp",
+      "alt": "Stake Mines",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 602,
+      "text": "Favorite Stake Mines",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 603,
+      "text": "Stickman Hook",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/stickman-hook.webp",
+      "alt": "Stickman Hook",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 605,
+      "text": "Favorite Stickman Hook",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 606,
+      "text": "Subway Surfers",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/subway-surfers.png",
+      "alt": "Subway Surfers",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 608,
+      "text": "Favorite Subway Surfers",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 609,
+      "text": "Suika Game",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/suika-game.webp",
+      "alt": "Suika Game",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 611,
+      "text": "Favorite Suika Game",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 612,
+      "text": "Superhot",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/superhot.webp",
+      "alt": "Superhot",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 614,
+      "text": "Favorite Superhot",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 615,
+      "text": "Survival Race Arena",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/survival-race-arena.png",
+      "alt": "Survival Race Arena",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 617,
+      "text": "Favorite Survival Race Arena",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 618,
+      "text": "Survivor.io",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/survivor-io.webp",
+      "alt": "Survivor.io",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 620,
+      "text": "Favorite Survivor.io",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 621,
+      "text": "Tanuki Sunset",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/tanuki-sunset.webp",
+      "alt": "Tanuki Sunset",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 623,
+      "text": "Favorite Tanuki Sunset",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 624,
+      "text": "Temple Run 2",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/temple-run-2.avif",
+      "alt": "Temple Run 2",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 626,
+      "text": "Favorite Temple Run 2",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 627,
+      "text": "Terraria",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/terraria.png",
+      "alt": "Terraria",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 629,
+      "text": "Favorite Terraria",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 630,
+      "text": "That's Not My Neighbor",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/thats-not-my-neighbor.png",
+      "alt": "That's Not My Neighbor",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 632,
+      "text": "Favorite That's Not My Neighbor",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 633,
+      "text": "The Impossible Quiz",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/qui.png",
+      "alt": "The Impossible Quiz",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 635,
+      "text": "Favorite The Impossible Quiz",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 636,
+      "text": "The Man From The Window",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/the-man-from-the-window.webp",
+      "alt": "The Man From The Window",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 638,
+      "text": "Favorite The Man From The Window",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 639,
+      "text": "The World's Hardest Game",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/hardestgame3.png",
+      "alt": "The World's Hardest Game",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 641,
+      "text": "Favorite The World's Hardest Game",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 642,
+      "text": "They Are Coming",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/they-are-coming.png",
+      "alt": "They Are Coming",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 644,
+      "text": "Favorite They Are Coming",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 645,
+      "text": "Time Shooter",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/time-shooter.png",
+      "alt": "Time Shooter",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 647,
+      "text": "Favorite Time Shooter",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 648,
+      "text": "Time Shooter 3: SWAT",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/time-shooter-3-swat.webp",
+      "alt": "Time Shooter 3: SWAT",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 650,
+      "text": "Favorite Time Shooter 3: SWAT",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 651,
+      "text": "Tiny Fishing",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/tiny-fishing.webp",
+      "alt": "Tiny Fishing",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 653,
+      "text": "Favorite Tiny Fishing",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 654,
+      "text": "Tomb Of The Mask",
+      "href": null,
+      "image": "https://1key.lol/images/tombofthemask.png",
+      "alt": "Tomb Of The Mask",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 656,
+      "text": "Favorite Tomb Of The Mask",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 657,
+      "text": "Traffic Racer",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/traffic-racer.webp",
+      "alt": "Traffic Racer",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 659,
+      "text": "Favorite Traffic Racer",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 660,
+      "text": "Tung Tung Horror",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/tungtung.jpeg",
+      "alt": "Tung Tung Horror",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 662,
+      "text": "Favorite Tung Tung Horror",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 663,
+      "text": "ULTRAKILL",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/ultrakill.webp",
+      "alt": "ULTRAKILL",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 665,
+      "text": "Favorite ULTRAKILL",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 666,
+      "text": "Undertale Yellow",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/undertale-yellow.webp",
+      "alt": "Undertale Yellow",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 668,
+      "text": "Favorite Undertale Yellow",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 669,
+      "text": "Vex 8",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/vex-8.webp",
+      "alt": "Vex 8",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 671,
+      "text": "Favorite Vex 8",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 672,
+      "text": "War The Knights",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/war-the-knights.png",
+      "alt": "War The Knights",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 674,
+      "text": "Favorite War The Knights",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 675,
+      "text": "WebFishing",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/webfishing.avif",
+      "alt": "WebFishing",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 677,
+      "text": "Favorite WebFishing",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 678,
+      "text": "WebGl Fluid",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/webgl-fluid.webp",
+      "alt": "WebGl Fluid",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 680,
+      "text": "Favorite WebGl Fluid",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 681,
+      "text": "Wordle",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/wordle.webp",
+      "alt": "Wordle",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 683,
+      "text": "Favorite Wordle",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 684,
+      "text": "Yandere Simulator",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/yandere-simulator.webp",
+      "alt": "Yandere Simulator",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 686,
+      "text": "Favorite Yandere Simulator",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 687,
+      "text": "You vs. 100 Skibidi",
+      "href": null,
+      "image": "https://1key.lol/images/game-covers/you-vs-100-skibidi.webp",
+      "alt": "You vs. 100 Skibidi",
+      "className": "group relative aspect-square rounded-2xl overflow-hidden bg-card/14 border border-border/65 hover:border-foreground/24 transition-all duration-300 hover:scale-[1.045] focus:outline-none focus:ring-2 focus:ring-foreground/30",
+      "tag": "DIV",
+      "sourceEvidence": "dom-card"
+    },
+    {
+      "index": 689,
+      "text": "Favorite You vs. 100 Skibidi",
+      "href": null,
+      "image": null,
+      "alt": "",
+      "className": "absolute right-2 top-2 z-10 rounded-full border border-border/70 bg-background/62 p-1.5 text-foreground/85 transition-colors hover:text-amber-300",
+      "tag": "BUTTON",
+      "sourceEvidence": "dom-card"
+    }
+  ]
+}
