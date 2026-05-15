@@ -156,13 +156,13 @@
 
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
-        <div class="hideout-home" aria-label="STRATO Launch Deck">
+        <div class="hideout-home" aria-label="STRATO Launch OS">
           <header class="hideout-identity">
             <div class="identity-mark" aria-hidden="true">S</div>
             <div class="identity-copy">
-              <p class="open-kicker">Open here first.</p>
-              <h1>STRATO <span>v5.03</span></h1>
-              <p>A fast launch desk for real games only — search, pick, favorite, and get moving.</p>
+              <p class="open-kicker">Launch OS · v5.03</p>
+              <h1>STRATO</h1>
+              <p>Search, pick, launch.</p>
             </div>
             <div class="identity-metrics" aria-label="Live STRATO stats">
               <div><span id="home-live-games">54</span><small>playable</small></div>
@@ -174,13 +174,12 @@
 
           <section class="hideout-search" aria-label="Search the STRATO catalog">
             <div class="search-intro">
-              <p class="section-eyebrow">Launch Deck · v5.03</p>
-              <h2>Find the next run.</h2>
-              <p>Type a title, tag, or mood. STRATO keeps the catalog real and turns search into the fastest way to play.</p>
+              <p class="section-eyebrow">Ready</p>
+              <h2>Find a game.</h2>
             </div>
             <div class="search-controls">
               <label class="sr-only" for="home-search">Search the catalog</label>
-              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false">
+              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false" data-focus-home-search>
               <button class="launch-button" id="surprise-me" type="button">Surprise Me</button>
             </div>
             <div class="spotlight-helper" aria-hidden="true"><span>↑↓ move</span><span>Enter launch</span><span>Esc clear</span><span id="home-last-action">Ready</span></div>
@@ -189,10 +188,11 @@
           </section>
 
           <nav class="hideout-actions" aria-label="Quick actions">
-            <button class="hideout-action" type="button" id="home-recent-action"><span>Continue</span><strong>Recent launches</strong></button>
-            <button class="hideout-action" type="button" id="home-favorites-action"><span>Favorites</span><strong>Your shelf</strong></button>
-            <button class="hideout-action" type="button" data-focus-home-search><span>Spotlight</span><strong>Focus search</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="browser"><span>Launch Bay</span><strong>Open player</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="arcade"><span>01</span><strong>Games</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="hub"><span>02</span><strong>Apps</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="ai"><span>03</span><strong>AI</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="hub"><span>04</span><strong>Hub</strong></button>
+            <button class="hideout-action" type="button" id="home-favorites-action"><span>05</span><strong>Favorites</strong></button>
           </nav>
 
           <div class="hideout-layout">
@@ -294,7 +294,7 @@
       <!-- ─── ARCADE VIEW ─── -->
       <section id="view-arcade" class="view">
         <div class="arcade-header">
-          <h2 class="view-title">Arcade</h2>
+          <h2 class="view-title">GAMES</h2>
           <div class="arcade-controls">
             <input type="text" class="glass-input" id="game-search" placeholder="Search games...">
             <div class="category-pills" id="category-pills"></div>
@@ -311,6 +311,14 @@
           <button class="arcade-tab" data-tab="favorites">Favorites</button>
           <button class="arcade-tab" data-tab="recent">Recent</button>
         </div>
+        <section class="arcade-recent-section hidden" id="arcade-recent-section">
+          <div class="home-section-head compact">
+            <div>
+              <p class="section-eyebrow">Recently Played</p>
+            </div>
+          </div>
+          <div class="games-grid arcade-recent-grid" id="arcade-recent-grid"></div>
+        </section>
         <div class="games-grid" id="games-grid"></div>
       </section>
 
@@ -356,7 +364,12 @@
       <section id="view-hub" class="view">
         <div class="hub-header">
           <h2 class="view-title">Hub</h2>
-          <input type="text" class="glass-input" id="hub-search" placeholder="Search sites...">
+          <div class="hub-tools">
+            <input type="text" class="glass-input" id="hub-search" placeholder="Search verified sites...">
+            <select class="glass-select hub-category-select" id="hub-category-filter">
+              <option value="all">All</option>
+            </select>
+          </div>
         </div>
         <div class="hub-categories" id="hub-categories"></div>
         <div class="hub-grid" id="hub-grid"></div>

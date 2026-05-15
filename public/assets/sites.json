@@ -1475,15 +1475,6 @@
     "iframe_safe": false
   },
   {
-    "id": "keo",
-    "name": "Keo",
-    "url": "https://keoffical.oneapp.dev",
-    "stars": 2,
-    "category": "games",
-    "description": "Keo official games",
-    "iframe_safe": false
-  },
-  {
     "id": "mr-ge",
     "name": "Neo",
     "url": "https://mr-ge.global.ssl.fastly.net",
@@ -1493,12 +1484,12 @@
     "iframe_safe": false
   },
   {
-    "id": "potato",
-    "name": "Potato",
-    "url": "https://ames.website",
-    "stars": 1,
-    "category": "games",
-    "description": "Potato unblocked (basic)",
+    "id": "lucide-jsdelivr",
+    "name": "Lucide jsDelivr",
+    "url": "https://cdn.jsdelivr.net/gh/lucideproxy/svg@latest/logo.svg#/",
+    "stars": 2,
+    "category": "proxy",
+    "description": "User-provided Lucide proxy route for Hub review only",
     "iframe_safe": false
   }
 ]

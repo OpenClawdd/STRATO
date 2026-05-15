@@ -966,8 +966,8 @@
     const container = document.getElementById(containerId);
     if (!container) return;
     if (!games.length) {
-      container.innerHTML = `<div class="home-empty">${emptyHtml}</div>`;
-      bindHomeEmptyActions(container);
+      container.innerHTML = emptyHtml ? `<div class="home-empty">${emptyHtml}</div>` : "";
+      if (emptyHtml) bindHomeEmptyActions(container);
       return;
     }
     container.innerHTML = games.map(renderHomeGameCard).join("");
@@ -1104,31 +1104,29 @@
       surpriseBtn.classList.toggle("hidden", catalog.length === 0);
     }
 
-    renderHomeCards(
-      "daily-picks",
-      selectDailyPicks(catalog),
-      "No launchable Daily Picks yet.",
-    );
+    const dailyPicks = selectDailyPicks(catalog);
+    document
+      .getElementById("daily-picks-section")
+      ?.classList.toggle("hidden", dailyPicks.length === 0);
+    renderHomeCards("daily-picks", dailyPicks, "");
 
     const favorites = state.favorites
       .map((id) => state.games.find((game) => game.id === id))
       .filter((game) => game && isPromotableGame(game))
       .slice(0, 6);
-    renderHomeCards(
-      "home-favorites",
-      favorites,
-      'Launch a game, then star it.<br><button class="glass-btn" type="button" data-home-empty-action="daily">Start here</button>',
-    );
+    document
+      .getElementById("home-favorites-section")
+      ?.classList.toggle("hidden", favorites.length === 0);
+    renderHomeCards("home-favorites", favorites, "");
 
     const recent = state.recentlyPlayed
       .map((id) => state.games.find((game) => game.id === id))
       .filter((game) => game && isPromotableGame(game))
       .slice(0, 6);
-    renderHomeCards(
-      "home-recent",
-      recent,
-      'Nothing played here yet.<br><button class="glass-btn" type="button" data-home-empty-action="surprise">Surprise Me</button>',
-    );
+    document
+      .getElementById("home-recent-section")
+      ?.classList.toggle("hidden", recent.length === 0);
+    renderHomeCards("home-recent", recent, "");
 
     const mostPlayed = Object.entries(state.playCounts)
       .filter(([, count]) => Number(count) > 0)
@@ -1212,59 +1210,48 @@
     }
   }
 
-  function renderGames() {
-    const grid = document.getElementById("games-grid");
+  function renderGameCardMarkup(game) {
+    const health = getGameHealth(game);
+    const isUnavailable = !isLaunchableStatus(health.status);
+    const isFav = state.favorites.includes(game.id);
+    const rel = game.reliability || "green";
+    const hasPassword = !!game.password && !/^\$\{/.test(game.password);
+    const passwordDisplay = hasPassword ? game.password : "";
+    const proxyTier = game.proxy_tier;
+    const isUnresolved = game.config_required && /^\$\{/.test(game.url);
+    const statusBadge =
+      health.status !== "ready"
+        ? `<span class="home-status-badge">${escapeHtml(gameStatusLabel(health))}</span>`
+        : "";
+    let tierIcon = "";
+    if (proxyTier === "good")
+      tierIcon = '<span class="tier-gold">&#9733;</span>';
+    else if (proxyTier === "recommended")
+      tierIcon = '<span class="tier-purple">&#9734;</span>';
+    else if (game.tier === 1)
+      tierIcon = '<span class="tier-standalone">LOCAL</span>';
+    return `
+      <div class="game-card glass ${isUnavailable ? "unavailable" : ""} ${isUnresolved ? "config-required" : ""}" data-game-id="${escapeHtml(game.id)}">
+        <div class="game-card-inner">
+          ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ""}
+          <div class="game-card-badges">
+            ${tierIcon}
+            <span class="reliability-dot rel-${escapeHtml(rel)}" title="${escapeHtml(rel)} reliability"></span>
+            ${statusBadge}
+            ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + "</span>" : ""}
+          </div>
+          <button class="fav-btn ${isFav ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? "Remove from favorites" : "Add to favorites"}">${isFav ? "\u2605" : "\u2606"}</button>
+          <img class="game-card-thumb" src="${escapeHtml(thumbnailFor(game))}" alt="${escapeHtml(getGameName(game))}" loading="lazy" data-game-id="${escapeHtml(game.id)}" data-game-url="${escapeHtml(game.url || "")}" data-game-name="${escapeHtml(getGameName(game))}" data-fallback-src="${escapeHtml(fallbackThumbnail(game))}">
+          <div class="game-card-info">
+            <div class="game-card-name">${escapeHtml(getGameName(game))}</div>
+            <div class="game-card-category">${escapeHtml(categoryLabel(game.category))}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function bindGameGridEvents(grid) {
     if (!grid) return;
-    const showUnavailable = (() => {
-      try {
-        return document.getElementById("show-unavailable")?.checked || false;
-      } catch (e) {
-        return false;
-      }
-    })();
-
-    grid.innerHTML = state.filteredGames
-      .map((game) => {
-        const health = getGameHealth(game);
-        const isUnavailable = !isLaunchableStatus(health.status);
-        const isFav = state.favorites.includes(game.id);
-        const rel = game.reliability || "green";
-        const hasPassword = !!game.password && !/^\$\{/.test(game.password);
-        const passwordDisplay = hasPassword ? game.password : "";
-        const proxyTier = game.proxy_tier;
-        const isUnresolved = game.config_required && /^\$\{/.test(game.url);
-        const statusBadge =
-          health.status !== "ready"
-            ? `<span class="home-status-badge">${escapeHtml(gameStatusLabel(health))}</span>`
-            : "";
-        let tierIcon = "";
-        if (proxyTier === "good")
-          tierIcon = '<span class="tier-gold">&#9733;</span>';
-        else if (proxyTier === "recommended")
-          tierIcon = '<span class="tier-purple">&#9734;</span>';
-        else if (game.tier === 1)
-          tierIcon = '<span class="tier-standalone">LOCAL</span>';
-        return `
-          <div class="game-card glass ${isUnavailable ? "unavailable" : ""} ${isUnresolved ? "config-required" : ""}" data-game-id="${escapeHtml(game.id)}">
-            <div class="game-card-inner">
-              ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ""}
-              <div class="game-card-badges">
-                ${tierIcon}
-                <span class="reliability-dot rel-${escapeHtml(rel)}" title="${escapeHtml(rel)} reliability"></span>
-                ${statusBadge}
-                ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + "</span>" : ""}
-              </div>
-              <button class="fav-btn ${isFav ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? "Remove from favorites" : "Add to favorites"}">${isFav ? "\u2605" : "\u2606"}</button>
-              <img class="game-card-thumb" src="${escapeHtml(thumbnailFor(game))}" alt="${escapeHtml(getGameName(game))}" loading="lazy" data-game-id="${escapeHtml(game.id)}" data-game-url="${escapeHtml(game.url || "")}" data-game-name="${escapeHtml(getGameName(game))}" data-fallback-src="${escapeHtml(fallbackThumbnail(game))}">
-              <div class="game-card-info">
-                <div class="game-card-name">${escapeHtml(getGameName(game))}</div>
-                <div class="game-card-category">${escapeHtml(categoryLabel(game.category))}</div>
-              </div>
-            </div>
-          </div>`;
-      })
-      .join("");
-
     grid.querySelectorAll(".game-card:not(.unavailable)").forEach((card) => {
       card.addEventListener("click", (e) => {
         if (e.target.closest(".fav-btn")) return;
@@ -1278,12 +1265,44 @@
         toggleFavorite(btn.dataset.favId);
       });
     });
+    applyFaviconFallbacks(grid);
+  }
+
+  function renderArcadeRecent() {
+    const section = document.getElementById("arcade-recent-section");
+    const grid = document.getElementById("arcade-recent-grid");
+    if (!section || !grid) return;
+    const recent = state.recentlyPlayed
+      .map((id) => state.games.find((game) => game.id === id))
+      .filter(Boolean)
+      .slice(0, 6);
+    section.classList.toggle("hidden", recent.length === 0);
+    grid.innerHTML = recent.map(renderGameCardMarkup).join("");
+    bindGameGridEvents(grid);
+  }
+
+  function renderGames() {
+    const grid = document.getElementById("games-grid");
+    if (!grid) return;
+    const showUnavailable = (() => {
+      try {
+        return document.getElementById("show-unavailable")?.checked || false;
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    const games = showUnavailable
+      ? state.filteredGames
+      : state.filteredGames.filter((game) =>
+          isLaunchableStatus(getGameHealth(game).status),
+        );
+    grid.innerHTML = games.map(renderGameCardMarkup).join("");
+    bindGameGridEvents(grid);
+    renderArcadeRecent();
 
     // Attach hover prefetch for faster loads
     attachHoverPrefetch();
-
-    // Apply favicon fallback for broken thumbnails
-    applyFaviconFallbacks(grid);
   }
 
   function renderCategoryPills() {
@@ -1482,18 +1501,31 @@
     closeLaunchFailure();
     const title = game ? getGameName(game) : "This launch";
     const similar = similarGamesFor(game);
+    const trace = {
+      message: `${title} could not launch`,
+      reason,
+      engine: state.currentEngine,
+      url: game ? resolveGameUrl(game) : document.getElementById("url-input")?.value || "",
+      timestamp: new Date().toISOString(),
+    };
+    const traceText = JSON.stringify(trace, null, 2);
+    const hasAlternateEngine = state.currentEngine === "uv" || state.currentEngine === "scramjet";
+    const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
     const overlay = document.createElement("div");
     overlay.className = "launch-failure-overlay";
     overlay.id = "launch-failure-overlay";
     overlay.innerHTML = `
       <div class="launch-failure-panel" role="dialog" aria-modal="true" aria-labelledby="launch-failure-title">
-        <div class="launch-failure-title" id="launch-failure-title">No signal.</div>
+        <div class="launch-failure-title" id="launch-failure-title">Launch recovery</div>
         <p class="launch-failure-copy">${escapeHtml(title)} could not launch: ${escapeHtml(reason)}.</p>
         <div class="home-failure-actions">
-          <button class="glass-btn" type="button" data-failure-action="retry">Retry</button>
-          <button class="glass-btn" type="button" data-failure-action="surprise">Try Surprise Me</button>
+          <button class="glass-btn" type="button" data-failure-action="retry">Retry page</button>
+          <button class="glass-btn" type="button" data-failure-action="copy">Copy trace</button>
+          ${hasAlternateEngine ? '<button class="glass-btn" type="button" data-failure-action="alternate">Try alternate engine</button>' : ""}
+          ${hasServiceWorkerReset ? '<button class="glass-btn" type="button" data-failure-action="reset-sw">Reset SW</button>' : ""}
           <button class="glass-btn" type="button" data-failure-action="home">Back to STRATO</button>
         </div>
+        <pre class="launch-failure-debug">${escapeHtml(traceText)}</pre>
         ${similar.length ? `<div class="similar-games">${similar.map((item) => `<button class="similar-game-btn" type="button" data-similar-game="${escapeHtml(item.id)}"><span>${escapeHtml(getGameName(item))}</span><span>${escapeHtml(categoryLabel(item.category))}</span></button>`).join("")}</div>` : ""}
       </div>
     `;
@@ -1505,6 +1537,21 @@
       if (action === "retry" && game) {
         closeLaunchFailure();
         launchGame(game.id, { retry: true });
+      } else if (action === "copy") {
+        navigator.clipboard?.writeText(traceText);
+        showToast("Trace copied", "accent");
+      } else if (action === "alternate") {
+        const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+        setEngine(otherEngine);
+        closeLaunchFailure();
+        if (game && game.tier !== 1 && game.tier !== 2) navigateProxy(game.url, otherEngine);
+        else if (game) launchGame(game.id, { retry: true });
+      } else if (action === "reset-sw") {
+        navigator.serviceWorker
+          ?.getRegistrations()
+          .then((regs) => Promise.all(regs.map((reg) => reg.unregister())))
+          .then(() => showToast("Service workers reset", "accent"))
+          .catch(() => showToast("Service worker reset failed", "error"));
       } else if (action === "surprise") {
         closeLaunchFailure();
         surpriseMe();
@@ -2603,6 +2650,7 @@
       const data = await resp.json();
       state.hubSites = data.sites || [];
       state.filteredHubSites = [...state.hubSites];
+      renderHubCategories();
       renderHubSites();
       const countEl = document.getElementById("hub-site-count");
       if (countEl) countEl.textContent = `${state.hubSites.length} sites`;
@@ -2674,6 +2722,58 @@
     });
   }
 
+  function applyHubFilters() {
+    const q = (hubSearchInput?.value || "").toLowerCase().trim();
+    const activeCategory =
+      document.querySelector(".hub-category-btn.active")?.dataset.category ||
+      document.getElementById("hub-category-filter")?.value ||
+      "all";
+    state.filteredHubSites = state.hubSites.filter((site) => {
+      const matchesCategory =
+        activeCategory === "all" || site.category === activeCategory;
+      const haystack = [site.name, site.description, site.category, site.url]
+        .join(" ")
+        .toLowerCase();
+      return matchesCategory && (!q || haystack.includes(q));
+    });
+    renderHubSites();
+  }
+
+  function renderHubCategories() {
+    const categories = [
+      ...new Set(state.hubSites.map((site) => site.category).filter(Boolean)),
+    ].sort((a, b) => a.localeCompare(b));
+    const labels = [["all", "All"], ...categories.map((cat) => [cat, cat])];
+    const strip = document.getElementById("hub-categories");
+    if (strip) {
+      strip.innerHTML = labels
+        .map(
+          ([value, label]) =>
+            `<button class="hub-category-btn ${value === "all" ? "active" : ""}" type="button" data-category="${escapeHtml(value)}">${escapeHtml(label)}</button>`,
+        )
+        .join("");
+      strip.querySelectorAll(".hub-category-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          strip
+            .querySelectorAll(".hub-category-btn")
+            .forEach((item) => item.classList.toggle("active", item === btn));
+          const select = document.getElementById("hub-category-filter");
+          if (select) select.value = btn.dataset.category;
+          applyHubFilters();
+        });
+      });
+    }
+    const select = document.getElementById("hub-category-filter");
+    if (select) {
+      select.innerHTML = labels
+        .map(
+          ([value, label]) =>
+            `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`,
+        )
+        .join("");
+    }
+  }
+
   function launchSiteViaProxy(url, iframeSafe) {
     if (iframeSafe) {
       // Load in the browser iframe view
@@ -2693,16 +2793,7 @@
   if (hubSearchInput) {
     hubSearchInput.addEventListener("input", () => {
       clearTimeout(hubSearchDebounce);
-      hubSearchDebounce = setTimeout(() => {
-        const q = hubSearchInput.value.toLowerCase().trim();
-        state.filteredHubSites = state.hubSites.filter(
-          (s) =>
-            s.name.toLowerCase().includes(q) ||
-            s.description.toLowerCase().includes(q) ||
-            s.category.toLowerCase().includes(q),
-        );
-        renderHubSites();
-      }, 200);
+      hubSearchDebounce = setTimeout(applyHubFilters, 120);
     });
   }
 
@@ -2710,24 +2801,10 @@
   const hubCategoryFilter = document.getElementById("hub-category-filter");
   if (hubCategoryFilter) {
     hubCategoryFilter.addEventListener("change", () => {
-      const cat = hubCategoryFilter.value;
-      if (cat === "all") {
-        state.filteredHubSites = [...state.hubSites];
-      } else {
-        state.filteredHubSites = state.hubSites.filter(
-          (s) => s.category === cat,
-        );
-      }
-      // Re-apply search filter
-      const q = hubSearchInput?.value?.toLowerCase().trim();
-      if (q) {
-        state.filteredHubSites = state.filteredHubSites.filter(
-          (s) =>
-            s.name.toLowerCase().includes(q) ||
-            s.description.toLowerCase().includes(q),
-        );
-      }
-      renderHubSites();
+      document.querySelectorAll(".hub-category-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.category === hubCategoryFilter.value);
+      });
+      applyHubFilters();
     });
   }
 
