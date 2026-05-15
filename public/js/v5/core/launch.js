@@ -89,6 +89,18 @@ export async function launchById(id, { onFail, onUpdate } = {}) {
 
   recordLaunch(game);
   onUpdate?.();
+  if (/^https?:\/\//i.test(String(game.url || "")) && typeof window.STRATO_NAVIGATE_PROXY === "function") {
+    window.STRATO_NAVIGATE_PROXY(game.url, null, {
+      title: game.name || game.title,
+      url: game.url,
+      provider: game.provider || game.source || null,
+      reliability: game.reliability || null,
+      external: true,
+      originalUrl: game.url,
+      game,
+    });
+    return true;
+  }
   showBrowser(game);
   return true;
 }

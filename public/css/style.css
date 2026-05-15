@@ -1272,6 +1272,34 @@ body.compact-cards .home-card-body { padding: 7px; gap: 5px; }
   margin-bottom: 14px;
 }
 
+.external-launch-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.external-launch-status span {
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(0, 229, 255, 0.08);
+  color: rgba(230, 250, 255, 0.86);
+  font-size: 12px;
+  padding: 5px 9px;
+}
+
+.launch-failure-details {
+  margin-top: 12px;
+  color: var(--fg-muted);
+}
+
+.launch-failure-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .home-failure-actions {
   display: flex;
   flex-wrap: wrap;
