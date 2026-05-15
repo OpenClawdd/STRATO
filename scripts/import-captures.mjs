@@ -220,6 +220,34 @@ function safeUrl(value, sourceUrl = "") {
   }
 }
 
+function gnMathResolvedHref(rawHref) {
+  const raw = clean(rawHref);
+  const match = raw.match(/openGame\((\-?\d+)\)/i);
+  if (!match) return null;
+  const id = Number(match[1]);
+  if (!Number.isFinite(id) || id < 0) return null;
+  return `https://gn-math.dev/#game-${id}`;
+}
+
+function gnMathIdFromHref(rawHref) {
+  const raw = clean(rawHref);
+  const match = raw.match(/openGame\((\-?\d+)\)/i);
+  if (!match) return null;
+  const id = Number(match[1]);
+  if (!Number.isFinite(id) || id < 0) return null;
+  return String(id);
+}
+
+function cleanGnMathTitle(value) {
+  let title = clean(value)
+    .replace(/^★\s*/u, "")
+    .replace(/\s+\d+(?:\.\d+)?(?:k|m)?\s*Plays?$/iu, "")
+    .replace(/\s+Plays?$/iu, "")
+    .trim();
+  title = title.replace(/\s{2,}/g, " ").trim();
+  return title;
+}
+
 function frogieResolvedHref(rawHref, sourceUrl) {
   const raw = clean(rawHref).replace(/;$/, "");
   if (!raw || /^loadthething\(\)$/i.test(raw)) return null;
@@ -312,6 +340,9 @@ function normalizeImage(value) {
 function normalizeCandidateHref(item, sourceUrl, provider) {
   const rawHref = clean(item.href || item.url);
   const slug = slugify(item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title);
+  if (provider === "gn-math") {
+    return gnMathResolvedHref(rawHref);
+  }
   if (provider === "frogie") {
     return frogieResolvedHref(rawHref, sourceUrl);
   }
@@ -335,6 +366,15 @@ function isNavJunk(item) {
   return !href && !item.image && NAV_JUNK.has(key.replace(/[^a-z]/g, ""));
 }
 
+function isGnMathGameCard(item) {
+  const className = clean(item.className);
+  const href = clean(item.href);
+  if (!className.includes("game-card")) return false;
+  const id = gnMathIdFromHref(href);
+  if (id == null) return false;
+  return href.includes("openGame(") && id !== "-1";
+}
+
 function normalizeCapture(raw, file, stats) {
   const sourceUrl = clean(raw.sourceUrl || raw.url || raw.origin || "");
   const capturedAt = clean(raw.capturedAt || raw.timestamp || "");
@@ -350,6 +390,10 @@ function normalizeCapture(raw, file, stats) {
   return items
     .filter((item) => item && typeof item === "object")
     .filter((item) => {
+      if (provider === "gn-math" && !isGnMathGameCard(item)) {
+        stats.navJunkSkipped += 1;
+        return false;
+      }
       const keep = !isNavJunk(item);
       if (!keep) stats.navJunkSkipped += 1;
       return keep;
@@ -357,11 +401,21 @@ function normalizeCapture(raw, file, stats) {
     .map((item, index) => {
       const rawHref = clean(item.href || item.url);
       const href = normalizeCandidateHref(item, sourceUrl, provider);
+      if (provider === "gn-math" && !href) {
+        return null;
+      }
       if (provider === "frogie" && !href) {
         return null;
       }
-      const slug = slugify(item.slug || slugFromHref(rawHref || href, sourceUrl));
-      const title = prettifyTitle(item.text || item.title || item.name || item.alt, slug);
+      const gnMathId = provider === "gn-math" ? gnMathIdFromHref(rawHref) : null;
+      const slug = slugify(item.slug || slugFromHref(rawHref || href, sourceUrl) || gnMathId);
+      const titleSource =
+        provider === "gn-math"
+          ? cleanGnMathTitle(item.text || item.title || item.name || item.alt)
+          : item.text || item.title || item.name || item.alt;
+      const title = provider === "gn-math"
+        ? prettifyTitle(titleSource, slug)
+        : prettifyTitle(titleSource, slug);
       const image = normalizeImage(item.image || item.thumbnail || item.img);
       const idBase = slugify(title || slug || href || `${path.basename(file)}-${index}`);
       const reviewRequired = needsHumanReview(title, slug);
@@ -394,6 +448,7 @@ function normalizeCapture(raw, file, stats) {
           sourceUrl,
           sourceEvidence: clean(item.sourceEvidence || item.evidence),
           rawHref,
+          gnMathId,
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
           href,
@@ -410,7 +465,10 @@ function normalizeCapture(raw, file, stats) {
 function dedupe(candidates, stats) {
   const seen = new Set();
   return candidates.filter((candidate) => {
-    const key = `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
+    const key =
+      candidate.provider === "gn-math" && candidate.evidence?.gnMathId != null
+        ? `gn-math|${candidate.evidence.gnMathId}`
+        : `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
     if (seen.has(key)) {
       stats.duplicatesSkipped += 1;
       return false;
