@@ -19,6 +19,15 @@ function isPlaceholder(value) {
   return !raw || raw === "#" || raw === "about:blank" || /^\$\{[^}]+\}$/.test(raw);
 }
 
+function validExternalUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function hiddenReason(game) {
   const url = String(game.url || "").trim();
   if (!url || isPlaceholder(url) || game.config_required || game.needsConfig)
@@ -34,23 +43,41 @@ const localMissing = [];
 const external = [];
 const thumbnailsMissing = [];
 const hiddenFromPlayableLists = [];
+const invalidExternalUrls = [];
+const localBrokenUrls = [];
+const sourceCounts = {};
+let needsReview = 0;
+let selenite = 0;
 const reliability = { green: 0, yellow: 0, red: 0, unspecified: 0 };
 
 for (const game of games) {
   const url = String(game.url || "").trim();
   const rel = game.reliability || "unspecified";
   reliability[rel] = (reliability[rel] || 0) + 1;
+  const provider = String(game.provider || game.source || "none").trim().toLowerCase() || "none";
+  sourceCounts[provider] = (sourceCounts[provider] || 0) + 1;
+  if (provider === "selenite") selenite += 1;
+  if (game.needsReview) needsReview += 1;
 
   if (url.startsWith("/games/")) {
     if (publicExists(url)) localValid.push({ id: game.id, name: game.name, url });
-    else localMissing.push({ id: game.id, name: game.name, url });
+    else {
+      const missing = { id: game.id, name: game.name, url };
+      localMissing.push(missing);
+      localBrokenUrls.push(missing);
+    }
   } else {
     external.push({
       id: game.id,
       name: game.name,
       url,
       reliability: game.reliability || null,
+      provider: game.provider || game.source || null,
+      needsReview: Boolean(game.needsReview),
     });
+    if (url && !isPlaceholder(url) && !validExternalUrl(url)) {
+      invalidExternalUrls.push({ id: game.id, name: game.name, url });
+    }
   }
 
   if (game.thumbnail && String(game.thumbnail).startsWith("/") && !publicExists(game.thumbnail)) {
@@ -76,13 +103,20 @@ const report = {
     localValid: localValid.length,
     localMissing: localMissing.length,
     external: external.length,
+    needsReview,
+    selenite,
     thumbnailsMissing: thumbnailsMissing.length,
     hiddenFromPlayableLists: hiddenFromPlayableLists.length,
+    invalidExternalUrls: invalidExternalUrls.length,
+    localBrokenUrls: localBrokenUrls.length,
   },
   reliability,
+  sourceCounts,
   localValid,
   localMissing,
   external,
+  invalidExternalUrls,
+  localBrokenUrls,
   thumbnailsMissing,
   hiddenFromPlayableLists,
   notes: [
@@ -100,9 +134,14 @@ console.log(`Total games: ${report.totals.games}`);
 console.log(`Local valid: ${report.totals.localValid}`);
 console.log(`Local missing: ${report.totals.localMissing}`);
 console.log(`External: ${report.totals.external}`);
+console.log(`Needs review: ${report.totals.needsReview}`);
+console.log(`Selenite: ${report.totals.selenite}`);
 console.log(
   `Reliability: green=${reliability.green || 0}, yellow=${reliability.yellow || 0}, red=${reliability.red || 0}, unspecified=${reliability.unspecified || 0}`,
 );
+console.log(`Source counts: ${JSON.stringify(sourceCounts)}`);
 console.log(`Missing thumbnails: ${report.totals.thumbnailsMissing}`);
+console.log(`Invalid external URLs: ${report.totals.invalidExternalUrls}`);
+console.log(`Local broken URLs: ${report.totals.localBrokenUrls}`);
 console.log(`Hidden from playable lists: ${report.totals.hiddenFromPlayableLists}`);
 console.log(`Wrote ${path.relative(root, reportPath)}`);

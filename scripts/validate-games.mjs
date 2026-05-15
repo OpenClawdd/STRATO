@@ -42,6 +42,19 @@ function validateUrl(url) {
   }
 }
 
+function isExternalSourceCandidate(game) {
+  const tags = Array.isArray(game.tags) ? game.tags.map(tag => normalize(tag)) : [];
+  return Boolean(
+    game.provider ||
+      game.source ||
+      game.needsCheck ||
+      game.needsReview ||
+      tags.includes('external') ||
+      tags.includes('needs-check') ||
+      game.reliability === 'yellow'
+  );
+}
+
 async function existsPublicAsset(assetPath) {
   if (!assetPath || !assetPath.startsWith('/')) return true;
   try {
@@ -103,6 +116,8 @@ export async function validateGames(filePath = catalogPath) {
       } else if (String(url).startsWith('/games/') && !(await existsPublicFile(String(url)))) {
         addIssue(issues, 'error', 'broken-local-game-url', game, `Local game path does not exist: ${url}`);
         quarantine.push({ id: game.id, title: title || game.id, reason: 'broken-local-game-url' });
+      } else if (game.reliability === 'green' && !String(url).startsWith('/games/')) {
+        addIssue(issues, 'error', 'green-external-url', game, 'Green reliability is reserved for verified local /games paths');
       } else if (!String(url).startsWith('/')) {
         try {
           const parsed = new URL(String(url));
@@ -135,8 +150,14 @@ export async function validateGames(filePath = catalogPath) {
 
     const thumbnail = String(game.thumbnail || '').trim();
     if (!thumbnail) {
-      addIssue(issues, 'warning', 'missing-thumbnail', game, 'Missing thumbnail; STRATO fallback art will be used');
-    } else if (PLACEHOLDER_URL.test(thumbnail) || thumbnail.endsWith('/')) {
+      if (!isExternalSourceCandidate(game)) {
+        addIssue(issues, 'warning', 'missing-thumbnail', game, 'Missing thumbnail; STRATO fallback art will be used');
+      }
+    } else if (
+      PLACEHOLDER_URL.test(thumbnail) ||
+      thumbnail.endsWith('/') ||
+      /(^|\/)placeholder\.(png|jpe?g|webp|gif)$/i.test(thumbnail)
+    ) {
       addIssue(issues, 'warning', 'broken-thumbnail-looking-value', game, 'Thumbnail looks incomplete');
     } else if (!(await existsPublicAsset(thumbnail))) {
       addIssue(issues, 'warning', 'missing-thumbnail-file', game, `Local thumbnail not found: ${thumbnail}`);
@@ -145,8 +166,24 @@ export async function validateGames(filePath = catalogPath) {
     if (!String(game.description || '').trim()) addIssue(issues, 'warning', 'empty-description', game, 'Description is empty');
 
     const searchableText = `${title || ''} ${game.description || ''} ${(game.tags || []).join(' ')} ${game.category || ''}`;
-    if (ADULT_TERMS.test(searchableText)) addIssue(issues, 'error', 'adult-content', game, 'Adult/inappropriate catalog signal');
-    if (GAMBLING_TERMS.test(searchableText)) addIssue(issues, 'error', 'gambling-content', game, 'Gambling/casino catalog signal');
+    if (ADULT_TERMS.test(searchableText)) {
+      addIssue(
+        issues,
+        game.needsReview || isExternalSourceCandidate(game) ? 'warning' : 'error',
+        'adult-content',
+        game,
+        'Adult/inappropriate catalog signal',
+      );
+    }
+    if (GAMBLING_TERMS.test(searchableText)) {
+      addIssue(
+        issues,
+        game.needsReview || isExternalSourceCandidate(game) ? 'warning' : 'error',
+        'gambling-content',
+        game,
+        'Gambling/casino catalog signal',
+      );
+    }
     if (DIRECTORY_TERMS.test(searchableText) || ['proxies', 'directories', 'game-hubs'].includes(normalize(game.category))) {
       const severity = game.config_required || game.needsConfig ? 'warning' : 'error';
       addIssue(issues, severity, 'not-playable-game-surface', game, 'Entry looks like a directory/proxy surface rather than a playable game');
