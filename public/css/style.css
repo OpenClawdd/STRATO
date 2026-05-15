@@ -502,6 +502,10 @@ body::after {
   color: var(--fg-bright); background: var(--glass-hover); border-color: var(--glass-border-hover);
 }
 
+#btn-stealth {
+  display: none !important;
+}
+
 .topbar-left { display: flex; align-items: center; gap: 10px; }
 
 .logo {
@@ -2407,6 +2411,11 @@ body.low-power .home-search-result {
 .pwa-install-text strong { color: var(--accent); }
 .pwa-install-actions { display: flex; gap: 8px; }
 .pwa-dismiss { background: none; border: none; color: var(--fg-faint); cursor: pointer; font-size: 18px; padding: 4px; }
+#pwa-install-container .pwa-install-prompt {
+  position: static;
+  transform: none;
+  width: 100%;
+}
 
 /* ══════════════════════════════════════════════════════════
    TOASTS

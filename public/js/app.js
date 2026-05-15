@@ -3897,17 +3897,7 @@
       if (homeUsernameEl && username) homeUsernameEl.textContent = username;
     } catch (e) {}
 
-    // Unlock first launch (wrapped — addCoins/addXP errors must not block UI)
-    try {
-      unlockAchievement("first-launch");
-    } catch (e) {
-      console.warn("[STRATO] Achievement unlock error:", e);
-    }
-
-    // Welcome notification
-    try {
-      addNotification("STRATO loaded", "info");
-    } catch (e) {}
+    // First-load rewards stay quiet; real launch actions still unlock achievements.
 
     // Fade out splash — ALWAYS runs even if earlier steps had errors
     await new Promise((resolve) => setTimeout(resolve, 400));
