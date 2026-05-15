@@ -52,6 +52,16 @@ async function existsPublicAsset(assetPath) {
   }
 }
 
+async function existsPublicFile(publicPath) {
+  if (!publicPath || !String(publicPath).startsWith('/')) return true;
+  try {
+    await fs.access(path.join(rootDir, 'public', publicPath));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function validateGames(filePath = catalogPath) {
   const raw = await fs.readFile(filePath, 'utf8');
   const games = JSON.parse(raw);
@@ -62,6 +72,7 @@ export async function validateGames(filePath = catalogPath) {
   const issues = [];
   const quarantine = [];
   const seenTitles = new Map();
+  const seenIds = new Map();
   const seenUrls = new Map();
   const seenTitleUrl = new Map();
 
@@ -73,7 +84,13 @@ export async function validateGames(filePath = catalogPath) {
     const normalizedPair = `${normalizedTitle}|${normalizedUrl}`;
 
     if (!title || !String(title).trim()) addIssue(issues, 'error', 'missing-title', game, 'Missing title/name');
-    if (!game.id || !String(game.id).trim()) addIssue(issues, 'warning', 'missing-id', game, 'Missing id');
+    if (!game.id || !String(game.id).trim()) {
+      addIssue(issues, 'error', 'missing-id', game, 'Missing id');
+    } else if (seenIds.has(String(game.id))) {
+      addIssue(issues, 'error', 'duplicate-id', game, `Duplicate id with ${seenIds.get(String(game.id))}`);
+    } else {
+      seenIds.set(String(game.id), title || game.id);
+    }
 
     if (!url || !String(url).trim()) {
       addIssue(issues, 'error', 'missing-url', game, 'Missing url');
@@ -83,6 +100,9 @@ export async function validateGames(filePath = catalogPath) {
         const severity = game.config_required || game.needsConfig ? 'warning' : 'error';
         addIssue(issues, severity, urlStatus.reason.replace(/\s+/g, '-'), game, urlStatus.reason);
         if (severity === 'error') quarantine.push({ id: game.id, title: title || game.id, reason: urlStatus.reason });
+      } else if (String(url).startsWith('/games/') && !(await existsPublicFile(String(url)))) {
+        addIssue(issues, 'error', 'broken-local-game-url', game, `Local game path does not exist: ${url}`);
+        quarantine.push({ id: game.id, title: title || game.id, reason: 'broken-local-game-url' });
       } else if (!String(url).startsWith('/')) {
         try {
           const parsed = new URL(String(url));

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="">
   <meta name="theme-color" content="#0a0a1a">
-  <meta name="description" content="STRATO v5 — The Living Hideout">
+  <meta name="description" content="STRATO">
   <title>STRATO</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/favicon.png">
@@ -28,7 +28,7 @@
   <div id="splash" class="splash">
     <div class="splash-content">
       <div class="splash-logo">STRATO</div>
-      <div class="splash-version">v5.0.1 THE LIVING HIDEOUT</div>
+      <div class="splash-version">STRATO</div>
       <div class="splash-bar-track"><div class="splash-bar" style="width:0%"></div></div>
       <div class="splash-engines">
         <span id="splash-engine-bare"><span class="splash-dot"></span> Bare</span>
@@ -104,7 +104,6 @@
     <nav class="topbar">
       <div class="topbar-brand">
         <span class="logo-text">STRATO</span>
-        <span class="logo-version">v5</span>
       </div>
       <div class="topbar-nav">
         <button class="nav-btn active" data-view="home">Home</button>
@@ -156,13 +155,11 @@
 
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
-        <div class="hideout-home" aria-label="STRATO Launch OS">
+        <div class="hideout-home" aria-label="STRATO">
           <header class="hideout-identity">
             <div class="identity-mark" aria-hidden="true">S</div>
             <div class="identity-copy">
-              <p class="open-kicker">Launch OS · v5.03</p>
               <h1>STRATO</h1>
-              <p>Search, pick, launch.</p>
             </div>
             <div class="identity-metrics" aria-label="Live STRATO stats">
               <div><span id="home-live-games">54</span><small>playable</small></div>
@@ -174,15 +171,14 @@
 
           <section class="hideout-search" aria-label="Search the STRATO catalog">
             <div class="search-intro">
-              <p class="section-eyebrow">Ready</p>
-              <h2>Find a game.</h2>
+              <h2>Games</h2>
             </div>
             <div class="search-controls">
               <label class="sr-only" for="home-search">Search the catalog</label>
               <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false" data-focus-home-search>
               <button class="launch-button" id="surprise-me" type="button">Surprise Me</button>
             </div>
-            <div class="spotlight-helper" aria-hidden="true"><span>↑↓ move</span><span>Enter launch</span><span>Esc clear</span><span id="home-last-action">Ready</span></div>
+            <div class="spotlight-helper" aria-hidden="true"><span>Search or enter URL</span><span id="home-last-action">Ready</span></div>
             <div class="mood-strip" id="home-filter-row" aria-label="Quick mood filters"></div>
             <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
           </section>
@@ -200,10 +196,8 @@
               <section class="hideout-section" id="daily-picks-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Picked for today.</p>
-                    <h2 class="section-title">Today’s Hideout Picks</h2>
+                    <h2 class="section-title">Picks</h2>
                   </div>
-                  <span class="section-signal">Real catalog only</span>
                 </div>
                 <div class="home-card-row featured-row" id="daily-picks"></div>
               </section>
@@ -211,8 +205,7 @@
               <section class="hideout-section" id="home-recent-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Continue playing.</p>
-                    <h2 class="section-title">Recent Launches</h2>
+                    <h2 class="section-title">Recent</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-recent"></div>
@@ -221,8 +214,7 @@
               <section class="hideout-section" id="home-favorites-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Pinned locally.</p>
-                    <h2 class="section-title">Hideout Shelf</h2>
+                    <h2 class="section-title">Favorites</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-favorites"></div>
@@ -231,8 +223,7 @@
               <section class="hideout-section hidden" id="home-most-played-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Only after real launches.</p>
-                    <h2 class="section-title">Most Launched</h2>
+                    <h2 class="section-title">Most Played</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-most-played"></div>
@@ -241,10 +232,8 @@
               <section class="hideout-section" id="home-all-games-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Clean catalog.</p>
-                    <h2 class="section-title">Browse the Launch Shelf</h2>
+                    <h2 class="section-title">Games</h2>
                   </div>
-                  <span class="section-signal">54 playable games</span>
                 </div>
                 <div class="home-card-row dense-grid" id="home-all-games"></div>
               </section>
@@ -254,8 +243,7 @@
               <section class="hideout-section hidden" id="home-moods-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Explore by mood.</p>
-                    <h2 class="section-title">Mood Trails</h2>
+                    <h2 class="section-title">Categories</h2>
                   </div>
                 </div>
                 <div class="mood-strip vertical" id="home-moods"></div>
@@ -264,7 +252,6 @@
               <section class="hideout-section" id="signal-health-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Catalog Pulse</p>
                     <h2 class="section-title">Pulse</h2>
                   </div>
                 </div>
@@ -274,8 +261,7 @@
               <section class="hideout-section" id="home-controls-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Local controls.</p>
-                    <h2 class="section-title">Control Center</h2>
+                    <h2 class="section-title">Controls</h2>
                   </div>
                 </div>
                 <div class="control-grid">
@@ -674,8 +660,7 @@
               <h3>About STRATO</h3>
               <div class="about-info">
                 <div class="about-logo">STRATO</div>
-                <div class="about-version">v5.0.1 THE LIVING HIDEOUT</div>
-                <p class="about-desc">A self-hosted launch universe for arcade discovery, quick starts, and local personalization.</p>
+                <p class="about-desc">A self-hosted arcade and app hub.</p>
                 <div class="about-credits">
                   <p>Built with Express 5, Ultraviolet, Scramjet, and z-ai-web-dev-sdk</p>
                 </div>
@@ -768,8 +753,8 @@
   <script src="/js/bookmarks.js"></script>
   <script src="/js/extensions.js"></script>
   <script src="/js/pwa.js"></script>
-  <script src="/js/open-home-runtime.js?v=5.0.3-polish"></script>
-  <script src="/js/app.js?v=5.0.3-polish"></script>
+  <script src="/js/open-home-runtime.js"></script>
+  <script src="/js/app.js"></script>
 
 </body>
 </html>

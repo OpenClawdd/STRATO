@@ -146,7 +146,7 @@
 
     container.innerHTML = `
       <div class="pwa-update-prompt" id="pwa-update-prompt" style="background:var(--glass-heavy);backdrop-filter:var(--blur);border:1px solid var(--accent-border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px">
-        <div class="pwa-update-text" style="flex:1;color:var(--fg)">A new version of STRATO is available</div>
+        <div class="pwa-update-text" style="flex:1;color:var(--fg)">A STRATO update is available</div>
         <div class="pwa-update-actions" style="display:flex;gap:8px">
           <button class="glass-btn small primary" id="pwa-update-btn">Update Now</button>
           <button class="pwa-dismiss" id="pwa-update-dismiss-btn" style="background:none;border:none;color:var(--fg-faint);font-size:18px;cursor:pointer">&times;</button>
@@ -172,7 +172,7 @@
     // Also show a toast
     if (window.showToast) {
       window.showToast(
-        "STRATO updated! Refresh to get the latest version.",
+        "STRATO updated. Refresh when ready.",
         "accent",
       );
     }

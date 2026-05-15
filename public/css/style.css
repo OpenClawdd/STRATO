@@ -2541,7 +2541,7 @@ body.low-power .home-search-result {
 }
 
 /* ══════════════════════════════════════════════════════════
-   STRATO v5 LIVING HIDEOUT FRONTEND
+   STRATO FRONTEND
    Purpose-built Launch Deck layer. Keeps old app surfaces intact.
    ══════════════════════════════════════════════════════════ */
 .sr-only {
@@ -3161,7 +3161,7 @@ body.low-power .home-search-result {
   .launch-button,
   .glass-btn { width: 100%; min-height: 44px; }
 }
-/* STRATO v5 — The Living Hideout refinements */
+/* STRATO frontend refinements */
 .first-run-hint {
   grid-column: 1 / -1;
   display: flex;
@@ -3230,7 +3230,7 @@ body.low-power .home-search-result {
   box-shadow: none;
 }
 
-/* FINAL STRATO Launch OS polish: reference-inspired, data-first, low-noise. */
+/* Final STRATO polish: reference-inspired, data-first, low-noise. */
 :root {
   --bg-void: #020304;
   --bg-deep: #05070a;
@@ -3621,8 +3621,7 @@ body::before {
 }
 
 
-/* STRATO v5.03 — Frontend Launch Polish */
-.hideout-identity.v503-hero,
+/* Frontend launch polish */
 .hideout-identity {
   position: relative;
 }
@@ -3804,5 +3803,230 @@ body::before {
   }
   .card-actions span {
     text-align: center;
+  }
+}
+
+/* Alignment cleanup */
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) minmax(0, auto) minmax(112px, 1fr);
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  min-height: 48px;
+  padding: 0 14px;
+  overflow: hidden;
+}
+
+.topbar-brand,
+.topbar-nav,
+.topbar-actions {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+}
+
+.topbar-brand {
+  justify-self: start;
+  min-width: 0;
+}
+
+.topbar-nav {
+  justify-self: center;
+  justify-content: center;
+  gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.topbar-actions {
+  justify-self: end;
+  justify-content: flex-end;
+}
+
+.logo-text {
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+.logo-version,
+.open-kicker,
+.splash-version,
+.about-version {
+  display: none !important;
+}
+
+.nav-btn,
+.nav-link,
+.topbar-action,
+.topbar-icon-btn {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hideout-home {
+  align-items: center;
+  justify-items: center;
+}
+
+.hideout-identity {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  width: min(760px, 100%);
+  margin: clamp(20px, 5vh, 56px) auto 0;
+}
+
+.identity-copy {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.identity-copy h1 {
+  text-align: center;
+}
+
+.identity-metrics,
+.identity-status {
+  display: none !important;
+}
+
+.hideout-search,
+.hideout-actions {
+  width: min(760px, calc(100vw - 32px));
+}
+
+.search-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+}
+
+.spotlight-input {
+  width: 100%;
+}
+
+.hideout-actions {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.hideout-action {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.hideout-layout,
+.hideout-primary-stack,
+.hideout-section,
+#games-grid,
+.arcade-recent-section,
+.hub-grid {
+  width: min(1200px, calc(100vw - 32px));
+}
+
+.home-card-row,
+.games-grid,
+.game-grid {
+  align-items: start;
+}
+
+.home-game-card,
+.game-card,
+.hideout-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.home-card-thumb,
+.game-card-thumb,
+.hideout-thumb,
+.hideout-thumb-wrap img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.game-card-info,
+.home-card-body,
+.hideout-card-body {
+  min-height: 42px;
+  display: grid;
+  align-content: center;
+}
+
+.game-card-name,
+.home-card-title,
+.hideout-card h3 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .topbar-nav {
+    justify-content: flex-start;
+  }
+
+  .topbar-actions {
+    gap: 4px;
+  }
+
+  .topbar-action {
+    display: none;
+  }
+
+  .hideout-search,
+  .hideout-actions,
+  .hideout-layout,
+  .hideout-primary-stack,
+  .hideout-section,
+  #games-grid,
+  .arcade-recent-section,
+  .hub-grid {
+    width: min(100%, calc(100vw - 24px));
+  }
+
+  .hideout-actions {
+    grid-template-columns: repeat(5, minmax(72px, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .search-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .hideout-actions {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .hideout-action {
+    flex: 0 0 84px;
+  }
+
+  .games-grid,
+  .game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
   }
 }

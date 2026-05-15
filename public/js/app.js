@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v5.01 — legacy companion runtime
+   STRATO client runtime
    The Ultimate Edition — Client Application
    ══════════════════════════════════════════════════════════ */
 
@@ -862,10 +862,10 @@
       };
     }
 
+    if (game.reliability === "red")
+      return { status: "invalid", reason: "needs review" };
     if (!hasUsableThumbnail(game))
       return { status: "thumbnail-fallback", reason: "thumbnail missing" };
-    if (game.reliability === "red")
-      return { status: "playable", reason: "playable" };
     return { status: "ready", reason: "ready" };
   }
 
@@ -3841,7 +3841,7 @@
 
     // Welcome notification
     try {
-      addNotification("STRATO v5.01 loaded", "info");
+      addNotification("STRATO loaded", "info");
     } catch (e) {}
 
     // Fade out splash — ALWAYS runs even if earlier steps had errors

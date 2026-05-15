@@ -111,8 +111,7 @@ function renderHeroStats() {
   if (games) games.textContent = String(playable.length);
   if (pickNode) pickNode.textContent = String(picks.length);
   if (moodNode) moodNode.textContent = String(moods.length);
-  if (statusChip)
-    statusChip.textContent = `${playable.length} launchable · v5.03`;
+  if (statusChip) statusChip.textContent = `${playable.length} games`;
   if (lastAction)
     lastAction.textContent = last
       ? `Last: ${nameOf(last)} · ${shortDate(lastPlayed[last.id])}`

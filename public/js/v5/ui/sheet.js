@@ -37,7 +37,6 @@ export function openSheet(game, { onLaunch, onToggleFavorite } = {}) {
     <div class="game-sheet-grid">
       <div class="sheet-art"><img src="${escapeHtml(thumb(game))}" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt=""></div>
       <div class="sheet-copy">
-        <p class="section-eyebrow">Launch Sheet · v5.03</p>
         <h2 id="sheet-title">${escapeHtml(nameOf(game))}</h2>
         <p class="home-result-meta">${escapeHtml(categoryOf(game))}${label ? ` · ${escapeHtml(label)}` : ""}</p>
         ${description ? `<p class="sheet-description">${escapeHtml(description)}</p>` : ""}

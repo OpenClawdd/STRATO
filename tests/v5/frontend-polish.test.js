@@ -69,7 +69,8 @@ describe("v5.03 frontend polish", () => {
       path.join(rootDir, "public", "index.html"),
       "utf8",
     );
-    expect(html).toContain("v5.03");
+    expect(html).toContain("STRATO");
+    expect(html).not.toContain("Launch OS");
     expect(html).toContain("home-all-games");
     expect(html).toContain("data-focus-home-search");
   });
