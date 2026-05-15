@@ -14,6 +14,7 @@
     "format": "prettier --write 'src/**/*.js' 'public/js/**/*.js'",
     "format:check": "prettier --check 'src/**/*.js' 'public/js/**/*.js'",
     "postinstall": "node scripts/setup-proxy.cjs",
+    "audit:playability": "node scripts/audit-playability.mjs",
     "validate:games": "node scripts/validate-games.mjs",
     "validate:sites": "node scripts/validate-sites.mjs",
     "source:check": "node scripts/check-sources.mjs",

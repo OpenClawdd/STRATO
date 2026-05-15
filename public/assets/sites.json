@@ -715,7 +715,16 @@
     "url": "https://selenite.cc",
     "stars": 3,
     "category": "games",
-    "description": "Popular unblocked games site",
+    "description": "Verified source/hub candidate; catalog must be captured before importing games.",
+    "iframe_safe": false
+  },
+  {
+    "id": "gn-math",
+    "name": "GN Math",
+    "url": "https://gn-math.dev",
+    "stars": 3,
+    "category": "games",
+    "description": "Verified source/hub candidate; catalog must be captured before importing games.",
     "iframe_safe": false
   },
   {

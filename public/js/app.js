@@ -1230,6 +1230,16 @@
       tierIcon = '<span class="tier-purple">&#9734;</span>';
     else if (game.tier === 1)
       tierIcon = '<span class="tier-standalone">LOCAL</span>';
+    const sourceBadge = (() => {
+      const url = String(game.url || "");
+      const reliability = String(game.reliability || "").toLowerCase();
+      if (game.category === "import-review" || getGameTags(game).includes("captured"))
+        return "Source";
+      if (url.startsWith("/games/")) return "Local";
+      if (reliability === "yellow" || reliability === "red" || health.status !== "ready")
+        return "Needs check";
+      return "External";
+    })();
     return `
       <div class="game-card glass ${isUnavailable ? "unavailable" : ""} ${isUnresolved ? "config-required" : ""}" data-game-id="${escapeHtml(game.id)}">
         <div class="game-card-inner">
@@ -1240,6 +1250,7 @@
             ${statusBadge}
             ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + "</span>" : ""}
           </div>
+          <span class="game-source-badge ${sourceBadge === "Local" ? "local" : sourceBadge === "External" ? "external" : "review"}">${escapeHtml(sourceBadge)}</span>
           <button class="fav-btn ${isFav ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? "Remove from favorites" : "Add to favorites"}">${isFav ? "\u2605" : "\u2606"}</button>
           <img class="game-card-thumb" src="${escapeHtml(thumbnailFor(game))}" alt="${escapeHtml(getGameName(game))}" loading="lazy" data-game-id="${escapeHtml(game.id)}" data-game-url="${escapeHtml(game.url || "")}" data-game-name="${escapeHtml(getGameName(game))}" data-fallback-src="${escapeHtml(fallbackThumbnail(game))}">
           <div class="game-card-info">
@@ -2729,8 +2740,7 @@
       document.getElementById("hub-category-filter")?.value ||
       "all";
     state.filteredHubSites = state.hubSites.filter((site) => {
-      const matchesCategory =
-        activeCategory === "all" || site.category === activeCategory;
+      const matchesCategory = hubFilterMatches(activeCategory, site);
       const haystack = [site.name, site.description, site.category, site.url]
         .join(" ")
         .toLowerCase();
@@ -2739,11 +2749,38 @@
     renderHubSites();
   }
 
+  function hubFilterMatches(filter, site) {
+    if (filter === "all") return true;
+    const category = String(site.category || "").toLowerCase();
+    const groups = {
+      arcade: new Set(["arcade", "games", "game-hubs"]),
+      games: new Set(["games", "game-hubs", "arcade"]),
+      proxy: new Set(["proxy", "proxies"]),
+      apps: new Set(["apps", "app", "social", "education"]),
+      media: new Set(["media", "entertainment"]),
+      tools: new Set(["tools", "directories", "directory", "education"]),
+    };
+    return groups[filter]?.has(category) || category === filter;
+  }
+
   function renderHubCategories() {
+    const fixedLabels = [
+      ["all", "All"],
+      ["arcade", "Arcade"],
+      ["games", "Games"],
+      ["proxy", "Proxy"],
+      ["apps", "Apps"],
+      ["media", "Media"],
+      ["tools", "Tools"],
+    ];
+    const fixed = new Set(fixedLabels.map(([value]) => value));
     const categories = [
       ...new Set(state.hubSites.map((site) => site.category).filter(Boolean)),
-    ].sort((a, b) => a.localeCompare(b));
-    const labels = [["all", "All"], ...categories.map((cat) => [cat, cat])];
+    ]
+      .map((cat) => String(cat).toLowerCase())
+      .filter((cat) => !fixed.has(cat))
+      .sort((a, b) => a.localeCompare(b));
+    const labels = [...fixedLabels, ...categories.map((cat) => [cat, cat])];
     const strip = document.getElementById("hub-categories");
     if (strip) {
       strip.innerHTML = labels

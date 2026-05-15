@@ -3507,6 +3507,36 @@ body::before {
 .game-card-category,
 .game-card-badges { display: none; }
 
+.game-source-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 4px;
+  padding: 4px 6px;
+  background: rgba(0,0,0,0.68);
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.game-source-badge.local {
+  border-color: rgba(34,197,94,0.34);
+  color: #86efac;
+}
+
+.game-source-badge.external {
+  border-color: rgba(59,130,246,0.34);
+  color: #93c5fd;
+}
+
+.game-source-badge.review {
+  border-color: rgba(234,179,8,0.36);
+  color: #fde68a;
+}
+
 .hub-grid {
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 10px;
@@ -3543,6 +3573,44 @@ body::before {
   color: #00e5ff;
   padding: 6px 9px;
   cursor: pointer;
+}
+
+.hub-import-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: min(1200px, 100%);
+  margin: 0 auto 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0,0,0,0.40);
+}
+
+.hub-import-card strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 3px;
+}
+
+.hub-import-card p {
+  margin: 0;
+  color: rgba(255,255,255,0.62);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hub-doc-link {
+  flex: 0 0 auto;
+  border: 1px solid rgba(0,229,255,0.35);
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: #00e5ff;
+  text-decoration: none;
+  background: rgba(0,229,255,0.10);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 #view-browser {

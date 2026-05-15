@@ -24,6 +24,12 @@ const NAV_JUNK = new Set([
   "terms",
   "login",
   "search",
+  "menu",
+  "play",
+  "more",
+  "back",
+  "next",
+  "previous",
 ]);
 
 function readJson(file) {
@@ -43,6 +49,34 @@ function slugify(value) {
     .slice(0, 72);
 }
 
+function normalizeText(value) {
+  return clean(value).toLowerCase();
+}
+
+function normalizeHref(value, sourceUrl = "") {
+  const href = clean(value);
+  if (!href) return "";
+  try {
+    return new URL(href, sourceUrl || undefined).toString().replace(/\/$/, "").toLowerCase();
+  } catch {
+    return href.toLowerCase();
+  }
+}
+
+function providerFromSource(sourceUrl) {
+  try {
+    const host = new URL(sourceUrl).hostname.replace(/^www\./, "").toLowerCase();
+    if (host.includes("selenite.cc")) return "selenite";
+    if (host.includes("gn-math.dev")) return "gn-math";
+    if (host.includes("frogie")) return "frogie";
+    if (host.includes("lucide")) return "lucide";
+    if (host.includes("vapor")) return "vapor";
+    return host;
+  } catch {
+    return "unknown";
+  }
+}
+
 function isNavJunk(item) {
   const text = clean(item.text || item.title || item.alt);
   const key = text.toLowerCase();
@@ -55,6 +89,7 @@ function isNavJunk(item) {
 function normalizeCapture(raw, file) {
   const sourceUrl = clean(raw.sourceUrl || raw.url || raw.origin || "");
   const capturedAt = clean(raw.capturedAt || raw.timestamp || "");
+  const provider = providerFromSource(sourceUrl);
   const items = Array.isArray(raw.items)
     ? raw.items
     : Array.isArray(raw)
@@ -71,6 +106,7 @@ function normalizeCapture(raw, file) {
       const idBase = slugify(title || href || `${path.basename(file)}-${index}`);
       return {
         id: idBase,
+        provider,
         sourceUrl,
         sourceTitle: clean(raw.title),
         title,
@@ -80,6 +116,7 @@ function normalizeCapture(raw, file) {
         capturedAt: capturedAt || null,
         evidence: {
           sourceFile: path.relative(root, file),
+          provider,
           sourceUrl,
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
@@ -97,7 +134,7 @@ function normalizeCapture(raw, file) {
 function dedupe(candidates) {
   const seen = new Set();
   return candidates.filter((candidate) => {
-    const key = `${candidate.title.toLowerCase()}|${candidate.href.toLowerCase()}|${candidate.image || ""}`;
+    const key = `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -124,7 +161,29 @@ const files = fs.existsSync(capturesDir)
       .map((name) => path.join(capturesDir, name))
   : [];
 
-const candidates = dedupe(files.flatMap((file) => normalizeCapture(readJson(file), file)));
+const candidates = dedupe(
+  files.flatMap((file) => {
+    try {
+      return normalizeCapture(readJson(file), file);
+    } catch (error) {
+      return [
+        {
+          id: slugify(path.basename(file)),
+          provider: "unknown",
+          sourceUrl: "",
+          sourceTitle: "",
+          title: "",
+          text: "",
+          href: "",
+          image: null,
+          capturedAt: null,
+          importError: error.message,
+          evidence: { sourceFile: path.relative(root, file), error: error.message },
+        },
+      ];
+    }
+  }).filter((candidate) => !candidate.importError),
+);
 
 const report = {
   generatedAt: new Date().toISOString(),
@@ -159,7 +218,8 @@ if (apply) {
       tier: 3,
       reliability: "yellow",
       description: `Captured from ${candidate.sourceUrl || "browser export"}`,
-      tags: ["captured", "reviewed"],
+      tags: ["captured", "reviewed", candidate.provider].filter(Boolean),
+      provider: candidate.provider,
       evidence: candidate.evidence,
     }))
     .map((game) => {
