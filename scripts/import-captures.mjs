@@ -376,6 +376,9 @@ function normalizeCandidateHref(item, sourceUrl, provider) {
   if (provider === "frogie") {
     return frogieResolvedHref(rawHref, sourceUrl);
   }
+  if (provider === "lucide") {
+    return "https://lucideon.top/g/frame";
+  }
   if (provider === "selenite" && slug) {
     return `https://selenite.cc/projects/${slug}`;
   }
@@ -412,6 +415,34 @@ function isGnMathGameCard(item) {
   return href.includes("openGame(") && id !== "-1";
 }
 
+function lucideImageParts(image) {
+  const value = clean(image);
+  if (!value.includes("/api/v1/icon/")) return null;
+  try {
+    const url = new URL(value);
+    const segments = url.pathname.split("/").filter(Boolean);
+    if (segments.length < 6) return null;
+    const sourceGroup = segments.at(-2);
+    const lucideGameId = segments.at(-1);
+    if (!sourceGroup || !lucideGameId) return null;
+    return { sourceGroup, lucideGameId };
+  } catch {
+    return null;
+  }
+}
+
+function isLucideFrameCard(item) {
+  const sourceEvidence = clean(item.sourceEvidence || item.evidence);
+  const text = clean(item.text || item.title || item.name || item.alt);
+  const image = clean(item.image || item.thumbnail || item.img);
+  return (
+    sourceEvidence === "lucide-frame-dom" &&
+    Boolean(text) &&
+    Boolean(image) &&
+    Boolean(lucideImageParts(image))
+  );
+}
+
 function normalizeCapture(raw, file, stats) {
   const sourceUrl = clean(raw.sourceUrl || raw.url || raw.origin || "");
   const capturedAt = clean(raw.capturedAt || raw.timestamp || "");
@@ -438,6 +469,10 @@ function normalizeCapture(raw, file, stats) {
         stats.navJunkSkipped += 1;
         return false;
       }
+      if (provider === "lucide" && !isLucideFrameCard(item)) {
+        stats.navJunkSkipped += 1;
+        return false;
+      }
       const keep = !isNavJunk(item);
       if (!keep) stats.navJunkSkipped += 1;
       return keep;
@@ -454,22 +489,32 @@ function normalizeCapture(raw, file, stats) {
       if (provider === "frogie" && !href) {
         return null;
       }
+      const lucideParts = provider === "lucide" ? lucideImageParts(item.image || item.thumbnail || item.img) : null;
       const gnMathId = provider === "gn-math" ? gnMathIdFromHref(rawHref) : null;
-      const slug = slugify(item.slug || slugFromHref(rawHref || href, sourceUrl) || gnMathId);
+      const slug = slugify(
+        item.slug ||
+          (provider === "lucide" && lucideParts ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}` : "") ||
+          slugFromHref(rawHref || href, sourceUrl) ||
+          gnMathId,
+      );
       const titleSource =
         provider === "gn-math"
           ? cleanGnMathTitle(item.text || item.title || item.name || item.alt)
           : provider === "1key"
             ? cleanOneKeyTitle(item.text || item.title || item.name || item.alt)
-          : item.text || item.title || item.name || item.alt;
-      const title = provider === "gn-math"
-        ? prettifyTitle(titleSource, slug)
-        : provider === "1key"
-          ? prettifyTitle(titleSource, slug)
-        : prettifyTitle(titleSource, slug);
+            : provider === "lucide"
+              ? clean(item.text || item.title || item.name || item.alt)
+              : item.text || item.title || item.name || item.alt;
+      const prettyTitle = provider === "lucide" ? titleSource : prettifyTitle(titleSource, slug);
       const image = normalizeImage(item.image || item.thumbnail || item.img);
-      const idBase = slugify(title || slug || href || `${path.basename(file)}-${index}`);
-      const reviewRequired = needsHumanReview(title, slug);
+      const idBase = slugify(
+        (provider === "lucide" && lucideParts ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}` : "") ||
+          prettyTitle ||
+          slug ||
+          href ||
+          `${path.basename(file)}-${index}`,
+      );
+      const reviewRequired = needsHumanReview(prettyTitle, slug);
       if (!image) stats.nullThumbnails += 1;
       if (reviewRequired) stats.needsReview += 1;
       return {
@@ -480,7 +525,7 @@ function normalizeCapture(raw, file, stats) {
         category: "games",
         sourceUrl,
         sourceTitle: clean(raw.title),
-        title,
+        title: prettyTitle,
         text: clean(item.text || item.title || item.name || item.alt),
         href,
         image,
@@ -490,7 +535,7 @@ function normalizeCapture(raw, file, stats) {
         tier: 3,
         needsCheck: true,
         needsReview: reviewRequired,
-        tags: ["captured", provider, "external", "needs-check"].filter(Boolean),
+        tags: ["captured", provider, "external", "needs-check", lucideParts?.sourceGroup].filter(Boolean),
         approved: provider === "selenite",
         reviewStatus: provider === "selenite" ? "approved" : "pending",
         evidence: {
@@ -500,7 +545,10 @@ function normalizeCapture(raw, file, stats) {
           sourceEvidence: clean(item.sourceEvidence || item.evidence),
           rawHref: provider === "1key" ? null : rawHref,
           gnMathId,
+          sourceGroup: lucideParts?.sourceGroup || undefined,
+          lucideGameId: lucideParts?.lucideGameId || undefined,
           generatedFromTitle: provider === "1key" ? true : undefined,
+          generatedFromImage: provider === "lucide" ? true : undefined,
           routePattern: provider === "1key" ? "/games/game/?id=<slug>" : undefined,
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
@@ -510,6 +558,7 @@ function normalizeCapture(raw, file, stats) {
           className: clean(item.className),
           tag: clean(item.tag),
         },
+        sourceGroup: lucideParts?.sourceGroup || undefined,
       };
     })
     .filter((candidate) => candidate && (candidate.title || candidate.href || candidate.image));
@@ -521,6 +570,10 @@ function dedupe(candidates, stats) {
     const key =
       candidate.provider === "gn-math" && candidate.evidence?.gnMathId != null
         ? `gn-math|${candidate.evidence.gnMathId}`
+        : candidate.provider === "lucide" &&
+            candidate.evidence?.lucideGameId &&
+            candidate.evidence?.sourceGroup
+          ? `lucide|${candidate.evidence.sourceGroup}|${candidate.evidence.lucideGameId}`
         : `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
     if (seen.has(key)) {
       stats.duplicatesSkipped += 1;
