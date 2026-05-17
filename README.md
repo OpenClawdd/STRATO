@@ -1,13 +1,15 @@
 # STRATO v5 — The Living Hideout
 
-STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
+STRATO is the place you open first: a clean game-first Launch OS for the fun side of the internet, built around fast local catalog search, recoverable launches, local personalization, and honest catalog trust.
 
 The current app is an Express 5 server with a single-page frontend, a local game catalog, WebSocket chat support, optional AI features, PWA assets, and local personalization powered by `localStorage`.
 
 ## What Is Implemented
 
-- STRATO v5 Living Hideout Home with dominant catalog search, real Daily Picks, Recent Launches, Favorites, Most Played, Mood Filters, Catalog Pulse, and local controls.
+- STRATO v5 Living Hideout Home with dominant catalog search, real Daily Picks, Continue Playing, Favorites, Popular Signals, Mood Filters, Catalog Pulse, and local controls.
+- STRATO Launch OS v1 dock: Home, Games, Favorites, Recent, Random, Signal Health, and Settings.
 - Real personalization using `strato-favorites`, `strato-recent`, `strato-playCounts`, `strato-lastPlayed`, `strato-preferences`, and `strato-recentFailures`.
+- STRATO Save Capsule export/import for local personalization, with validation before import writes.
 - Signal Health checks that keep missing URLs, config-required entries, local failures, and non-game surfaces out of featured home sections.
 - Launch recovery modal with Retry, Try Surprise Me, Back to STRATO, and similar game suggestions when metadata allows it.
 - Fallback thumbnail art for missing or broken images.
@@ -28,7 +30,7 @@ The current app is an Express 5 server with a single-page frontend, a local game
 
 ## Responsible Use
 
-STRATO should be treated as a self-hosted arcade/app hub. Do not use the project description, README, catalog, or UI to frame STRATO as a restriction-circumvention tool. Only import catalog metadata from public/allowed sources, respect licensing and terms, and do not hotlink assets unless allowed.
+STRATO should be treated as a self-hosted arcade/app hub. Do not use the project description, README, catalog, or UI to frame STRATO as a restriction-circumvention tool. STRATO intentionally does not implement piracy, unauthorized movie/TV/music streaming, media mirror routing, cloak/evasion controls, fake online counts, or fabricated popularity. Only import catalog metadata from public/allowed sources, respect licensing and terms, and do not hotlink assets unless allowed.
 
 ## Requirements
 
@@ -127,6 +129,7 @@ public/games/                 Local standalone games
 scripts/validate-games.mjs    Catalog validator
 scripts/import-catalog.mjs    Review-first import engine
 tests/                        Vitest test suite
+docs/STRATO_LAUNCH_OS.md      Launch OS product contract
 ```
 
 ## License

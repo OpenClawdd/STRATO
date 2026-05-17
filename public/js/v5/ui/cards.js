@@ -66,6 +66,7 @@ export function statusLabel(game) {
 }
 
 function localMeta(game) {
+  if (game?.signalReason) return game.signalReason;
   const count = Number(readJson(keys.playCounts, {})[game.id] || 0);
   const last = readJson(keys.lastPlayed, {})[game.id];
   if (count > 0) return `${count} launch${count === 1 ? "" : "es"}`;

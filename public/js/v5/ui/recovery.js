@@ -14,14 +14,14 @@ export function showRecovery(
   overlay.id = "launch-failure-overlay";
   overlay.innerHTML = `<div class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
     <div class="recovery-mark">!</div>
-    <p class="section-eyebrow">No dead ends.</p>
-    <h2 id="recovery-title">Launch paused.</h2>
-    <p>${game ? `${escapeHtml(nameOf(game))} could not launch.` : "That launch route is unavailable."} ${escapeHtml(reason || "")}</p>
+    <p class="section-eyebrow">Signal weak</p>
+    <h2 id="recovery-title">This launch path did not respond.</h2>
+    <p>${game ? `${escapeHtml(nameOf(game))} is still in the catalog.` : "That route is unavailable."} Try another route. ${escapeHtml(reason || "")}</p>
     <div class="recovery-actions">
       ${game ? '<button class="launch-button" data-recovery="retry" type="button">Retry</button>' : ""}
-      <button class="glass-btn" data-recovery="surprise" type="button">Try another launch</button>
-      <button class="glass-btn" data-recovery="search" type="button">Search again</button>
-      <button class="glass-btn" data-recovery="home" type="button">Back to STRATO</button>
+      <button class="glass-btn" data-recovery="surprise" type="button">Surprise Me</button>
+      <button class="glass-btn" data-recovery="search" type="button">Search</button>
+      <button class="glass-btn" data-recovery="home" type="button">Back Home</button>
     </div>
     ${similar.length ? `<div class="nearby-list"><p class="home-result-meta">Similar games</p>${similar.map((item) => `<button class="similar-game-btn" data-similar="${escapeHtml(item.id)}" type="button"><span>${escapeHtml(nameOf(item))}</span><span>${escapeHtml(categoryOf(item))}</span></button>`).join("")}</div>` : ""}
   </div>`;

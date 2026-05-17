@@ -54,6 +54,7 @@
   // ──────────────────────────────────────────
   const startTime = Date.now();
   let cpOpen = false; // Command palette state - declared early for keydown handler
+  const EVASION_FEATURES_ENABLED = false;
   // ── HTML escape utility — prevents XSS in all innerHTML rendering ──
   function escapeHtml(str) {
     const div = document.createElement("div");
@@ -87,8 +88,8 @@
     currentView: "home",
     currentEngine: localStorage.getItem("strato-engine") || "uv",
     autoFallback: localStorage.getItem("strato-autoFallback") !== "false",
-    panicKey: localStorage.getItem("strato-panicKey") || "`",
-    activeCloak: localStorage.getItem("strato-cloak") || "none",
+    panicKey: "",
+    activeCloak: "none",
     accentColor: localStorage.getItem("strato-accent") || "cyan",
     particlesEnabled: localStorage.getItem("strato-particles") !== "false",
     animationsEnabled: localStorage.getItem("strato-animations") !== "false",
@@ -224,6 +225,12 @@
   };
 
   function applyCloak(key) {
+    if (!EVASION_FEATURES_ENABLED) {
+      state.activeCloak = "none";
+      document.title = "STRATO";
+      localStorage.removeItem("strato-cloak");
+      return;
+    }
     const cloak = CLOAKS[key];
     if (!cloak) return;
     state.activeCloak = key;
@@ -244,6 +251,7 @@
   // PANIC KEY
   // ──────────────────────────────────────────
   function handlePanicKey() {
+    if (!EVASION_FEATURES_ENABLED) return;
     const cloakKey =
       state.activeCloak !== "none" ? state.activeCloak : "classroom";
     applyCloak(cloakKey);
@@ -270,18 +278,17 @@
       showToast("Panic key updated", "accent");
       return;
     }
-    if (e.key === state.panicKey) handlePanicKey();
+    if (EVASION_FEATURES_ENABLED && e.key === state.panicKey) handlePanicKey();
 
     // Number key shortcuts for views
     if (!e.ctrlKey && !e.altKey && !e.metaKey) {
       const viewMap = {
         1: "home",
         2: "arcade",
-        3: "browser",
-        4: "hub",
-        5: "chat",
-        6: "ai",
-        7: "settings",
+        3: "favorites",
+        4: "recent",
+        5: "signal",
+        6: "settings",
       };
       if (
         viewMap[e.key] &&
@@ -327,7 +334,7 @@
   // ──────────────────────────────────────────
   // VIEW SWITCHING
   // ──────────────────────────────────────────
-  const VIEWS = ["home", "arcade", "browser", "hub", "chat", "ai", "settings"];
+  const VIEWS = ["home", "arcade", "favorites", "recent", "signal", "settings", "browser", "hub", "chat", "ai"];
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;
@@ -402,13 +409,6 @@
         document.getElementById("home-url-input");
       if (urlInput) urlInput.value = targetUrl;
       navigateProxy(targetUrl);
-    });
-  window.STRATO_CLOAK =
-    window.STRATO_CLOAK ||
-    ((key) => {
-      const cloakSelect = document.getElementById("cloak-select");
-      if (cloakSelect) cloakSelect.value = key;
-      applyCloak(key);
     });
   window.STRATO_USERNAME = getUsername() || "Anonymous";
 
@@ -1292,6 +1292,7 @@
       "games-count-text": `${total} games`,
       "home-games-count": total,
       "arcade-badge": total,
+      "games-loaded-count": `${available}/${total} games loaded`,
     };
     for (const [id, val] of Object.entries(els)) {
       const el = document.getElementById(id);
@@ -1399,6 +1400,8 @@
       : state.filteredGames.filter((game) =>
           isLaunchableStatus(getGameHealth(game).status),
         );
+    const count = document.getElementById("games-loaded-count");
+    if (count) count.textContent = `${games.length}/${state.games.length} games loaded`;
     grid.innerHTML = games.map(renderGameCardMarkup).join("");
     bindGameGridEvents(grid);
     renderArcadeRecent();
@@ -2620,10 +2623,10 @@
       const section = item.dataset.settingsTab;
       if (section) {
         document
-          .querySelectorAll(".settings-section")
-          .forEach((s) => (s.style.display = "none"));
+          .querySelectorAll(".settings-panel")
+          .forEach((s) => s.classList.remove("active"));
         const target = document.getElementById(`settings-${section}`);
-        if (target) target.style.display = "";
+        if (target) target.classList.add("active");
       }
     });
   });
@@ -3109,6 +3112,10 @@
   // CLOAKED PROXY LAUNCHER (about:blank)
   // ──────────────────────────────────────────
   function launchCloakedProxy(url) {
+    if (!EVASION_FEATURES_ENABLED) {
+      showToast("Cloaked launch is not part of STRATO Launch OS.", "error");
+      return;
+    }
     const proxyUrl = getProxyUrl(url);
     if (!proxyUrl) return;
     const cloak = CLOAKS[state.activeCloak] || CLOAKS["classroom"];
@@ -3303,57 +3310,7 @@
     });
 
     // Actions
-    const actions = [
-      {
-        label: "Panic",
-        sub: "Activate panic mode",
-        match: "panic",
-        action: () => {
-          closeCommandPalette();
-          handlePanicKey();
-        },
-      },
-      {
-        label: "Cloak: Classroom",
-        sub: "Switch cloak preset",
-        match: "cloak classroom",
-        action: () => {
-          closeCommandPalette();
-          applyCloak("classroom");
-          showToast("Cloaked as Classroom", "accent");
-        },
-      },
-      {
-        label: "Cloak: Quizlet",
-        sub: "Switch cloak preset",
-        match: "cloak quizlet",
-        action: () => {
-          closeCommandPalette();
-          applyCloak("quizlet");
-          showToast("Cloaked as Quizlet", "accent");
-        },
-      },
-      {
-        label: "Cloak: Canvas",
-        sub: "Switch cloak preset",
-        match: "cloak canvas",
-        action: () => {
-          closeCommandPalette();
-          applyCloak("canvas");
-          showToast("Cloaked as Canvas", "accent");
-        },
-      },
-      {
-        label: "Cloak: None",
-        sub: "Remove cloak",
-        match: "cloak none",
-        action: () => {
-          closeCommandPalette();
-          applyCloak("none");
-          showToast("Cloak removed", "accent");
-        },
-      },
-    ];
+    const actions = [];
     actions.forEach((a) => {
       if (!q || a.label.toLowerCase().includes(q) || a.match.includes(q))
         results.push({
@@ -3573,6 +3530,7 @@
   }
 
   setInterval(() => {
+    if (!EVASION_FEATURES_ENABLED) return;
     if (autoCloakActive) return;
     if (localStorage.getItem("strato-auto-stealth") === "false") return;
     const idleMs = Date.now() - lastActivityTime;

@@ -37,6 +37,8 @@ function renderFirstRunHint(home) {
 
 function renderLaunchBay() {
   const bay = document.getElementById("launch-bay-empty");
+  const meta = document.getElementById("launch-meta");
+  const metaTitle = document.getElementById("launch-meta-title");
   if (!bay) return;
   const game = findGame(state.launchBay.gameId);
   const title = game ? nameOf(game) : "The Launch Bay is ready.";
@@ -49,16 +51,32 @@ function renderLaunchBay() {
           ? `${title} is running in the Launch Bay.`
           : "Search from Home, pick something, and launch.";
   bay.dataset.state = state.launchBay.status;
-  const h3 = bay.querySelector("h3"); if (h3) h3.textContent = title;
-  const p = bay.querySelector("p"); if (p) p.textContent = copy;
+  const h3 = bay.querySelector("h3");
+  if (h3) h3.textContent = title;
+  const p = bay.querySelector("p");
+  if (p) p.textContent = copy;
+  if (meta) meta.dataset.state = state.launchBay.status;
+  if (metaTitle) metaTitle.textContent = copy;
 }
 
 function bindNavigation(home) {
+  document.querySelectorAll(".nav-btn[data-view]").forEach((button) => {
+    button.addEventListener("click", () => setActiveView(button.dataset.view));
+  });
+
   document.querySelectorAll("[data-home-nav]").forEach((button) => {
     button.addEventListener("click", () =>
       setActiveView(button.dataset.homeNav),
     );
   });
+
+  document
+    .querySelectorAll(
+      "[data-dock-action='random'], [data-home-action='surprise']",
+    )
+    .forEach((button) => {
+      button.addEventListener("click", () => home.surprise());
+    });
 
   const search = document.getElementById("home-search");
   search?.addEventListener("input", (event) => {
@@ -101,8 +119,23 @@ function bindNavigation(home) {
         ?.scrollIntoView({ behavior: "smooth", block: "start" }),
     );
   document
-    .querySelector("[data-focus-home-search]")
-    ?.addEventListener("click", () => home.focusSearch());
+    .querySelectorAll("[data-focus-home-search]")
+    .forEach((button) =>
+      button.addEventListener("click", () => home.focusSearch()),
+    );
+
+  document
+    .getElementById("launch-back-games")
+    ?.addEventListener("click", () => {
+      setActiveView("arcade");
+    });
+
+  document
+    .getElementById("launch-fullscreen")
+    ?.addEventListener("click", () => {
+      const frame = document.getElementById("proxy-iframe");
+      frame?.requestFullscreen?.();
+    });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {

@@ -97,3 +97,36 @@ export function launchability(game) {
 
 export const health = launchability;
 export const isLaunchable = (game) => launchability(game).launchable;
+
+export function catalogDiagnostics(games) {
+  const list = Array.isArray(games) ? games : [];
+  const stats = {
+    loaded: list.length > 0,
+    total: list.length,
+    playable: 0,
+    local: 0,
+    external: 0,
+    fallbackArt: 0,
+    missingOrBroken: 0,
+    needsConfig: 0,
+    recentFailures: Object.keys(readJson(keys.failures, {})).length,
+  };
+
+  for (const game of list) {
+    const status = launchability(game);
+    if (status.launchable) stats.playable += 1;
+    if (status.kind === "local" && status.launchable) stats.local += 1;
+    if (status.kind === "external" && status.launchable) stats.external += 1;
+    if (status.status === "fallback-art") stats.fallbackArt += 1;
+    if (
+      ["missing-url", "invalid", "unsupported", "failed-locally"].includes(
+        status.status,
+      )
+    ) {
+      stats.missingOrBroken += 1;
+    }
+    if (status.status === "needs-config") stats.needsConfig += 1;
+  }
+
+  return stats;
+}

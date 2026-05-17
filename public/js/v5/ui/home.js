@@ -10,7 +10,7 @@ import {
   typeLabel,
   visibleCatalog,
 } from "../core/catalog.js";
-import { health } from "../core/health.js";
+import { catalogDiagnostics } from "../core/health.js";
 import { launchById } from "../core/launch.js";
 import { dailyPicks, surpriseCandidate } from "../core/picks.js";
 import { searchGames } from "../core/search.js";
@@ -81,6 +81,10 @@ function renderCards(id, list, emptyText, controller, variant = "") {
   bindCards(container, controller);
 }
 
+function withReason(game, reason) {
+  return game ? { ...game, signalReason: reason } : game;
+}
+
 function shortDate(timestamp) {
   if (!timestamp) return "Ready";
   try {
@@ -122,23 +126,101 @@ function renderHeroStats() {
 function renderPulse() {
   const pulse = document.getElementById("signal-health");
   if (!pulse) return;
-  const stats = state.games.reduce((acc, game) => {
-    const status = health(game).status;
-    acc[status] = (acc[status] || 0) + 1;
-    return acc;
-  }, {});
-  const playable = playableCatalog().length;
+  const stats = catalogDiagnostics(state.games);
   pulse.innerHTML = [
-    ["Launchable", playable],
-    ["Ready", stats.ready || 0],
-    ["Fallback art", stats["fallback-art"] || 0],
-    ["Paused", stats["failed-locally"] || 0],
+    ["Catalog", stats.loaded ? "loaded" : "unknown"],
+    ["Playable", stats.playable],
+    ["Local", stats.local],
+    ["External", stats.external],
+    ["Fallback art", stats.fallbackArt],
+    ["Weak signals", stats.missingOrBroken],
   ]
     .map(
       ([label, value]) =>
         `<div class="pulse-tile"><span>${escapeHtml(label)}</span><strong>${value}</strong></div>`,
     )
     .join("");
+}
+
+function renderSignalDashboard() {
+  const dashboard = document.getElementById("signal-dashboard");
+  const settingsSummary = document.getElementById("settings-signal-summary");
+  if (!dashboard && !settingsSummary) return;
+
+  const stats = catalogDiagnostics(state.games);
+  const localData = [
+    [keys.favorites, readJson(keys.favorites, [])],
+    [keys.recent, readJson(keys.recent, [])],
+    [keys.playCounts, readJson(keys.playCounts, {})],
+    [keys.lastPlayed, readJson(keys.lastPlayed, {})],
+    [keys.preferences, readJson(keys.preferences, {})],
+    [keys.failures, readJson(keys.failures, {})],
+  ].map(([key, value]) => ({
+    key,
+    status:
+      Array.isArray(value) || (value && typeof value === "object")
+        ? "readable"
+        : "unknown",
+    size: Array.isArray(value)
+      ? value.length
+      : value && typeof value === "object"
+        ? Object.keys(value).length
+        : 0,
+  }));
+
+  const tiles = [
+    ["Catalog", stats.loaded ? "Loaded" : "Unknown"],
+    ["Total games", stats.total],
+    ["Playable", stats.playable],
+    ["Local", stats.local],
+    ["External", stats.external],
+    ["Fallback art", stats.fallbackArt],
+    ["Missing / broken", stats.missingOrBroken],
+    ["Needs config", stats.needsConfig],
+    ["Recent failures", stats.recentFailures],
+    ["Audit status", "Run validator"],
+  ];
+  const html = `<div class="signal-health-grid wide">${tiles
+    .map(
+      ([label, value]) =>
+        `<div class="pulse-tile"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`,
+    )
+    .join("")}</div>
+    <section class="hideout-section signal-data-section">
+      <div class="home-section-head compact"><div><h3 class="section-title">Local Data</h3></div></div>
+      <div class="local-data-list">${localData
+        .map(
+          (item) =>
+            `<div><span>${escapeHtml(item.key)}</span><strong>${escapeHtml(item.status)} / ${item.size}</strong></div>`,
+        )
+        .join("")}</div>
+    </section>`;
+
+  if (dashboard) dashboard.innerHTML = html;
+  if (settingsSummary) {
+    settingsSummary.innerHTML = tiles
+      .slice(0, 6)
+      .map(
+        ([label, value]) =>
+          `<div class="pulse-tile"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`,
+      )
+      .join("");
+  }
+}
+
+function updateCollectionDock(favorites, recent) {
+  document
+    .querySelectorAll('[data-view="favorites"]')
+    .forEach((button) => button.classList.toggle("hidden", !favorites.length));
+  document
+    .querySelectorAll('[data-home-nav="favorites"]')
+    .forEach((button) => button.classList.toggle("hidden", !favorites.length));
+  document
+    .querySelectorAll('[data-view="recent"]')
+    .forEach((button) => button.classList.toggle("hidden", !recent.length));
+  document
+    .querySelectorAll('[data-home-nav="recent"]')
+    .forEach((button) => button.classList.toggle("hidden", !recent.length));
 }
 
 function renderMoods(controller) {
@@ -217,30 +299,36 @@ export function createHomeController() {
         .filter((game) => state.activeMood === "all" || list.includes(game))
         .slice(0, 12);
 
+      updateCollectionDock(favorites, recent);
       renderMoods(controller);
       renderCards(
         "daily-picks",
-        dailyPicks(),
+        dailyPicks().map((game) => withReason(game, "Daily signal")),
         "No daily picks are launchable yet.",
         controller,
         "featured",
       );
       renderCards(
         "home-favorites",
-        favorites,
+        favorites.map((game) => withReason(game, "Saved favorite")),
         "Your shelf is empty. Favorite a game you want close by.",
         controller,
       );
       renderCards(
         "home-recent",
-        recent,
+        recent.map((game) => withReason(game, "You played this recently")),
         "Nothing launched yet. Search anything, then launch instantly.",
         controller,
       );
       document
         .getElementById("home-most-played-section")
         ?.classList.toggle("hidden", most.length === 0);
-      renderCards("home-most-played", most, "", controller);
+      renderCards(
+        "home-most-played",
+        most.map((game) => withReason(game, "Most launched here")),
+        "",
+        controller,
+      );
       renderCards(
         "home-all-games",
         allGames,
@@ -249,6 +337,19 @@ export function createHomeController() {
         "shelf",
       );
       renderPulse();
+      renderSignalDashboard();
+      renderCards(
+        "favorites-grid",
+        favorites.map((game) => withReason(game, "Saved favorite")),
+        "",
+        controller,
+      );
+      renderCards(
+        "recent-grid",
+        recent.map((game) => withReason(game, "You played this recently")),
+        "",
+        controller,
+      );
       renderHeroStats();
       controller.search(document.getElementById("home-search")?.value || "");
     },

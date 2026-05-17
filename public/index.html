@@ -107,48 +107,17 @@
       </div>
       <div class="topbar-nav">
         <button class="nav-btn active" data-view="home">Home</button>
-        <button class="nav-btn" data-view="arcade">Arcade</button>
-        <button class="nav-btn" data-view="browser">Browser</button>
-        <button class="nav-btn" data-view="hub">Hub</button>
-        <button class="nav-btn" data-view="chat">Chat</button>
-        <button class="nav-btn" data-view="ai">AI</button>
+        <button class="nav-btn" data-view="arcade">Games</button>
+        <button class="nav-btn" data-view="favorites">Favorites</button>
+        <button class="nav-btn" data-view="recent">Recent</button>
+        <button class="nav-btn" data-dock-action="random">Random</button>
+        <button class="nav-btn" data-view="signal">Signal Health</button>
         <button class="nav-btn" data-view="settings">Settings</button>
       </div>
       <div class="topbar-actions">
         <button id="low-power-toggle" class="topbar-icon-btn" title="Low Power Mode">⚡</button>
-        <button class="topbar-action" id="btn-stealth" title="Stealth Mode">🛡</button>
-        <button class="topbar-action" id="btn-media" title="Media Player">🎵</button>
       </div>
     </nav>
-
-    <!-- ═══ STEALTH BAR ═══ -->
-    <div class="stealth-bar" id="stealth-bar">
-      <div class="stealth-left">
-        <span class="stealth-label">CLOAK</span>
-        <select class="glass-select" id="cloak-select">
-          <option value="none">None</option>
-          <option value="classroom">Google Classroom</option>
-          <option value="drive">Google Drive</option>
-          <option value="docs">Google Docs</option>
-          <option value="canvas">Canvas LMS</option>
-          <option value="clever">Clever</option>
-          <option value="quizlet">Quizlet</option>
-          <option value="ixl">IXL</option>
-          <option value="khan">Khan Academy</option>
-          <option value="nearpod">Nearpod</option>
-        </select>
-      </div>
-      <div class="stealth-center">
-        <span class="stealth-breadcrumb" id="stealth-breadcrumb">STRATO / Home</span>
-      </div>
-      <div class="stealth-right">
-        <label class="stealth-toggle-label">
-          <span>Auto-Stealth</span>
-          <input type="checkbox" id="auto-stealth" class="glass-toggle">
-        </label>
-        <span class="stealth-info">Panic: <kbd id="panic-key-display">`</kbd></span>
-      </div>
-    </div>
 
     <!-- ═══ MAIN CONTENT ═══ -->
     <main class="main-content">
@@ -184,11 +153,11 @@
           </section>
 
           <nav class="hideout-actions" aria-label="Quick actions">
-            <button class="hideout-action" type="button" data-home-nav="arcade"><span>01</span><strong>Games</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="hub"><span>02</span><strong>Apps</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="ai"><span>03</span><strong>AI</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="hub"><span>04</span><strong>Hub</strong></button>
-            <button class="hideout-action" type="button" id="home-favorites-action"><span>05</span><strong>Favorites</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="arcade"><span>01</span><strong>Browse Games</strong></button>
+            <button class="hideout-action" type="button" data-home-action="surprise"><span>02</span><strong>Surprise Me</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="favorites" id="home-favorites-action"><span>03</span><strong>Favorites</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="recent" id="home-recent-action"><span>04</span><strong>Recent</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="signal"><span>05</span><strong>Signal Health</strong></button>
           </nav>
 
           <div class="hideout-layout">
@@ -223,7 +192,7 @@
               <section class="hideout-section hidden" id="home-most-played-section">
                 <div class="home-section-head">
                   <div>
-                    <h2 class="section-title">Most Played</h2>
+                    <h2 class="section-title">Popular Signals</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-most-played"></div>
@@ -277,16 +246,61 @@
         </div>
       </section>
 
+      <!-- ─── FAVORITES VIEW ─── -->
+      <section id="view-favorites" class="view">
+        <div class="collection-view">
+          <header class="collection-header">
+            <div>
+              <p class="section-eyebrow">Saved locally</p>
+              <h2 class="view-title">Favorites</h2>
+            </div>
+            <button class="launch-button" type="button" data-focus-home-search>Search Catalog</button>
+          </header>
+          <div class="games-grid collection-grid" id="favorites-grid"></div>
+        </div>
+      </section>
+
+      <!-- ─── RECENT VIEW ─── -->
+      <section id="view-recent" class="view">
+        <div class="collection-view">
+          <header class="collection-header">
+            <div>
+              <p class="section-eyebrow">Local launch path</p>
+              <h2 class="view-title">Recent</h2>
+            </div>
+            <button class="launch-button" type="button" data-dock-action="random">Surprise Me</button>
+          </header>
+          <div class="games-grid collection-grid" id="recent-grid"></div>
+        </div>
+      </section>
+
+      <!-- ─── SIGNAL HEALTH VIEW ─── -->
+      <section id="view-signal" class="view">
+        <div class="signal-view">
+          <header class="collection-header">
+            <div>
+              <p class="section-eyebrow">Trust layer</p>
+              <h2 class="view-title">Signal Health</h2>
+            </div>
+            <button class="glass-btn" type="button" data-home-nav="home">Back Home</button>
+          </header>
+          <div class="signal-dashboard" id="signal-dashboard"></div>
+        </div>
+      </section>
+
       <!-- ─── ARCADE VIEW ─── -->
       <section id="view-arcade" class="view">
         <div class="arcade-header">
-          <h2 class="view-title">GAMES</h2>
+          <div>
+            <p class="section-eyebrow" id="games-loaded-count">Catalog loading</p>
+            <h2 class="view-title">Games</h2>
+          </div>
           <div class="arcade-controls">
             <input type="text" class="glass-input" id="game-search" placeholder="Search games...">
             <div class="category-pills" id="category-pills"></div>
             <select class="glass-select" id="game-sort">
               <option value="name">A-Z</option>
-              <option value="popular">Popular</option>
+              <option value="popular">Most launched here</option>
               <option value="recent">Recent</option>
               <option value="category">Category</option>
             </select>
@@ -329,6 +343,11 @@
             <input type="text" class="glass-input url-input" id="url-input" placeholder="Enter URL or search..." autocomplete="off" spellcheck="false">
             <button class="glass-btn" id="btn-go">GO</button>
           </div>
+          <div class="launch-meta" id="launch-meta" aria-live="polite">
+            <span id="launch-meta-title">Launch Bay ready</span>
+            <button class="glass-btn" type="button" id="launch-back-games">Back to Games</button>
+            <button class="glass-btn" type="button" id="launch-fullscreen">Fullscreen</button>
+          </div>
           <div class="browser-actions">
             <button class="glass-btn icon-btn" id="btn-bookmark" title="Bookmark">☆</button>
             <button class="glass-btn icon-btn" id="btn-bookmarks-panel" title="Bookmarks">📑</button>
@@ -338,6 +357,8 @@
         <div class="browser-bookmarks-bar" id="bookmarks-bar"></div>
         <div class="browser-body">
           <div class="launch-bay-empty" id="launch-bay-empty">
+            <h3>The Launch Bay is ready.</h3>
+            <p>Search from Home, pick a game, and launch.</p>
             <div class="lb-search-wrap">
               <input type="text" id="lb-url-input" class="lb-input" placeholder="Search or enter URL..." autocomplete="off" spellcheck="false">
               <button class="lb-go-btn" id="lb-go-btn">GO</button>
@@ -472,40 +493,41 @@
           <nav class="settings-nav">
             <button class="settings-nav-btn active" data-settings-tab="general">General</button>
             <button class="settings-nav-btn" data-settings-tab="appearance">Appearance</button>
-            <button class="settings-nav-btn" data-settings-tab="stealth">Stealth</button>
+            <button class="settings-nav-btn" data-settings-tab="performance">Performance</button>
             <button class="settings-nav-btn" data-settings-tab="data">Data</button>
-            <button class="settings-nav-btn" data-settings-tab="extensions">Extensions</button>
-            <button class="settings-nav-btn" data-settings-tab="profile">Profile</button>
+            <button class="settings-nav-btn" data-settings-tab="launch">Launch</button>
+            <button class="settings-nav-btn" data-settings-tab="accessibility">Accessibility</button>
             <button class="settings-nav-btn" data-settings-tab="about">About</button>
           </nav>
           <div class="settings-content">
             <!-- General -->
             <div class="settings-panel active" id="settings-general">
-              <h3>General Settings</h3>
+              <h3>General</h3>
               <div class="setting-group">
-                <label class="setting-label">Proxy Engine</label>
-                <select class="glass-select" id="setting-engine">
-                  <option value="uv">Ultraviolet</option>
-                  <option value="scramjet">Scramjet</option>
-                  <option value="auto">Auto (Fallback)</option>
-                </select>
+                <label class="setting-label">Launch focus</label>
+                <p class="setting-hint">STRATO keeps Home, Games, Favorites, Recent, Random, Signal Health, and Settings in the dock. Browser transport stays behind launches.</p>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Auto-Fallback</label>
-                <input type="checkbox" id="setting-autofallback" class="glass-toggle" checked>
+                <label class="setting-label">Catalog diagnostics</label>
+                <div class="signal-health-grid" id="settings-signal-summary"></div>
+              </div>
+            </div>
+            <!-- Performance -->
+            <div class="settings-panel" id="settings-performance">
+              <h3>Performance / Chromebook Mode</h3>
+              <div class="setting-group">
+                <label class="setting-label">Low Power Mode</label>
+                <input type="checkbox" id="setting-low-power" class="glass-toggle">
+                <p class="setting-hint">Reduces glow, motion, and background work for low-end Chromebooks.</p>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Panic Key</label>
-                <input type="text" class="glass-input" id="setting-panic-key" value="`" maxlength="1" readonly>
-                <button class="glass-btn" id="btn-change-panic">Change</button>
+                <label class="setting-label">Compact Cards</label>
+                <input type="checkbox" id="setting-compact-cards" class="glass-toggle">
+                <p class="setting-hint">Fits more games on screen without adding a heavy layout.</p>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Particles</label>
-                <input type="checkbox" id="setting-particles" class="glass-toggle" checked>
-              </div>
-              <div class="setting-group">
-                <label class="setting-label">Animations</label>
-                <input type="checkbox" id="setting-animations" class="glass-toggle" checked>
+                <label class="setting-label">Background Intensity</label>
+                <input type="range" class="glass-slider" id="setting-bg-intensity" min="0" max="2" step="1" value="1">
               </div>
             </div>
             <!-- Appearance -->
@@ -559,112 +581,56 @@
               <h4 class="mt-lg">Community Themes</h4>
               <div class="themes-gallery" id="themes-gallery"></div>
             </div>
-            <!-- Stealth -->
-            <div class="settings-panel" id="settings-stealth">
-              <h3>Stealth Settings</h3>
-              <div class="setting-group">
-                <label class="setting-label">Panic Key</label>
-                <input type="text" class="glass-input" id="stealth-panic-key" value="`" maxlength="1" readonly>
-              </div>
-              <div class="setting-group" hidden>
-                <label class="setting-label">Auto-Stealth on Tab Blur</label>
-                <input type="checkbox" id="stealth-auto-blur" class="glass-toggle">
-                <p class="setting-hint">Automatically activates stealth when you switch tabs</p>
-              </div>
-              <div class="setting-group" hidden>
-                <label class="setting-label">Dynamic Cloak Timer</label>
-                <input type="checkbox" id="stealth-dynamic-cloak" class="glass-toggle">
-                <p class="setting-hint">Rotates cloak every 5 minutes automatically</p>
-              </div>
-              <div class="setting-group" hidden>
-                <label class="setting-label">Fake Page Type</label>
-                <select class="glass-select" id="stealth-fake-page">
-                  <option value="classroom">Google Classroom</option>
-                  <option value="drive">Google Drive</option>
-                  <option value="docs">Google Docs</option>
-                  <option value="slides">Google Slides</option>
-                  <option value="sheets">Google Sheets</option>
-                </select>
-                <p class="setting-hint">Page shown when panic key is pressed</p>
-              </div>
-            </div>
             <!-- Data -->
             <div class="settings-panel" id="settings-data">
-              <h3>Data Management</h3>
+              <h3>STRATO Save Capsule</h3>
               <div class="setting-group">
-                <label class="setting-label">Bookmarks</label>
-                <button class="glass-btn" id="btn-export-bookmarks">Export Bookmarks</button>
-                <button class="glass-btn" id="btn-import-bookmarks">Import Bookmarks</button>
-                <input type="file" id="import-bookmarks-file" accept=".json" hidden>
+                <label class="setting-label">Capsule contents</label>
+                <p class="setting-hint">Favorites, recent launches, play counts, last played timestamps, preferences, and recent failures.</p>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Browsing History</label>
-                <button class="glass-btn danger" id="btn-clear-history">Clear History</button>
+                <label class="setting-label">Backup / Restore</label>
+                <button class="glass-btn" id="btn-export-strato-data" type="button">Export Capsule</button>
+                <button class="glass-btn" id="btn-import-strato-data" type="button">Import Capsule</button>
+                <input type="file" id="import-strato-data-file" accept="application/json,.json" hidden>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Game Cache</label>
-                <p class="setting-hint" id="cache-size">Calculating...</p>
-                <button class="glass-btn danger" id="btn-clear-cache">Clear Cache</button>
+                <label class="setting-label">Reset</label>
+                <button class="glass-btn" id="btn-reset-settings" type="button">Reset Settings</button>
+                <button class="glass-btn danger" id="btn-clear-strato-data" type="button">Clear STRATO Local Data</button>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Export All Data</label>
-                <button class="glass-btn" id="btn-export-data">Export Full Backup</button>
-                <button class="glass-btn" id="btn-import-data">Import Full Backup</button>
-                <input type="file" id="import-data-file" accept=".json" hidden>
+                <label class="setting-label">Import status</label>
+                <p class="setting-hint" id="save-capsule-status">Ready.</p>
               </div>
             </div>
-            <!-- Extensions -->
-            <div class="settings-panel" id="settings-extensions">
-              <h3>Extensions</h3>
-              <div class="extensions-header">
-                <button class="glass-btn" id="btn-browse-extensions">Browse Extensions</button>
+            <!-- Launch -->
+            <div class="settings-panel" id="settings-launch">
+              <h3>Launch</h3>
+              <div class="setting-group">
+                <label class="setting-label">Failure recovery</label>
+                <p class="setting-hint">Recent local failures are stored for 24 hours so broken paths are not promoted.</p>
               </div>
-              <div class="extensions-list" id="extensions-list">
-                <p class="empty-state">No extensions installed</p>
-              </div>
-              <!-- Extension Gallery Modal (inline) -->
-              <div class="extension-gallery hidden" id="extension-gallery">
-                <h4>Browse Extensions</h4>
-                <div class="extension-gallery-grid" id="extension-gallery-grid"></div>
-                <button class="glass-btn" id="btn-close-gallery">Close</button>
+              <div class="setting-group">
+                <label class="setting-label">Launch Bay</label>
+                <p class="setting-hint">Local games open in the STRATO Launch Bay. External sources use the existing configured transport when available.</p>
               </div>
             </div>
-            <!-- Profile -->
-            <div class="settings-panel" id="settings-profile">
-              <h3>Profile</h3>
-              <div class="profile-card glass-card">
-                <div class="profile-avatar" id="profile-avatar">👤</div>
-                <div class="profile-info">
-                  <div class="profile-username" id="profile-username"></div>
-                  <div class="profile-level" id="profile-level">Level 1</div>
-                  <div class="xp-bar"><div class="xp-fill" id="profile-xp-fill"></div></div>
-                  <span class="xp-text" id="profile-xp-text">0 / 100 XP</span>
-                </div>
+            <!-- Accessibility -->
+            <div class="settings-panel" id="settings-accessibility">
+              <h3>Accessibility</h3>
+              <div class="setting-group">
+                <label class="setting-label">Reduce Motion</label>
+                <input type="checkbox" id="setting-reduce-motion" class="glass-toggle">
+                <p class="setting-hint">Keeps interface transitions calm even when Low Power is off.</p>
               </div>
               <div class="setting-group">
-                <label class="setting-label">Bio</label>
-                <textarea class="glass-input" id="profile-bio" maxlength="200" placeholder="Tell us about yourself..."></textarea>
+                <label class="setting-label">Visual Density</label>
+                <select class="glass-select" id="setting-density">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
               </div>
-              <div class="setting-group">
-                <label class="setting-label">Avatar</label>
-                <div class="avatar-picker" id="avatar-picker">
-                  <button class="avatar-option" data-avatar="👤">👤</button>
-                  <button class="avatar-option" data-avatar="🎮">🎮</button>
-                  <button class="avatar-option" data-avatar="🚀">🚀</button>
-                  <button class="avatar-option" data-avatar="⚡">⚡</button>
-                  <button class="avatar-option" data-avatar="🎯">🎯</button>
-                  <button class="avatar-option" data-avatar="🌟">🌟</button>
-                  <button class="avatar-option" data-avatar="🔥">🔥</button>
-                  <button class="avatar-option" data-avatar="💎">💎</button>
-                  <button class="avatar-option" data-avatar="🎭">🎭</button>
-                  <button class="avatar-option" data-avatar="🦊">🦊</button>
-                  <button class="avatar-option" data-avatar="🐺">🐺</button>
-                  <button class="avatar-option" data-avatar="🦁">🦁</button>
-                </div>
-              </div>
-              <button class="glass-btn" id="btn-save-profile">Save Profile</button>
-              <h4 class="mt-lg">Leaderboard</h4>
-              <div class="leaderboard-table" id="settings-leaderboard"></div>
             </div>
             <!-- About -->
             <div class="settings-panel" id="settings-about">
@@ -742,7 +708,6 @@
           <div class="shortcut"><kbd>M</kbd><span>Media player</span></div>
           <div class="shortcut"><kbd>/</kbd><span>Focus URL bar</span></div>
           <div class="shortcut"><kbd>Ctrl+K</kbd><span>Command palette</span></div>
-          <div class="shortcut"><kbd>`</kbd><span>Panic key</span></div>
           <div class="shortcut"><kbd>Esc</kbd><span>Close overlays</span></div>
         </div>
         <button class="glass-btn" id="btn-close-shortcuts">Close</button>
