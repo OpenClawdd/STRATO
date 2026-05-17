@@ -5,7 +5,7 @@ import { escapeHtml } from "./cards.js";
 export function showRecovery(
   game,
   reason,
-  { launch, surprise, focusSearch } = {},
+  { launch, surprise, focusSearch, backToGames } = {},
 ) {
   document.getElementById("launch-failure-overlay")?.remove();
   const similar = similarGames(game, 3);
@@ -21,6 +21,7 @@ export function showRecovery(
       ${game ? '<button class="launch-button" data-recovery="retry" type="button">Retry</button>' : ""}
       <button class="glass-btn" data-recovery="surprise" type="button">Surprise Me</button>
       <button class="glass-btn" data-recovery="search" type="button">Search</button>
+      ${game ? '<button class="glass-btn" data-recovery="games" type="button">Back to Games</button>' : ""}
       <button class="glass-btn" data-recovery="home" type="button">Back Home</button>
     </div>
     ${similar.length ? `<div class="nearby-list"><p class="home-result-meta">Similar games</p>${similar.map((item) => `<button class="similar-game-btn" data-similar="${escapeHtml(item.id)}" type="button"><span>${escapeHtml(nameOf(item))}</span><span>${escapeHtml(categoryOf(item))}</span></button>`).join("")}</div>` : ""}
@@ -46,6 +47,9 @@ export function showRecovery(
     } else if (action === "search") {
       overlay.remove();
       focusSearch?.();
+    } else if (action === "games") {
+      overlay.remove();
+      backToGames?.();
     } else if (similarId) {
       overlay.remove();
       launch?.(similarId);

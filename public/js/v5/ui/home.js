@@ -413,6 +413,7 @@ export function createHomeController() {
             launch: controller.launch,
             surprise: controller.surprise,
             focusSearch: controller.focusSearch,
+            backToGames: () => setActiveView("arcade"),
           }),
         onUpdate: () => controller.render(),
       });

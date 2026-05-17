@@ -44,9 +44,9 @@ function renderLaunchBay() {
   const title = game ? nameOf(game) : "The Launch Bay is ready.";
   const copy =
     state.launchBay.status === "loading"
-      ? `Loading ${title}…`
+      ? `Preparing launch... ${title}. Checking signal...`
       : state.launchBay.status === "failed"
-        ? `Launch paused: ${state.launchBay.reason || "route unavailable"}.`
+        ? `Signal weak. ${state.launchBay.reason || "This launch path did not respond."}`
         : state.launchBay.status === "loaded"
           ? `${title} is running in the Launch Bay.`
           : "Search from Home, pick something, and launch.";
@@ -149,11 +149,8 @@ function bindLaunchBay() {
   const iframe = document.getElementById("proxy-iframe");
   const body = document.querySelector(".browser-body");
   const sync = () => {
-    body?.classList.toggle(
-      "has-launch",
-      Boolean(iframe?.src && iframe.src !== window.location.href),
-    );
-    body?.classList.remove("is-loading");
+    body?.classList.toggle("has-launch", state.launchBay.status === "loaded");
+    body?.classList.toggle("is-loading", state.launchBay.status === "loading");
     renderLaunchBay();
   };
   iframe?.addEventListener("load", sync);
