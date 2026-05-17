@@ -60,6 +60,12 @@ describe('v5 launchability and catalog gating', () => {
     expect(promotableCatalog().map((game) => game.id)).not.toContain('gn-review');
   });
 
+  it('allows verified external entries into promotion surfaces', () => {
+    const promoted = promotableCatalog().map((game) => game.id);
+    expect(promoted).toContain('verified-external');
+    expect(dailyPicks(new Date('2026-05-05T00:00:00Z')).map((game) => game.id)).toContain('verified-external');
+  });
+
   it('reports source trust counts for Signal Health', () => {
     const stats = catalogDiagnostics(catalog);
     expect(stats.verifiedLocal).toBe(3);

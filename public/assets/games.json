@@ -268,12 +268,12 @@
       "clicker",
       "addictive",
       "external",
-      "needs-check",
       "captured",
       "reviewed",
-      "selenite"
+      "selenite",
+      "verified-external"
     ],
-    "needsCheck": true,
+    "needsCheck": false,
     "provider": "selenite",
     "source": "selenite",
     "needsReview": false,
@@ -291,6 +291,15 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
+    },
+    "sourceTrust": "verified-external",
+    "verifiedExternal": true,
+    "verification": {
+      "status": "verified-external",
+      "checkedAt": "2026-05-17T18:17:30.936Z",
+      "method": "capped-selenite-http-get",
+      "evidence": "HTTP 200 text/html; title Cookie Clicker; repaired semag URL; capture evidence present",
+      "limitations": "Technical launch-path verification only; source ownership/licensing is not inferred."
     }
   },
   {
@@ -369,12 +378,12 @@
       "captured",
       "reviewed",
       "external",
-      "needs-check",
-      "selenite"
+      "selenite",
+      "verified-external"
     ],
     "provider": "selenite",
     "source": "selenite",
-    "needsCheck": true,
+    "needsCheck": false,
     "needsReview": false,
     "sourceUrl": "https://selenite.cc/projects",
     "sourceEvidence": "performance.resource:/resources/semag/",
@@ -390,6 +399,15 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
+    },
+    "sourceTrust": "verified-external",
+    "verifiedExternal": true,
+    "verification": {
+      "status": "verified-external",
+      "checkedAt": "2026-05-17T18:17:30.936Z",
+      "method": "capped-selenite-http-get",
+      "evidence": "HTTP 200 text/html; title Basketball Stars; repaired semag URL; capture evidence present",
+      "limitations": "Technical launch-path verification only; source ownership/licensing is not inferred."
     }
   },
   {
@@ -591,12 +609,12 @@
       "captured",
       "reviewed",
       "external",
-      "needs-check",
-      "selenite"
+      "selenite",
+      "verified-external"
     ],
     "provider": "selenite",
     "source": "selenite",
-    "needsCheck": true,
+    "needsCheck": false,
     "needsReview": false,
     "sourceUrl": "https://selenite.cc/projects",
     "sourceEvidence": "performance.resource:/resources/semag/",
@@ -612,6 +630,15 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
+    },
+    "sourceTrust": "verified-external",
+    "verifiedExternal": true,
+    "verification": {
+      "status": "verified-external",
+      "checkedAt": "2026-05-17T18:17:30.936Z",
+      "method": "capped-selenite-http-get",
+      "evidence": "HTTP 200 text/html; title Subway Runner; repaired semag URL; capture evidence present",
+      "limitations": "Technical launch-path verification only; source ownership/licensing is not inferred."
     }
   },
   {
@@ -938,12 +965,12 @@
       "captured",
       "reviewed",
       "external",
-      "needs-check",
-      "selenite"
+      "selenite",
+      "verified-external"
     ],
     "source": "selenite",
     "provider": "selenite",
-    "needsCheck": true,
+    "needsCheck": false,
     "needsReview": false,
     "sourceUrl": "https://selenite.cc/projects",
     "sourceEvidence": "performance.resource:/resources/semag/",
@@ -959,6 +986,15 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
+    },
+    "sourceTrust": "verified-external",
+    "verifiedExternal": true,
+    "verification": {
+      "status": "verified-external",
+      "checkedAt": "2026-05-17T18:17:30.936Z",
+      "method": "capped-selenite-http-get",
+      "evidence": "HTTP 200 text/html; title 1 on 1 Soccer; repaired semag URL; capture evidence present",
+      "limitations": "Technical launch-path verification only; source ownership/licensing is not inferred."
     }
   },
   {
@@ -975,12 +1011,12 @@
       "captured",
       "reviewed",
       "external",
-      "needs-check",
-      "selenite"
+      "selenite",
+      "verified-external"
     ],
     "source": "selenite",
     "provider": "selenite",
-    "needsCheck": true,
+    "needsCheck": false,
     "needsReview": false,
     "sourceUrl": "https://selenite.cc/projects",
     "sourceEvidence": "performance.resource:/resources/semag/",
@@ -996,6 +1032,15 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
+    },
+    "sourceTrust": "verified-external",
+    "verifiedExternal": true,
+    "verification": {
+      "status": "verified-external",
+      "checkedAt": "2026-05-17T18:17:30.936Z",
+      "method": "capped-selenite-http-get",
+      "evidence": "HTTP 200 text/html; title 10 Minutes Till Dawn; repaired semag URL; capture evidence present",
+      "limitations": "Technical launch-path verification only; source ownership/licensing is not inferred."
     }
   },
   {

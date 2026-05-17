@@ -89,8 +89,9 @@ export function visibleCatalog() {
 export function promotableCatalog() {
   return playableCatalog().filter(
     (game) =>
-      sourceTrustState(game) === "verified-local" &&
-      game.reliability === "green" &&
+      ["verified-local", "verified-external"].includes(sourceTrustState(game)) &&
+      (game.reliability === "green" ||
+        sourceTrustState(game) === "verified-external") &&
       health(game).status !== "fallback-art",
   );
 }
