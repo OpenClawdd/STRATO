@@ -364,6 +364,21 @@ function normalizeImage(value) {
   return image;
 }
 
+function seleniteResolvedHref(item, sourceUrl, rawHref) {
+  const image = clean(item.image || item.thumbnail || item.img);
+  const match = image.match(/\/resources\/semag\/([^/]+)\//i);
+  if (!match) return null;
+  const slug = slugify(
+    match[1] ||
+      item.slug ||
+      slugFromHref(rawHref, sourceUrl) ||
+      item.text ||
+      item.title,
+  );
+  if (!slug) return null;
+  return `https://selenite.cc/resources/semag/${slug}/index.html`;
+}
+
 function normalizeCandidateHref(item, sourceUrl, provider) {
   const rawHref = clean(item.href || item.url);
   const slug = slugify(item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title);
@@ -379,8 +394,10 @@ function normalizeCandidateHref(item, sourceUrl, provider) {
   if (provider === "lucide") {
     return "https://lucideon.top/g/frame";
   }
-  if (provider === "selenite" && slug) {
-    return `https://selenite.cc/projects/${slug}`;
+  if (provider === "selenite") {
+    const resolved = seleniteResolvedHref(item, sourceUrl, rawHref);
+    if (resolved) return resolved;
+    if (slug) return `https://selenite.cc/projects/${slug}`;
   }
   return safeUrl(rawHref, sourceUrl);
 }
@@ -514,7 +531,11 @@ function normalizeCapture(raw, file, stats) {
           href ||
           `${path.basename(file)}-${index}`,
       );
-      const reviewRequired = needsHumanReview(prettyTitle, slug);
+      const seleniteProjectUrl =
+        provider === "selenite" &&
+        /^https?:\/\/selenite\.cc\/projects\//i.test(href);
+      const reviewRequired =
+        needsHumanReview(prettyTitle, slug) || seleniteProjectUrl;
       if (!image) stats.nullThumbnails += 1;
       if (reviewRequired) stats.needsReview += 1;
       return {
@@ -536,8 +557,13 @@ function normalizeCapture(raw, file, stats) {
         needsCheck: true,
         needsReview: reviewRequired,
         tags: ["captured", provider, "external", "needs-check", lucideParts?.sourceGroup].filter(Boolean),
-        approved: provider === "selenite",
-        reviewStatus: provider === "selenite" ? "approved" : "pending",
+        approved: provider === "selenite" && !seleniteProjectUrl,
+        reviewStatus:
+          provider === "selenite"
+            ? seleniteProjectUrl
+              ? "pending"
+              : "approved"
+            : "pending",
         evidence: {
           sourceFile: path.relative(root, file),
           provider,

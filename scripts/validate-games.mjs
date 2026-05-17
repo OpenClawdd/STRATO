@@ -42,6 +42,13 @@ function validateUrl(url) {
   }
 }
 
+function isSeleniteProjectsUrl(game, url) {
+  return Boolean(
+    (game?.provider === 'selenite' || game?.source === 'selenite') &&
+      /^https?:\/\/selenite\.cc\/projects\//i.test(String(url || '')),
+  );
+}
+
 function isExternalSourceCandidate(game) {
   const tags = Array.isArray(game.tags) ? game.tags.map(tag => normalize(tag)) : [];
   return Boolean(
@@ -118,6 +125,14 @@ export async function validateGames(filePath = catalogPath) {
         quarantine.push({ id: game.id, title: title || game.id, reason: 'broken-local-game-url' });
       } else if (game.reliability === 'green' && !String(url).startsWith('/games/')) {
         addIssue(issues, 'error', 'green-external-url', game, 'Green reliability is reserved for verified local /games paths');
+      } else if (isSeleniteProjectsUrl(game, url) && !game.needsReview) {
+        addIssue(
+          issues,
+          'warning',
+          'selenite-project-url',
+          game,
+          'Selenite /projects/ URL should be reviewed against /resources/semag/<slug>/index.html',
+        );
       } else if (!String(url).startsWith('/')) {
         try {
           const parsed = new URL(String(url));
