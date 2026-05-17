@@ -5,6 +5,7 @@ import {
   health,
   isLaunchable,
   launchability,
+  sourceTrustState,
 } from "./health.js";
 
 export const nameOf = (game) => String(game?.name || game?.title || "Untitled");
@@ -70,7 +71,11 @@ export function playableCatalog() {
 }
 
 export function visibleCatalog() {
-  const base = playableCatalog();
+  const base = allNormalized().filter((game) => {
+    if (!isHomeSafe(game) || game.config_required || game.needsConfig)
+      return false;
+    return !["broken"].includes(sourceTrustState(game));
+  });
   if (state.activeMood === "all") return base;
   return base.filter((game) => {
     const mood = state.activeMood.toLowerCase();
@@ -84,7 +89,9 @@ export function visibleCatalog() {
 export function promotableCatalog() {
   return playableCatalog().filter(
     (game) =>
-      game.reliability === "green" && health(game).status !== "fallback-art",
+      sourceTrustState(game) === "verified-local" &&
+      game.reliability === "green" &&
+      health(game).status !== "fallback-art",
   );
 }
 

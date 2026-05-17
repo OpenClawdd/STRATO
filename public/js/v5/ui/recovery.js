@@ -1,4 +1,5 @@
 import { categoryOf, nameOf, similarGames } from "../core/catalog.js";
+import { health } from "../core/health.js";
 import { clearFailure } from "../core/launch.js";
 import { escapeHtml } from "./cards.js";
 
@@ -12,11 +13,19 @@ export function showRecovery(
   const overlay = document.createElement("div");
   overlay.className = "launch-failure-overlay";
   overlay.id = "launch-failure-overlay";
+  const sourceStatus = game ? health(game) : null;
+  const sourceLine =
+    sourceStatus?.status === "review-only"
+      ? "This source still needs review."
+      : sourceStatus?.status === "suspicious-source" ||
+          sourceStatus?.status === "unknown-source"
+        ? "This source is not verified yet."
+        : "";
   overlay.innerHTML = `<div class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
     <div class="recovery-mark">!</div>
     <p class="section-eyebrow">Signal weak</p>
     <h2 id="recovery-title">This launch path did not respond.</h2>
-    <p>${game ? `${escapeHtml(nameOf(game))} is still in the catalog.` : "That route is unavailable."} Try another route. ${escapeHtml(reason || "")}</p>
+    <p>${game ? `${escapeHtml(nameOf(game))} is still in the catalog.` : "That route is unavailable."} ${sourceLine ? `${escapeHtml(sourceLine)} ` : ""}Try another route. ${escapeHtml(reason || "")}</p>
     <div class="recovery-actions">
       ${game ? '<button class="launch-button" data-recovery="retry" type="button">Retry</button>' : ""}
       <button class="glass-btn" data-recovery="surprise" type="button">Surprise Me</button>

@@ -21,6 +21,7 @@ const catalog = [
     url: 'https://slope-game.com',
     thumbnail: '/assets/thumbnails/slope.webp',
     reliability: 'yellow',
+    sourceTrust: 'verified-external',
     tags: ['speed', '3d'],
   },
   {
@@ -28,6 +29,15 @@ const catalog = [
     name: 'Broken',
     category: 'arcade',
     url: '',
+    thumbnail: '',
+    reliability: 'green',
+    tags: [],
+  },
+  {
+    id: 'missing-local',
+    name: 'Missing Local',
+    category: 'arcade',
+    url: '/games/missing/index.html',
     thumbnail: '',
     reliability: 'green',
     tags: [],
@@ -225,6 +235,16 @@ describe('v5 launch attempts', () => {
 
   it('does not update recent or play counts for a missing URL', async () => {
     const result = await launchById('broken', {
+      onFail: vi.fn(),
+    });
+    expect(result).toBe(false);
+    expect(readJson(keys.recent, [])).toEqual([]);
+    expect(readJson(keys.playCounts, {})).toEqual({});
+  });
+
+  it('does not update recent or play counts when a local route is broken', async () => {
+    globalThis.fetch = vi.fn(async () => ({ ok: false, status: 404 }));
+    const result = await launchById('missing-local', {
       onFail: vi.fn(),
     });
     expect(result).toBe(false);

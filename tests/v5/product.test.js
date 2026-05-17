@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { setGames, state } from '../../public/js/v5/core/state.js';
-import { normalizeGame, playableCatalog, similarGames } from '../../public/js/v5/core/catalog.js';
-import { isPlaceholder, launchability } from '../../public/js/v5/core/health.js';
+import { normalizeGame, playableCatalog, promotableCatalog, similarGames, visibleCatalog } from '../../public/js/v5/core/catalog.js';
+import { catalogDiagnostics, isPlaceholder, launchability, sourceTrustState } from '../../public/js/v5/core/health.js';
 import { searchGames, scoreGame } from '../../public/js/v5/core/search.js';
 import { dailyPicks, surpriseCandidate } from '../../public/js/v5/core/picks.js';
 import { keys, writeJson } from '../../public/js/v5/core/storage.js';
@@ -12,6 +12,9 @@ const catalog = [
   { id: 'speed-racer', name: 'Speed Racer', category: 'racing', tags: ['skill', 'cars'], description: 'Drive fast', url: '/games/speed/index.html', thumbnail: '', reliability: 'green' },
   { id: 'proxy-placeholder', name: 'Proxy Placeholder', category: 'proxies', tags: ['proxy'], description: 'Not a game', url: '${PROXY_URL}', reliability: 'yellow', config_required: true },
   { id: 'missing', name: 'Missing URL', category: 'arcade', tags: ['broken'], description: 'Broken entry', url: '', reliability: 'green' },
+  { id: 'gn-review', name: 'GN Review', category: 'arcade', tags: ['candidate'], description: 'Review only source', url: 'https://gn-math.dev/', reliability: 'yellow', provider: 'gn-math', needsReview: true, sourceWarning: 'gn-math-url-needs-review' },
+  { id: 'selenite-bad', name: 'Selenite Bad', category: 'arcade', tags: ['candidate'], description: 'Suspicious source', url: 'https://selenite.cc/projects/bad', reliability: 'yellow', provider: 'selenite' },
+  { id: 'verified-external', name: 'Verified External', category: 'action', tags: ['skill'], description: 'Checked external', url: 'https://example-game.test/play', thumbnail: '/assets/verified.webp', reliability: 'yellow', provider: 'manual', sourceTrust: 'verified-external' },
 ];
 
 function installStorage() {
@@ -41,8 +44,29 @@ describe('v5 launchability and catalog gating', () => {
     const ids = playableCatalog().map((game) => game.id);
     expect(ids).toContain('2048');
     expect(ids).toContain('speed-racer');
+    expect(ids).toContain('verified-external');
     expect(ids).not.toContain('proxy-placeholder');
     expect(ids).not.toContain('missing');
+    expect(ids).not.toContain('gn-review');
+    expect(ids).not.toContain('selenite-bad');
+  });
+
+  it('keeps review-only and suspicious entries visible but not promoted', () => {
+    expect(sourceTrustState(catalog[5])).toBe('review-only');
+    expect(sourceTrustState(catalog[6])).toBe('suspicious');
+    expect(launchability(catalog[5]).launchable).toBe(false);
+    expect(launchability(catalog[6]).launchable).toBe(false);
+    expect(visibleCatalog().map((game) => game.id)).toContain('gn-review');
+    expect(promotableCatalog().map((game) => game.id)).not.toContain('gn-review');
+  });
+
+  it('reports source trust counts for Signal Health', () => {
+    const stats = catalogDiagnostics(catalog);
+    expect(stats.verifiedLocal).toBe(3);
+    expect(stats.verifiedExternal).toBe(1);
+    expect(stats.reviewOnly).toBe(1);
+    expect(stats.suspicious).toBe(1);
+    expect(stats.broken).toBe(1);
   });
 });
 
@@ -63,6 +87,7 @@ describe('v5 picks and surprise', () => {
     const day = new Date('2026-05-05T00:00:00Z');
     expect(dailyPicks(day).map((game) => game.id)).toEqual(dailyPicks(day).map((game) => game.id));
     expect(dailyPicks(day).every((game) => launchability(game).launchable)).toBe(true);
+    expect(dailyPicks(day).map((game) => game.id)).not.toContain('gn-review');
   });
 
   it('avoids recent games when selecting Surprise Me candidates where possible', () => {

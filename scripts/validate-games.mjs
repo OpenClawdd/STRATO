@@ -49,6 +49,32 @@ function isSeleniteProjectsUrl(game, url) {
   );
 }
 
+function isGnMathUrl(game, url) {
+  return Boolean(
+    (game?.provider === 'gn-math' || game?.source === 'gn-math') &&
+      /^https?:\/\/gn-math\.dev\/#game-\d+/i.test(String(url || '')),
+  );
+}
+
+function isLucideSharedFrameUrl(game, url) {
+  return Boolean(
+    (game?.provider === 'lucide' || game?.source === 'lucide') &&
+      /^https?:\/\/lucideon\.top\/g\/frame\/?$/i.test(String(url || '')),
+  );
+}
+
+function isVerifiedExternal(game) {
+  const verification = game?.verification || {};
+  return Boolean(
+    game?.sourceTrust === 'verified-external' ||
+      game?.trustState === 'verified-external' ||
+      game?.verifiedExternal === true ||
+      game?.sourceVerified === true ||
+      verification.status === 'verified' ||
+      verification.status === 'verified-external',
+  );
+}
+
 function isExternalSourceCandidate(game) {
   const tags = Array.isArray(game.tags) ? game.tags.map(tag => normalize(tag)) : [];
   return Boolean(
@@ -133,7 +159,32 @@ export async function validateGames(filePath = catalogPath) {
           game,
           'Selenite /projects/ URL should be reviewed against /resources/semag/<slug>/index.html',
         );
+      } else if ((game.provider === 'gn-math' || game.source === 'gn-math') && (game.needsReview || isGnMathUrl(game, url))) {
+        addIssue(
+          issues,
+          'warning',
+          'gn-math-url-needs-review',
+          game,
+          'GN Math entries should remain needsReview until the launch path is verified',
+        );
+      } else if (isLucideSharedFrameUrl(game, url)) {
+        addIssue(
+          issues,
+          'warning',
+          'lucide-shared-frame-url',
+          game,
+          'Lucide shared frame URL is not a verified game-specific launch path',
+        );
       } else if (!String(url).startsWith('/')) {
+        if (!isVerifiedExternal(game)) {
+          addIssue(
+            issues,
+            'warning',
+            'external-source-unverified',
+            game,
+            'External source is not marked verified-external',
+          );
+        }
         try {
           const parsed = new URL(String(url));
           if (SUSPICIOUS_HOST_TERMS.test(parsed.hostname)) {
@@ -149,8 +200,14 @@ export async function validateGames(filePath = catalogPath) {
     }
 
     if (normalizedUrl && !PLACEHOLDER_URL.test(String(url))) {
-      if (seenUrls.has(normalizedUrl)) addIssue(issues, 'warning', 'duplicate-url', game, `Duplicate url with ${seenUrls.get(normalizedUrl)}`);
-      else seenUrls.set(normalizedUrl, game.id || title);
+      const suppressDuplicateUrl =
+        (game.provider === 'gn-math' || game.source === 'gn-math') &&
+        game.needsReview &&
+        normalizedUrl === normalize('https://gn-math.dev/');
+      if (!suppressDuplicateUrl) {
+        if (seenUrls.has(normalizedUrl)) addIssue(issues, 'warning', 'duplicate-url', game, `Duplicate url with ${seenUrls.get(normalizedUrl)}`);
+        else seenUrls.set(normalizedUrl, game.id || title);
+      }
     }
 
     if (normalizedTitle && normalizedUrl) {

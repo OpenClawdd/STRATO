@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Selenite",
+    "url": "https://selenite.cc/",
+    "sourceType": "game-directory",
+    "notes": "Catalog URLs repaired from capture evidence where /resources/semag/<slug>/index.html was present. Individual external launches still require verification before verified-external promotion.",
+    "addedAt": "2026-05-17",
+    "status": "needs-review",
+    "reason": "External source candidates are not trusted as playable until verified."
+  },
+  {
+    "name": "GN Math",
+    "url": "https://gn-math.dev/",
+    "sourceType": "game-directory",
+    "notes": "Capture evidence contains DOM openGame(id) controls but no evidence-backed per-game launch URLs.",
+    "addedAt": "2026-05-17",
+    "status": "needs-review",
+    "reason": "Per-game launch paths are not verified."
+  },
+  {
+    "name": "Frogie",
+    "url": "https://frogiesarcade.com/",
+    "sourceType": "game-directory",
+    "notes": "Imported entries are treated as external candidates until direct launch verification is recorded.",
+    "addedAt": "2026-05-17",
+    "status": "candidate",
+    "reason": "External iframe paths need source verification."
+  },
+  {
+    "name": "1Key",
+    "url": "https://1key.lol/",
+    "sourceType": "game-directory",
+    "notes": "Imported entries are source candidates, not automatically trusted launch targets.",
+    "addedAt": "2026-05-17",
+    "status": "candidate",
+    "reason": "External routes need verification before promotion."
+  },
+  {
+    "name": "Lucide",
+    "url": "https://lucide.dev/",
+    "sourceType": "inspiration-only",
+    "notes": "Frame-style entries are not evidence-backed per-game launch URLs.",
+    "addedAt": "2026-05-17",
+    "status": "needs-review",
+    "reason": "Shared frame URL is not a verified game-specific launch path."
+  }
+]

@@ -56,6 +56,9 @@ export function thumb(game) {
 
 export function statusLabel(game) {
   const labels = {
+    "review-only": "Source review",
+    "suspicious-source": "Suspicious source",
+    "unknown-source": "Source unverified",
     "fallback-art": "Fallback art",
     "failed-locally": "Launch paused",
     "missing-url": "Missing URL",
@@ -80,6 +83,7 @@ export function card(game, variant = "") {
   const description = descriptionOf(game);
   const label = statusLabel(game);
   const category = categoryOf(game);
+  const launchable = health(game).launchable;
   return `<article class="hideout-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="Open ${escapeHtml(nameOf(game))}">
     <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="${favorite ? "Unfavorite" : "Favorite"} ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
     <div class="hideout-thumb-wrap"><img class="hideout-thumb" src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt=""></div>
@@ -88,7 +92,7 @@ export function card(game, variant = "") {
       <h3>${escapeHtml(nameOf(game))}</h3>
       ${description ? `<p>${escapeHtml(description)}</p>` : ""}
       <div class="hideout-tags">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-      <div class="card-actions"><button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button><span>${escapeHtml(localMeta(game))}</span></div>
+      <div class="card-actions">${launchable ? `<button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button>` : `<button class="glass-btn source-review-button" data-open-id="${escapeHtml(game.id)}" type="button">Review</button>`}<span>${escapeHtml(localMeta(game))}</span></div>
     </div>
   </article>`;
 }

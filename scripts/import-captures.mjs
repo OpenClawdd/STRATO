@@ -247,15 +247,6 @@ function cleanOneKeyTitle(value) {
     .trim();
 }
 
-function gnMathResolvedHref(rawHref) {
-  const raw = clean(rawHref);
-  const match = raw.match(/openGame\((\-?\d+)\)/i);
-  if (!match) return null;
-  const id = Number(match[1]);
-  if (!Number.isFinite(id) || id < 0) return null;
-  return `https://gn-math.dev/#game-${id}`;
-}
-
 function gnMathIdFromHref(rawHref) {
   const raw = clean(rawHref);
   const match = raw.match(/openGame\((\-?\d+)\)/i);
@@ -263,6 +254,12 @@ function gnMathIdFromHref(rawHref) {
   const id = Number(match[1]);
   if (!Number.isFinite(id) || id < 0) return null;
   return String(id);
+}
+
+function gnMathEvidenceUrl(rawHref, sourceUrl) {
+  const id = gnMathIdFromHref(rawHref);
+  if (id == null) return null;
+  return clean(sourceUrl) || null;
 }
 
 function cleanGnMathTitle(value) {
@@ -386,7 +383,7 @@ function normalizeCandidateHref(item, sourceUrl, provider) {
     return oneKeyRouteHref(item.text || item.title || item.name || item.alt);
   }
   if (provider === "gn-math") {
-    return gnMathResolvedHref(rawHref);
+    return gnMathEvidenceUrl(rawHref, sourceUrl);
   }
   if (provider === "frogie") {
     return frogieResolvedHref(rawHref, sourceUrl);
@@ -397,7 +394,6 @@ function normalizeCandidateHref(item, sourceUrl, provider) {
   if (provider === "selenite") {
     const resolved = seleniteResolvedHref(item, sourceUrl, rawHref);
     if (resolved) return resolved;
-    if (slug) return `https://selenite.cc/projects/${slug}`;
   }
   return safeUrl(rawHref, sourceUrl);
 }
@@ -534,8 +530,7 @@ function normalizeCapture(raw, file, stats) {
       const seleniteProjectUrl =
         provider === "selenite" &&
         /^https?:\/\/selenite\.cc\/projects\//i.test(href);
-      const reviewRequired =
-        needsHumanReview(prettyTitle, slug) || seleniteProjectUrl;
+      const reviewRequired = true;
       if (!image) stats.nullThumbnails += 1;
       if (reviewRequired) stats.needsReview += 1;
       return {
@@ -556,14 +551,15 @@ function normalizeCapture(raw, file, stats) {
         tier: 3,
         needsCheck: true,
         needsReview: reviewRequired,
+        sourceWarning:
+          provider === "gn-math"
+            ? "gn-math-url-needs-review"
+            : seleniteProjectUrl
+              ? "selenite-project-url"
+              : undefined,
         tags: ["captured", provider, "external", "needs-check", lucideParts?.sourceGroup].filter(Boolean),
-        approved: provider === "selenite" && !seleniteProjectUrl,
-        reviewStatus:
-          provider === "selenite"
-            ? seleniteProjectUrl
-              ? "pending"
-              : "approved"
-            : "pending",
+        approved: false,
+        reviewStatus: "pending",
         evidence: {
           sourceFile: path.relative(root, file),
           provider,

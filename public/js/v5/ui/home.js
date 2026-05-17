@@ -10,7 +10,7 @@ import {
   typeLabel,
   visibleCatalog,
 } from "../core/catalog.js";
-import { catalogDiagnostics } from "../core/health.js";
+import { catalogDiagnostics, health } from "../core/health.js";
 import { launchById } from "../core/launch.js";
 import { dailyPicks, surpriseCandidate } from "../core/picks.js";
 import { searchGames } from "../core/search.js";
@@ -49,6 +49,12 @@ function bindCards(container, controller) {
     button.addEventListener("click", (event) => {
       event.stopPropagation();
       controller.launch(button.dataset.launchId);
+    });
+  });
+  container.querySelectorAll("[data-open-id]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      controller.open(button.dataset.openId);
     });
   });
   container.querySelectorAll("[data-fav-id]").forEach((button) => {
@@ -130,8 +136,11 @@ function renderPulse() {
   pulse.innerHTML = [
     ["Catalog", stats.loaded ? "loaded" : "unknown"],
     ["Playable", stats.playable],
-    ["Local", stats.local],
-    ["External", stats.external],
+    ["Verified local", stats.verifiedLocal],
+    ["Verified external", stats.verifiedExternal],
+    ["Review-only", stats.reviewOnly],
+    ["Suspicious", stats.suspicious],
+    ["Unknown", stats.unknown],
     ["Fallback art", stats.fallbackArt],
     ["Weak signals", stats.missingOrBroken],
   ]
@@ -172,14 +181,24 @@ function renderSignalDashboard() {
     ["Catalog", stats.loaded ? "Loaded" : "Unknown"],
     ["Total games", stats.total],
     ["Playable", stats.playable],
-    ["Local", stats.local],
-    ["External", stats.external],
+    ["Verified local", stats.verifiedLocal],
+    ["Verified external", stats.verifiedExternal],
+    ["Review-only", stats.reviewOnly],
+    ["Suspicious", stats.suspicious],
+    ["Unknown", stats.unknown],
+    ["Broken", stats.broken],
     ["Fallback art", stats.fallbackArt],
     ["Missing / broken", stats.missingOrBroken],
     ["Needs config", stats.needsConfig],
     ["Recent failures", stats.recentFailures],
     ["Audit status", "Run validator"],
   ];
+  const warningRows = Object.entries(stats.warnings || {})
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 6);
+  const sourceRows = Object.entries(stats.bySource || {})
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([source, item]) => ({ source, ...item }));
   const html = `<div class="signal-health-grid wide">${tiles
     .map(
       ([label, value]) =>
@@ -192,6 +211,24 @@ function renderSignalDashboard() {
         .map(
           (item) =>
             `<div><span>${escapeHtml(item.key)}</span><strong>${escapeHtml(item.status)} / ${item.size}</strong></div>`,
+        )
+        .join("")}</div>
+    </section>
+    <section class="hideout-section signal-data-section">
+      <div class="home-section-head compact"><div><h3 class="section-title">Source Trust</h3></div></div>
+      <div class="local-data-list">${sourceRows
+        .map(
+          (item) =>
+            `<div><span>${escapeHtml(item.source)}</span><strong>${item.verifiedLocal + item.verifiedExternal} verified / ${item.reviewOnly} review / ${item.suspicious} suspicious / ${item.unknown} unknown</strong></div>`,
+        )
+        .join("")}</div>
+    </section>
+    <section class="hideout-section signal-data-section ${warningRows.length ? "" : "hidden"}">
+      <div class="home-section-head compact"><div><h3 class="section-title">Warning Codes</h3></div></div>
+      <div class="local-data-list">${warningRows
+        .map(
+          ([code, count]) =>
+            `<div><span>${escapeHtml(code)}</span><strong>${count}</strong></div>`,
         )
         .join("")}</div>
     </section>`;
@@ -261,6 +298,7 @@ function renderMoods(controller) {
 function renderSearchResult(game, index) {
   const favorite = readJson(keys.favorites, []).includes(game.id);
   const tags = tagsOf(game).slice(0, 3).join(" / ");
+  const launchable = health(game).launchable;
   return `<article class="search-result ${index === state.searchIndex ? "active" : ""}" data-game-id="${escapeHtml(game.id)}" aria-selected="${index === state.searchIndex ? "true" : "false"}" tabindex="0">
     <img src="${escapeHtml(thumb(game))}" data-fallback-src="${escapeHtml(fallbackThumb(game))}" loading="lazy" alt="">
     <div class="search-result-copy">
@@ -269,7 +307,7 @@ function renderSearchResult(game, index) {
     </div>
     ${statusLabel(game) ? `<span class="status-pill">${escapeHtml(statusLabel(game))}</span>` : ""}
     <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="Favorite ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
-    <button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button>
+    ${launchable ? `<button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button>` : `<button class="glass-btn source-review-button" data-open-id="${escapeHtml(game.id)}" type="button">Review</button>`}
   </article>`;
 }
 
@@ -286,12 +324,16 @@ export function createHomeController() {
         .filter((game) => game && list.includes(game))
         .slice(0, 6);
       const counts = readJson(keys.playCounts, {});
+      const playableIds = new Set(playableCatalog().map((game) => game.id));
       const most = Object.entries(counts)
         .map(([id, count]) => ({
           game: findGame(id),
           count: Number(count) || 0,
         }))
-        .filter(({ game, count }) => game && count > 0 && list.includes(game))
+        .filter(
+          ({ game, count }) =>
+            game && count > 0 && playableIds.has(game.id) && list.includes(game),
+        )
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
@@ -403,7 +445,10 @@ export function createHomeController() {
     launchSelected() {
       const items = document.querySelectorAll(".search-result");
       const selected = items[state.searchIndex] || items[0];
-      if (selected) controller.launch(selected.dataset.gameId);
+      const game = selected ? findGame(selected.dataset.gameId) : null;
+      if (!game) return;
+      if (health(game).launchable) controller.launch(game.id);
+      else controller.open(game.id);
     },
 
     async launch(id) {
