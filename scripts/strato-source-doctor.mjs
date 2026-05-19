@@ -164,23 +164,75 @@ function isLaunchCandidate(item) {
 
 function familiesFor(game, urls) {
   const text = JSON.stringify(game).toLowerCase();
-  const hit = [];
+  const hit = new Set();
 
-  for (const [family, needles] of sourceFamilies) {
-    if (needles.some((needle) => text.includes(needle))) hit.push(family);
-  }
+  if (game.provider === "gn-math" || game.source === "gn-math") hit.add("gn-math");
+  if (game.provider === "lucide" || game.source === "lucide") hit.add("lucide");
+  if (game.provider === "1key" || game.source === "1key") hit.add("1key");
+  if (game.provider === "selenite" || game.source === "selenite") hit.add("selenite");
+  if (game.provider === "frogiee" || game.source === "frogie") hit.add("frogiee");
 
   for (const urlItem of urls) {
-    const urlObj = toURL(urlItem.value);
-    const host = urlObj ? cleanHost(urlObj.hostname) : "";
+    const value = urlItem.value.toLowerCase();
+
+    if (value.includes("lucideon.top") || value.includes("a.luminsdk.com") || value.includes("cdn.jsdelivr.net/gh/lucideproxy/svg")) {
+      hit.add("lucide");
+    }
+
+    if (value.includes("gn-math.dev") || (value.includes("cdn.jsdelivr.net") && (value.includes("freebuisness") || value.includes("gn-math")))) {
+      hit.add("gn-math");
+    }
+
+    if (value.includes("selenite.cc")) {
+      hit.add("selenite");
+    }
+
+    if (value.includes("frogiee.one")) {
+      hit.add("frogiee");
+    }
+
+    if (value.includes("1key.lol")) {
+      hit.add("1key");
+    }
+  }
+
+  if (hit.size === 0) {
     for (const [family, needles] of sourceFamilies) {
-      if (needles.some((needle) => host.includes(needle) || urlItem.value.toLowerCase().includes(needle))) {
-        if (!hit.includes(family)) hit.push(family);
+      if (needles.some((needle) => text.includes(needle))) hit.add(family);
+    }
+  }
+
+  return Array.from(hit);
+}
+
+
+function resolveGameUrl(item) {
+  if (item.families.includes("frogiee")) {
+    const generic = item.genericUrls[0] || item.assetUrls[0];
+    if (generic && generic.value.includes('play.frogiee.one/iframe.html?url=')) {
+      const match = generic.value.match(/url=([^&]+)/);
+      if (match) {
+        return { path: "resolved_url", value: `https://play.frogiee.one${match[1]}/index.html` };
       }
     }
   }
 
-  return hit;
+  if (item.families.includes("1key")) {
+    const generic = item.genericUrls[0] || item.launchUrls[0];
+    if (generic && generic.value.includes('1key.lol/games/game/?id=')) {
+        return { path: "resolved_url", value: generic.value + "&strato=launch" };
+    }
+  }
+
+  if (item.families.includes("selenite")) {
+    const evidence = item.game.evidence;
+    if (evidence && evidence.href && evidence.href.includes("selenite.cc/projects/")) {
+       const slug = evidence.href.split("/projects/")[1];
+       if (slug) return { path: "resolved_url", value: `https://selenite.cc/resources/semag/${slug}/index.html` };
+    }
+  }
+
+  return null;
 }
 
 function analyzeGame(game, index) {
@@ -373,7 +425,13 @@ async function main() {
   const checked = await mapLimit(analyzed, CONCURRENCY, async (item) => {
     const attempts = [];
 
-    for (const candidate of item.launchUrls.slice(0, 5)) {
+    let candidates = [...item.launchUrls];
+    if (candidates.length === 0) {
+       const resolved = resolveGameUrl(item);
+       if (resolved) candidates.push(resolved);
+    }
+
+    for (const candidate of candidates.slice(0, 5)) {
       const result = await probe(candidate.value);
       attempts.push({
         field: candidate.path,
@@ -406,7 +464,13 @@ async function main() {
   });
 
   const counts = {};
-  for (const item of checked) counts[item.status] = (counts[item.status] || 0) + 1;
+  const familyCounts = {};
+  for (const item of checked) {
+    counts[item.status] = (counts[item.status] || 0) + 1;
+    const f = item.families.length ? item.families.join(",") : "unknown";
+    if (!familyCounts[f]) familyCounts[f] = { ok: 0, generic_only: 0, dead_launch: 0, asset_only: 0, missing_source: 0 };
+    familyCounts[f][item.status] = (familyCounts[f][item.status] || 0) + 1;
+  }
 
   const working = checked.filter((x) => x.status === "ok");
   const quarantine = checked.filter((x) => x.status !== "ok");
@@ -414,6 +478,12 @@ async function main() {
   console.log("📊 Health summary:");
   for (const [status, count] of Object.entries(counts).sort()) {
     console.log(`- ${status}: ${count}`);
+  }
+
+  console.log("");
+  console.log("👪 By-family health breakdown:");
+  for (const [f, stats] of Object.entries(familyCounts).sort()) {
+    console.log(`- ${f}: ok=${stats.ok}, generic_only=${stats.generic_only}, dead_launch=${stats.dead_launch}, asset_only=${stats.asset_only}, missing_source=${stats.missing_source}`);
   }
 
   fs.writeFileSync(".strato-reports/catalog-source-health.json", JSON.stringify(checked, null, 2) + "\n");
@@ -458,7 +528,20 @@ async function main() {
     } else {
       const backup = `${catalogPath}.backup-${Date.now()}`;
       fs.copyFileSync(catalogPath, backup);
-      fs.writeFileSync(catalogPath, JSON.stringify(writeCatalogLike(raw, working.map((x) => x.game)), null, 2) + "\n");
+
+      // Add quarantine metadata
+      const finalGames = [];
+      for (const item of checked) {
+        if (item.status === "ok") {
+          delete item.game.quarantine;
+          finalGames.push(item.game);
+        } else {
+          item.game.quarantine = true;
+          item.game.quarantineReason = item.attempts[0]?.reason || item.status;
+          finalGames.push(item.game);
+        }
+      }
+      fs.writeFileSync(catalogPath, JSON.stringify(writeCatalogLike(raw, finalGames), null, 2) + "\n");
       console.log("");
       console.log(`✅ Applied working-only catalog.`);
       console.log(`Backup: ${backup}`);

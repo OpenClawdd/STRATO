@@ -6,7 +6,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -14,11 +14,9 @@
       {
         "field": "url",
         "url": "/games/2048/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -44,7 +42,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -52,11 +50,9 @@
       {
         "field": "url",
         "url": "/games/tetris/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -82,7 +78,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -90,11 +86,9 @@
       {
         "field": "url",
         "url": "/games/snake/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -120,7 +114,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -128,11 +122,9 @@
       {
         "field": "url",
         "url": "/games/flappy-bird/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -158,7 +150,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -166,11 +158,9 @@
       {
         "field": "url",
         "url": "/games/pong/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -196,7 +186,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -204,11 +194,9 @@
       {
         "field": "url",
         "url": "/games/breakout/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -234,7 +222,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -242,11 +230,9 @@
       {
         "field": "url",
         "url": "/games/dino-runner/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -272,7 +258,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -280,11 +266,9 @@
       {
         "field": "url",
         "url": "/games/space-invaders/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -310,7 +294,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -318,11 +302,9 @@
       {
         "field": "url",
         "url": "/games/sudoku/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -348,7 +330,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -356,11 +338,9 @@
       {
         "field": "url",
         "url": "/games/minesweeper/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -386,7 +366,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -394,11 +374,9 @@
       {
         "field": "url",
         "url": "/games/connect-four/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -424,7 +402,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -432,11 +410,9 @@
       {
         "field": "url",
         "url": "/games/memory-match/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -462,7 +438,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -470,11 +446,9 @@
       {
         "field": "url",
         "url": "/games/typing-game/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -500,7 +474,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -508,11 +482,9 @@
       {
         "field": "url",
         "url": "/games/simon-says/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -538,7 +510,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -546,11 +518,9 @@
       {
         "field": "url",
         "url": "/games/tower-of-hanoi/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -576,7 +546,7 @@
     "domains": [
       "localhost"
     ],
-    "status": "ok",
+    "status": "dead_launch",
     "assetUrlCount": 1,
     "genericUrlCount": 0,
     "launchUrlCount": 1,
@@ -584,11 +554,9 @@
       {
         "field": "url",
         "url": "/games/pacman/index.html",
-        "ok": true,
-        "status": 200,
-        "finalUrl": "http://localhost:8080/login",
-        "type": "text/html; charset=utf-8",
-        "reason": "ok"
+        "ok": false,
+        "status": "ERR",
+        "reason": "fetch failed"
       }
     ],
     "game": {
@@ -69271,7 +69239,6 @@
     "id": "selenite-universal-paperclips",
     "title": "Universal Paperclips",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -69476,7 +69443,6 @@
     "id": "selenite-xx142-b2-exe",
     "title": "xx142-b2.exe",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -69545,7 +69511,6 @@
     "id": "selenite-snowrider3d",
     "title": "Snow Rider 3D",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -69614,7 +69579,6 @@
     "id": "selenite-fireboywatergirl3",
     "title": "Fireboy & Watergirl 3",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -69887,7 +69851,6 @@
     "id": "selenite-btd5",
     "title": "Bloons Tower Defense 5",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -69956,7 +69919,6 @@
     "id": "selenite-riddleschool",
     "title": "Riddle School",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70093,7 +70055,6 @@
     "id": "selenite-btd4",
     "title": "Bloons Tower Defense 4",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70162,7 +70123,6 @@
     "id": "selenite-king",
     "title": "Drift King",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70231,7 +70191,6 @@
     "id": "selenite-vex-x3m",
     "title": "Vex X3M",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70300,7 +70259,6 @@
     "id": "selenite-minion",
     "title": "The Minions: Resurrection",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70369,7 +70327,6 @@
     "id": "selenite-banjotooie",
     "title": "Banjo Tooie",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70438,7 +70395,6 @@
     "id": "selenite-commodoreclicker",
     "title": "Commodore 64 Clicker",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70507,7 +70463,6 @@
     "id": "selenite-papashotdoggeria",
     "title": "Papa's Hotdoggeria",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70576,7 +70531,6 @@
     "id": "selenite-racer",
     "title": "Racer",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70645,7 +70599,6 @@
     "id": "selenite-jake",
     "title": "Jake's Jingle Quest",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70714,7 +70667,6 @@
     "id": "selenite-60sburgerrun",
     "title": "60s Burger Run",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70783,7 +70735,6 @@
     "id": "selenite-fish-rescue",
     "title": "Fish Rescue",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70852,7 +70803,6 @@
     "id": "selenite-turboracing3",
     "title": "Turbo Racing 3",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70921,7 +70871,6 @@
     "id": "selenite-dogeminer2",
     "title": "Doge Miner 2",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -70990,7 +70939,6 @@
     "id": "selenite-2d",
     "title": "Backrooms 2D",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71059,7 +71007,6 @@
     "id": "selenite-fort",
     "title": "Fort@dmin",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71128,7 +71075,6 @@
     "id": "selenite-megamanzero",
     "title": "Mega Man Zero",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71265,7 +71211,6 @@
     "id": "selenite-baldi-remaster",
     "title": "Baldi's Basics Classic Remastered",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71334,7 +71279,6 @@
     "id": "selenite-fnf-bside",
     "title": "Friday Night Funkin: B-Sides",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71403,7 +71347,6 @@
     "id": "selenite-deepestsword",
     "title": "Deepest Sword",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71472,7 +71415,6 @@
     "id": "selenite-metroidii",
     "title": "Metroid II",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71541,7 +71483,6 @@
     "id": "selenite-speed-stars",
     "title": "Speed Stars",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71610,7 +71551,6 @@
     "id": "selenite-1hobo",
     "title": "Hobo 1",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71679,7 +71619,6 @@
     "id": "selenite-supermetroid",
     "title": "Super Metroid",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71748,7 +71687,6 @@
     "id": "selenite-tabs",
     "title": "Battle Simulator",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71817,7 +71755,6 @@
     "id": "selenite-stickrpg",
     "title": "Stick RPG",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71886,7 +71823,6 @@
     "id": "selenite-pokemonmysterydungeon",
     "title": "Pokemon Mystery Dungeon",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -71955,7 +71891,6 @@
     "id": "selenite-osu",
     "title": "osu! (Scratch)",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72024,7 +71959,6 @@
     "id": "selenite-civclicker",
     "title": "Civ Clicker",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72093,7 +72027,6 @@
     "id": "selenite-metroidfusion",
     "title": "Metroid Fusion",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72162,7 +72095,6 @@
     "id": "selenite-pandemic2",
     "title": "Pandemic 2",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72231,7 +72163,6 @@
     "id": "selenite-pokemonyellow",
     "title": "Pokemon Yellow",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72300,7 +72231,6 @@
     "id": "selenite-wallsmash",
     "title": "Wall Smash",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72369,7 +72299,6 @@
     "id": "selenite-minisho",
     "title": "Minisho",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72438,7 +72367,6 @@
     "id": "selenite-supermarioland2",
     "title": "Super Mario Land 2",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72711,7 +72639,6 @@
     "id": "selenite-wubz",
     "title": "Wubzzy's Amazing Adventure",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72780,7 +72707,6 @@
     "id": "selenite-papalouie",
     "title": "Papa Louie",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72849,7 +72775,6 @@
     "id": "selenite-geometrydash",
     "title": "Geometry Dash (Scratch)",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72918,7 +72843,6 @@
     "id": "selenite-supersmashflash2",
     "title": "Super Smash Flash 2",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -72987,7 +72911,6 @@
     "id": "selenite-bergentruck",
     "title": "BERGENTRUCK",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73056,7 +72979,6 @@
     "id": "selenite-pokemonfirered",
     "title": "Pokemon FireRed",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73193,7 +73115,6 @@
     "id": "selenite-sixcatsunder",
     "title": "Six Cats Under",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73330,7 +73251,6 @@
     "id": "selenite-fridaynightfunkin",
     "title": "Friday Night Funkin",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73399,7 +73319,6 @@
     "id": "selenite-lofi-room",
     "title": "Lo-Fi Room",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73468,7 +73387,6 @@
     "id": "selenite-portalflash",
     "title": "Portal (Flash)",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73537,7 +73455,6 @@
     "id": "selenite-2sadv",
     "title": "Sonic Advance 2",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73606,7 +73523,6 @@
     "id": "selenite-superliquidsoccer",
     "title": "Super Liquid Soccer",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73675,7 +73591,6 @@
     "id": "selenite-fld",
     "title": "Flappy Dino",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73744,7 +73659,6 @@
     "id": "selenite-slope3",
     "title": "Slope 3",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73813,7 +73727,6 @@
     "id": "selenite-tattletail",
     "title": "Tattle Tail",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
@@ -73882,7 +73795,6 @@
     "id": "selenite-4hobo",
     "title": "Hobo 4",
     "families": [
-      "selenite",
       "lucide"
     ],
     "domains": [
