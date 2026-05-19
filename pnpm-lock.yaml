@@ -9,16 +9,16 @@ importers:
   .:
     dependencies:
       '@mercuryworkshop/bare-mux':
-        specifier: ^2.1.8
+        specifier: ^2.1.9
         version: 2.1.9
       '@mercuryworkshop/epoxy-tls':
-        specifier: ^2.1.19-1
+        specifier: 2.1.19-1
         version: 2.1.19-1
       '@mercuryworkshop/epoxy-transport':
         specifier: ^3.0.1
         version: 3.0.1
       '@mercuryworkshop/scramjet':
-        specifier: ^1.0.2
+        specifier: ^1.1.0
         version: 1.1.0
       '@mercuryworkshop/wisp-js':
         specifier: ^0.4.1
