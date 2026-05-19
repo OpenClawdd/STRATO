@@ -8,7 +8,7 @@ Total games: **1248**
 | Family | Entries |
 |---|---:|
 | gn-math | 702 |
-| selenite | 270 |
+| selenite | 214 |
 | frogiee | 138 |
 | 1key | 74 |
 | lucide | 69 |
