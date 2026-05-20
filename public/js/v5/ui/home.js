@@ -98,26 +98,50 @@ function shortDate(timestamp) {
 
 function renderHeroStats() {
   const playable = playableCatalog();
-  const picks = dailyPicks();
-  const moods = moodClusters();
+  const els = {
+    "home-live-games": playable.length,
+    "home-live-picks": dailyPicks().length,
+    "home-live-moods": moodClusters().length,
+  };
+  Object.entries(els).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  });
+
+  const signalEl = document.getElementById("catalog-signal");
+  if (signalEl) {
+    const healthScore = playable.length / state.games.length;
+    if (healthScore > 0.3) {
+      signalEl.textContent = "STABLE";
+      signalEl.style.color = "var(--accent-green)";
+    } else if (healthScore > 0.15) {
+      signalEl.textContent = "DEGRADED";
+      signalEl.style.color = "var(--accent-yellow)";
+    } else {
+      signalEl.textContent = "CRITICAL";
+      signalEl.style.color = "var(--accent-red)";
+    }
+  }
+
   const recent = readJson(keys.recent, []);
   const lastPlayed = readJson(keys.lastPlayed, {});
   const last = recent[0] ? findGame(recent[0]) : null;
   const lastAction = document.getElementById("home-last-action");
+  const resumeBtn = document.getElementById("resume-last");
 
-  const games = document.getElementById("home-live-games");
-  const pickNode = document.getElementById("home-live-picks");
-  const moodNode = document.getElementById("home-live-moods");
-  const statusChip = document.getElementById("catalog-status-chip");
-
-  if (games) games.textContent = String(playable.length);
-  if (pickNode) pickNode.textContent = String(picks.length);
-  if (moodNode) moodNode.textContent = String(moods.length);
-  if (statusChip) statusChip.textContent = `${playable.length} games`;
   if (lastAction)
     lastAction.textContent = last
       ? `Last: ${nameOf(last)} · ${shortDate(lastPlayed[last.id])}`
       : "Ready";
+
+  if (resumeBtn) {
+    if (last) {
+      resumeBtn.classList.remove("hidden");
+      resumeBtn.onclick = () => launchById(last.id);
+    } else {
+      resumeBtn.classList.add("hidden");
+    }
+  }
 }
 
 function renderPulse() {

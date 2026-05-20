@@ -155,33 +155,53 @@
 
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
-        <div class="hideout-home" aria-label="STRATO">
-          <header class="hideout-identity">
-            <div class="identity-mark" aria-hidden="true">S</div>
-            <div class="identity-copy">
-              <h1>STRATO</h1>
+        <div class="launch-universe">
+          
+          <header class="launch-universe-hero">
+            <div class="hero-bg-accent"></div>
+            <div class="hero-content">
+              <div class="hero-os-brand">
+                <span class="os-version">v5.0.3</span>
+                <span class="os-status">SYSTEM ACTIVE</span>
+              </div>
+              <h1 class="hero-title">STRATO</h1>
+              <p class="hero-subtitle">The Verified Launch Universe</p>
+              
+              <div class="launch-command-center">
+                <div class="command-input-wrapper">
+                  <span class="command-prompt">></span>
+                  <input type="text" id="home-search" class="command-input" placeholder="Launch game, mood, or URL..." autocomplete="off" spellcheck="false" data-focus-home-search>
+                  <div class="command-shortcuts">
+                    <kbd>/</kbd> to search
+                  </div>
+                </div>
+                <div class="command-actions">
+                  <button id="surprise-me" class="btn-universe primary">Random Orbit</button>
+                  <button id="resume-last" class="btn-universe secondary hidden">Resume Last</button>
+                </div>
+              </div>
+
+              <div class="universe-metrics">
+                <div class="metric-item">
+                  <span class="metric-value" id="home-live-games">359</span>
+                  <span class="metric-label">Verified Playable</span>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                  <span class="metric-value" id="home-live-picks">6</span>
+                  <span class="metric-label">Daily Picks</span>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                  <span class="metric-value" id="catalog-signal">STABLE</span>
+                  <span class="metric-label">Signal</span>
+                </div>
+              </div>
             </div>
-            <div class="identity-metrics" aria-label="Live STRATO stats">
-              <div><span id="home-live-games">54</span><small>playable</small></div>
-              <div><span id="home-live-picks">6</span><small>daily picks</small></div>
-              <div><span id="home-live-moods">0</span><small>moods</small></div>
-            </div>
-            <div class="identity-status" id="catalog-status-chip">Scanning catalog…</div>
           </header>
 
-          <section class="hideout-search" aria-label="Search the STRATO catalog">
-            <div class="search-intro">
-              <h2>Games</h2>
-            </div>
-            <div class="search-controls">
-              <label class="sr-only" for="home-search">Search the catalog</label>
-              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false" data-focus-home-search>
-              <button class="launch-button" id="surprise-me" type="button">Surprise Me</button>
-            </div>
-            <div class="spotlight-helper" aria-hidden="true"><span>Search or enter URL</span><span id="home-last-action">Ready</span></div>
-            <div class="mood-strip" id="home-filter-row" aria-label="Quick mood filters"></div>
-            <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
-          </section>
+          <div class="mood-strip" id="home-filter-row" aria-label="Quick mood filters"></div>
+          <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
 
           <nav class="hideout-actions" aria-label="Quick actions">
             <button class="hideout-action" type="button" data-home-nav="arcade"><span>01</span><strong>Games</strong></button>
@@ -355,7 +375,7 @@
           <div class="browser-sidebar" id="browser-sidebar">
             <!-- Bookmarks/History sidebar content -->
           </div>
-          <iframe id="proxy-iframe" class="proxy-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
+          <iframe id="proxy-iframe" class="proxy-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
         </div>
       </section>
 

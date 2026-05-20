@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { setGames, state } from '../../public/js/v5/core/state.js';
-import { normalizeGame, playableCatalog, similarGames } from '../../public/js/v5/core/catalog.js';
+import { normalizeGame, playableCatalog, similarGames, trendingGames } from '../../public/js/v5/core/catalog.js';
 import { isPlaceholder, launchability } from '../../public/js/v5/core/health.js';
 import { searchGames, scoreGame } from '../../public/js/v5/core/search.js';
 import { dailyPicks, surpriseCandidate } from '../../public/js/v5/core/picks.js';
@@ -76,5 +76,35 @@ describe('v5 picks and surprise', () => {
     const related = similarGames(catalog[1], 4).map((game) => game.id);
     expect(related).toContain('speed-racer');
     expect(related).not.toContain('proxy-placeholder');
+  });
+});
+
+describe('v5 personalization and trending', () => {
+  it('returns an empty trending list for new users (no play history)', () => {
+    expect(trendingGames()).toHaveLength(0);
+  });
+
+  it('populates trendingGames based on local playCounts', () => {
+    writeJson(keys.playCounts, { 'space-run': 10, '2048': 5 });
+    const trending = trendingGames();
+    expect(trending[0].id).toBe('space-run');
+    expect(trending[1].id).toBe('2048');
+    expect(trending).toHaveLength(2);
+  });
+
+  it('boosts frequently played games in search results', () => {
+    const query = 'space';
+
+    // Scenario 1: No history (Base scores)
+    const baseScore = scoreGame(catalog[1], query); // "Space Run"
+
+    // Scenario 2: High play count boost
+    writeJson(keys.playCounts, { 'space-run': 10 });
+    const boostedScore = scoreGame(catalog[1], query);
+
+    expect(boostedScore).toBeLessThan(baseScore);
+
+    // Ensure exact matches still win over boosted partials
+    expect(scoreGame(catalog[0], '2048')).toBeLessThan(boostedScore);
   });
 });

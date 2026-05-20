@@ -656,6 +656,11 @@
         browserBody?.classList.add("has-launch", "is-loading");
       }
       if (attempt < 20) {
+        // Pre-warm the transport by pinging the Wisp endpoint if it's not ready
+        if (attempt === 5 && !state.proxyReady) {
+          console.debug("[STRATO] Pinging Wisp for pre-warm...");
+          fetch("/wisp/").catch(() => {});
+        }
         setTimeout(() => navigateProxy(url, engine, meta, attempt + 1), 500);
       } else if (meta.external) {
         document.querySelector(".browser-body")?.classList.remove("is-loading");
@@ -685,6 +690,40 @@
       iframe.dataset.launchExternal = meta.external ? "true" : "false";
     }
     iframe.src = proxyUrl;
+
+    // ── Frontend Containment Shield ──
+    // Ensures games cannot redirect the main STRATO page or open unproxied windows.
+    // Since UV/SJ are same-origin via the service worker, we can often
+    // inject this shield directly from the parent context.
+    const applyShield = () => {
+      try {
+        const win = iframe.contentWindow;
+        const doc = win.document;
+        if (!win || !doc) return;
+
+        // 1. Intercept target="_blank" links
+        doc.querySelectorAll('a[target="_blank"]').forEach(a => {
+          a.setAttribute('target', '_self');
+        });
+
+        // 2. Override window.open to stay in the same frame
+        if (!win.__strato_shield_active) {
+          const originalOpen = win.open;
+          win.open = function(u, t, f) {
+            if (!t || t === '_blank') {
+              win.location.href = u;
+              return win;
+            }
+            return originalOpen.apply(this, arguments);
+          };
+          win.__strato_shield_active = true;
+        }
+      } catch (e) {
+        // SOP may block until UV finishes, but that's okay.
+      }
+    };
+    iframe.removeEventListener("load", applyShield);
+    iframe.addEventListener("load", applyShield);
 
     state.pagesLoaded++;
     localStorage.setItem("strato-pagesLoaded", String(state.pagesLoaded));
@@ -1280,16 +1319,16 @@
   }
 
   function updateGameStats() {
-    const total = state.games.length;
-    const tier1 = state.games.filter((g) => g.tier === 1).length;
-    const available = state.games.length;
+    const playable = playableCatalog();
+    const total = playable.length;
+    const tier1 = playable.filter((g) => g.tier === 1).length;
 
     const els = {
       "arcade-total": total,
-      "arcade-available": available,
+      "arcade-available": total,
       "arcade-tier1": tier1,
-      "status-games": `${total} games`,
-      "games-count-text": `${total} games`,
+      "status-games": `${total} verified playable`,
+      "games-count-text": `${total} verified games`,
       "home-games-count": total,
       "arcade-badge": total,
     };

@@ -237,20 +237,23 @@ app.get("/api/csrf-token", (req, res) => {
 // ── 10. Static files (only served if authenticated) ──
 app.use(express.static(join(__dirname, "..", "public")));
 
-// ── 11. Header-stripping middleware for proxy iframe support ──
-//     Strips X-Frame-Options and modifies CSP frame-ancestors on proxied responses.
-//     This allows sites loaded through the proxy to be embedded in iframes.
-//     NOTE: This is an intentional security trade-off for proxy functionality.
+// ── 11. Asset Optimization Middleware ──
+//     This middleware was previously used to strip frame protections.
+//     It now focuses on performance optimizations (caching) for verified game assets.
 function stripFrameHeaders(req, res, next) {
   const originalSetHeader = res.setHeader.bind(res);
   res.setHeader = function (name, value) {
     const lower = String(name).toLowerCase();
-    if (lower === "x-frame-options") return res; // Strip entirely
-    if (lower === "content-security-policy") {
-      if (typeof value === "string") {
-        value = value.replace(/frame-ancestors[^;]*;?/gi, "frame-ancestors *;");
-      }
+
+    // 1. Performance: Ensure game assets (JS, WASM, Images) are cached for 1 hour
+    // This is a safe performance optimization that does not bypass security.
+    if (
+      lower === "cache-control" &&
+      /\.(js|wasm|png|jpg|webp|mp3|ogg|wav)$/i.test(req.url)
+    ) {
+      value = "public, max-age=3600, stale-while-revalidate=86400";
     }
+
     return originalSetHeader(name, value);
   };
   next();

@@ -75,19 +75,28 @@ function localMeta(game) {
 
 export function card(game, variant = "") {
   const favorite = readJson(keys.favorites, []).includes(game.id);
-  const tags = tagsOf(game).slice(0, 3);
-  const description = descriptionOf(game);
-  const label = statusLabel(game);
+  const tags = tagsOf(game).slice(0, 2);
   const category = categoryOf(game);
-  return `<article class="hideout-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="Open ${escapeHtml(nameOf(game))}">
-    <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="${favorite ? "Unfavorite" : "Favorite"} ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
-    <div class="hideout-thumb-wrap"><img class="hideout-thumb" src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt=""></div>
-    <div class="hideout-card-body">
-      <div class="hideout-card-topline"><span>${escapeHtml(category)}</span>${label ? `<span class="status-pill">${escapeHtml(label)}</span>` : `<span class="status-pill ready">${escapeHtml(localMeta(game))}</span>`}</div>
-      <h3>${escapeHtml(nameOf(game))}</h3>
-      ${description ? `<p>${escapeHtml(description)}</p>` : ""}
-      <div class="hideout-tags">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-      <div class="card-actions"><button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button><span>${escapeHtml(localMeta(game))}</span></div>
+  const isVerified = game.reliability === "green" || game.reliability === "yellow";
+  const meta = localMeta(game);
+  
+  return `<article class="game-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0">
+    <div class="game-card-thumb">
+      <img src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt="">
+      <div class="game-card-overlay">
+        <div class="game-card-meta">
+          <span>${escapeHtml(category)}</span>
+          ${isVerified ? `<span class="verified-badge">✓ Verified</span>` : ""}
+        </div>
+        <h3 class="game-card-title">${escapeHtml(nameOf(game))}</h3>
+        <div class="game-card-footer">
+          <span class="card-status-text">${escapeHtml(meta)}</span>
+          <button class="launch-button-mini" data-launch-id="${escapeHtml(game.id)}">Play</button>
+        </div>
+      </div>
     </div>
+    <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="Favorite">
+      ${favorite ? "★" : "☆"}
+    </button>
   </article>`;
 }
