@@ -424,14 +424,17 @@
     "thumbnail": "/assets/thumbnails/krunker.webp",
     "url": "https://krunker.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Fast-paced browser FPS with movement mechanics",
     "tags": [
       "fps",
       "shooter",
       "multiplayer"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 krunker.io — fast FPS, well-known school classic"
   },
   {
     "id": "slither-io",
@@ -440,7 +443,7 @@
     "thumbnail": "/assets/thumbnails/slither-io.webp",
     "url": "https://slither.io",
     "tier": 2,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Eat orbs, grow longer, outsnake your rivals",
     "tags": [
       "io",
@@ -450,7 +453,9 @@
       "needs-check"
     ],
     "needsCheck": true,
-    "needsReview": false
+    "needsReview": false,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 slither.io — classic .io snake game"
   },
   {
     "id": "hole-io",
@@ -459,14 +464,17 @@
     "thumbnail": "/assets/thumbnails/hole-io.webp",
     "url": "https://hole-io.com",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Control a black hole and swallow everything in sight",
     "tags": [
       "io",
       "physics",
       "multiplayer"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 hole-io.com — physics .io game"
   },
   {
     "id": "stickman-hook",
@@ -507,14 +515,17 @@
     "thumbnail": "/assets/thumbnails/geometry-dash.webp",
     "url": "https://geometrydash.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Jump and fly through spiky rhythm-based levels",
     "tags": [
       "rhythm",
       "jump",
       "hard"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 geometrydash.io — rhythm platformer (browser port)"
   },
   {
     "id": "drift-hunters",
@@ -761,14 +772,17 @@
     "thumbnail": "/assets/thumbnails/bonk-io.webp",
     "url": "https://bonk.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Push friends off the map in this physics brawler",
     "tags": [
       "physics",
       "multiplayer",
       "io"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 bonk.io — physics multiplayer brawler"
   },
   {
     "id": "skribbl-io",
@@ -777,14 +791,17 @@
     "thumbnail": "/assets/thumbnails/skribbl-io.webp",
     "url": "https://skribbl.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Draw and guess with players worldwide",
     "tags": [
       "drawing",
       "guessing",
       "multiplayer"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 skribbl.io — draw-and-guess, school-safe social"
   },
   {
     "id": "zombs-royale",
@@ -793,14 +810,17 @@
     "thumbnail": "/assets/thumbnails/zombs-royale.webp",
     "url": "https://zombsroyale.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "2D battle royale with building mechanics",
     "tags": [
       "battle-royale",
       "shooter",
       "multiplayer"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 zombsroyale.io — 2D battle royale"
   },
   {
     "id": "bloons-td",
@@ -859,14 +879,17 @@
     "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
     "url": "https://helixjump.io",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Drop the ball through gaps in the helix tower",
     "tags": [
       "ball",
       "drop",
       "3d"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 helixjump.io — casual ball-drop arcade"
   },
   {
     "id": "raft-wars",
@@ -892,14 +915,17 @@
     "thumbnail": "/assets/thumbnails/dead-zed.webp",
     "url": "https://deadzed.com",
     "tier": 3,
-    "reliability": "red",
+    "reliability": "yellow",
     "description": "Survive the zombie apocalypse — first person shooter",
     "tags": [
       "zombies",
       "fps",
       "survival"
     ],
-    "needsReview": false
+    "needsReview": false,
+    "needsCheck": true,
+    "repairedAt": "2026-05-20",
+    "repairNote": "HTTP 200 deadzed.com — zombie shooter (mild violence, no gore flag)"
   },
   {
     "id": "google-snake",
