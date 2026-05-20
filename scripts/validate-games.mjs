@@ -16,6 +16,77 @@ const DIRECTORY_TERMS =
   /\b(proxy|mirror|directory|index|hub|unblocked|exploit|cloak|bypass)\b/i;
 const SUSPICIOUS_HOST_TERMS = /\b(proxy|mirror|unblock|bypass|cloak)\b/i;
 const SAFE_SCHEMES = new Set(["http:", "https:"]);
+const SOURCE_DOCTOR_BASE = "http://localhost:8080";
+const SOURCE_DOCTOR_GENERIC_PATHS = new Set([
+  "",
+  "/",
+  "/projects",
+  "/games",
+  "/game",
+  "/play",
+  "/apps",
+  "/app",
+  "/resources",
+  "/search",
+  "/library",
+  "/archive",
+]);
+const SOURCE_DOCTOR_ASSET_EXTS = new Set([
+  "png",
+  "jpg",
+  "jpeg",
+  "webp",
+  "gif",
+  "svg",
+  "ico",
+  "css",
+  "js",
+  "mjs",
+  "json",
+  "mp3",
+  "ogg",
+  "wav",
+  "mp4",
+  "webm",
+  "woff",
+  "woff2",
+  "ttf",
+  "wasm",
+  "data",
+  "bin",
+]);
+const SOURCE_DOCTOR_ASSET_KEYWORDS = [
+  "icon",
+  "image",
+  "img",
+  "cover",
+  "thumb",
+  "thumbnail",
+  "splash",
+  "logo",
+  "poster",
+  "banner",
+  "background",
+  "favicon",
+  "asset",
+  "assets",
+  "resources",
+];
+const SOURCE_DOCTOR_LAUNCH_KEYWORDS = [
+  "url",
+  "href",
+  "link",
+  "source",
+  "src",
+  "path",
+  "embed",
+  "iframe",
+  "launch",
+  "play",
+  "game",
+  "gameurl",
+  "game_url",
+];
 
 function normalize(value) {
   return String(value || "")
@@ -32,6 +103,84 @@ function addIssue(issues, severity, type, entry, message) {
     title: entry?.name || entry?.title || "(untitled)",
     message,
   });
+}
+
+function collectStrings(value, stringPath = "", out = []) {
+  if (typeof value === "string") {
+    out.push({ path: stringPath, value: value.trim() });
+  } else if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      collectStrings(item, `${stringPath}[${index}]`, out),
+    );
+  } else if (value && typeof value === "object") {
+    for (const [key, item] of Object.entries(value)) {
+      collectStrings(item, stringPath ? `${stringPath}.${key}` : key, out);
+    }
+  }
+  return out;
+}
+
+function isUrlLike(value) {
+  const input = String(value || "").trim();
+  return input.startsWith("/") || /^https?:\/\//i.test(input);
+}
+
+function toUrl(value) {
+  try {
+    return new URL(String(value || ""), SOURCE_DOCTOR_BASE);
+  } catch {
+    return null;
+  }
+}
+
+function extensionOf(urlObj) {
+  const match = String(urlObj?.pathname || "").match(/\.([a-z0-9]+)$/i);
+  return match ? match[1].toLowerCase() : "";
+}
+
+function pathLooksAsset(rawPath) {
+  const lower = String(rawPath || "").toLowerCase();
+  return SOURCE_DOCTOR_ASSET_KEYWORDS.some((word) => lower.includes(word));
+}
+
+function urlLooksAsset(urlObj) {
+  return SOURCE_DOCTOR_ASSET_EXTS.has(extensionOf(urlObj));
+}
+
+function isAssetCandidate(item) {
+  const urlObj = toUrl(item?.value);
+  if (!urlObj) return false;
+  return urlLooksAsset(urlObj) || pathLooksAsset(item?.path);
+}
+
+function isGenericHub(value) {
+  const urlObj = toUrl(value);
+  if (!urlObj) return false;
+  const normalizedPath = urlObj.pathname.replace(/\/+$/, "").toLowerCase();
+  return SOURCE_DOCTOR_GENERIC_PATHS.has(normalizedPath);
+}
+
+function isLaunchCandidate(item) {
+  if (!isUrlLike(item?.value)) return false;
+  if (isAssetCandidate(item)) return false;
+  if (isGenericHub(item.value)) return false;
+  const pathText = String(item.path || "").toLowerCase();
+  if (
+    SOURCE_DOCTOR_LAUNCH_KEYWORDS.some((word) => pathText.includes(word))
+  ) {
+    return true;
+  }
+  const urlObj = toUrl(item.value);
+  if (!urlObj) return false;
+  return !urlLooksAsset(urlObj);
+}
+
+export function classifyGenericOnlyLikeSourceDoctor(game) {
+  const strings = collectStrings(game);
+  const urlItems = strings.filter((item) => isUrlLike(item.value));
+  const genericUrls = urlItems.filter((item) => isGenericHub(item.value));
+  const launchUrls = urlItems.filter((item) => isLaunchCandidate(item));
+  return genericUrls.length > 0 && launchUrls.length === 0;
 }
 
 function validateUrl(url) {
@@ -289,6 +438,21 @@ export async function validateGames(filePath = catalogPath) {
     // Skip adult/gambling/directory content checks for quarantined (red) entries
     // — they are already excluded from active surfaces and the check is noise.
     if (!isQuarantined) {
+      if (classifyGenericOnlyLikeSourceDoctor(game)) {
+        addIssue(
+          issues,
+          "error",
+          "active-generic-only-launch-candidate",
+          game,
+          "Active generic_only launch candidates are not allowed. Quarantine or repair these entries.",
+        );
+        quarantine.push({
+          id: game.id,
+          title: title || game.id,
+          reason: "active-generic-only-launch-candidate",
+        });
+      }
+
       const searchableText = `${title || ""} ${game.description || ""} ${(game.tags || []).join(" ")} ${game.category || ""}`;
       if (ADULT_TERMS.test(searchableText)) {
         addIssue(
