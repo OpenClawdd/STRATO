@@ -1053,7 +1053,7 @@
     "url": "https://adfree-sz-games.github.io/Games-2/lol/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1080,7 +1080,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "2-drocketleague",
@@ -3199,7 +3201,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-2",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3226,7 +3228,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "badicecream-3",
@@ -3236,7 +3240,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-3",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3263,7 +3267,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "badparenting",
@@ -5086,7 +5092,7 @@
     "url": "https://adfree-sz-games.github.io/Games/bobtherobber2",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5113,7 +5119,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "boilnoodles",
@@ -5493,7 +5501,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5520,7 +5528,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "burritobison",
@@ -7787,7 +7797,7 @@
     "url": "https://adfree-sz-games.github.io/Games/CSGO-CLICKER",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7814,7 +7824,9 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "duplicate-url-weaker-entry",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "cubefield",
@@ -44405,7 +44417,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44437,7 +44449,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-falling",
@@ -44447,7 +44461,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44479,7 +44493,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-touhoumother",
@@ -44489,7 +44505,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44521,7 +44537,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-xx142-b2-exe",
@@ -44531,7 +44549,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44563,7 +44581,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-snowrider3d",
@@ -44573,7 +44593,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44605,7 +44625,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fireboywatergirl3",
@@ -44615,7 +44637,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44647,7 +44669,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-bopcity",
@@ -44657,7 +44681,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44689,7 +44713,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-nubby",
@@ -44699,7 +44725,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44731,7 +44757,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-dadish3d",
@@ -44741,7 +44769,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44773,7 +44801,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-btd5",
@@ -44867,7 +44897,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44899,7 +44929,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-btd4",
@@ -44951,7 +44983,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -44983,7 +45015,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-vex-x3m",
@@ -44993,7 +45027,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45025,7 +45059,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-minion",
@@ -45035,7 +45071,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45067,7 +45103,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-banjotooie",
@@ -45077,7 +45115,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45109,7 +45147,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-commodoreclicker",
@@ -45119,7 +45159,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45151,7 +45191,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-papashotdoggeria",
@@ -45161,7 +45203,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45193,7 +45235,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-racer",
@@ -45203,7 +45247,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45235,7 +45279,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-jake",
@@ -45245,7 +45291,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45277,7 +45323,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-60sburgerrun",
@@ -45287,7 +45335,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45319,7 +45367,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fish-rescue",
@@ -45329,7 +45379,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45361,7 +45411,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-turboracing3",
@@ -45371,7 +45423,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45403,7 +45455,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-dogeminer2",
@@ -45413,7 +45467,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45445,7 +45499,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-2d",
@@ -45455,7 +45511,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45487,7 +45543,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fort",
@@ -45497,7 +45555,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45529,7 +45587,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-megamanzero",
@@ -45539,7 +45599,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45571,7 +45631,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-mergerot",
@@ -45581,7 +45643,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45613,7 +45675,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-baldi-remaster",
@@ -45623,7 +45687,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45655,7 +45719,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fnf-bside",
@@ -45665,7 +45731,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45697,7 +45763,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-deepestsword",
@@ -45707,7 +45775,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45739,7 +45807,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-metroidii",
@@ -45749,7 +45819,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45781,7 +45851,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-speed-stars",
@@ -45791,7 +45863,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45823,7 +45895,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-1hobo",
@@ -45833,7 +45907,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45865,7 +45939,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-supermetroid",
@@ -45875,7 +45951,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45907,7 +45983,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-tabs",
@@ -45917,7 +45995,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45949,7 +46027,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-stickrpg",
@@ -45959,7 +46039,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -45991,7 +46071,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-pokemonmysterydungeon",
@@ -46001,7 +46083,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46033,7 +46115,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-osu",
@@ -46043,7 +46127,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46075,7 +46159,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-civclicker",
@@ -46085,7 +46171,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46117,7 +46203,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-metroidfusion",
@@ -46127,7 +46215,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46159,7 +46247,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-pandemic2",
@@ -46211,7 +46301,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46243,7 +46333,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-wallsmash",
@@ -46253,7 +46345,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46285,7 +46377,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-minisho",
@@ -46295,7 +46389,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46327,7 +46421,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-supermarioland2",
@@ -46337,7 +46433,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46369,7 +46465,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-fred",
@@ -46379,7 +46477,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46411,7 +46509,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-fnac",
@@ -46421,7 +46521,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46453,7 +46553,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-domekeeper",
@@ -46463,7 +46565,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46495,7 +46597,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-wubz",
@@ -46505,7 +46609,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46537,7 +46641,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-papalouie",
@@ -46547,7 +46653,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46579,7 +46685,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-geometrydash",
@@ -46673,7 +46781,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46705,7 +46813,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-pokemonfirered",
@@ -46715,7 +46825,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46747,7 +46857,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-karlson2d",
@@ -46757,7 +46869,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46789,7 +46901,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-sixcatsunder",
@@ -46799,7 +46913,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46831,7 +46945,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-scary-path",
@@ -46841,7 +46957,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46873,7 +46989,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fridaynightfunkin",
@@ -46883,7 +47001,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46915,7 +47033,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-lofi-room",
@@ -46925,7 +47045,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -46957,7 +47077,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-portalflash",
@@ -47009,7 +47131,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47041,7 +47163,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-superliquidsoccer",
@@ -47051,7 +47175,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47083,7 +47207,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-fld",
@@ -47093,7 +47219,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47125,7 +47251,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-slope3",
@@ -47135,7 +47263,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47167,7 +47295,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-tattletail",
@@ -47177,7 +47307,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47209,7 +47339,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "selenite-4hobo",
@@ -47219,7 +47351,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47251,7 +47383,9 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   },
   {
     "id": "truffled-monk",
@@ -47261,7 +47395,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -47293,6 +47427,8 @@
       "capturedAt": "2026-05-16T01:11:30.354Z",
       "className": "flex flex-col text-left focus-visible:outline-none",
       "tag": "BUTTON"
-    }
+    },
+    "quarantineReason": "lucideon-generic-frame-url",
+    "quarantinedAt": "2026-05-20"
   }
 ]
