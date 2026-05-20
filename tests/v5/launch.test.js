@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { normalizeGame } from "../../public/js/v5/core/catalog.js";
-import { launchById } from "../../public/js/v5/core/launch.js";
+import {
+  launchById,
+  reportProxyBlockedOrFailed,
+  reportProxyIframeLoaded,
+} from "../../public/js/v5/core/launch.js";
 import { setGames, state } from "../../public/js/v5/core/state.js";
 import { keys, readJson, writeJson } from "../../public/js/v5/core/storage.js";
 
@@ -16,8 +20,13 @@ function installStorage() {
 
 function installDom() {
   const viewNode = { classList: { remove: vi.fn(), add: vi.fn() } };
-  const navNode = { classList: { toggle: vi.fn() }, dataset: { view: "browser" } };
-  const browserBody = { classList: { add: vi.fn(), remove: vi.fn(), toggle: vi.fn() } };
+  const navNode = {
+    classList: { toggle: vi.fn() },
+    dataset: { view: "browser" },
+  };
+  const browserBody = {
+    classList: { add: vi.fn(), remove: vi.fn(), toggle: vi.fn() },
+  };
   const iframe = { src: "", addEventListener: vi.fn() };
   const input = { value: "" };
 
@@ -54,6 +63,12 @@ describe("v5 launch reliability", () => {
     installDom();
     installWindow();
     state.launchBay = { status: "empty", gameId: null, reason: "" };
+    state.proxyLaunchTelemetry = {
+      stage: "idle",
+      gameId: null,
+      reason: "",
+      at: 0,
+    };
   });
 
   afterEach(() => {
@@ -98,7 +113,10 @@ describe("v5 launch reliability", () => {
     writeJson(keys.failures, {
       beta: { reason: "Local route unavailable", timestamp: Date.now() },
     });
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, status: 200 }));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({ ok: true, status: 200 }),
+    );
 
     const launched = await launchById("beta");
 
@@ -132,6 +150,91 @@ describe("v5 launch reliability", () => {
     );
     expect(state.launchBay.status).toBe("loading");
     expect(state.launchBay.gameId).toBe("gamma");
+    expect(state.proxyLaunchTelemetry.stage).toBe("handed_off");
     expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("does not record proxy success without an iframe load signal", async () => {
+    setGames(
+      [{ id: "delta", name: "Delta", url: "https://orbit.strato.test/play" }],
+      normalizeGame,
+    );
+    vi.stubGlobal("fetch", vi.fn());
+
+    const launched = await launchById("delta");
+
+    expect(launched).toBe(true);
+    expect(state.proxyLaunchTelemetry.stage).toBe("handed_off");
+    expect(state.launchBay.status).toBe("loading");
+    expect(state.launchBay.status).not.toBe("loaded");
+  });
+
+  it("records iframe-loaded telemetry when a detectable load signal arrives", async () => {
+    setGames(
+      [{ id: "theta", name: "Theta", url: "https://orbit.strato.test/play" }],
+      normalizeGame,
+    );
+    vi.stubGlobal("fetch", vi.fn());
+
+    await launchById("theta");
+    reportProxyIframeLoaded("theta");
+
+    expect(state.proxyLaunchTelemetry.stage).toBe("iframe_loaded");
+    expect(state.launchBay.status).toBe("loaded");
+    expect(state.launchBay.reason).toContain("load signal");
+  });
+
+  it("classifies blocked or failed iframe signal truthfully", async () => {
+    setGames(
+      [{ id: "iota", name: "Iota", url: "https://orbit.strato.test/play" }],
+      normalizeGame,
+    );
+    vi.stubGlobal("fetch", vi.fn());
+    const onFail = vi.fn();
+
+    await launchById("iota", { onFail });
+    reportProxyBlockedOrFailed("iota", "Iframe error event", onFail);
+
+    expect(state.proxyLaunchTelemetry.stage).toBe("blocked_or_failed");
+    expect(state.launchBay.status).toBe("failed");
+    expect(state.launchBay.reason).toContain("Iframe error event");
+    expect(onFail).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "iota" }),
+      "Iframe error event",
+    );
+  });
+
+  it("classifies timeout and supports retry recovery telemetry", async () => {
+    vi.useFakeTimers();
+    try {
+      setGames(
+        [
+          {
+            id: "lambda",
+            name: "Lambda",
+            url: "https://orbit.strato.test/play",
+          },
+        ],
+        normalizeGame,
+      );
+      vi.stubGlobal("fetch", vi.fn());
+      const onFail = vi.fn();
+
+      await launchById("lambda", { onFail });
+      await vi.advanceTimersByTimeAsync(12050);
+
+      expect(state.proxyLaunchTelemetry.stage).toBe("timeout");
+      expect(state.launchBay.status).toBe("failed");
+      expect(state.launchBay.reason).toContain("timed out");
+      expect(onFail).toHaveBeenCalledTimes(1);
+
+      await launchById("lambda", { onFail });
+
+      expect(state.proxyLaunchTelemetry.stage).toBe("handed_off");
+      expect(state.launchBay.status).toBe("loading");
+      expect(state.launchBay.reason).toContain("Handed off");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

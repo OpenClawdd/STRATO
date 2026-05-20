@@ -1,9 +1,41 @@
 import { findGame } from "./catalog.js";
 import { isLaunchable, launchability } from "./health.js";
-import { setLaunchBay } from "./state.js";
+import { setLaunchBay, setProxyLaunchTelemetry, state } from "./state.js";
 import { keys, readJson, writeJson } from "./storage.js";
 
 const LOCAL_PREFLIGHT_TIMEOUT_MS = 4000;
+const PROXY_LAUNCH_TIMEOUT_MS = 12000;
+let proxyLaunchTimer = null;
+
+function requestUiRefresh() {
+  if (
+    typeof window === "undefined" ||
+    typeof window.dispatchEvent !== "function" ||
+    typeof Event !== "function"
+  ) {
+    return;
+  }
+  window.dispatchEvent(new Event("strato-open-home-refresh"));
+}
+
+function clearProxyLaunchTimer() {
+  if (proxyLaunchTimer) {
+    globalThis.clearTimeout(proxyLaunchTimer);
+    proxyLaunchTimer = null;
+  }
+}
+
+function clearProxyLaunchSignals() {
+  clearProxyLaunchTimer();
+  setProxyLaunchTelemetry("idle");
+}
+
+function setProxySignal(stage, game, reason = "", { bayStatus } = {}) {
+  if (!game?.id) return;
+  setProxyLaunchTelemetry(stage, game.id, reason);
+  if (bayStatus) setLaunchBay(bayStatus, game.id, reason);
+  requestUiRefresh();
+}
 
 function recordLaunch(game) {
   const recent = readJson(keys.recent, []).filter((id) => id !== game.id);
@@ -32,6 +64,42 @@ export function clearFailure(game) {
   const failures = readJson(keys.failures, {});
   delete failures[game.id];
   writeJson(keys.failures, failures);
+}
+
+function queueProxyTimeout(game, onFail) {
+  clearProxyLaunchTimer();
+  proxyLaunchTimer = globalThis.setTimeout(() => {
+    if (state.proxyLaunchTelemetry.gameId !== game?.id) return;
+    const reason =
+      "Proxy handoff timed out before iframe load signal. Destination may still be loading.";
+    setProxySignal("timeout", game, reason, { bayStatus: "failed" });
+    onFail?.(game, reason);
+  }, PROXY_LAUNCH_TIMEOUT_MS);
+}
+
+export function reportProxyIframeLoaded(
+  gameId = state.proxyLaunchTelemetry.gameId,
+) {
+  const game = findGame(gameId);
+  if (!game?.id) return;
+  if (state.proxyLaunchTelemetry.gameId !== game.id) return;
+  clearProxyLaunchTimer();
+  setProxySignal("iframe_loaded", game, "Proxy iframe load signal received", {
+    bayStatus: "loaded",
+  });
+}
+
+export function reportProxyBlockedOrFailed(
+  gameId = state.proxyLaunchTelemetry.gameId,
+  reason = "Proxy iframe signaled a blocked or failed launch",
+  onFail,
+) {
+  const game = findGame(gameId);
+  if (!game?.id) return;
+  if (state.proxyLaunchTelemetry.gameId !== game.id) return;
+  clearProxyLaunchTimer();
+  setProxySignal("blocked_or_failed", game, reason, { bayStatus: "failed" });
+  onFail?.(game, reason);
 }
 
 function setBrowserView() {
@@ -104,6 +172,13 @@ export async function launchById(id, { onFail, onUpdate } = {}) {
   const isLocalRoute = String(game.url || "").startsWith("/");
   let localStatus = null;
 
+  if (
+    state.proxyLaunchTelemetry.gameId === game.id &&
+    ["timeout", "blocked_or_failed"].includes(state.proxyLaunchTelemetry.stage)
+  ) {
+    setProxySignal("recovered/retried", game, "Retrying launch");
+  }
+
   if (status.status === "failed-locally" && isLocalRoute) {
     localStatus = await verifyLocalRoute(game.url);
     if (!localStatus.ok) {
@@ -134,7 +209,9 @@ export async function launchById(id, { onFail, onUpdate } = {}) {
     /^https?:\/\//i.test(String(game.url || "")) &&
     typeof window.STRATO_NAVIGATE_PROXY === "function"
   ) {
-    setLaunchBay("loading", game.id);
+    setProxySignal("pending", game, "Preparing proxy launch", {
+      bayStatus: "loading",
+    });
     window.STRATO_NAVIGATE_PROXY(game.url, null, {
       title: game.name || game.title,
       url: game.url,
@@ -144,8 +221,13 @@ export async function launchById(id, { onFail, onUpdate } = {}) {
       originalUrl: game.url,
       game,
     });
+    setProxySignal("handed_off", game, "Handed off to proxy transport", {
+      bayStatus: "loading",
+    });
+    queueProxyTimeout(game, onFail);
     return true;
   }
+  clearProxyLaunchSignals();
   showBrowser(game);
   return true;
 }

@@ -3,6 +3,10 @@ import { state } from "./core/state.js";
 import { findGame, nameOf } from "./core/catalog.js";
 import { normalizeGame } from "./core/catalog.js";
 import { dismissHint, isHintDismissed } from "./core/storage.js";
+import {
+  reportProxyBlockedOrFailed,
+  reportProxyIframeLoaded,
+} from "./core/launch.js";
 import { createHomeController } from "./ui/home.js";
 import { bindSettings } from "./ui/settings.js";
 
@@ -42,7 +46,7 @@ function renderLaunchBay() {
   const title = game ? nameOf(game) : "The Launch Bay is ready.";
   const copy =
     state.launchBay.status === "loading"
-      ? `Loading ${title}…`
+      ? `Loading ${title}…${state.launchBay.reason ? ` ${state.launchBay.reason}.` : ""}`
       : state.launchBay.status === "failed"
         ? `Launch paused: ${state.launchBay.reason || "route unavailable"}.`
         : state.launchBay.status === "loaded"
@@ -125,7 +129,14 @@ function bindLaunchBay() {
     body?.classList.remove("is-loading");
     renderLaunchBay();
   };
-  iframe?.addEventListener("load", sync);
+  iframe?.addEventListener("load", () => {
+    reportProxyIframeLoaded();
+    sync();
+  });
+  iframe?.addEventListener("error", () => {
+    reportProxyBlockedOrFailed();
+    sync();
+  });
   sync();
 }
 
