@@ -240,13 +240,29 @@
     ]
   },
   {
+    "id": "slope",
+    "name": "Slope",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/slope.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=/slope",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Roll down the slope and avoid obstacles at high speed",
+    "tags": [
+      "3d",
+      "speed",
+      "reflex"
+    ],
+    "needsReview": false
+  },
+  {
     "id": "cookie-clicker",
     "name": "Cookie Clicker",
     "category": "strategy",
     "thumbnail": "https://selenite.cc/resources/semag/cookieclicker/img/perfectCookie.png",
     "url": "https://3kh0.github.io/projects/cookie-clicker/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Click cookies, buy upgrades, bake millions — the original idle game",
     "tags": [
       "idle",
@@ -285,7 +301,7 @@
     "thumbnail": "/assets/thumbnails/1v1-lol.webp",
     "url": "https://adfree-sz-games.github.io/Games-2/lol/",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Build and battle in this 1v1 shooter",
     "tags": [
       "shooter",
@@ -302,7 +318,7 @@
     "thumbnail": "/assets/thumbnails/retro-bowl.webp",
     "url": "https://3kh0.github.io/projects/retro-bowl/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Classic American football with pixel art style",
     "tags": [
       "football",
@@ -319,7 +335,7 @@
     "thumbnail": "/assets/thumbnails/among-us.webp",
     "url": "https://3kh0.github.io/projects/among-us/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Find the impostor among the crew — social deduction",
     "tags": [
       "social",
@@ -336,7 +352,7 @@
     "thumbnail": "https://selenite.cc/resources/semag/basketball-stars/icon.png",
     "url": "https://3kh0.github.io/projects/basketball-stars/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Fast-paced 1v1 basketball action",
     "tags": [
       "basketball",
@@ -375,7 +391,7 @@
     "thumbnail": "/assets/thumbnails/madalin-stunt-cars-2.webp",
     "url": "https://adfree-sz-games.github.io/Games2/madalin-stunt-cars-2",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Super cars, massive maps, insane stunts",
     "tags": [
       "cars",
@@ -386,13 +402,78 @@
     "needsCheck": true
   },
   {
+    "id": "stickman-hook",
+    "name": "Stickman Hook",
+    "category": "platformer",
+    "thumbnail": "/assets/thumbnails/stickman-hook.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games5/stickman-hook",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Swing from hook to hook in this physics platformer",
+    "tags": [
+      "physics",
+      "swing",
+      "platformer"
+    ],
+    "needsReview": false
+  },
+  {
+    "id": "vex-5",
+    "name": "Vex 5",
+    "category": "platformer",
+    "thumbnail": "/assets/thumbnails/vex-5.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex5",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Run, jump, and survive deadly obstacle courses",
+    "tags": [
+      "obstacle",
+      "platformer",
+      "hard"
+    ],
+    "needsReview": false
+  },
+  {
+    "id": "drift-hunters",
+    "name": "Drift Hunters",
+    "category": "racing",
+    "thumbnail": "/assets/thumbnails/drift-hunters.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=https://webglmath.github.io/drift-hunters/",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Drift your way through challenging tracks for points",
+    "tags": [
+      "drift",
+      "cars",
+      "3d"
+    ],
+    "needsReview": true,
+    "needsCheck": true
+  },
+  {
+    "id": "tunnel-rush",
+    "name": "Tunnel Rush",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
+    "url": "https://adfree-sz-games.github.io/games/unity.html?game=/games/tunnel-rush/",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Blaze through a neon tunnel avoiding obstacles",
+    "tags": [
+      "neon",
+      "speed",
+      "3d"
+    ],
+    "needsReview": false
+  },
+  {
     "id": "run-3",
     "name": "Run 3",
     "category": "platformer",
     "thumbnail": "/assets/thumbnails/run-3.webp",
     "url": "https://adfree-sz-games.github.io/Games-2/run3/",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Run through an endless tunnel in space",
     "tags": [
       "endless",
@@ -403,13 +484,29 @@
     "needsCheck": true
   },
   {
+    "id": "smash-karts",
+    "name": "Smash Karts",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/smash-karts.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=https://mr-funkinguy.github.io/75/projects/smashkarts/index.html",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Kart battle royale with power-ups and explosions",
+    "tags": [
+      "kart",
+      "battle",
+      "multiplayer"
+    ],
+    "needsReview": false
+  },
+  {
     "id": "subway-surfers",
     "name": "Subway Surfers",
     "category": "action",
     "thumbnail": "https://selenite.cc/resources/semag/subway/cover.png",
     "url": "https://dddavit.github.io/subway/",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Dash through the subway and dodge trains",
     "tags": [
       "endless",
@@ -442,13 +539,30 @@
     }
   },
   {
+    "id": "moto-x3m",
+    "name": "Moto X3M",
+    "category": "racing",
+    "thumbnail": "/assets/thumbnails/moto-x3m.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Extreme motorcycle trials with insane stunts",
+    "tags": [
+      "motorcycle",
+      "stunts",
+      "racing"
+    ],
+    "needsReview": true,
+    "needsCheck": true
+  },
+  {
     "id": "wordle",
     "name": "Wordle",
     "category": "puzzle",
     "thumbnail": "/assets/thumbnails/wordle.webp",
     "url": "https://www.nytimes.com/games/wordle/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Guess the five-letter word in six tries",
     "tags": [
       "words",
@@ -463,7 +577,7 @@
     "thumbnail": "/assets/thumbnails/chess.webp",
     "url": "https://adfree-sz-games.github.io/games/chess/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Play chess online against players worldwide",
     "tags": [
       "board",
@@ -474,13 +588,29 @@
     "needsCheck": true
   },
   {
+    "id": "bitlife",
+    "name": "BitLife",
+    "category": "adventure",
+    "thumbnail": "/assets/thumbnails/bitlife.webp",
+    "url": "https://adfree-sz-games.github.io/Games9/bitlife",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Live your best (or worst) virtual life",
+    "tags": [
+      "life",
+      "simulator",
+      "choices"
+    ],
+    "needsReview": false
+  },
+  {
     "id": "agar-io",
     "name": "Agar.io",
     "category": "action",
     "thumbnail": "/assets/thumbnails/agar-io.webp",
     "url": "https://adfree-sz-games.github.io/games/agario",
     "tier": 2,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Eat cells smaller than you, grow bigger",
     "tags": [
       "io",
@@ -493,13 +623,29 @@
     "needsReview": true
   },
   {
+    "id": "crossy-road",
+    "name": "Crossy Road",
+    "category": "action",
+    "thumbnail": "/assets/thumbnails/crossy-road.webp",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=https://adfree-sz-games.github.io/cr/",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Help the chicken cross the road — and the train tracks",
+    "tags": [
+      "crossing",
+      "retro",
+      "endless"
+    ],
+    "needsReview": false
+  },
+  {
     "id": "minecraft-classic",
     "name": "Minecraft Classic",
     "category": "sandbox",
     "thumbnail": "/assets/thumbnails/minecraft-classic.webp",
     "url": "https://3kh0.github.io/projects/minecraft-classic/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Build together in the original Minecraft — free official web build",
     "tags": [
       "blocks",
@@ -516,7 +662,7 @@
     "thumbnail": "/assets/thumbnails/bloons-td.webp",
     "url": "https://3kh0.github.io/projects/bloonstd/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Pop balloons with monkey towers — tower defense classic",
     "tags": [
       "tower-defense",
@@ -533,7 +679,7 @@
     "thumbnail": "/assets/thumbnails/retro-bowl.webp",
     "url": "https://mrsnailman.github.io/Happy-Wheels-Source-Code/",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Gory ragdoll physics obstacle course",
     "tags": [
       "ragdoll",
@@ -550,7 +696,7 @@
     "thumbnail": "/assets/thumbnails/subway-surfers.webp",
     "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/raftwars.swf",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Launch tennis balls at enemies on rafts",
     "tags": [
       "projectile",
@@ -567,7 +713,7 @@
     "thumbnail": "/assets/thumbnails/snake.webp",
     "url": "https://3kh0.github.io/projects/google-snake/index.html",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Google Snake — clean and smooth",
     "tags": [
       "snake",
@@ -585,7 +731,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/10-minutes-till-dawn",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -622,7 +768,7 @@
     "url": "https://adfree-sz-games.github.io/Games-2/lol/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -659,7 +805,7 @@
     "url": "https://3kh0.github.io/projects/9007199254740992/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -696,7 +842,7 @@
     "url": "https://adfree-sz-games.github.io/Games9/a-dance-of-fire-and-ice",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -733,7 +879,7 @@
     "url": "https://3kh0.github.io/projects/achievementunlocked/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -770,7 +916,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/amazing-rope-police",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -807,7 +953,7 @@
     "url": "https://3kh0.github.io/projects/avalanche/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -844,7 +990,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -881,7 +1027,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -918,7 +1064,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -955,7 +1101,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/baldis-basics/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -992,7 +1138,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/ballistic-chickens",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1029,7 +1175,7 @@
     "url": "https://adfree-sz-games.github.io/Games11/basketbros",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1066,7 +1212,7 @@
     "url": "https://3kh0.github.io/projects/bigredbutton/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1103,7 +1249,7 @@
     "url": "https://3kh0.github.io/projects/bloxors/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1140,7 +1286,7 @@
     "url": "https://adfree-sz-games.github.io/Games/bobtherobber2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1170,6 +1316,43 @@
     }
   },
   {
+    "id": "boxingrandom",
+    "name": "Boxingrandom",
+    "category": "games",
+    "thumbnail": "https://selenite.cc/resources/semag/boxingrandom/512x512.jpg",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+    "type": "game",
+    "tier": 3,
+    "reliability": "yellow",
+    "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
+    "tags": [
+      "captured",
+      "reviewed",
+      "external",
+      "needs-check",
+      "selenite"
+    ],
+    "source": "adfree-resurrection",
+    "provider": "selenite",
+    "needsCheck": true,
+    "needsReview": true,
+    "sourceUrl": "https://selenite.cc/projects",
+    "sourceEvidence": "performance.resource:/resources/semag/",
+    "evidence": {
+      "sourceFile": "captures/selenite-resources.raw.json",
+      "provider": "selenite",
+      "sourceUrl": "https://selenite.cc/projects",
+      "sourceEvidence": "performance.resource:/resources/semag/",
+      "title": "Projects | Selenite",
+      "text": "Boxingrandom",
+      "href": "https://selenite.cc/projects/boxingrandom",
+      "image": "https://selenite.cc/resources/semag/boxingrandom/512x512.jpg",
+      "capturedAt": "2026-05-15T12:02:35.109Z",
+      "className": "",
+      "tag": ""
+    }
+  },
+  {
     "id": "burgerandfrights",
     "name": "Burgerandfrights",
     "category": "games",
@@ -1177,7 +1360,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1214,7 +1397,7 @@
     "url": "https://3kh0.github.io/projects/cell-machine/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1251,7 +1434,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/champion-island",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1325,7 +1508,7 @@
     "url": "https://3kh0.github.io/projects/cubefield/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1362,7 +1545,7 @@
     "url": "https://3kh0.github.io/projects/ctr/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1510,7 +1693,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/100ng",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1548,7 +1731,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/asmallworldcup",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1586,7 +1769,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/adventure-drivers",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1624,7 +1807,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/alien_hominid.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1662,7 +1845,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/AngryBirds/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1700,7 +1883,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/acww.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1738,7 +1921,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/badgame/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1776,7 +1959,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/baldis-basics",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1814,7 +1997,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/bartblast/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1852,7 +2035,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/batim/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1890,7 +2073,7 @@
     "url": "https://3kh0.github.io/projects/btts/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1928,7 +2111,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-1.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1966,7 +2149,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2004,7 +2187,7 @@
     "url": "https://adfree-sz-games.github.io/Games/bobtherobber2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2042,7 +2225,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/bouncy-basketball",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2080,7 +2263,7 @@
     "url": "https://tylerpalko.github.io/gamehub/boxingrandom/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2118,7 +2301,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2156,7 +2339,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/burrito-bison",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2194,7 +2377,7 @@
     "url": "https://play.frogiee.one/apps/a/10008/b.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2232,7 +2415,7 @@
     "url": "https://3kh0.github.io/projects/cannon-basketball-4/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2270,7 +2453,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/co09loader/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2308,7 +2491,7 @@
     "url": "https://play.frogiee.one/apps/a/10019/b.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2346,7 +2529,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2384,7 +2567,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2422,7 +2605,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama3.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2460,7 +2643,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/crashbandi.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2498,7 +2681,7 @@
     "url": "https://play.frogiee.one/stuff/selfhosted/danganronpa/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2536,7 +2719,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/deltatraveler/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2574,7 +2757,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/diggy.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2612,7 +2795,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/dodge",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2650,7 +2833,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ddlcplus/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2688,7 +2871,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/dragon-vs-bricks",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2726,7 +2909,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/drift-boss",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2764,7 +2947,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/drive-mad",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2802,7 +2985,7 @@
     "url": "https://play.frogiee.one/apps/electronic-arts/1353/ea-sports-fc-mobile-24-soccer.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2840,7 +3023,7 @@
     "url": "https://play.frogiee.one/apps/electronic-arts/3288/ea-sports-ufc-mobile-2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2878,7 +3061,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/endless-truck/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2916,7 +3099,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/escape-road/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2954,7 +3137,7 @@
     "url": "https://play.frogiee.one/algebra.html?url=https://ev.io",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2992,7 +3175,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnae/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3030,7 +3213,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf1",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3068,7 +3251,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3106,7 +3289,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3144,7 +3327,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf4",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3182,7 +3365,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/sisterlocation",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3220,7 +3403,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaw/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3258,7 +3441,7 @@
     "url": "https://play.frogiee.one/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://com.epicgames.fortnite",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3296,7 +3479,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fused240/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3334,7 +3517,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/gachalife.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3372,7 +3555,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/gachaverse.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3410,7 +3593,7 @@
     "url": "https://play.frogiee.one/apps/cognosphere-pte-ltd-/1773/genshin-impact.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3448,7 +3631,7 @@
     "url": "https://adfree-sz-games.github.io/Games7/getting-over-it",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3486,7 +3669,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/gtag/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3524,7 +3707,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/gta2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3562,7 +3745,7 @@
     "url": "https://3kh0.github.io/projects/HexGL/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3600,7 +3783,7 @@
     "url": "https://play.frogiee.one/apps/cognosphere-pte-ltd/1591/honkai-star-rail.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3638,7 +3821,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/houseofhazards/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3676,7 +3859,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/hep/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3714,7 +3897,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/karlson2d/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3752,7 +3935,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/kirbysuperstar.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3790,7 +3973,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/learn-to-fly.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3828,7 +4011,7 @@
     "url": "https://play.frogiee.one/stuff/selfhosted/lbp/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3866,7 +4049,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/mkds.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3904,7 +4087,7 @@
     "url": "https://play.frogiee.one/apps/playducky/7199/melon-sandbox.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3942,7 +4125,7 @@
     "url": "https://adfree-sz-games.github.io/storage3/AWeb",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3980,7 +4163,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mcpe/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4018,7 +4201,7 @@
     "url": "https://adfree-sz-games.github.io/Games/monkey-mart",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4056,7 +4239,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/monster-tracks",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4094,7 +4277,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/cdn/projects/motox3m/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4132,7 +4315,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/nso/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4170,7 +4353,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/nsmb.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4208,7 +4391,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/omori/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4246,7 +4429,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/oneshot/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4284,7 +4467,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/ovo",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4322,7 +4505,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/papa/example/pizzeria.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4360,7 +4543,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/parappa.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4398,7 +4581,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/peggle.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4436,7 +4619,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ppgbog/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4474,7 +4657,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/pizzatower/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4512,7 +4695,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/pizzeriasimulator",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4550,7 +4733,7 @@
     "url": "https://play.frogiee.one/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://git.artdeell.mojo",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4588,7 +4771,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/PokemonFireRed.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4626,7 +4809,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/pokemon.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4664,7 +4847,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/polytrack",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4702,7 +4885,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/portal.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4740,7 +4923,7 @@
     "url": "https://play.frogiee.one/apps/proxima-beta/2609/pubg-mobile-resistance.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4778,7 +4961,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/quake/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4816,7 +4999,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/repo/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4854,7 +5037,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/raft/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4892,7 +5075,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ragdoll-archers/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4930,7 +5113,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ragdoll/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -4968,7 +5151,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/raldi/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5006,7 +5189,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/rerun/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5044,7 +5227,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/red-ball4.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5082,7 +5265,7 @@
     "url": "https://play.frogiee.one/algebra.html?url=https://www.coolmathgames.com/0-retro-helicopter/play",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5120,7 +5303,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/rhythm-hell",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5158,7 +5341,7 @@
     "url": "https://adfree-sz-games.github.io/roblox.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5196,7 +5379,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/simplelootidle/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5234,7 +5417,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/slimerancher/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5272,7 +5455,7 @@
     "url": "https://adfree-sz-games.github.io/Games7/slowroads",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5310,7 +5493,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/soccer-random",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5348,7 +5531,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/soniccd.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5386,7 +5569,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/sonicmania/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5424,7 +5607,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic1.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5462,7 +5645,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5500,7 +5683,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic3.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5538,7 +5721,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/south.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5576,7 +5759,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/spiderman.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5614,7 +5797,7 @@
     "url": "https://play.frogiee.one/apps/a/10011/b.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5652,7 +5835,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/fancy-pants-man.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5690,7 +5873,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/super-foulist/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5728,7 +5911,7 @@
     "url": "https://3kh0.github.io/projects/sm64/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5766,7 +5949,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5804,7 +5987,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma4.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5842,7 +6025,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smballstars.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5880,7 +6063,7 @@
     "url": "https://adfree-sz-games.github.io/Games4/SuperMario/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5918,7 +6101,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smbd.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5956,7 +6139,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smw.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -5994,7 +6177,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/super-monkey-ball.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6032,7 +6215,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/ssb.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6070,7 +6253,7 @@
     "url": "https://3kh0.github.io/projects/superhot/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6108,7 +6291,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/survivorio/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6146,7 +6329,7 @@
     "url": "https://play.frogiee.one/algebra.html?url=https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://118473026-235917736205837253.preview.editmysite.com/uploads/b/146211889-618141766941606391/files/tag.xml&container=ig",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6184,7 +6367,7 @@
     "url": "https://3kh0.github.io/projects/tanuki-sunset/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6222,7 +6405,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/testimonium/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6260,7 +6443,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/links_awakening.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6298,7 +6481,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/zelda-oot.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6336,7 +6519,7 @@
     "url": "https://adfree-sz-games.github.io/Games9/tomb",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6374,7 +6557,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/tomodachi.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6412,7 +6595,7 @@
     "url": "https://3kh0.github.io/projects/tosstheturtle/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6450,7 +6633,7 @@
     "url": "https://3kh0.github.io/projects/tube-jumpers/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6488,7 +6671,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ucn",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6526,7 +6709,7 @@
     "url": "https://adfree-sz-games.github.io/Games9/uno/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6564,7 +6747,7 @@
     "url": "https://play.frogiee.one/algebra.html?url=https://venge.io",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6602,7 +6785,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/vib-ribbon.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6640,7 +6823,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/volley-random",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6678,7 +6861,7 @@
     "url": "https://mr-funkinguy.github.io/gfile/wbwwb/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6716,7 +6899,7 @@
     "url": "https://play.frogiee.one/algebra.html?url=https://fortnite.io",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6754,7 +6937,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/jetpack-joyride/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6793,7 +6976,7 @@
     "url": "https://3kh0.github.io/projects/temple-run-2/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6871,7 +7054,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6910,7 +7093,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6949,7 +7132,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/blockpost",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -6988,7 +7171,7 @@
     "url": "https://adfree-sz-games.github.io/games/bloxx",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7027,7 +7210,7 @@
     "url": "https://adfree-sz-games.github.io/Games11/blumgi-rocket/game",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7066,7 +7249,7 @@
     "url": "https://adfree-sz-games.github.io/Games7/breaklock/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7105,7 +7288,7 @@
     "url": "https://adfree-sz-games.github.io/Games11/crazy-cars/game",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7144,7 +7327,7 @@
     "url": "https://3kh0.github.io/projects/DogeMiner/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7183,7 +7366,7 @@
     "url": "https://3kh0.github.io/projects/doodle-jump/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7222,7 +7405,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/dragon-vs-bricks",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7261,7 +7444,7 @@
     "url": "https://3kh0.github.io/projects/draw-the-hill/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7300,7 +7483,7 @@
     "url": "https://3kh0.github.io/projects/elasticman/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7339,7 +7522,7 @@
     "url": "https://3kh0.github.io/projects/evil-glitch/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7378,7 +7561,7 @@
     "url": "https://adfree-sz-games.github.io/Games10/fnaw/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7417,7 +7600,7 @@
     "url": "https://adfree-sz-games.github.io/Games9/fruitninja/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7456,7 +7639,7 @@
     "url": "https://adfree-sz-games.github.io/Games8/goingballs",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7495,7 +7678,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/google-baseball",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7534,7 +7717,7 @@
     "url": "https://mr-funkinguy.github.io/83/google-feud/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7573,7 +7756,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/hwy-rcer",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7612,7 +7795,7 @@
     "url": "https://3kh0.github.io/projects/idle-breakout/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7651,7 +7834,7 @@
     "url": "https://adfree-sz-games.github.io/Games2/madalin-stunt-cars-3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7690,7 +7873,7 @@
     "url": "https://adfree-sz-games.github.io/Games8/MONEYRUSH",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7846,7 +8029,7 @@
     "url": "https://3kh0.github.io/projects/papery-planes/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7885,7 +8068,7 @@
     "url": "https://adfree-sz-games.github.io/Games6/webgl-rollingsky/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7924,7 +8107,7 @@
     "url": "https://3kh0.github.io/projects/rolly-vortex/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -7963,7 +8146,7 @@
     "url": "https://mr-funkinguy.github.io/sandboxels",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8002,7 +8185,7 @@
     "url": "https://adfree-sz-games.github.io/Games2/slope-2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8041,7 +8224,7 @@
     "url": "https://3kh0.github.io/projects/sort-the-court/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8080,7 +8263,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/station-141/",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8119,7 +8302,7 @@
     "url": "https://adfree-sz-games.github.io/Games7/tiny-fishing",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8155,10 +8338,10 @@
     "name": "Vex 4",
     "category": "games",
     "thumbnail": "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/49.png",
-    "url": "https://3kh0.github.io/projects/vex4/index.html",
+    "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex4",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8197,7 +8380,7 @@
     "url": "https://3kh0.github.io/projects/vex6/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8314,7 +8497,7 @@
     "url": "https://1key.lol/games/game/?id=andys-apple-farm",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8355,7 +8538,7 @@
     "url": "https://1key.lol/games/game/?id=aqua-park",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8396,7 +8579,7 @@
     "url": "https://1key.lol/games/game/?id=babel-tower",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8437,7 +8620,7 @@
     "url": "https://3kh0.github.io/projects/backrooms/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8478,7 +8661,7 @@
     "url": "https://1key.lol/games/game/?id=bad-parenting-1",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8519,7 +8702,7 @@
     "url": "https://1key.lol/games/game/?id=basketball-random",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8560,7 +8743,7 @@
     "url": "https://1key.lol/games/game/?id=ben-10-omniverse",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8601,7 +8784,7 @@
     "url": "https://1key.lol/games/game/?id=ben-10-protector-of-earth",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8642,7 +8825,7 @@
     "url": "https://1key.lol/games/game/?id=binding-of-isaac-wrath-of-the-lamb",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8683,7 +8866,7 @@
     "url": "https://1key.lol/games/game/?id=bloons-td-4",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8724,7 +8907,7 @@
     "url": "https://1key.lol/games/game/?id=brotato",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8765,7 +8948,7 @@
     "url": "https://1key.lol/games/game/?id=cheese-rolling",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8806,7 +8989,7 @@
     "url": "https://1key.lol/games/game/?id=christmas-massacre",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8847,7 +9030,7 @@
     "url": "https://1key.lol/games/game/?id=code-editor",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8888,7 +9071,7 @@
     "url": "https://1key.lol/games/game/?id=core-ball",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8929,7 +9112,7 @@
     "url": "https://1key.lol/games/game/?id=crazy-cattle-3d",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8970,7 +9153,7 @@
     "url": "https://adfree-sz-games.github.io/Games/CSGO-CLICKER",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9011,7 +9194,7 @@
     "url": "https://1key.lol/games/game/?id=cube-field",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9052,7 +9235,7 @@
     "url": "https://1key.lol/games/game/?id=dice-a-million",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9093,7 +9276,7 @@
     "url": "https://1key.lol/games/game/?id=dungeons-and-degenerate-gamblers",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9134,7 +9317,7 @@
     "url": "https://1key.lol/games/game/?id=endoparasitic",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9175,7 +9358,7 @@
     "url": "https://1key.lol/games/game/?id=fear-and-hunger",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9216,7 +9399,7 @@
     "url": "https://1key.lol/games/game/?id=fears-to-fathom-home-alone",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9257,7 +9440,7 @@
     "url": "https://1key.lol/games/game/?id=five-nights-at-epsteins",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9298,7 +9481,7 @@
     "url": "https://1key.lol/games/game/?id=flight-simulator",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9339,7 +9522,7 @@
     "url": "https://1key.lol/games/game/?id=geometry-dash-subzero",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9380,7 +9563,7 @@
     "url": "https://1key.lol/games/game/?id=google-dino",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9421,7 +9604,7 @@
     "url": "https://1key.lol/games/game/?id=grand-theft-auto-vice-city",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9462,7 +9645,7 @@
     "url": "https://adfree-sz-games.github.io/Games8/GRANNY",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9503,7 +9686,7 @@
     "url": "https://1key.lol/games/game/?id=hollow-knight-silksong",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9544,7 +9727,7 @@
     "url": "https://1key.lol/games/game/?id=hotline-miami",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9585,7 +9768,7 @@
     "url": "https://1key.lol/games/game/?id=iron-lung",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9626,7 +9809,7 @@
     "url": "https://1key.lol/games/game/?id=iron-snout",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9667,7 +9850,7 @@
     "url": "https://1key.lol/games/game/?id=jelly-drift",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9708,7 +9891,7 @@
     "url": "https://1key.lol/games/game/?id=karlson",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9749,7 +9932,7 @@
     "url": "https://1key.lol/games/game/?id=kindergarten",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9790,7 +9973,7 @@
     "url": "https://1key.lol/games/game/?id=kindergarten-2",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9831,7 +10014,7 @@
     "url": "https://1key.lol/games/game/?id=kindergarten-3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9872,7 +10055,7 @@
     "url": "https://1key.lol/games/game/?id=legend-of-zelda",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9913,7 +10096,7 @@
     "url": "https://1key.lol/games/game/?id=legend-of-zelda-ocarina-of-time",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9954,7 +10137,7 @@
     "url": "https://1key.lol/games/game/?id=legend-of-zelda-phantom-hourglass",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9995,7 +10178,7 @@
     "url": "https://1key.lol/games/game/?id=legend-of-zelda-the-minish-cap",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10036,7 +10219,7 @@
     "url": "https://1key.lol/games/game/?id=legend-of-zelda-the-spirit-tracks",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10077,7 +10260,7 @@
     "url": "https://1key.lol/games/game/?id=masked-forces-unlimited",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10118,7 +10301,7 @@
     "url": "https://1key.lol/games/game/?id=midnight-shift",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10159,7 +10342,7 @@
     "url": "https://1key.lol/games/game/?id=mountain-bike-runner",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10200,7 +10383,7 @@
     "url": "https://1key.lol/games/game/?id=my-friend-pedro",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10241,7 +10424,7 @@
     "url": "https://1key.lol/games/game/?id=my-friend-pedro-arena",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10282,7 +10465,7 @@
     "url": "https://1key.lol/games/game/?id=papas-bakeria",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10323,7 +10506,7 @@
     "url": "https://1key.lol/games/game/?id=papas-cheeseria",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10364,7 +10547,7 @@
     "url": "https://1key.lol/games/game/?id=papas-cupcakeria",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10405,7 +10588,7 @@
     "url": "https://1key.lol/games/game/?id=papas-sushiria",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10446,7 +10629,7 @@
     "url": "https://1key.lol/games/game/?id=plinko-with-cheats",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10487,7 +10670,7 @@
     "url": "https://1key.lol/games/game/?id=resident-evil-3",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10528,7 +10711,7 @@
     "url": "https://1key.lol/games/game/?id=rogue-sergeant",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10569,7 +10752,7 @@
     "url": "https://1key.lol/games/game/?id=saul-goodman-run",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10610,7 +10793,7 @@
     "url": "https://1key.lol/games/game/?id=schoolboy-runaway",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10651,7 +10834,7 @@
     "url": "https://1key.lol/games/game/?id=shred-sauce",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10692,7 +10875,7 @@
     "url": "https://1key.lol/games/game/?id=skibidi-backrooms",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10733,7 +10916,7 @@
     "url": "https://1key.lol/games/game/?id=slender",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10774,7 +10957,7 @@
     "url": "https://1key.lol/games/game/?id=slendy-tubbies",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10815,7 +10998,7 @@
     "url": "https://1key.lol/games/game/?id=slow-roads",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10856,7 +11039,7 @@
     "url": "https://3kh0.github.io/projects/soundboard/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10897,7 +11080,7 @@
     "url": "https://1key.lol/games/game/?id=stackball-io",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10938,7 +11121,7 @@
     "url": "https://1key.lol/games/game/?id=stake-mines",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10979,7 +11162,7 @@
     "url": "https://1key.lol/games/game/?id=survival-race-arena",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11020,7 +11203,7 @@
     "url": "https://1key.lol/games/game/?id=thats-not-my-neighbor",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11061,7 +11244,7 @@
     "url": "https://1key.lol/games/game/?id=the-impossible-quiz",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11102,7 +11285,7 @@
     "url": "https://1key.lol/games/game/?id=the-man-from-the-window",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11143,7 +11326,7 @@
     "url": "https://1key.lol/games/game/?id=the-worlds-hardest-game",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11184,7 +11367,7 @@
     "url": "https://1key.lol/games/game/?id=undertale-yellow",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11225,7 +11408,7 @@
     "url": "https://1key.lol/games/game/?id=webfishing",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11266,7 +11449,7 @@
     "url": "https://1key.lol/games/game/?id=webgl-fluid",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11307,7 +11490,7 @@
     "url": "https://1key.lol/games/game/?id=you-vs-100-skibidi",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://1key.lol/games/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11348,7 +11531,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11390,7 +11573,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11432,7 +11615,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11474,7 +11657,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11516,7 +11699,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11558,7 +11741,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11600,7 +11783,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11642,7 +11825,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11684,7 +11867,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11726,7 +11909,7 @@
     "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/btd5.swf",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11768,7 +11951,7 @@
     "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/games/swf/riddd.swf",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11810,7 +11993,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11852,7 +12035,7 @@
     "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/bloonstd4.swf",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11894,7 +12077,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11936,7 +12119,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11978,7 +12161,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12020,7 +12203,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12062,7 +12245,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12104,7 +12287,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12146,7 +12329,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12188,7 +12371,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12230,7 +12413,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12272,7 +12455,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12314,7 +12497,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12356,7 +12539,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12398,7 +12581,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12440,7 +12623,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12482,7 +12665,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12524,7 +12707,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12566,7 +12749,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12608,7 +12791,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12650,7 +12833,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12692,7 +12875,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12734,7 +12917,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12776,7 +12959,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12818,7 +13001,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12860,7 +13043,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12902,7 +13085,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12944,7 +13127,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12986,7 +13169,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13028,7 +13211,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13070,7 +13253,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13112,7 +13295,7 @@
     "url": "https://3kh0.github.io/projects/pandemic2/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13154,7 +13337,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13196,7 +13379,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13238,7 +13421,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13280,7 +13463,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13322,7 +13505,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13364,7 +13547,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13406,7 +13589,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13448,7 +13631,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13490,7 +13673,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13532,7 +13715,7 @@
     "url": "https://3kh0.github.io/projects/geodash/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13567,48 +13750,6 @@
     }
   },
   {
-    "id": "selenite-supersmashflash2",
-    "name": "Super Smash Flash 2",
-    "category": "games",
-    "thumbnail": "https://a.luminsdk.com/api/v1/icon/1778893796-EvNnM_wogIsuc3MiTIkOqM4eeWAKmr0sueLYDZh_F-k/selenite/supersmashflash2",
-    "url": "./games/Flash.html?game=/Games11/super-smash-flash-2.swf",
-    "type": "game",
-    "tier": 3,
-    "reliability": "green",
-    "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
-    "tags": [
-      "captured",
-      "reviewed",
-      "external",
-      "needs-check",
-      "lucide"
-    ],
-    "source": "lucide",
-    "provider": "lucide",
-    "needsCheck": true,
-    "needsReview": false,
-    "sourceUrl": "https://lucideon.top/g/frame",
-    "sourceEvidence": "lucide-frame-dom",
-    "evidence": {
-      "sourceFile": "captures/lucide-frame-page-1.raw.json",
-      "provider": "lucide",
-      "sourceUrl": "https://lucideon.top/g/frame",
-      "sourceEvidence": "lucide-frame-dom",
-      "rawHref": "",
-      "gnMathId": null,
-      "sourceGroup": "selenite",
-      "lucideGameId": "supersmashflash2",
-      "generatedFromImage": true,
-      "title": "Northstar Tutoring | Personalized Academic Support",
-      "text": "Super Smash Flash 2",
-      "href": "https://lucideon.top/g/frame",
-      "image": "https://a.luminsdk.com/api/v1/icon/1778893796-EvNnM_wogIsuc3MiTIkOqM4eeWAKmr0sueLYDZh_F-k/selenite/supersmashflash2",
-      "capturedAt": "2026-05-16T01:11:30.354Z",
-      "className": "flex flex-col text-left focus-visible:outline-none",
-      "tag": "BUTTON"
-    }
-  },
-  {
     "id": "selenite-bergentruck",
     "name": "BERGENTRUCK",
     "category": "games",
@@ -13616,7 +13757,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13658,7 +13799,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13700,7 +13841,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13742,7 +13883,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13784,7 +13925,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13826,7 +13967,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13868,7 +14009,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13910,7 +14051,7 @@
     "url": "https://3kh0.github.io/projects/portalflash/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13952,7 +14093,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13994,7 +14135,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -14036,7 +14177,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -14078,7 +14219,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -14120,7 +14261,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -14162,7 +14303,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
@@ -14204,7 +14345,7 @@
     "url": "https://lucideon.top/g/frame",
     "type": "game",
     "tier": 3,
-    "reliability": "green",
+    "reliability": "yellow",
     "description": "Source-backed candidate from https://lucideon.top/g/frame. Needs check before promotion.",
     "tags": [
       "captured",
