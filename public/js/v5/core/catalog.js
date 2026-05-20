@@ -6,6 +6,7 @@ import {
   isLaunchable,
   launchability,
 } from "./health.js";
+import { keys, readJson } from "./storage.js";
 
 export const nameOf = (game) => String(game?.name || game?.title || "Untitled");
 export const categoryOf = (game) =>
@@ -114,6 +115,16 @@ export function similarGames(game, limit = 4) {
     )
     .slice(0, limit)
     .map((entry) => entry.candidate);
+}
+
+export function trendingGames(limit = 4) {
+  const counts = readJson(keys.playCounts, {});
+  return playableCatalog()
+    .map((game) => ({ game, count: Number(counts[game.id] || 0) }))
+    .filter((entry) => entry.count > 0)
+    .sort((a, b) => b.count - a.count || nameOf(a.game).localeCompare(nameOf(b.game)))
+    .slice(0, limit)
+    .map((entry) => entry.game);
 }
 
 export function moodClusters() {

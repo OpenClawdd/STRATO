@@ -13,6 +13,7 @@ import {
 import { health } from "../core/health.js";
 import { launchById } from "../core/launch.js";
 import { dailyPicks, surpriseCandidate } from "../core/picks.js";
+import { trendingGames } from "../core/catalog.js";
 import { searchGames } from "../core/search.js";
 import { keys, preferences, readJson, writeJson } from "../core/storage.js";
 import {
@@ -229,6 +230,12 @@ export function createHomeController() {
         "home-favorites",
         favorites,
         "Your shelf is empty. Favorite a game you want close by.",
+        controller,
+      );
+      renderCards(
+        "home-shelf",
+        trendingGames(6),
+        "",
         controller,
       );
       renderCards(

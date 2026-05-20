@@ -1,4 +1,9 @@
-import { categoryOf, nameOf, similarGames } from "../core/catalog.js";
+import {
+  categoryOf,
+  nameOf,
+  similarGames,
+  trendingGames,
+} from "../core/catalog.js";
 import { clearFailure } from "../core/launch.js";
 import { escapeHtml } from "./cards.js";
 
@@ -8,7 +13,14 @@ export function showRecovery(
   { launch, surprise, focusSearch } = {},
 ) {
   document.getElementById("launch-failure-overlay")?.remove();
-  const similar = similarGames(game, 3);
+  let similar = similarGames(game, 3);
+  let label = "Similar games";
+
+  if (!similar.length) {
+    similar = trendingGames(3);
+    label = "Reliable backups";
+  }
+
   const overlay = document.createElement("div");
   overlay.className = "launch-failure-overlay";
   overlay.id = "launch-failure-overlay";
@@ -23,7 +35,7 @@ export function showRecovery(
       <button class="glass-btn" data-recovery="search" type="button">Search again</button>
       <button class="glass-btn" data-recovery="home" type="button">Back to STRATO</button>
     </div>
-    ${similar.length ? `<div class="nearby-list"><p class="home-result-meta">Similar games</p>${similar.map((item) => `<button class="similar-game-btn" data-similar="${escapeHtml(item.id)}" type="button"><span>${escapeHtml(nameOf(item))}</span><span>${escapeHtml(categoryOf(item))}</span></button>`).join("")}</div>` : ""}
+    ${similar.length ? `<div class="nearby-list"><p class="home-result-meta">${escapeHtml(label)}</p>${similar.map((item) => `<button class="similar-game-btn" data-similar="${escapeHtml(item.id)}" type="button"><span>${escapeHtml(nameOf(item))}</span><span>${escapeHtml(categoryOf(item))}</span></button>`).join("")}</div>` : ""}
   </div>`;
   document.body.appendChild(overlay);
 
