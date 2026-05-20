@@ -2648,7 +2648,32 @@ body.low-power .home-search-result {
 }
 
 @media (max-width: 768px) {
-  #app { grid-template-rows: 48px 1fr; }
+  #app, .app {
+    grid-template-columns: 54px 1fr !important;
+    grid-template-rows: 48px 1fr;
+  }
+  .sidebar-nav {
+    width: 54px !important;
+    padding: 16px 4px !important;
+    align-items: center !important;
+  }
+  .sidebar-logo {
+    margin-bottom: 20px !important;
+    justify-content: center !important;
+    padding-left: 0 !important;
+  }
+  .sidebar-logo .logo-text,
+  .sidebar-nav .nav-label {
+    display: none !important;
+    opacity: 0 !important;
+    width: 0 !important;
+  }
+  .sidebar-nav .nav-btn {
+    justify-content: center !important;
+    padding: 12px 0 !important;
+    width: 42px !important;
+    height: 42px !important;
+  }
   .topbar { height: 48px; padding: 0 12px; gap: 8px; }
   .topbar-brand { flex-shrink: 0; }
   .topbar-actions { flex-shrink: 0; }

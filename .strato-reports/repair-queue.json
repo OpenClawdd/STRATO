@@ -1,0 +1,350 @@
+[
+  {
+    "id": "banjotooie",
+    "title": "Banjo-Tooie",
+    "currentUrl": "https://selenite.cc/projects/banjotooie",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "bergentruck",
+    "title": "Bergen Truck",
+    "currentUrl": "https://selenite.cc/projects/bergentruck",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "burritobison",
+    "title": "Burritobison",
+    "currentUrl": "https://selenite.cc/projects/burritobison",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "cheeserolling",
+    "title": "Cheeserolling",
+    "currentUrl": "https://selenite.cc/projects/cheeserolling",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "civclicker",
+    "title": "Civclicker",
+    "currentUrl": "https://selenite.cc/projects/civclicker",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "cookingmama",
+    "title": "Cookingmama",
+    "currentUrl": "https://selenite.cc/projects/cookingmama",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "cookingmama-2",
+    "title": "Cookingmama 2",
+    "currentUrl": "https://selenite.cc/projects/cookingmama2",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "deepestsword",
+    "title": "Deepestsword",
+    "currentUrl": "https://selenite.cc/projects/deepestsword",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "deltatraveler",
+    "title": "Deltatraveler",
+    "currentUrl": "https://selenite.cc/projects/deltatraveler",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "dogeminer-2",
+    "title": "Dogeminer 2",
+    "currentUrl": "https://selenite.cc/projects/dogeminer2",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "selenite-supersmashflash2",
+    "title": "Super Smash Flash 2",
+    "currentUrl": "https://lucideon.top/g/frame",
+    "mirrorUrl": "./games/Flash.html?game=/Games11/super-smash-flash-2.swf",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite",
+      "lucide"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "fnf",
+    "title": "Friday Night Funkin'",
+    "currentUrl": "https://3kh0.github.io/3kh0-assets/friday-night-funkin/",
+    "mirrorUrl": "",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "coreball",
+    "title": "Coreball",
+    "currentUrl": "https://gn-math.dev/#game-83",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "dadish-3-d",
+    "title": "Dadish 3 D",
+    "currentUrl": "https://gn-math.dev/#game-358",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "friday-night-funkin-b-sides",
+    "title": "Friday Night Funkin': B Sides",
+    "currentUrl": "https://gn-math.dev/#game-475",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "poly-track",
+    "title": "Poly Track",
+    "currentUrl": "https://gn-math.dev/#game-123",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "shredsauce",
+    "title": "Shredsauce",
+    "currentUrl": "https://gn-math.dev/#game-725",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "snow-rider-3-d",
+    "title": "Snow Rider 3 D",
+    "currentUrl": "https://gn-math.dev/#game-119",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "super-monkey-ball-1-2",
+    "title": "Super Monkey Ball 1&2",
+    "currentUrl": "https://gn-math.dev/#game-749",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  },
+  {
+    "id": "vex-x-3-m",
+    "title": "Vex X 3 M",
+    "currentUrl": "https://gn-math.dev/#game-55",
+    "mirrorUrl": "",
+    "score": 25,
+    "failureReason": "unknown",
+    "families": [
+      "gn-math"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present",
+      "Homepage or root domain trap risk"
+    ]
+  }
+]

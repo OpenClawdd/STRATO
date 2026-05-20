@@ -7,7 +7,7 @@ This document explains the technical standards and operational procedures for th
 
 ## Reliability States
 - **Green (Verified)**: Manually or automatically verified as a direct, playable game launch.
-- **Yellow (Unknown)**: Unverified or recently imported. Surfaces only in "All" moods or with a warning.
+- **Yellow (Active Remote)**: Verified remote active games that passed safety checks. Fully visible and playable across all search and home views.
 - **Red (Quarantined)**: Verified as broken, dead, or a generic landing page. Excluded from Home, Search, and Picks.
 
 ## The Truth Filter (Source Doctor)
