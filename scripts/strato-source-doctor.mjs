@@ -333,16 +333,18 @@ function writeInventory(analyzed) {
 
 async function main() {
   const { raw, games } = loadCatalog();
-  const analyzedAll = games.map(analyzeGame);
+  const activeGames = games.filter((g) => g.reliability !== "red");
+  const analyzedAll = activeGames.map(analyzeGame);
   const analyzed = LIMIT > 0 ? analyzedAll.slice(0, LIMIT) : analyzedAll;
 
-  const inventory = writeInventory(analyzedAll);
+  const inventory = writeInventory(games.map(analyzeGame));
 
   console.log("🛰️ STRATO source doctor");
   console.log(`Mode: ${mode}`);
   console.log(`Catalog: ${catalogPath}`);
-  console.log(`Total games: ${games.length}`);
-  console.log(`Checked games: ${analyzed.length}`);
+  console.log(`Total games in catalog: ${games.length}`);
+  console.log(`Active checked games (non-red): ${analyzed.length}`);
+  console.log(`Quarantined games (red, skipped): ${games.length - activeGames.length}`);
   console.log("");
 
   console.log("📚 Source families currently in catalog:");
@@ -469,13 +471,15 @@ async function main() {
 
   if (quarantine.length) {
     console.log("");
-    console.log("🚨 STRATO catalog still has weak entries.");
+    console.log("🚨 Active STRATO catalog still has weak/unstable entries.");
     console.log(`Working: ${working.length}`);
     console.log(`Needs fix/quarantine: ${quarantine.length}`);
+    console.log(`Skipped quarantined entries: ${games.length - activeGames.length}`);
     process.exitCode = 1;
   } else {
     console.log("");
-    console.log("✅ STRATO catalog source signal strong.");
+    console.log("✅ Active catalog signal strong.");
+    console.log(`Skipped quarantined entries: ${games.length - activeGames.length}`);
   }
 }
 

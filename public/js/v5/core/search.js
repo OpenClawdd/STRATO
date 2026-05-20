@@ -60,7 +60,8 @@ export function scoreGame(game, query) {
   else if (title.startsWith(q)) baseScore = 2;
   else if (abbr.startsWith(q)) baseScore = 4;
   else if (title.includes(q)) baseScore = 8 + title.indexOf(q);
-  else if (title.split(/\s+/).some((word) => word.startsWith(q))) baseScore = 12;
+  else if (title.split(/\s+/).some((word) => word.startsWith(q)))
+    baseScore = 12;
   else if (category.includes(q)) baseScore = 22;
   else if (tags.split(/\s+/).some((word) => word.startsWith(q))) baseScore = 24;
   else if (tags.includes(q)) baseScore = 28;
