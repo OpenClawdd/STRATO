@@ -1,4 +1,4 @@
-import { categoryOf, descriptionOf, nameOf, tagsOf } from "../core/catalog.js";
+import { categoryOf, nameOf } from "../core/catalog.js";
 import { health, isPlaceholder } from "../core/health.js";
 import { keys, readJson } from "../core/storage.js";
 
@@ -75,17 +75,39 @@ function localMeta(game) {
 
 export function card(game, variant = "") {
   const favorite = readJson(keys.favorites, []).includes(game.id);
-  const tags = tagsOf(game).slice(0, 2);
   const category = categoryOf(game);
-  const isVerified = game.reliability === "green" || game.reliability === "yellow";
+  const isVerified =
+    game.reliability === "green" || game.reliability === "yellow";
   const meta = localMeta(game);
-  
+
+  const provider = game.source || game.provider || "";
+  let providerBadge = "";
+  if (provider) {
+    let cleanProvider = String(provider).toLowerCase();
+    if (cleanProvider.includes("selenite")) cleanProvider = "Selenite";
+    else if (cleanProvider.includes("1key") || cleanProvider.includes("onekey"))
+      cleanProvider = "1Key";
+    else if (
+      cleanProvider.includes("frogiee") ||
+      cleanProvider.includes("frogie")
+    )
+      cleanProvider = "Frogie";
+    else if (cleanProvider.includes("gn-math")) cleanProvider = "GN Math";
+    else if (cleanProvider.includes("lucide")) cleanProvider = "Lucide";
+    else if (cleanProvider.includes("truffled")) cleanProvider = "Truffled";
+    else if (cleanProvider.includes("ubghub")) cleanProvider = "UBGHub";
+    else cleanProvider = provider.charAt(0).toUpperCase() + provider.slice(1);
+
+    providerBadge = `<span class="provider-badge provider-${cleanProvider.toLowerCase().replaceAll(" ", "-")}">${escapeHtml(cleanProvider)}</span>`;
+  }
+
   return `<article class="game-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0">
     <div class="game-card-thumb">
       <img src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt="">
       <div class="game-card-overlay">
         <div class="game-card-meta">
-          <span>${escapeHtml(category)}</span>
+          <span class="category-tag">${escapeHtml(category)}</span>
+          ${providerBadge}
           ${isVerified ? `<span class="verified-badge">✓ Verified</span>` : ""}
         </div>
         <h3 class="game-card-title">${escapeHtml(nameOf(game))}</h3>

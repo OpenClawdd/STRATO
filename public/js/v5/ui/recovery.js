@@ -24,18 +24,40 @@ export function showRecovery(
   const overlay = document.createElement("div");
   overlay.className = "launch-failure-overlay";
   overlay.id = "launch-failure-overlay";
-  overlay.innerHTML = `<div class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
-    <div class="recovery-mark">!</div>
-    <p class="section-eyebrow">No dead ends.</p>
-    <h2 id="recovery-title">Launch paused.</h2>
-    <p>${game ? `${escapeHtml(nameOf(game))} could not launch.` : "That launch route is unavailable."} ${escapeHtml(reason || "")}</p>
-    <div class="recovery-actions">
-      ${game ? '<button class="launch-button" data-recovery="retry" type="button">Retry</button>' : ""}
-      <button class="glass-btn" data-recovery="surprise" type="button">Try another launch</button>
-      <button class="glass-btn" data-recovery="search" type="button">Search again</button>
-      <button class="glass-btn" data-recovery="home" type="button">Back to STRATO</button>
+  overlay.innerHTML = `<div class="recovery-universe" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
+    <div class="recovery-status">SIGNAL WEAK</div>
+    <div class="recovery-copy">
+      <h2 id="recovery-title">Launch Route Blocked</h2>
+      <p>${game ? `<strong>${escapeHtml(nameOf(game))}</strong> failed to establish a secure link.` : "The requested launch route is currently unavailable."}</p>
+      <div class="recovery-reason">${escapeHtml(reason || "Verification error.")}</div>
     </div>
-    ${similar.length ? `<div class="nearby-list"><p class="home-result-meta">${escapeHtml(label)}</p>${similar.map((item) => `<button class="similar-game-btn" data-similar="${escapeHtml(item.id)}" type="button"><span>${escapeHtml(nameOf(item))}</span><span>${escapeHtml(categoryOf(item))}</span></button>`).join("")}</div>` : ""}
+
+    <div class="recovery-actions">
+      ${game ? '<button class="btn-universe primary" data-recovery="retry" type="button">Retry Link</button>' : ""}
+      <button class="btn-universe secondary" data-recovery="surprise" type="button">Surprise Me</button>
+      <button class="btn-universe secondary" data-recovery="search" type="button">New Search</button>
+    </div>
+
+    ${
+      similar.length
+        ? `
+    <div class="recovery-alternatives">
+      <p class="section-label">${escapeHtml(label)}</p>
+      <div class="alternative-grid">
+        ${similar
+          .map(
+            (item) => `
+          <button class="alt-game-card" data-similar="${escapeHtml(item.id)}" type="button">
+            <span>${escapeHtml(nameOf(item))}</span>
+            <span class="alt-category">${escapeHtml(categoryOf(item))}</span>
+          </button>
+        `,
+          )
+          .join("")}
+      </div>
+    </div>`
+        : ""
+    }
   </div>`;
   document.body.appendChild(overlay);
 

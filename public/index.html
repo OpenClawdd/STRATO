@@ -62,9 +62,50 @@
   <!-- ═══ APP CONTAINER ═══ -->
   <div id="app" class="app hidden">
 
-    <!-- ═══ STATUS BAR ═══ -->
-    <header class="status-bar">
-      <div class="status-left">
+    <!-- ═══ SIDEBAR NAVIGATION ═══ -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-logo">
+        <span class="logo-orbit">☄</span>
+        <span class="logo-text">STRATO</span>
+      </div>
+      <div class="sidebar-menu">
+        <button class="nav-btn active" data-view="home" title="Home">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Home</span>
+        </button>
+        <button class="nav-btn" data-view="arcade" title="Arcade">
+          <span class="nav-icon">🎮</span>
+          <span class="nav-label">Arcade</span>
+        </button>
+        <button class="nav-btn" data-view="browser" title="Browser">
+          <span class="nav-icon">🌐</span>
+          <span class="nav-label">Browser</span>
+        </button>
+        <button class="nav-btn" data-view="hub" title="Hub">
+          <span class="nav-icon">📂</span>
+          <span class="nav-label">Hub</span>
+        </button>
+        <button class="nav-btn" data-view="chat" title="Chat">
+          <span class="nav-icon">💬</span>
+          <span class="nav-label">Chat</span>
+        </button>
+        <button class="nav-btn" data-view="ai" title="AI">
+          <span class="nav-icon">✨</span>
+          <span class="nav-label">AI</span>
+        </button>
+      </div>
+      <div class="sidebar-footer">
+        <button class="nav-btn" data-view="settings" title="Settings">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-label">Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══ TOPBAR ═══ -->
+    <nav class="topbar">
+      <!-- Left side: Connection indicators -->
+      <div class="topbar-status-left">
         <span class="status-indicator" id="status-connection" title="Connection">
           <span class="dot-indicator online"></span>
           <span class="status-label">Online</span>
@@ -78,12 +119,16 @@
           <span class="status-label">Chat</span>
         </span>
       </div>
-      <div class="status-center">
+
+      <!-- Center: Time & Uptime -->
+      <div class="topbar-status-center">
         <span class="status-item" id="status-clock"></span>
         <span class="status-divider">|</span>
         <span class="status-item" id="status-uptime"></span>
       </div>
-      <div class="status-right">
+
+      <!-- Right side: Profile info & Actions -->
+      <div class="topbar-actions-right">
         <span class="status-item" id="status-games">0 games</span>
         <span class="status-divider">|</span>
         <span class="status-item" id="status-coins" title="Coins">🪙 <span>0</span></span>
@@ -94,27 +139,13 @@
         </span>
         <span class="status-divider">|</span>
         <span class="status-item" id="status-username"></span>
+
+        <span class="status-divider">|</span>
         <button class="status-btn" id="btn-notifications" title="Notifications">
           🔔 <span class="notif-badge hidden">0</span>
         </button>
-      </div>
-    </header>
 
-    <!-- ═══ TOP NAV ═══ -->
-    <nav class="topbar">
-      <div class="topbar-brand">
-        <span class="logo-text">STRATO</span>
-      </div>
-      <div class="topbar-nav">
-        <button class="nav-btn active" data-view="home">Home</button>
-        <button class="nav-btn" data-view="arcade">Arcade</button>
-        <button class="nav-btn" data-view="browser">Browser</button>
-        <button class="nav-btn" data-view="hub">Hub</button>
-        <button class="nav-btn" data-view="chat">Chat</button>
-        <button class="nav-btn" data-view="ai">AI</button>
-        <button class="nav-btn" data-view="settings">Settings</button>
-      </div>
-      <div class="topbar-actions">
+        <span class="status-divider">|</span>
         <button id="low-power-toggle" class="topbar-icon-btn" title="Low Power Mode">⚡</button>
         <button class="topbar-action" id="btn-stealth" title="Stealth Mode">🛡</button>
         <button class="topbar-action" id="btn-media" title="Media Player">🎵</button>
@@ -156,7 +187,7 @@
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
         <div class="launch-universe">
-          
+
           <header class="launch-universe-hero">
             <div class="hero-bg-accent"></div>
             <div class="hero-content">
@@ -166,7 +197,7 @@
               </div>
               <h1 class="hero-title">STRATO</h1>
               <p class="hero-subtitle">The Verified Launch Universe</p>
-              
+
               <div class="launch-command-center">
                 <div class="command-input-wrapper">
                   <span class="command-prompt">></span>

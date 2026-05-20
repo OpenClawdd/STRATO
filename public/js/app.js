@@ -691,7 +691,7 @@
     }
     iframe.src = proxyUrl;
 
-    // ── Frontend Containment Shield ──
+    // ── Proxy Containment Shield ──
     // Ensures games cannot redirect the main STRATO page or open unproxied windows.
     // Since UV/SJ are same-origin via the service worker, we can often
     // inject this shield directly from the parent context.
@@ -702,15 +702,15 @@
         if (!win || !doc) return;
 
         // 1. Intercept target="_blank" links
-        doc.querySelectorAll('a[target="_blank"]').forEach(a => {
-          a.setAttribute('target', '_self');
+        doc.querySelectorAll('a[target="_blank"]').forEach((a) => {
+          a.setAttribute("target", "_self");
         });
 
         // 2. Override window.open to stay in the same frame
         if (!win.__strato_shield_active) {
           const originalOpen = win.open;
-          win.open = function(u, t, f) {
-            if (!t || t === '_blank') {
+          win.open = function (u, t, f) {
+            if (!t || t === "_blank") {
               win.location.href = u;
               return win;
             }
@@ -733,13 +733,19 @@
     logActivity(`Loaded ${url.substring(0, 30)}`, "proxy");
     unlockAchievement("first-proxy");
 
-    const failureTimeout = setTimeout(() => {
-      if (shimmer) shimmer.classList.add("hidden");
-      browserBody?.classList.remove("is-loading");
-      if (meta.external) {
-        showLaunchFailure(meta.game || meta, "external source may block embeds or proxy loading");
-      }
-    }, meta.external ? 10000 : 15000);
+    const failureTimeout = setTimeout(
+      () => {
+        if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
+        if (meta.external) {
+          showLaunchFailure(
+            meta.game || meta,
+            "external source may block embeds or proxy loading",
+          );
+        }
+      },
+      meta.external ? 10000 : 15000,
+    );
 
     if (state.autoFallback) {
       const fallbackTimer = setTimeout(() => {
@@ -1001,11 +1007,11 @@
     const tags = getGameTags(game).map((tag) => tag.toLowerCase());
     return Boolean(
       game?.provider ||
-        game?.source ||
-        game?.needsCheck ||
-        game?.needsReview ||
-        tags.includes("external") ||
-        tags.includes("needs-check"),
+      game?.source ||
+      game?.needsCheck ||
+      game?.needsReview ||
+      tags.includes("external") ||
+      tags.includes("needs-check"),
     );
   }
 
@@ -1094,7 +1100,9 @@
     const container = document.getElementById(containerId);
     if (!container) return;
     if (!games.length) {
-      container.innerHTML = emptyHtml ? `<div class="home-empty">${emptyHtml}</div>` : "";
+      container.innerHTML = emptyHtml
+        ? `<div class="home-empty">${emptyHtml}</div>`
+        : "";
       if (emptyHtml) bindHomeEmptyActions(container);
       return;
     }
@@ -1363,10 +1371,17 @@
       const reliability = String(game.reliability || "").toLowerCase();
       const provider = String(game.provider || game.source || "").toLowerCase();
       if (provider === "selenite") return "Selenite";
-      if (game.category === "import-review" || getGameTags(game).includes("captured"))
+      if (
+        game.category === "import-review" ||
+        getGameTags(game).includes("captured")
+      )
         return "Source";
       if (url.startsWith("/games/")) return "Local";
-      if (reliability === "yellow" || reliability === "red" || health.status !== "ready")
+      if (
+        reliability === "yellow" ||
+        reliability === "red" ||
+        health.status !== "ready"
+      )
         return "Needs check";
       return "External";
     })();
@@ -1641,10 +1656,13 @@
   function showLaunchFailure(game, reason) {
     closeLaunchFailure();
     const title = game ? getGameName(game) : "This launch";
-    const isCatalogGame = game && state.games.some((item) => item.id === game.id);
+    const isCatalogGame =
+      game && state.games.some((item) => item.id === game.id);
     const similar = isCatalogGame ? similarGamesFor(game) : [];
     const source = providerLabel(game);
-    const launchUrl = game ? resolveGameUrl(game) : document.getElementById("url-input")?.value || "";
+    const launchUrl = game
+      ? resolveGameUrl(game)
+      : document.getElementById("url-input")?.value || "";
     const isExternal = /^https?:\/\//i.test(String(launchUrl || ""));
     const trace = {
       title,
@@ -1658,7 +1676,8 @@
       timestamp: new Date().toISOString(),
     };
     const traceText = JSON.stringify(trace, null, 2);
-    const hasAlternateEngine = state.currentEngine === "uv" || state.currentEngine === "scramjet";
+    const hasAlternateEngine =
+      state.currentEngine === "uv" || state.currentEngine === "scramjet";
     const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
     const canOpenSource = game && /^https?:\/\//i.test(String(game.url || ""));
     const overlay = document.createElement("div");
@@ -1705,7 +1724,8 @@
         const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
         setEngine(otherEngine);
         closeLaunchFailure();
-        if (game && game.tier !== 1 && game.tier !== 2) navigateProxy(game.url, otherEngine);
+        if (game && game.tier !== 1 && game.tier !== 2)
+          navigateProxy(game.url, otherEngine);
         else if (game) launchGame(game.id, { retry: true });
       } else if (action === "reset-sw") {
         navigator.serviceWorker
@@ -1791,7 +1811,10 @@
 
     try {
       recordGameLaunch(game);
-      if (String(gameUrl).startsWith("/") && (game.tier === 1 || game.tier === 2)) {
+      if (
+        String(gameUrl).startsWith("/") &&
+        (game.tier === 1 || game.tier === 2)
+      ) {
         switchView("browser");
         const iframe = document.getElementById("proxy-iframe");
         const urlInput = document.getElementById("url-input");
@@ -1975,11 +1998,14 @@
       } else if (activeCategories.has("external")) {
         if (isSelfHostedGame(game)) return false;
       } else if (activeCategories.has("selenite")) {
-        const provider = String(game.provider || game.source || "").toLowerCase();
+        const provider = String(
+          game.provider || game.source || "",
+        ).toLowerCase();
         if (provider !== "selenite") return false;
       } else if (activeCategories.has("needs-check")) {
         const reliability = String(game.reliability || "").toLowerCase();
-        if (!(game.needsCheck || game.needsReview || reliability === "yellow")) return false;
+        if (!(game.needsCheck || game.needsReview || reliability === "yellow"))
+          return false;
       } else if (
         !activeCategories.has("all") &&
         !activeCategories.has(game.category)
@@ -2999,7 +3025,10 @@
   if (hubCategoryFilter) {
     hubCategoryFilter.addEventListener("change", () => {
       document.querySelectorAll(".hub-category-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.category === hubCategoryFilter.value);
+        btn.classList.toggle(
+          "active",
+          btn.dataset.category === hubCategoryFilter.value,
+        );
       });
       applyHubFilters();
     });
@@ -3845,17 +3874,27 @@
   setTimeout(forceRemoveSplash, 15000);
 
   async function init() {
-    const lp = localStorage.getItem('strato_low_power') === 'true';
-    document.body.classList.toggle('low-power', lp);
-    const lpToggle = document.getElementById('low-power-toggle');
-    if (lpToggle) lpToggle.addEventListener('click', () => {
-      document.body.classList.toggle('low-power');
-      localStorage.setItem('strato_low_power', document.body.classList.contains('low-power'));
-    });
-    const lbInput = document.getElementById('lb-url-input');
-    const lbGoBtn = document.getElementById('lb-go-btn');
-    if (lbGoBtn) lbGoBtn.addEventListener('click', () => { if (lbInput?.value) navigateProxy(lbInput.value); });
-    if (lbInput) lbInput.addEventListener('keydown', e => { if (e.key === 'Enter' && lbInput.value) navigateProxy(lbInput.value); });
+    const lp = localStorage.getItem("strato_low_power") === "true";
+    document.body.classList.toggle("low-power", lp);
+    const lpToggle = document.getElementById("low-power-toggle");
+    if (lpToggle)
+      lpToggle.addEventListener("click", () => {
+        document.body.classList.toggle("low-power");
+        localStorage.setItem(
+          "strato_low_power",
+          document.body.classList.contains("low-power"),
+        );
+      });
+    const lbInput = document.getElementById("lb-url-input");
+    const lbGoBtn = document.getElementById("lb-go-btn");
+    if (lbGoBtn)
+      lbGoBtn.addEventListener("click", () => {
+        if (lbInput?.value) navigateProxy(lbInput.value);
+      });
+    if (lbInput)
+      lbInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && lbInput.value) navigateProxy(lbInput.value);
+      });
 
     const splash = document.getElementById("splash");
     const splashBar = splash?.querySelector(".splash-bar");

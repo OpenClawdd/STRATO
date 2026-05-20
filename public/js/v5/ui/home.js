@@ -243,42 +243,37 @@ export function createHomeController() {
         .slice(0, 12);
 
       renderMoods(controller);
-      renderCards(
-        "daily-picks",
-        dailyPicks(),
-        "No daily picks are launchable yet.",
-        controller,
-        "featured",
-      );
-      renderCards(
-        "home-favorites",
-        favorites,
-        "Your shelf is empty. Favorite a game you want close by.",
-        controller,
-      );
-      renderCards(
-        "home-shelf",
-        trendingGames(6),
-        "",
-        controller,
-      );
-      renderCards(
-        "home-recent",
-        recent,
-        "Nothing launched yet. Search anything, then launch instantly.",
-        controller,
-      );
-      document
-        .getElementById("home-most-played-section")
-        ?.classList.toggle("hidden", most.length === 0);
-      renderCards("home-most-played", most, "", controller);
+
+      // 1. Daily Picks
+      renderCards("daily-picks", dailyPicks(), "", controller, "featured");
+
+      // 2. Continue Playing (Recent)
+      const recentSection = document.getElementById("home-recent-section");
+      if (recentSection)
+        recentSection.classList.toggle("hidden", recent.length === 0);
+      renderCards("home-recent", recent, "", controller);
+
+      // 3. Your Reliable Hits (Most Played)
+      const mostSection = document.getElementById("home-shelf-section");
+      if (mostSection)
+        mostSection.classList.toggle("hidden", most.length === 0);
+      renderCards("home-shelf", most, "", controller);
+
+      // 4. Saved on Shelf (Favorites)
+      const favSection = document.getElementById("home-favorites-section");
+      if (favSection)
+        favSection.classList.toggle("hidden", favorites.length === 0);
+      renderCards("home-favorites", favorites, "", controller);
+
+      // 5. Verified Universe (All / Filtered)
       renderCards(
         "home-all-games",
         allGames,
-        "The filtered shelf is empty. Clear the mood filter or search directly.",
+        "No verified games found in this quadrant.",
         controller,
         "shelf",
       );
+
       renderPulse();
       renderHeroStats();
       controller.search(document.getElementById("home-search")?.value || "");
@@ -294,9 +289,16 @@ export function createHomeController() {
         return;
       }
       if (!results.length) {
-        container.innerHTML = `<div class="hideout-empty search-empty"><strong>No signal. Try another title, tag, or mood.</strong><button class="glass-btn" id="empty-surprise" type="button">Surprise Me</button></div>`;
-        container
-          .querySelector("#empty-surprise")
+        container.innerHTML = `<div class="search-empty-universe">
+          <div class="empty-status">ZERO SIGNALS</div>
+          <h3>No matches in this quadrant.</h3>
+          <p>Try searching for a different mood, genre, or game title.</p>
+          <div class="empty-actions">
+            <button class="btn-universe secondary" id="empty-surprise">Random Orbit</button>
+          </div>
+        </div>`;
+        document
+          .getElementById("empty-surprise")
           ?.addEventListener("click", () => controller.surprise());
         return;
       }
