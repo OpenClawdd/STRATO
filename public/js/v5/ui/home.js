@@ -13,7 +13,6 @@ import {
 import { health } from "../core/health.js";
 import { launchById } from "../core/launch.js";
 import { dailyPicks, surpriseCandidate } from "../core/picks.js";
-import { trendingGames } from "../core/catalog.js";
 import { searchGames } from "../core/search.js";
 import { keys, preferences, readJson, writeJson } from "../core/storage.js";
 import {
@@ -153,9 +152,10 @@ function renderPulse() {
     return acc;
   }, {});
   const playable = playableCatalog().length;
+  const directRoutes = (stats.local || 0) + (stats.external || 0);
   pulse.innerHTML = [
     ["Launchable", playable],
-    ["Ready", stats.ready || 0],
+    ["Direct routes", directRoutes],
     ["Fallback art", stats["fallback-art"] || 0],
     ["Paused", stats["failed-locally"] || 0],
   ]

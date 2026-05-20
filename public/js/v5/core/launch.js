@@ -3,6 +3,8 @@ import { isLaunchable, launchability } from "./health.js";
 import { setLaunchBay } from "./state.js";
 import { keys, readJson, writeJson } from "./storage.js";
 
+const LOCAL_PREFLIGHT_TIMEOUT_MS = 4000;
+
 function recordLaunch(game) {
   const recent = readJson(keys.recent, []).filter((id) => id !== game.id);
   recent.unshift(game.id);
@@ -59,6 +61,38 @@ function showBrowser(game) {
   }, 650);
 }
 
+async function verifyLocalRoute(url) {
+  const controller = new AbortController();
+  const timeout = globalThis.setTimeout(
+    () => controller.abort(),
+    LOCAL_PREFLIGHT_TIMEOUT_MS,
+  );
+  const methods = ["HEAD", "GET"];
+  let lastReason = "Local route unavailable";
+
+  try {
+    for (const method of methods) {
+      try {
+        const response = await fetch(url, {
+          method,
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (response.ok) return { ok: true, reason: "" };
+        lastReason = `Local route unavailable (HTTP ${response.status})`;
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          return { ok: false, reason: "Local route unavailable (timeout)" };
+        }
+      }
+    }
+  } finally {
+    globalThis.clearTimeout(timeout);
+  }
+
+  return { ok: false, reason: lastReason };
+}
+
 export async function launchById(id, { onFail, onUpdate } = {}) {
   const game = findGame(id);
   if (!game) {
@@ -67,32 +101,40 @@ export async function launchById(id, { onFail, onUpdate } = {}) {
   }
 
   const status = launchability(game);
-  if (!isLaunchable(game)) {
+  const isLocalRoute = String(game.url || "").startsWith("/");
+  let localStatus = null;
+
+  if (status.status === "failed-locally" && isLocalRoute) {
+    localStatus = await verifyLocalRoute(game.url);
+    if (!localStatus.ok) {
+      onFail?.(game, localStatus.reason || status.reason);
+      return false;
+    }
+    clearFailure(game);
+  } else if (!isLaunchable(game)) {
     onFail?.(game, status.reason);
     return false;
   }
 
-  if (String(game.url).startsWith("/")) {
-    try {
-      const response = await fetch(game.url, {
-        method: "HEAD",
-        cache: "no-store",
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    } catch {
-      markFailure(game, "Local route unavailable");
+  if (isLocalRoute && !localStatus) {
+    localStatus = await verifyLocalRoute(game.url);
+    if (!localStatus.ok) {
+      const reason = localStatus.reason || "Local route unavailable";
+      markFailure(game, reason);
       onUpdate?.();
-      onFail?.(game, "Local route unavailable");
+      onFail?.(game, reason);
       return false;
     }
   }
 
+  clearFailure(game);
   recordLaunch(game);
   onUpdate?.();
   if (
     /^https?:\/\//i.test(String(game.url || "")) &&
     typeof window.STRATO_NAVIGATE_PROXY === "function"
   ) {
+    setLaunchBay("loading", game.id);
     window.STRATO_NAVIGATE_PROXY(game.url, null, {
       title: game.name || game.title,
       url: game.url,
