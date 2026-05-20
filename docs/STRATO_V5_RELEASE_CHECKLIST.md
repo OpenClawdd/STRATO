@@ -22,7 +22,7 @@ See `docs/STRATO_V5_01_HOTFIX.md`.
 - [x] Search, picks, surprise, card, detail, recovery, settings modules implemented.
 - [x] v5 product tests added.
 - [x] `npm test` passes.
-- [x] `node scripts/validate-games.mjs` passes with warnings only.
+- [x] `node scripts/validate-games.mjs` passes with no trust-critical errors.
 - [ ] Human browser QA on desktop, Chromebook width, and mobile width.
 - [ ] Push branch and open PR.
 
@@ -33,3 +33,11 @@ See `docs/STRATO_V5_01_HOTFIX.md`.
 - [x] Catalog intelligence report added at `scripts/catalog-report.mjs`.
 - [x] Review/quarantine policy documented.
 - [x] Source Radar tests added.
+
+## v1.0 verified launch gate
+
+- [x] Active `generic_only` launch candidates are blocked by validation.
+- [x] Red/quarantined entries are hidden from launch surfaces.
+- [x] Source Doctor cleanly reports active checked vs red skipped.
+- [x] CI runs format, lint, tests, `validate-games`, and `catalog-atlas`.
+- [ ] Manual release gate: run `node scripts/strato-source-doctor.mjs check` before merge/tag.

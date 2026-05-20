@@ -45,3 +45,6 @@ jobs:
 
       - name: Catalog validation
         run: node scripts/validate-games.mjs
+
+      - name: Catalog atlas report build
+        run: node scripts/catalog-atlas.mjs
