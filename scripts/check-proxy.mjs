@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const BASE = process.env.STRATO_BASE || "http://localhost:8080";
+const gamesPath = "public/assets/games.json";
 
 const existsAny = (paths) => paths.some((p) => fs.existsSync(p));
 
@@ -107,6 +108,85 @@ async function fetchText(url) {
   };
 }
 
+function loadGames() {
+  try {
+    return JSON.parse(fs.readFileSync(gamesPath, "utf8"));
+  } catch {
+    return [];
+  }
+}
+
+function wrapperKind(url = "") {
+  const value = String(url || "");
+  if (/play\.frogiee\.one\/iframe\.html\?url=/i.test(value)) {
+    return "frogiee_iframe_wrapper";
+  }
+  if (/adfree-sz-games\.github\.io\/games\/game\.html\?game=/i.test(value)) {
+    return "adfree_game_wrapper";
+  }
+  if (/iframe\.html\?url=/i.test(value)) return "iframe_wrapper";
+  if (/game\.html\?game=/i.test(value)) return "game_wrapper";
+  return "";
+}
+
+async function routeOk(path) {
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      method: "GET",
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function proxySmokeReport() {
+  const games = loadGames();
+  const report = {
+    local_ok: 0,
+    local_failed: 0,
+    remote_proxy_ok: 0,
+    remote_proxy_internal_error: 0,
+    remote_wrapper_unverified: 0,
+    remote_direct_unverified: 0,
+    quarantined: 0,
+  };
+  const examples = [];
+
+  for (const game of games) {
+    const reliability = game.reliability || "";
+    const url = String(game.url || "");
+    const wrapped = wrapperKind(url);
+
+    if (reliability === "red") {
+      report.quarantined += 1;
+      continue;
+    }
+
+    if (url.startsWith("/")) {
+      if (await routeOk(url)) report.local_ok += 1;
+      else {
+        report.local_failed += 1;
+        examples.push(`${game.id}: local route failed (${url})`);
+      }
+      continue;
+    }
+
+    if (wrapped) {
+      report.remote_wrapper_unverified += 1;
+      report.remote_proxy_internal_error += 1;
+      examples.push(`${game.id}: active ${wrapped} (${url})`);
+      continue;
+    }
+
+    // HTTP smoke cannot prove a browser service-worker proxy render.
+    report.remote_direct_unverified += 1;
+  }
+
+  return { report, examples };
+}
+
 console.log("\n🌐 STRATO live route check");
 await httpCheck("Home", "/");
 await httpCheck("Games catalog route", "/assets/games.json");
@@ -141,13 +221,17 @@ try {
     failed++;
     console.log(`❌ Boxingrandom wrapper page: HTTP ${wrapper.status}`);
   } else {
-    console.log(`✅ Boxingrandom wrapper page: HTTP ${wrapper.status} in ${wrapper.ms}ms`);
+    console.log(
+      `✅ Boxingrandom wrapper page: HTTP ${wrapper.status} in ${wrapper.ms}ms`,
+    );
     if (!wrapper.body.includes(directUrl)) {
       console.log(
         "ℹ️ Boxingrandom wrapper page does not surface the nested target in HTML. That is acceptable here because the browser resolver preserves the original wrapper unless a nested target is already verified by metadata or repair reports.",
       );
     } else {
-      console.log("ℹ️ Boxingrandom wrapper page references the nested target URL.");
+      console.log(
+        "ℹ️ Boxingrandom wrapper page references the nested target URL.",
+      );
     }
   }
 
@@ -164,6 +248,29 @@ try {
 } catch (error) {
   failed++;
   console.log(`❌ Boxingrandom repair smoke failed: ${error.message}`);
+}
+
+console.log("\n🎮 Game-first proxy smoke report");
+const { report: proxyReport, examples: proxyExamples } =
+  await proxySmokeReport();
+for (const [key, value] of Object.entries(proxyReport)) {
+  console.log(`- ${key}: ${value}`);
+}
+if (proxyExamples.length) {
+  console.log("\nActive proxy smoke failures:");
+  for (const example of proxyExamples.slice(0, 20)) {
+    console.log(`- ${example}`);
+  }
+}
+if (proxyReport.local_failed > 0) {
+  failed += proxyReport.local_failed;
+  console.log("❌ Local green launch routes must answer before release.");
+}
+if (proxyReport.remote_wrapper_unverified > 0) {
+  failed += proxyReport.remote_wrapper_unverified;
+  console.log(
+    "❌ Active wrapper remote launch candidates are not allowed. Quarantine or repair these entries.",
+  );
 }
 
 if (failed > 0) {

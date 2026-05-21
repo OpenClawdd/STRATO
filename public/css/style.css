@@ -4774,10 +4774,10 @@ body::before {
   margin-top: var(--spacing-lg);
 }
 
-/* Game-first performance: keep cards responsive without large hover repaints. */
+/* Game-first performance: no default card motion or image zoom. */
 .game-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .game-card:hover .game-card-thumb img {

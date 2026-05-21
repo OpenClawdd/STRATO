@@ -246,14 +246,15 @@
     "thumbnail": "/assets/thumbnails/slope.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=/slope",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Roll down the slope and avoid obstacles at high speed",
     "tags": [
       "3d",
       "speed",
       "reflex"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "cookie-clicker",
@@ -489,14 +490,15 @@
     "thumbnail": "/assets/thumbnails/stickman-hook.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games5/stickman-hook",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Swing from hook to hook in this physics platformer",
     "tags": [
       "physics",
       "swing",
       "platformer"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "vex-5",
@@ -505,14 +507,15 @@
     "thumbnail": "/assets/thumbnails/vex-5.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex5",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Run, jump, and survive deadly obstacle courses",
     "tags": [
       "obstacle",
       "platformer",
       "hard"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "geometry-dash",
@@ -542,7 +545,7 @@
     "thumbnail": "/assets/thumbnails/drift-hunters.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=https://webglmath.github.io/drift-hunters/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Drift your way through challenging tracks for points",
     "tags": [
       "drift",
@@ -550,7 +553,8 @@
       "3d"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "paper-io-2",
@@ -608,14 +612,15 @@
     "thumbnail": "/assets/thumbnails/smash-karts.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=https://mr-funkinguy.github.io/75/projects/smashkarts/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Kart battle royale with power-ups and explosions",
     "tags": [
       "kart",
       "battle",
       "multiplayer"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "subway-surfers",
@@ -663,7 +668,7 @@
     "thumbnail": "/assets/thumbnails/moto-x3m.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Extreme motorcycle trials with insane stunts",
     "tags": [
       "motorcycle",
@@ -671,7 +676,8 @@
       "racing"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "wordle",
@@ -747,14 +753,15 @@
     "thumbnail": "/assets/thumbnails/crossy-road.webp",
     "url": "https://adfree-sz-games.github.io/games/game.html?game=https://adfree-sz-games.github.io/cr/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Help the chicken cross the road — and the train tracks",
     "tags": [
       "crossing",
       "retro",
       "endless"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "minecraft-classic",
@@ -8809,7 +8816,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/100ng",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8821,7 +8828,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -8837,7 +8844,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "a-small-world-cup",
@@ -8847,7 +8855,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/asmallworldcup",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8859,7 +8867,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -8875,7 +8883,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "adventure-drivers",
@@ -8923,7 +8932,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/alien_hominid.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -8935,7 +8944,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -8951,7 +8960,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "angry-birds",
@@ -8999,7 +9009,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/acww.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9011,7 +9021,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9027,7 +9037,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "bad-game",
@@ -9037,7 +9048,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/badgame/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9049,7 +9060,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9065,7 +9076,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "baldis-basics-in-education-and-learning",
@@ -9075,7 +9087,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/baldis-basics",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9087,7 +9099,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9103,7 +9115,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "bart-blast",
@@ -9113,7 +9126,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/bartblast/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9125,7 +9138,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9141,7 +9154,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "bendy-and-the-ink-machine",
@@ -9151,7 +9165,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/batim/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9163,7 +9177,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9179,7 +9193,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "big-tower-tiny-square",
@@ -9227,7 +9242,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-1.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9239,7 +9254,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9255,7 +9270,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "bloons-tower-defense-2",
@@ -9265,7 +9281,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9277,7 +9293,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9293,7 +9309,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "bob-the-robber-2",
@@ -9341,7 +9358,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/bouncy-basketball",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9353,7 +9370,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9369,7 +9386,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "boxing-random",
@@ -9459,7 +9477,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/burrito-bison",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9471,7 +9489,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9487,7 +9505,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "call-of-duty-mobile",
@@ -9573,7 +9592,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/co09loader/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9585,7 +9604,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9601,7 +9620,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "cookie-run-kingdom",
@@ -9649,7 +9669,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9661,7 +9681,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9677,7 +9697,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "cooking-mama-2",
@@ -9687,7 +9708,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9699,7 +9720,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9715,7 +9736,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "cooking-mama-3",
@@ -9725,7 +9747,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama3.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9737,7 +9759,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9753,7 +9775,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "crash-bandicoot",
@@ -9763,7 +9786,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/crashbandi.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9775,7 +9798,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9791,7 +9814,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "danganronpa-trigger-happy-havoc",
@@ -9839,7 +9863,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/deltatraveler/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9851,7 +9875,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9867,7 +9891,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "diggy",
@@ -9877,7 +9902,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/diggy.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9889,7 +9914,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9905,7 +9930,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "dodge",
@@ -9915,7 +9941,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/dodge",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9927,7 +9953,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9943,7 +9969,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "doki-doki-literature-club-plus",
@@ -9953,7 +9980,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ddlcplus/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -9965,7 +9992,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -9981,7 +10008,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "dragon-vs-icy-bricks",
@@ -9991,7 +10019,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/dragon-vs-bricks",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10003,7 +10031,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10019,7 +10047,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "drift-boss",
@@ -10181,7 +10210,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/endless-truck/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10193,7 +10222,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10209,7 +10238,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "escape-road",
@@ -10219,7 +10249,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/escape-road/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10231,7 +10261,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10247,7 +10277,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "ev-io",
@@ -10295,7 +10326,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnae/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10307,7 +10338,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10323,7 +10354,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-freddys",
@@ -10333,7 +10365,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf1",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10345,7 +10377,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10361,7 +10393,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-freddys-2",
@@ -10371,7 +10404,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf2",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10383,7 +10416,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10399,7 +10432,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-freddys-3",
@@ -10409,7 +10443,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf3",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10421,7 +10455,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10437,7 +10471,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-freddys-4",
@@ -10447,7 +10482,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaf4",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10459,7 +10494,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10475,7 +10510,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-freddys-sister-location",
@@ -10485,7 +10521,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/sisterlocation",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10497,7 +10533,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10513,7 +10549,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "five-nights-at-winstons",
@@ -10523,7 +10560,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaw/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10535,7 +10572,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10551,7 +10588,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "fortnite",
@@ -10599,7 +10637,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fused240/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10611,7 +10649,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10627,7 +10665,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "gacha-life",
@@ -10637,7 +10676,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/gachalife.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10649,7 +10688,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10665,7 +10704,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "gacha-verse",
@@ -10675,7 +10715,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/gachaverse.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10687,7 +10727,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10703,7 +10743,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "genshin-impact",
@@ -10789,7 +10830,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/gtag/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10801,7 +10842,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10817,7 +10858,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "grand-theft-auto-2",
@@ -10827,7 +10869,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/gta2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10839,7 +10881,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10855,7 +10897,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "hexgl",
@@ -10941,7 +10984,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/houseofhazards/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10953,7 +10996,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -10969,7 +11012,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "human-expenditure-program",
@@ -10979,7 +11023,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/hep/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -10991,7 +11035,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11007,7 +11051,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "karlson-2-d",
@@ -11017,7 +11062,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/karlson2d/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11029,7 +11074,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11045,7 +11090,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "kirby-super-star",
@@ -11055,7 +11101,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/kirbysuperstar.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11067,7 +11113,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11083,7 +11129,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "learn-tozeri-fly",
@@ -11093,7 +11140,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/learn-to-fly.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11105,7 +11152,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11121,7 +11168,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "little-big-planet",
@@ -11169,7 +11217,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/mkds.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11181,7 +11229,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11197,7 +11245,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "melon-sandbox",
@@ -11283,7 +11332,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mcpe/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11295,7 +11344,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11311,7 +11360,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "monkey-mart",
@@ -11359,7 +11409,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/monster-tracks",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11371,7 +11421,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11387,7 +11437,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "moto-x-3-m",
@@ -11397,7 +11448,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/cdn/projects/motox3m/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11409,7 +11460,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11425,7 +11476,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "needy-streamer-overload",
@@ -11435,7 +11487,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/nso/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11447,7 +11499,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11463,7 +11515,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "new-super-mario-bros-ds",
@@ -11473,7 +11526,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/nsmb.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11485,7 +11538,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11501,7 +11554,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "omori",
@@ -11511,7 +11565,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/omori/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11523,7 +11577,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11539,7 +11593,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "oneshot",
@@ -11549,7 +11604,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/oneshot/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11561,7 +11616,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11577,7 +11632,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "ovo",
@@ -11625,7 +11681,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/papa/example/pizzeria.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11637,7 +11693,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11653,7 +11709,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "parappa-the-rapper",
@@ -11663,7 +11720,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/parappa.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11675,7 +11732,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11691,7 +11748,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "peggle",
@@ -11701,7 +11759,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/peggle.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11713,7 +11771,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11729,7 +11787,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "people-playground",
@@ -11739,7 +11798,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ppgbog/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11751,7 +11810,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11767,7 +11826,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "pizza-tower",
@@ -11777,7 +11837,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/pizzatower/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11789,7 +11849,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11805,7 +11865,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "pizzeria-simulator",
@@ -11815,7 +11876,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/pizzeriasimulator",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11827,7 +11888,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11843,7 +11904,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "pojavlauncher",
@@ -11891,7 +11953,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/PokemonFireRed.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11903,7 +11965,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11919,7 +11981,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "pokemon-platinum-version",
@@ -11929,7 +11992,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/pokemon.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11941,7 +12004,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11957,7 +12020,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "polytrack",
@@ -11967,7 +12031,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/polytrack",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -11979,7 +12043,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -11995,7 +12059,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "portal-the-flash-version",
@@ -12005,7 +12070,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/portal.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12017,7 +12082,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12033,7 +12098,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "pubg-mobile",
@@ -12081,7 +12147,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/quake/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12093,7 +12159,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12109,7 +12175,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "r-e-p-o",
@@ -12119,7 +12186,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/repo/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12131,7 +12198,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12147,7 +12214,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "raft",
@@ -12157,7 +12225,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/raft/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12169,7 +12237,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12185,7 +12253,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "ragdoll-archers",
@@ -12195,7 +12264,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ragdoll-archers/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12207,7 +12276,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12223,7 +12292,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "ragdoll-hit",
@@ -12233,7 +12303,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ragdoll/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12245,7 +12315,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12261,7 +12331,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "raldis-crackhouse",
@@ -12271,7 +12342,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/raldi/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12283,7 +12354,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12299,7 +12370,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "re-run",
@@ -12309,7 +12381,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/rerun/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12321,7 +12393,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12337,7 +12409,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "red-ball-4",
@@ -12347,7 +12420,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/red-ball4.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12359,7 +12432,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12375,7 +12448,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "retro-hellicopter",
@@ -12423,7 +12497,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/rhythm-hell",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12435,7 +12509,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12451,7 +12525,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "roblox",
@@ -12499,7 +12574,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/simplelootidle/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12511,7 +12586,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12527,7 +12602,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "slime-rancher",
@@ -12537,7 +12613,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/slimerancher/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12549,7 +12625,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12565,7 +12641,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "slowroads",
@@ -12613,7 +12690,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/soccer-random",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12625,7 +12702,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12641,7 +12718,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "sonic-cd",
@@ -12651,7 +12729,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/soniccd.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12663,7 +12741,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12679,7 +12757,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "sonic-mania",
@@ -12689,7 +12768,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/sonicmania/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12701,7 +12780,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12717,7 +12796,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "sonic-the-hedgehog",
@@ -12727,7 +12807,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic1.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12739,7 +12819,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12755,7 +12835,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "sonic-the-hedgehog-2",
@@ -12765,7 +12846,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12777,7 +12858,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12793,7 +12874,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "sonic-the-hedgehog-3",
@@ -12803,7 +12885,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic3.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12815,7 +12897,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12831,7 +12913,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "south-park-64",
@@ -12841,7 +12924,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/south.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12853,7 +12936,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12869,7 +12952,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "spiderman",
@@ -12879,7 +12963,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/spiderman.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12891,7 +12975,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12907,7 +12991,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "stumble-guys",
@@ -12955,7 +13040,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/fancy-pants-man.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -12967,7 +13052,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -12983,7 +13068,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-fowlst",
@@ -12993,7 +13079,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/super-foulist/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13005,7 +13091,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13021,7 +13107,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-mario-64",
@@ -13069,7 +13156,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma2.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13081,7 +13168,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13097,7 +13184,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-mario-advance-4",
@@ -13107,7 +13195,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma4.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13119,7 +13207,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13135,7 +13223,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-mario-all-stars",
@@ -13145,7 +13234,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smballstars.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13157,7 +13246,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13173,7 +13262,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-mario-bros",
@@ -13221,7 +13311,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smbd.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13233,7 +13323,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13249,7 +13339,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-mario-world",
@@ -13259,7 +13350,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smw.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13271,7 +13362,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13287,7 +13378,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-monkey-ball-jr",
@@ -13297,7 +13389,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/super-monkey-ball.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13309,7 +13401,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13325,7 +13417,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "super-smash-bros",
@@ -13335,7 +13428,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/ssb.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13347,7 +13440,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13363,7 +13456,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "superhot",
@@ -13411,7 +13505,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/survivorio/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13423,7 +13517,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13439,7 +13533,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "tag",
@@ -13525,7 +13620,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/testimonium/",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13537,7 +13632,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13553,7 +13648,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "the-legend-of-zelda-links-awakening-dx",
@@ -13563,7 +13659,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/links_awakening.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13575,7 +13671,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13591,7 +13687,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "the-legend-of-zelda-ocarina-of-time",
@@ -13601,7 +13698,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/zelda-oot.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13613,7 +13710,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13629,7 +13726,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "tomb-of-the-mask",
@@ -13677,7 +13775,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/tomodachi.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13689,7 +13787,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13705,7 +13803,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "toss-the-turtle",
@@ -13791,7 +13890,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/ucn",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13803,7 +13902,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13819,7 +13918,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "uno",
@@ -13905,7 +14005,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/mexiisamonkey/vib-ribbon.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13917,7 +14017,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13933,7 +14033,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "volley-random",
@@ -13943,7 +14044,7 @@
     "url": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/volley-random",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://play.frogiee.one/math/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -13955,7 +14056,7 @@
     "source": "frogie",
     "provider": "frogie",
     "needsCheck": true,
-    "needsReview": false,
+    "needsReview": true,
     "sourceUrl": "https://play.frogiee.one/math/",
     "sourceEvidence": "frogie-dom",
     "evidence": {
@@ -13971,7 +14072,8 @@
       "capturedAt": "2026-05-15T22:01:08.031Z",
       "className": ".gamebtns",
       "tag": "IMG"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:frogiee_iframe_wrapper"
   },
   {
     "id": "we-become-what-we-behold",
@@ -40343,7 +40445,7 @@
     "url": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex4",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://gn-math.dev/. Needs check before promotion.",
     "tags": [
       "captured",
@@ -40372,7 +40474,8 @@
       "capturedAt": "2026-05-15T22:24:32.818Z",
       "className": "game-card",
       "tag": "DIV"
-    }
+    },
+    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper"
   },
   {
     "id": "vex-6",

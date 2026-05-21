@@ -14,16 +14,17 @@
       const prefs = JSON.parse(
         localStorage.getItem("strato-preferences") || "{}",
       );
+      const particlePreference = localStorage.getItem("strato-particles");
       return (
+        particlePreference !== "true" ||
         prefs.lowPower === true ||
-        localStorage.getItem("strato_low_power") === "true" ||
-        localStorage.getItem("strato-particles") === "false"
+        localStorage.getItem("strato_low_power") === "true"
       );
     } catch {
       try {
-        return localStorage.getItem("strato_low_power") === "true";
+        return localStorage.getItem("strato-particles") !== "true";
       } catch {
-        return false;
+        return true;
       }
     }
   }

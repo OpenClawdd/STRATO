@@ -26,6 +26,9 @@ import { showRecovery } from "./recovery.js";
 import { openSheet } from "./sheet.js";
 import { toast } from "./toast.js";
 
+const INITIAL_ALL_GAMES_LIMIT = 8;
+const SEARCH_RESULTS_LIMIT = 24;
+
 function setActiveView(viewName) {
   document
     .querySelectorAll(".view")
@@ -269,7 +272,7 @@ export function createHomeController() {
         .map(({ game }) => game);
       const allGames = promotableCatalog()
         .filter((game) => state.activeMood === "all" || visibleSet.has(game))
-        .slice(0, 12);
+        .slice(0, INITIAL_ALL_GAMES_LIMIT);
 
       renderMoods(controller, renderState);
 
@@ -341,7 +344,12 @@ export function createHomeController() {
         Math.min(state.searchIndex, results.length - 1),
       );
       const favorites = new Set(readJson(keys.favorites, []));
-      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"} · Enter launches, click opens details</div>${results.map((game, index) => renderSearchResult(game, index, favorites)).join("")}`;
+      const visibleResults = results.slice(0, SEARCH_RESULTS_LIMIT);
+      const capped =
+        results.length > visibleResults.length
+          ? ` · showing first ${visibleResults.length}`
+          : "";
+      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"}${capped} · Enter launches, click opens details</div>${visibleResults.map((game, index) => renderSearchResult(game, index, favorites)).join("")}`;
       bindCards(container, controller);
     },
 
