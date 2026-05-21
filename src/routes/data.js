@@ -97,6 +97,8 @@ router.post("/api/data/import", async (req, res) => {
       );
 
       for (const bookmark of importData.bookmarks) {
+        if (!bookmark.url || typeof bookmark.url !== "string") continue;
+
         // Skip if already exists
         if (!existingUserBookmarkUrls.has(bookmark.url)) {
           const {
