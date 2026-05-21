@@ -119,6 +119,8 @@
     lastPlayed: readStorageJson("strato-lastPlayed", {}),
     preferences: readStorageJson("strato-preferences", {}),
     localFailures: readStorageJson("strato-recentFailures", {}),
+    aiStatusChecked: false,
+    hubSitesLoaded: false,
   };
 
   // Apply saved accent color
@@ -343,6 +345,14 @@
       btn.classList.toggle("active", btn.dataset.view === viewName);
     });
     state.currentView = viewName;
+    if (viewName === "ai" && !state.aiStatusChecked) {
+      state.aiStatusChecked = true;
+      checkAiStatus().catch(() => {});
+    }
+    if (viewName === "hub" && !state.hubSitesLoaded) {
+      state.hubSitesLoaded = true;
+      loadHubSites().catch(() => {});
+    }
   }
 
   document.querySelectorAll(".nav-btn").forEach((btn) => {
@@ -1127,6 +1137,62 @@
     );
   }
 
+  const WRAPPER_URL_PATTERNS = [
+    [/play\.frogiee\.one\/iframe\.html\?url=/i, "frogiee_iframe_wrapper"],
+    [
+      /adfree-sz-games\.github\.io\/games\/game\.html\?game=/i,
+      "adfree_game_wrapper",
+    ],
+    [/iframe\.html\?url=/i, "iframe_wrapper"],
+    [/game\.html\?game=/i, "game_wrapper"],
+  ];
+  const FAVICON_BLOCKED_DOMAINS = new Set([
+    "adfree-sz-games.github.io",
+    "play.frogiee.one",
+  ]);
+
+  function wrapperKind(url) {
+    const value = String(url || "");
+    for (const [pattern, kind] of WRAPPER_URL_PATTERNS) {
+      if (pattern.test(value)) return kind;
+    }
+    return "";
+  }
+
+  function isExternalLaunchUrl(url) {
+    return /^https?:\/\//i.test(String(url || ""));
+  }
+
+  function hasProxyProof(game) {
+    if (!game || typeof game !== "object") return false;
+    if (game.proxyVerified === true || game.proxy_verified === true)
+      return true;
+    if (game.proxyProof?.verified === true) return true;
+    const status = String(
+      game.proxyStatus ||
+        game.proxy_status ||
+        game.proxyProof?.status ||
+        game.proxyProof?.kind ||
+        "",
+    )
+      .trim()
+      .toLowerCase();
+    if (
+      status === "verified" ||
+      status === "ok" ||
+      status === "proxy_verified" ||
+      status === "remote_proxy_verified"
+    ) {
+      return true;
+    }
+    return Boolean(
+      game.proxyVerifiedAt ||
+      game.proxy_verified_at ||
+      game.proxyProof?.checkedAt ||
+      game.proxyProof?.verifiedAt,
+    );
+  }
+
   function isSupportedLaunchUrl(url) {
     const value = String(url || "").trim();
     return value.startsWith("/") || /^https?:\/\//i.test(value);
@@ -1164,6 +1230,20 @@
       return { status: "needs-config", reason: "needs config" };
     if (!isSupportedLaunchUrl(url))
       return { status: "invalid", reason: "unavailable" };
+    const quarantineSignal = String(
+      game.quarantineReason ||
+        game.repairNote ||
+        game.evidence ||
+        game.sourceEvidence ||
+        "",
+    ).toLowerCase();
+    if (
+      quarantineSignal.includes("generic_only") ||
+      quarantineSignal.includes("dead_launch") ||
+      quarantineSignal.includes("wrapper_unverified")
+    ) {
+      return { status: "invalid", reason: "needs review" };
+    }
 
     const failure = state.localFailures?.[game.id];
     if (failure && Date.now() - failure.timestamp < RECENT_FAILURE_MS) {
@@ -1175,13 +1255,32 @@
 
     if (game.reliability === "red")
       return { status: "invalid", reason: "needs review" };
+    if (wrapperKind(url) && !hasProxyProof(game))
+      return { status: "wrapper-unverified", reason: "wrapper unverified" };
+    if (isExternalLaunchUrl(url) && !hasProxyProof(game)) {
+      return {
+        status: "remote-proxy-unverified",
+        reason: "remote proof pending",
+      };
+    }
+    if (isExternalLaunchUrl(url) && hasProxyProof(game)) {
+      return {
+        status: "remote-proxy-verified",
+        reason: "proxy verified",
+      };
+    }
     if (!hasUsableThumbnail(game))
       return { status: "thumbnail-fallback", reason: "thumbnail missing" };
     return { status: "ready", reason: "ready" };
   }
 
   function isLaunchableStatus(status) {
-    return ["ready", "playable", "thumbnail-fallback"].includes(status);
+    return [
+      "ready",
+      "playable",
+      "thumbnail-fallback",
+      "remote-proxy-verified",
+    ].includes(status);
   }
 
   function isLaunchableGame(game) {
@@ -1206,11 +1305,15 @@
 
   function isPromotableGame(game) {
     if (!isHomeSafeGame(game)) return false;
-    if (!isSelfHostedGame(game)) return false;
-    if (isExternalSourceGame(game) || game.needsReview) return false;
-    if (game.reliability !== "green" && game.tier !== 1) return false;
     const health = getGameHealth(game);
-    return ["ready", "thumbnail-fallback", "playable"].includes(health.status);
+    if (isSelfHostedGame(game)) {
+      if (isExternalSourceGame(game) || game.needsReview) return false;
+      if (game.reliability !== "green" && game.tier !== 1) return false;
+      return ["ready", "thumbnail-fallback", "playable"].includes(
+        health.status,
+      );
+    }
+    return health.status === "remote-proxy-verified";
   }
 
   function homeCatalog() {
@@ -1218,11 +1321,7 @@
   }
 
   function activePlayableCatalog() {
-    return state.games.filter((game) => {
-      if (!isHomeSafeGame(game)) return false;
-      if (game?.reliability === "red") return false;
-      return isLaunchableGame(game);
-    });
+    return state.games.filter(isPromotableGame);
   }
 
   function fallbackThumbnail(game) {
@@ -1525,21 +1624,37 @@
 
   function updateGameStats() {
     const playable = activePlayableCatalog();
-    const total = playable.length;
-    const tier1 = playable.filter((g) => g.tier === 1).length;
+    const localVerified = playable.filter((game) =>
+      isSelfHostedGame(game),
+    ).length;
+    const remoteProxyVerified = playable.length - localVerified;
+    const remoteProofPending = state.games.filter((game) => {
+      if (String(game?.reliability || "").toLowerCase() === "red") return false;
+      return getGameHealth(game).status === "remote-proxy-unverified";
+    }).length;
+    const quarantined = state.games.filter(
+      (game) => String(game?.reliability || "").toLowerCase() === "red",
+    ).length;
+    const totalVisible = localVerified + remoteProxyVerified;
+    const statusSummary = `${localVerified} verified local${remoteProofPending ? ` · ${remoteProofPending} remote proof pending` : ""}`;
 
     const els = {
-      "arcade-total": total,
-      "arcade-available": total,
-      "arcade-tier1": tier1,
-      "status-games": `${total} verified playable`,
-      "games-count-text": `${total} verified games`,
-      "home-games-count": total,
-      "arcade-badge": total,
+      "arcade-total": totalVisible,
+      "arcade-available": totalVisible,
+      "arcade-tier1": localVerified,
+      "status-games": statusSummary,
+      "games-count-text": statusSummary,
+      "home-games-count": totalVisible,
+      "arcade-badge": totalVisible,
     };
     for (const [id, val] of Object.entries(els)) {
       const el = document.getElementById(id);
       if (el) el.textContent = val;
+    }
+    const signal = document.getElementById("catalog-signal");
+    if (signal) {
+      signal.textContent = localVerified > 0 ? "Local Mode" : "Limited Local";
+      signal.title = `${localVerified} local verified · ${remoteProxyVerified} remote proxy verified · ${remoteProofPending} remote proof pending · ${quarantined} quarantined`;
     }
   }
 
@@ -1735,7 +1850,7 @@
       scroll = document.getElementById("featured-scroll");
     } catch (e) {}
     if (!scroll) return;
-    const featured = [...state.games]
+    const featured = [...activePlayableCatalog()]
       .sort((a, b) => a.tier - b.tier)
       .slice(0, 10);
 
@@ -2206,7 +2321,8 @@
   function filterGames() {
     const query = (searchInput?.value || "").toLowerCase().trim();
     const sort = sortSelect?.value || "popular";
-    state.filteredGames = state.games.filter((game) => {
+    const baseCatalog = activePlayableCatalog();
+    state.filteredGames = baseCatalog.filter((game) => {
       if (activeCategories.has("favorites")) {
         if (!state.favorites.includes(game.id)) return false;
       } else if (activeCategories.has("recent")) {
@@ -3881,6 +3997,7 @@
       img.dataset.fallbackAttached = "true";
       const gameUrl = img.dataset.gameUrl;
       const gameName = img.dataset.gameName || "?";
+      const game = state.games.find((item) => item.id === img.dataset.gameId);
       const fallbackSrc =
         img.dataset.fallbackSrc || fallbackThumbnail({ name: gameName });
 
@@ -3894,11 +4011,20 @@
           if (img.src !== fallbackSrc) img.src = fallbackSrc;
         };
 
-        if (
-          typeof window.FaviconFetcher === "undefined" ||
-          !gameUrl ||
-          /^\$\{/.test(gameUrl)
-        ) {
+        let domain = "";
+        try {
+          domain = new URL(String(gameUrl || ""), location.href).hostname;
+        } catch {}
+        const shouldTryRemoteFavicon =
+          typeof window.FaviconFetcher !== "undefined" &&
+          game &&
+          getGameHealth(game).status === "remote-proxy-verified" &&
+          isExternalLaunchUrl(gameUrl) &&
+          !wrapperKind(gameUrl) &&
+          domain &&
+          !FAVICON_BLOCKED_DOMAINS.has(domain);
+
+        if (!shouldTryRemoteFavicon) {
           useStaticFallback();
           return;
         }
@@ -3961,12 +4087,27 @@
   let hoverPrefetchTimer = null;
   let hoverPrefetchLink = null;
 
-  function startHoverPrefetch(proxyUrl) {
+  function canPrefetchLocalLaunchUrl(url) {
+    const value = String(url || "").trim();
+    if (!value || !value.startsWith("/games/")) return false;
+    if (
+      value.startsWith("/frog/") ||
+      value.startsWith("/scramjet/") ||
+      value.includes("/iframe.html?url=") ||
+      value.includes("/game.html?game=")
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  function startHoverPrefetch(localUrl) {
+    if (!canPrefetchLocalLaunchUrl(localUrl)) return;
     clearHoverPrefetch();
     hoverPrefetchTimer = setTimeout(() => {
       hoverPrefetchLink = document.createElement("link");
       hoverPrefetchLink.rel = "prefetch";
-      hoverPrefetchLink.href = proxyUrl;
+      hoverPrefetchLink.href = localUrl;
       document.head.appendChild(hoverPrefetchLink);
     }, 400);
   }
@@ -3984,17 +4125,17 @@
     document.querySelectorAll(".game-card[data-game-id]").forEach((card) => {
       card.addEventListener("mouseenter", () => {
         const game = state.games.find((g) => g.id === card.dataset.gameId);
-        if (!game || game.tier === 1 || game.tier === 2) return;
-        const proxyUrl = getProxyUrl(game.url);
-        if (proxyUrl) startHoverPrefetch(proxyUrl);
+        if (!game || !isSelfHostedGame(game) || !isPromotableGame(game)) return;
+        const localUrl = resolveGameUrl(game);
+        if (canPrefetchLocalLaunchUrl(localUrl)) startHoverPrefetch(localUrl);
       });
       card.addEventListener("mouseleave", clearHoverPrefetch);
     });
 
     document.querySelectorAll(".quick-link-btn[data-url]").forEach((btn) => {
       btn.addEventListener("mouseenter", () => {
-        const proxyUrl = getProxyUrl(btn.dataset.url);
-        if (proxyUrl) startHoverPrefetch(proxyUrl);
+        const localUrl = String(btn.dataset.url || "").trim();
+        if (canPrefetchLocalLaunchUrl(localUrl)) startHoverPrefetch(localUrl);
       });
       btn.addEventListener("mouseleave", clearHoverPrefetch);
     });
@@ -4210,17 +4351,15 @@
       console.warn("[STRATO] Game loading failed:", e);
     }
 
-    // Step 3: AI status
+    // Step 3: defer non-game systems (AI/Hub) until opened
     try {
       if (splashBar) splashBar.style.width = "75%";
-      if (splashStatus) splashStatus.textContent = "Checking AI service...";
+      if (splashStatus)
+        splashStatus.textContent = "Prioritizing local launch...";
       const aiDotEl = document.querySelector("#splash-engine-ai .splash-dot");
-      if (aiDotEl) aiDotEl.classList.add("pending");
-      await checkAiStatus();
-      if (aiDotEl)
-        aiDotEl.className = `splash-dot ${state.aiOnline ? "ready" : "error"}`;
+      if (aiDotEl) aiDotEl.className = "splash-dot pending";
     } catch (e) {
-      console.warn("[STRATO] AI status check failed:", e);
+      console.warn("[STRATO] Deferred AI status setup failed:", e);
     }
 
     // Step 4: Health check
@@ -4280,10 +4419,7 @@
       }
     } catch (e) {}
 
-    // Load Hub sites
-    try {
-      loadHubSites();
-    } catch (e) {}
+    // Hub loading is deferred until the Hub view is opened.
 
     // Username
     try {

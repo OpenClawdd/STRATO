@@ -75,6 +75,8 @@ describe("v5.03 frontend polish", () => {
     expect(html).toContain("data-focus-home-search");
     expect(html).toContain('placeholder="Search verified games..."');
     expect(html).toContain("Proxy Lab");
+    expect(html).toContain("Launchable Now");
+    expect(html).not.toContain("Verified Playable");
     expect(html).toMatch(/<\/head>\s*<body/);
   });
 
@@ -87,5 +89,14 @@ describe("v5.03 frontend polish", () => {
 
   it("keeps spotlight search launchable and tag-aware", () => {
     expect(searchGames("runner").map((game) => game.id)).toContain("space-run");
+  });
+
+  it("keeps particles disabled by default unless explicitly enabled", () => {
+    const particles = fs.readFileSync(
+      path.join(rootDir, "public", "js", "particles.js"),
+      "utf8",
+    );
+    expect(particles).toContain('particlePreference !== "true"');
+    expect(particles).toContain("canvas.style.display = \"none\"");
   });
 });
