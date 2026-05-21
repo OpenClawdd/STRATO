@@ -28,7 +28,7 @@ export function abbreviation(value) {
   const str = String(value || "");
   // Split by non-alphanumeric OR by camelCase boundaries
   return str
-    .split(/[^a-z0-9]+|(?=[A-Z])/i)
+    .split(/[^A-Za-z0-9]+|(?=[A-Z])/)
     .filter(Boolean)
     .map((word) => word[0])
     .join("")
@@ -62,7 +62,7 @@ export function scoreGame(game, query, context = {}) {
   const playCount = Number(counts[game.id] || 0);
   const boost = isRecent ? 0.5 : playCount > 5 ? 0.8 : 1.0;
 
-  let baseScore = 100;
+  let baseScore = Infinity;
   if (title === q) baseScore = 0;
   else if (abbr === q) baseScore = 1;
   else if (title.startsWith(q)) baseScore = 2;
@@ -75,15 +75,6 @@ export function scoreGame(game, query, context = {}) {
   else if (tags.includes(q)) baseScore = 28;
   else if (description.includes(q)) baseScore = 46;
   else if (blob.includes(q)) baseScore = 54;
-  else {
-    const distance = Math.min(
-      levenshtein(title.slice(0, q.length + 3), q),
-      ...title
-        .split(/\s+/)
-        .map((word) => levenshtein(word.slice(0, q.length + 2), q)),
-    );
-    baseScore = 72 + distance;
-  }
 
   return baseScore * boost;
 }

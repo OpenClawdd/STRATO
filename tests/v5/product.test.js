@@ -61,6 +61,10 @@ describe('v5 search', () => {
     expect(results[0]).toBe('space-run');
     expect(results).not.toContain('proxy-placeholder');
   });
+
+  it('does not return fallback games for unrelated queries', () => {
+    expect(searchGames('chatgpt')).toHaveLength(0);
+  });
 });
 
 describe('v5 picks and surprise', () => {

@@ -73,6 +73,8 @@ describe("v5.03 frontend polish", () => {
     expect(html).not.toContain("Launch OS");
     expect(html).toContain("home-all-games");
     expect(html).toContain("data-focus-home-search");
+    expect(html).toContain('placeholder="Search verified games..."');
+    expect(html).toContain("Proxy Lab");
     expect(html).toMatch(/<\/head>\s*<body/);
   });
 

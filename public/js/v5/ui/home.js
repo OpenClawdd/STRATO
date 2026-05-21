@@ -107,12 +107,12 @@ function shortDate(timestamp) {
   }
 }
 
-function renderHeroStats(renderState) {
-  const playable = renderState.playable;
+function renderHeroStats(renderState = null) {
+  const playable = renderState?.playable || playableCatalog();
   const els = {
     "home-live-games": playable.length,
-    "home-live-picks": renderState.picks.length,
-    "home-live-moods": renderState.clusters.length,
+    "home-live-picks": (renderState?.picks || dailyPicks()).length,
+    "home-live-moods": (renderState?.clusters || moodClusters()).length,
   };
   Object.entries(els).forEach(([id, val]) => {
     const el = document.getElementById(id);
@@ -121,21 +121,21 @@ function renderHeroStats(renderState) {
 
   const signalEl = document.getElementById("catalog-signal");
   if (signalEl) {
-    const healthScore = playable.length / state.games.length;
-    if (healthScore > 0.3) {
-      signalEl.textContent = "STABLE";
-      signalEl.style.color = "var(--accent-green)";
-    } else if (healthScore > 0.15) {
-      signalEl.textContent = "DEGRADED";
-      signalEl.style.color = "var(--accent-yellow)";
-    } else {
-      signalEl.textContent = "CRITICAL";
-      signalEl.style.color = "var(--accent-red)";
-    }
+    const stats = state.games.reduce((acc, game) => {
+      const status = health(game).status;
+      acc[status] = (acc[status] || 0) + 1;
+      return acc;
+    }, {});
+    const localVerified = stats.local || 0;
+    const remotePending = stats["remote-proxy-unverified"] || 0;
+    signalEl.textContent = localVerified > 0 ? "Local Mode" : "Limited Local";
+    signalEl.style.color =
+      localVerified > 0 ? "var(--accent-green)" : "var(--accent-yellow)";
+    signalEl.title = `${localVerified} verified local · ${remotePending} remote proof pending`;
   }
 
-  const recent = renderState.recentIds;
-  const lastPlayed = renderState.lastPlayed;
+  const recent = renderState?.recentIds || readJson(keys.recent, []);
+  const lastPlayed = renderState?.lastPlayed || readJson(keys.lastPlayed, {});
   const last = recent[0] ? findGame(recent[0]) : null;
   const lastAction = document.getElementById("home-last-action");
   const resumeBtn = document.getElementById("resume-last");
@@ -164,14 +164,13 @@ function renderPulse(renderState) {
     return acc;
   }, {});
   const playable = renderState.playable.length;
-  const directRoutes =
-    (stats.local || 0) + (stats["remote-proxy-verified"] || 0);
   pulse.innerHTML = [
     ["Launchable", playable],
-    ["Proxy-verified", directRoutes],
-    ["Needs proxy proof", stats["remote-proxy-unverified"] || 0],
+    ["Local verified", stats.local || 0],
+    ["Remote proxy verified", stats["remote-proxy-verified"] || 0],
+    ["Remote proof pending", stats["remote-proxy-unverified"] || 0],
     ["Fallback art", stats["fallback-art"] || 0],
-    ["Paused", stats["failed-locally"] || 0],
+    ["Recently failed", stats["failed-locally"] || 0],
   ]
     .map(
       ([label, value]) =>
