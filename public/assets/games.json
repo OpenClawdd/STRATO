@@ -263,7 +263,7 @@
     "thumbnail": "https://selenite.cc/resources/semag/cookieclicker/img/perfectCookie.png",
     "url": "https://3kh0.github.io/projects/cookie-clicker/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Click cookies, buy upgrades, bake millions — the original idle game",
     "tags": [
       "idle",
@@ -293,7 +293,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "1v1-lol",
@@ -302,7 +303,7 @@
     "thumbnail": "/assets/thumbnails/1v1-lol.webp",
     "url": "https://adfree-sz-games.github.io/Games-2/lol/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Build and battle in this 1v1 shooter",
     "tags": [
       "shooter",
@@ -310,7 +311,8 @@
       "multiplayer"
     ],
     "needsReview": true,
-    "source": "adfree-resurrection"
+    "source": "adfree-resurrection",
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "retro-bowl",
@@ -319,7 +321,7 @@
     "thumbnail": "/assets/thumbnails/retro-bowl.webp",
     "url": "https://3kh0.github.io/projects/retro-bowl/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Classic American football with pixel art style",
     "tags": [
       "football",
@@ -327,7 +329,8 @@
       "sports"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "fnf",
@@ -352,7 +355,7 @@
     "thumbnail": "/assets/thumbnails/among-us.webp",
     "url": "https://3kh0.github.io/projects/among-us/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Find the impostor among the crew — social deduction",
     "tags": [
       "social",
@@ -360,7 +363,8 @@
       "multiplayer"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "basketball-stars",
@@ -369,7 +373,7 @@
     "thumbnail": "https://selenite.cc/resources/semag/basketball-stars/icon.png",
     "url": "https://3kh0.github.io/projects/basketball-stars/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Fast-paced 1v1 basketball action",
     "tags": [
       "basketball",
@@ -399,7 +403,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "madalin-stunt-cars-2",
@@ -408,7 +413,7 @@
     "thumbnail": "/assets/thumbnails/madalin-stunt-cars-2.webp",
     "url": "https://adfree-sz-games.github.io/Games2/madalin-stunt-cars-2",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Super cars, massive maps, insane stunts",
     "tags": [
       "cars",
@@ -416,7 +421,8 @@
       "3d"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "krunker",
@@ -579,14 +585,15 @@
     "thumbnail": "/assets/thumbnails/tunnel-rush.webp",
     "url": "https://adfree-sz-games.github.io/games/unity.html?game=/games/tunnel-rush/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Blaze through a neon tunnel avoiding obstacles",
     "tags": [
       "neon",
       "speed",
       "3d"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "run-3",
@@ -595,7 +602,7 @@
     "thumbnail": "/assets/thumbnails/run-3.webp",
     "url": "https://adfree-sz-games.github.io/Games-2/run3/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Run through an endless tunnel in space",
     "tags": [
       "endless",
@@ -603,7 +610,8 @@
       "platformer"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "smash-karts",
@@ -629,7 +637,7 @@
     "thumbnail": "https://selenite.cc/resources/semag/subway/cover.png",
     "url": "https://dddavit.github.io/subway/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Dash through the subway and dodge trains",
     "tags": [
       "endless",
@@ -659,7 +667,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "moto-x3m",
@@ -686,13 +695,15 @@
     "thumbnail": "/assets/thumbnails/wordle.webp",
     "url": "https://www.nytimes.com/games/wordle/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Guess the five-letter word in six tries",
     "tags": [
       "words",
       "daily",
       "puzzle"
-    ]
+    ],
+    "needsReview": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "chess",
@@ -701,7 +712,7 @@
     "thumbnail": "/assets/thumbnails/chess.webp",
     "url": "https://adfree-sz-games.github.io/games/chess/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Play chess online against players worldwide",
     "tags": [
       "board",
@@ -709,7 +720,8 @@
       "multiplayer"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "bitlife",
@@ -718,14 +730,15 @@
     "thumbnail": "/assets/thumbnails/bitlife.webp",
     "url": "https://adfree-sz-games.github.io/Games9/bitlife",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Live your best (or worst) virtual life",
     "tags": [
       "life",
       "simulator",
       "choices"
     ],
-    "needsReview": false
+    "needsReview": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "agar-io",
@@ -734,7 +747,7 @@
     "thumbnail": "/assets/thumbnails/agar-io.webp",
     "url": "https://adfree-sz-games.github.io/games/agario",
     "tier": 2,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Eat cells smaller than you, grow bigger",
     "tags": [
       "io",
@@ -744,7 +757,8 @@
       "needs-check"
     ],
     "needsCheck": true,
-    "needsReview": true
+    "needsReview": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "crossy-road",
@@ -770,7 +784,7 @@
     "thumbnail": "/assets/thumbnails/minecraft-classic.webp",
     "url": "https://3kh0.github.io/projects/minecraft-classic/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Build together in the original Minecraft — free official web build",
     "tags": [
       "blocks",
@@ -778,7 +792,8 @@
       "multiplayer"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "bonk-io",
@@ -850,7 +865,7 @@
     "thumbnail": "/assets/thumbnails/bloons-td.webp",
     "url": "https://3kh0.github.io/projects/bloonstd/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Pop balloons with monkey towers — tower defense classic",
     "tags": [
       "tower-defense",
@@ -858,7 +873,8 @@
       "strategy"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "osu",
@@ -883,7 +899,7 @@
     "thumbnail": "/assets/thumbnails/retro-bowl.webp",
     "url": "https://mrsnailman.github.io/Happy-Wheels-Source-Code/",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Gory ragdoll physics obstacle course",
     "tags": [
       "ragdoll",
@@ -891,7 +907,8 @@
       "physics"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "helix-jump",
@@ -921,7 +938,7 @@
     "thumbnail": "/assets/thumbnails/subway-surfers.webp",
     "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/raftwars.swf",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Launch tennis balls at enemies on rafts",
     "tags": [
       "projectile",
@@ -929,7 +946,8 @@
       "fun"
     ],
     "needsReview": true,
-    "source": "adfree-resurrection"
+    "source": "adfree-resurrection",
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "dead-zed",
@@ -959,7 +977,7 @@
     "thumbnail": "/assets/thumbnails/snake.webp",
     "url": "https://3kh0.github.io/projects/google-snake/index.html",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Google Snake — clean and smooth",
     "tags": [
       "snake",
@@ -967,7 +985,8 @@
       "classic"
     ],
     "needsReview": true,
-    "needsCheck": true
+    "needsCheck": true,
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "parkour-race",
@@ -1067,7 +1086,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/10-minutes-till-dawn",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1094,7 +1113,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "1v1-lol-2",
@@ -1291,7 +1311,7 @@
     "url": "https://3kh0.github.io/projects/9007199254740992/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1318,7 +1338,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "adofai",
@@ -1328,7 +1349,7 @@
     "url": "https://adfree-sz-games.github.io/Games9/a-dance-of-fire-and-ice",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1355,7 +1376,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "adarkroom",
@@ -1661,7 +1683,7 @@
     "url": "https://3kh0.github.io/projects/achievementunlocked/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -1688,7 +1710,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "achieveunlocked-2",
@@ -2771,7 +2794,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/amazing-rope-police",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -2798,7 +2821,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "americanracing-1",
@@ -3104,7 +3128,7 @@
     "url": "https://3kh0.github.io/projects/avalanche/index.html",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3131,7 +3155,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "awesometanks",
@@ -3215,7 +3240,7 @@
     "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream",
     "type": "game",
     "tier": 3,
-    "reliability": "yellow",
+    "reliability": "red",
     "description": "Source-backed candidate from https://selenite.cc/projects. Needs check before promotion.",
     "tags": [
       "captured",
@@ -3242,7 +3267,8 @@
       "capturedAt": "2026-05-15T12:02:35.109Z",
       "className": "",
       "tag": ""
-    }
+    },
+    "quarantineReason": "remote_proof_batch_1:proxy_internal_error"
   },
   {
     "id": "badicecream-2",
