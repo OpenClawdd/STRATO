@@ -17,6 +17,77 @@
 
   let uvReady = false;
   let sjReady = false;
+  let uvClientReady = false;
+
+  window.STRATO_PROXY_URLS = window.STRATO_PROXY_URLS || {};
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(
+        `script[data-strato-src="${src}"]`,
+      );
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          resolve(true);
+          return;
+        }
+        existing.addEventListener("load", () => resolve(true), { once: true });
+        existing.addEventListener(
+          "error",
+          () => reject(new Error(`Failed to load ${src}`)),
+          { once: true },
+        );
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = false;
+      script.defer = false;
+      script.dataset.stratoSrc = src;
+      script.addEventListener(
+        "load",
+        () => {
+          script.dataset.loaded = "true";
+          resolve(true);
+        },
+        { once: true },
+      );
+      script.addEventListener(
+        "error",
+        () => reject(new Error(`Failed to load ${src}`)),
+        { once: true },
+      );
+      document.head.appendChild(script);
+    });
+  }
+
+  async function ensureUvClientRuntime() {
+    if (
+      typeof window.Ultraviolet !== "undefined" &&
+      window.Ultraviolet?.codec?.xor
+    ) {
+      window.STRATO_PROXY_URLS.uv = (url) =>
+        `/frog/${window.Ultraviolet.codec.xor.encode(url)}`;
+      return true;
+    }
+
+    try {
+      await loadScript("/frog/uv.bundle.js");
+      if (
+        typeof window.Ultraviolet !== "undefined" &&
+        window.Ultraviolet?.codec?.xor
+      ) {
+        window.STRATO_PROXY_URLS.uv = (url) =>
+          `/frog/${window.Ultraviolet.codec.xor.encode(url)}`;
+        return true;
+      }
+    } catch (err) {
+      transportWarn("[STRATO] UV client runtime load failed:", err.message);
+    }
+
+    return false;
+  }
 
   // ── Suppress BareMux infinite retry spam ──
   // Override console.warn/console.error to throttle bare-mux messages (max 3 then mute)
@@ -110,6 +181,8 @@
 
   async function initTransport() {
     try {
+      uvClientReady = await ensureUvClientRuntime();
+
       // ── Step 1: Set up BareMux transport with timeout ──
       if (window.BareMux?.BareMuxConnection) {
         try {
@@ -218,7 +291,7 @@
       }
 
       // ── Step 4: Check if at least one engine is ready ──
-      if (!uvReady && !sjReady) {
+      if (!(uvReady && uvClientReady) && !sjReady) {
         console.error("[STRATO] No proxy engine is available");
         // Don't show blocking error — app can still function for games, chat, AI
         // Proxy just won't work
@@ -226,9 +299,14 @@
 
       // ── Step 5: Emit proxy-ready event (ALWAYS, even if engines failed) ──
       const detail = {
-        uv: uvReady,
-        scramjet: sjReady,
+        uv: uvReady && uvClientReady,
+        scramjet: false,
+        workers: {
+          uv: uvReady,
+          scramjet: sjReady,
+        },
       };
+      window.STRATO_PROXY_ENGINES = detail;
       window.dispatchEvent(new CustomEvent("proxy-ready", { detail }));
       transportLog("[STRATO] Proxy ready:", detail);
     } catch (err) {
@@ -236,7 +314,11 @@
       // Still emit proxy-ready so the app doesn't hang on the splash screen
       window.dispatchEvent(
         new CustomEvent("proxy-ready", {
-          detail: { uv: false, scramjet: false },
+          detail: {
+            uv: false,
+            scramjet: false,
+            workers: { uv: false, scramjet: false },
+          },
         }),
       );
     }

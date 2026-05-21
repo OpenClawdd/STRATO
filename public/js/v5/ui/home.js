@@ -67,7 +67,14 @@ function bindCards(container, controller) {
   });
 }
 
-function renderCards(id, list, emptyText, controller, variant = "") {
+function renderCards(
+  id,
+  list,
+  emptyText,
+  controller,
+  variant = "",
+  snapshot = {},
+) {
   const container = document.getElementById(id);
   if (!container) return;
   const section = container.closest(".hideout-section");
@@ -77,7 +84,9 @@ function renderCards(id, list, emptyText, controller, variant = "") {
     return;
   }
   if (section) section.classList.remove("hidden");
-  container.innerHTML = list.map((game) => card(game, variant)).join("");
+  container.innerHTML = list
+    .map((game) => card(game, variant, snapshot))
+    .join("");
   bindCards(container, controller);
 }
 
@@ -95,12 +104,12 @@ function shortDate(timestamp) {
   }
 }
 
-function renderHeroStats() {
-  const playable = playableCatalog();
+function renderHeroStats(renderState) {
+  const playable = renderState.playable;
   const els = {
     "home-live-games": playable.length,
-    "home-live-picks": dailyPicks().length,
-    "home-live-moods": moodClusters().length,
+    "home-live-picks": renderState.picks.length,
+    "home-live-moods": renderState.clusters.length,
   };
   Object.entries(els).forEach(([id, val]) => {
     const el = document.getElementById(id);
@@ -122,8 +131,8 @@ function renderHeroStats() {
     }
   }
 
-  const recent = readJson(keys.recent, []);
-  const lastPlayed = readJson(keys.lastPlayed, {});
+  const recent = renderState.recentIds;
+  const lastPlayed = renderState.lastPlayed;
   const last = recent[0] ? findGame(recent[0]) : null;
   const lastAction = document.getElementById("home-last-action");
   const resumeBtn = document.getElementById("resume-last");
@@ -143,7 +152,7 @@ function renderHeroStats() {
   }
 }
 
-function renderPulse() {
+function renderPulse(renderState) {
   const pulse = document.getElementById("signal-health");
   if (!pulse) return;
   const stats = state.games.reduce((acc, game) => {
@@ -151,7 +160,7 @@ function renderPulse() {
     acc[status] = (acc[status] || 0) + 1;
     return acc;
   }, {});
-  const playable = playableCatalog().length;
+  const playable = renderState.playable.length;
   const directRoutes = (stats.local || 0) + (stats.external || 0);
   pulse.innerHTML = [
     ["Launchable", playable],
@@ -166,14 +175,14 @@ function renderPulse() {
     .join("");
 }
 
-function renderMoods(controller) {
+function renderMoods(controller, renderState) {
   const section = document.getElementById("home-moods-section");
   const container = document.getElementById("home-moods");
   const quick = document.getElementById("home-filter-row");
-  const clusters = moodClusters();
+  const clusters = renderState.clusters;
   section?.classList.toggle("hidden", clusters.length < 2);
   const buttons = [
-    `<button class="mood-chip ${state.activeMood === "all" ? "active" : ""}" data-mood="all" type="button">All <span>${playableCatalog().length}</span></button>`,
+    `<button class="mood-chip ${state.activeMood === "all" ? "active" : ""}" data-mood="all" type="button">All <span>${renderState.playable.length}</span></button>`,
   ]
     .concat(
       clusters.map(
@@ -201,8 +210,8 @@ function renderMoods(controller) {
   });
 }
 
-function renderSearchResult(game, index) {
-  const favorite = readJson(keys.favorites, []).includes(game.id);
+function renderSearchResult(game, index, favorites) {
+  const favorite = favorites.has(game.id);
   const tags = tagsOf(game).slice(0, 3).join(" / ");
   return `<article class="search-result ${index === state.searchIndex ? "active" : ""}" data-game-id="${escapeHtml(game.id)}" aria-selected="${index === state.searchIndex ? "true" : "false"}" tabindex="0">
     <img src="${escapeHtml(thumb(game))}" data-fallback-src="${escapeHtml(fallbackThumb(game))}" loading="lazy" alt="">
@@ -219,51 +228,85 @@ function renderSearchResult(game, index) {
 export function createHomeController() {
   const controller = {
     render() {
-      const list = visibleCatalog();
-      const favorites = readJson(keys.favorites, [])
-        .map(findGame)
-        .filter((game) => game && list.includes(game))
-        .slice(0, 6);
-      const recent = readJson(keys.recent, [])
-        .map(findGame)
-        .filter((game) => game && list.includes(game))
-        .slice(0, 6);
+      const favoritesList = readJson(keys.favorites, []);
+      const favoritesSet = new Set(favoritesList);
+      const recentIds = readJson(keys.recent, []);
       const counts = readJson(keys.playCounts, {});
+      const lastPlayed = readJson(keys.lastPlayed, {});
+      const playable = playableCatalog();
+      const visible = visibleCatalog();
+      const visibleSet = new Set(visible);
+      const picks = dailyPicks();
+      const clusters = moodClusters();
+      const cardSnapshot = {
+        favorites: favoritesSet,
+        playCounts: counts,
+        lastPlayed,
+      };
+      const renderState = {
+        playable,
+        picks,
+        clusters,
+        recentIds,
+        lastPlayed,
+      };
+      const favorites = favoritesList
+        .map(findGame)
+        .filter((game) => game && visibleSet.has(game))
+        .slice(0, 6);
+      const recent = recentIds
+        .map(findGame)
+        .filter((game) => game && visibleSet.has(game))
+        .slice(0, 6);
       const most = Object.entries(counts)
         .map(([id, count]) => ({
           game: findGame(id),
           count: Number(count) || 0,
         }))
-        .filter(({ game, count }) => game && count > 0 && list.includes(game))
+        .filter(({ game, count }) => game && count > 0 && visibleSet.has(game))
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
       const allGames = promotableCatalog()
-        .filter((game) => state.activeMood === "all" || list.includes(game))
+        .filter((game) => state.activeMood === "all" || visibleSet.has(game))
         .slice(0, 12);
 
-      renderMoods(controller);
+      renderMoods(controller, renderState);
 
       // 1. Daily Picks
-      renderCards("daily-picks", dailyPicks(), "", controller, "featured");
+      renderCards(
+        "daily-picks",
+        picks,
+        "",
+        controller,
+        "featured",
+        cardSnapshot,
+      );
 
       // 2. Continue Playing (Recent)
       const recentSection = document.getElementById("home-recent-section");
       if (recentSection)
         recentSection.classList.toggle("hidden", recent.length === 0);
-      renderCards("home-recent", recent, "", controller);
+      renderCards("home-recent", recent, "", controller, "", cardSnapshot);
 
       // 3. Your Reliable Hits (Most Played)
       const mostSection = document.getElementById("home-shelf-section");
       if (mostSection)
         mostSection.classList.toggle("hidden", most.length === 0);
-      renderCards("home-shelf", most, "", controller);
+      renderCards("home-shelf", most, "", controller, "", cardSnapshot);
 
       // 4. Saved on Shelf (Favorites)
       const favSection = document.getElementById("home-favorites-section");
       if (favSection)
         favSection.classList.toggle("hidden", favorites.length === 0);
-      renderCards("home-favorites", favorites, "", controller);
+      renderCards(
+        "home-favorites",
+        favorites,
+        "",
+        controller,
+        "",
+        cardSnapshot,
+      );
 
       // 5. Verified Universe (All / Filtered)
       renderCards(
@@ -272,10 +315,11 @@ export function createHomeController() {
         "No verified games found in this quadrant.",
         controller,
         "shelf",
+        cardSnapshot,
       );
 
-      renderPulse();
-      renderHeroStats();
+      renderPulse(renderState);
+      renderHeroStats(renderState);
       controller.search(document.getElementById("home-search")?.value || "");
     },
 
@@ -306,7 +350,8 @@ export function createHomeController() {
         0,
         Math.min(state.searchIndex, results.length - 1),
       );
-      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"} · Enter launches, click opens details</div>${results.map(renderSearchResult).join("")}`;
+      const favorites = new Set(readJson(keys.favorites, []));
+      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"} · Enter launches, click opens details</div>${results.map((game, index) => renderSearchResult(game, index, favorites)).join("")}`;
       bindCards(container, controller);
     },
 

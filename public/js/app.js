@@ -97,6 +97,7 @@
     aiMessages: [],
     aiOnline: false,
     proxyReady: false,
+    proxyEngines: { uv: false, scramjet: false },
     recentlyPlayed: readStorageJson("strato-recent", []),
     changingPanicKey: false,
     gamesPlayed: parseInt(localStorage.getItem("strato-gamesPlayed") || "0"),
@@ -541,7 +542,11 @@
       }
     }
     const targetEngine = engine || state.currentEngine;
+    const helpers = window.STRATO_PROXY_URLS || {};
     if (targetEngine === "uv") {
+      if (typeof helpers.uv === "function") {
+        return helpers.uv(url);
+      }
       if (
         typeof Ultraviolet !== "undefined" &&
         Ultraviolet.codec &&
@@ -552,6 +557,9 @@
       // UV not ready yet — return null, caller must wait for strato:transport-ready
       return null;
     } else {
+      if (typeof helpers.scramjet === "function") {
+        return helpers.scramjet(url);
+      }
       if (
         typeof Scramjet !== "undefined" &&
         Scramjet.codec &&
@@ -561,6 +569,16 @@
       }
       return null;
     }
+  }
+
+  function isProxyEngineAvailable(engine) {
+    return !!state.proxyEngines?.[engine];
+  }
+
+  function alternateProxyEngine(engine = state.currentEngine) {
+    return ["uv", "scramjet"].find(
+      (candidate) => candidate !== engine && isProxyEngineAvailable(candidate),
+    );
   }
 
   function setEngine(engine) {
@@ -640,6 +658,12 @@
     const proxyUrl = getProxyUrl(url, targetEngine);
     const meta = launchMeta || launchMetaFor(null, url);
     if (!proxyUrl) {
+      const fallbackEngine = alternateProxyEngine(targetEngine);
+      if (fallbackEngine) {
+        setEngine(fallbackEngine);
+        navigateProxy(url, fallbackEngine, meta, attempt);
+        return;
+      }
       if (attempt === 0) {
         switchView("browser");
         currentExternalLaunch = meta.external ? meta : null;
@@ -1684,8 +1708,7 @@
       timestamp: new Date().toISOString(),
     };
     const traceText = JSON.stringify(trace, null, 2);
-    const hasAlternateEngine =
-      state.currentEngine === "uv" || state.currentEngine === "scramjet";
+    const hasAlternateEngine = !!alternateProxyEngine();
     const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
     const canOpenSource = game && /^https?:\/\//i.test(String(game.url || ""));
     const overlay = document.createElement("div");
@@ -1729,11 +1752,15 @@
         navigator.clipboard?.writeText(traceText);
         showToast("Trace copied", "accent");
       } else if (action === "alternate") {
-        const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
-        setEngine(otherEngine);
+        const nextEngine = alternateProxyEngine();
+        if (!nextEngine) {
+          showToast("No alternate proxy engine is available", "error");
+          return;
+        }
+        setEngine(nextEngine);
         closeLaunchFailure();
         if (game && game.tier !== 1 && game.tier !== 2)
-          navigateProxy(game.url, otherEngine);
+          navigateProxy(game.url, nextEngine);
         else if (game) launchGame(game.id, { retry: true });
       } else if (action === "reset-sw") {
         navigator.serviceWorker
@@ -3956,7 +3983,16 @@
       await new Promise((resolve) => {
         const onReady = (e) => {
           window.removeEventListener("proxy-ready", onReady);
-          state.proxyReady = true;
+          state.proxyEngines = {
+            uv: !!e.detail?.uv,
+            scramjet: !!e.detail?.scramjet,
+          };
+          state.proxyReady =
+            state.proxyEngines.uv || state.proxyEngines.scramjet;
+          if (!isProxyEngineAvailable(state.currentEngine)) {
+            const fallbackEngine = alternateProxyEngine(state.currentEngine);
+            if (fallbackEngine) setEngine(fallbackEngine);
+          }
           // Update splash engine indicators
           if (e.detail) {
             if (uvDotEl)

@@ -14,8 +14,19 @@ const localChecks = [
     paths: ["public/frog/sw.js", "frog/sw.js"],
   },
   {
+    name: "Ultraviolet client bundle",
+    paths: ["public/frog/uv.bundle.js", "frog/uv.bundle.js"],
+  },
+  {
     name: "Scramjet module service worker",
     paths: ["public/scramjet/sw.js", "scramjet/sw.js"],
+  },
+  {
+    name: "Scramjet client bundle",
+    paths: [
+      "public/scramjet/scramjet.bundle.js",
+      "scramjet/scramjet.bundle.js",
+    ],
   },
   {
     name: "Scramjet classic fallback",
@@ -23,7 +34,12 @@ const localChecks = [
   },
   {
     name: "Epoxy transport assets",
-    paths: ["public/epoxy/index.mjs", "public/epoxy/index.js", "epoxy/index.mjs", "epoxy/index.js"],
+    paths: [
+      "public/epoxy/index.mjs",
+      "public/epoxy/index.js",
+      "epoxy/index.mjs",
+      "epoxy/index.js",
+    ],
   },
   {
     name: "Games catalog",
@@ -45,16 +61,30 @@ for (const check of localChecks) {
   }
 }
 
-async function httpCheck(name, path) {
+async function httpCheck(name, path, { expectJavascript = false } = {}) {
   const url = `${BASE}${path}`;
   try {
     const started = Date.now();
     const res = await fetch(url);
     const ms = Date.now() - started;
+    const contentType = res.headers.get("content-type") || "";
+    const bodyPreview = expectJavascript
+      ? (await res.text()).slice(0, 160).toLowerCase()
+      : "";
 
     if (!res.ok) {
       failed++;
       console.log(`❌ ${name}: HTTP ${res.status} at ${path}`);
+    } else if (
+      expectJavascript &&
+      (!/javascript|ecmascript/i.test(contentType) ||
+        bodyPreview.includes("<!doctype html") ||
+        bodyPreview.includes("<html"))
+    ) {
+      failed++;
+      console.log(
+        `❌ ${name}: expected JavaScript, got ${contentType || "unknown content type"} at ${path}`,
+      );
     } else {
       console.log(`✅ ${name}: HTTP ${res.status} in ${ms}ms`);
     }
@@ -67,9 +97,25 @@ async function httpCheck(name, path) {
 console.log("\n🌐 STRATO live route check");
 await httpCheck("Home", "/");
 await httpCheck("Games catalog route", "/assets/games.json");
-await httpCheck("UV config route", "/frog/uv.config.js");
-await httpCheck("UV service worker route", "/frog/sw.js");
-await httpCheck("Scramjet service worker route", "/scramjet/sw.js");
+await httpCheck("UV config route", "/frog/uv.config.js", {
+  expectJavascript: true,
+});
+await httpCheck("UV client bundle route", "/frog/uv.bundle.js", {
+  expectJavascript: true,
+});
+await httpCheck("UV service worker route", "/frog/sw.js", {
+  expectJavascript: true,
+});
+await httpCheck("Scramjet service worker route", "/scramjet/sw.js", {
+  expectJavascript: true,
+});
+await httpCheck(
+  "Scramjet client bundle route",
+  "/scramjet/scramjet.bundle.js",
+  {
+    expectJavascript: true,
+  },
+);
 
 if (failed > 0) {
   console.log(`\n🚨 STRATO signal weak: ${failed} issue(s).`);

@@ -73,6 +73,7 @@ describe("v5.03 frontend polish", () => {
     expect(html).not.toContain("Launch OS");
     expect(html).toContain("home-all-games");
     expect(html).toContain("data-focus-home-search");
+    expect(html).toMatch(/<\/head>\s*<body/);
   });
 
   it("renders local play metadata on cards", () => {

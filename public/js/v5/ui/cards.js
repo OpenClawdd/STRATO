@@ -65,20 +65,26 @@ export function statusLabel(game) {
   return labels[health(game).status] || "";
 }
 
-function localMeta(game) {
-  const count = Number(readJson(keys.playCounts, {})[game.id] || 0);
-  const last = readJson(keys.lastPlayed, {})[game.id];
+function localMeta(game, snapshot = {}) {
+  const count = Number(
+    (snapshot.playCounts || readJson(keys.playCounts, {}))[game.id] || 0,
+  );
+  const last = (snapshot.lastPlayed || readJson(keys.lastPlayed, {}))[game.id];
   if (count > 0) return `${count} launch${count === 1 ? "" : "es"}`;
   if (last) return "Seen before";
   return "Ready";
 }
 
-export function card(game, variant = "") {
-  const favorite = readJson(keys.favorites, []).includes(game.id);
+export function card(game, variant = "", snapshot = {}) {
+  const favorites =
+    snapshot.favorites instanceof Set
+      ? snapshot.favorites
+      : new Set(readJson(keys.favorites, []));
+  const favorite = favorites.has(game.id);
   const category = categoryOf(game);
   const isVerified =
     game.reliability === "green" || game.reliability === "yellow";
-  const meta = localMeta(game);
+  const meta = localMeta(game, snapshot);
 
   const provider = game.source || game.provider || "";
   let providerBadge = "";
