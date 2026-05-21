@@ -70,6 +70,9 @@ describe('Auth Middleware', () => {
       expect(res.status).toBe(200);
       expect(res.text).toContain('csrf_token');
       expect(res.text).toContain('STRATO');
+      expect(res.text).toContain('class="login-brand"');
+      expect(res.text).toContain('class="login-orbit"');
+      expect(res.text).toContain('name="username"');
     });
 
     it('should redirect to / if already authenticated', async () => {
