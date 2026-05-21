@@ -35,6 +35,37 @@ export function urlKind(game) {
   return "unsupported";
 }
 
+export function hasProxyProof(game) {
+  if (!game || typeof game !== "object") return false;
+  if (game.proxyVerified === true || game.proxy_verified === true) return true;
+  if (game.proxyProof?.verified === true) return true;
+
+  const status = String(
+    game.proxyStatus ||
+      game.proxy_status ||
+      game.proxyProof?.status ||
+      game.proxyProof?.kind ||
+      "",
+  )
+    .trim()
+    .toLowerCase();
+  if (
+    status === "verified" ||
+    status === "ok" ||
+    status === "proxy_verified" ||
+    status === "remote_proxy_verified"
+  ) {
+    return true;
+  }
+
+  return Boolean(
+    game.proxyVerifiedAt ||
+    game.proxy_verified_at ||
+    game.proxyProof?.checkedAt ||
+    game.proxyProof?.verifiedAt,
+  );
+}
+
 export function launchability(game, context = {}) {
   if (!game || !game.id)
     return {
@@ -80,6 +111,16 @@ export function launchability(game, context = {}) {
     };
   }
 
+  // External games need browser/proxy proof before entering default launch surfaces.
+  if (kind === "external" && !hasProxyProof(game)) {
+    return {
+      status: "remote-proxy-unverified",
+      reason: "Needs proxy proof",
+      kind,
+      launchable: false,
+    };
+  }
+
   if (!game.thumbnail || isPlaceholder(game.thumbnail))
     return {
       status: "fallback-art",
@@ -88,7 +129,7 @@ export function launchability(game, context = {}) {
       launchable: true,
     };
   return {
-    status: kind === "local" ? "local" : "external",
+    status: kind === "local" ? "local" : "remote-proxy-verified",
     reason: "Playable",
     kind,
     launchable: true,

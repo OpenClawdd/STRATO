@@ -60,6 +60,7 @@ export function statusLabel(game) {
     "failed-locally": "Launch paused",
     "missing-url": "Missing URL",
     "needs-config": "Needs config",
+    "remote-proxy-unverified": "Needs proxy proof",
     invalid: "Unavailable",
   };
   return labels[health(game).status] || "";
@@ -82,8 +83,10 @@ export function card(game, variant = "", snapshot = {}) {
       : new Set(readJson(keys.favorites, []));
   const favorite = favorites.has(game.id);
   const category = categoryOf(game);
+  const gameHealth = health(game);
   const isVerified =
-    game.reliability === "green" || game.reliability === "yellow";
+    game.reliability === "green" ||
+    gameHealth.status === "remote-proxy-verified";
   const meta = localMeta(game, snapshot);
 
   const provider = game.source || game.provider || "";

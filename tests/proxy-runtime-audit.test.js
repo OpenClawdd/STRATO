@@ -29,11 +29,13 @@ describe("proxy runtime audit", () => {
 
   it("fails proxy smoke when active wrapper launch candidates return", () => {
     const content = fs.readFileSync("scripts/check-proxy.mjs", "utf8");
-    expect(content).toContain("remote_wrapper_unverified");
-    expect(content).toContain("remote_proxy_internal_error");
+    expect(content).toContain("remote_proxy_unverified");
+    expect(content).toContain("remote_proxy_verified");
+    expect(content).toContain("remote_wrapper_quarantined");
     expect(content).toContain("Active wrapper remote launch candidates");
     expect(content).toContain("frogiee_iframe_wrapper");
     expect(content).toContain("adfree_game_wrapper");
+    expect(content).toContain("proxy-proof-queue.json");
   });
 
   it("contains the wrapper resolver and UV error bridge", () => {

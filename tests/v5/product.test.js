@@ -11,6 +11,8 @@ const catalog = [
   { id: 'space-run', name: 'Space Run', category: 'action', tags: ['skill', 'runner'], description: 'Fast reflex arcade run', url: '/games/space-run/index.html', thumbnail: '/assets/space.webp', reliability: 'green' },
   { id: 'speed-racer', name: 'Speed Racer', category: 'racing', tags: ['skill', 'cars'], description: 'Drive fast', url: '/games/speed/index.html', thumbnail: '', reliability: 'green' },
   { id: 'proxy-placeholder', name: 'Proxy Placeholder', category: 'proxies', tags: ['proxy'], description: 'Not a game', url: '${PROXY_URL}', reliability: 'yellow', config_required: true },
+  { id: 'remote-unverified', name: 'Harbor Candidate', category: 'arcade', tags: ['remote'], description: 'Needs proxy proof', url: 'https://remote.example/unverified', reliability: 'yellow' },
+  { id: 'remote-verified', name: 'Gateway Confirmed', category: 'arcade', tags: ['remote'], description: 'Transport proven', url: 'https://remote.example/verified', reliability: 'yellow', proxyVerified: true },
   { id: 'missing', name: 'Missing URL', category: 'arcade', tags: ['broken'], description: 'Broken entry', url: '', reliability: 'green' },
 ];
 
@@ -34,13 +36,16 @@ describe('v5 launchability and catalog gating', () => {
   it('classifies placeholder and missing URLs as not launchable', () => {
     expect(isPlaceholder('${PROXY_URL}')).toBe(true);
     expect(launchability(catalog[3]).launchable).toBe(false);
-    expect(launchability(catalog[4]).status).toBe('missing-url');
+    expect(launchability(catalog[4]).status).toBe('remote-proxy-unverified');
+    expect(launchability(catalog[6]).status).toBe('missing-url');
   });
 
   it('keeps proxy/config entries out of playable catalog surfaces', () => {
     const ids = playableCatalog().map((game) => game.id);
     expect(ids).toContain('2048');
     expect(ids).toContain('speed-racer');
+    expect(ids).toContain('remote-verified');
+    expect(ids).not.toContain('remote-unverified');
     expect(ids).not.toContain('proxy-placeholder');
     expect(ids).not.toContain('missing');
   });

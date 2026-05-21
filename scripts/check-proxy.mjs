@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 const BASE = process.env.STRATO_BASE || "http://localhost:8080";
 const gamesPath = "public/assets/games.json";
+const reportsDir = ".strato-reports";
 
 const existsAny = (paths) => paths.some((p) => fs.existsSync(p));
 
@@ -129,6 +130,35 @@ function wrapperKind(url = "") {
   return "";
 }
 
+function hasProxyProof(game) {
+  if (!game || typeof game !== "object") return false;
+  if (game.proxyVerified === true || game.proxy_verified === true) return true;
+  if (game.proxyProof?.verified === true) return true;
+  const status = String(
+    game.proxyStatus ||
+      game.proxy_status ||
+      game.proxyProof?.status ||
+      game.proxyProof?.kind ||
+      "",
+  )
+    .trim()
+    .toLowerCase();
+  if (
+    status === "verified" ||
+    status === "ok" ||
+    status === "proxy_verified" ||
+    status === "remote_proxy_verified"
+  ) {
+    return true;
+  }
+  return Boolean(
+    game.proxyVerifiedAt ||
+      game.proxy_verified_at ||
+      game.proxyProof?.checkedAt ||
+      game.proxyProof?.verifiedAt,
+  );
+}
+
 async function routeOk(path) {
   try {
     const res = await fetch(`${BASE}${path}`, {
@@ -144,15 +174,16 @@ async function routeOk(path) {
 async function proxySmokeReport() {
   const games = loadGames();
   const report = {
-    local_ok: 0,
+    local_verified: 0,
     local_failed: 0,
-    remote_proxy_ok: 0,
-    remote_proxy_internal_error: 0,
-    remote_wrapper_unverified: 0,
-    remote_direct_unverified: 0,
-    quarantined: 0,
+    remote_proxy_verified: 0,
+    remote_proxy_unverified: 0,
+    remote_wrapper_quarantined: 0,
+    red_quarantined: 0,
   };
   const examples = [];
+  const queue = [];
+  let activeWrapperCount = 0;
 
   for (const game of games) {
     const reliability = game.reliability || "";
@@ -160,12 +191,13 @@ async function proxySmokeReport() {
     const wrapped = wrapperKind(url);
 
     if (reliability === "red") {
-      report.quarantined += 1;
+      report.red_quarantined += 1;
+      if (wrapped) report.remote_wrapper_quarantined += 1;
       continue;
     }
 
     if (url.startsWith("/")) {
-      if (await routeOk(url)) report.local_ok += 1;
+      if (await routeOk(url)) report.local_verified += 1;
       else {
         report.local_failed += 1;
         examples.push(`${game.id}: local route failed (${url})`);
@@ -174,17 +206,51 @@ async function proxySmokeReport() {
     }
 
     if (wrapped) {
-      report.remote_wrapper_unverified += 1;
-      report.remote_proxy_internal_error += 1;
+      activeWrapperCount += 1;
       examples.push(`${game.id}: active ${wrapped} (${url})`);
       continue;
     }
 
-    // HTTP smoke cannot prove a browser service-worker proxy render.
-    report.remote_direct_unverified += 1;
+    if (hasProxyProof(game)) {
+      report.remote_proxy_verified += 1;
+      continue;
+    }
+
+    // HTTP smoke cannot prove browser proxy render; queue for manual proof.
+    report.remote_proxy_unverified += 1;
+    queue.push({
+      id: game.id || "",
+      name: game.name || game.title || "",
+      reliability,
+      url,
+      source: game.source || game.provider || "",
+      reason: "source_ok_proxy_unverified",
+    });
   }
 
-  return { report, examples };
+  return { report, examples, queue, activeWrapperCount };
+}
+
+function writeProxyProofQueue(queue = []) {
+  fs.mkdirSync(reportsDir, { recursive: true });
+  const jsonPath = `${reportsDir}/proxy-proof-queue.json`;
+  const csvPath = `${reportsDir}/proxy-proof-queue.csv`;
+  fs.writeFileSync(jsonPath, `${JSON.stringify(queue, null, 2)}\n`);
+  const csvHeader = "id,name,reliability,source,url,reason";
+  const csvRows = queue.map((item) =>
+    [
+      item.id,
+      item.name,
+      item.reliability,
+      item.source,
+      item.url,
+      item.reason,
+    ]
+      .map((value) => `"${String(value || "").replaceAll('"', '""')}"`)
+      .join(","),
+  );
+  fs.writeFileSync(csvPath, `${csvHeader}\n${csvRows.join("\n")}\n`);
+  return { jsonPath, csvPath };
 }
 
 console.log("\n🌐 STRATO live route check");
@@ -251,11 +317,20 @@ try {
 }
 
 console.log("\n🎮 Game-first proxy smoke report");
-const { report: proxyReport, examples: proxyExamples } =
+const {
+  report: proxyReport,
+  examples: proxyExamples,
+  queue: proxyQueue,
+  activeWrapperCount,
+} =
   await proxySmokeReport();
 for (const [key, value] of Object.entries(proxyReport)) {
   console.log(`- ${key}: ${value}`);
 }
+const queuePaths = writeProxyProofQueue(proxyQueue);
+console.log(
+  `- proxy_proof_queue: ${proxyQueue.length} (${queuePaths.jsonPath}, ${queuePaths.csvPath})`,
+);
 if (proxyExamples.length) {
   console.log("\nActive proxy smoke failures:");
   for (const example of proxyExamples.slice(0, 20)) {
@@ -266,8 +341,8 @@ if (proxyReport.local_failed > 0) {
   failed += proxyReport.local_failed;
   console.log("❌ Local green launch routes must answer before release.");
 }
-if (proxyReport.remote_wrapper_unverified > 0) {
-  failed += proxyReport.remote_wrapper_unverified;
+if (activeWrapperCount > 0) {
+  failed += activeWrapperCount;
   console.log(
     "❌ Active wrapper remote launch candidates are not allowed. Quarantine or repair these entries.",
   );

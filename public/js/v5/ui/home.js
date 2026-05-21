@@ -164,10 +164,12 @@ function renderPulse(renderState) {
     return acc;
   }, {});
   const playable = renderState.playable.length;
-  const directRoutes = (stats.local || 0) + (stats.external || 0);
+  const directRoutes =
+    (stats.local || 0) + (stats["remote-proxy-verified"] || 0);
   pulse.innerHTML = [
     ["Launchable", playable],
-    ["Direct routes", directRoutes],
+    ["Proxy-verified", directRoutes],
+    ["Needs proxy proof", stats["remote-proxy-unverified"] || 0],
     ["Fallback art", stats["fallback-art"] || 0],
     ["Paused", stats["failed-locally"] || 0],
   ]

@@ -140,7 +140,14 @@ describe("v5 launch reliability", () => {
 
   it("sets launch bay loading state for external proxy launches", async () => {
     setGames(
-      [{ id: "gamma", name: "Gamma", url: "https://orbit.strato.test/game" }],
+      [
+        {
+          id: "gamma",
+          name: "Gamma",
+          url: "https://orbit.strato.test/game",
+          proxyVerified: true,
+        },
+      ],
       normalizeGame,
     );
     vi.stubGlobal("fetch", vi.fn());
@@ -165,7 +172,14 @@ describe("v5 launch reliability", () => {
 
   it("does not record proxy success without an iframe load signal", async () => {
     setGames(
-      [{ id: "delta", name: "Delta", url: "https://orbit.strato.test/play" }],
+      [
+        {
+          id: "delta",
+          name: "Delta",
+          url: "https://orbit.strato.test/play",
+          proxyVerified: true,
+        },
+      ],
       normalizeGame,
     );
     vi.stubGlobal("fetch", vi.fn());
@@ -180,7 +194,14 @@ describe("v5 launch reliability", () => {
 
   it("records iframe-loaded telemetry when a detectable load signal arrives", async () => {
     setGames(
-      [{ id: "theta", name: "Theta", url: "https://orbit.strato.test/play" }],
+      [
+        {
+          id: "theta",
+          name: "Theta",
+          url: "https://orbit.strato.test/play",
+          proxyVerified: true,
+        },
+      ],
       normalizeGame,
     );
     vi.stubGlobal("fetch", vi.fn());
@@ -195,7 +216,14 @@ describe("v5 launch reliability", () => {
 
   it("classifies blocked or failed iframe signal truthfully", async () => {
     setGames(
-      [{ id: "iota", name: "Iota", url: "https://orbit.strato.test/play" }],
+      [
+        {
+          id: "iota",
+          name: "Iota",
+          url: "https://orbit.strato.test/play",
+          proxyVerified: true,
+        },
+      ],
       normalizeGame,
     );
     vi.stubGlobal("fetch", vi.fn());
@@ -257,7 +285,14 @@ describe("v5 launch reliability", () => {
 
   it("records internal proxy errors with truthful telemetry details", async () => {
     setGames(
-      [{ id: "omega", name: "Omega", url: "https://orbit.strato.test/play" }],
+      [
+        {
+          id: "omega",
+          name: "Omega",
+          url: "https://orbit.strato.test/play",
+          proxyVerified: true,
+        },
+      ],
       normalizeGame,
     );
     vi.stubGlobal("fetch", vi.fn());
@@ -290,6 +325,7 @@ describe("v5 launch reliability", () => {
             id: "lambda",
             name: "Lambda",
             url: "https://orbit.strato.test/play",
+            proxyVerified: true,
           },
         ],
         normalizeGame,
