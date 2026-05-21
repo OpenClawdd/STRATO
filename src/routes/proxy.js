@@ -16,7 +16,7 @@ function escapeHtml(str) {
 router.get("/frog/uv.config.js", (req, res) => {
   res.type("application/javascript");
   res.send(`self.__uv$config = {
-  prefix: '/frog/service/',
+  prefix: '/frog/',
   bare: '/bare/',
   encodeUrl: Ultraviolet.codec.xor.encode,
   decodeUrl: Ultraviolet.codec.xor.decode,
@@ -31,7 +31,7 @@ router.get("/frog/uv.config.js", (req, res) => {
 router.get("/scramjet/config.js", (req, res) => {
   res.type("application/javascript");
   res.send(`self.__scramjet$config = {
-  prefix: '/scramjet/service/',
+  prefix: '/scramjet/',
   bare: '/bare/',
   encodeUrl: Scramjet.codec.xor.encode,
   decodeUrl: Scramjet.codec.xor.decode,

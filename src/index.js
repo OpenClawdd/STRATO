@@ -256,8 +256,8 @@ function stripFrameHeaders(req, res, next) {
   next();
 }
 
-app.use("/frog/service/", stripFrameHeaders);
-app.use("/scramjet/service/", stripFrameHeaders);
+app.use("/frog/", stripFrameHeaders);
+app.use("/scramjet/", stripFrameHeaders);
 
 // ── 12. Routes ──
 // ── Original routes ──

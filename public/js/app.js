@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   STRATO v5.01 — legacy companion runtime
+   STRATO client runtime
    The Ultimate Edition — Client Application
    ══════════════════════════════════════════════════════════ */
 
@@ -540,41 +540,26 @@
         url = "https://" + url;
       }
     }
-    // Use the proper UV/SJ codec — the service workers expect XOR-encoded URLs
-    // NOT encodeURIComponent (which was causing proxy breakage)
     const targetEngine = engine || state.currentEngine;
     if (targetEngine === "uv") {
-      // Ultraviolet uses Ultraviolet.codec.xor.encode at the SW level.
-      // The SW intercepts /frog/service/ prefixed URLs and decodes them.
-      // We just need to pass the raw URL — the SW handles encoding.
-      // The prefix /frog/service/ is defined in uv.config.js
-      try {
-        if (
-          typeof Ultraviolet !== "undefined" &&
-          Ultraviolet.codec &&
-          Ultraviolet.codec.xor
-        ) {
-          return `/frog/service/${Ultraviolet.codec.xor.encode(url)}`;
-        }
-      } catch (e) {
-        /* fallback below */
+      if (
+        typeof Ultraviolet !== "undefined" &&
+        Ultraviolet.codec &&
+        Ultraviolet.codec.xor
+      ) {
+        return `/frog/${Ultraviolet.codec.xor.encode(url)}`;
       }
-      // Fallback: use the config prefix + encodeURIComponent (UV SW can handle both)
-      return `/frog/service/${encodeURIComponent(url)}`;
+      // UV not ready yet — return null, caller must wait for strato:transport-ready
+      return null;
     } else {
-      // Scramjet uses Scramjet.codec.xor.encode
-      try {
-        if (
-          typeof Scramjet !== "undefined" &&
-          Scramjet.codec &&
-          Scramjet.codec.xor
-        ) {
-          return `/scramjet/service/${Scramjet.codec.xor.encode(url)}`;
-        }
-      } catch (e) {
-        /* fallback below */
+      if (
+        typeof Scramjet !== "undefined" &&
+        Scramjet.codec &&
+        Scramjet.codec.xor
+      ) {
+        return `/scramjet/${Scramjet.codec.xor.encode(url)}`;
       }
-      return `/scramjet/service/${encodeURIComponent(url)}`;
+      return null;
     }
   }
 
@@ -627,14 +612,64 @@
   if (settingAutoFallback && state.autoFallback)
     settingAutoFallback.classList.add("on");
 
-  function navigateProxy(url, engine) {
+  let currentExternalLaunch = null;
+
+  function providerLabel(gameOrMeta) {
+    const provider = String(
+      gameOrMeta?.provider || gameOrMeta?.source || "",
+    ).toLowerCase();
+    if (provider === "selenite") return "Selenite";
+    return gameOrMeta?.external ? "External" : "STRATO";
+  }
+
+  function launchMetaFor(game, url) {
+    return {
+      title: game ? getGameName(game) : String(url || "External launch"),
+      url: String(url || game?.url || ""),
+      provider: game?.provider || game?.source || null,
+      reliability: game?.reliability || null,
+      external: /^https?:\/\//i.test(String(url || game?.url || "")),
+      originalUrl: String(game?.url || url || ""),
+      game,
+    };
+  }
+
+  function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
     if (!url) return;
     const targetEngine = engine || state.currentEngine;
     const proxyUrl = getProxyUrl(url, targetEngine);
-    if (!proxyUrl) return;
+    const meta = launchMeta || launchMetaFor(null, url);
+    if (!proxyUrl) {
+      if (attempt === 0) {
+        switchView("browser");
+        currentExternalLaunch = meta.external ? meta : null;
+        const urlInput = document.getElementById("url-input");
+        const iframe = document.getElementById("proxy-iframe");
+        const browserBody = document.querySelector(".browser-body");
+        if (urlInput) urlInput.value = url;
+        if (iframe) {
+          iframe.dataset.launchTitle = meta.title || "";
+          iframe.dataset.launchUrl = meta.url || url;
+          iframe.dataset.launchProvider = meta.provider || "";
+          iframe.dataset.launchExternal = meta.external ? "true" : "false";
+        }
+        browserBody?.classList.add("has-launch", "is-loading");
+      }
+      if (attempt < 20) {
+        setTimeout(() => navigateProxy(url, engine, meta, attempt + 1), 500);
+      } else if (meta.external) {
+        document.querySelector(".browser-body")?.classList.remove("is-loading");
+        showLaunchFailure(meta.game || meta, "proxy engine unavailable");
+      } else {
+        showToast("Proxy engine unavailable", "error");
+      }
+      return;
+    }
 
     switchView("browser");
+    currentExternalLaunch = meta.external ? meta : null;
     const iframe = document.getElementById("proxy-iframe");
+    const browserBody = document.querySelector(".browser-body");
     let shimmer = null;
     try {
       shimmer = document.getElementById("browser-shimmer");
@@ -642,6 +677,13 @@
     const urlInput = document.getElementById("url-input");
     if (urlInput) urlInput.value = url;
     if (shimmer) shimmer.classList.remove("hidden");
+    browserBody?.classList.add("is-loading", "has-launch");
+    if (iframe) {
+      iframe.dataset.launchTitle = meta.title || "";
+      iframe.dataset.launchUrl = meta.url || url;
+      iframe.dataset.launchProvider = meta.provider || "";
+      iframe.dataset.launchExternal = meta.external ? "true" : "false";
+    }
     iframe.src = proxyUrl;
 
     state.pagesLoaded++;
@@ -651,6 +693,14 @@
     updateDailyChallengeProgress("browse");
     logActivity(`Loaded ${url.substring(0, 30)}`, "proxy");
     unlockAchievement("first-proxy");
+
+    const failureTimeout = setTimeout(() => {
+      if (shimmer) shimmer.classList.add("hidden");
+      browserBody?.classList.remove("is-loading");
+      if (meta.external) {
+        showLaunchFailure(meta.game || meta, "external source may block embeds or proxy loading");
+      }
+    }, meta.external ? 10000 : 15000);
 
     if (state.autoFallback) {
       const fallbackTimer = setTimeout(() => {
@@ -665,15 +715,19 @@
       }, 15000);
 
       const onLoad = () => {
+        clearTimeout(failureTimeout);
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
       };
 
       const onError = () => {
+        clearTimeout(failureTimeout);
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
         if (state.autoFallback) {
@@ -686,22 +740,34 @@
             "accent",
           );
         } else {
-          showToast("Failed to load page", "error");
+          showLaunchFailure(meta.game || meta, "failed to load page");
         }
       };
 
       iframe.addEventListener("load", onLoad);
       iframe.addEventListener("error", onError);
     } else {
-      iframe.addEventListener(
-        "load",
-        () => {
-          if (shimmer) shimmer.classList.add("hidden");
-        },
-        { once: true },
-      );
+      const onLoad = () => {
+        clearTimeout(failureTimeout);
+        if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
+        iframe.removeEventListener("load", onLoad);
+        iframe.removeEventListener("error", onError);
+      };
+      const onError = () => {
+        clearTimeout(failureTimeout);
+        if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
+        iframe.removeEventListener("load", onLoad);
+        iframe.removeEventListener("error", onError);
+        showLaunchFailure(meta.game || meta, "failed to load page");
+      };
+      iframe.addEventListener("load", onLoad);
+      iframe.addEventListener("error", onError);
     }
   }
+
+  window.STRATO_NAVIGATE_PROXY = navigateProxy;
 
   function logProxyFailure(engine, url, error) {
     const log = JSON.parse(localStorage.getItem("strato-failureLog") || "[]");
@@ -873,10 +939,10 @@
       };
     }
 
+    if (game.reliability === "red")
+      return { status: "invalid", reason: "needs review" };
     if (!hasUsableThumbnail(game))
       return { status: "thumbnail-fallback", reason: "thumbnail missing" };
-    if (game.reliability === "red")
-      return { status: "playable", reason: "playable" };
     return { status: "ready", reason: "ready" };
   }
 
@@ -892,13 +958,25 @@
     return String(game?.url || "").startsWith("/games/");
   }
 
+  function isExternalSourceGame(game) {
+    const tags = getGameTags(game).map((tag) => tag.toLowerCase());
+    return Boolean(
+      game?.provider ||
+        game?.source ||
+        game?.needsCheck ||
+        game?.needsReview ||
+        tags.includes("external") ||
+        tags.includes("needs-check"),
+    );
+  }
+
   function isPromotableGame(game) {
     if (!isHomeSafeGame(game)) return false;
+    if (!isSelfHostedGame(game)) return false;
+    if (isExternalSourceGame(game) || game.needsReview) return false;
+    if (game.reliability !== "green" && game.tier !== 1) return false;
     const health = getGameHealth(game);
-    return (
-      ["ready", "thumbnail-fallback"].includes(health.status) ||
-      (health.status === "playable" && game.reliability !== "red")
-    );
+    return ["ready", "thumbnail-fallback", "playable"].includes(health.status);
   }
 
   function homeCatalog() {
@@ -977,8 +1055,8 @@
     const container = document.getElementById(containerId);
     if (!container) return;
     if (!games.length) {
-      container.innerHTML = `<div class="home-empty">${emptyHtml}</div>`;
-      bindHomeEmptyActions(container);
+      container.innerHTML = emptyHtml ? `<div class="home-empty">${emptyHtml}</div>` : "";
+      if (emptyHtml) bindHomeEmptyActions(container);
       return;
     }
     container.innerHTML = games.map(renderHomeGameCard).join("");
@@ -1115,31 +1193,29 @@
       surpriseBtn.classList.toggle("hidden", catalog.length === 0);
     }
 
-    renderHomeCards(
-      "daily-picks",
-      selectDailyPicks(catalog),
-      "No launchable Daily Picks yet.",
-    );
+    const dailyPicks = selectDailyPicks(catalog);
+    document
+      .getElementById("daily-picks-section")
+      ?.classList.toggle("hidden", dailyPicks.length === 0);
+    renderHomeCards("daily-picks", dailyPicks, "");
 
     const favorites = state.favorites
       .map((id) => state.games.find((game) => game.id === id))
       .filter((game) => game && isPromotableGame(game))
       .slice(0, 6);
-    renderHomeCards(
-      "home-favorites",
-      favorites,
-      'Launch a game, then star it.<br><button class="glass-btn" type="button" data-home-empty-action="daily">Start here</button>',
-    );
+    document
+      .getElementById("home-favorites-section")
+      ?.classList.toggle("hidden", favorites.length === 0);
+    renderHomeCards("home-favorites", favorites, "");
 
     const recent = state.recentlyPlayed
       .map((id) => state.games.find((game) => game.id === id))
       .filter((game) => game && isPromotableGame(game))
       .slice(0, 6);
-    renderHomeCards(
-      "home-recent",
-      recent,
-      'Nothing played here yet.<br><button class="glass-btn" type="button" data-home-empty-action="surprise">Surprise Me</button>',
-    );
+    document
+      .getElementById("home-recent-section")
+      ?.classList.toggle("hidden", recent.length === 0);
+    renderHomeCards("home-recent", recent, "");
 
     const mostPlayed = Object.entries(state.playCounts)
       .filter(([, count]) => Number(count) > 0)
@@ -1223,59 +1299,61 @@
     }
   }
 
-  function renderGames() {
-    const grid = document.getElementById("games-grid");
-    if (!grid) return;
-    const showUnavailable = (() => {
-      try {
-        return document.getElementById("show-unavailable")?.checked || false;
-      } catch (e) {
-        return false;
-      }
+  function renderGameCardMarkup(game) {
+    const health = getGameHealth(game);
+    const isUnavailable = !isLaunchableStatus(health.status);
+    const isFav = state.favorites.includes(game.id);
+    const rel = game.reliability || "green";
+    const hasPassword = !!game.password && !/^\$\{/.test(game.password);
+    const passwordDisplay = hasPassword ? game.password : "";
+    const proxyTier = game.proxy_tier;
+    const isUnresolved = game.config_required && /^\$\{/.test(game.url);
+    const statusBadge =
+      health.status !== "ready"
+        ? `<span class="home-status-badge">${escapeHtml(gameStatusLabel(health))}</span>`
+        : "";
+    let tierIcon = "";
+    if (proxyTier === "good")
+      tierIcon = '<span class="tier-gold">&#9733;</span>';
+    else if (proxyTier === "recommended")
+      tierIcon = '<span class="tier-purple">&#9734;</span>';
+    else if (game.tier === 1)
+      tierIcon = '<span class="tier-standalone">LOCAL</span>';
+    const sourceBadge = (() => {
+      const url = String(game.url || "");
+      const reliability = String(game.reliability || "").toLowerCase();
+      const provider = String(game.provider || game.source || "").toLowerCase();
+      if (provider === "selenite") return "Selenite";
+      if (game.category === "import-review" || getGameTags(game).includes("captured"))
+        return "Source";
+      if (url.startsWith("/games/")) return "Local";
+      if (reliability === "yellow" || reliability === "red" || health.status !== "ready")
+        return "Needs check";
+      return "External";
     })();
+    return `
+      <div class="game-card glass ${isUnavailable ? "unavailable" : ""} ${isUnresolved ? "config-required" : ""}" data-game-id="${escapeHtml(game.id)}">
+        <div class="game-card-inner">
+          ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ""}
+          <div class="game-card-badges">
+            ${tierIcon}
+            <span class="reliability-dot rel-${escapeHtml(rel)}" title="${escapeHtml(rel)} reliability"></span>
+            ${statusBadge}
+            ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + "</span>" : ""}
+          </div>
+          <span class="game-source-badge ${sourceBadge === "Local" ? "local" : sourceBadge === "External" ? "external" : "review"}">${escapeHtml(sourceBadge)}</span>
+          <button class="fav-btn ${isFav ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? "Remove from favorites" : "Add to favorites"}">${isFav ? "\u2605" : "\u2606"}</button>
+          <img class="game-card-thumb" src="${escapeHtml(thumbnailFor(game))}" alt="${escapeHtml(getGameName(game))}" loading="lazy" data-game-id="${escapeHtml(game.id)}" data-game-url="${escapeHtml(game.url || "")}" data-game-name="${escapeHtml(getGameName(game))}" data-fallback-src="${escapeHtml(fallbackThumbnail(game))}">
+          <div class="game-card-info">
+            <div class="game-card-name">${escapeHtml(getGameName(game))}</div>
+            <div class="game-card-category">${escapeHtml(categoryLabel(game.category))}</div>
+          </div>
+        </div>
+      </div>`;
+  }
 
-    grid.innerHTML = state.filteredGames
-      .map((game) => {
-        const health = getGameHealth(game);
-        const isUnavailable = !isLaunchableStatus(health.status);
-        const isFav = state.favorites.includes(game.id);
-        const rel = game.reliability || "green";
-        const hasPassword = !!game.password && !/^\$\{/.test(game.password);
-        const passwordDisplay = hasPassword ? game.password : "";
-        const proxyTier = game.proxy_tier;
-        const isUnresolved = game.config_required && /^\$\{/.test(game.url);
-        const statusBadge =
-          health.status !== "ready"
-            ? `<span class="home-status-badge">${escapeHtml(gameStatusLabel(health))}</span>`
-            : "";
-        let tierIcon = "";
-        if (proxyTier === "good")
-          tierIcon = '<span class="tier-gold">&#9733;</span>';
-        else if (proxyTier === "recommended")
-          tierIcon = '<span class="tier-purple">&#9734;</span>';
-        else if (game.tier === 1)
-          tierIcon = '<span class="tier-standalone">LOCAL</span>';
-        return `
-          <div class="game-card glass ${isUnavailable ? "unavailable" : ""} ${isUnresolved ? "config-required" : ""}" data-game-id="${escapeHtml(game.id)}">
-            <div class="game-card-inner">
-              ${isUnresolved ? '<div class="config-overlay"><span class="config-lock">&#128274;</span><span class="config-text">Configure in .env</span></div>' : ""}
-              <div class="game-card-badges">
-                ${tierIcon}
-                <span class="reliability-dot rel-${escapeHtml(rel)}" title="${escapeHtml(rel)} reliability"></span>
-                ${statusBadge}
-                ${hasPassword ? '<span class="auth-hint" title="Password: ' + escapeHtml(passwordDisplay) + '">&#128272; ' + escapeHtml(passwordDisplay) + "</span>" : ""}
-              </div>
-              <button class="fav-btn ${isFav ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" title="${isFav ? "Remove from favorites" : "Add to favorites"}">${isFav ? "\u2605" : "\u2606"}</button>
-              <img class="game-card-thumb" src="${escapeHtml(thumbnailFor(game))}" alt="${escapeHtml(getGameName(game))}" loading="lazy" data-game-id="${escapeHtml(game.id)}" data-game-url="${escapeHtml(game.url || "")}" data-game-name="${escapeHtml(getGameName(game))}" data-fallback-src="${escapeHtml(fallbackThumbnail(game))}">
-              <div class="game-card-info">
-                <div class="game-card-name">${escapeHtml(getGameName(game))}</div>
-                <div class="game-card-category">${escapeHtml(categoryLabel(game.category))}</div>
-              </div>
-            </div>
-          </div>`;
-      })
-      .join("");
-
+  function bindGameGridEvents(grid) {
+    if (!grid) return;
     grid.querySelectorAll(".game-card:not(.unavailable)").forEach((card) => {
       card.addEventListener("click", (e) => {
         if (e.target.closest(".fav-btn")) return;
@@ -1289,12 +1367,44 @@
         toggleFavorite(btn.dataset.favId);
       });
     });
+    applyFaviconFallbacks(grid);
+  }
+
+  function renderArcadeRecent() {
+    const section = document.getElementById("arcade-recent-section");
+    const grid = document.getElementById("arcade-recent-grid");
+    if (!section || !grid) return;
+    const recent = state.recentlyPlayed
+      .map((id) => state.games.find((game) => game.id === id))
+      .filter(Boolean)
+      .slice(0, 6);
+    section.classList.toggle("hidden", recent.length === 0);
+    grid.innerHTML = recent.map(renderGameCardMarkup).join("");
+    bindGameGridEvents(grid);
+  }
+
+  function renderGames() {
+    const grid = document.getElementById("games-grid");
+    if (!grid) return;
+    const showUnavailable = (() => {
+      try {
+        return document.getElementById("show-unavailable")?.checked || false;
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    const games = showUnavailable
+      ? state.filteredGames
+      : state.filteredGames.filter((game) =>
+          isLaunchableStatus(getGameHealth(game).status),
+        );
+    grid.innerHTML = games.map(renderGameCardMarkup).join("");
+    bindGameGridEvents(grid);
+    renderArcadeRecent();
 
     // Attach hover prefetch for faster loads
     attachHoverPrefetch();
-
-    // Apply favicon fallback for broken thumbnails
-    applyFaviconFallbacks(grid);
   }
 
   function renderCategoryPills() {
@@ -1492,19 +1602,49 @@
   function showLaunchFailure(game, reason) {
     closeLaunchFailure();
     const title = game ? getGameName(game) : "This launch";
-    const similar = similarGamesFor(game);
+    const isCatalogGame = game && state.games.some((item) => item.id === game.id);
+    const similar = isCatalogGame ? similarGamesFor(game) : [];
+    const source = providerLabel(game);
+    const launchUrl = game ? resolveGameUrl(game) : document.getElementById("url-input")?.value || "";
+    const isExternal = /^https?:\/\//i.test(String(launchUrl || ""));
+    const trace = {
+      title,
+      message: `${title} could not launch`,
+      reason,
+      engine: state.currentEngine,
+      url: launchUrl,
+      provider: game?.provider || game?.source || null,
+      reliability: game?.reliability || null,
+      external: isExternal,
+      timestamp: new Date().toISOString(),
+    };
+    const traceText = JSON.stringify(trace, null, 2);
+    const hasAlternateEngine = state.currentEngine === "uv" || state.currentEngine === "scramjet";
+    const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
+    const canOpenSource = game && /^https?:\/\//i.test(String(game.url || ""));
     const overlay = document.createElement("div");
     overlay.className = "launch-failure-overlay";
     overlay.id = "launch-failure-overlay";
     overlay.innerHTML = `
       <div class="launch-failure-panel" role="dialog" aria-modal="true" aria-labelledby="launch-failure-title">
-        <div class="launch-failure-title" id="launch-failure-title">No signal.</div>
-        <p class="launch-failure-copy">${escapeHtml(title)} could not launch: ${escapeHtml(reason)}.</p>
+        <div class="launch-failure-title" id="launch-failure-title">Launch recovery</div>
+        <p class="launch-failure-copy">${escapeHtml(title)} could not launch.</p>
+        <div class="external-launch-status">
+          <span>Source: ${escapeHtml(source)}</span>
+          <span>Status: ${escapeHtml(isExternal ? "External source may block embeds/proxy" : reason)}</span>
+        </div>
         <div class="home-failure-actions">
-          <button class="glass-btn" type="button" data-failure-action="retry">Retry</button>
-          <button class="glass-btn" type="button" data-failure-action="surprise">Try Surprise Me</button>
+          <button class="glass-btn" type="button" data-failure-action="retry">Retry page</button>
+          ${canOpenSource ? '<button class="glass-btn" type="button" data-failure-action="open-source">Open source link</button>' : ""}
+          <button class="glass-btn" type="button" data-failure-action="copy">Copy trace</button>
+          ${hasAlternateEngine ? '<button class="glass-btn" type="button" data-failure-action="alternate">Try alternate engine</button>' : ""}
+          ${hasServiceWorkerReset ? '<button class="glass-btn" type="button" data-failure-action="reset-sw">Reset SW</button>' : ""}
           <button class="glass-btn" type="button" data-failure-action="home">Back to STRATO</button>
         </div>
+        <details class="launch-failure-details">
+          <summary>Details</summary>
+          <pre class="launch-failure-debug">${escapeHtml(traceText)}</pre>
+        </details>
         ${similar.length ? `<div class="similar-games">${similar.map((item) => `<button class="similar-game-btn" type="button" data-similar-game="${escapeHtml(item.id)}"><span>${escapeHtml(getGameName(item))}</span><span>${escapeHtml(categoryLabel(item.category))}</span></button>`).join("")}</div>` : ""}
       </div>
     `;
@@ -1516,6 +1656,24 @@
       if (action === "retry" && game) {
         closeLaunchFailure();
         launchGame(game.id, { retry: true });
+      } else if (action === "open-source" && game) {
+        const tab = window.open(launchUrl, "_blank", "noopener,noreferrer");
+        if (tab) tab.opener = null;
+      } else if (action === "copy") {
+        navigator.clipboard?.writeText(traceText);
+        showToast("Trace copied", "accent");
+      } else if (action === "alternate") {
+        const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+        setEngine(otherEngine);
+        closeLaunchFailure();
+        if (game && game.tier !== 1 && game.tier !== 2) navigateProxy(game.url, otherEngine);
+        else if (game) launchGame(game.id, { retry: true });
+      } else if (action === "reset-sw") {
+        navigator.serviceWorker
+          ?.getRegistrations()
+          .then((regs) => Promise.all(regs.map((reg) => reg.unregister())))
+          .then(() => showToast("Service workers reset", "accent"))
+          .catch(() => showToast("Service worker reset failed", "error"));
       } else if (action === "surprise") {
         closeLaunchFailure();
         surpriseMe();
@@ -1594,7 +1752,7 @@
 
     try {
       recordGameLaunch(game);
-      if (game.tier === 1 || game.tier === 2) {
+      if (String(gameUrl).startsWith("/") && (game.tier === 1 || game.tier === 2)) {
         switchView("browser");
         const iframe = document.getElementById("proxy-iframe");
         const urlInput = document.getElementById("url-input");
@@ -1615,7 +1773,7 @@
           iframe.src = gameUrl;
         }
       } else {
-        navigateProxy(game.url);
+        navigateProxy(gameUrl, null, launchMetaFor(game, gameUrl));
       }
     } catch (err) {
       markLocalFailure(game.id, "blocked by browser");
@@ -1773,6 +1931,16 @@
         if (!state.favorites.includes(game.id)) return false;
       } else if (activeCategories.has("recent")) {
         if (!state.recentlyPlayed.includes(game.id)) return false;
+      } else if (activeCategories.has("local")) {
+        if (!isSelfHostedGame(game)) return false;
+      } else if (activeCategories.has("external")) {
+        if (isSelfHostedGame(game)) return false;
+      } else if (activeCategories.has("selenite")) {
+        const provider = String(game.provider || game.source || "").toLowerCase();
+        if (provider !== "selenite") return false;
+      } else if (activeCategories.has("needs-check")) {
+        const reliability = String(game.reliability || "").toLowerCase();
+        if (!(game.needsCheck || game.needsReview || reliability === "yellow")) return false;
       } else if (
         !activeCategories.has("all") &&
         !activeCategories.has(game.category)
@@ -2614,6 +2782,7 @@
       const data = await resp.json();
       state.hubSites = data.sites || [];
       state.filteredHubSites = [...state.hubSites];
+      renderHubCategories();
       renderHubSites();
       const countEl = document.getElementById("hub-site-count");
       if (countEl) countEl.textContent = `${state.hubSites.length} sites`;
@@ -2685,6 +2854,84 @@
     });
   }
 
+  function applyHubFilters() {
+    const q = (hubSearchInput?.value || "").toLowerCase().trim();
+    const activeCategory =
+      document.querySelector(".hub-category-btn.active")?.dataset.category ||
+      document.getElementById("hub-category-filter")?.value ||
+      "all";
+    state.filteredHubSites = state.hubSites.filter((site) => {
+      const matchesCategory = hubFilterMatches(activeCategory, site);
+      const haystack = [site.name, site.description, site.category, site.url]
+        .join(" ")
+        .toLowerCase();
+      return matchesCategory && (!q || haystack.includes(q));
+    });
+    renderHubSites();
+  }
+
+  function hubFilterMatches(filter, site) {
+    if (filter === "all") return true;
+    const category = String(site.category || "").toLowerCase();
+    const groups = {
+      arcade: new Set(["arcade", "games", "game-hubs"]),
+      games: new Set(["games", "game-hubs", "arcade"]),
+      proxy: new Set(["proxy", "proxies"]),
+      apps: new Set(["apps", "app", "social", "education"]),
+      media: new Set(["media", "entertainment"]),
+      tools: new Set(["tools", "directories", "directory", "education"]),
+    };
+    return groups[filter]?.has(category) || category === filter;
+  }
+
+  function renderHubCategories() {
+    const fixedLabels = [
+      ["all", "All"],
+      ["arcade", "Arcade"],
+      ["games", "Games"],
+      ["proxy", "Proxy"],
+      ["apps", "Apps"],
+      ["media", "Media"],
+      ["tools", "Tools"],
+    ];
+    const fixed = new Set(fixedLabels.map(([value]) => value));
+    const categories = [
+      ...new Set(state.hubSites.map((site) => site.category).filter(Boolean)),
+    ]
+      .map((cat) => String(cat).toLowerCase())
+      .filter((cat) => !fixed.has(cat))
+      .sort((a, b) => a.localeCompare(b));
+    const labels = [...fixedLabels, ...categories.map((cat) => [cat, cat])];
+    const strip = document.getElementById("hub-categories");
+    if (strip) {
+      strip.innerHTML = labels
+        .map(
+          ([value, label]) =>
+            `<button class="hub-category-btn ${value === "all" ? "active" : ""}" type="button" data-category="${escapeHtml(value)}">${escapeHtml(label)}</button>`,
+        )
+        .join("");
+      strip.querySelectorAll(".hub-category-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          strip
+            .querySelectorAll(".hub-category-btn")
+            .forEach((item) => item.classList.toggle("active", item === btn));
+          const select = document.getElementById("hub-category-filter");
+          if (select) select.value = btn.dataset.category;
+          applyHubFilters();
+        });
+      });
+    }
+    const select = document.getElementById("hub-category-filter");
+    if (select) {
+      select.innerHTML = labels
+        .map(
+          ([value, label]) =>
+            `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`,
+        )
+        .join("");
+    }
+  }
+
   function launchSiteViaProxy(url, iframeSafe) {
     if (iframeSafe) {
       // Load in the browser iframe view
@@ -2704,16 +2951,7 @@
   if (hubSearchInput) {
     hubSearchInput.addEventListener("input", () => {
       clearTimeout(hubSearchDebounce);
-      hubSearchDebounce = setTimeout(() => {
-        const q = hubSearchInput.value.toLowerCase().trim();
-        state.filteredHubSites = state.hubSites.filter(
-          (s) =>
-            s.name.toLowerCase().includes(q) ||
-            s.description.toLowerCase().includes(q) ||
-            s.category.toLowerCase().includes(q),
-        );
-        renderHubSites();
-      }, 200);
+      hubSearchDebounce = setTimeout(applyHubFilters, 120);
     });
   }
 
@@ -2721,24 +2959,10 @@
   const hubCategoryFilter = document.getElementById("hub-category-filter");
   if (hubCategoryFilter) {
     hubCategoryFilter.addEventListener("change", () => {
-      const cat = hubCategoryFilter.value;
-      if (cat === "all") {
-        state.filteredHubSites = [...state.hubSites];
-      } else {
-        state.filteredHubSites = state.hubSites.filter(
-          (s) => s.category === cat,
-        );
-      }
-      // Re-apply search filter
-      const q = hubSearchInput?.value?.toLowerCase().trim();
-      if (q) {
-        state.filteredHubSites = state.filteredHubSites.filter(
-          (s) =>
-            s.name.toLowerCase().includes(q) ||
-            s.description.toLowerCase().includes(q),
-        );
-      }
-      renderHubSites();
+      document.querySelectorAll(".hub-category-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.category === hubCategoryFilter.value);
+      });
+      applyHubFilters();
     });
   }
 
@@ -3582,6 +3806,18 @@
   setTimeout(forceRemoveSplash, 15000);
 
   async function init() {
+    const lp = localStorage.getItem('strato_low_power') === 'true';
+    document.body.classList.toggle('low-power', lp);
+    const lpToggle = document.getElementById('low-power-toggle');
+    if (lpToggle) lpToggle.addEventListener('click', () => {
+      document.body.classList.toggle('low-power');
+      localStorage.setItem('strato_low_power', document.body.classList.contains('low-power'));
+    });
+    const lbInput = document.getElementById('lb-url-input');
+    const lbGoBtn = document.getElementById('lb-go-btn');
+    if (lbGoBtn) lbGoBtn.addEventListener('click', () => { if (lbInput?.value) navigateProxy(lbInput.value); });
+    if (lbInput) lbInput.addEventListener('keydown', e => { if (e.key === 'Enter' && lbInput.value) navigateProxy(lbInput.value); });
+
     const splash = document.getElementById("splash");
     const splashBar = splash?.querySelector(".splash-bar");
     const splashStatus = splash?.querySelector(".splash-status");
@@ -3754,17 +3990,7 @@
       if (homeUsernameEl && username) homeUsernameEl.textContent = username;
     } catch (e) {}
 
-    // Unlock first launch (wrapped — addCoins/addXP errors must not block UI)
-    try {
-      unlockAchievement("first-launch");
-    } catch (e) {
-      console.warn("[STRATO] Achievement unlock error:", e);
-    }
-
-    // Welcome notification
-    try {
-      addNotification("STRATO v5.01 loaded", "info");
-    } catch (e) {}
+    // First-load rewards stay quiet; real launch actions still unlock achievements.
 
     // Fade out splash — ALWAYS runs even if earlier steps had errors
     await new Promise((resolve) => setTimeout(resolve, 400));
