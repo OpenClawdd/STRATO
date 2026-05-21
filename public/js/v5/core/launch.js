@@ -30,9 +30,171 @@ function clearProxyLaunchSignals() {
   setProxyLaunchTelemetry("idle");
 }
 
-function setProxySignal(stage, game, reason = "", { bayStatus } = {}) {
+function readVerifiedLaunchTargets(input) {
+  if (!input) return new Set();
+  if (input instanceof Set) return input;
+  if (Array.isArray(input)) return new Set(input.map((item) => String(item)));
+  if (input instanceof Map) {
+    return new Set(
+      [...input.values()].map((item) => String(item?.effectiveUrl || item)),
+    );
+  }
+  if (typeof input === "object") {
+    return new Set(
+      Object.values(input).map((item) =>
+        String(item?.effectiveUrl || item?.url || item),
+      ),
+    );
+  }
+  return new Set();
+}
+
+function isVerifiedLaunchTarget(
+  candidateUrl,
+  game = null,
+  verifiedTargets = null,
+) {
+  const explicitUrl = String(
+    game?.verifiedLaunchUrl ||
+      game?.verifiedUrl ||
+      game?.launchRepair?.effectiveUrl ||
+      game?.repairUrl ||
+      "",
+  ).trim();
+  if (explicitUrl && explicitUrl === candidateUrl) return true;
+
+  const verified =
+    verifiedTargets ||
+    globalThis.STRATO_VERIFIED_LAUNCH_URLS ||
+    globalThis.STRATO_LAUNCH_REPAIRS ||
+    globalThis.window?.STRATO_VERIFIED_LAUNCH_URLS ||
+    globalThis.window?.STRATO_LAUNCH_REPAIRS;
+  const verifiedSet = readVerifiedLaunchTargets(verified);
+  return verifiedSet.has(candidateUrl);
+}
+
+export function resolveProxyLaunchUrl(
+  rawUrl,
+  game = null,
+  { verifiedTargets = null } = {},
+) {
+  const originalUrl = String(rawUrl || "").trim();
+  const fallback = {
+    originalUrl,
+    effectiveUrl: originalUrl,
+    nestedTargetUrl: "",
+    nestedUrl: "",
+    repaired: false,
+    kind: "",
+    reason: "",
+  };
+
+  if (!originalUrl) return fallback;
+
+  let parsed;
+  try {
+    parsed = new URL(
+      originalUrl,
+      globalThis.location?.href || "http://localhost/",
+    );
+  } catch {
+    return fallback;
+  }
+
+  const isAdfreeWrapper =
+    parsed.hostname === "adfree-sz-games.github.io" &&
+    parsed.pathname === "/games/game.html";
+  if (!isAdfreeWrapper) return fallback;
+
+  const nestedUrl = parsed.searchParams.get("game") || "";
+  if (!/^https?:\/\//i.test(nestedUrl)) return fallback;
+
+  if (!isVerifiedLaunchTarget(nestedUrl, game, verifiedTargets)) {
+    return { ...fallback, nestedTargetUrl: nestedUrl, nestedUrl };
+  }
+
+  return {
+    originalUrl,
+    effectiveUrl: nestedUrl,
+    nestedTargetUrl: nestedUrl,
+    nestedUrl,
+    repaired: true,
+    kind: "wrapper_resolved",
+    reason: "Resolved wrapper to a verified nested target.",
+  };
+}
+
+function normalizeProxyFailureText(reason, detail = {}) {
+  return [
+    detail.kind,
+    reason,
+    detail.detail,
+    detail.sourceUrl,
+    detail.targetUrl,
+  ]
+    .filter(Boolean)
+    .map((value) => String(value))
+    .join("\n")
+    .toLowerCase();
+}
+
+export function classifyProxyFailure(reason = "", detail = {}) {
+  const text = normalizeProxyFailureText(reason, detail);
+  const engine = detail.engine || null;
+  const uvSignal =
+    detail.kind === "uv_internal_error" ||
+    text.includes("ultraviolet v3.2.10") ||
+    text.includes("uv internal error") ||
+    (text.includes("headers is not iterable") && engine === "uv");
+  const internalSignal =
+    detail.kind === "proxy_internal_error" ||
+    text.includes("proxy internal error") ||
+    text.includes("headers is not iterable");
+
+  if (uvSignal) {
+    return {
+      kind: "uv_internal_error",
+      reason:
+        String(reason || detail.reason || "UV internal error").trim() ||
+        "UV internal error",
+      engine: engine || "uv",
+      sourceUrl: detail.sourceUrl || "",
+      targetUrl: detail.targetUrl || "",
+      detail: detail.detail || "",
+    };
+  }
+
+  if (internalSignal) {
+    return {
+      kind: "proxy_internal_error",
+      reason:
+        String(reason || detail.reason || "Proxy internal error").trim() ||
+        "Proxy internal error",
+      engine,
+      sourceUrl: detail.sourceUrl || "",
+      targetUrl: detail.targetUrl || "",
+      detail: detail.detail || "",
+    };
+  }
+
+  return {
+    kind: detail.kind || "proxy_blocked_or_failed",
+    reason: String(reason || detail.reason || "Proxy launch failed").trim(),
+    engine,
+    sourceUrl: detail.sourceUrl || "",
+    targetUrl: detail.targetUrl || "",
+    detail: detail.detail || "",
+  };
+}
+
+function setProxySignal(
+  stage,
+  game,
+  reason = "",
+  { bayStatus, ...details } = {},
+) {
   if (!game?.id) return;
-  setProxyLaunchTelemetry(stage, game.id, reason);
+  setProxyLaunchTelemetry(stage, game.id, reason, details);
   if (bayStatus) setLaunchBay(bayStatus, game.id, reason);
   requestUiRefresh();
 }
@@ -100,6 +262,27 @@ export function reportProxyBlockedOrFailed(
   clearProxyLaunchTimer();
   setProxySignal("blocked_or_failed", game, reason, { bayStatus: "failed" });
   onFail?.(game, reason);
+}
+
+export function reportProxyInternalError(detail = {}) {
+  const game = findGame(detail.gameId || state.proxyLaunchTelemetry.gameId);
+  if (!game?.id) return;
+  if (
+    state.proxyLaunchTelemetry.gameId &&
+    state.proxyLaunchTelemetry.gameId !== game.id
+  ) {
+    return;
+  }
+  clearProxyLaunchTimer();
+  const classified = classifyProxyFailure(detail.reason || "", detail);
+  setProxySignal("blocked_or_failed", game, classified.reason, {
+    bayStatus: "failed",
+    kind: classified.kind,
+    engine: classified.engine,
+    sourceUrl: classified.sourceUrl,
+    targetUrl: classified.targetUrl,
+    detail: classified.detail,
+  });
 }
 
 function setBrowserView() {

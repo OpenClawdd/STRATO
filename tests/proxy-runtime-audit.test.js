@@ -26,4 +26,13 @@ describe("proxy runtime audit", () => {
     expect(content).toContain("/scramjet/scramjet.bundle.js");
     expect(content).toContain("expected JavaScript");
   });
+
+  it("contains the wrapper resolver and UV error bridge", () => {
+    const content = fs.readFileSync("public/js/app.js", "utf8");
+    expect(content).toContain("originalUrl");
+    expect(content).toContain("effectiveUrl");
+    expect(content).toContain("strato-proxy-internal-error");
+    expect(content).toContain("uv_internal_error");
+    expect(content).toContain("Proxy hit an internal error");
+  });
 });

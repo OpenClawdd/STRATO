@@ -94,6 +94,19 @@ async function httpCheck(name, path, { expectJavascript = false } = {}) {
   }
 }
 
+async function fetchText(url) {
+  const started = Date.now();
+  const res = await fetch(url, { redirect: "manual" });
+  const text = await res.text();
+  return {
+    ok: res.ok,
+    status: res.status,
+    contentType: res.headers.get("content-type") || "",
+    body: text,
+    ms: Date.now() - started,
+  };
+}
+
 console.log("\n🌐 STRATO live route check");
 await httpCheck("Home", "/");
 await httpCheck("Games catalog route", "/assets/games.json");
@@ -116,6 +129,42 @@ await httpCheck(
     expectJavascript: true,
   },
 );
+
+console.log("\n🧪 Boxingrandom wrapper smoke");
+try {
+  const wrapperUrl =
+    "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/";
+  const directUrl = "https://tylerpalko.github.io/gamehub/boxingrandom/";
+
+  const wrapper = await fetchText(wrapperUrl);
+  if (!wrapper.ok) {
+    failed++;
+    console.log(`❌ Boxingrandom wrapper page: HTTP ${wrapper.status}`);
+  } else {
+    console.log(`✅ Boxingrandom wrapper page: HTTP ${wrapper.status} in ${wrapper.ms}ms`);
+    if (!wrapper.body.includes(directUrl)) {
+      console.log(
+        "ℹ️ Boxingrandom wrapper page does not surface the nested target in HTML. That is acceptable here because the browser resolver preserves the original wrapper unless a nested target is already verified by metadata or repair reports.",
+      );
+    } else {
+      console.log("ℹ️ Boxingrandom wrapper page references the nested target URL.");
+    }
+  }
+
+  const direct = await fetchText(directUrl);
+  if (!direct.ok) {
+    console.log(
+      `ℹ️ Boxingrandom original direct target remains HTTP ${direct.status}; no verified cleaner URL is available, so STRATO keeps the original wrapper URL and classifies the runtime failure truthfully.`,
+    );
+  } else {
+    console.log(
+      `ℹ️ Boxingrandom original direct target returned HTTP ${direct.status}.`,
+    );
+  }
+} catch (error) {
+  failed++;
+  console.log(`❌ Boxingrandom repair smoke failed: ${error.message}`);
+}
 
 if (failed > 0) {
   console.log(`\n🚨 STRATO signal weak: ${failed} issue(s).`);

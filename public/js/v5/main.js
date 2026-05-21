@@ -4,7 +4,9 @@ import { findGame, nameOf } from "./core/catalog.js";
 import { normalizeGame } from "./core/catalog.js";
 import { dismissHint, isHintDismissed } from "./core/storage.js";
 import {
+  resolveProxyLaunchUrl,
   reportProxyBlockedOrFailed,
+  reportProxyInternalError,
   reportProxyIframeLoaded,
 } from "./core/launch.js";
 import { createHomeController } from "./ui/home.js";
@@ -137,6 +139,10 @@ function bindLaunchBay() {
     reportProxyBlockedOrFailed();
     sync();
   });
+  window.addEventListener("strato-proxy-internal-error", (event) => {
+    reportProxyInternalError(event.detail || {});
+    sync();
+  });
   sync();
 }
 
@@ -144,6 +150,7 @@ export async function initOpenHome() {
   const response = await fetch("/assets/games.json", { cache: "no-store" });
   setGames(await response.json(), normalizeGame);
   const home = createHomeController();
+  window.STRATO_RESOLVE_PROXY_LAUNCH_URL = resolveProxyLaunchUrl;
   bindSettings({ onUpdate: () => home.render() });
   bindNavigation(home);
   bindLaunchBay();

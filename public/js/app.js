@@ -654,7 +654,37 @@
     };
   }
 
-  function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
+  function extractNestedTargetUrl(rawUrl) {
+    try {
+      const parsed = new URL(String(rawUrl || ""), location.href);
+      return parsed.searchParams.get("game") || "";
+    } catch {
+      return "";
+    }
+  }
+
+  function detectProxyInternalError(iframe, engine, sourceUrl) {
+    try {
+      const doc = iframe?.contentDocument;
+      const title = String(doc?.title || "");
+      const bodyText = String(doc?.body?.innerText || "");
+      const haystack = `${title}\n${bodyText}`.toLowerCase();
+      if (!haystack.includes("headers is not iterable")) return null;
+      const detail = bodyText.trim().slice(0, 400);
+      return {
+        kind: engine === "uv" ? "uv_internal_error" : "proxy_internal_error",
+        reason: `UV internal error: ${detail || "headers is not iterable"}`,
+        engine,
+        sourceUrl,
+        targetUrl: extractNestedTargetUrl(sourceUrl) || "",
+        detail,
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  async function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
     if (!url) return;
     let targetEngine = engine || state.currentEngine;
     const navigationKey = `${targetEngine}|${attempt}|${url}`;
@@ -671,12 +701,37 @@
       state.proxyNavigationInProgress = false;
       state.proxyNavigationKey = null;
     };
-    let proxyUrl = getProxyUrl(url, targetEngine);
     const meta = launchMeta || launchMetaFor(null, url);
+    const resolver =
+      typeof window.STRATO_RESOLVE_PROXY_LAUNCH_URL === "function"
+        ? window.STRATO_RESOLVE_PROXY_LAUNCH_URL
+        : async (candidateUrl) => ({
+            originalUrl: String(candidateUrl || ""),
+            effectiveUrl: String(candidateUrl || ""),
+            nestedUrl: "",
+            repaired: false,
+            kind: "",
+            reason: "",
+          });
+    const launchResolution = await resolver(url, meta.game || null);
+    if (state.proxyNavigationKey !== navigationKey) return;
+    const launchUrl = launchResolution.effectiveUrl || url;
+    meta.originalUrl = launchResolution.originalUrl || meta.originalUrl || url;
+    meta.effectiveUrl = launchUrl;
+    meta.resolvedUrl = launchUrl;
+    meta.repairedUrl = launchResolution.repaired ? launchUrl : "";
+    meta.repairKind = launchResolution.kind || "";
+    if (!meta.sourceUrl) meta.sourceUrl = launchResolution.originalUrl || url;
+    if (!meta.targetUrl)
+      meta.targetUrl =
+        launchResolution.nestedTargetUrl ||
+        launchResolution.nestedUrl ||
+        extractNestedTargetUrl(url);
+    let proxyUrl = getProxyUrl(launchUrl, targetEngine);
     if (!proxyUrl) {
       const fallbackEngine = alternateProxyEngine(targetEngine);
       if (fallbackEngine) {
-        const fallbackUrl = getProxyUrl(url, fallbackEngine);
+        const fallbackUrl = getProxyUrl(launchUrl, fallbackEngine);
         if (fallbackUrl) {
           targetEngine = fallbackEngine;
           proxyUrl = fallbackUrl;
@@ -691,10 +746,10 @@
         const urlInput = document.getElementById("url-input");
         const iframe = document.getElementById("proxy-iframe");
         const browserBody = document.querySelector(".browser-body");
-        if (urlInput) urlInput.value = url;
+        if (urlInput) urlInput.value = launchUrl;
         if (iframe) {
           iframe.dataset.launchTitle = meta.title || "";
-          iframe.dataset.launchUrl = meta.url || url;
+          iframe.dataset.launchUrl = meta.resolvedUrl || meta.url || launchUrl;
           iframe.dataset.launchProvider = meta.provider || "";
           iframe.dataset.launchExternal = meta.external ? "true" : "false";
         }
@@ -730,14 +785,17 @@
       shimmer = document.getElementById("browser-shimmer");
     } catch (e) {}
     const urlInput = document.getElementById("url-input");
-    if (urlInput) urlInput.value = url;
+    if (urlInput) urlInput.value = launchUrl;
     if (shimmer) shimmer.classList.remove("hidden");
     browserBody?.classList.add("is-loading", "has-launch");
     if (iframe) {
       iframe.dataset.launchTitle = meta.title || "";
-      iframe.dataset.launchUrl = meta.url || url;
+      iframe.dataset.launchUrl = meta.resolvedUrl || meta.url || url;
       iframe.dataset.launchProvider = meta.provider || "";
       iframe.dataset.launchExternal = meta.external ? "true" : "false";
+      iframe.dataset.launchGameId = meta.game?.id || "";
+      iframe.dataset.launchSourceUrl = meta.sourceUrl || url;
+      iframe.dataset.launchTargetUrl = meta.targetUrl || "";
     }
     iframe.src = proxyUrl;
 
@@ -780,7 +838,7 @@
     updateStats();
     addCoins(2);
     updateDailyChallengeProgress("browse");
-    logActivity(`Loaded ${url.substring(0, 30)}`, "proxy");
+    logActivity(`Loaded ${launchUrl.substring(0, 30)}`, "proxy");
     unlockAchievement("first-proxy");
 
     const failureTimeout = setTimeout(
@@ -817,6 +875,40 @@
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        const internalError = detectProxyInternalError(
+          iframe,
+          targetEngine,
+          meta.sourceUrl || url,
+        );
+        if (internalError) {
+          releaseNavigation();
+          iframe.removeEventListener("load", onLoad);
+          iframe.removeEventListener("error", onError);
+          window.dispatchEvent(
+            new CustomEvent("strato-proxy-internal-error", {
+              detail: {
+                ...internalError,
+                gameId: meta.game?.id || "",
+                originalUrl: meta.originalUrl || url,
+                effectiveUrl: meta.effectiveUrl || launchUrl,
+                nestedTargetUrl: meta.targetUrl || "",
+              },
+            }),
+          );
+          showLaunchFailure(
+            {
+              ...(meta.game || meta),
+              sourceUrl: meta.sourceUrl || url,
+              targetUrl: meta.targetUrl || "",
+              originalUrl: meta.originalUrl || url,
+              effectiveUrl: meta.effectiveUrl || launchUrl,
+              resolvedUrl: meta.resolvedUrl || launchUrl,
+            },
+            internalError.reason,
+            internalError,
+          );
+          return;
+        }
         releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
@@ -856,6 +948,40 @@
         clearTimeout(failureTimeout);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        const internalError = detectProxyInternalError(
+          iframe,
+          targetEngine,
+          meta.sourceUrl || url,
+        );
+        if (internalError) {
+          releaseNavigation();
+          iframe.removeEventListener("load", onLoad);
+          iframe.removeEventListener("error", onError);
+          window.dispatchEvent(
+            new CustomEvent("strato-proxy-internal-error", {
+              detail: {
+                ...internalError,
+                gameId: meta.game?.id || "",
+                originalUrl: meta.originalUrl || url,
+                effectiveUrl: meta.effectiveUrl || launchUrl,
+                nestedTargetUrl: meta.targetUrl || "",
+              },
+            }),
+          );
+          showLaunchFailure(
+            {
+              ...(meta.game || meta),
+              sourceUrl: meta.sourceUrl || url,
+              targetUrl: meta.targetUrl || "",
+              originalUrl: meta.originalUrl || url,
+              effectiveUrl: meta.effectiveUrl || launchUrl,
+              resolvedUrl: meta.resolvedUrl || launchUrl,
+            },
+            internalError.reason,
+            internalError,
+          );
+          return;
+        }
         releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
@@ -1724,7 +1850,7 @@
     document.getElementById("launch-failure-overlay")?.remove();
   }
 
-  function showLaunchFailure(game, reason) {
+  function showLaunchFailure(game, reason, failure = null) {
     closeLaunchFailure();
     const title = game ? getGameName(game) : "This launch";
     const isCatalogGame =
@@ -1732,15 +1858,33 @@
     const similar = isCatalogGame ? similarGamesFor(game) : [];
     const source = providerLabel(game);
     const launchUrl = game
-      ? resolveGameUrl(game)
+      ? game.effectiveUrl || game.resolvedUrl || resolveGameUrl(game)
       : document.getElementById("url-input")?.value || "";
     const isExternal = /^https?:\/\//i.test(String(launchUrl || ""));
+    const originalUrl = game?.originalUrl || game?.sourceUrl || game?.url || "";
+    const effectiveUrl = game?.effectiveUrl || game?.resolvedUrl || launchUrl;
+    const nestedTargetUrl = game?.nestedTargetUrl || game?.targetUrl || "";
+    const failureKind = failure?.kind || "";
+    const failureEngine = failure?.engine || state.currentEngine;
+    const displayStatus = failureKind
+      ? `Proxy hit an internal error (${failureKind}${failureEngine ? `, engine ${failureEngine}` : ""})`
+      : isExternal
+        ? "External source may block embeds/proxy"
+        : reason;
     const trace = {
       title,
       message: `${title} could not launch`,
       reason,
-      engine: state.currentEngine,
+      kind: failureKind || null,
+      engine: failureEngine,
       url: launchUrl,
+      originalUrl,
+      effectiveUrl,
+      resolvedUrl: game?.resolvedUrl || "",
+      resolutionKind: game?.repairKind || "",
+      nestedTargetUrl,
+      targetUrl: nestedTargetUrl,
+      detail: failure?.detail || "",
       provider: game?.provider || game?.source || null,
       reliability: game?.reliability || null,
       external: isExternal,
@@ -1759,7 +1903,7 @@
         <p class="launch-failure-copy">${escapeHtml(title)} could not launch.</p>
         <div class="external-launch-status">
           <span>Source: ${escapeHtml(source)}</span>
-          <span>Status: ${escapeHtml(isExternal ? "External source may block embeds/proxy" : reason)}</span>
+          <span>Status: ${escapeHtml(displayStatus)}</span>
         </div>
         <div class="home-failure-actions">
           <button class="glass-btn" type="button" data-failure-action="retry">Retry page</button>

@@ -1,9 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { normalizeGame } from "../../public/js/v5/core/catalog.js";
 import {
+  classifyProxyFailure,
   launchById,
+  resolveProxyLaunchUrl,
   reportProxyBlockedOrFailed,
   reportProxyIframeLoaded,
+  reportProxyInternalError,
 } from "../../public/js/v5/core/launch.js";
 import { setGames, state } from "../../public/js/v5/core/state.js";
 import { keys, readJson, writeJson } from "../../public/js/v5/core/storage.js";
@@ -54,6 +57,7 @@ function installWindow() {
     setTimeout,
     clearTimeout,
     STRATO_NAVIGATE_PROXY: vi.fn(),
+    dispatchEvent: vi.fn(),
   });
 }
 
@@ -67,6 +71,11 @@ describe("v5 launch reliability", () => {
       stage: "idle",
       gameId: null,
       reason: "",
+      kind: null,
+      engine: null,
+      sourceUrl: "",
+      targetUrl: "",
+      detail: "",
       at: 0,
     };
   });
@@ -202,6 +211,74 @@ describe("v5 launch reliability", () => {
       expect.objectContaining({ id: "iota" }),
       "Iframe error event",
     );
+  });
+
+  it("classifies UV internal proxy errors with source context", () => {
+    const classified = classifyProxyFailure("UV internal error: headers is not iterable", {
+      kind: "uv_internal_error",
+      engine: "uv",
+      sourceUrl:
+        "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+      targetUrl: "https://tylerpalko.github.io/gamehub/boxingrandom/",
+      detail: "headers is not iterable",
+    });
+
+    expect(classified.kind).toBe("uv_internal_error");
+    expect(classified.engine).toBe("uv");
+    expect(classified.sourceUrl).toContain("adfree-sz-games.github.io");
+    expect(classified.targetUrl).toContain("tylerpalko.github.io");
+  });
+
+  it("preserves wrapper URLs when the nested target is not verified", () => {
+    const wrapper =
+      "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/";
+    const resolved = resolveProxyLaunchUrl(wrapper, { id: "boxingrandom" }, { verifiedTargets: [] });
+
+    expect(resolved.originalUrl).toBe(wrapper);
+    expect(resolved.effectiveUrl).toBe(wrapper);
+    expect(resolved.nestedUrl).toBe(
+      "https://tylerpalko.github.io/gamehub/boxingrandom/",
+    );
+    expect(resolved.repaired).toBe(false);
+  });
+
+  it("rewrites wrapper URLs only when the nested target is verified", () => {
+    const wrapper =
+      "https://adfree-sz-games.github.io/games/game.html?game=https://play.example.test/game/";
+    const resolved = resolveProxyLaunchUrl(wrapper, null, {
+      verifiedTargets: ["https://play.example.test/game/"],
+    });
+
+    expect(resolved.originalUrl).toBe(wrapper);
+    expect(resolved.nestedUrl).toBe("https://play.example.test/game/");
+    expect(resolved.effectiveUrl).toBe("https://play.example.test/game/");
+    expect(resolved.repaired).toBe(true);
+  });
+
+  it("records internal proxy errors with truthful telemetry details", async () => {
+    setGames(
+      [{ id: "omega", name: "Omega", url: "https://orbit.strato.test/play" }],
+      normalizeGame,
+    );
+    vi.stubGlobal("fetch", vi.fn());
+
+    await launchById("omega");
+    reportProxyInternalError({
+      gameId: "omega",
+      kind: "uv_internal_error",
+      engine: "uv",
+      reason: "UV internal error: headers is not iterable",
+      sourceUrl:
+        "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+      targetUrl: "https://tylerpalko.github.io/gamehub/boxingrandom/",
+      detail: "headers is not iterable",
+    });
+
+    expect(state.proxyLaunchTelemetry.stage).toBe("blocked_or_failed");
+    expect(state.proxyLaunchTelemetry.kind).toBe("uv_internal_error");
+    expect(state.proxyLaunchTelemetry.engine).toBe("uv");
+    expect(state.launchBay.status).toBe("failed");
+    expect(state.launchBay.reason).toContain("UV internal error");
   });
 
   it("classifies timeout and supports retry recovery telemetry", async () => {
