@@ -118,7 +118,7 @@ export function similarGames(game, limit = 4) {
 
 export function moodClusters() {
   const tally = new Map();
-  playableCatalog().forEach((game) => {
+  promotableCatalog().forEach((game) => {
     [categoryOf(game), ...tagsOf(game)].forEach((raw) => {
       const key = String(raw || "")
         .trim()

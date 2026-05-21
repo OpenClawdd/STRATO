@@ -27,6 +27,26 @@ self.__uv$config = {
 `;
     fs.writeFileSync(path.join(uvDest, 'uv.config.js'), uvConfig);
     console.log('[setup-proxy] Created uv.config.js with /frog/ prefix');
+
+    // Patch sw.js to ensure self.Ultraviolet is set before uv.sw.js loads
+    const swPath = require('path').join(uvDest, 'sw.js');
+    const patchedSw = `importScripts('uv.bundle.js');
+if (typeof self.Ultraviolet === 'undefined' && typeof Ultraviolet !== 'undefined') {
+    self.Ultraviolet = Ultraviolet;
+}
+importScripts('uv.config.js');
+importScripts(__uv$config.sw || 'uv.sw.js');
+const uv = new UVServiceWorker();
+async function handleRequest(event) {
+    if (uv.route(event)) return await uv.fetch(event);
+    return await fetch(event.request);
+}
+self.addEventListener('fetch', (event) => {
+    event.respondWith(handleRequest(event));
+});`;
+    require('fs').writeFileSync(swPath, patchedSw);
+    console.log('[setup-proxy] Patched sw.js with Ultraviolet safety check');
+
   } else {
     console.warn('[setup-proxy] Ultraviolet dist directory not found — skipping UV asset copy');
   }

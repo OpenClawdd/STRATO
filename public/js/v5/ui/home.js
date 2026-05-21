@@ -5,6 +5,7 @@ import {
   moodClusters,
   nameOf,
   playableCatalog,
+  promotableCatalog,
   tagsOf,
   typeLabel,
   visibleCatalog,
@@ -69,13 +70,13 @@ function bindCards(container, controller) {
 function renderCards(id, list, emptyText, controller, variant = "") {
   const container = document.getElementById(id);
   if (!container) return;
+  const section = container.closest(".hideout-section");
   if (!list.length) {
-    container.innerHTML = `<div class="hideout-empty"><strong>${escapeHtml(emptyText)}</strong><button class="glass-btn" data-focus-search type="button">Search the catalog</button></div>`;
-    container
-      .querySelector("[data-focus-search]")
-      ?.addEventListener("click", () => controller.focusSearch());
+    if (section) section.classList.add("hidden");
+    container.innerHTML = "";
     return;
   }
+  if (section) section.classList.remove("hidden");
   container.innerHTML = list.map((game) => card(game, variant)).join("");
   bindCards(container, controller);
 }
@@ -111,8 +112,7 @@ function renderHeroStats() {
   if (games) games.textContent = String(playable.length);
   if (pickNode) pickNode.textContent = String(picks.length);
   if (moodNode) moodNode.textContent = String(moods.length);
-  if (statusChip)
-    statusChip.textContent = `${playable.length} launchable · v5.03`;
+  if (statusChip) statusChip.textContent = `${playable.length} games`;
   if (lastAction)
     lastAction.textContent = last
       ? `Last: ${nameOf(last)} · ${shortDate(lastPlayed[last.id])}`
@@ -213,7 +213,9 @@ export function createHomeController() {
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
-      const allGames = list.slice(0, 12);
+      const allGames = promotableCatalog()
+        .filter((game) => state.activeMood === "all" || list.includes(game))
+        .slice(0, 12);
 
       renderMoods(controller);
       renderCards(

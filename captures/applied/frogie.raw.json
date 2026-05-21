@@ -1,0 +1,1928 @@
+{
+  "sourceUrl": "https://play.frogiee.one/math/",
+  "title": "Study.com | Math",
+  "capturedAt": "2026-05-15T22:01:08.031Z",
+  "count": 192,
+  "items": [
+    {
+      "index": 0,
+      "text": "",
+      "href": "loadthething()",
+      "image": null,
+      "alt": "",
+      "className": "",
+      "tag": "A",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 1,
+      "text": "",
+      "href": "window.location.href='/';",
+      "image": "https://play.frogiee.one/stuff/logo.png",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 2,
+      "text": "",
+      "href": "window.location.href='/math/';",
+      "image": "https://play.frogiee.one/stuff/icons/calc.svg",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 3,
+      "text": "",
+      "href": "window.location.href='/reading/';",
+      "image": "https://play.frogiee.one/stuff/icons/border-all-solid.svg",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 4,
+      "text": "",
+      "href": "window.location.href='/partners.html';",
+      "image": "https://play.frogiee.one/stuff/icons/handshake-solid.svg",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 5,
+      "text": "",
+      "href": "window.location.href='/extras.html';",
+      "image": "https://play.frogiee.one/stuff/icons/plus-solid.svg",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 6,
+      "text": "1 on 1 soccer",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/1on1soccer.html';",
+      "image": "https://play.frogiee.one/stuff/games/1on1soccer.png",
+      "alt": "1 on 1 soccer",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 7,
+      "text": "10 minutes till dawn",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/10-minutes-till-dawn/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/10mtd.png",
+      "alt": "10 minutes till dawn",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 8,
+      "text": "100 player pong",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/100ng';",
+      "image": "https://play.frogiee.one/stuff/games/100ng.jpg",
+      "alt": "100 player pong",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 9,
+      "text": "a dance of fire and ice",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/a-dance-of-fire-and-ice';",
+      "image": "https://play.frogiee.one/stuff/games/adofai.png",
+      "alt": "a dance of fire and ice",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 11,
+      "text": "a small world cup",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/asmallworldcup';",
+      "image": "https://play.frogiee.one/stuff/games/aswc.png",
+      "alt": "a small world cup",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 12,
+      "text": "achievement unlocked",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/achunlocked.html';",
+      "image": "https://play.frogiee.one/stuff/games/au.jpg",
+      "alt": "achievement unlocked",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 13,
+      "text": "advance wars",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/AdvancedWars.html';",
+      "image": "https://play.frogiee.one/stuff/games/advancewars.jpg",
+      "alt": "advance wars",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 14,
+      "text": "adventure drivers",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/adventure-drivers';",
+      "image": "https://play.frogiee.one/stuff/games/adventuredrivers.png",
+      "alt": "adventure drivers",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 15,
+      "text": "alien hominid",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/alien_hominid.html';",
+      "image": "https://play.frogiee.one/stuff/games/alien.png",
+      "alt": "alien hominid",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 16,
+      "text": "among us",
+      "href": "launch('/apps/innersloth-llc/4047/among-us.html');",
+      "image": "https://play.frogiee.one/stuff/games/ayodiddy.png",
+      "alt": "among us",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 17,
+      "text": "angry birds",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/angrybirds/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/angrybirds.png",
+      "alt": "angry birds",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 18,
+      "text": "animal crossing wild world",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/acww.html';",
+      "image": "https://play.frogiee.one/stuff/games/acww.jpg",
+      "alt": "animal crossing wild world",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 19,
+      "text": "avalanche",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/avalanche.html';",
+      "image": "https://play.frogiee.one/stuff/games/avalanche.png",
+      "alt": "avalanche",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 20,
+      "text": "bacon may die",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/bacon-may-die';",
+      "image": "https://play.frogiee.one/stuff/games/baconmaydie.jpg",
+      "alt": "bacon may die",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 21,
+      "text": "bad game",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/badgame/';",
+      "image": "https://play.frogiee.one/stuff/games/badgame.png",
+      "alt": "bad game",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 22,
+      "text": "balatro",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/balatro/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/balatro.jpg",
+      "alt": "balatro",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 23,
+      "text": "baldis basics in education and learning",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/baldis-basics';",
+      "image": "https://play.frogiee.one/stuff/games/baldi.png",
+      "alt": "baldis basics in education and learning",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 24,
+      "text": "banjo kazooie",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/banjo.html';",
+      "image": "https://play.frogiee.one/stuff/games/banjo.jpg",
+      "alt": "banjo kazooie",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 25,
+      "text": "bart blast",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/bartblast/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/bartblast.png",
+      "alt": "bart blast",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 26,
+      "text": "basket bros",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/basketbros-io/';",
+      "image": "https://play.frogiee.one/stuff/games/basket-bros.png",
+      "alt": "basket bros",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 27,
+      "text": "basket random",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/basket-random';",
+      "image": "https://play.frogiee.one/stuff/games/basketrandom.png",
+      "alt": "basket random",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 28,
+      "text": "basketball stars",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/basketball-stars/';",
+      "image": "https://play.frogiee.one/stuff/games/basketball-stars.png",
+      "alt": "basketball stars",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 29,
+      "text": "bendy and the ink machine",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/batim/';",
+      "image": "https://play.frogiee.one/stuff/games/batim.png",
+      "alt": "bendy and the ink machine",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 30,
+      "text": "big tower tiny square",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/btts/';",
+      "image": "https://play.frogiee.one/stuff/games/btts.png",
+      "alt": "big tower tiny square",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 31,
+      "text": "bitlife",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/bitlife';",
+      "image": "https://play.frogiee.one/stuff/games/bitlife.jpg",
+      "alt": "bitlife",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 32,
+      "text": "block blast",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/blockblast/';",
+      "image": "https://play.frogiee.one/stuff/games/blockblast.png",
+      "alt": "block blast",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 33,
+      "text": "bloodmoney",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/bloodmoney/';",
+      "image": "https://play.frogiee.one/stuff/games/bloodmoney.png",
+      "alt": "bloodmoney",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 34,
+      "text": "bloons tower defense 1",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-1.html';",
+      "image": "https://play.frogiee.one/stuff/games/bloons.png",
+      "alt": "bloons tower defense 1",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 35,
+      "text": "bloons tower defense 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/bloons-td-2.html';",
+      "image": "https://play.frogiee.one/stuff/games/bloons2.png",
+      "alt": "bloons tower defense 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 36,
+      "text": "bob the robber 2",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/bobtherobber2/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/btr2.png",
+      "alt": "bob the robber 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 37,
+      "text": "bouncy basketball",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/bouncy-basketball';",
+      "image": "https://play.frogiee.one/stuff/games/bouncybasketball.png",
+      "alt": "bouncy basketball",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 38,
+      "text": "boxing random",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/boxing-random';",
+      "image": "https://play.frogiee.one/stuff/games/boxingrandom.png",
+      "alt": "boxing random",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 39,
+      "text": "buckshot roulette",
+      "href": "window.location.href='/iframe.html?url=stuff/selfhosted/buckshot-roulette/';",
+      "image": "https://play.frogiee.one/stuff/games/buckshot.jpg",
+      "alt": "buckshot roulette",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 40,
+      "text": "burger and frights",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/burger-and-frights/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/baf.png",
+      "alt": "burger and frights",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 41,
+      "text": "burrito bison",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/burrito-bison';",
+      "image": "https://play.frogiee.one/stuff/games/burritobison.jpg",
+      "alt": "burrito bison",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 42,
+      "text": "call of duty mobile",
+      "href": "launch('/apps/a/10008/b.html');",
+      "image": "https://play.frogiee.one/stuff/games/cod.png",
+      "alt": "call of duty mobile",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 43,
+      "text": "cannon basketball 4",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/cannon-basketball-4';",
+      "image": "https://play.frogiee.one/stuff/games/cannonbasketball4.jpg",
+      "alt": "cannon basketball 4",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 44,
+      "text": "class of '09",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/co09loader/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/classof09.png",
+      "alt": "class of '09",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 45,
+      "text": "cookie clicker",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/cookie-clicker/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/cookieclicker.png",
+      "alt": "cookie clicker",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 46,
+      "text": "cookie run kingdom",
+      "href": "launch('/apps/a/10019/b.html');",
+      "image": "https://play.frogiee.one/stuff/games/crk.jpg",
+      "alt": "cookie run kingdom",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 47,
+      "text": "cooking mama",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama.html';",
+      "image": "https://play.frogiee.one/stuff/games/cookingmama.png",
+      "alt": "cooking mama",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 48,
+      "text": "cooking mama 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama2.html';",
+      "image": "https://play.frogiee.one/stuff/games/cookingmama2.png",
+      "alt": "cooking mama 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 49,
+      "text": "cooking mama 3",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/cookingmama3.html';",
+      "image": "https://play.frogiee.one/stuff/games/cookingmama3.png",
+      "alt": "cooking mama 3",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 50,
+      "text": "crash bandicoot",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/crashbandi.html';",
+      "image": "https://play.frogiee.one/stuff/games/crashbandi.png",
+      "alt": "crash bandicoot",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 51,
+      "text": "crossy road",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/crossyroad';",
+      "image": "https://play.frogiee.one/stuff/games/crossyroad.jpeg",
+      "alt": "crossy road",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 52,
+      "text": "cuphead",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/cuphead/decide.html';",
+      "image": "https://play.frogiee.one/stuff/games/cuphead.png",
+      "alt": "cuphead",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 53,
+      "text": "danganronpa trigger happy havoc",
+      "href": "window.open('/stuff/selfhosted/danganronpa/index.html');",
+      "image": "https://play.frogiee.one/stuff/games/danganronpa.png",
+      "alt": "danganronpa trigger happy havoc",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 54,
+      "text": "delta traveler",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/deltatraveler/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/deltatraveler.png",
+      "alt": "delta traveler",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 55,
+      "text": "deltarune",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/deltarune/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/deltarune.jpg",
+      "alt": "deltarune",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 56,
+      "text": "diggy",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/diggy.html';",
+      "image": "https://play.frogiee.one/stuff/games/diggy.png",
+      "alt": "diggy",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 58,
+      "text": "dodge",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/dodge';",
+      "image": "https://play.frogiee.one/stuff/games/dodge.png",
+      "alt": "dodge",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 59,
+      "text": "doki doki literature club plus",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/ddlcplus/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/ddlcplus.png",
+      "alt": "doki doki literature club plus",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 60,
+      "text": "doom",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/doom/';",
+      "image": "https://play.frogiee.one/stuff/games/doom.jpg",
+      "alt": "doom",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 61,
+      "text": "dragon vs icy bricks",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/dragon-vs-bricks';",
+      "image": "https://play.frogiee.one/stuff/games/dragondeeznuts.jpg",
+      "alt": "dragon vs icy bricks",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 62,
+      "text": "drift boss",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/drift-boss/';",
+      "image": "https://play.frogiee.one/stuff/games/driftboss.png",
+      "alt": "drift boss",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 63,
+      "text": "drift hunters",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/drift-hunters/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/drift-hunters.png",
+      "alt": "drift hunters",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 64,
+      "text": "drive mad",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/drive-mad/';",
+      "image": "https://play.frogiee.one/stuff/games/drive-mad.png",
+      "alt": "drive mad",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 65,
+      "text": "ea sports fc mobile",
+      "href": "launch('/apps/electronic-arts/1353/ea-sports-fc-mobile-24-soccer.html');",
+      "image": "https://play.frogiee.one/stuff/games/fcmobile.png",
+      "alt": "ea sports fc mobile",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 66,
+      "text": "ea sports ufc mobile",
+      "href": "launch('/apps/electronic-arts/3288/ea-sports-ufc-mobile-2.html');",
+      "image": "https://play.frogiee.one/stuff/games/ufcmobile.jpg",
+      "alt": "ea sports ufc mobile",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 67,
+      "text": "endless truck",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/endless-truck/';",
+      "image": "https://play.frogiee.one/stuff/games/endlesstruck.png",
+      "alt": "endless truck",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 68,
+      "text": "escape road",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/escape-road/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/escape-road.png",
+      "alt": "escape road",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 69,
+      "text": "ev.io",
+      "href": "window.location.href='/algebra.html?url=https://ev.io';",
+      "image": "https://play.frogiee.one/stuff/games/evio.png",
+      "alt": "ev.io",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 70,
+      "text": "five nights at epsteins",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnae/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/fnae.png",
+      "alt": "five nights at epsteins",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 71,
+      "text": "five nights at freddys",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnaf1';",
+      "image": "https://play.frogiee.one/stuff/games/fnaf1.png",
+      "alt": "five nights at freddys",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 72,
+      "text": "five nights at freddys 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnaf2';",
+      "image": "https://play.frogiee.one/stuff/games/fnaf2.png",
+      "alt": "five nights at freddys 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 73,
+      "text": "five nights at freddys 3",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnaf3';",
+      "image": "https://play.frogiee.one/stuff/games/fnaf3.png",
+      "alt": "five nights at freddys 3",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 74,
+      "text": "five nights at freddys 4",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnaf4';",
+      "image": "https://play.frogiee.one/stuff/games/fnaf4.png",
+      "alt": "five nights at freddys 4",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 75,
+      "text": "five nights at freddys sister location",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/sisterlocation';",
+      "image": "https://play.frogiee.one/stuff/games/fnafsl.jpg",
+      "alt": "five nights at freddys sister location",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 76,
+      "text": "five nights at winstons",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnaw/';",
+      "image": "https://play.frogiee.one/stuff/games/fnaw.jpg",
+      "alt": "five nights at winstons",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 77,
+      "text": "flappy bird",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flappybird/';",
+      "image": "https://play.frogiee.one/stuff/games/flappybird.png",
+      "alt": "flappy bird",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 78,
+      "text": "fnaf world",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnafworld';",
+      "image": "https://play.frogiee.one/stuff/games/fnafworld.png",
+      "alt": "fnaf world",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 79,
+      "text": "fortnite",
+      "href": "launch('/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://com.epicgames.fortnite');",
+      "image": "https://play.frogiee.one/stuff/games/fortnite.png",
+      "alt": "fortnite",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 80,
+      "text": "friday night funkin",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fnf/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/fnf.png",
+      "alt": "friday night funkin",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 81,
+      "text": "fused 240",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/fused240/';",
+      "image": "https://play.frogiee.one/stuff/games/fused240.jpg",
+      "alt": "fused 240",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 82,
+      "text": "gacha life",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/gachalife.html';",
+      "image": "https://play.frogiee.one/stuff/games/gachalife.png",
+      "alt": "gacha life",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 83,
+      "text": "gacha verse",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/gachaverse.html';",
+      "image": "https://play.frogiee.one/stuff/games/gachaverse.png",
+      "alt": "gacha verse",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 84,
+      "text": "genshin impact",
+      "href": "launch('/apps/cognosphere-pte-ltd-/1773/genshin-impact.html');",
+      "image": "https://play.frogiee.one/stuff/games/genshin.png",
+      "alt": "genshin impact",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 85,
+      "text": "geometry dash",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/gdlite/';",
+      "image": "https://play.frogiee.one/stuff/games/geodash.png",
+      "alt": "geometry dash",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 86,
+      "text": "getaway shootout",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/rayvon-shootout/';",
+      "image": "https://play.frogiee.one/stuff/games/getaway-shootout.png",
+      "alt": "getaway shootout",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 87,
+      "text": "getting over it",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/gettingoverit/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/gettingoverit.png",
+      "alt": "getting over it",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 88,
+      "text": "gorilla tag",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/gtag/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/thetag.png",
+      "alt": "gorilla tag",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 89,
+      "text": "grand theft auto 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/gta2.html';",
+      "image": "https://play.frogiee.one/stuff/games/gta2.png",
+      "alt": "grand theft auto 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 90,
+      "text": "gun mayhem",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/gun-mayhem.html';",
+      "image": "https://play.frogiee.one/stuff/games/gun-mayhem.png",
+      "alt": "gun mayhem",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 91,
+      "text": "gun mayhem 2: more mayhem",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/gun-mayhem2.html';",
+      "image": "https://play.frogiee.one/stuff/games/gun-mayhem2.jpg",
+      "alt": "gun mayhem 2: more mayhem",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 92,
+      "text": "half-life",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/half-life/';",
+      "image": "https://play.frogiee.one/stuff/games/halflife.jpg",
+      "alt": "half-life",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 93,
+      "text": "happy wheels",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/happywheels';",
+      "image": "https://play.frogiee.one/stuff/games/happywheels.jpg",
+      "alt": "happy wheels",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 94,
+      "text": "hexgl",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/hexgl/';",
+      "image": "https://play.frogiee.one/stuff/games/hexgl.png",
+      "alt": "hexgl",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 95,
+      "text": "hollow knight",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/hollowknight/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/hollow.png",
+      "alt": "hollow knight",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 96,
+      "text": "honkai star rail",
+      "href": "launch('/apps/cognosphere-pte-ltd/1591/honkai-star-rail.html');",
+      "image": "https://play.frogiee.one/stuff/games/honkai.png",
+      "alt": "honkai star rail",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 97,
+      "text": "house of hazards",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/houseofhazards/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/houseofhazards.png",
+      "alt": "house of hazards",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 98,
+      "text": "human expenditure program",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/hep/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/hep.png",
+      "alt": "human expenditure program",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 99,
+      "text": "karlson 2d",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/karlson2d/';",
+      "image": "https://play.frogiee.one/stuff/games/karlson.png",
+      "alt": "karlson 2d",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 100,
+      "text": "kirby super star",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/kirbysuperstar.html';",
+      "image": "https://play.frogiee.one/stuff/games/kirbyss.jpg",
+      "alt": "kirby super star",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 101,
+      "text": "learn tozeri fly",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/learn-to-fly.html';",
+      "image": "https://play.frogiee.one/stuff/games/learn2fly.png",
+      "alt": "learn tozeri fly",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 102,
+      "text": "little big planet",
+      "href": "window.open('/stuff/selfhosted/lbp/index.html');",
+      "image": "https://play.frogiee.one/stuff/games/lbp.png",
+      "alt": "little big planet",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 103,
+      "text": "mario kart ds",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/mkds.html';",
+      "image": "https://play.frogiee.one/stuff/games/mkds.png",
+      "alt": "mario kart ds",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 104,
+      "text": "melon sandbox",
+      "href": "launch('/apps/playducky/7199/melon-sandbox.html');",
+      "image": "https://play.frogiee.one/stuff/games/melonsandbox.png",
+      "alt": "melon sandbox",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 105,
+      "text": "minecraft",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/minecraft/';",
+      "image": "https://play.frogiee.one/stuff/games/minecraft.jpg",
+      "alt": "minecraft",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 106,
+      "text": "minecraft pocket edition",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mcpe/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/mcpe.png",
+      "alt": "minecraft pocket edition",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 107,
+      "text": "monkey mart",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/monkey-mart';",
+      "image": "https://play.frogiee.one/stuff/games/monkey-mart.jpg",
+      "alt": "monkey mart",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 108,
+      "text": "monster tracks",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/monster-tracks';",
+      "image": "https://play.frogiee.one/stuff/games/monster-tracks.png",
+      "alt": "monster tracks",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 109,
+      "text": "moto x3m",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/motox3m/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/motox3m.jpg",
+      "alt": "moto x3m",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 110,
+      "text": "nazi zombies portable",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/nzp/';",
+      "image": "https://play.frogiee.one/stuff/games/nzp.png",
+      "alt": "nazi zombies portable",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 111,
+      "text": "needy streamer overload",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/nso/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/nso.png",
+      "alt": "needy streamer overload",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 112,
+      "text": "new super mario bros ds",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/nsmb.html';",
+      "image": "https://play.frogiee.one/stuff/games/nsmb.png",
+      "alt": "new super mario bros ds",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 113,
+      "text": "omori",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/omori/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/omori.png",
+      "alt": "omori",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 114,
+      "text": "oneshot",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/oneshot/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/oneshot.png",
+      "alt": "oneshot",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 115,
+      "text": "ovo",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/ovo/';",
+      "image": "https://play.frogiee.one/stuff/games/ovo.png",
+      "alt": "ovo",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 116,
+      "text": "papa's pizzeria",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/papa/example/pizzeria.html';",
+      "image": "https://play.frogiee.one/stuff/games/papas.png",
+      "alt": "papa's pizzeria",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 117,
+      "text": "parappa the rapper",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/parappa.html';",
+      "image": "https://play.frogiee.one/stuff/games/para.png",
+      "alt": "parappa the rapper",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 118,
+      "text": "peggle",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/peggle.html';",
+      "image": "https://play.frogiee.one/stuff/games/peggle.png",
+      "alt": "peggle",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 119,
+      "text": "people playground",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/ppgbog/';",
+      "image": "https://play.frogiee.one/stuff/games/ppg.png",
+      "alt": "people playground",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 120,
+      "text": "pizza tower",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/pizzatower/';",
+      "image": "https://play.frogiee.one/stuff/games/pizzatower.jpg",
+      "alt": "pizza tower",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 121,
+      "text": "pizzeria simulator",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/pizzeriasimulator';",
+      "image": "https://play.frogiee.one/stuff/games/pizzeriasimulator.png",
+      "alt": "pizzeria simulator",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 122,
+      "text": "pojavlauncher",
+      "href": "launch('/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://git.artdeell.mojo');",
+      "image": "https://play.frogiee.one/stuff/games/pojavlauncher.png",
+      "alt": "pojavlauncher",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 123,
+      "text": "pokemon firered version",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/PokemonFireRed.html';",
+      "image": "https://play.frogiee.one/stuff/games/pokemonfirered.jpg",
+      "alt": "pokemon firered version",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 124,
+      "text": "pokemon platinum version",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/pokemon.html';",
+      "image": "https://play.frogiee.one/stuff/games/ppv.png",
+      "alt": "pokemon platinum version",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 125,
+      "text": "polytrack",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/polytrack';",
+      "image": "https://play.frogiee.one/stuff/games/polytrack.jpg",
+      "alt": "polytrack",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 126,
+      "text": "portal: the flash version",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/portal.html';",
+      "image": "https://play.frogiee.one/stuff/games/portal.png",
+      "alt": "portal: the flash version",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 127,
+      "text": "pubg mobile",
+      "href": "launch('/apps/proxima-beta/2609/pubg-mobile-resistance.html');",
+      "image": "https://play.frogiee.one/stuff/games/pubg.png",
+      "alt": "pubg mobile",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 128,
+      "text": "quake",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/quake/';",
+      "image": "https://play.frogiee.one/stuff/games/quake.jpg",
+      "alt": "quake",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 129,
+      "text": "r.e.p.o",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/repo/';",
+      "image": "https://play.frogiee.one/stuff/games/repo.png",
+      "alt": "r.e.p.o",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 130,
+      "text": "raft",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/raft/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/raft.png",
+      "alt": "raft",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 131,
+      "text": "ragdoll archers",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/ragdoll-archers/';",
+      "image": "https://play.frogiee.one/stuff/games/ragdollarchers.jpg",
+      "alt": "ragdoll archers",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 132,
+      "text": "ragdoll hit",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/ragdoll/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/ragdoll.png",
+      "alt": "ragdoll hit",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 133,
+      "text": "raldi's crackhouse",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/raldi/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/raldi.png",
+      "alt": "raldi's crackhouse",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 134,
+      "text": "re:run",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/rerun/';",
+      "image": "https://play.frogiee.one/stuff/games/rerun.jpg",
+      "alt": "re:run",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 135,
+      "text": "red ball 4",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/red-ball4.html';",
+      "image": "https://play.frogiee.one/stuff/games/redball4.png",
+      "alt": "red ball 4",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 136,
+      "text": "retro bowl",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/retro-bowl/';",
+      "image": "https://play.frogiee.one/stuff/games/retrobowl.png",
+      "alt": "retro bowl",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 137,
+      "text": "retro hellicopter",
+      "href": "window.location.href='/algebra.html?url=https://www.coolmathgames.com/0-retro-helicopter/play';",
+      "image": "https://play.frogiee.one/stuff/games/retrohellicopter.png",
+      "alt": "retro hellicopter",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 138,
+      "text": "rhythm hell",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/rhythm-hell';",
+      "image": "https://play.frogiee.one/stuff/games/rhythmhell.png",
+      "alt": "rhythm hell",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 139,
+      "text": "roblox",
+      "href": "launch('/apps/a/19900/b.html');",
+      "image": "https://play.frogiee.one/stuff/games/roblox.png",
+      "alt": "roblox",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 140,
+      "text": "rooftop snipers",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/rooftop-snipers/';",
+      "image": "https://play.frogiee.one/stuff/games/rooftop-snipers.jpg",
+      "alt": "rooftop snipers",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 141,
+      "text": "rooftop snipers 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/rooftop-snipers-2/';",
+      "image": "https://play.frogiee.one/stuff/games/rooftop-snipers2.jpg",
+      "alt": "rooftop snipers 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 142,
+      "text": "run 3",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/run3/';",
+      "image": "https://play.frogiee.one/stuff/games/run3.png",
+      "alt": "run 3",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 143,
+      "text": "simple loot idle",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/simplelootidle/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/simplelootidle.png",
+      "alt": "simple loot idle",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 144,
+      "text": "skribbl.io",
+      "href": "window.location.href='/algebra.html?url=https://skribbl.io';",
+      "image": "https://play.frogiee.one/stuff/games/skribbl.png",
+      "alt": "skribbl.io",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 145,
+      "text": "slime rancher",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/slimerancher/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/slimerancher.png",
+      "alt": "slime rancher",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 146,
+      "text": "slither.io",
+      "href": "window.location.href='/algebra.html?url=https://slither.io';",
+      "image": "https://play.frogiee.one/stuff/games/slither.jpg",
+      "alt": "slither.io",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 147,
+      "text": "slope",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/slope';",
+      "image": "https://play.frogiee.one/stuff/games/slope.jpg",
+      "alt": "slope",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 148,
+      "text": "slowroads",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/slowroads';",
+      "image": "https://play.frogiee.one/stuff/games/slowroads.png",
+      "alt": "slowroads",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 149,
+      "text": "soccer random",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/soccer-random';",
+      "image": "https://play.frogiee.one/stuff/games/soccerrandom.jpg",
+      "alt": "soccer random",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 150,
+      "text": "sonic cd",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/soniccd.html';",
+      "image": "https://play.frogiee.one/stuff/games/soniccd.png",
+      "alt": "sonic cd",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 151,
+      "text": "sonic mania",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/sonicmania/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/sonicmania.jpg",
+      "alt": "sonic mania",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 152,
+      "text": "sonic the hedgehog",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic1.html';",
+      "image": "https://play.frogiee.one/stuff/games/sonic1.png",
+      "alt": "sonic the hedgehog",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 153,
+      "text": "sonic the hedgehog 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic2.html';",
+      "image": "https://play.frogiee.one/stuff/games/sonic2.png",
+      "alt": "sonic the hedgehog 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 154,
+      "text": "sonic the hedgehog 3",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sonic3.html';",
+      "image": "https://play.frogiee.one/stuff/games/sonic3.png",
+      "alt": "sonic the hedgehog 3",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 155,
+      "text": "south park 64",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/south.html';",
+      "image": "https://play.frogiee.one/stuff/games/southpark.jpg",
+      "alt": "south park 64",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 156,
+      "text": "spiderman",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/spiderman.html';",
+      "image": "https://play.frogiee.one/stuff/games/spiderman.jpg",
+      "alt": "spiderman",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 157,
+      "text": "stickman hook",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/stickman-hook/';",
+      "image": "https://play.frogiee.one/stuff/games/stickmanhook.jpg",
+      "alt": "stickman hook",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 158,
+      "text": "stumble guys",
+      "href": "launch('/apps/a/10011/b.html');",
+      "image": "https://play.frogiee.one/stuff/games/stumbleguys.jpg",
+      "alt": "stumble guys",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 159,
+      "text": "subway surfers",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/subway-surfers/';",
+      "image": "https://play.frogiee.one/stuff/games/subway.png",
+      "alt": "subway surfers",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 160,
+      "text": "super fancy pants adventure",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/flash/game/fancy-pants-man.html';",
+      "image": "https://play.frogiee.one/stuff/games/sfpa.jpg",
+      "alt": "super fancy pants adventure",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 161,
+      "text": "super fowlst",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/super-foulist/';",
+      "image": "https://play.frogiee.one/stuff/games/superfowlst.png",
+      "alt": "super fowlst",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 162,
+      "text": "super mario 64",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sm64.html';",
+      "image": "https://play.frogiee.one/stuff/games/sm64.png",
+      "alt": "super mario 64",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 163,
+      "text": "super mario advance 2",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma2.html';",
+      "image": "https://play.frogiee.one/stuff/games/sma2.png",
+      "alt": "super mario advance 2",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 164,
+      "text": "super mario advance 4",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/sma4.html';",
+      "image": "https://play.frogiee.one/stuff/games/sma4.png",
+      "alt": "super mario advance 4",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 165,
+      "text": "super mario all stars",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smballstars.html';",
+      "image": "https://play.frogiee.one/stuff/games/smas.png",
+      "alt": "super mario all stars",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 166,
+      "text": "super mario bros",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smb.html';",
+      "image": "https://play.frogiee.one/stuff/games/smb.png",
+      "alt": "super mario bros",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 167,
+      "text": "super mario bros deluxe",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smbd.html';",
+      "image": "https://play.frogiee.one/stuff/games/smbd.jpg",
+      "alt": "super mario bros deluxe",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 168,
+      "text": "super mario world",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/smw.html';",
+      "image": "https://play.frogiee.one/stuff/games/smw.png",
+      "alt": "super mario world",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 169,
+      "text": "super monkey ball jr",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/super-monkey-ball.html';",
+      "image": "https://play.frogiee.one/stuff/games/supermonkeybj.png",
+      "alt": "super monkey ball jr",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 170,
+      "text": "super smash bros",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/ssb.html';",
+      "image": "https://play.frogiee.one/stuff/games/ssb.png",
+      "alt": "super smash bros",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 171,
+      "text": "superhot",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/super-hot/';",
+      "image": "https://play.frogiee.one/stuff/games/superhot.png",
+      "alt": "superhot",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 172,
+      "text": "survivor.io",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/survivorio/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/survivorio.png",
+      "alt": "survivor.io",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 173,
+      "text": "tag",
+      "href": "window.location.href='/algebra.html?url=https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://118473026-235917736205837253.preview.editmysite.com/uploads/b/146211889-618141766941606391/files/tag.xml&container=ig';",
+      "image": "https://play.frogiee.one/stuff/games/tag.png",
+      "alt": "tag",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 174,
+      "text": "tanuki sunset",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/tanuki-sunset/';",
+      "image": "https://play.frogiee.one/stuff/games/tanuki.jpg",
+      "alt": "tanuki sunset",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 175,
+      "text": "terraria",
+      "href": "window.open('/stuff/selfhosted/terraria/index.html');",
+      "image": "https://play.frogiee.one/stuff/games/terraria.png",
+      "alt": "terraria",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 176,
+      "text": "testimonium",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/testimonium/';",
+      "image": "https://play.frogiee.one/stuff/games/testimonium.png",
+      "alt": "testimonium",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 177,
+      "text": "the legend of zelda links awakening dx",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/links_awakening.html';",
+      "image": "https://play.frogiee.one/stuff/games/lozladx.png",
+      "alt": "the legend of zelda links awakening dx",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 178,
+      "text": "the legend of zelda ocarina of time",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/zelda-oot.html';",
+      "image": "https://play.frogiee.one/stuff/games/lozoft.jpg",
+      "alt": "the legend of zelda ocarina of time",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 179,
+      "text": "tomb of the mask",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/tomb-of-the-mask/';",
+      "image": "https://play.frogiee.one/stuff/games/totm.png",
+      "alt": "tomb of the mask",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 180,
+      "text": "tomodachi collection",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/tomodachi.html';",
+      "image": "https://play.frogiee.one/stuff/games/tomodachi.jpg",
+      "alt": "tomodachi collection",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 181,
+      "text": "toss the turtle",
+      "href": "window.location.href='/iframe.html?url=/cdn/projects/tosstheturtle/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/tosstheturtle.png",
+      "alt": "toss the turtle",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 182,
+      "text": "tube jumpers",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/tube-jumpers';",
+      "image": "https://play.frogiee.one/stuff/games/tubejumpers.png",
+      "alt": "tube jumpers",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 183,
+      "text": "ultimate custom night",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/ucn';",
+      "image": "https://play.frogiee.one/stuff/games/ucn.jpg",
+      "alt": "ultimate custom night",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 184,
+      "text": "undertale",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/undertale/index.html';",
+      "image": "https://play.frogiee.one/stuff/games/undertale.jpg",
+      "alt": "undertale",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 185,
+      "text": "uno",
+      "href": "window.location.href='/algebra.html?url=https://buddyboardgames.com/uno';",
+      "image": "https://play.frogiee.one/stuff/games/uno.png",
+      "alt": "uno",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 186,
+      "text": "venge",
+      "href": "window.location.href='/algebra.html?url=https://venge.io';",
+      "image": "https://play.frogiee.one/stuff/games/venge.jpg",
+      "alt": "venge",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 187,
+      "text": "vib-ribbon",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/mexiisamonkey/vib-ribbon.html';",
+      "image": "https://play.frogiee.one/stuff/games/vib-ribbon.jpg",
+      "alt": "vib-ribbon",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 188,
+      "text": "volley random",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/volley-random';",
+      "image": "https://play.frogiee.one/stuff/games/volleyrandom.png",
+      "alt": "volley random",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 189,
+      "text": "we become what we behold",
+      "href": "window.location.href='/iframe.html?url=/stuff/selfhosted/wbwwb/';",
+      "image": "https://play.frogiee.one/stuff/games/wbwwb.png",
+      "alt": "we become what we behold",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 190,
+      "text": "zombs royale",
+      "href": "window.location.href='/algebra.html?url=https://fortnite.io';",
+      "image": "https://play.frogiee.one/stuff/games/zombs.png",
+      "alt": "zombs royale",
+      "className": ".gamebtns",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 191,
+      "text": "",
+      "href": "window.location.href='/settings.html';",
+      "image": "https://play.frogiee.one/stuff/icons/settings.png",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 192,
+      "text": "",
+      "href": "window.location.href='/profile/';",
+      "image": "https://play.frogiee.one/stuff/icons/user.png",
+      "alt": "",
+      "className": "headericons",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    },
+    {
+      "index": 193,
+      "text": "",
+      "href": null,
+      "image": "https://play.frogiee.one/stuff/themes/miku/miku.png",
+      "alt": "",
+      "className": "",
+      "tag": "IMG",
+      "sourceEvidence": "frogie-dom"
+    }
+  ]
+}

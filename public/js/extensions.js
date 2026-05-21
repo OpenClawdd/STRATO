@@ -166,10 +166,10 @@
           setupDarkReader(sandbox);
           break;
         default:
-          sandbox.console.log(`${ext.name} v${ext.version} activated`);
+          sandbox.console.log(`${ext.name} activated`);
       }
 
-      extensionLog(`[Extensions] ${ext.name} v${ext.version} activated`);
+      extensionLog(`[Extensions] ${ext.name} activated`);
     } catch (e) {
       console.error(`[Extensions] Failed to execute ${ext.id}:`, e);
     }
@@ -299,7 +299,7 @@
       name.textContent = ext.name;
       const ver = document.createElement("div");
       ver.className = "extension-card-version";
-      ver.textContent = `v${ext.version}`;
+      ver.textContent = "";
       info.appendChild(name);
       info.appendChild(ver);
 

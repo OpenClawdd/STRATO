@@ -89,9 +89,9 @@ router.post("/api/data/import", async (req, res) => {
 
     // Import bookmarks
     if (Array.isArray(importData.bookmarks)) {
-      const allBookmarks = await store.getAll("bookmarks");
-      const existingUrls = new Set(
-        allBookmarks
+      const existingAllBookmarks = await store.getAll("bookmarks");
+      const existingUserBookmarkUrls = new Set(
+        existingAllBookmarks
           .filter((b) => b.userId === user.id || b.username === username)
           .map((b) => b.url),
       );
@@ -100,19 +100,19 @@ router.post("/api/data/import", async (req, res) => {
         if (!bookmark.url || typeof bookmark.url !== "string") continue;
 
         // Skip if already exists
-        if (!existingUrls.has(bookmark.url)) {
+        if (!existingUserBookmarkUrls.has(bookmark.url)) {
           const {
             id: _bid,
             created_at: _bca,
             updated_at: _bua,
             ...bookmarkData
           } = bookmark;
-          await store.create("bookmarks", {
+          const newBookmark = await store.create("bookmarks", {
             ...bookmarkData,
             userId: user.id,
             username,
           });
-          existingUrls.add(bookmark.url);
+          existingUserBookmarkUrls.add(bookmark.url);
           imported.bookmarks++;
         }
       }
@@ -138,16 +138,22 @@ router.post("/api/data/import", async (req, res) => {
 
     // Import scores (merge — keep highest)
     if (Array.isArray(importData.scores)) {
+      const allScores = await store.getAll("scores");
+      const existingScoresMap = new Map();
+      for (const s of allScores) {
+        if (s.username === username) {
+          existingScoresMap.set(s.game, s);
+        }
+      }
+
       for (const score of importData.scores) {
-        const existing = await store.getOne(
-          "scores",
-          (s) => s.username === username && s.game === score.game,
-        );
+        const existing = existingScoresMap.get(score.game);
         if (!existing || (score.score || 0) > (existing.score || 0)) {
           if (existing) {
             await store.update("scores", (s) => s.id === existing.id, {
               score: score.score,
             });
+            existing.score = score.score;
           } else {
             const {
               id: _scid,
@@ -155,10 +161,11 @@ router.post("/api/data/import", async (req, res) => {
               updated_at: _scua,
               ...scoreData
             } = score;
-            await store.create("scores", {
+            const newScore = await store.create("scores", {
               ...scoreData,
               username,
             });
+            existingScoresMap.set(score.game, newScore);
           }
           imported.scores++;
         }
@@ -241,9 +248,9 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
       : req.body.bookmarks || [];
     let imported = 0;
 
-    const allBookmarks = await store.getAll("bookmarks");
-    const existingUrls = new Set(
-      allBookmarks
+    const existingAllBookmarks = await store.getAll("bookmarks");
+    const existingUserBookmarkUrls = new Set(
+      existingAllBookmarks
         .filter((b) => b.userId === user.id || b.username === username)
         .map((b) => b.url),
     );
@@ -251,7 +258,7 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
     for (const bookmark of bookmarks) {
       if (!bookmark.url || typeof bookmark.url !== "string") continue;
 
-      if (!existingUrls.has(bookmark.url)) {
+      if (!existingUserBookmarkUrls.has(bookmark.url)) {
         await store.create("bookmarks", {
           url: bookmark.url,
           title: bookmark.title || bookmark.url,
@@ -259,7 +266,7 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
           userId: user.id,
           username,
         });
-        existingUrls.add(bookmark.url);
+        existingUserBookmarkUrls.add(bookmark.url);
         imported++;
       }
     }

@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="">
   <meta name="theme-color" content="#0a0a1a">
-  <meta name="description" content="STRATO v5 — The Living Hideout">
+  <meta name="description" content="STRATO">
   <title>STRATO</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/css/style.css?v=5.0.1-hotfix">
-</head>
 <body data-theme="cyan">
 
   <!-- ═══ BACKGROUND LAYERS ═══ -->
@@ -29,7 +28,7 @@
   <div id="splash" class="splash">
     <div class="splash-content">
       <div class="splash-logo">STRATO</div>
-      <div class="splash-version">v5.0.1 THE LIVING HIDEOUT</div>
+      <div class="splash-version">STRATO</div>
       <div class="splash-bar-track"><div class="splash-bar" style="width:0%"></div></div>
       <div class="splash-engines">
         <span id="splash-engine-bare"><span class="splash-dot"></span> Bare</span>
@@ -105,7 +104,6 @@
     <nav class="topbar">
       <div class="topbar-brand">
         <span class="logo-text">STRATO</span>
-        <span class="logo-version">v5</span>
       </div>
       <div class="topbar-nav">
         <button class="nav-btn active" data-view="home">Home</button>
@@ -117,6 +115,7 @@
         <button class="nav-btn" data-view="settings">Settings</button>
       </div>
       <div class="topbar-actions">
+        <button id="low-power-toggle" class="topbar-icon-btn" title="Low Power Mode">⚡</button>
         <button class="topbar-action" id="btn-stealth" title="Stealth Mode">🛡</button>
         <button class="topbar-action" id="btn-media" title="Media Player">🎵</button>
       </div>
@@ -156,13 +155,11 @@
 
       <!-- ─── HOME VIEW ─── -->
       <section id="view-home" class="view active">
-        <div class="hideout-home" aria-label="STRATO Launch Deck">
+        <div class="hideout-home" aria-label="STRATO">
           <header class="hideout-identity">
             <div class="identity-mark" aria-hidden="true">S</div>
             <div class="identity-copy">
-              <p class="open-kicker">Open here first.</p>
-              <h1>STRATO <span>v5.03</span></h1>
-              <p>A fast launch desk for real games only — search, pick, favorite, and get moving.</p>
+              <h1>STRATO</h1>
             </div>
             <div class="identity-metrics" aria-label="Live STRATO stats">
               <div><span id="home-live-games">54</span><small>playable</small></div>
@@ -174,25 +171,24 @@
 
           <section class="hideout-search" aria-label="Search the STRATO catalog">
             <div class="search-intro">
-              <p class="section-eyebrow">Launch Deck · v5.03</p>
-              <h2>Find the next run.</h2>
-              <p>Type a title, tag, or mood. STRATO keeps the catalog real and turns search into the fastest way to play.</p>
+              <h2>Games</h2>
             </div>
             <div class="search-controls">
               <label class="sr-only" for="home-search">Search the catalog</label>
-              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false">
+              <input type="search" class="spotlight-input" id="home-search" placeholder="Search games, moods, tags…" autocomplete="off" spellcheck="false" data-focus-home-search>
               <button class="launch-button" id="surprise-me" type="button">Surprise Me</button>
             </div>
-            <div class="spotlight-helper" aria-hidden="true"><span>↑↓ move</span><span>Enter launch</span><span>Esc clear</span><span id="home-last-action">Ready</span></div>
+            <div class="spotlight-helper" aria-hidden="true"><span>Search or enter URL</span><span id="home-last-action">Ready</span></div>
             <div class="mood-strip" id="home-filter-row" aria-label="Quick mood filters"></div>
             <div class="home-search-results" id="home-search-results" aria-live="polite"></div>
           </section>
 
           <nav class="hideout-actions" aria-label="Quick actions">
-            <button class="hideout-action" type="button" id="home-recent-action"><span>Continue</span><strong>Recent launches</strong></button>
-            <button class="hideout-action" type="button" id="home-favorites-action"><span>Favorites</span><strong>Your shelf</strong></button>
-            <button class="hideout-action" type="button" data-focus-home-search><span>Spotlight</span><strong>Focus search</strong></button>
-            <button class="hideout-action" type="button" data-home-nav="browser"><span>Launch Bay</span><strong>Open player</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="arcade"><span>01</span><strong>Games</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="hub"><span>02</span><strong>Apps</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="ai"><span>03</span><strong>AI</strong></button>
+            <button class="hideout-action" type="button" data-home-nav="hub"><span>04</span><strong>Hub</strong></button>
+            <button class="hideout-action" type="button" id="home-favorites-action"><span>05</span><strong>Favorites</strong></button>
           </nav>
 
           <div class="hideout-layout">
@@ -200,10 +196,8 @@
               <section class="hideout-section" id="daily-picks-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Picked for today.</p>
-                    <h2 class="section-title">Today’s Hideout Picks</h2>
+                    <h2 class="section-title">Picks</h2>
                   </div>
-                  <span class="section-signal">Real catalog only</span>
                 </div>
                 <div class="home-card-row featured-row" id="daily-picks"></div>
               </section>
@@ -211,8 +205,7 @@
               <section class="hideout-section" id="home-recent-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Continue playing.</p>
-                    <h2 class="section-title">Recent Launches</h2>
+                    <h2 class="section-title">Recent</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-recent"></div>
@@ -221,8 +214,7 @@
               <section class="hideout-section" id="home-favorites-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Pinned locally.</p>
-                    <h2 class="section-title">Hideout Shelf</h2>
+                    <h2 class="section-title">Favorites</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-favorites"></div>
@@ -231,8 +223,7 @@
               <section class="hideout-section hidden" id="home-most-played-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Only after real launches.</p>
-                    <h2 class="section-title">Most Launched</h2>
+                    <h2 class="section-title">Most Played</h2>
                   </div>
                 </div>
                 <div class="home-card-row" id="home-most-played"></div>
@@ -241,10 +232,8 @@
               <section class="hideout-section" id="home-all-games-section">
                 <div class="home-section-head">
                   <div>
-                    <p class="section-eyebrow">Clean catalog.</p>
-                    <h2 class="section-title">Browse the Launch Shelf</h2>
+                    <h2 class="section-title">Games</h2>
                   </div>
-                  <span class="section-signal">54 playable games</span>
                 </div>
                 <div class="home-card-row dense-grid" id="home-all-games"></div>
               </section>
@@ -254,8 +243,7 @@
               <section class="hideout-section hidden" id="home-moods-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Explore by mood.</p>
-                    <h2 class="section-title">Mood Trails</h2>
+                    <h2 class="section-title">Categories</h2>
                   </div>
                 </div>
                 <div class="mood-strip vertical" id="home-moods"></div>
@@ -264,7 +252,6 @@
               <section class="hideout-section" id="signal-health-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Catalog Pulse</p>
                     <h2 class="section-title">Pulse</h2>
                   </div>
                 </div>
@@ -274,8 +261,7 @@
               <section class="hideout-section" id="home-controls-section">
                 <div class="home-section-head compact">
                   <div>
-                    <p class="section-eyebrow">Local controls.</p>
-                    <h2 class="section-title">Control Center</h2>
+                    <h2 class="section-title">Controls</h2>
                   </div>
                 </div>
                 <div class="control-grid">
@@ -294,7 +280,7 @@
       <!-- ─── ARCADE VIEW ─── -->
       <section id="view-arcade" class="view">
         <div class="arcade-header">
-          <h2 class="view-title">Arcade</h2>
+          <h2 class="view-title">GAMES</h2>
           <div class="arcade-controls">
             <input type="text" class="glass-input" id="game-search" placeholder="Search games...">
             <div class="category-pills" id="category-pills"></div>
@@ -308,9 +294,21 @@
         </div>
         <div class="arcade-tabs">
           <button class="arcade-tab active" data-tab="all">All Games</button>
+          <button class="arcade-tab" data-tab="local">Local</button>
+          <button class="arcade-tab" data-tab="external">External</button>
+          <button class="arcade-tab" data-tab="selenite">Selenite</button>
+          <button class="arcade-tab" data-tab="needs-check">Needs Check</button>
           <button class="arcade-tab" data-tab="favorites">Favorites</button>
           <button class="arcade-tab" data-tab="recent">Recent</button>
         </div>
+        <section class="arcade-recent-section hidden" id="arcade-recent-section">
+          <div class="home-section-head compact">
+            <div>
+              <p class="section-eyebrow">Recently Played</p>
+            </div>
+          </div>
+          <div class="games-grid arcade-recent-grid" id="arcade-recent-grid"></div>
+        </section>
         <div class="games-grid" id="games-grid"></div>
       </section>
 
@@ -340,12 +338,9 @@
         <div class="browser-bookmarks-bar" id="bookmarks-bar"></div>
         <div class="browser-body">
           <div class="launch-bay-empty" id="launch-bay-empty">
-            <div class="launch-bay-kicker">STRATO Launch Bay</div>
-            <h3>Open here first.</h3>
-            <p>Search from Home, lock signal, and launch.</p>
-            <div class="home-filter-row">
-              <button class="glass-btn" type="button" data-home-nav="home">Back to Home</button>
-              <button class="glass-btn" type="button" data-home-nav="arcade">Open Arcade</button>
+            <div class="lb-search-wrap">
+              <input type="text" id="lb-url-input" class="lb-input" placeholder="Search or enter URL..." autocomplete="off" spellcheck="false">
+              <button class="lb-go-btn" id="lb-go-btn">GO</button>
             </div>
           </div>
           <div class="browser-sidebar" id="browser-sidebar">
@@ -359,9 +354,21 @@
       <section id="view-hub" class="view">
         <div class="hub-header">
           <h2 class="view-title">Hub</h2>
-          <input type="text" class="glass-input" id="hub-search" placeholder="Search sites...">
+          <div class="hub-tools">
+            <input type="text" class="glass-input" id="hub-search" placeholder="Search verified sites...">
+            <select class="glass-select hub-category-select" id="hub-category-filter">
+              <option value="all">All</option>
+            </select>
+          </div>
         </div>
         <div class="hub-categories" id="hub-categories"></div>
+        <aside class="hub-import-card" aria-label="Capture catalog guidance">
+          <div>
+            <strong>Capture Catalog</strong>
+            <p>Adding a source link does not import its games. Use reviewed captures for Selenite, GN Math, Frogie, Lucide, or Vapor. Cherri stays screenshot-only.</p>
+          </div>
+          <a class="hub-doc-link" href="/docs/STRATO_CAPTURE_IMPORTS.md" target="_blank" rel="noopener">Import Sources</a>
+        </aside>
         <div class="hub-grid" id="hub-grid"></div>
       </section>
 
@@ -664,8 +671,7 @@
               <h3>About STRATO</h3>
               <div class="about-info">
                 <div class="about-logo">STRATO</div>
-                <div class="about-version">v5.0.1 THE LIVING HIDEOUT</div>
-                <p class="about-desc">A self-hosted launch universe for arcade discovery, quick starts, and local personalization.</p>
+                <p class="about-desc">A self-hosted arcade and app hub.</p>
                 <div class="about-credits">
                   <p>Built with Express 5, Ultraviolet, Scramjet, and z-ai-web-dev-sdk</p>
                 </div>
@@ -758,8 +764,8 @@
   <script src="/js/bookmarks.js"></script>
   <script src="/js/extensions.js"></script>
   <script src="/js/pwa.js"></script>
-  <script src="/js/open-home-runtime.js?v=5.0.3-polish"></script>
-  <script src="/js/app.js?v=5.0.3-polish"></script>
+  <script src="/js/open-home-runtime.js"></script>
+  <script src="/js/app.js"></script>
 
 </body>
 </html>

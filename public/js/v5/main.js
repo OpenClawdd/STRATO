@@ -49,8 +49,8 @@ function renderLaunchBay() {
           ? `${title} is running in the Launch Bay.`
           : "Search from Home, pick something, and launch.";
   bay.dataset.state = state.launchBay.status;
-  bay.querySelector("h3").textContent = title;
-  bay.querySelector("p").textContent = copy;
+  const h3 = bay.querySelector("h3"); if (h3) h3.textContent = title;
+  const p = bay.querySelector("p"); if (p) p.textContent = copy;
 }
 
 function bindNavigation(home) {
