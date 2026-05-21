@@ -140,9 +140,10 @@
 
       // ── Step 2: Register Ultraviolet service worker ──
       try {
-        // UV SW file is uv.sw.js (from setup-proxy.cjs copy), registered at /frog/ scope
+        // Register wrapper first. It imports uv.bundle.js + config before uv.sw.js.
+        // Registering uv.sw.js directly can fail with "EventEmitter undefined".
         const uvRegistration = await navigator.serviceWorker.register(
-          "/frog/uv.sw.js",
+          "/frog/sw.js",
           {
             scope: "/frog/",
             updateViaCache: "none",
@@ -152,12 +153,15 @@
         uvReady = true;
         transportLog("[STRATO] Ultraviolet service worker registered");
       } catch (err) {
-        // Try fallback: /frog/sw.js
+        // Legacy fallback path.
         try {
-          const uvReg2 = await navigator.serviceWorker.register("/frog/sw.js", {
-            scope: "/frog/",
-            updateViaCache: "none",
-          });
+          const uvReg2 = await navigator.serviceWorker.register(
+            "/frog/uv.sw.js",
+            {
+              scope: "/frog/",
+              updateViaCache: "none",
+            },
+          );
           await navigator.serviceWorker.ready;
           uvReady = true;
           transportLog("[STRATO] Ultraviolet SW registered (fallback path)");

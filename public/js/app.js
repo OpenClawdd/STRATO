@@ -1028,6 +1028,14 @@
     return state.games.filter(isPromotableGame);
   }
 
+  function activePlayableCatalog() {
+    return state.games.filter((game) => {
+      if (!isHomeSafeGame(game)) return false;
+      if (game?.reliability === "red") return false;
+      return isLaunchableGame(game);
+    });
+  }
+
   function fallbackThumbnail(game) {
     const name = getGameName(game);
     const initials =
@@ -1327,7 +1335,7 @@
   }
 
   function updateGameStats() {
-    const playable = playableCatalog();
+    const playable = activePlayableCatalog();
     const total = playable.length;
     const tier1 = playable.filter((g) => g.tier === 1).length;
 
