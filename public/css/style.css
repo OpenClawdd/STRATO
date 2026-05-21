@@ -4490,7 +4490,6 @@ body::before {
   font-size: var(--text-2xl);
   margin-bottom: var(--spacing-sm);
 }
-}
 
 .metric-value {
   font-family: var(--font-mono);
@@ -4775,3 +4774,17 @@ body::before {
   margin-top: var(--spacing-lg);
 }
 
+/* Game-first performance: keep cards responsive without large hover repaints. */
+.game-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.game-card:hover .game-card-thumb img {
+  transform: none;
+}
+
+body.low-power .game-card,
+body.low-power .game-card-thumb img {
+  transition: none;
+}

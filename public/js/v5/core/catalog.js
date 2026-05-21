@@ -73,9 +73,12 @@ export function clearCatalogMemo() {
 }
 
 export function playableCatalog() {
+  const failures = readJson(keys.failures, {});
   return allNormalized().filter(
     (game) =>
-      isHomeSafe(game) && isLaunchable(game) && game.reliability !== "red",
+      isHomeSafe(game) &&
+      isLaunchable(game, { failures }) &&
+      game.reliability !== "red",
   );
 }
 

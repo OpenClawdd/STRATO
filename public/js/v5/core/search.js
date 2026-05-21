@@ -35,7 +35,17 @@ export function abbreviation(value) {
     .toLowerCase();
 }
 
-export function scoreGame(game, query) {
+function searchContext(context = {}) {
+  return {
+    recent:
+      context.recent instanceof Set
+        ? context.recent
+        : new Set(context.recent || readJson(keys.recent, [])),
+    counts: context.counts || readJson(keys.playCounts, {}),
+  };
+}
+
+export function scoreGame(game, query, context = {}) {
   const q = String(query || "")
     .trim()
     .toLowerCase();
@@ -47,10 +57,8 @@ export function scoreGame(game, query) {
   const blob = [title, category, tags, description].join(" ");
   const abbr = abbreviation(title);
 
-  // Recency/Popularity context for tie-breaking and boosting
-  const recent = readJson(keys.recent, []);
-  const counts = readJson(keys.playCounts, {});
-  const isRecent = recent.includes(game.id);
+  const { recent, counts } = searchContext(context);
+  const isRecent = recent.has(game.id);
   const playCount = Number(counts[game.id] || 0);
   const boost = isRecent ? 0.5 : playCount > 5 ? 0.8 : 1.0;
 
@@ -81,8 +89,9 @@ export function scoreGame(game, query) {
 }
 
 export function searchGames(query) {
+  const context = searchContext();
   return visibleCatalog()
-    .map((game) => ({ game, score: scoreGame(game, query) }))
+    .map((game) => ({ game, score: scoreGame(game, query, context) }))
     .filter(({ score }) => score < 82)
     .sort(
       (a, b) =>

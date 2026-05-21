@@ -35,7 +35,7 @@ export function urlKind(game) {
   return "unsupported";
 }
 
-export function launchability(game) {
+export function launchability(game, context = {}) {
   if (!game || !game.id)
     return {
       status: "invalid",
@@ -66,7 +66,7 @@ export function launchability(game) {
       launchable: false,
     };
 
-  const failures = readJson(keys.failures, {});
+  const failures = context.failures || readJson(keys.failures, {});
   const failure = failures[game.id];
   if (
     failure &&
@@ -96,4 +96,5 @@ export function launchability(game) {
 }
 
 export const health = launchability;
-export const isLaunchable = (game) => launchability(game).launchable;
+export const isLaunchable = (game, context = {}) =>
+  launchability(game, context).launchable;

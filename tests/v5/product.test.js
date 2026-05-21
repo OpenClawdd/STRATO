@@ -107,4 +107,28 @@ describe('v5 personalization and trending', () => {
     // Ensure exact matches still win over boosted partials
     expect(scoreGame(catalog[0], '2048')).toBeLessThan(boostedScore);
   });
+
+  it('keeps exact matches ahead of recent partial matches', () => {
+    setGames([
+      ...catalog,
+      { id: 'space', name: 'Space', category: 'puzzle', tags: ['exact'], description: 'Exact title', url: '/games/space/index.html', thumbnail: '/assets/space-exact.webp', reliability: 'green' },
+    ], normalizeGame);
+    writeJson(keys.recent, ['space-run']);
+
+    const results = searchGames('space').map((game) => game.id);
+
+    expect(results[0]).toBe('space');
+    expect(results).not.toContain('proxy-placeholder');
+  });
+
+  it('uses shared storage snapshots while searching', () => {
+    localStorage.getItem.mockClear();
+
+    searchGames('space');
+
+    expect(localStorage.getItem).toHaveBeenCalledWith(keys.failures);
+    expect(localStorage.getItem).toHaveBeenCalledWith(keys.recent);
+    expect(localStorage.getItem).toHaveBeenCalledWith(keys.playCounts);
+    expect(localStorage.getItem.mock.calls.length).toBeLessThanOrEqual(3);
+  });
 });

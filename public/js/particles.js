@@ -9,6 +9,30 @@
   const canvas = document.getElementById("particles-canvas");
   if (!canvas) return;
 
+  function lowPowerEnabled() {
+    try {
+      const prefs = JSON.parse(
+        localStorage.getItem("strato-preferences") || "{}",
+      );
+      return (
+        prefs.lowPower === true ||
+        localStorage.getItem("strato_low_power") === "true" ||
+        localStorage.getItem("strato-particles") === "false"
+      );
+    } catch {
+      try {
+        return localStorage.getItem("strato_low_power") === "true";
+      } catch {
+        return false;
+      }
+    }
+  }
+
+  if (lowPowerEnabled()) {
+    canvas.style.display = "none";
+    return;
+  }
+
   const ctx = canvas.getContext("2d");
   let particles = [];
   let mouse = { x: -9999, y: -9999 };

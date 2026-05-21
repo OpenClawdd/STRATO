@@ -333,17 +333,7 @@ export function createHomeController() {
         return;
       }
       if (!results.length) {
-        container.innerHTML = `<div class="search-empty-universe">
-          <div class="empty-status">ZERO SIGNALS</div>
-          <h3>No matches in this quadrant.</h3>
-          <p>Try searching for a different mood, genre, or game title.</p>
-          <div class="empty-actions">
-            <button class="btn-universe secondary" id="empty-surprise">Random Orbit</button>
-          </div>
-        </div>`;
-        document
-          .getElementById("empty-surprise")
-          ?.addEventListener("click", () => controller.surprise());
+        container.innerHTML = "";
         return;
       }
       state.searchIndex = Math.max(
