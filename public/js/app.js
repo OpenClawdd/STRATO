@@ -98,6 +98,8 @@
     aiOnline: false,
     proxyReady: false,
     proxyEngines: { uv: false, scramjet: false },
+    proxyNavigationInProgress: false,
+    proxyNavigationKey: null,
     recentlyPlayed: readStorageJson("strato-recent", []),
     changingPanicKey: false,
     gamesPlayed: parseInt(localStorage.getItem("strato-gamesPlayed") || "0"),
@@ -654,16 +656,35 @@
 
   function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
     if (!url) return;
-    const targetEngine = engine || state.currentEngine;
-    const proxyUrl = getProxyUrl(url, targetEngine);
+    let targetEngine = engine || state.currentEngine;
+    const navigationKey = `${targetEngine}|${attempt}|${url}`;
+    if (
+      state.proxyNavigationInProgress &&
+      state.proxyNavigationKey === navigationKey
+    ) {
+      return;
+    }
+    state.proxyNavigationInProgress = true;
+    state.proxyNavigationKey = navigationKey;
+    const releaseNavigation = () => {
+      if (state.proxyNavigationKey !== navigationKey) return;
+      state.proxyNavigationInProgress = false;
+      state.proxyNavigationKey = null;
+    };
+    let proxyUrl = getProxyUrl(url, targetEngine);
     const meta = launchMeta || launchMetaFor(null, url);
     if (!proxyUrl) {
       const fallbackEngine = alternateProxyEngine(targetEngine);
       if (fallbackEngine) {
-        setEngine(fallbackEngine);
-        navigateProxy(url, fallbackEngine, meta, attempt);
-        return;
+        const fallbackUrl = getProxyUrl(url, fallbackEngine);
+        if (fallbackUrl) {
+          targetEngine = fallbackEngine;
+          proxyUrl = fallbackUrl;
+          if (state.currentEngine !== fallbackEngine) setEngine(fallbackEngine);
+        }
       }
+    }
+    if (!proxyUrl) {
       if (attempt === 0) {
         switchView("browser");
         currentExternalLaunch = meta.external ? meta : null;
@@ -685,11 +706,16 @@
           console.debug("[STRATO] Pinging Wisp for pre-warm...");
           fetch("/wisp/").catch(() => {});
         }
-        setTimeout(() => navigateProxy(url, engine, meta, attempt + 1), 500);
+        setTimeout(() => {
+          if (state.proxyNavigationKey !== navigationKey) return;
+          navigateProxy(url, targetEngine, meta, attempt + 1);
+        }, 500);
       } else if (meta.external) {
         document.querySelector(".browser-body")?.classList.remove("is-loading");
+        releaseNavigation();
         showLaunchFailure(meta.game || meta, "proxy engine unavailable");
       } else {
+        releaseNavigation();
         showToast("Proxy engine unavailable", "error");
       }
       return;
@@ -761,6 +787,7 @@
       () => {
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         if (meta.external) {
           showLaunchFailure(
             meta.game || meta,
@@ -773,10 +800,12 @@
 
     if (state.autoFallback) {
       const fallbackTimer = setTimeout(() => {
-        const otherEngine = targetEngine === "uv" ? "scramjet" : "uv";
+        const otherEngine = alternateProxyEngine(targetEngine);
+        if (!otherEngine) return;
         logProxyFailure(targetEngine, url, "ETIMEDOUT");
         setEngine(otherEngine);
-        iframe.src = getProxyUrl(url, otherEngine);
+        const fallbackUrl = getProxyUrl(url, otherEngine);
+        if (fallbackUrl) iframe.src = fallbackUrl;
         showToast(
           `Switched to ${otherEngine === "uv" ? "Ultraviolet" : "Scramjet"}`,
           "accent",
@@ -788,6 +817,7 @@
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
       };
@@ -797,13 +827,19 @@
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
         if (state.autoFallback) {
-          const otherEngine = targetEngine === "uv" ? "scramjet" : "uv";
+          const otherEngine = alternateProxyEngine(targetEngine);
+          if (!otherEngine) {
+            showLaunchFailure(meta.game || meta, "failed to load page");
+            return;
+          }
           logProxyFailure(targetEngine, url, "ECONNREFUSED");
           setEngine(otherEngine);
-          iframe.src = getProxyUrl(url, otherEngine);
+          const fallbackUrl = getProxyUrl(url, otherEngine);
+          if (fallbackUrl) iframe.src = fallbackUrl;
           showToast(
             `Switched to ${otherEngine === "uv" ? "Ultraviolet" : "Scramjet"}`,
             "accent",
@@ -820,6 +856,7 @@
         clearTimeout(failureTimeout);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
       };
@@ -827,6 +864,7 @@
         clearTimeout(failureTimeout);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
         showLaunchFailure(meta.game || meta, "failed to load page");
@@ -904,7 +942,8 @@
       return;
     }
     if (e.data?.type === "proxy-switch-engine") {
-      const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+      const otherEngine = alternateProxyEngine();
+      if (!otherEngine) return;
       setEngine(otherEngine);
       const url = browserUrlInput?.value;
       if (url) navigateProxy(url, otherEngine);
@@ -3087,7 +3126,8 @@
   document
     .getElementById("hub-error-other-engine")
     ?.addEventListener("click", () => {
-      const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+      const otherEngine = alternateProxyEngine();
+      if (!otherEngine) return;
       setEngine(otherEngine);
       const url = document.getElementById("url-input")?.value;
       if (url) navigateProxy(url, otherEngine);

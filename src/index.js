@@ -128,7 +128,7 @@ app.use(
           "https://cdn.jsdelivr.net",
           "https://frontend-cdn.perplexity.ai",
         ],
-        mediaSrc: ["'self'", "blob:"],
+        mediaSrc: ["'self'", "blob:", "https://stream.zeno.fm"],
       },
     },
     // Only enable HSTS when explicitly behind HTTPS — prevents ERR_SSL_PROTOCOL_ERROR

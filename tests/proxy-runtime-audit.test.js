@@ -9,6 +9,16 @@ describe("proxy runtime audit", () => {
     expect(content).toContain("STRATO_PROXY_URLS.uv");
   });
 
+  it("does not recursively re-enter navigateProxy for engine fallback", () => {
+    const content = fs.readFileSync("public/js/app.js", "utf8");
+    expect(content).toContain("alternateProxyEngine(targetEngine)");
+    expect(content).toContain("proxyNavigationInProgress");
+    expect(content).toContain("proxyNavigationKey");
+    expect(content).not.toContain(
+      "navigateProxy(url, fallbackEngine, meta, attempt)",
+    );
+  });
+
   it("keeps the proxy smoke check pointed at wrapper assets", () => {
     const content = fs.readFileSync("scripts/check-proxy.mjs", "utf8");
     expect(content).toContain("/frog/uv.bundle.js");
