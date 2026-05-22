@@ -375,6 +375,11 @@
       state.hubSitesLoaded = true;
       loadHubSites().catch(() => {});
     }
+    if (viewName === "chat") {
+      if (window.StratoChat && typeof window.StratoChat.init === "function") {
+        window.StratoChat.init();
+      }
+    }
   }
 
   document.querySelectorAll(".nav-btn").forEach((btn) => {
