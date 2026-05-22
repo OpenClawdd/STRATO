@@ -1,13 +1,13 @@
 # STRATO Catalog Atlas Summary
 
-Audit timestamp: `2026-05-20T18:59:44.456Z`
+Audit timestamp: `2026-05-22T00:43:56.910Z`
 Total catalog games: **1248**
 
 ## 📊 Reliability Breakdown
 * **Green (Local Verified)**: **16**
-* **Yellow (Active Remote)**: **371**
-* **Red (Quarantined)**: **861**
-* **Active checked playable candidates**: **387**
+* **Yellow (Active Remote)**: **173**
+* **Red (Quarantined)**: **1059**
+* **Active checked playable candidates**: **189**
 
 ## 📚 Top Source Families
 | Family | Counts |
@@ -47,19 +47,19 @@ Total catalog games: **1248**
 
 | Title | Matches |
 |---|---|
-| **1v1.LOL** | 1v1-lol (yellow), 1v1-lol-2 (yellow) |
-| **Friday Night Funkin'** | fnf (red), selenite-fridaynightfunkin (yellow) |
-| **Moto X3M** | moto-x3m (yellow), moto-x-3-m (yellow) |
-| **Badicecream 2** | badicecream-2 (yellow), bad-ice-cream-2 (yellow) |
-| **Badicecream 3** | badicecream-3 (yellow), bad-ice-cream-3 (yellow) |
-| **Banjo-Tooie** | banjotooie (red), selenite-banjotooie (yellow) |
+| **1v1.LOL** | 1v1-lol (red), 1v1-lol-2 (red) |
+| **Friday Night Funkin'** | fnf (red), selenite-fridaynightfunkin (red) |
+| **Moto X3M** | moto-x3m (red), moto-x-3-m (red) |
+| **Badicecream 2** | badicecream-2 (red), bad-ice-cream-2 (yellow) |
+| **Badicecream 3** | badicecream-3 (red), bad-ice-cream-3 (yellow) |
+| **Banjo-Tooie** | banjotooie (red), selenite-banjotooie (red) |
 | **Bartbash** | bartbash (red), bart-bash (red) |
-| **Bergen Truck** | bergentruck (red), selenite-bergentruck (yellow) |
+| **Bergen Truck** | bergentruck (red), selenite-bergentruck (red) |
 | **Bit Planes** | bit-planes (red), bitplanes (red) |
-| **Bobtherobber 2** | bobtherobber-2 (yellow), bob-the-robber-2 (yellow) |
-| **Boxingrandom** | boxingrandom (yellow), boxing-random (yellow) |
-| **Burgerandfrights** | burgerandfrights (yellow), burger-and-frights (yellow) |
-| **Burritobison** | burritobison (red), burrito-bison (yellow) |
+| **Bobtherobber 2** | bobtherobber-2 (red), bob-the-robber-2 (yellow) |
+| **Boxingrandom** | boxingrandom (red), boxing-random (red) |
+| **Burgerandfrights** | burgerandfrights (red), burger-and-frights (yellow) |
+| **Burritobison** | burritobison (red), burrito-bison (red) |
 | **Cavestory** | cavestory (red), cave-story (red) |
 | **Cheeserolling** | cheeserolling (red), cheese-rolling (yellow) |
 
@@ -68,33 +68,33 @@ These quarantined items are scored based on mirror availability, duplicate prese
 
 | Score | Title | ID | Failure Status | Candidate Mirror |
 |---:|---|---|---|---|
-| **55** | Banjo-Tooie | `banjotooie` | `unknown` | None |
-| **55** | Bergen Truck | `bergentruck` | `unknown` | None |
-| **55** | Burritobison | `burritobison` | `unknown` | None |
+| **95** | Badicecream 2 | `badicecream-2` | `unknown` | `/games/game.html?game=/Games5/bad-ice-cream-2...` |
+| **95** | Badicecream 3 | `badicecream-3` | `unknown` | `/games/game.html?game=/Games5/bad-ice-cream-3...` |
+| **95** | Bobtherobber 2 | `bobtherobber-2` | `unknown` | `/games/game.html?game=/Games/bobtherobber2...` |
+| **95** | Burgerandfrights | `burgerandfrights` | `unknown` | `/games/game.html?game=https://adfree-sz-games...` |
+| **95** | Csgoclicker | `csgoclicker` | `unknown` | `/games/game.html?game=/Games/CSGO-CLICKER...` |
+| **95** | Five Nights At Winstons | `five-nights-at-winstons` | `unknown` | `/games/game.html?game=/Games10/fnaw/index.htm...` |
+| **55** | 10 Minutes Till Dawn | `10-minutes-till-dawn` | `unknown` | `/games/game.html?game=/Games5/10-minutes-till...` |
+| **55** | 1v1 LOL | `1v1-lol-2` | `unknown` | `/games/game.html?game=https://adfree-sz-games...` |
+| **55** | 9007199254740992 | `9007199254740992` | `unknown` | `/games/game.html?game=/Games5/900719925474099...` |
+| **55** | A Dance of Fire and Ice | `adofai` | `unknown` | `/games/game.html?game=https://adfree-sz-games...` |
+| **55** | Amazing Rope Police | `amazing-rope-police` | `unknown` | `/games/game.html?game=/Games5/amazing-rope-po...` |
+| **55** | Bad Ice Cream | `bad-ice-cream` | `unknown` | `/games/game.html?game=/Games5/bad-ice-cream...` |
+| **55** | Basketball Stars | `basketball-stars` | `unknown` | `/games/game.html?game=/Games7/basketball-star...` |
+| **55** | Boxing Random | `boxing-random` | `unknown` | `/games/game.html?game=https://tylerpalko.gith...` |
+| **55** | Boxingrandom | `boxingrandom` | `unknown` | `/games/game.html?game=https://tylerpalko.gith...` |
 | **55** | Cheeserolling | `cheeserolling` | `unknown` | None |
-| **55** | Civclicker | `civclicker` | `unknown` | None |
-| **55** | Cookingmama | `cookingmama` | `unknown` | None |
-| **55** | Cookingmama 2 | `cookingmama-2` | `unknown` | None |
-| **55** | Deepestsword | `deepestsword` | `unknown` | None |
-| **55** | Deltatraveler | `deltatraveler` | `unknown` | None |
-| **55** | Dogeminer 2 | `dogeminer-2` | `unknown` | None |
+| **55** | Five Nights At Epsteins | `five-nights-at-epsteins` | `unknown` | None |
+| **55** | Moto X 3 M | `moto-x-3-m` | `unknown` | `/games/game.html?game=https://tbg95.github.io...` |
+| **55** | Papa's Pizzeria | `papas-pizzeria` | `unknown` | `/games/Flash.html?game=/FlashGames/papaspizze...` |
+| **55** | Slendytubbies | `truffled-slendy` | `unknown` | None |
+| **55** | Subway Surfers | `subway-surfers` | `unknown` | `/games/game.html?game=https://dddavit.github....` |
 | **55** | Super Smash Flash 2 | `selenite-supersmashflash2` | `unknown` | `./games/Flash.html?game=/Games11/super-smash-...` |
-| **50** | Friday Night Funkin' | `fnf` | `unknown` | None |
-| **25** | Coreball | `coreball` | `unknown` | None |
-| **25** | Dadish 3 D | `dadish-3-d` | `unknown` | None |
-| **25** | Friday Night Funkin': B Sides | `friday-night-funkin-b-sides` | `unknown` | None |
-| **25** | Poly Track | `poly-track` | `unknown` | None |
-| **25** | Shredsauce | `shredsauce` | `unknown` | None |
-| **25** | Snow Rider 3 D | `snow-rider-3-d` | `unknown` | None |
-| **25** | Super Monkey Ball 1&2 | `super-monkey-ball-1-2` | `unknown` | None |
-| **25** | Vex X 3 M | `vex-x-3-m` | `unknown` | None |
-| **15** | 1 Date Danger | `1-datedanger` | `unknown` | None |
-| **15** | 1 On 1 Soccer | `1-on-1-soccer` | `unknown` | None |
-| **15** | 2 Flash | `2-flash` | `unknown` | None |
-| **15** | 2D Rocket League | `2-drocketleague` | `unknown` | None |
-| **15** | 3 Flash | `3-flash` | `unknown` | None |
-| **15** | 3 Line | `3-line` | `unknown` | None |
-| **15** | 4 Flash | `4-flash` | `unknown` | None |
-| **15** | 5 Flash | `5-flash` | `unknown` | None |
-| **15** | 6 Flash | `6-flash` | `unknown` | None |
-| **15** | 60 Second Burger Run | `60-sburgerrun` | `unknown` | None |
+| **55** | Vex 4 | `vex-4` | `unknown` | `/games/game.html?game=/Games7/vex4...` |
+| **50** | 1v1.LOL | `1v1-lol` | `unknown` | `/games/game.html?game=https://adfree-sz-games...` |
+| **50** | Agar.io | `agar-io` | `unknown` | `/games/agario...` |
+| **50** | Among Us | `among-us` | `unknown` | `/games/game.html?game=/Games2/among-us...` |
+| **50** | BitLife | `bitlife` | `unknown` | `/rating.html?game=bitlife&&url=/games/game.ht...` |
+| **50** | Chess | `chess` | `unknown` | `/games/game.html?game=/games/chess/index.html...` |
+| **50** | Crossy Road | `crossy-road` | `unknown` | `/games/game.html?game=https://adfree-sz-games...` |
+| **50** | Drift Hunters | `drift-hunters` | `unknown` | `/games/game.html?game=https://webglmath.githu...` |

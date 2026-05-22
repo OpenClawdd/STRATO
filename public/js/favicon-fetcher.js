@@ -45,24 +45,24 @@
     }
   }
 
-  /**
-   * Fetch a favicon for a given URL using 4 fallback sources.
-   * Returns the first successful image URL, or null if all fail.
-   */
   async function getFavicon(url) {
     if (!url || /^\$\{/.test(url)) return null;
 
-    const domain = getDomain(url);
+    let targetDomain;
+    try {
+      targetDomain = new URL(url, location.href).hostname;
+    } catch {
+      return null;
+    }
+
+    if (targetDomain !== location.hostname) return null;
+
+    const domain = targetDomain;
     if (!domain) return null;
 
     if (cache.has(domain)) return cache.get(domain);
 
-    const sources = [
-      `https://${domain}/favicon.ico`,
-      `https://${domain}/favicon.png`,
-      `https://www.google.com/s2/favicons?domain=${domain}&sz=64`,
-      `https://icon.horse/icon/${domain}`,
-    ];
+    const sources = [`/favicon.ico`, `/favicon.png`];
 
     for (const src of sources) {
       const ok = await tryImage(src);

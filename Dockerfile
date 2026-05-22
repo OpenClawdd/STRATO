@@ -1,6 +1,6 @@
 # ──────────────────────────────────────────────────
-# STRATO v21 — Multi-stage Docker Build
-# Web proxy and game hub for school Chromebooks
+# STRATO v1.0 — Multi-stage Docker Build
+# Local-first Verified Launch Universe
 # ──────────────────────────────────────────────────
 
 # ── Stage 1: Build ──
@@ -26,12 +26,12 @@ RUN node scripts/setup-proxy.cjs
 # ── Stage 2: Production ──
 FROM node:20-slim AS production
 
-LABEL description="STRATO v21 — Ultimate web proxy and game hub for school Chromebooks"
-LABEL version="21.0.0"
+LABEL description="STRATO v1.0 — Local-first Verified Launch Universe"
+LABEL version="1.0.0"
 LABEL license="GPL-3.0"
 LABEL org.opencontainers.image.title="STRATO"
-LABEL org.opencontainers.image.description="Web proxy and game hub with Ultraviolet, Scramjet, AI Tutor, Stealth Mode"
-LABEL org.opencontainers.image.version="21.0.0"
+LABEL org.opencontainers.image.description="STRATO v1.0 — Local-first Verified Launch Universe"
+LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.licenses="GPL-3.0"
 
 # Install dumb-init for proper signal handling

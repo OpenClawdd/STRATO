@@ -4,6 +4,16 @@ All notable changes to STRATO are documented in this file. The format is based o
 
 ---
 
+## [1.0.0] — 2026-05-21
+
+### Game-First Local-First Verified Release Candidate
+- **Version Alignment** — Converted to `v1.0` release identity across package.json, index.js, Dockerfile, sw.js, manifest.json.
+- **Game-First Performance** — Disabled page particles by default to optimize low-power Chromebooks. Sliced arcade grids to 40 items maximum and added a "Load More" pagination element.
+- **Security & Privacy** — Restricted favicon loader to same-origin domain logic only. Converted external tab-cloaking assets into offline Base64 SVG data URLs.
+- **Search Hygiene** — Limited command-palette searches to verified playable games via `activePlayableCatalog`.
+
+---
+
 ## [21.0.0] — 2025-03-04
 
 ### The Definitive Edition

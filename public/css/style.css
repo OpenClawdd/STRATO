@@ -4788,3 +4788,15 @@ body.low-power .game-card,
 body.low-power .game-card-thumb img {
   transition: none;
 }
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  width: 100%;
+}
+
+.load-more-btn {
+  max-width: 200px;
+}

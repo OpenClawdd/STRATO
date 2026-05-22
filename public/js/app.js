@@ -90,7 +90,7 @@
     panicKey: localStorage.getItem("strato-panicKey") || "`",
     activeCloak: localStorage.getItem("strato-cloak") || "none",
     accentColor: localStorage.getItem("strato-accent") || "cyan",
-    particlesEnabled: localStorage.getItem("strato-particles") !== "false",
+    particlesEnabled: localStorage.getItem("strato-particles") === "true",
     animationsEnabled: localStorage.getItem("strato-animations") !== "false",
     games: [],
     filteredGames: [],
@@ -122,6 +122,9 @@
     aiStatusChecked: false,
     hubSitesLoaded: false,
   };
+
+  let gamesRenderLimit = 40;
+  let rainbowIntervalId = null;
 
   // Apply saved accent color
   document.documentElement.setAttribute("data-accent", state.accentColor);
@@ -175,56 +178,75 @@
   // TAB CLOAKS
   // ──────────────────────────────────────────
   const CLOAKS = {
-    none: { title: "STRATO", favicon: "/favicon.ico" },
+    none: {
+      title: "STRATO",
+      favicon: "/favicon.ico",
+    },
     classroom: {
       title: "Classes",
-      favicon: "https://www.google.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzEwN2M0MSIvPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2YxYTkzNCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTcgMTBoMTBNNyAxNGg2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==",
     },
     quizlet: {
       title: "Your Sets | Quizlet",
-      favicon: "https://www.quizlet.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzNjYyIvPjxwYXRoIGQ9Ik0xMiA2YTUgNSAwIDEgMCA1IDVtLTEgM2w0IDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==",
     },
     canvas: {
       title: "Dashboard",
-      favicon: "https://www.canvaslms.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNlMDIyMDAiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI1IiBmaWxsPSIjZmZmIi8+PC9zdmc+",
     },
     clever: {
       title: "Clever | Portal",
-      favicon: "https://www.clever.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzQ3NzBmZiIvPjxwYXRoIGQ9Ik0xNiA4YTQgNCAwIDAgMC00LTRoLTJ2MTZoMmE0IDQgMCAwIDAgNC00IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=",
     },
-    ixl: { title: "IXL | Math", favicon: "https://www.ixl.com/favicon.ico" },
+    ixl: {
+      title: "IXL | Math",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAyNGI4MCIvPjx0ZXh0IHg9IjMiIHk9IjE3IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjEyIj5JWEw8L3RleHQ+PC9zdmc+",
+    },
     "school-agreca": {
       title: "Escuela Agreca — Inicio",
-      favicon: "https://school.agreca.com.ar/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzdiMWZhMiIvPjxwYXRoIGQ9Ik0xMiAyTDIgMjJoMjBMMTIgMnoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "noahs-tutoring": {
       title:
         "Noah's Tutoring — Programming, Writing, Lecture, Learning & Literature",
-      favicon: "https://www.google.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzE5NzZkMiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "byod-portal": {
       title: "BYOD Portal — Geeked",
-      favicon: "https://byod.geeked.wtf/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzM4OGUzYyIvPjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==",
     },
     "eclipse-castellon": {
       title: "Eclipse Castellon — Educacion",
-      favicon: "https://dtxb.eclipsecastellon.net/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI2Y1N2MwMCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "learning-policy": {
       title: "Learning Policy Institute — Research",
-      favicon: "https://learningpolicy.lervs.ro/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzQ1NWE2NCIvPjxwYXRoIGQ9Ik0xMiAzTDIgOGwxMCA1IDEwLTUtMTAtNXoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "petezah-games": {
       title: "Aletia Tours — Travel Deals",
-      favicon: "https://pluh.aletiatours.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAyODhkMSIvPjxwb2x5Z29uIHBvaW50cz0iMTIsMiAyLDIyIDIyLDIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+",
     },
     "start-education": {
       title: "Start My Education — Home",
-      favicon: "https://startmyeducation.top/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI2U5MWU2MyIvPjxwYXRoIGQ9Ik0xMiAzTDIgOGwxMCA1IDEwLTUtMTAtNXoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     cherrion: {
       title: "Cherrion — Help & Resources",
-      favicon: "https://cherrion.top/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwOTY4OCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
   };
 
@@ -1765,9 +1787,27 @@
       : state.filteredGames.filter((game) =>
           isLaunchableStatus(getGameHealth(game).status),
         );
-    grid.innerHTML = games.map(renderGameCardMarkup).join("");
+
+    const slicedGames = games.slice(0, gamesRenderLimit);
+    grid.innerHTML = slicedGames.map(renderGameCardMarkup).join("");
     bindGameGridEvents(grid);
     renderArcadeRecent();
+
+    const container = document.getElementById("games-load-more-container");
+    if (container) {
+      if (games.length > gamesRenderLimit) {
+        container.innerHTML = `<button id="games-load-more-btn" class="glass-btn load-more-btn">Load More</button>`;
+        const btn = document.getElementById("games-load-more-btn");
+        if (btn) {
+          btn.addEventListener("click", () => {
+            gamesRenderLimit += 40;
+            renderGames();
+          });
+        }
+      } else {
+        container.innerHTML = "";
+      }
+    }
 
     // Attach hover prefetch for faster loads
     attachHoverPrefetch();
@@ -2319,6 +2359,7 @@
   } catch (e) {}
 
   function filterGames() {
+    gamesRenderLimit = 40;
     const query = (searchInput?.value || "").toLowerCase().trim();
     const sort = sortSelect?.value || "popular";
     const baseCatalog = activePlayableCatalog();
@@ -3030,6 +3071,10 @@
   // Accent color picker
   document.querySelectorAll(".swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
+      if (rainbowIntervalId) {
+        clearInterval(rainbowIntervalId);
+        rainbowIntervalId = null;
+      }
       const color = swatch.dataset.color;
       document.documentElement.setAttribute("data-accent", color);
       state.accentColor = color;
@@ -3120,6 +3165,10 @@
 
   // Theme cycle button
   document.getElementById("theme-cycle-btn")?.addEventListener("click", () => {
+    if (rainbowIntervalId) {
+      clearInterval(rainbowIntervalId);
+      rainbowIntervalId = null;
+    }
     const colors = ["cyan", "purple", "pink", "green", "orange", "red"];
     const currentIdx = colors.indexOf(state.accentColor);
     const nextIdx = (currentIdx + 1) % colors.length;
@@ -3646,16 +3695,17 @@
     const results = [];
 
     // Search games
-    if (state.games.length > 0) {
+    const baseCatalog = activePlayableCatalog();
+    if (baseCatalog.length > 0) {
       const gameResults = q
-        ? state.games
+        ? baseCatalog
             .filter(
               (g) =>
                 g.name.toLowerCase().includes(q) ||
                 (g.category || "").toLowerCase().includes(q),
             )
             .slice(0, 5)
-        : state.games.slice(0, 5);
+        : baseCatalog.slice(0, 5);
       gameResults.forEach((g) =>
         results.push({
           type: "game",
@@ -3917,10 +3967,15 @@
   }
 
   function startRainbowCycle() {
+    if (rainbowIntervalId) return;
     const colors = ["cyan", "purple", "pink", "green", "orange", "red"];
     let idx = 0;
-    setInterval(() => {
-      if (state.accentColor !== "rainbow") return;
+    rainbowIntervalId = setInterval(() => {
+      if (state.accentColor !== "rainbow") {
+        clearInterval(rainbowIntervalId);
+        rainbowIntervalId = null;
+        return;
+      }
       idx = (idx + 1) % colors.length;
       document.documentElement.setAttribute("data-accent", colors[idx]);
     }, 3000);
@@ -3967,7 +4022,7 @@
     const icon = document.querySelector('link[rel="icon"]');
     if (icon)
       icon.href =
-        "https://fonts.gstatic.com/s/i/productlogos/docs_2020q4/v6/192px.svg";
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3QgeD0iNCIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzI2ODRmYyIvPjxwb2x5Z29uIHBvaW50cz0iMTQsMiAyMCw4IDE0LDgiIGZpbGw9IiNhNGM3ZjkiLz48bGluZSB4MT0iOCIgeTE9IjEyIiB4Mj0iMTYiIHkyPSIxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjgiIHkxPSIxNiIgeDI9IjEzIiB5Mj0iMTYiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==";
 
     // Load a fake Google Doc in the overlay iframe
     iframe.srcdoc = `<!DOCTYPE html><html><head><style>body{font-family:Arial,sans-serif;padding:40px 80px;color:#333;background:#fff}h1{font-size:22px;font-weight:normal;margin-bottom:8px}p{font-size:14px;color:#666;line-height:1.6}.toolbar{height:40px;background:#f1f3f4;border-bottom:1px solid #dadce0;margin:-40px -80px 24px;padding:8px 80px;display:flex;gap:16px;align-items:center}.toolbar span{font-size:13px;color:#5f6368}</style></head><body><div class="toolbar"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span></div><h1>Untitled document</h1><p>Start typing your document here...</p></body></html>`;

@@ -1,6 +1,6 @@
-# STRATO v5 — The Living Hideout
+# STRATO v1.0 — Local-first Verified Launch Universe
 
-STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
+STRATO is a local-first verified game launcher. STRATO v1.0 is built around fast local catalog search, verified offline assets, and recoverable launches.
 
 The current app is an Express 5 server with a single-page frontend, a local game catalog, WebSocket chat support, optional AI features, PWA assets, and local personalization powered by `localStorage`.
 

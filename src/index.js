@@ -72,7 +72,7 @@ app.set("trust proxy", 1);
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
-    version: "5.0.1",
+    version: "1.0.0",
     uptime: process.uptime(),
     engines: { uv: true, scramjet: true },
     wisp: true,
@@ -364,8 +364,8 @@ try {
 server.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════════════════╗
-  ║          STRATO v5.0.1                         ║
-  ║        The Living Hideout                     ║
+  ║                  STRATO v1.0                   ║
+  ║        Local Verified Launch Universe          ║
   ║                                                ║
   ║    http://localhost:${String(PORT).padEnd(5)}                  ║
   ║    Bare:  /bare/     Wisp:  /wisp/             ║

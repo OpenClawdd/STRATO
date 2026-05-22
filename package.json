@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "5.0.3",
-  "description": "STRATO v5.02 — Catalog Purge + Surface Split: playable games stay clean, non-playable surfaces live outside Home/Search/Picks.",
+  "version": "1.0.0",
+  "description": "STRATO v1.0 — Local-first Verified Launch Universe",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
