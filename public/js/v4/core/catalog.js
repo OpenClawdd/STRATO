@@ -20,7 +20,10 @@ export function isHomeSafe(game) {
 export function playableCatalog() {
   return state.games.filter(
     (game) =>
-      isHomeSafe(game) && isLaunchable(game) && game.reliability !== "red",
+      isHomeSafe(game) &&
+      isLaunchable(game) &&
+      game.reliability !== "red" &&
+      game.reliability !== "yellow",
   );
 }
 
