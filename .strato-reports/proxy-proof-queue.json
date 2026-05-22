@@ -1,0 +1,1386 @@
+[
+  {
+    "id": "baldis-basics",
+    "name": "Baldi's Basics",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/baldis-basics/",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ballisticchickens",
+    "name": "Ballistic Chickens",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/ballistic-chickens",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "basketbros",
+    "name": "Basket Bros",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games11/basketbros",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bigredbutton",
+    "name": "Big Red Button",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/bigredbutton/index.html",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bloxors",
+    "name": "Bloxors",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/bloxors/index.html",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cell-machine",
+    "name": "Cell Machine",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/cell-machine/index.html",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "championisland",
+    "name": "Championisland",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/champion-island",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cubefield",
+    "name": "Cubefield",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/cubefield/index.html",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cut-the-rope",
+    "name": "Cut the Rope",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/ctr/index.html",
+    "source": "selenite",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "death-run-3-d",
+    "name": "Death Run 3 D",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/death-run-3d/",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "defendthetank",
+    "name": "Defendthetank",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/defend-the-tank",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "dogeminer",
+    "name": "Dogeminer",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games4/DogeMiner",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "adventure-drivers",
+    "name": "Adventure Drivers",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/adventure-drivers",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "angry-birds",
+    "name": "Angry Birds",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/AngryBirds/",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "big-tower-tiny-square",
+    "name": "Big Tower Tiny Square",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/btts/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bob-the-robber-2",
+    "name": "Bob The Robber 2",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games/bobtherobber2",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "burger-and-frights",
+    "name": "Burger And Frights",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "call-of-duty-mobile",
+    "name": "Call Of Duty Mobile",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/a/10008/b.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cannon-basketball-4",
+    "name": "Cannon Basketball 4",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/cannon-basketball-4/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cookie-run-kingdom",
+    "name": "Cookie Run Kingdom",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/a/10019/b.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "danganronpa-trigger-happy-havoc",
+    "name": "Danganronpa Trigger Happy Havoc",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/stuff/selfhosted/danganronpa/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "drift-boss",
+    "name": "Drift Boss",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/drift-boss",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "drive-mad",
+    "name": "Drive Mad",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/drive-mad",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ea-sports-fc-mobile",
+    "name": "Ea Sports Fc Mobile",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/electronic-arts/1353/ea-sports-fc-mobile-24-soccer.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ea-sports-ufc-mobile",
+    "name": "Ea Sports Ufc Mobile",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/electronic-arts/3288/ea-sports-ufc-mobile-2.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ev-io",
+    "name": "Ev.io",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/algebra.html?url=https://ev.io",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "fortnite",
+    "name": "Fortnite",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://com.epicgames.fortnite",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "genshin-impact",
+    "name": "Genshin Impact",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/cognosphere-pte-ltd-/1773/genshin-impact.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "getting-over-it",
+    "name": "Getting Over It",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/getting-over-it",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "hexgl",
+    "name": "Hexgl",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/HexGL/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "honkai-star-rail",
+    "name": "Honkai Star Rail",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/cognosphere-pte-ltd/1591/honkai-star-rail.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "little-big-planet",
+    "name": "Little Big Planet",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/stuff/selfhosted/lbp/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "melon-sandbox",
+    "name": "Melon Sandbox",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/playducky/7199/melon-sandbox.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "minecraft",
+    "name": "Minecraft",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/storage3/AWeb",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "monkey-mart",
+    "name": "Monkey Mart",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games/monkey-mart",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ovo",
+    "name": "Ovo",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/ovo",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "pojavlauncher",
+    "name": "Pojavlauncher",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/aptoide/5874/aptoide.html?deep_link=aptoidesearch://git.artdeell.mojo",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "pubg-mobile",
+    "name": "Pubg Mobile",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/proxima-beta/2609/pubg-mobile-resistance.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "retro-hellicopter",
+    "name": "Retro Hellicopter",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/algebra.html?url=https://www.coolmathgames.com/0-retro-helicopter/play",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "roblox",
+    "name": "Roblox",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/roblox.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "slowroads",
+    "name": "Slowroads",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/slowroads",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "stumble-guys",
+    "name": "Stumble Guys",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/apps/a/10011/b.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "super-mario-64",
+    "name": "Super Mario 64",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/sm64/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "super-mario-bros",
+    "name": "Super Mario Bros",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games4/SuperMario/",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "superhot",
+    "name": "Superhot",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/superhot/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "tag",
+    "name": "Tag",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/algebra.html?url=https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://118473026-235917736205837253.preview.editmysite.com/uploads/b/146211889-618141766941606391/files/tag.xml&container=ig",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "tanuki-sunset",
+    "name": "Tanuki Sunset",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/tanuki-sunset/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "tomb-of-the-mask",
+    "name": "Tomb Of The Mask",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games9/tomb",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "toss-the-turtle",
+    "name": "Toss The Turtle",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/tosstheturtle/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "tube-jumpers",
+    "name": "Tube Jumpers",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/tube-jumpers/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "uno",
+    "name": "Uno",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games9/uno/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "venge",
+    "name": "Venge",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/algebra.html?url=https://venge.io",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "we-become-what-we-behold",
+    "name": "We Become What We Behold",
+    "reliability": "yellow",
+    "url": "https://mr-funkinguy.github.io/gfile/wbwwb/index.html",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "zombs-royale-2",
+    "name": "Zombs Royale",
+    "reliability": "yellow",
+    "url": "https://play.frogiee.one/algebra.html?url=https://fortnite.io",
+    "source": "frogie",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "jetpack-joyride",
+    "name": "Jetpack Joyride",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/jetpack-joyride/",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "temple-run-2",
+    "name": "Temple Run 2",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/temple-run-2/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "99-balls",
+    "name": "99 Balls",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/99balls/",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bad-ice-cream-2",
+    "name": "Bad Ice Cream 2",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-2",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bad-ice-cream-3",
+    "name": "Bad Ice Cream 3",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-3",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "blockpost",
+    "name": "Blockpost",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/blockpost",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bloxorz",
+    "name": "Bloxorz",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/games/bloxx",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "blumgi-rocket",
+    "name": "Blumgi Rocket",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games11/blumgi-rocket/game",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "breaklock",
+    "name": "Breaklock",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/breaklock/",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "crazy-cars",
+    "name": "Crazy Cars",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games11/crazy-cars/game",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "doge-miner",
+    "name": "Doge Miner",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/DogeMiner/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "doodle-jump",
+    "name": "Doodle Jump",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/doodle-jump/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "dragon-vs-bricks",
+    "name": "Dragon Vs Bricks",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/dragon-vs-bricks",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "draw-the-hill",
+    "name": "Draw The Hill",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/draw-the-hill/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "elastic-man",
+    "name": "Elastic Man",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/elasticman/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "evil-glitch",
+    "name": "Evil Glitch",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/evil-glitch/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "five-nights-at-winstons-2",
+    "name": "Five Nights At Winston's",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games10/fnaw/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "fruit-ninja",
+    "name": "Fruit Ninja",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games9/fruitninja/",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "going-balls",
+    "name": "Going Balls",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games8/goingballs",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "google-baseball",
+    "name": "Google Baseball",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/google-baseball",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "google-feud",
+    "name": "Google Feud",
+    "reliability": "yellow",
+    "url": "https://mr-funkinguy.github.io/83/google-feud/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "highway-racer",
+    "name": "Highway Racer",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/hwy-rcer",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "idle-breakout",
+    "name": "Idle Breakout",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/idle-breakout/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "madalin-stunt-cars-3",
+    "name": "Madalin Stunt Cars 3",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games2/madalin-stunt-cars-3",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "money-rush",
+    "name": "Money Rush",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games8/MONEYRUSH",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "moto-x-3-m-2",
+    "name": "Moto X 3 M 2",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/motox3m2",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "moto-x-3-m-pool-party",
+    "name": "Moto X 3 M Pool Party",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/motox3m-pool",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "moto-x-3-m-winter",
+    "name": "Moto X 3 M Winter",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/motox3m-winter",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "papery-planes",
+    "name": "Papery Planes",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/papery-planes/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "rolling-sky",
+    "name": "Rolling Sky",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games6/webgl-rollingsky/",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "rolly-vortex",
+    "name": "Rolly Vortex",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/rolly-vortex/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "sandboxels",
+    "name": "Sandboxels",
+    "reliability": "yellow",
+    "url": "https://mr-funkinguy.github.io/sandboxels",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "slope-2",
+    "name": "Slope 2",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games2/slope-2",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "sort-the-court",
+    "name": "Sort The Court",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/sort-the-court/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "station-141",
+    "name": "Station 141",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games5/station-141/",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "tiny-fishing",
+    "name": "Tiny Fishing",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/tiny-fishing",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "vex-6",
+    "name": "Vex 6",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/vex6/index.html",
+    "source": "gn-math",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "vex-7",
+    "name": "Vex 7",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/vex3",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "waterworks",
+    "name": "Waterworks!",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games7/waterworks",
+    "source": "adfree-resurrection",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "andys-apple-farm",
+    "name": "Andy's Apple Farm",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=andys-apple-farm",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "aqua-park",
+    "name": "Aqua Park",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=aqua-park",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "babel-tower",
+    "name": "Babel Tower",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=babel-tower",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "backrooms",
+    "name": "Backrooms",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/backrooms/index.html",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bad-parenting-1",
+    "name": "Bad Parenting 1",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=bad-parenting-1",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "basketball-random",
+    "name": "Basketball Random",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=basketball-random",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ben-10-omniverse",
+    "name": "Ben 10 Omniverse",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=ben-10-omniverse",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "ben-10-protector-of-earth",
+    "name": "Ben 10 Protector Of Earth",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=ben-10-protector-of-earth",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "binding-of-isaac-wrath-of-the-lamb",
+    "name": "Binding Of Isaac Wrath Of The Lamb",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=binding-of-isaac-wrath-of-the-lamb",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "bloons-td-4",
+    "name": "Bloons TD 4",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=bloons-td-4",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "brotato",
+    "name": "Brotato",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=brotato",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cheese-rolling",
+    "name": "Cheese Rolling",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=cheese-rolling",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "christmas-massacre",
+    "name": "Christmas Massacre",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=christmas-massacre",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "code-editor",
+    "name": "Code Editor",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=code-editor",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "core-ball",
+    "name": "Core Ball",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=core-ball",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "crazy-cattle-3-d",
+    "name": "Crazy Cattle 3 D",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=crazy-cattle-3d",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "csgo-clicker",
+    "name": "Csgo Clicker",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games/CSGO-CLICKER",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "cube-field",
+    "name": "Cube Field",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=cube-field",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "dice-a-million",
+    "name": "Dice A Million",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=dice-a-million",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "dungeons-degenerate-gamblers",
+    "name": "Dungeons & Degenerate Gamblers",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=dungeons-and-degenerate-gamblers",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "endoparasitic",
+    "name": "Endoparasitic",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=endoparasitic",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "fear-hunger",
+    "name": "Fear & Hunger",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=fear-and-hunger",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "fears-to-fathom-home-alone",
+    "name": "Fears To Fathom: Home Alone",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=fears-to-fathom-home-alone",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "five-nights-at-epsteins-2",
+    "name": "Five Nights At Epstein's",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=five-nights-at-epsteins",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "flight-simulator",
+    "name": "Flight Simulator",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=flight-simulator",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "geometry-dash-subzero",
+    "name": "Geometry Dash Subzero",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=geometry-dash-subzero",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "google-dino",
+    "name": "Google Dino",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=google-dino",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "grand-theft-auto-vice-city",
+    "name": "Grand Theft Auto: Vice City",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=grand-theft-auto-vice-city",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "granny",
+    "name": "Granny",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/Games8/GRANNY",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "hollow-knight-silksong",
+    "name": "Hollow Knight: Silksong",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=hollow-knight-silksong",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "hotline-miami",
+    "name": "Hotline Miami",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=hotline-miami",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "iron-lung",
+    "name": "Iron Lung",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=iron-lung",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "iron-snout",
+    "name": "Iron Snout",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=iron-snout",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "jelly-drift",
+    "name": "Jelly Drift",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=jelly-drift",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "karlson",
+    "name": "Karlson",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=karlson",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "kindergarten",
+    "name": "Kindergarten",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=kindergarten",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "kindergarten-2",
+    "name": "Kindergarten 2",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=kindergarten-2",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "kindergarten-3",
+    "name": "Kindergarten 3",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=kindergarten-3",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "legend-of-zelda",
+    "name": "Legend Of Zelda",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=legend-of-zelda",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "legend-of-zelda-ocarina-of-time",
+    "name": "Legend Of Zelda Ocarina Of Time",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=legend-of-zelda-ocarina-of-time",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "legend-of-zelda-phantom-hourglass",
+    "name": "Legend Of Zelda Phantom Hourglass",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=legend-of-zelda-phantom-hourglass",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "legend-of-zelda-the-minish-cap",
+    "name": "Legend Of Zelda The Minish Cap",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=legend-of-zelda-the-minish-cap",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "legend-of-zelda-the-spirit-tracks",
+    "name": "Legend Of Zelda The Spirit Tracks",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=legend-of-zelda-the-spirit-tracks",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "masked-forces-unlimited",
+    "name": "Masked Forces Unlimited",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=masked-forces-unlimited",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "midnight-shift",
+    "name": "Midnight Shift",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=midnight-shift",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "mountain-bike-runner",
+    "name": "Mountain Bike Runner",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=mountain-bike-runner",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "my-friend-pedro",
+    "name": "My Friend Pedro",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=my-friend-pedro",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "my-friend-pedro-arena",
+    "name": "My Friend Pedro Arena",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=my-friend-pedro-arena",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "papas-bakeria",
+    "name": "Papa's Bakeria",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=papas-bakeria",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "papas-cheeseria",
+    "name": "Papa's Cheeseria",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=papas-cheeseria",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "papas-cupcakeria",
+    "name": "Papa's Cupcakeria",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=papas-cupcakeria",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "papas-sushiria",
+    "name": "Papa's Sushiria",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=papas-sushiria",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "plinko-with-cheats",
+    "name": "Plinko With Cheats",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=plinko-with-cheats",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "resident-evil-3",
+    "name": "Resident Evil 3",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=resident-evil-3",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "rogue-sergeant",
+    "name": "Rogue Sergeant",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=rogue-sergeant",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "saul-goodman-run",
+    "name": "Saul Goodman Run",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=saul-goodman-run",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "schoolboy-runaway",
+    "name": "Schoolboy Runaway",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=schoolboy-runaway",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "shred-sauce",
+    "name": "Shred Sauce",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=shred-sauce",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "skibidi-backrooms",
+    "name": "Skibidi Backrooms",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=skibidi-backrooms",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "slender",
+    "name": "Slender",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=slender",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "slendy-tubbies",
+    "name": "Slendy Tubbies",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=slendy-tubbies",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "slow-roads",
+    "name": "Slow Roads",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=slow-roads",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "soundboard",
+    "name": "Soundboard",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/soundboard/index.html",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "stackball-io",
+    "name": "Stackball IO",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=stackball-io",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "stake-mines",
+    "name": "Stake Mines",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=stake-mines",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "survival-race-arena",
+    "name": "Survival Race Arena",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=survival-race-arena",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "thats-not-my-neighbor",
+    "name": "That's Not My Neighbor",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=thats-not-my-neighbor",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "the-impossible-quiz",
+    "name": "The Impossible Quiz",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=the-impossible-quiz",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "the-man-from-the-window",
+    "name": "The Man From The Window",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=the-man-from-the-window",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "the-worlds-hardest-game",
+    "name": "The World's Hardest Game",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=the-worlds-hardest-game",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "undertale-yellow",
+    "name": "Undertale Yellow",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=undertale-yellow",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "webfishing",
+    "name": "Webfishing",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=webfishing",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "webgl-fluid",
+    "name": "Webgl Fluid",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=webgl-fluid",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "you-vs-100-skibidi",
+    "name": "You Vs. 100 Skibidi",
+    "reliability": "yellow",
+    "url": "https://1key.lol/games/game/?id=you-vs-100-skibidi",
+    "source": "1key",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-btd5",
+    "name": "Bloons Tower Defense 5",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/btd5.swf",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-riddleschool",
+    "name": "Riddle School",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/games/swf/riddd.swf",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-btd4",
+    "name": "Bloons Tower Defense 4",
+    "reliability": "yellow",
+    "url": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/bloonstd4.swf",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-pandemic2",
+    "name": "Pandemic 2",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/pandemic2/index.html",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-geometrydash",
+    "name": "Geometry Dash (Scratch)",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/geodash/index.html",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  },
+  {
+    "id": "selenite-portalflash",
+    "name": "Portal (Flash)",
+    "reliability": "yellow",
+    "url": "https://3kh0.github.io/projects/portalflash/index.html",
+    "source": "lucide",
+    "reason": "source_ok_proxy_unverified"
+  }
+]

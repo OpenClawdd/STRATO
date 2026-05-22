@@ -1,4 +1,4 @@
-# STRATO v21 — Security Documentation
+# STRATO v1.0 — Security Documentation
 
 This document describes the security measures implemented in STRATO and how to responsibly report vulnerabilities.
 

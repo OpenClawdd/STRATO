@@ -130,9 +130,18 @@
   }
 
   async function loadProfile(username) {
+    const resolvedUsername = String(
+      username || localStorage.getItem("strato-username") || "",
+    )
+      .trim()
+      .replace(/^@+/, "");
+    if (!resolvedUsername || resolvedUsername.toLowerCase() === "anonymous") {
+      return null;
+    }
+
     try {
       const resp = await fetch(
-        `/api/profile/${username || localStorage.getItem("strato-username") || "anonymous"}`,
+        `/api/profile/${encodeURIComponent(resolvedUsername)}`,
       );
       if (!resp.ok) return null;
       const data = await resp.json();

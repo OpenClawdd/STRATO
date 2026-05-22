@@ -29,11 +29,25 @@ function runValidator() {
 
 test('Source Hydra Import & Validation Edge Cases', async () => {
   // Backup existing
+  let originalIngested = null;
+  let originalQuarantine = null;
+  let originalReport = null;
+
   try {
     originalRawContent = await fs.readFile(rawPath, 'utf8');
   } catch {
     originalRawContent = '';
   }
+
+  try {
+    originalIngested = await fs.readFile(ingestedPath, 'utf8');
+  } catch {}
+  try {
+    originalQuarantine = await fs.readFile(quarantinePath, 'utf8');
+  } catch {}
+  try {
+    originalReport = await fs.readFile(reportPath, 'utf8');
+  } catch {}
 
   try {
     // Setup edge cases
@@ -88,9 +102,23 @@ test('Source Hydra Import & Validation Edge Cases', async () => {
     // Restore
     if (originalRawContent) {
       await fs.writeFile(rawPath, originalRawContent, 'utf8');
-      runImporter(); // Restore output state
     } else {
       await fs.unlink(rawPath).catch(() => {});
+    }
+    if (originalIngested !== null) {
+      await fs.writeFile(ingestedPath, originalIngested, 'utf8');
+    } else {
+      await fs.unlink(ingestedPath).catch(() => {});
+    }
+    if (originalQuarantine !== null) {
+      await fs.writeFile(quarantinePath, originalQuarantine, 'utf8');
+    } else {
+      await fs.unlink(quarantinePath).catch(() => {});
+    }
+    if (originalReport !== null) {
+      await fs.writeFile(reportPath, originalReport, 'utf8');
+    } else {
+      await fs.unlink(reportPath).catch(() => {});
     }
   }
 });

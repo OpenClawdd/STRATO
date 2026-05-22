@@ -382,8 +382,13 @@
     }
   }
 
+  let initialized = false;
+
   // Setup input listeners
   function init() {
+    if (initialized) return;
+    initialized = true;
+
     const chatInput = document.getElementById("chat-input");
     const chatSendBtn = document.getElementById("btn-send-message");
     const chatCreateRoomBtn =
@@ -439,15 +444,9 @@
     loadRooms();
   }
 
-  // Initialize when DOM ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
-
   // Expose to app.js
   window.StratoChat = {
+    init,
     connect,
     sendMessage,
     joinRoom,

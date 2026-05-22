@@ -1,7 +1,7 @@
 {
   "name": "strato",
-  "version": "5.0.3",
-  "description": "STRATO v5.02 — Catalog Purge + Surface Split: playable games stay clean, non-playable surfaces live outside Home/Search/Picks.",
+  "version": "1.0.0",
+  "description": "STRATO v1.0 — Local-first Verified Launch Universe",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -20,17 +20,22 @@
     "source:check": "node scripts/check-sources.mjs",
     "source:check:json": "node scripts/check-sources.mjs --json",
     "source:report": "node scripts/catalog-report.mjs",
-    "source:validate": "node scripts/validate-sources.mjs"
+    "source:validate": "node scripts/validate-sources.mjs",
+    "check:proxy": "STRATO_BASE=http://localhost:8080 node scripts/check-proxy.mjs",
+    "check:launch": "STRATO_BASE=http://localhost:8080 node scripts/check-launch.mjs",
+    "check:sources": "node scripts/strato-source-doctor.mjs check",
+    "inventory:sources": "node scripts/strato-source-doctor.mjs inventory",
+    "repair:sources": "node scripts/strato-source-doctor.mjs repair"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "packageManager": "pnpm@9.15.4",
   "dependencies": {
-    "@mercuryworkshop/bare-mux": "^2.1.8",
-    "@mercuryworkshop/epoxy-tls": "^2.1.19-1",
+    "@mercuryworkshop/bare-mux": "^2.1.9",
+    "@mercuryworkshop/epoxy-tls": "2.1.19-1",
     "@mercuryworkshop/epoxy-transport": "^3.0.1",
-    "@mercuryworkshop/scramjet": "^1.0.2",
+    "@mercuryworkshop/scramjet": "^1.1.0",
     "@mercuryworkshop/wisp-js": "^0.4.1",
     "@titaniumnetwork-dev/ultraviolet": "^3.2.10",
     "@tomphttp/bare-server-node": "^2.0.6",

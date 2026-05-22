@@ -51,6 +51,15 @@
     return `${m}:${String(s).padStart(2, "0")}`;
   }
 
+  let initialized = false;
+
+  function ensureInitialized() {
+    if (!initialized) {
+      initialized = true;
+      init();
+    }
+  }
+
   // ── Try to use the existing HTML audio element ──
   function initAudio() {
     const existingAudio = document.getElementById("media-audio");
@@ -59,6 +68,7 @@
   }
 
   function togglePlay() {
+    ensureInitialized();
     if (!audio) return;
     if (state.playing) {
       audio.pause();
@@ -83,6 +93,7 @@
   }
 
   function loadTrack(index) {
+    ensureInitialized();
     if (!audio || !state.playlist[index]) return;
     state.currentTrack = index;
     const track = state.playlist[index];
@@ -98,12 +109,14 @@
   }
 
   function nextTrack() {
+    ensureInitialized();
     state.currentTrack = (state.currentTrack + 1) % state.playlist.length;
     loadTrack(state.currentTrack);
     if (state.playing) audio.play().catch(() => {});
   }
 
   function prevTrack() {
+    ensureInitialized();
     state.currentTrack =
       (state.currentTrack - 1 + state.playlist.length) % state.playlist.length;
     loadTrack(state.currentTrack);
@@ -120,6 +133,7 @@
   }
 
   function addTrack(url, title, artist) {
+    ensureInitialized();
     state.playlist.push({
       title: title || "Custom Track",
       artist: artist || "User",
@@ -131,12 +145,14 @@
   }
 
   function toggleMinimize() {
+    ensureInitialized();
     state.minimized = !state.minimized;
     playerEl = document.getElementById("media-player");
     if (playerEl) playerEl.classList.toggle("minimized", state.minimized);
   }
 
   function hidePlayer() {
+    ensureInitialized();
     if (audio) audio.pause();
     state.playing = false;
     state.visible = false;
@@ -146,6 +162,7 @@
   }
 
   function showPlayer() {
+    ensureInitialized();
     state.visible = true;
     state.minimized = false;
     playerEl = document.getElementById("media-player");
@@ -156,6 +173,7 @@
   }
 
   function toggleVisibility() {
+    ensureInitialized();
     if (state.visible) hidePlayer();
     else showPlayer();
   }
@@ -214,12 +232,6 @@
       });
     }
 
-    // Topbar media button
-    const topbarMediaBtn = document.getElementById("btn-media");
-    if (topbarMediaBtn) {
-      topbarMediaBtn.addEventListener("click", toggleVisibility);
-    }
-
     // Audio events
     audio.addEventListener("timeupdate", updateProgress);
     audio.addEventListener("ended", nextTrack);
@@ -241,10 +253,21 @@
     if (playerEl) playerEl.classList.add("hidden");
   }
 
+  // Bind the topbar media button early so it functions before initialization
+  function setupEarlyBinding() {
+    const topbarMediaBtn = document.getElementById("btn-media");
+    if (topbarMediaBtn) {
+      topbarMediaBtn.addEventListener("click", () => {
+        ensureInitialized();
+        toggleVisibility();
+      });
+    }
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", setupEarlyBinding);
   } else {
-    init();
+    setupEarlyBinding();
   }
 
   window.StratoMedia = {
@@ -256,6 +279,7 @@
     hidePlayer,
     toggleVisibility,
     loadTrack,
+    init: ensureInitialized,
     getState: () => ({ ...state }),
   };
 })();

@@ -73,6 +73,11 @@ describe("v5.03 frontend polish", () => {
     expect(html).not.toContain("Launch OS");
     expect(html).toContain("home-all-games");
     expect(html).toContain("data-focus-home-search");
+    expect(html).toContain('placeholder="Search verified games..."');
+    expect(html).toContain("Proxy Lab");
+    expect(html).toContain("Launchable Now");
+    expect(html).not.toContain("Verified Playable");
+    expect(html).toMatch(/<\/head>\s*<body/);
   });
 
   it("renders local play metadata on cards", () => {
@@ -84,5 +89,54 @@ describe("v5.03 frontend polish", () => {
 
   it("keeps spotlight search launchable and tag-aware", () => {
     expect(searchGames("runner").map((game) => game.id)).toContain("space-run");
+  });
+
+  it("keeps particles disabled by default unless explicitly enabled", () => {
+    const particles = fs.readFileSync(
+      path.join(rootDir, "public", "js", "particles.js"),
+      "utf8",
+    );
+    expect(particles).toContain('particlePreference !== "true"');
+    expect(particles).toContain("canvas.style.display = \"none\"");
+  });
+
+  it("defers chat connection and setup until chat view is navigated", () => {
+    const chat = fs.readFileSync(
+      path.join(rootDir, "public", "js", "chat.js"),
+      "utf8",
+    );
+    // Verify it uses the initialization guard
+    expect(chat).toContain("if (initialized) return;");
+    // Verify it doesn't automatically call init on DOM ready or immediately
+    expect(chat).not.toMatch(/addEventListener\("DOMContentLoaded",\s*init\)/);
+    // Verify it is exposed as window.StratoChat = { init, ... }
+    expect(chat).toContain("window.StratoChat = {");
+    expect(chat).toContain("init,");
+  });
+
+  it("defers media audio creation and setup until click or interaction", () => {
+    const media = fs.readFileSync(
+      path.join(rootDir, "public", "js", "media-player.js"),
+      "utf8",
+    );
+    // Verify it uses the initialization guard
+    expect(media).toContain("if (!initialized)");
+    // Verify it binds early for setup early binding without full init
+    expect(media).toContain("setupEarlyBinding");
+    expect(media).toContain("window.StratoMedia = {");
+    expect(media).toContain("init: ensureInitialized,");
+  });
+
+  it("aligns release versioning around 1.0.0", () => {
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(rootDir, "package.json"), "utf8")
+    );
+    expect(pkg.version).toBe("1.0.0");
+
+    const sw = fs.readFileSync(
+      path.join(rootDir, "public", "sw.js"),
+      "utf8"
+    );
+    expect(sw).toContain("strato-v1.0.0");
   });
 });

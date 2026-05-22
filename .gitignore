@@ -16,3 +16,6 @@ data/
 # Source Hydra generated output (raw URLs, ingested data, reports)
 scripts/output/
 scripts/raw-sources.txt
+
+# Antigravity CLI environment config
+.antigravitycli/

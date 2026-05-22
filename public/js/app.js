@@ -90,13 +90,16 @@
     panicKey: localStorage.getItem("strato-panicKey") || "`",
     activeCloak: localStorage.getItem("strato-cloak") || "none",
     accentColor: localStorage.getItem("strato-accent") || "cyan",
-    particlesEnabled: localStorage.getItem("strato-particles") !== "false",
+    particlesEnabled: localStorage.getItem("strato-particles") === "true",
     animationsEnabled: localStorage.getItem("strato-animations") !== "false",
     games: [],
     filteredGames: [],
     aiMessages: [],
     aiOnline: false,
     proxyReady: false,
+    proxyEngines: { uv: false, scramjet: false },
+    proxyNavigationInProgress: false,
+    proxyNavigationKey: null,
     recentlyPlayed: readStorageJson("strato-recent", []),
     changingPanicKey: false,
     gamesPlayed: parseInt(localStorage.getItem("strato-gamesPlayed") || "0"),
@@ -116,7 +119,12 @@
     lastPlayed: readStorageJson("strato-lastPlayed", {}),
     preferences: readStorageJson("strato-preferences", {}),
     localFailures: readStorageJson("strato-recentFailures", {}),
+    aiStatusChecked: false,
+    hubSitesLoaded: false,
   };
+
+  let gamesRenderLimit = 40;
+  let rainbowIntervalId = null;
 
   // Apply saved accent color
   document.documentElement.setAttribute("data-accent", state.accentColor);
@@ -170,56 +178,75 @@
   // TAB CLOAKS
   // ──────────────────────────────────────────
   const CLOAKS = {
-    none: { title: "STRATO", favicon: "/favicon.ico" },
+    none: {
+      title: "STRATO",
+      favicon: "/favicon.ico",
+    },
     classroom: {
       title: "Classes",
-      favicon: "https://www.google.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzEwN2M0MSIvPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2YxYTkzNCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTcgMTBoMTBNNyAxNGg2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==",
     },
     quizlet: {
       title: "Your Sets | Quizlet",
-      favicon: "https://www.quizlet.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzNjYyIvPjxwYXRoIGQ9Ik0xMiA2YTUgNSAwIDEgMCA1IDVtLTEgM2w0IDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==",
     },
     canvas: {
       title: "Dashboard",
-      favicon: "https://www.canvaslms.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNlMDIyMDAiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI1IiBmaWxsPSIjZmZmIi8+PC9zdmc+",
     },
     clever: {
       title: "Clever | Portal",
-      favicon: "https://www.clever.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzQ3NzBmZiIvPjxwYXRoIGQ9Ik0xNiA4YTQgNCAwIDAgMC00LTRoLTJ2MTZoMmE0IDQgMCAwIDAgNC00IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=",
     },
-    ixl: { title: "IXL | Math", favicon: "https://www.ixl.com/favicon.ico" },
+    ixl: {
+      title: "IXL | Math",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAyNGI4MCIvPjx0ZXh0IHg9IjMiIHk9IjE3IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjEyIj5JWEw8L3RleHQ+PC9zdmc+",
+    },
     "school-agreca": {
       title: "Escuela Agreca — Inicio",
-      favicon: "https://school.agreca.com.ar/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzdiMWZhMiIvPjxwYXRoIGQ9Ik0xMiAyTDIgMjJoMjBMMTIgMnoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "noahs-tutoring": {
       title:
         "Noah's Tutoring — Programming, Writing, Lecture, Learning & Literature",
-      favicon: "https://www.google.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzE5NzZkMiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "byod-portal": {
       title: "BYOD Portal — Geeked",
-      favicon: "https://byod.geeked.wtf/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzM4OGUzYyIvPjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==",
     },
     "eclipse-castellon": {
       title: "Eclipse Castellon — Educacion",
-      favicon: "https://dtxb.eclipsecastellon.net/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI2Y1N2MwMCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "learning-policy": {
       title: "Learning Policy Institute — Research",
-      favicon: "https://learningpolicy.lervs.ro/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzQ1NWE2NCIvPjxwYXRoIGQ9Ik0xMiAzTDIgOGwxMCA1IDEwLTUtMTAtNXoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     "petezah-games": {
       title: "Aletia Tours — Travel Deals",
-      favicon: "https://pluh.aletiatours.com/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAyODhkMSIvPjxwb2x5Z29uIHBvaW50cz0iMTIsMiAyLDIyIDIyLDIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+",
     },
     "start-education": {
       title: "Start My Education — Home",
-      favicon: "https://startmyeducation.top/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI2U5MWU2MyIvPjxwYXRoIGQ9Ik0xMiAzTDIgOGwxMCA1IDEwLTUtMTAtNXoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
     cherrion: {
       title: "Cherrion — Help & Resources",
-      favicon: "https://cherrion.top/favicon.ico",
+      favicon:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwOTY4OCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4=",
     },
   };
 
@@ -340,6 +367,19 @@
       btn.classList.toggle("active", btn.dataset.view === viewName);
     });
     state.currentView = viewName;
+    if (viewName === "ai" && !state.aiStatusChecked) {
+      state.aiStatusChecked = true;
+      checkAiStatus().catch(() => {});
+    }
+    if (viewName === "hub" && !state.hubSitesLoaded) {
+      state.hubSitesLoaded = true;
+      loadHubSites().catch(() => {});
+    }
+    if (viewName === "chat") {
+      if (window.StratoChat && typeof window.StratoChat.init === "function") {
+        window.StratoChat.init();
+      }
+    }
   }
 
   document.querySelectorAll(".nav-btn").forEach((btn) => {
@@ -541,7 +581,11 @@
       }
     }
     const targetEngine = engine || state.currentEngine;
+    const helpers = window.STRATO_PROXY_URLS || {};
     if (targetEngine === "uv") {
+      if (typeof helpers.uv === "function") {
+        return helpers.uv(url);
+      }
       if (
         typeof Ultraviolet !== "undefined" &&
         Ultraviolet.codec &&
@@ -552,6 +596,9 @@
       // UV not ready yet — return null, caller must wait for strato:transport-ready
       return null;
     } else {
+      if (typeof helpers.scramjet === "function") {
+        return helpers.scramjet(url);
+      }
       if (
         typeof Scramjet !== "undefined" &&
         Scramjet.codec &&
@@ -561,6 +608,16 @@
       }
       return null;
     }
+  }
+
+  function isProxyEngineAvailable(engine) {
+    return !!state.proxyEngines?.[engine];
+  }
+
+  function alternateProxyEngine(engine = state.currentEngine) {
+    return ["uv", "scramjet"].find(
+      (candidate) => candidate !== engine && isProxyEngineAvailable(candidate),
+    );
   }
 
   function setEngine(engine) {
@@ -634,11 +691,91 @@
     };
   }
 
-  function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
+  function extractNestedTargetUrl(rawUrl) {
+    try {
+      const parsed = new URL(String(rawUrl || ""), location.href);
+      return parsed.searchParams.get("game") || "";
+    } catch {
+      return "";
+    }
+  }
+
+  function detectProxyInternalError(iframe, engine, sourceUrl) {
+    try {
+      const doc = iframe?.contentDocument;
+      const title = String(doc?.title || "");
+      const bodyText = String(doc?.body?.innerText || "");
+      const haystack = `${title}\n${bodyText}`.toLowerCase();
+      if (!haystack.includes("headers is not iterable")) return null;
+      const detail = bodyText.trim().slice(0, 400);
+      return {
+        kind: engine === "uv" ? "uv_internal_error" : "proxy_internal_error",
+        reason: `UV internal error: ${detail || "headers is not iterable"}`,
+        engine,
+        sourceUrl,
+        targetUrl: extractNestedTargetUrl(sourceUrl) || "",
+        detail,
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  async function navigateProxy(url, engine, launchMeta = null, attempt = 0) {
     if (!url) return;
-    const targetEngine = engine || state.currentEngine;
-    const proxyUrl = getProxyUrl(url, targetEngine);
+    let targetEngine = engine || state.currentEngine;
+    const navigationKey = `${targetEngine}|${attempt}|${url}`;
+    if (
+      state.proxyNavigationInProgress &&
+      state.proxyNavigationKey === navigationKey
+    ) {
+      return;
+    }
+    state.proxyNavigationInProgress = true;
+    state.proxyNavigationKey = navigationKey;
+    const releaseNavigation = () => {
+      if (state.proxyNavigationKey !== navigationKey) return;
+      state.proxyNavigationInProgress = false;
+      state.proxyNavigationKey = null;
+    };
     const meta = launchMeta || launchMetaFor(null, url);
+    const resolver =
+      typeof window.STRATO_RESOLVE_PROXY_LAUNCH_URL === "function"
+        ? window.STRATO_RESOLVE_PROXY_LAUNCH_URL
+        : async (candidateUrl) => ({
+            originalUrl: String(candidateUrl || ""),
+            effectiveUrl: String(candidateUrl || ""),
+            nestedUrl: "",
+            repaired: false,
+            kind: "",
+            reason: "",
+          });
+    const launchResolution = await resolver(url, meta.game || null);
+    if (state.proxyNavigationKey !== navigationKey) return;
+    const launchUrl = launchResolution.effectiveUrl || url;
+    meta.originalUrl = launchResolution.originalUrl || meta.originalUrl || url;
+    meta.effectiveUrl = launchUrl;
+    meta.resolvedUrl = launchUrl;
+    meta.repairedUrl = launchResolution.repaired ? launchUrl : "";
+    meta.repairKind = launchResolution.kind || "";
+    if (!meta.sourceUrl) meta.sourceUrl = launchResolution.originalUrl || url;
+    if (!meta.targetUrl)
+      meta.targetUrl =
+        launchResolution.nestedTargetUrl ||
+        launchResolution.nestedUrl ||
+        extractNestedTargetUrl(url);
+    let proxyUrl = getProxyUrl(launchUrl, targetEngine);
+    if (!proxyUrl) {
+      const fallbackEngine = alternateProxyEngine(targetEngine);
+      if (fallbackEngine) {
+        const fallbackUrl = getProxyUrl(launchUrl, fallbackEngine);
+        if (fallbackUrl) {
+          targetEngine = fallbackEngine;
+          proxyUrl = fallbackUrl;
+          if (state.currentEngine !== fallbackEngine) setEngine(fallbackEngine);
+        }
+      }
+    }
     if (!proxyUrl) {
       if (attempt === 0) {
         switchView("browser");
@@ -646,21 +783,31 @@
         const urlInput = document.getElementById("url-input");
         const iframe = document.getElementById("proxy-iframe");
         const browserBody = document.querySelector(".browser-body");
-        if (urlInput) urlInput.value = url;
+        if (urlInput) urlInput.value = launchUrl;
         if (iframe) {
           iframe.dataset.launchTitle = meta.title || "";
-          iframe.dataset.launchUrl = meta.url || url;
+          iframe.dataset.launchUrl = meta.resolvedUrl || meta.url || launchUrl;
           iframe.dataset.launchProvider = meta.provider || "";
           iframe.dataset.launchExternal = meta.external ? "true" : "false";
         }
         browserBody?.classList.add("has-launch", "is-loading");
       }
       if (attempt < 20) {
-        setTimeout(() => navigateProxy(url, engine, meta, attempt + 1), 500);
+        // Pre-warm the transport by pinging the Wisp endpoint if it's not ready
+        if (attempt === 5 && !state.proxyReady) {
+          console.debug("[STRATO] Pinging Wisp for pre-warm...");
+          fetch("/wisp/").catch(() => {});
+        }
+        setTimeout(() => {
+          if (state.proxyNavigationKey !== navigationKey) return;
+          navigateProxy(url, targetEngine, meta, attempt + 1);
+        }, 500);
       } else if (meta.external) {
         document.querySelector(".browser-body")?.classList.remove("is-loading");
+        releaseNavigation();
         showLaunchFailure(meta.game || meta, "proxy engine unavailable");
       } else {
+        releaseNavigation();
         showToast("Proxy engine unavailable", "error");
       }
       return;
@@ -675,39 +822,85 @@
       shimmer = document.getElementById("browser-shimmer");
     } catch (e) {}
     const urlInput = document.getElementById("url-input");
-    if (urlInput) urlInput.value = url;
+    if (urlInput) urlInput.value = launchUrl;
     if (shimmer) shimmer.classList.remove("hidden");
     browserBody?.classList.add("is-loading", "has-launch");
     if (iframe) {
       iframe.dataset.launchTitle = meta.title || "";
-      iframe.dataset.launchUrl = meta.url || url;
+      iframe.dataset.launchUrl = meta.resolvedUrl || meta.url || url;
       iframe.dataset.launchProvider = meta.provider || "";
       iframe.dataset.launchExternal = meta.external ? "true" : "false";
+      iframe.dataset.launchGameId = meta.game?.id || "";
+      iframe.dataset.launchSourceUrl = meta.sourceUrl || url;
+      iframe.dataset.launchTargetUrl = meta.targetUrl || "";
     }
     iframe.src = proxyUrl;
+
+    // ── Proxy Containment Shield ──
+    // Ensures games cannot redirect the main STRATO page or open unproxied windows.
+    // Since UV/SJ are same-origin via the service worker, we can often
+    // inject this shield directly from the parent context.
+    const applyShield = () => {
+      try {
+        const win = iframe.contentWindow;
+        const doc = win.document;
+        if (!win || !doc) return;
+
+        // 1. Intercept target="_blank" links
+        doc.querySelectorAll('a[target="_blank"]').forEach((a) => {
+          a.setAttribute("target", "_self");
+        });
+
+        // 2. Override window.open to stay in the same frame
+        if (!win.__strato_shield_active) {
+          const originalOpen = win.open;
+          win.open = function (u, t, f) {
+            if (!t || t === "_blank") {
+              win.location.href = u;
+              return win;
+            }
+            return originalOpen.apply(this, arguments);
+          };
+          win.__strato_shield_active = true;
+        }
+      } catch (e) {
+        // SOP may block until UV finishes, but that's okay.
+      }
+    };
+    iframe.removeEventListener("load", applyShield);
+    iframe.addEventListener("load", applyShield);
 
     state.pagesLoaded++;
     localStorage.setItem("strato-pagesLoaded", String(state.pagesLoaded));
     updateStats();
     addCoins(2);
     updateDailyChallengeProgress("browse");
-    logActivity(`Loaded ${url.substring(0, 30)}`, "proxy");
+    logActivity(`Loaded ${launchUrl.substring(0, 30)}`, "proxy");
     unlockAchievement("first-proxy");
 
-    const failureTimeout = setTimeout(() => {
-      if (shimmer) shimmer.classList.add("hidden");
-      browserBody?.classList.remove("is-loading");
-      if (meta.external) {
-        showLaunchFailure(meta.game || meta, "external source may block embeds or proxy loading");
-      }
-    }, meta.external ? 10000 : 15000);
+    const failureTimeout = setTimeout(
+      () => {
+        if (shimmer) shimmer.classList.add("hidden");
+        browserBody?.classList.remove("is-loading");
+        releaseNavigation();
+        if (meta.external) {
+          showLaunchFailure(
+            meta.game || meta,
+            "external source may block embeds or proxy loading",
+          );
+        }
+      },
+      meta.external ? 10000 : 15000,
+    );
 
     if (state.autoFallback) {
       const fallbackTimer = setTimeout(() => {
-        const otherEngine = targetEngine === "uv" ? "scramjet" : "uv";
+        const otherEngine = alternateProxyEngine(targetEngine);
+        if (!otherEngine) return;
         logProxyFailure(targetEngine, url, "ETIMEDOUT");
         setEngine(otherEngine);
-        iframe.src = getProxyUrl(url, otherEngine);
+        const fallbackUrl = getProxyUrl(url, otherEngine);
+        if (fallbackUrl) iframe.src = fallbackUrl;
         showToast(
           `Switched to ${otherEngine === "uv" ? "Ultraviolet" : "Scramjet"}`,
           "accent",
@@ -719,6 +912,41 @@
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        const internalError = detectProxyInternalError(
+          iframe,
+          targetEngine,
+          meta.sourceUrl || url,
+        );
+        if (internalError) {
+          releaseNavigation();
+          iframe.removeEventListener("load", onLoad);
+          iframe.removeEventListener("error", onError);
+          window.dispatchEvent(
+            new CustomEvent("strato-proxy-internal-error", {
+              detail: {
+                ...internalError,
+                gameId: meta.game?.id || "",
+                originalUrl: meta.originalUrl || url,
+                effectiveUrl: meta.effectiveUrl || launchUrl,
+                nestedTargetUrl: meta.targetUrl || "",
+              },
+            }),
+          );
+          showLaunchFailure(
+            {
+              ...(meta.game || meta),
+              sourceUrl: meta.sourceUrl || url,
+              targetUrl: meta.targetUrl || "",
+              originalUrl: meta.originalUrl || url,
+              effectiveUrl: meta.effectiveUrl || launchUrl,
+              resolvedUrl: meta.resolvedUrl || launchUrl,
+            },
+            internalError.reason,
+            internalError,
+          );
+          return;
+        }
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
       };
@@ -728,13 +956,19 @@
         clearTimeout(fallbackTimer);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
         if (state.autoFallback) {
-          const otherEngine = targetEngine === "uv" ? "scramjet" : "uv";
+          const otherEngine = alternateProxyEngine(targetEngine);
+          if (!otherEngine) {
+            showLaunchFailure(meta.game || meta, "failed to load page");
+            return;
+          }
           logProxyFailure(targetEngine, url, "ECONNREFUSED");
           setEngine(otherEngine);
-          iframe.src = getProxyUrl(url, otherEngine);
+          const fallbackUrl = getProxyUrl(url, otherEngine);
+          if (fallbackUrl) iframe.src = fallbackUrl;
           showToast(
             `Switched to ${otherEngine === "uv" ? "Ultraviolet" : "Scramjet"}`,
             "accent",
@@ -751,6 +985,41 @@
         clearTimeout(failureTimeout);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        const internalError = detectProxyInternalError(
+          iframe,
+          targetEngine,
+          meta.sourceUrl || url,
+        );
+        if (internalError) {
+          releaseNavigation();
+          iframe.removeEventListener("load", onLoad);
+          iframe.removeEventListener("error", onError);
+          window.dispatchEvent(
+            new CustomEvent("strato-proxy-internal-error", {
+              detail: {
+                ...internalError,
+                gameId: meta.game?.id || "",
+                originalUrl: meta.originalUrl || url,
+                effectiveUrl: meta.effectiveUrl || launchUrl,
+                nestedTargetUrl: meta.targetUrl || "",
+              },
+            }),
+          );
+          showLaunchFailure(
+            {
+              ...(meta.game || meta),
+              sourceUrl: meta.sourceUrl || url,
+              targetUrl: meta.targetUrl || "",
+              originalUrl: meta.originalUrl || url,
+              effectiveUrl: meta.effectiveUrl || launchUrl,
+              resolvedUrl: meta.resolvedUrl || launchUrl,
+            },
+            internalError.reason,
+            internalError,
+          );
+          return;
+        }
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
       };
@@ -758,6 +1027,7 @@
         clearTimeout(failureTimeout);
         if (shimmer) shimmer.classList.add("hidden");
         browserBody?.classList.remove("is-loading");
+        releaseNavigation();
         iframe.removeEventListener("load", onLoad);
         iframe.removeEventListener("error", onError);
         showLaunchFailure(meta.game || meta, "failed to load page");
@@ -835,7 +1105,8 @@
       return;
     }
     if (e.data?.type === "proxy-switch-engine") {
-      const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+      const otherEngine = alternateProxyEngine();
+      if (!otherEngine) return;
       setEngine(otherEngine);
       const url = browserUrlInput?.value;
       if (url) navigateProxy(url, otherEngine);
@@ -893,6 +1164,62 @@
     );
   }
 
+  const WRAPPER_URL_PATTERNS = [
+    [/play\.frogiee\.one\/iframe\.html\?url=/i, "frogiee_iframe_wrapper"],
+    [
+      /adfree-sz-games\.github\.io\/games\/game\.html\?game=/i,
+      "adfree_game_wrapper",
+    ],
+    [/iframe\.html\?url=/i, "iframe_wrapper"],
+    [/game\.html\?game=/i, "game_wrapper"],
+  ];
+  const FAVICON_BLOCKED_DOMAINS = new Set([
+    "adfree-sz-games.github.io",
+    "play.frogiee.one",
+  ]);
+
+  function wrapperKind(url) {
+    const value = String(url || "");
+    for (const [pattern, kind] of WRAPPER_URL_PATTERNS) {
+      if (pattern.test(value)) return kind;
+    }
+    return "";
+  }
+
+  function isExternalLaunchUrl(url) {
+    return /^https?:\/\//i.test(String(url || ""));
+  }
+
+  function hasProxyProof(game) {
+    if (!game || typeof game !== "object") return false;
+    if (game.proxyVerified === true || game.proxy_verified === true)
+      return true;
+    if (game.proxyProof?.verified === true) return true;
+    const status = String(
+      game.proxyStatus ||
+        game.proxy_status ||
+        game.proxyProof?.status ||
+        game.proxyProof?.kind ||
+        "",
+    )
+      .trim()
+      .toLowerCase();
+    if (
+      status === "verified" ||
+      status === "ok" ||
+      status === "proxy_verified" ||
+      status === "remote_proxy_verified"
+    ) {
+      return true;
+    }
+    return Boolean(
+      game.proxyVerifiedAt ||
+      game.proxy_verified_at ||
+      game.proxyProof?.checkedAt ||
+      game.proxyProof?.verifiedAt,
+    );
+  }
+
   function isSupportedLaunchUrl(url) {
     const value = String(url || "").trim();
     return value.startsWith("/") || /^https?:\/\//i.test(value);
@@ -930,6 +1257,20 @@
       return { status: "needs-config", reason: "needs config" };
     if (!isSupportedLaunchUrl(url))
       return { status: "invalid", reason: "unavailable" };
+    const quarantineSignal = String(
+      game.quarantineReason ||
+        game.repairNote ||
+        game.evidence ||
+        game.sourceEvidence ||
+        "",
+    ).toLowerCase();
+    if (
+      quarantineSignal.includes("generic_only") ||
+      quarantineSignal.includes("dead_launch") ||
+      quarantineSignal.includes("wrapper_unverified")
+    ) {
+      return { status: "invalid", reason: "needs review" };
+    }
 
     const failure = state.localFailures?.[game.id];
     if (failure && Date.now() - failure.timestamp < RECENT_FAILURE_MS) {
@@ -941,13 +1282,32 @@
 
     if (game.reliability === "red")
       return { status: "invalid", reason: "needs review" };
+    if (wrapperKind(url) && !hasProxyProof(game))
+      return { status: "wrapper-unverified", reason: "wrapper unverified" };
+    if (isExternalLaunchUrl(url) && !hasProxyProof(game)) {
+      return {
+        status: "remote-proxy-unverified",
+        reason: "remote proof pending",
+      };
+    }
+    if (isExternalLaunchUrl(url) && hasProxyProof(game)) {
+      return {
+        status: "remote-proxy-verified",
+        reason: "proxy verified",
+      };
+    }
     if (!hasUsableThumbnail(game))
       return { status: "thumbnail-fallback", reason: "thumbnail missing" };
     return { status: "ready", reason: "ready" };
   }
 
   function isLaunchableStatus(status) {
-    return ["ready", "playable", "thumbnail-fallback"].includes(status);
+    return [
+      "ready",
+      "playable",
+      "thumbnail-fallback",
+      "remote-proxy-verified",
+    ].includes(status);
   }
 
   function isLaunchableGame(game) {
@@ -962,24 +1322,32 @@
     const tags = getGameTags(game).map((tag) => tag.toLowerCase());
     return Boolean(
       game?.provider ||
-        game?.source ||
-        game?.needsCheck ||
-        game?.needsReview ||
-        tags.includes("external") ||
-        tags.includes("needs-check"),
+      game?.source ||
+      game?.needsCheck ||
+      game?.needsReview ||
+      tags.includes("external") ||
+      tags.includes("needs-check"),
     );
   }
 
   function isPromotableGame(game) {
     if (!isHomeSafeGame(game)) return false;
-    if (!isSelfHostedGame(game)) return false;
-    if (isExternalSourceGame(game) || game.needsReview) return false;
-    if (game.reliability !== "green" && game.tier !== 1) return false;
     const health = getGameHealth(game);
-    return ["ready", "thumbnail-fallback", "playable"].includes(health.status);
+    if (isSelfHostedGame(game)) {
+      if (isExternalSourceGame(game) || game.needsReview) return false;
+      if (game.reliability !== "green" && game.tier !== 1) return false;
+      return ["ready", "thumbnail-fallback", "playable"].includes(
+        health.status,
+      );
+    }
+    return health.status === "remote-proxy-verified";
   }
 
   function homeCatalog() {
+    return state.games.filter(isPromotableGame);
+  }
+
+  function activePlayableCatalog() {
     return state.games.filter(isPromotableGame);
   }
 
@@ -1055,7 +1423,9 @@
     const container = document.getElementById(containerId);
     if (!container) return;
     if (!games.length) {
-      container.innerHTML = emptyHtml ? `<div class="home-empty">${emptyHtml}</div>` : "";
+      container.innerHTML = emptyHtml
+        ? `<div class="home-empty">${emptyHtml}</div>`
+        : "";
       if (emptyHtml) bindHomeEmptyActions(container);
       return;
     }
@@ -1280,22 +1650,38 @@
   }
 
   function updateGameStats() {
-    const total = state.games.length;
-    const tier1 = state.games.filter((g) => g.tier === 1).length;
-    const available = state.games.length;
+    const playable = activePlayableCatalog();
+    const localVerified = playable.filter((game) =>
+      isSelfHostedGame(game),
+    ).length;
+    const remoteProxyVerified = playable.length - localVerified;
+    const remoteProofPending = state.games.filter((game) => {
+      if (String(game?.reliability || "").toLowerCase() === "red") return false;
+      return getGameHealth(game).status === "remote-proxy-unverified";
+    }).length;
+    const quarantined = state.games.filter(
+      (game) => String(game?.reliability || "").toLowerCase() === "red",
+    ).length;
+    const totalVisible = localVerified + remoteProxyVerified;
+    const statusSummary = `${localVerified} verified local${remoteProofPending ? ` · ${remoteProofPending} remote proof pending` : ""}`;
 
     const els = {
-      "arcade-total": total,
-      "arcade-available": available,
-      "arcade-tier1": tier1,
-      "status-games": `${total} games`,
-      "games-count-text": `${total} games`,
-      "home-games-count": total,
-      "arcade-badge": total,
+      "arcade-total": totalVisible,
+      "arcade-available": totalVisible,
+      "arcade-tier1": localVerified,
+      "status-games": statusSummary,
+      "games-count-text": statusSummary,
+      "home-games-count": totalVisible,
+      "arcade-badge": totalVisible,
     };
     for (const [id, val] of Object.entries(els)) {
       const el = document.getElementById(id);
       if (el) el.textContent = val;
+    }
+    const signal = document.getElementById("catalog-signal");
+    if (signal) {
+      signal.textContent = localVerified > 0 ? "Local Mode" : "Limited Local";
+      signal.title = `${localVerified} local verified · ${remoteProxyVerified} remote proxy verified · ${remoteProofPending} remote proof pending · ${quarantined} quarantined`;
     }
   }
 
@@ -1324,10 +1710,17 @@
       const reliability = String(game.reliability || "").toLowerCase();
       const provider = String(game.provider || game.source || "").toLowerCase();
       if (provider === "selenite") return "Selenite";
-      if (game.category === "import-review" || getGameTags(game).includes("captured"))
+      if (
+        game.category === "import-review" ||
+        getGameTags(game).includes("captured")
+      )
         return "Source";
       if (url.startsWith("/games/")) return "Local";
-      if (reliability === "yellow" || reliability === "red" || health.status !== "ready")
+      if (
+        reliability === "yellow" ||
+        reliability === "red" ||
+        health.status !== "ready"
+      )
         return "Needs check";
       return "External";
     })();
@@ -1399,9 +1792,27 @@
       : state.filteredGames.filter((game) =>
           isLaunchableStatus(getGameHealth(game).status),
         );
-    grid.innerHTML = games.map(renderGameCardMarkup).join("");
+
+    const slicedGames = games.slice(0, gamesRenderLimit);
+    grid.innerHTML = slicedGames.map(renderGameCardMarkup).join("");
     bindGameGridEvents(grid);
     renderArcadeRecent();
+
+    const container = document.getElementById("games-load-more-container");
+    if (container) {
+      if (games.length > gamesRenderLimit) {
+        container.innerHTML = `<button id="games-load-more-btn" class="glass-btn load-more-btn">Load More</button>`;
+        const btn = document.getElementById("games-load-more-btn");
+        if (btn) {
+          btn.addEventListener("click", () => {
+            gamesRenderLimit += 40;
+            renderGames();
+          });
+        }
+      } else {
+        container.innerHTML = "";
+      }
+    }
 
     // Attach hover prefetch for faster loads
     attachHoverPrefetch();
@@ -1484,7 +1895,7 @@
       scroll = document.getElementById("featured-scroll");
     } catch (e) {}
     if (!scroll) return;
-    const featured = [...state.games]
+    const featured = [...activePlayableCatalog()]
       .sort((a, b) => a.tier - b.tier)
       .slice(0, 10);
 
@@ -1599,27 +2010,48 @@
     document.getElementById("launch-failure-overlay")?.remove();
   }
 
-  function showLaunchFailure(game, reason) {
+  function showLaunchFailure(game, reason, failure = null) {
     closeLaunchFailure();
     const title = game ? getGameName(game) : "This launch";
-    const isCatalogGame = game && state.games.some((item) => item.id === game.id);
+    const isCatalogGame =
+      game && state.games.some((item) => item.id === game.id);
     const similar = isCatalogGame ? similarGamesFor(game) : [];
     const source = providerLabel(game);
-    const launchUrl = game ? resolveGameUrl(game) : document.getElementById("url-input")?.value || "";
+    const launchUrl = game
+      ? game.effectiveUrl || game.resolvedUrl || resolveGameUrl(game)
+      : document.getElementById("url-input")?.value || "";
     const isExternal = /^https?:\/\//i.test(String(launchUrl || ""));
+    const originalUrl = game?.originalUrl || game?.sourceUrl || game?.url || "";
+    const effectiveUrl = game?.effectiveUrl || game?.resolvedUrl || launchUrl;
+    const nestedTargetUrl = game?.nestedTargetUrl || game?.targetUrl || "";
+    const failureKind = failure?.kind || "";
+    const failureEngine = failure?.engine || state.currentEngine;
+    const displayStatus = failureKind
+      ? `Proxy hit an internal error (${failureKind}${failureEngine ? `, engine ${failureEngine}` : ""})`
+      : isExternal
+        ? "External source may block embeds/proxy"
+        : reason;
     const trace = {
       title,
       message: `${title} could not launch`,
       reason,
-      engine: state.currentEngine,
+      kind: failureKind || null,
+      engine: failureEngine,
       url: launchUrl,
+      originalUrl,
+      effectiveUrl,
+      resolvedUrl: game?.resolvedUrl || "",
+      resolutionKind: game?.repairKind || "",
+      nestedTargetUrl,
+      targetUrl: nestedTargetUrl,
+      detail: failure?.detail || "",
       provider: game?.provider || game?.source || null,
       reliability: game?.reliability || null,
       external: isExternal,
       timestamp: new Date().toISOString(),
     };
     const traceText = JSON.stringify(trace, null, 2);
-    const hasAlternateEngine = state.currentEngine === "uv" || state.currentEngine === "scramjet";
+    const hasAlternateEngine = !!alternateProxyEngine();
     const hasServiceWorkerReset = !!navigator.serviceWorker?.getRegistrations;
     const canOpenSource = game && /^https?:\/\//i.test(String(game.url || ""));
     const overlay = document.createElement("div");
@@ -1631,7 +2063,7 @@
         <p class="launch-failure-copy">${escapeHtml(title)} could not launch.</p>
         <div class="external-launch-status">
           <span>Source: ${escapeHtml(source)}</span>
-          <span>Status: ${escapeHtml(isExternal ? "External source may block embeds/proxy" : reason)}</span>
+          <span>Status: ${escapeHtml(displayStatus)}</span>
         </div>
         <div class="home-failure-actions">
           <button class="glass-btn" type="button" data-failure-action="retry">Retry page</button>
@@ -1663,10 +2095,15 @@
         navigator.clipboard?.writeText(traceText);
         showToast("Trace copied", "accent");
       } else if (action === "alternate") {
-        const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
-        setEngine(otherEngine);
+        const nextEngine = alternateProxyEngine();
+        if (!nextEngine) {
+          showToast("No alternate proxy engine is available", "error");
+          return;
+        }
+        setEngine(nextEngine);
         closeLaunchFailure();
-        if (game && game.tier !== 1 && game.tier !== 2) navigateProxy(game.url, otherEngine);
+        if (game && game.tier !== 1 && game.tier !== 2)
+          navigateProxy(game.url, nextEngine);
         else if (game) launchGame(game.id, { retry: true });
       } else if (action === "reset-sw") {
         navigator.serviceWorker
@@ -1752,7 +2189,10 @@
 
     try {
       recordGameLaunch(game);
-      if (String(gameUrl).startsWith("/") && (game.tier === 1 || game.tier === 2)) {
+      if (
+        String(gameUrl).startsWith("/") &&
+        (game.tier === 1 || game.tier === 2)
+      ) {
         switchView("browser");
         const iframe = document.getElementById("proxy-iframe");
         const urlInput = document.getElementById("url-input");
@@ -1924,9 +2364,11 @@
   } catch (e) {}
 
   function filterGames() {
+    gamesRenderLimit = 40;
     const query = (searchInput?.value || "").toLowerCase().trim();
     const sort = sortSelect?.value || "popular";
-    state.filteredGames = state.games.filter((game) => {
+    const baseCatalog = activePlayableCatalog();
+    state.filteredGames = baseCatalog.filter((game) => {
       if (activeCategories.has("favorites")) {
         if (!state.favorites.includes(game.id)) return false;
       } else if (activeCategories.has("recent")) {
@@ -1936,11 +2378,14 @@
       } else if (activeCategories.has("external")) {
         if (isSelfHostedGame(game)) return false;
       } else if (activeCategories.has("selenite")) {
-        const provider = String(game.provider || game.source || "").toLowerCase();
+        const provider = String(
+          game.provider || game.source || "",
+        ).toLowerCase();
         if (provider !== "selenite") return false;
       } else if (activeCategories.has("needs-check")) {
         const reliability = String(game.reliability || "").toLowerCase();
-        if (!(game.needsCheck || game.needsReview || reliability === "yellow")) return false;
+        if (!(game.needsCheck || game.needsReview || reliability === "yellow"))
+          return false;
       } else if (
         !activeCategories.has("all") &&
         !activeCategories.has(game.category)
@@ -2631,6 +3076,10 @@
   // Accent color picker
   document.querySelectorAll(".swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
+      if (rainbowIntervalId) {
+        clearInterval(rainbowIntervalId);
+        rainbowIntervalId = null;
+      }
       const color = swatch.dataset.color;
       document.documentElement.setAttribute("data-accent", color);
       state.accentColor = color;
@@ -2721,6 +3170,10 @@
 
   // Theme cycle button
   document.getElementById("theme-cycle-btn")?.addEventListener("click", () => {
+    if (rainbowIntervalId) {
+      clearInterval(rainbowIntervalId);
+      rainbowIntervalId = null;
+    }
     const colors = ["cyan", "purple", "pink", "green", "orange", "red"];
     const currentIdx = colors.indexOf(state.accentColor);
     const nextIdx = (currentIdx + 1) % colors.length;
@@ -2960,7 +3413,10 @@
   if (hubCategoryFilter) {
     hubCategoryFilter.addEventListener("change", () => {
       document.querySelectorAll(".hub-category-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.category === hubCategoryFilter.value);
+        btn.classList.toggle(
+          "active",
+          btn.dataset.category === hubCategoryFilter.value,
+        );
       });
       applyHubFilters();
     });
@@ -2984,7 +3440,8 @@
   document
     .getElementById("hub-error-other-engine")
     ?.addEventListener("click", () => {
-      const otherEngine = state.currentEngine === "uv" ? "scramjet" : "uv";
+      const otherEngine = alternateProxyEngine();
+      if (!otherEngine) return;
       setEngine(otherEngine);
       const url = document.getElementById("url-input")?.value;
       if (url) navigateProxy(url, otherEngine);
@@ -3243,16 +3700,17 @@
     const results = [];
 
     // Search games
-    if (state.games.length > 0) {
+    const baseCatalog = activePlayableCatalog();
+    if (baseCatalog.length > 0) {
       const gameResults = q
-        ? state.games
+        ? baseCatalog
             .filter(
               (g) =>
                 g.name.toLowerCase().includes(q) ||
                 (g.category || "").toLowerCase().includes(q),
             )
             .slice(0, 5)
-        : state.games.slice(0, 5);
+        : baseCatalog.slice(0, 5);
       gameResults.forEach((g) =>
         results.push({
           type: "game",
@@ -3514,10 +3972,15 @@
   }
 
   function startRainbowCycle() {
+    if (rainbowIntervalId) return;
     const colors = ["cyan", "purple", "pink", "green", "orange", "red"];
     let idx = 0;
-    setInterval(() => {
-      if (state.accentColor !== "rainbow") return;
+    rainbowIntervalId = setInterval(() => {
+      if (state.accentColor !== "rainbow") {
+        clearInterval(rainbowIntervalId);
+        rainbowIntervalId = null;
+        return;
+      }
       idx = (idx + 1) % colors.length;
       document.documentElement.setAttribute("data-accent", colors[idx]);
     }, 3000);
@@ -3564,7 +4027,7 @@
     const icon = document.querySelector('link[rel="icon"]');
     if (icon)
       icon.href =
-        "https://fonts.gstatic.com/s/i/productlogos/docs_2020q4/v6/192px.svg";
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3QgeD0iNCIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzI2ODRmYyIvPjxwb2x5Z29uIHBvaW50cz0iMTQsMiAyMCw4IDE0LDgiIGZpbGw9IiNhNGM3ZjkiLz48bGluZSB4MT0iOCIgeTE9IjEyIiB4Mj0iMTYiIHkyPSIxMiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjgiIHkxPSIxNiIgeDI9IjEzIiB5Mj0iMTYiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==";
 
     // Load a fake Google Doc in the overlay iframe
     iframe.srcdoc = `<!DOCTYPE html><html><head><style>body{font-family:Arial,sans-serif;padding:40px 80px;color:#333;background:#fff}h1{font-size:22px;font-weight:normal;margin-bottom:8px}p{font-size:14px;color:#666;line-height:1.6}.toolbar{height:40px;background:#f1f3f4;border-bottom:1px solid #dadce0;margin:-40px -80px 24px;padding:8px 80px;display:flex;gap:16px;align-items:center}.toolbar span{font-size:13px;color:#5f6368}</style></head><body><div class="toolbar"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span></div><h1>Untitled document</h1><p>Start typing your document here...</p></body></html>`;
@@ -3594,6 +4057,7 @@
       img.dataset.fallbackAttached = "true";
       const gameUrl = img.dataset.gameUrl;
       const gameName = img.dataset.gameName || "?";
+      const game = state.games.find((item) => item.id === img.dataset.gameId);
       const fallbackSrc =
         img.dataset.fallbackSrc || fallbackThumbnail({ name: gameName });
 
@@ -3607,11 +4071,20 @@
           if (img.src !== fallbackSrc) img.src = fallbackSrc;
         };
 
-        if (
-          typeof window.FaviconFetcher === "undefined" ||
-          !gameUrl ||
-          /^\$\{/.test(gameUrl)
-        ) {
+        let domain = "";
+        try {
+          domain = new URL(String(gameUrl || ""), location.href).hostname;
+        } catch {}
+        const shouldTryRemoteFavicon =
+          typeof window.FaviconFetcher !== "undefined" &&
+          game &&
+          getGameHealth(game).status === "remote-proxy-verified" &&
+          isExternalLaunchUrl(gameUrl) &&
+          !wrapperKind(gameUrl) &&
+          domain &&
+          !FAVICON_BLOCKED_DOMAINS.has(domain);
+
+        if (!shouldTryRemoteFavicon) {
           useStaticFallback();
           return;
         }
@@ -3674,12 +4147,27 @@
   let hoverPrefetchTimer = null;
   let hoverPrefetchLink = null;
 
-  function startHoverPrefetch(proxyUrl) {
+  function canPrefetchLocalLaunchUrl(url) {
+    const value = String(url || "").trim();
+    if (!value || !value.startsWith("/games/")) return false;
+    if (
+      value.startsWith("/frog/") ||
+      value.startsWith("/scramjet/") ||
+      value.includes("/iframe.html?url=") ||
+      value.includes("/game.html?game=")
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  function startHoverPrefetch(localUrl) {
+    if (!canPrefetchLocalLaunchUrl(localUrl)) return;
     clearHoverPrefetch();
     hoverPrefetchTimer = setTimeout(() => {
       hoverPrefetchLink = document.createElement("link");
       hoverPrefetchLink.rel = "prefetch";
-      hoverPrefetchLink.href = proxyUrl;
+      hoverPrefetchLink.href = localUrl;
       document.head.appendChild(hoverPrefetchLink);
     }, 400);
   }
@@ -3697,17 +4185,17 @@
     document.querySelectorAll(".game-card[data-game-id]").forEach((card) => {
       card.addEventListener("mouseenter", () => {
         const game = state.games.find((g) => g.id === card.dataset.gameId);
-        if (!game || game.tier === 1 || game.tier === 2) return;
-        const proxyUrl = getProxyUrl(game.url);
-        if (proxyUrl) startHoverPrefetch(proxyUrl);
+        if (!game || !isSelfHostedGame(game) || !isPromotableGame(game)) return;
+        const localUrl = resolveGameUrl(game);
+        if (canPrefetchLocalLaunchUrl(localUrl)) startHoverPrefetch(localUrl);
       });
       card.addEventListener("mouseleave", clearHoverPrefetch);
     });
 
     document.querySelectorAll(".quick-link-btn[data-url]").forEach((btn) => {
       btn.addEventListener("mouseenter", () => {
-        const proxyUrl = getProxyUrl(btn.dataset.url);
-        if (proxyUrl) startHoverPrefetch(proxyUrl);
+        const localUrl = String(btn.dataset.url || "").trim();
+        if (canPrefetchLocalLaunchUrl(localUrl)) startHoverPrefetch(localUrl);
       });
       btn.addEventListener("mouseleave", clearHoverPrefetch);
     });
@@ -3806,17 +4294,27 @@
   setTimeout(forceRemoveSplash, 15000);
 
   async function init() {
-    const lp = localStorage.getItem('strato_low_power') === 'true';
-    document.body.classList.toggle('low-power', lp);
-    const lpToggle = document.getElementById('low-power-toggle');
-    if (lpToggle) lpToggle.addEventListener('click', () => {
-      document.body.classList.toggle('low-power');
-      localStorage.setItem('strato_low_power', document.body.classList.contains('low-power'));
-    });
-    const lbInput = document.getElementById('lb-url-input');
-    const lbGoBtn = document.getElementById('lb-go-btn');
-    if (lbGoBtn) lbGoBtn.addEventListener('click', () => { if (lbInput?.value) navigateProxy(lbInput.value); });
-    if (lbInput) lbInput.addEventListener('keydown', e => { if (e.key === 'Enter' && lbInput.value) navigateProxy(lbInput.value); });
+    const lp = localStorage.getItem("strato_low_power") === "true";
+    document.body.classList.toggle("low-power", lp);
+    const lpToggle = document.getElementById("low-power-toggle");
+    if (lpToggle)
+      lpToggle.addEventListener("click", () => {
+        document.body.classList.toggle("low-power");
+        localStorage.setItem(
+          "strato_low_power",
+          document.body.classList.contains("low-power"),
+        );
+      });
+    const lbInput = document.getElementById("lb-url-input");
+    const lbGoBtn = document.getElementById("lb-go-btn");
+    if (lbGoBtn)
+      lbGoBtn.addEventListener("click", () => {
+        if (lbInput?.value) navigateProxy(lbInput.value);
+      });
+    if (lbInput)
+      lbInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && lbInput.value) navigateProxy(lbInput.value);
+      });
 
     const splash = document.getElementById("splash");
     const splashBar = splash?.querySelector(".splash-bar");
@@ -3870,7 +4368,16 @@
       await new Promise((resolve) => {
         const onReady = (e) => {
           window.removeEventListener("proxy-ready", onReady);
-          state.proxyReady = true;
+          state.proxyEngines = {
+            uv: !!e.detail?.uv,
+            scramjet: !!e.detail?.scramjet,
+          };
+          state.proxyReady =
+            state.proxyEngines.uv || state.proxyEngines.scramjet;
+          if (!isProxyEngineAvailable(state.currentEngine)) {
+            const fallbackEngine = alternateProxyEngine(state.currentEngine);
+            if (fallbackEngine) setEngine(fallbackEngine);
+          }
           // Update splash engine indicators
           if (e.detail) {
             if (uvDotEl)
@@ -3904,17 +4411,15 @@
       console.warn("[STRATO] Game loading failed:", e);
     }
 
-    // Step 3: AI status
+    // Step 3: defer non-game systems (AI/Hub) until opened
     try {
       if (splashBar) splashBar.style.width = "75%";
-      if (splashStatus) splashStatus.textContent = "Checking AI service...";
+      if (splashStatus)
+        splashStatus.textContent = "Prioritizing local launch...";
       const aiDotEl = document.querySelector("#splash-engine-ai .splash-dot");
-      if (aiDotEl) aiDotEl.classList.add("pending");
-      await checkAiStatus();
-      if (aiDotEl)
-        aiDotEl.className = `splash-dot ${state.aiOnline ? "ready" : "error"}`;
+      if (aiDotEl) aiDotEl.className = "splash-dot pending";
     } catch (e) {
-      console.warn("[STRATO] AI status check failed:", e);
+      console.warn("[STRATO] Deferred AI status setup failed:", e);
     }
 
     // Step 4: Health check
@@ -3974,10 +4479,7 @@
       }
     } catch (e) {}
 
-    // Load Hub sites
-    try {
-      loadHubSites();
-    } catch (e) {}
+    // Hub loading is deferred until the Hub view is opened.
 
     // Username
     try {

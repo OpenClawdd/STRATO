@@ -3,6 +3,12 @@ import { state } from "./core/state.js";
 import { findGame, nameOf } from "./core/catalog.js";
 import { normalizeGame } from "./core/catalog.js";
 import { dismissHint, isHintDismissed } from "./core/storage.js";
+import {
+  resolveProxyLaunchUrl,
+  reportProxyBlockedOrFailed,
+  reportProxyInternalError,
+  reportProxyIframeLoaded,
+} from "./core/launch.js";
 import { createHomeController } from "./ui/home.js";
 import { bindSettings } from "./ui/settings.js";
 
@@ -42,15 +48,17 @@ function renderLaunchBay() {
   const title = game ? nameOf(game) : "The Launch Bay is ready.";
   const copy =
     state.launchBay.status === "loading"
-      ? `Loading ${title}…`
+      ? `Loading ${title}…${state.launchBay.reason ? ` ${state.launchBay.reason}.` : ""}`
       : state.launchBay.status === "failed"
         ? `Launch paused: ${state.launchBay.reason || "route unavailable"}.`
         : state.launchBay.status === "loaded"
           ? `${title} is running in the Launch Bay.`
           : "Search from Home, pick something, and launch.";
   bay.dataset.state = state.launchBay.status;
-  const h3 = bay.querySelector("h3"); if (h3) h3.textContent = title;
-  const p = bay.querySelector("p"); if (p) p.textContent = copy;
+  const h3 = bay.querySelector("h3");
+  if (h3) h3.textContent = title;
+  const p = bay.querySelector("p");
+  if (p) p.textContent = copy;
 }
 
 function bindNavigation(home) {
@@ -123,7 +131,18 @@ function bindLaunchBay() {
     body?.classList.remove("is-loading");
     renderLaunchBay();
   };
-  iframe?.addEventListener("load", sync);
+  iframe?.addEventListener("load", () => {
+    reportProxyIframeLoaded();
+    sync();
+  });
+  iframe?.addEventListener("error", () => {
+    reportProxyBlockedOrFailed();
+    sync();
+  });
+  window.addEventListener("strato-proxy-internal-error", (event) => {
+    reportProxyInternalError(event.detail || {});
+    sync();
+  });
   sync();
 }
 
@@ -131,6 +150,7 @@ export async function initOpenHome() {
   const response = await fetch("/assets/games.json", { cache: "no-store" });
   setGames(await response.json(), normalizeGame);
   const home = createHomeController();
+  window.STRATO_RESOLVE_PROXY_LAUNCH_URL = resolveProxyLaunchUrl;
   bindSettings({ onUpdate: () => home.render() });
   bindNavigation(home);
   bindLaunchBay();
