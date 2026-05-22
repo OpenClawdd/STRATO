@@ -12,6 +12,7 @@ pnpm test                   # Run all tests (vitest)
 npx vitest tests/some.test.js  # Run a single test file
 pnpm lint                   # ESLint on src/, public/js/v5/, scripts/validate-games.mjs
 pnpm format                 # Prettier format
+pnpm format:check           # Check formatting without writing
 node scripts/validate-games.mjs          # Audit catalog for errors
 node scripts/check-sources.mjs           # Check remote catalog sources
 node scripts/catalog-report.mjs          # Catalog intelligence report
@@ -27,7 +28,7 @@ pnpm source:validate        # Run Source Hydra validator
 - **School/Chromebook performance**: Assume 4GB RAM, weak CPU, and spotty network. Avoid large DOM trees, heavy animations, or memory leaks from retained event listeners. Test with Low Power mode on.
 - **Prefer small, testable changes**: Each change should be verifiable in isolation. Stop for review after each squad phase. "Commit only when told".
 - **Proxy/auth/security routes are off-limits during frontend polish**: Don't refactor or "clean up" route handlers in `src/routes/proxy.js`, `src/middleware/auth.js`, `src/middleware/csrf.js`, or `src/websocket.js` while doing UI work. Those files have security implications and must not regress.
-- **Catalog surface hygiene**: When touching catalog data or surface rendering, verify placeholder/demo/config-required entries are filtered from launch surfaces. Run `node scripts/validate-games.mjs` after catalog changes.
+- **Catalog surface hygiene**: When touching catalog data or surface rendering, verify that placeholder/demo/config-required entries are filtered from launch surfaces. Run `node scripts/validate-games.mjs` after catalog changes.
 - **Brand consistency**: STRATO is a polished launch universe — think "mission control for the fun internet," not a generic game site. Language should feel elevated, tactile, and cohesive. "Launch Bay" not "iframe", "Hideout" not "dashboard", "Catalog Pulse" not "stats", "Source Hydra" not "links".
 
 ## Architecture
@@ -105,6 +106,8 @@ ws-based WebSocketServer on `/ws/chat`. Auth via cookie validation on upgrade. R
 ### Testing
 
 Vitest with global test functions. All DB calls mocked in `tests/setup.js` via `vi.mock`. Helper factories: `createMockStore()`, `buildApp()`, `createMockRequest/Response/Next()`. Tests organized as `tests/routes/*.test.js`, `tests/websocket/*.test.js`, `tests/v5/*.test.js`, `tests/source-hydra.test.js`.
+
+## Verification Gate
 
 Before claiming done, run the relevant verification:
 

@@ -94,7 +94,7 @@ function renderCards(
 }
 
 function shortDate(timestamp) {
-  if (!timestamp) return "Ready";
+  if (!timestamp) return "Standing by";
   try {
     return new Intl.DateTimeFormat([], {
       month: "short",
@@ -103,7 +103,7 @@ function shortDate(timestamp) {
       minute: "2-digit",
     }).format(new Date(timestamp));
   } catch {
-    return "Ready";
+    return "Standing by";
   }
 }
 
@@ -143,7 +143,7 @@ function renderHeroStats(renderState = null) {
   if (lastAction)
     lastAction.textContent = last
       ? `Last: ${nameOf(last)} · ${shortDate(lastPlayed[last.id])}`
-      : "Ready";
+      : "Standing by";
 
   if (resumeBtn) {
     if (last) {
@@ -337,7 +337,8 @@ export function createHomeController() {
         return;
       }
       if (!results.length) {
-        container.innerHTML = "";
+        container.innerHTML =
+          '<div class="search-empty">No matches — try a different term.</div>';
         return;
       }
       state.searchIndex = Math.max(
@@ -415,7 +416,7 @@ export function createHomeController() {
     surprise() {
       const game = surpriseCandidate();
       if (!game) {
-        toast("No launchable games available yet.");
+        toast("No verified games ready to launch.");
         return;
       }
       const button = document.getElementById("surprise-me");
