@@ -5,6 +5,7 @@ import {
   health,
   isLaunchable,
   launchability,
+  launchableCache
 } from "./health.js";
 import { keys, readJson } from "./storage.js";
 
@@ -73,12 +74,12 @@ export function clearCatalogMemo() {
 }
 
 export function playableCatalog() {
-  const failures = readJson(keys.failures, {});
   return allNormalized().filter(
-    (game) =>
-      isHomeSafe(game) &&
-      isLaunchable(game, { failures }) &&
-      game.reliability !== "red",
+    (game) => {
+      if (!isHomeSafe(game) || game.reliability === "red") return false;
+      const cached = launchableCache.get(game.id);
+      return cached ? cached.launchable : isLaunchable(game);
+    }
   );
 }
 

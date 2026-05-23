@@ -4,7 +4,7 @@ import { setLaunchBay, setProxyLaunchTelemetry, state } from "./state.js";
 import { keys, readJson, writeJson } from "./storage.js";
 
 const LOCAL_PREFLIGHT_TIMEOUT_MS = 4000;
-const PROXY_LAUNCH_TIMEOUT_MS = 12000;
+const PROXY_LAUNCH_TIMEOUT_MS = 4000;
 let proxyLaunchTimer = null;
 
 function requestUiRefresh() {

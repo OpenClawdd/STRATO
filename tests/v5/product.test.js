@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { setGames, state } from '../../public/js/v5/core/state.js';
 import { normalizeGame, playableCatalog, similarGames, trendingGames } from '../../public/js/v5/core/catalog.js';
-import { isPlaceholder, launchability } from '../../public/js/v5/core/health.js';
+import { isPlaceholder, launchability, initHealthCache } from '../../public/js/v5/core/health.js';
 import { searchGames, scoreGame } from '../../public/js/v5/core/search.js';
 import { dailyPicks, surpriseCandidate } from '../../public/js/v5/core/picks.js';
 import { keys, writeJson } from '../../public/js/v5/core/storage.js';
@@ -30,6 +30,7 @@ beforeEach(() => {
   installStorage();
   state.activeMood = 'all';
   setGames(catalog, normalizeGame);
+  initHealthCache(catalog);
 });
 
 describe('v5 launchability and catalog gating', () => {
@@ -135,8 +136,7 @@ describe('v5 personalization and trending', () => {
 
     searchGames('space');
 
-    expect(localStorage.getItem).toHaveBeenCalledWith(keys.failures);
-    expect(localStorage.getItem).toHaveBeenCalledWith(keys.recent);
+        expect(localStorage.getItem).toHaveBeenCalledWith(keys.recent);
     expect(localStorage.getItem).toHaveBeenCalledWith(keys.playCounts);
     expect(localStorage.getItem.mock.calls.length).toBeLessThanOrEqual(3);
   });

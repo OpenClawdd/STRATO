@@ -14,7 +14,7 @@ const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
 
 const STATIC_ASSETS = [
   '/css/style.css',
-  '/js/app.js',
+
   '/js/particles.js',
   '/js/favicon-fetcher.js',
   '/js/transport-init.js',
@@ -156,7 +156,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Versioned shell assets should update immediately after product patches.
-  if (url.searchParams.has('v') || url.pathname === '/js/app.js' || url.pathname === '/css/style.css' || url.pathname === '/sw.js') {
+  if (url.searchParams.has('v') || url.pathname === '/css/style.css' || url.pathname === '/sw.js') {
     event.respondWith(networkFirstStatic(request));
     return;
   }
