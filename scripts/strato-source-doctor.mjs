@@ -37,7 +37,7 @@ const launchKeyWords = [
 const sourceFamilies = [
   ["selenite", ["selenite.cc", "selenite"]],
   ["1key", ["1key", "1-key", "onekey"]],
-  ["lucide", ["lucide"]],
+  ["lucide", ["lucideon.top", "a.luminsdk.com", "lucideproxy", "lucide"]],
   ["frogiee", ["frogiee", "frogies", "frogiesarcade"]],
   ["cherri", ["cherri"]],
   ["gn-math", ["gn-math.dev", "gn-math", "gn_math"]]
@@ -173,6 +173,18 @@ function familiesFor(game, urls) {
   for (const urlItem of urls) {
     const urlObj = toURL(urlItem.value);
     const host = urlObj ? cleanHost(urlObj.hostname) : "";
+
+    if (host === 'cdn.jsdelivr.net') {
+      if (urlItem.value.toLowerCase().includes('/gh/lucideproxy/svg') || urlItem.value.toLowerCase().includes('lucideproxy/svg')) {
+         if (!hit.includes('lucide')) hit.push('lucide');
+      } else if (text.includes('gn-math') || text.includes('gn_math') || urlItem.value.toLowerCase().includes('gn-math')) {
+         if (!hit.includes('gn-math')) hit.push('gn-math');
+      } else {
+         if (!hit.includes('unknown-cdn')) hit.push('unknown-cdn');
+      }
+      continue;
+    }
+
     for (const [family, needles] of sourceFamilies) {
       if (needles.some((needle) => host.includes(needle) || urlItem.value.toLowerCase().includes(needle))) {
         if (!hit.includes(family)) hit.push(family);
@@ -373,16 +385,25 @@ async function main() {
   const checked = await mapLimit(analyzed, CONCURRENCY, async (item) => {
     const attempts = [];
 
+
     for (const candidate of item.launchUrls.slice(0, 5)) {
-      const result = await probe(candidate.value);
+      let resolvedUrl = candidate.value;
+      if (resolvedUrl.includes('play.frogiee.one/iframe.html?url=')) {
+          resolvedUrl = 'https://play.frogiee.one' + resolvedUrl.split('/iframe.html?url=')[1];
+      } else if (resolvedUrl.includes('selenite.cc/projects/')) {
+          const slug = resolvedUrl.split('/projects/')[1];
+          resolvedUrl = `https://selenite.cc/resources/semag/${slug}/index.html`;
+      }
+      const result = await probe(resolvedUrl);
       attempts.push({
         field: candidate.path,
-        url: candidate.value,
+        url: resolvedUrl,
         ...result
       });
 
       if (result.ok) break;
     }
+
 
     let status = "unknown";
     if (attempts.some((x) => x.ok)) status = "ok";
@@ -449,6 +470,50 @@ async function main() {
   console.log("- .strato-reports/working-games.json");
   console.log("- .strato-reports/quarantine-games.json");
 
+  const familyHealth = {};
+  for (const item of checked) {
+    const fams = item.families.length ? item.families : ['unknown'];
+    for (const f of fams) {
+      if (!familyHealth[f]) familyHealth[f] = { total: 0, ok: 0, generic_only: 0, dead_launch: 0, asset_only: 0, missing_source: 0, quarantined: 0, domains: new Set(), examples: [] };
+      familyHealth[f].total++;
+      familyHealth[f][item.status]++;
+      if (item.status !== 'ok') {
+        familyHealth[f].quarantined++;
+        if (familyHealth[f].examples.length < 5) familyHealth[f].examples.push(item.id);
+      }
+      item.domains.forEach(d => familyHealth[f].domains.add(d));
+    }
+  }
+
+  const byFamilyMd = [
+    "# Source Families Health",
+    "",
+    "| Family | Total | OK | Generic | Dead | Asset | Missing | Quarantined | Top Domains | Examples |",
+    "|---|---|---|---|---|---|---|---|---|---|",
+    ...Object.entries(familyHealth).sort((a,b) => b[1].total - a[1].total).map(([f, h]) =>
+      `| ${f} | ${h.total} | ${h.ok} | ${h.generic_only} | ${h.dead_launch} | ${h.asset_only} | ${h.missing_source} | ${h.quarantined} | ${[...h.domains].slice(0, 3).join(', ')} | ${h.examples.join(', ')} |`
+    )
+  ].join("\\n");
+  fs.writeFileSync(".strato-reports/by-family-health.md", byFamilyMd);
+
+  const resolverGapsMd = [
+    "# Resolver Gaps",
+    "",
+    "## gn-math",
+    "- 702 entries use hash-based navigation (e.g., `#game-0`) which is non-deterministic statically.",
+    "",
+    "## selenite",
+    "- Some entries might not map directly to `/resources/semag/`.",
+    "",
+    "## lucide",
+    "- Many entries use `lucideon.top/g/frame` which is a generic hub."
+  ].join("\\n");
+  fs.writeFileSync(".strato-reports/resolver-gaps.md", resolverGapsMd);
+
+  console.log("- .strato-reports/by-family-health.md");
+  console.log("- .strato-reports/resolver-gaps.md");
+
+
   if (mode === "repair") {
     if (!APPLY) {
       console.log("");
@@ -458,7 +523,29 @@ async function main() {
     } else {
       const backup = `${catalogPath}.backup-${Date.now()}`;
       fs.copyFileSync(catalogPath, backup);
-      fs.writeFileSync(catalogPath, JSON.stringify(writeCatalogLike(raw, working.map((x) => x.game)), null, 2) + "\n");
+
+      const newGames = analyzed.map(a => {
+        const game = a.game;
+        const checkResult = checked.find(c => c.id === a.id);
+        if (checkResult && checkResult.status !== 'ok') {
+          game.quarantine = true;
+          game.quarantineReason = checkResult.attempts.length ? checkResult.attempts[0].reason : checkResult.status;
+          game.quarantineStatus = checkResult.status;
+          game.quarantineCheckedAt = new Date().toISOString();
+          game.sourceFamily = checkResult.families.join('|');
+          game.sourceDomains = checkResult.domains.join('|');
+          game.lastSourceHealth = checkResult.status;
+          game.originalLaunchCandidates = checkResult.attempts.map(att => att.url);
+        } else {
+          delete game.quarantine;
+          delete game.quarantineReason;
+          delete game.quarantineStatus;
+          delete game.quarantineCheckedAt;
+        }
+        return game;
+      });
+
+      fs.writeFileSync(catalogPath, JSON.stringify(writeCatalogLike(raw, newGames), null, 2) + "\n");
       console.log("");
       console.log(`✅ Applied working-only catalog.`);
       console.log(`Backup: ${backup}`);

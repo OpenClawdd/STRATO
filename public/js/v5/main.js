@@ -129,7 +129,7 @@ function bindLaunchBay() {
 
 export async function initOpenHome() {
   const response = await fetch("/assets/games.json", { cache: "no-store" });
-  setGames(await response.json(), normalizeGame);
+  setGames((await response.json()).filter(g => !g.quarantine), normalizeGame);
   const home = createHomeController();
   bindSettings({ onUpdate: () => home.render() });
   bindNavigation(home);

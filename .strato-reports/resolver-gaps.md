@@ -1,0 +1,1 @@
+# Resolver Gaps\n\n## gn-math\n- 702 entries use hash-based navigation (e.g., `#game-0`) which is non-deterministic statically.\n\n## selenite\n- Some entries might not map directly to `/resources/semag/`.\n\n## lucide\n- Many entries use `lucideon.top/g/frame` which is a generic hub.

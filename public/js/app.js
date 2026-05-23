@@ -1265,7 +1265,7 @@
     try {
       const resp = await fetch("/assets/games.json");
       if (!resp.ok) throw new Error("Failed to load games");
-      state.games = await resp.json();
+      state.games = (await resp.json()).filter(g => !g.quarantine);
       state.filteredGames = [...state.games];
       renderCategoryPills();
       renderGames();
