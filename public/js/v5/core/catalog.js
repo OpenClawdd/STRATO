@@ -3,9 +3,8 @@ import {
   blockedCategories,
   blockedTerms,
   health,
-  isLaunchable,
+  healthCache,
   launchability,
-  launchableCache,
 } from "./health.js";
 import { keys, readJson } from "./storage.js";
 
@@ -32,6 +31,9 @@ export function normalizeGame(game) {
   const category = categoryOf(game).trim();
   const tags = tagsOf(game);
   const description = descriptionOf(game).trim();
+  const searchableText = [title, category, description, ...tags]
+    .join(" ")
+    .toLowerCase();
   const health = launchability(game);
   const normalized = {
     ...game,
@@ -40,15 +42,23 @@ export function normalizeGame(game) {
     categoryLabel: category,
     tags,
     description,
-    searchableText: [title, category, description, ...tags]
-      .join(" ")
+    searchableText,
+    searchTitle: title.toLowerCase(),
+    searchCategory: category.toLowerCase(),
+    searchTags: tags.join(" ").toLowerCase(),
+    searchDescription: description.toLowerCase(),
+    searchAbbr: title
+      .split(/[^A-Za-z0-9]+|(?=[A-Z])/)
+      .filter(Boolean)
+      .map((word) => word[0])
+      .join("")
       .toLowerCase(),
     launchKind: health.kind,
     healthStatus: health.status,
     launchable: health.launchable,
   };
   normalized.isSafe = !blockedTerms.some((term) =>
-    normalized.searchableText.includes(term),
+    searchableText.includes(term),
   );
   return normalized;
 }
@@ -71,14 +81,20 @@ export function allNormalized() {
 
 export function clearCatalogMemo() {
   state.normalized = [];
+  state.catalogMemo = {
+    playable: null,
+    promotable: null,
+    moods: null,
+    gameById: null,
+  };
 }
 
 export function playableCatalog() {
-  return allNormalized().filter((game) => {
-    if (!isHomeSafe(game) || game.reliability === "red") return false;
-    const cached = launchableCache.get(game.id);
-    return cached ? cached.launchable : isLaunchable(game);
-  });
+  if (state.catalogMemo.playable) return state.catalogMemo.playable;
+  state.catalogMemo.playable = allNormalized().filter(
+    (game) => healthCache.get(game.id)?.playable,
+  );
+  return state.catalogMemo.playable;
 }
 
 export function visibleCatalog() {
@@ -94,14 +110,21 @@ export function visibleCatalog() {
 }
 
 export function promotableCatalog() {
-  return playableCatalog().filter(
+  if (state.catalogMemo.promotable) return state.catalogMemo.promotable;
+  state.catalogMemo.promotable = playableCatalog().filter(
     (game) =>
       game.reliability === "green" && health(game).status !== "fallback-art",
   );
+  return state.catalogMemo.promotable;
 }
 
 export function findGame(id) {
-  return allNormalized().find((game) => String(game.id) === String(id));
+  if (!state.catalogMemo.gameById) {
+    state.catalogMemo.gameById = new Map(
+      allNormalized().map((game) => [String(game.id), game]),
+    );
+  }
+  return state.catalogMemo.gameById.get(String(id));
 }
 
 export function similarGames(game, limit = 4) {
@@ -142,6 +165,7 @@ export function trendingGames(limit = 4) {
 }
 
 export function moodClusters() {
+  if (state.catalogMemo.moods) return state.catalogMemo.moods;
   const tally = new Map();
   promotableCatalog().forEach((game) => {
     [categoryOf(game), ...tagsOf(game)].forEach((raw) => {
@@ -151,9 +175,10 @@ export function moodClusters() {
       if (key.length >= 3) tally.set(key, (tally.get(key) || 0) + 1);
     });
   });
-  return [...tally.entries()]
+  state.catalogMemo.moods = [...tally.entries()]
     .filter(([, count]) => count >= 3)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, 8)
     .map(([name, count]) => ({ name, count }));
+  return state.catalogMemo.moods;
 }

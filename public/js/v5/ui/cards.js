@@ -22,13 +22,6 @@ function palette(game) {
 }
 
 export function fallbackThumb(game) {
-  const initials =
-    nameOf(game)
-      .split(/\s+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0].toUpperCase())
-      .join("") || "S";
   const [a, b, c] = palette(game);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230">
     <defs>
@@ -43,7 +36,11 @@ export function fallbackThumb(game) {
     <ellipse cx="180" cy="122" rx="116" ry="34" fill="none" stroke="url(#aero)" stroke-width="3" opacity=".55" transform="rotate(-9 180 122)"/>
     <ellipse cx="180" cy="122" rx="72" ry="20" fill="none" stroke="#fff" stroke-width="2" opacity=".24" transform="rotate(-9 180 122)"/>
     <circle cx="284" cy="105" r="5" fill="${a}" opacity=".88"/>
-    <text x="180" y="139" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="900" fill="url(#aero)" letter-spacing="2">${escapeHtml(initials)}</text>
+    <path d="M116 143c17-43 46-70 81-79 21 29 30 63 22 102-39 15-74 8-103-23Z" fill="url(#aero)" opacity=".88"/>
+    <path d="M161 75c-20 38-24 70-12 96" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".42"/>
+    <path d="M108 151c37 16 75 16 116 0" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".34"/>
+    <circle cx="232" cy="84" r="18" fill="${b}" opacity=".88"/>
+    <path d="M242 70l21-15M247 87l26 3M232 102l7 25" stroke="${a}" stroke-width="7" stroke-linecap="round" opacity=".72"/>
   </svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }

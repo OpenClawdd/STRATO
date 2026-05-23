@@ -16,11 +16,23 @@ export const state = {
     detail: "",
     at: 0,
   },
+  catalogMemo: {
+    playable: null,
+    promotable: null,
+    moods: null,
+    gameById: null,
+  },
 };
 
 export function setGames(games, normalizer = (game) => game) {
   state.games = Array.isArray(games) ? games : [];
   state.normalized = state.games.map(normalizer);
+  state.catalogMemo = {
+    playable: null,
+    promotable: null,
+    moods: null,
+    gameById: null,
+  };
 }
 
 export function setLaunchBay(status, gameId = null, reason = "") {

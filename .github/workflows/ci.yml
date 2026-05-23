@@ -24,8 +24,8 @@ jobs:
       - name: Syntax check
         run: |
           node --check src/index.js
-          node --check public/js/app.js
           node --check public/js/open-home-runtime.js
+          node --check public/js/v5/main.js
       - name: Format check
         run: pnpm run format:check
       - name: Lint

@@ -50,12 +50,14 @@ export function scoreGame(game, query, context = {}) {
     .trim()
     .toLowerCase();
   if (!q) return Infinity;
-  const title = nameOf(game).toLowerCase();
-  const category = categoryOf(game).toLowerCase();
-  const tags = tagsOf(game).join(" ").toLowerCase();
-  const description = descriptionOf(game).toLowerCase();
-  const blob = [title, category, tags, description].join(" ");
-  const abbr = abbreviation(title);
+  const title = game.searchTitle || nameOf(game).toLowerCase();
+  const category = game.searchCategory || categoryOf(game).toLowerCase();
+  const tags = game.searchTags || tagsOf(game).join(" ").toLowerCase();
+  const description =
+    game.searchDescription || descriptionOf(game).toLowerCase();
+  const blob =
+    game.searchableText || [title, category, tags, description].join(" ");
+  const abbr = game.searchAbbr || abbreviation(title);
 
   const { recent, counts } = searchContext(context);
   const isRecent = recent.has(game.id);
@@ -81,13 +83,13 @@ export function scoreGame(game, query, context = {}) {
 
 export function searchGames(query) {
   const context = searchContext();
-  return visibleCatalog()
-    .map((game) => ({ game, score: scoreGame(game, query, context) }))
-    .filter(({ score }) => score < 82)
-    .sort(
-      (a, b) =>
-        a.score - b.score || nameOf(a.game).localeCompare(nameOf(b.game)),
-    )
-    .slice(0, 10)
-    .map(({ game }) => game);
+  const matches = [];
+  for (const game of visibleCatalog()) {
+    const score = scoreGame(game, query, context);
+    if (score < 82) matches.push({ game, score });
+  }
+  matches.sort(
+    (a, b) => a.score - b.score || nameOf(a.game).localeCompare(nameOf(b.game)),
+  );
+  return matches.slice(0, 10).map(({ game }) => game);
 }

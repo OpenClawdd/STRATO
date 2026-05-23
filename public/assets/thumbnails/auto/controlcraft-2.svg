@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Control Craft 2 icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#38bdf8" stop-opacity=".42"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <g stroke="#94a3b8" stroke-width="5"><path d="M105 91l55-38 55 38-55 40z" fill="none"/><path d="M105 91h110M160 53v78"/></g><circle cx="105" cy="91" r="22" fill="#38bdf8"/><circle cx="160" cy="53" r="22" fill="#a78bfa"/><circle cx="215" cy="91" r="22" fill="#facc15"/><circle cx="160" cy="131" r="22" fill="#22c55e"/><circle cx="160" cy="91" r="13" fill="#f8fafc"/>
+</svg>

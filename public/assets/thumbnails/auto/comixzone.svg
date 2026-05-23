@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Comix Zone icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#facc15" stop-opacity=".42"/><stop offset="1" stop-color="#facc15" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <g stroke="#f8fafc" stroke-width="5"><path d="M64 40h84v52H64z" fill="#ef4444"/><path d="M172 40h84v52h-84z" fill="#facc15"/><path d="M64 112h72v32H64z" fill="#38bdf8"/><path d="M156 112h100v32H156z" fill="#22c55e"/></g><path d="M96 66l21-12-7 24 22 9-26 4-13 20-4-24-22-8 24-5z" fill="#fff"/><path d="M190 126h46" stroke="#111827" stroke-width="8" stroke-linecap="round"/>
+</svg>

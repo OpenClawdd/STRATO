@@ -70,9 +70,21 @@ function bindNavigation(home) {
   });
 
   const search = document.getElementById("home-search");
+  let searchFrame = 0;
+  const scheduleSearch = (value) => {
+    const requestFrame =
+      window.requestAnimationFrame ||
+      ((callback) => window.setTimeout(callback, 16));
+    const cancelFrame = window.cancelAnimationFrame || window.clearTimeout;
+    if (searchFrame) cancelFrame(searchFrame);
+    searchFrame = requestFrame(() => {
+      searchFrame = 0;
+      home.search(value);
+    });
+  };
   search?.addEventListener("input", (event) => {
     state.searchIndex = 0;
-    home.search(event.target.value);
+    scheduleSearch(event.target.value);
   });
   search?.addEventListener("keydown", (event) => {
     if (event.key === "ArrowDown") {
@@ -88,6 +100,9 @@ function bindNavigation(home) {
       event.preventDefault();
       event.target.value = "";
       state.searchIndex = 0;
+      if (searchFrame)
+        (window.cancelAnimationFrame || window.clearTimeout)(searchFrame);
+      searchFrame = 0;
       home.search("");
     }
   });
@@ -124,6 +139,32 @@ function bindNavigation(home) {
 function bindLaunchBay() {
   const iframe = document.getElementById("proxy-iframe");
   const body = document.querySelector(".browser-body");
+  // Proxy Containment Shield: keep same-origin proxy pages inside Launch Bay.
+  const applyProxyContainmentShield = () => {
+    try {
+      const win = iframe?.contentWindow;
+      const doc = win?.document;
+      if (!win || !doc) return;
+
+      doc.querySelectorAll('a[target="_blank"]').forEach((anchor) => {
+        anchor.setAttribute("target", "_self");
+      });
+
+      if (!win.__strato_shield_active) {
+        const originalOpen = win.open;
+        win.open = function (url, target, features) {
+          if (!target || target === "_blank") {
+            win.location.href = url;
+            return win;
+          }
+          return originalOpen.apply(this, [url, target, features]);
+        };
+        win.__strato_shield_active = true;
+      }
+    } catch {
+      // Cross-origin frames may block shield injection until proxy rewriting finishes.
+    }
+  };
   const sync = () => {
     body?.classList.toggle(
       "has-launch",
@@ -133,6 +174,7 @@ function bindLaunchBay() {
     renderLaunchBay();
   };
   iframe?.addEventListener("load", () => {
+    applyProxyContainmentShield();
     reportProxyIframeLoaded();
     sync();
   });

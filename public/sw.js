@@ -6,7 +6,7 @@
    skip waiting, claim clients
    ══════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'strato-v1.0.0';
+const CACHE_NAME = 'strato-v2';
 const CACHE_VERSION = 100;
 const DEBUG_SW = false;
 const swLog = (...args) => { if (DEBUG_SW) console.debug(...args); };

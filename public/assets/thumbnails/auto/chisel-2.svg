@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Chisel 2 icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#5eead4" stop-opacity=".42"/><stop offset="1" stop-color="#5eead4" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="143" cy="102" r="54" fill="#0f766e"/><path d="M93 116c37 14 72 14 105-1" fill="none" stroke="#5eead4" stroke-width="7" stroke-linecap="round"/><path d="M190 54l47 37-52 23z" fill="#e5e7eb"/><path d="M190 54l13 53M209 69l-5 39M226 82l-32 24" stroke="#94a3b8" stroke-width="4"/><circle cx="102" cy="80" r="8" fill="#a7f3d0"/>
+</svg>

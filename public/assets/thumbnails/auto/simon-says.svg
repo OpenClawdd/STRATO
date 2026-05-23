@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Simon Says icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#22c55e" stop-opacity=".42"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="160" cy="90" r="66" fill="#111827" stroke="#ffffff" stroke-opacity=".16" stroke-width="2"/><path d="M160 24a66 66 0 0 1 66 66h-66z" fill="#22c55e"/><path d="M226 90a66 66 0 0 1-66 66V90z" fill="#3b82f6"/><path d="M160 156a66 66 0 0 1-66-66h66z" fill="#facc15"/><path d="M94 90a66 66 0 0 1 66-66v66z" fill="#ef4444"/><circle cx="160" cy="90" r="24" fill="#05070a" stroke="#ffffff" stroke-opacity=".22"/>
+</svg>

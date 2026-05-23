@@ -21,8 +21,8 @@ describe("STRATO Security Audit", () => {
     );
   });
 
-  it("should have active containment shield in app.js", () => {
-    const content = fs.readFileSync("public/js/app.js", "utf8");
+  it("should have active containment shield in v5 launch bay", () => {
+    const content = fs.readFileSync("public/js/v5/main.js", "utf8");
     expect(content).toContain("Proxy Containment Shield");
     expect(content).toContain("win.open = function");
   });

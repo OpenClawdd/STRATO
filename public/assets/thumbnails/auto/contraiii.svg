@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Contra III icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#f97316" stop-opacity=".42"/><stop offset="1" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="122" cy="58" r="16" fill="#f8fafc"/><path d="M122 74l-20 42 38 4 24-31" fill="none" stroke="#f8fafc" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M153 88h58" stroke="#94a3b8" stroke-width="9" stroke-linecap="round"/><path d="M208 88l31-18" stroke="#facc15" stroke-width="6" stroke-linecap="round"/><path d="M111 116l-28 25M139 120l30 22" stroke="#f8fafc" stroke-width="10" stroke-linecap="round"/><path d="M227 60l12 12 16-30" stroke="#f97316" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -42,31 +42,46 @@ function setActiveView(viewName) {
 }
 
 function bindCards(container, controller) {
+  if (container.dataset.cardsBound === "true") return;
+  container.dataset.cardsBound = "true";
   container.querySelectorAll("img[data-fallback-src]").forEach((img) => {
     img.onerror = () => {
       if (img.src !== img.dataset.fallbackSrc)
         img.src = img.dataset.fallbackSrc;
     };
   });
-  container.querySelectorAll("[data-launch-id]").forEach((button) => {
-    button.addEventListener("click", (event) => {
+  container.addEventListener(
+    "error",
+    (event) => {
+      const img = event.target;
+      if (img?.tagName !== "IMG" || !img.dataset.fallbackSrc) return;
+      if (img.src !== img.dataset.fallbackSrc)
+        img.src = img.dataset.fallbackSrc;
+    },
+    true,
+  );
+  container.addEventListener("click", (event) => {
+    const launchButton = event.target.closest("[data-launch-id]");
+    if (launchButton) {
       event.stopPropagation();
-      controller.launch(button.dataset.launchId);
-    });
-  });
-  container.querySelectorAll("[data-fav-id]").forEach((button) => {
-    button.addEventListener("click", (event) => {
+      controller.launch(launchButton.dataset.launchId);
+      return;
+    }
+    const favoriteButton = event.target.closest("[data-fav-id]");
+    if (favoriteButton) {
       event.stopPropagation();
-      controller.toggleFavorite(button.dataset.favId);
-    });
+      controller.toggleFavorite(favoriteButton.dataset.favId);
+      return;
+    }
+    const cardItem = event.target.closest("[data-game-id]");
+    if (cardItem && container.contains(cardItem)) {
+      controller.open(cardItem.dataset.gameId);
+    }
   });
-  container.querySelectorAll("[data-game-id]").forEach((item) => {
-    item.addEventListener("click", (event) => {
-      if (!event.target.closest("button")) controller.open(item.dataset.gameId);
-    });
-    item.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") controller.open(item.dataset.gameId);
-    });
+  container.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const item = event.target.closest("[data-game-id]");
+    if (item && container.contains(item)) controller.open(item.dataset.gameId);
   });
 }
 

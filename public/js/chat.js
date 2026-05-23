@@ -81,7 +81,6 @@
         if (!messages[data.roomId]) messages[data.roomId] = [];
         messages[data.roomId].push(data);
         if (data.roomId === currentRoom) renderMessage(data);
-        // Notify app.js of new chat message
         if (window.STRATO_XP) window.STRATO_XP("chat");
         break;
       case "message":
@@ -444,7 +443,6 @@
     loadRooms();
   }
 
-  // Expose to app.js
   window.StratoChat = {
     init,
     connect,

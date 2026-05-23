@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Altered Beast icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#f97316" stop-opacity=".42"/><stop offset="1" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <path d="M112 124c-7-44 13-78 48-78s55 34 48 78c-26 21-70 21-96 0z" fill="#7c2d12"/><path d="M118 56L91 31l14 49M202 56l27-25-14 49" fill="#f97316"/><circle cx="140" cy="88" r="8" fill="#fef3c7"/><circle cx="180" cy="88" r="8" fill="#fef3c7"/><path d="M132 116c20 16 36 16 56 0" fill="none" stroke="#fed7aa" stroke-width="7" stroke-linecap="round"/>
+</svg>

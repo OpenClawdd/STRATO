@@ -387,7 +387,7 @@
     getLevel,
     getXp,
     addXP,
-    addXp: addXP, // alias — app.js calls addXp (lowercase x)
+    addXp: addXP,
     addXPAction,
     addXPActionAlias: addXPAction,
     getProfile,

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Crush the Castle icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#f59e0b" stop-opacity=".42"/><stop offset="1" stop-color="#f59e0b" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <path d="M205 142V82h18V62h22v20h18v60z" fill="#64748b"/><path d="M75 137h70" stroke="#92400e" stroke-width="11" stroke-linecap="round"/><path d="M100 132l45-62" stroke="#92400e" stroke-width="9" stroke-linecap="round"/><circle cx="150" cy="66" r="14" fill="#44403c"/><path d="M84 142l19-35 21 35" fill="none" stroke="#a16207" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 59c21-31 53-37 78-21" fill="none" stroke="#facc15" stroke-width="5" stroke-linecap="round" stroke-dasharray="7 10"/>
+</svg>

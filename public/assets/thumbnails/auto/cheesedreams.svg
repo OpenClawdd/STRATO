@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Cheese Dreams icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05070a"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="62%"><stop stop-color="#facc15" stop-opacity=".42"/><stop offset="1" stop-color="#facc15" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="320" height="180" rx="18" fill="url(#bg)"/>
+  <rect width="320" height="180" rx="18" fill="url(#glow)"/>
+  <path d="M24 146C82 126 129 151 184 130c43-16 74-12 112 6" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"/>
+  <path d="M105 132L225 50v92z" fill="#facc15"/><path d="M126 120h98v22h-98z" fill="#f59e0b" opacity=".72"/><circle cx="190" cy="86" r="11" fill="#92400e" opacity=".45"/><circle cx="155" cy="111" r="9" fill="#92400e" opacity=".45"/><circle cx="213" cy="123" r="7" fill="#92400e" opacity=".45"/><circle cx="92" cy="52" r="15" fill="#fef3c7" opacity=".9"/>
+</svg>

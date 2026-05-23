@@ -1,4 +1,5 @@
 import { keys, readJson } from "./storage.js";
+import { state } from "./state.js";
 
 export const blockedCategories = new Set([
   "proxies",
@@ -136,13 +137,33 @@ export function launchability(game, context = {}) {
   };
 }
 
-export const launchableCache = new Map();
+export const healthCache = new Map();
+export const launchableCache = healthCache;
 
 export function initHealthCache(catalog) {
-  launchableCache.clear();
+  healthCache.clear();
+  state.catalogMemo.playable = null;
+  state.catalogMemo.promotable = null;
+  state.catalogMemo.moods = null;
   const context = { failures: readJson(keys.failures, {}) };
   for (const game of catalog) {
-    launchableCache.set(game.id, launchability(game, context));
+    const health = launchability(game, context);
+    const category = String(game?.category || "").toLowerCase();
+    const text = [
+      game?.name || game?.title || "",
+      game?.description || "",
+      category,
+      ...(Array.isArray(game?.tags) ? game.tags : []),
+    ]
+      .join(" ")
+      .toLowerCase();
+    const safe =
+      !blockedCategories.has(category) &&
+      !blockedTerms.some((term) => text.includes(term));
+    healthCache.set(game.id, {
+      ...health,
+      playable: health.launchable && game?.reliability !== "red" && safe,
+    });
   }
 }
 
