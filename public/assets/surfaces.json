@@ -28244,7 +28244,6 @@
       "className": "game-card",
       "tag": "DIV"
     },
-    "quarantineReason": "remote_wrapper_unverified:adfree_game_wrapper",
     "launchMode": "surface",
     "surfaceType": "directory"
   },

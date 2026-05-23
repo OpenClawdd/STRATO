@@ -14,7 +14,6 @@ const swWarn = (...args) => { if (DEBUG_SW) console.warn(...args); };
 
 const STATIC_ASSETS = [
   '/css/style.css',
-
   '/js/particles.js',
   '/js/favicon-fetcher.js',
   '/js/transport-init.js',

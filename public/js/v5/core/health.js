@@ -136,7 +136,6 @@ export function launchability(game, context = {}) {
   };
 }
 
-
 export const launchableCache = new Map();
 
 export function initHealthCache(catalog) {
