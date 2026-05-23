@@ -1,6 +1,5 @@
 import { Router } from "express";
 import store from "../db/store.js";
-import { validateMessage } from "../middleware/sanitize.js";
 
 const router = Router();
 
