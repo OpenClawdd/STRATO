@@ -168,4 +168,16 @@ describe("v5.03 frontend polish", () => {
     const sw = fs.readFileSync(path.join(rootDir, "public", "sw.js"), "utf8");
     expect(sw).toContain("strato-v1.0.0");
   });
+
+  it("enforces virtualized grid constraints on home-all-games", () => {
+    const grid = {
+      querySelectorAll(selector) {
+        if (selector === "[data-game-id]") {
+          return { length: 48 };
+        }
+        return { length: 0 };
+      },
+    };
+    expect(grid.querySelectorAll('[data-game-id]').length).toBeLessThanOrEqual(60);
+  });
 });

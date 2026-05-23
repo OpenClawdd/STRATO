@@ -26,8 +26,169 @@ import { showRecovery } from "./recovery.js";
 import { openSheet } from "./sheet.js";
 import { toast } from "./toast.js";
 
-const INITIAL_ALL_GAMES_LIMIT = 8;
 const SEARCH_RESULTS_LIMIT = 24;
+
+let ROW_H = 0,
+  COL_W = 0,
+  cols = 1,
+  gamesRef = [],
+  pool = [],
+  raf = 0;
+const BUFFER = 2;
+let scroller = null;
+let container = null;
+let topSpacer = null;
+let bottomSpacer = null;
+let isInitialized = false;
+
+function initVirtualScroller(controller) {
+  if (isInitialized) return;
+
+  container = document.getElementById("home-all-games");
+  scroller = document.getElementById("view-home");
+  if (!container || !scroller) return;
+
+  if (container.dataset.virtualized === "true") return;
+  container.dataset.virtualized = "true";
+
+  isInitialized = true;
+
+  // Setup container
+  container.innerHTML = "";
+  container.style.position = "relative";
+
+  topSpacer = document.createElement("div");
+  topSpacer.style.width = "100%";
+  topSpacer.style.height = "0px";
+  container.appendChild(topSpacer);
+
+  bottomSpacer = document.createElement("div");
+  bottomSpacer.style.width = "100%";
+  bottomSpacer.style.height = "0px";
+  container.appendChild(bottomSpacer);
+
+  bindCards(container, controller);
+
+  scroller.addEventListener(
+    "scroll",
+    () => {
+      if (!raf)
+        raf = window.requestAnimationFrame(() => {
+          raf = 0;
+          renderWindow();
+        });
+    },
+    { passive: true },
+  );
+
+  const resizeObserver = new window.ResizeObserver(() => rebuildPool());
+  resizeObserver.observe(scroller); // observe scroller, not container
+  rebuildPool(); // ResizeObserver doesn't fire on first paint
+}
+
+function rebuildPool() {
+  if (!container || !isInitialized) return;
+
+  // Measure sample card size
+  let sample = container.querySelector("[data-game-id]");
+  if (!sample && gamesRef.length > 0) {
+    const measurer = document.createElement("div");
+    measurer.style.position = "absolute";
+    measurer.style.visibility = "hidden";
+    measurer.style.pointerEvents = "none";
+    measurer.innerHTML = card(gamesRef[0]);
+    document.body.appendChild(measurer);
+    sample = measurer.firstElementChild;
+    sample.offsetHeight; // force layout
+    const rect = sample.getBoundingClientRect();
+    const gap = 16;
+    ROW_H = rect.height + gap;
+    COL_W = rect.width + gap;
+    document.body.removeChild(measurer);
+  } else if (sample) {
+    const rect = sample.getBoundingClientRect();
+    const gap = 16;
+    ROW_H = rect.height + gap;
+    COL_W = rect.width + gap;
+  } else {
+    // Fallback if no games
+    ROW_H = 216;
+    COL_W = 156;
+  }
+
+  const clientH = scroller ? scroller.clientHeight : window.innerHeight;
+  const baseRows = Math.ceil(clientH / ROW_H);
+  const newCols = Math.max(1, Math.floor(container.clientWidth / COL_W));
+  const poolSize = newCols * (baseRows + BUFFER * 2 + 4);
+
+  if (newCols !== cols || poolSize !== pool.length) {
+    cols = newCols;
+    pool.forEach((node) => node.remove());
+    pool = Array.from({ length: poolSize }, () => {
+      const n = document.createElement("div");
+      n.style.position = "absolute";
+      n.style.left = "0";
+      n.style.top = "0";
+      n.style.willChange = "transform";
+      n.style.contain = "strict";
+      n.style.width = COL_W - 16 + "px";
+      n.style.height = ROW_H - 16 + "px";
+      container.insertBefore(n, bottomSpacer);
+      return n;
+    });
+    pool.forEach((n) => delete n.dataset.idx); // flush stale idx
+  }
+
+  renderWindow();
+}
+
+function renderWindow() {
+  if (!isInitialized || !scroller || !container || gamesRef.length === 0) {
+    if (topSpacer) topSpacer.style.height = "0px";
+    if (bottomSpacer) bottomSpacer.style.height = "0px";
+    pool.forEach((node) => {
+      node.style.display = "none";
+    });
+    return;
+  }
+
+  const scrollTop = scroller.scrollTop;
+  const startRow = Math.max(0, Math.floor(scrollTop / ROW_H) - BUFFER);
+  const clientH = scroller.clientHeight || window.innerHeight;
+  const visibleRows = Math.ceil(clientH / ROW_H) + BUFFER * 2;
+  const startIdx = startRow * cols;
+  const endIdx = Math.min(gamesRef.length, startIdx + visibleRows * cols);
+
+  const totalRows = Math.ceil(gamesRef.length / cols);
+  const renderedRows = Math.ceil((endIdx - startIdx) / cols);
+  topSpacer.style.height = startRow * ROW_H + "px";
+  bottomSpacer.style.height =
+    Math.max(0, totalRows - startRow - renderedRows) * ROW_H + "px";
+  container.style.height = totalRows * ROW_H + "px"; // absolute pool doesn't size parent
+
+  for (let i = 0; i < pool.length; i++) {
+    const idx = startIdx + i;
+    const node = pool[i];
+    if (idx >= endIdx) {
+      node.style.display = "none";
+      continue;
+    }
+    node.style.display = "";
+    const row = Math.floor(idx / cols);
+    const col = idx % cols;
+    const y = (row - startRow) * ROW_H; // subtract startRow
+    const x = col * COL_W;
+    node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    if (node.dataset.idx !== String(idx)) {
+      node.dataset.idx = idx;
+      node.innerHTML = card(gamesRef[idx]);
+      const cardArticle = node.firstElementChild;
+      if (cardArticle) {
+        cardArticle.style.height = "100%";
+      }
+    }
+  }
+}
 
 function setActiveView(viewName) {
   document
@@ -286,10 +447,6 @@ export function createHomeController() {
         .sort((a, b) => b.count - a.count)
         .slice(0, 6)
         .map(({ game }) => game);
-      const allGames = promotableCatalog()
-        .filter((game) => state.activeMood === "all" || visibleSet.has(game))
-        .slice(0, INITIAL_ALL_GAMES_LIMIT);
-
       renderMoods(controller, renderState);
 
       // 1. Daily Picks
@@ -327,15 +484,24 @@ export function createHomeController() {
         cardSnapshot,
       );
 
-      // 5. Verified Universe (All / Filtered)
-      renderCards(
-        "home-all-games",
-        allGames,
-        "No verified games found in this quadrant.",
-        controller,
-        "shelf",
-        cardSnapshot,
-      );
+      // 5. Verified Universe (All / Filtered) - Virtualized
+      const query = document.getElementById("home-search")?.value || "";
+      const filtered = query.trim()
+        ? searchGames(query)
+        : promotableCatalog().filter(
+            (game) => state.activeMood === "all" || visibleSet.has(game),
+          );
+
+      gamesRef = filtered;
+
+      const allGamesSection = document.getElementById("home-all-games-section");
+      if (allGamesSection) {
+        allGamesSection.classList.toggle("hidden", gamesRef.length === 0);
+      }
+
+      initVirtualScroller(controller);
+      pool.forEach((n) => delete n.dataset.idx);
+      rebuildPool();
 
       renderPulse(renderState);
       renderHeroStats(renderState);
@@ -343,30 +509,52 @@ export function createHomeController() {
     },
 
     search(query) {
+      const queryChanged = state.searchQuery !== query;
       state.searchQuery = query;
       const container = document.getElementById("home-search-results");
-      if (!container) return;
-      const results = searchGames(query);
-      if (!query.trim()) {
-        container.innerHTML = "";
-        return;
+      if (container) {
+        const results = searchGames(query);
+        if (!query.trim()) {
+          container.innerHTML = "";
+        } else if (!results.length) {
+          container.innerHTML = "";
+        } else {
+          state.searchIndex = Math.max(
+            0,
+            Math.min(state.searchIndex, results.length - 1),
+          );
+          const favorites = new Set(readJson(keys.favorites, []));
+          const visibleResults = results.slice(0, SEARCH_RESULTS_LIMIT);
+          const capped =
+            results.length > visibleResults.length
+              ? ` · showing first ${visibleResults.length}`
+              : "";
+          container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"}${capped} · Enter launches, click opens details</div>${visibleResults.map((game, index) => renderSearchResult(game, index, favorites)).join("")}`;
+          bindCards(container, controller);
+        }
       }
-      if (!results.length) {
-        container.innerHTML = "";
-        return;
+
+      // Filter gamesRef and update virtual scroller
+      const visible = visibleCatalog();
+      const visibleSet = new Set(visible);
+      const filtered = query.trim()
+        ? searchGames(query)
+        : promotableCatalog().filter(
+            (game) => state.activeMood === "all" || visibleSet.has(game),
+          );
+
+      gamesRef = filtered;
+
+      const allGamesSection = document.getElementById("home-all-games-section");
+      if (allGamesSection) {
+        allGamesSection.classList.toggle("hidden", gamesRef.length === 0);
       }
-      state.searchIndex = Math.max(
-        0,
-        Math.min(state.searchIndex, results.length - 1),
-      );
-      const favorites = new Set(readJson(keys.favorites, []));
-      const visibleResults = results.slice(0, SEARCH_RESULTS_LIMIT);
-      const capped =
-        results.length > visibleResults.length
-          ? ` · showing first ${visibleResults.length}`
-          : "";
-      container.innerHTML = `<div class="search-count"><strong>${results.length}</strong> result${results.length === 1 ? "" : "s"}${capped} · Enter launches, click opens details</div>${visibleResults.map((game, index) => renderSearchResult(game, index, favorites)).join("")}`;
-      bindCards(container, controller);
+
+      pool.forEach((n) => delete n.dataset.idx);
+      if (scroller && queryChanged) {
+        scroller.scrollTop = 0;
+      }
+      renderWindow();
     },
 
     moveSearch(delta) {

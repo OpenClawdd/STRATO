@@ -51,6 +51,8 @@ export function thumb(game) {
     : fallbackThumb(game);
 }
 
+const getThumb = thumb;
+
 export function statusLabel(game) {
   const labels = {
     "fallback-art": "Fallback art",
@@ -107,9 +109,12 @@ export function card(game, variant = "", snapshot = {}) {
     providerBadge = `<span class="provider-badge provider-${cleanProvider.toLowerCase().replaceAll(" ", "-")}">${escapeHtml(cleanProvider)}</span>`;
   }
 
+  const thumbUrl = getThumb(game);
+  const thumb = escapeHtml(thumbUrl);
+
   return `<article class="game-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0">
     <div class="game-card-thumb">
-      <img src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt="">
+      <img src="${thumb}" data-fallback-src="${fallbackThumb(game)}" loading="lazy" decoding="async" width="320" height="200" alt="">
       <div class="game-card-overlay">
         <div class="game-card-meta">
           <span class="category-tag">${escapeHtml(category)}</span>
