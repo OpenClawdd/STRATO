@@ -1252,7 +1252,9 @@
     ]
       .join(" ")
       .toLowerCase();
-    const result = !HOMEPAGE_BLOCKED_TERMS.some((term) => visibleText.includes(term));
+    const result = !HOMEPAGE_BLOCKED_TERMS.some((term) =>
+      visibleText.includes(term),
+    );
     homeSafeCache.set(game, result);
     return result;
   }
