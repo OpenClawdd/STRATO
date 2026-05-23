@@ -1234,9 +1234,16 @@
     return String(category || "Arcade").replace(/-/g, " ");
   }
 
+  const homeSafeCache = new WeakMap();
+
   function isHomeSafeGame(game) {
+    if (!game || typeof game !== "object") return false;
+    if (homeSafeCache.has(game)) return homeSafeCache.get(game);
     const category = String(game?.category || "").toLowerCase();
-    if (HOMEPAGE_BLOCKED_CATEGORIES.has(category)) return false;
+    if (HOMEPAGE_BLOCKED_CATEGORIES.has(category)) {
+      homeSafeCache.set(game, false);
+      return false;
+    }
     const visibleText = [
       getGameName(game),
       game?.description || "",
@@ -1245,12 +1252,39 @@
     ]
       .join(" ")
       .toLowerCase();
-    return !HOMEPAGE_BLOCKED_TERMS.some((term) => visibleText.includes(term));
+    const result = !HOMEPAGE_BLOCKED_TERMS.some((term) =>
+      visibleText.includes(term),
+    );
+    homeSafeCache.set(game, result);
+    return result;
   }
+
+  const staticHealthCache = new WeakMap();
 
   function getGameHealth(game) {
     if (!game || typeof game !== "object")
       return { status: "invalid", reason: "unavailable" };
+
+    // 1. Dynamic check (time and state dependent)
+    const failure = state.localFailures?.[game.id];
+    if (failure && Date.now() - failure.timestamp < RECENT_FAILURE_MS) {
+      return {
+        status: "recently-failed-locally",
+        reason: failure.reason || "failed locally",
+      };
+    }
+
+    // 2. Use static cache for the rest
+    if (staticHealthCache.has(game)) {
+      return staticHealthCache.get(game);
+    }
+
+    const health = _getStaticGameHealth(game);
+    staticHealthCache.set(game, health);
+    return health;
+  }
+
+  function _getStaticGameHealth(game) {
     const url = String(game.url || "").trim();
     if (!url) return { status: "missing-url", reason: "missing URL" };
     if (game.needsConfig || game.config_required || isPlaceholderUrl(url))
@@ -1270,14 +1304,6 @@
       quarantineSignal.includes("wrapper_unverified")
     ) {
       return { status: "invalid", reason: "needs review" };
-    }
-
-    const failure = state.localFailures?.[game.id];
-    if (failure && Date.now() - failure.timestamp < RECENT_FAILURE_MS) {
-      return {
-        status: "recently-failed-locally",
-        reason: failure.reason || "failed locally",
-      };
     }
 
     if (game.reliability === "red")
