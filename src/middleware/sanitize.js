@@ -109,7 +109,14 @@ export function validateUrl(url) {
   // Block private/internal IPs for SSRF prevention
   try {
     const parsed = new URL(trimmed);
-    const hostname = parsed.hostname;
+    const bareHost = parsed.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+
+    if (
+      bareHost.startsWith("::ffff:") ||
+      bareHost.startsWith("0:0:0:0:0:ffff:")
+    ) {
+      return null;
+    }
 
     // Block localhost, 127.x, 10.x, 172.16-31.x, 192.168.x, 0.0.0.0, ::1
     const privateIpPatterns = [
@@ -119,14 +126,15 @@ export function validateUrl(url) {
       /^172\.(1[6-9]|2[0-9]|3[01])\./,
       /^192\.168\./,
       /^0\.0\.0\.0$/,
-      /^\[::1\]$/,
       /^::1$/,
+      /^::$/,
       /^fc00:/i,
+      /^fd00:/i,
       /^fe80:/i,
     ];
 
     for (const pattern of privateIpPatterns) {
-      if (pattern.test(hostname)) return null;
+      if (pattern.test(bareHost)) return null;
     }
   } catch {
     // Invalid URL
