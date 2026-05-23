@@ -15,8 +15,8 @@ const router = Router();
 const ADMIN_SECRET = process.env.ADMIN_SECRET || null;
 
 function requireAdmin(req, res, next) {
-  // Check for admin secret in header or query
-  const provided = req.headers["x-admin-secret"] || req.query.admin_secret;
+  // Check for admin secret in header
+  const provided = req.headers["x-admin-secret"];
 
   if (!ADMIN_SECRET) {
     return res.status(403).json({
