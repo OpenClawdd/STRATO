@@ -90,11 +90,9 @@ export function clearCatalogMemo() {
 }
 
 export function playableCatalog() {
-  if (state.catalogMemo.playable) return state.catalogMemo.playable;
-  state.catalogMemo.playable = allNormalized().filter(
+  return (state.catalogMemo.playable ??= allNormalized().filter(
     (game) => healthCache.get(game.id)?.playable,
-  );
-  return state.catalogMemo.playable;
+  ));
 }
 
 export function visibleCatalog() {

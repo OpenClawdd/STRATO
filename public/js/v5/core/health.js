@@ -142,9 +142,6 @@ export const launchableCache = healthCache;
 
 export function initHealthCache(catalog) {
   healthCache.clear();
-  state.catalogMemo.playable = null;
-  state.catalogMemo.promotable = null;
-  state.catalogMemo.moods = null;
   const context = { failures: readJson(keys.failures, {}) };
   for (const game of catalog) {
     const health = launchability(game, context);
@@ -165,6 +162,9 @@ export function initHealthCache(catalog) {
       playable: health.launchable && game?.reliability !== "red" && safe,
     });
   }
+  state.catalogMemo.playable = null;
+  state.catalogMemo.promotable = null;
+  state.catalogMemo.moods = null;
 }
 
 export const health = launchability;

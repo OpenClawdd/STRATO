@@ -1,5 +1,6 @@
 import { setGames } from "./core/state.js";
 import { state } from "./core/state.js";
+import * as db from "./core/db.js";
 import { findGame, nameOf } from "./core/catalog.js";
 import { normalizeGame } from "./core/catalog.js";
 import { dismissHint, isHintDismissed } from "./core/storage.js";
@@ -189,10 +190,114 @@ function bindLaunchBay() {
   sync();
 }
 
-export async function initOpenHome() {
-  const response = await fetch("/assets/games.json", { cache: "no-store" });
-  setGames(await response.json(), normalizeGame);
+async function catalogVersion(games, surfaces) {
+  const payload = JSON.stringify({ games, surfaces });
+  if (!globalThis.crypto?.subtle || !globalThis.TextEncoder) {
+    return String(Date.now());
+  }
+  const digest = await globalThis.crypto.subtle.digest(
+    "SHA-256",
+    new globalThis.TextEncoder().encode(payload),
+  );
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function fetchCatalogFromNetwork() {
+  const [gamesResponse, surfacesResponse] = await Promise.all([
+    fetch("/assets/games.json"),
+    fetch("/assets/surfaces.json"),
+  ]);
+  if (!gamesResponse.ok) {
+    throw new Error(`Catalog request failed: ${gamesResponse.status}`);
+  }
+  if (!surfacesResponse.ok) {
+    throw new Error(`Surface request failed: ${surfacesResponse.status}`);
+  }
+  const [games, surfaces] = await Promise.all([
+    gamesResponse.json(),
+    surfacesResponse.json(),
+  ]);
+  return { games, surfaces, gamesResponse };
+}
+
+async function seedCatalogFromNetwork() {
+  const { games, surfaces, gamesResponse } = await fetchCatalogFromNetwork();
+  await Promise.all([
+    db.putAll("games", games),
+    db.putAll("surfaces", surfaces),
+  ]);
+  await Promise.all([
+    db.setMeta(
+      "catalogETag",
+      gamesResponse.headers.get("ETag") || String(Date.now()),
+    ),
+    db.setMeta("catalogVersion", await catalogVersion(games, surfaces)),
+  ]);
+  return games;
+}
+
+async function loadCatalog() {
+  await db.open();
+  const cachedGames = await db.getAll("games");
+  if (cachedGames.length > 0) return { games: cachedGames, fromCache: true };
+  return { games: await seedCatalogFromNetwork(), fromCache: false };
+}
+
+function applyCatalog(games) {
+  setGames(games, normalizeGame);
   initHealthCache(state.games);
+}
+
+function revalidateCatalog(home) {
+  if (globalThis.navigator?.onLine === false) return;
+  void (async () => {
+    try {
+      const etag = (await db.getMeta("catalogETag"))?.value;
+      const headers = etag ? { "If-None-Match": etag } : {};
+      const response = await fetch("/assets/games.json", {
+        headers,
+        cache: "no-store",
+      });
+      if (response.status === 304) return;
+      if (response.status !== 200) return;
+      const freshGames = await response.json();
+      await db.putAll("games", freshGames);
+      await db.setMeta(
+        "catalogETag",
+        response.headers.get("ETag") || String(Date.now()),
+      );
+      fetch("/assets/surfaces.json", { cache: "no-store" })
+        .then(async (surfacesResponse) => {
+          if (surfacesResponse.ok) {
+            const freshSurfaces = await surfacesResponse.json();
+            await db.putAll("surfaces", freshSurfaces);
+            await db.setMeta(
+              "catalogVersion",
+              await catalogVersion(freshGames, freshSurfaces),
+            );
+          }
+        })
+        .catch(() => {});
+      applyCatalog(freshGames);
+      home.render();
+      renderLaunchBay();
+    } catch {
+      // Cached catalog is already rendered; revalidation must stay silent.
+    }
+  })();
+}
+
+function isReloadNavigation() {
+  const entries =
+    globalThis.performance?.getEntriesByType?.("navigation") || [];
+  return entries.some((entry) => entry.type === "reload");
+}
+
+export async function initOpenHome() {
+  const catalog = await loadCatalog();
+  applyCatalog(catalog.games);
   const home = createHomeController();
   window.STRATO_RESOLVE_PROXY_LAUNCH_URL = resolveProxyLaunchUrl;
   bindSettings({ onUpdate: () => home.render() });
@@ -201,6 +306,7 @@ export async function initOpenHome() {
   home.render();
   renderFirstRunHint(home);
   renderLaunchBay();
+  if (catalog.fromCache && !isReloadNavigation()) revalidateCatalog(home);
   window.addEventListener("strato-open-home-refresh", () => {
     home.render();
     renderLaunchBay();
