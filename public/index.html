@@ -70,33 +70,33 @@
         <span class="logo-text">STRATO</span>
       </div>
       <div class="sidebar-menu">
-        <button class="nav-btn active" data-view="home" title="Home">
+        <button class="nav-btn active" data-view="home" title="Home" aria-label="Home">
           <span class="nav-icon">🏠</span>
           <span class="nav-label">Home</span>
         </button>
-        <button class="nav-btn" data-view="arcade" title="Arcade">
+        <button class="nav-btn" data-view="arcade" title="Arcade" aria-label="Arcade">
           <span class="nav-icon">🎮</span>
           <span class="nav-label">Arcade</span>
         </button>
-        <button class="nav-btn" data-view="browser" title="Proxy Lab (Experimental)">
+        <button class="nav-btn" data-view="browser" title="Proxy Lab (Experimental)" aria-label="Proxy Lab (Experimental)">
           <span class="nav-icon">🌐</span>
           <span class="nav-label">Proxy Lab</span>
         </button>
-        <button class="nav-btn" data-view="hub" title="Hub">
+        <button class="nav-btn" data-view="hub" title="Hub" aria-label="Hub">
           <span class="nav-icon">📂</span>
           <span class="nav-label">Hub</span>
         </button>
-        <button class="nav-btn" data-view="chat" title="Chat">
+        <button class="nav-btn" data-view="chat" title="Chat" aria-label="Chat">
           <span class="nav-icon">💬</span>
           <span class="nav-label">Chat</span>
         </button>
-        <button class="nav-btn" data-view="ai" title="AI">
+        <button class="nav-btn" data-view="ai" title="AI" aria-label="AI">
           <span class="nav-icon">✨</span>
           <span class="nav-label">AI</span>
         </button>
       </div>
       <div class="sidebar-footer">
-        <button class="nav-btn" data-view="settings" title="Settings">
+        <button class="nav-btn" data-view="settings" title="Settings" aria-label="Settings">
           <span class="nav-icon">⚙</span>
           <span class="nav-label">Settings</span>
         </button>
@@ -142,14 +142,14 @@
         <span class="status-item" id="status-username"></span>
 
         <span class="status-divider">|</span>
-        <button class="status-btn" id="btn-notifications" title="Notifications">
+        <button class="status-btn" id="btn-notifications" title="Notifications" aria-label="Notifications">
           🔔 <span class="notif-badge hidden">0</span>
         </button>
 
         <span class="status-divider">|</span>
-        <button id="low-power-toggle" class="topbar-icon-btn" title="Low Power Mode">⚡</button>
-        <button class="topbar-action" id="btn-stealth" title="Stealth Mode">🛡</button>
-        <button class="topbar-action" id="btn-media" title="Media Player">🎵</button>
+        <button id="low-power-toggle" class="topbar-icon-btn" title="Low Power Mode" aria-label="Low Power Mode">⚡</button>
+        <button class="topbar-action" id="btn-stealth" title="Stealth Mode" aria-label="Stealth Mode">🛡</button>
+        <button class="topbar-action" id="btn-media" title="Media Player" aria-label="Media Player">🎵</button>
       </div>
     </nav>
 
@@ -378,10 +378,10 @@
       <section id="view-browser" class="view">
         <div class="browser-toolbar">
           <div class="browser-nav-btns">
-            <button class="glass-btn icon-btn" id="btn-back" title="Back" hidden>◀</button>
-            <button class="glass-btn icon-btn" id="btn-forward" title="Forward" hidden>▶</button>
-            <button class="glass-btn icon-btn" id="btn-refresh" title="Refresh">⟳</button>
-            <button class="glass-btn icon-btn" id="btn-home" title="Home" hidden>⌂</button>
+            <button class="glass-btn icon-btn" id="btn-back" title="Back" aria-label="Back" hidden>◀</button>
+            <button class="glass-btn icon-btn" id="btn-forward" title="Forward" aria-label="Forward" hidden>▶</button>
+            <button class="glass-btn icon-btn" id="btn-refresh" title="Refresh" aria-label="Refresh">⟳</button>
+            <button class="glass-btn icon-btn" id="btn-home" title="Home" aria-label="Home" hidden>⌂</button>
           </div>
           <div class="browser-url-bar">
             <select class="glass-select protocol-select" id="protocol-select">
@@ -392,9 +392,9 @@
             <button class="glass-btn" id="btn-go">GO</button>
           </div>
           <div class="browser-actions">
-            <button class="glass-btn icon-btn" id="btn-bookmark" title="Bookmark">☆</button>
-            <button class="glass-btn icon-btn" id="btn-bookmarks-panel" title="Bookmarks">📑</button>
-            <button class="glass-btn icon-btn" id="btn-history-panel" title="History">🕐</button>
+            <button class="glass-btn icon-btn" id="btn-bookmark" title="Bookmark" aria-label="Bookmark">☆</button>
+            <button class="glass-btn icon-btn" id="btn-bookmarks-panel" title="Bookmarks" aria-label="Bookmarks">📑</button>
+            <button class="glass-btn icon-btn" id="btn-history-panel" title="History" aria-label="History">🕐</button>
           </div>
         </div>
         <div class="browser-bookmarks-bar" id="bookmarks-bar"></div>
@@ -441,7 +441,7 @@
           <div class="chat-sidebar">
             <div class="chat-sidebar-header">
               <h3>Rooms</h3>
-              <button class="glass-btn icon-btn" id="btn-create-room" title="Create Room">+</button>
+              <button class="glass-btn icon-btn" id="btn-create-room" title="Create Room" aria-label="Create Room">+</button>
             </div>
             <div class="chat-room-list" id="chat-room-list"></div>
             <div class="chat-dm-section">
@@ -784,8 +784,8 @@
         <input type="range" class="glass-slider volume-slider" id="media-volume" min="0" max="100" value="80">
       </div>
       <div class="media-actions">
-        <button class="glass-btn icon-btn" id="btn-media-upload" title="Upload Audio">📂</button>
-        <button class="glass-btn icon-btn" id="btn-media-minimize" title="Minimize">▼</button>
+        <button class="glass-btn icon-btn" id="btn-media-upload" title="Upload Audio" aria-label="Upload Audio">📂</button>
+        <button class="glass-btn icon-btn" id="btn-media-minimize" title="Minimize" aria-label="Minimize">▼</button>
       </div>
       <input type="file" id="media-file-input" accept="audio/*" hidden>
       <audio id="media-audio" preload="auto"></audio>

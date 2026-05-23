@@ -1,0 +1,2 @@
+## 2024-05-23 - Initial Setup\n**Learning:** Started logging UX enhancements.\n**Action:** Will update when adding specific enhancements.
+## 2024-05-23 - Accessibility: Aria Labels for Buttons\n**Learning:** Icon-only buttons or buttons using titles needed explicit aria-labels for better screen reader accessibility. Found several elements in the public HTML using only title.\n**Action:** Replaced title with title AND aria-label in public/index.html to improve accessibility.
