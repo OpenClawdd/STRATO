@@ -9,6 +9,7 @@ import {
   reportProxyInternalError,
   reportProxyIframeLoaded,
 } from "./core/launch.js";
+import { initHealthCache } from "./core/health.js";
 import { createHomeController } from "./ui/home.js";
 import { bindSettings } from "./ui/settings.js";
 
@@ -149,6 +150,7 @@ function bindLaunchBay() {
 export async function initOpenHome() {
   const response = await fetch("/assets/games.json", { cache: "no-store" });
   setGames(await response.json(), normalizeGame);
+  initHealthCache(state.games);
   const home = createHomeController();
   window.STRATO_RESOLVE_PROXY_LAUNCH_URL = resolveProxyLaunchUrl;
   bindSettings({ onUpdate: () => home.render() });

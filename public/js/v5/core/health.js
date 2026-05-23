@@ -136,6 +136,16 @@ export function launchability(game, context = {}) {
   };
 }
 
+export const launchableCache = new Map();
+
+export function initHealthCache(catalog) {
+  launchableCache.clear();
+  const context = { failures: readJson(keys.failures, {}) };
+  for (const game of catalog) {
+    launchableCache.set(game.id, launchability(game, context));
+  }
+}
+
 export const health = launchability;
 export const isLaunchable = (game, context = {}) =>
   launchability(game, context).launchable;
