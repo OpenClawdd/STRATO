@@ -166,7 +166,7 @@ describe("v5.03 frontend polish", () => {
     expect(pkg.version).toBe("1.0.0");
 
     const sw = fs.readFileSync(path.join(rootDir, "public", "sw.js"), "utf8");
-    expect(sw).toContain("strato-v1.0.0");
+    expect(sw).toContain("strato-v2");
   });
 
   it("enforces virtualized grid constraints on home-all-games", () => {
