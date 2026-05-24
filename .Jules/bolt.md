@@ -1,0 +1,3 @@
+## 2024-05-24 - [Optimize map and sort operations on large collections]
+**Learning:** Performing a `.map()` on a large dataset before applying a `.sort()` and `.slice()` causes unnecessary object allocations for items that are eventually discarded. This pattern is particularly costly in memory-constrained environments or when handling large arrays (e.g., fetching all users for a global leaderboard).
+**Action:** Always filter (`.filter()`) and sort (`.sort()`) first, take the required slice (`.slice()`), and *then* map (`.map()`) the final dataset when transforming large arrays to avoid creating garbage objects for items that will not be used.
