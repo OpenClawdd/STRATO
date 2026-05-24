@@ -5,7 +5,9 @@ import {
   health,
   isLaunchable,
   launchability,
+  launchableCache,
 } from "./health.js";
+import { keys, readJson } from "./storage.js";
 
 export const nameOf = (game) => String(game?.name || game?.title || "Untitled");
 export const categoryOf = (game) =>
@@ -31,7 +33,7 @@ export function normalizeGame(game) {
   const tags = tagsOf(game);
   const description = descriptionOf(game).trim();
   const health = launchability(game);
-  return {
+  const normalized = {
     ...game,
     title,
     name: title,
@@ -45,11 +47,16 @@ export function normalizeGame(game) {
     healthStatus: health.status,
     launchable: health.launchable,
   };
+  normalized.isSafe = !blockedTerms.some((term) =>
+    normalized.searchableText.includes(term),
+  );
+  return normalized;
 }
 
 export function isHomeSafe(game) {
   const category = String(game?.category || "").toLowerCase();
   if (blockedCategories.has(category)) return false;
+  if (game.isSafe !== undefined) return game.isSafe;
   const text = [nameOf(game), descriptionOf(game), category, ...tagsOf(game)]
     .join(" ")
     .toLowerCase();
@@ -57,16 +64,21 @@ export function isHomeSafe(game) {
 }
 
 export function allNormalized() {
-  return state.normalized.length
-    ? state.normalized
-    : state.games.map(normalizeGame);
+  if (state.normalized.length) return state.normalized;
+  state.normalized = state.games.map(normalizeGame);
+  return state.normalized;
+}
+
+export function clearCatalogMemo() {
+  state.normalized = [];
 }
 
 export function playableCatalog() {
-  return allNormalized().filter(
-    (game) =>
-      isHomeSafe(game) && isLaunchable(game) && game.reliability !== "red",
-  );
+  return allNormalized().filter((game) => {
+    if (!isHomeSafe(game) || game.reliability === "red") return false;
+    const cached = launchableCache.get(game.id);
+    return cached ? cached.launchable : isLaunchable(game);
+  });
 }
 
 export function visibleCatalog() {
@@ -114,6 +126,19 @@ export function similarGames(game, limit = 4) {
     )
     .slice(0, limit)
     .map((entry) => entry.candidate);
+}
+
+export function trendingGames(limit = 4) {
+  const counts = readJson(keys.playCounts, {});
+  return playableCatalog()
+    .map((game) => ({ game, count: Number(counts[game.id] || 0) }))
+    .filter((entry) => entry.count > 0)
+    .sort(
+      (a, b) =>
+        b.count - a.count || nameOf(a.game).localeCompare(nameOf(b.game)),
+    )
+    .slice(0, limit)
+    .map((entry) => entry.game);
 }
 
 export function moodClusters() {

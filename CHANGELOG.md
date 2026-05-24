@@ -4,18 +4,28 @@ All notable changes to STRATO are documented in this file. The format is based o
 
 ---
 
-## [21.0.0] — 2025-03-04
+## [1.0.0] — 2026-05-21
+
+### Game-First Local-First Verified Release Candidate
+- **Version Alignment** — Converted to `v1.0` release identity across package.json, index.js, Dockerfile, sw.js, manifest.json.
+- **Game-First Performance** — Disabled page particles by default to optimize low-power Chromebooks. Sliced arcade grids to 40 items maximum and added a "Load More" pagination element.
+- **Security & Privacy** — Restricted favicon loader to same-origin domain logic only. Converted external tab-cloaking assets into offline Base64 SVG data URLs.
+- **Search Hygiene** — Limited command-palette searches to verified playable games via `activePlayableCatalog`.
+
+---
+
+## [1.0.0] — 2025-03-04
 
 ### The Definitive Edition
 
-STRATO v21 is the culmination of every feature, fix, and improvement built across 21 versions. This release consolidates the proxy engine, arcade, AI tutor, chat, stealth, themes, extensions, and progression systems into a single polished experience with comprehensive documentation, hardened security, and production-ready stability.
+STRATO v1.0 is the culmination of every feature, fix, and improvement built across 21 versions. This release consolidates the proxy engine, arcade, AI tutor, chat, stealth, themes, extensions, and progression systems into a single polished experience with comprehensive documentation, hardened security, and production-ready stability.
 
 ### Added
 
 #### Documentation
-- **README.md** — Complete rewrite with badges, hero section, all v21 features, quick start, configuration guide, deployment guide (Railway, Render, Fly.io, Docker), architecture overview, API quick reference, project structure, contributing link, license, and credits
+- **README.md** — Complete rewrite with badges, hero section, all v1.0 features, quick start, configuration guide, deployment guide (Railway, Render, Fly.io, Docker), architecture overview, API quick reference, project structure, contributing link, license, and credits
 - **CONTRIBUTING.md** — Full contribution guide with Code of Conduct, fork-branch-commit-PR workflow, development setup, code style guide (ESLint, Prettier), testing requirements, PR template, issue template, and release process
-- **CHANGELOG.md** — Complete version history from v13 NEXUS through v21
+- **CHANGELOG.md** — Complete version history from v13 NEXUS through v1.0
 - **docs/API.md** — Full API reference with authentication details, all endpoints with request/response examples, WebSocket protocol documentation, error codes, and rate limiting details
 - **docs/ARCHITECTURE.md** — System architecture document with text-based diagrams, request flow, proxy engine flow, database design, WebSocket architecture, frontend architecture, and security model
 
@@ -183,8 +193,8 @@ STRATO v21 is the culmination of every feature, fix, and improvement built acros
 
 ### Changed
 - Upgraded from Express 4 to Express 5
-- Server startup message updated to v21
-- Service worker cache name updated to `strato-v21`
+- Server startup message updated to v1.0
+- Service worker cache name updated to `strato-v1.0`
 - Service worker cache version updated to 21
 
 ### Fixed
@@ -383,7 +393,7 @@ The first public release of STRATO with basic proxy and game functionality.
 
 ---
 
-[21.0.0]: https://github.com/OpenClawdd/STRATO/compare/v20.0.0...v21.0.0
+[1.0.0]: https://github.com/OpenClawdd/STRATO/compare/v20.0.0...v1.0.0
 [20.0.0]: https://github.com/OpenClawdd/STRATO/compare/v13.0.0...v20.0.0
 [13.0.0]: https://github.com/OpenClawdd/STRATO/compare/v12.0.0...v13.0.0
 [12.0.0]: https://github.com/OpenClawdd/STRATO/compare/v11.0.0...v12.0.0

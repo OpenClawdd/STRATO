@@ -1,4 +1,4 @@
-import { categoryOf, descriptionOf, nameOf, tagsOf } from "../core/catalog.js";
+import { categoryOf, nameOf } from "../core/catalog.js";
 import { health, isPlaceholder } from "../core/health.js";
 import { keys, readJson } from "../core/storage.js";
 
@@ -60,34 +60,74 @@ export function statusLabel(game) {
     "failed-locally": "Launch paused",
     "missing-url": "Missing URL",
     "needs-config": "Needs config",
+    "remote-proxy-unverified": "Needs proxy proof",
     invalid: "Unavailable",
   };
   return labels[health(game).status] || "";
 }
 
-function localMeta(game) {
-  const count = Number(readJson(keys.playCounts, {})[game.id] || 0);
-  const last = readJson(keys.lastPlayed, {})[game.id];
+function localMeta(game, snapshot = {}) {
+  const count = Number(
+    (snapshot.playCounts || readJson(keys.playCounts, {}))[game.id] || 0,
+  );
+  const last = (snapshot.lastPlayed || readJson(keys.lastPlayed, {}))[game.id];
   if (count > 0) return `${count} launch${count === 1 ? "" : "es"}`;
   if (last) return "Seen before";
   return "Ready";
 }
 
-export function card(game, variant = "") {
-  const favorite = readJson(keys.favorites, []).includes(game.id);
-  const tags = tagsOf(game).slice(0, 3);
-  const description = descriptionOf(game);
-  const label = statusLabel(game);
+export function card(game, variant = "", snapshot = {}) {
+  const favorites =
+    snapshot.favorites instanceof Set
+      ? snapshot.favorites
+      : new Set(readJson(keys.favorites, []));
+  const favorite = favorites.has(game.id);
   const category = categoryOf(game);
-  return `<article class="hideout-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="Open ${escapeHtml(nameOf(game))}">
-    <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="${favorite ? "Unfavorite" : "Favorite"} ${escapeHtml(nameOf(game))}">${favorite ? "★" : "☆"}</button>
-    <div class="hideout-thumb-wrap"><img class="hideout-thumb" src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt=""></div>
-    <div class="hideout-card-body">
-      <div class="hideout-card-topline"><span>${escapeHtml(category)}</span>${label ? `<span class="status-pill">${escapeHtml(label)}</span>` : `<span class="status-pill ready">${escapeHtml(localMeta(game))}</span>`}</div>
-      <h3>${escapeHtml(nameOf(game))}</h3>
-      ${description ? `<p>${escapeHtml(description)}</p>` : ""}
-      <div class="hideout-tags">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-      <div class="card-actions"><button class="launch-button" data-launch-id="${escapeHtml(game.id)}" type="button">Play</button><span>${escapeHtml(localMeta(game))}</span></div>
+  const gameHealth = health(game);
+  const isVerified =
+    game.reliability === "green" ||
+    gameHealth.status === "remote-proxy-verified";
+  const meta = localMeta(game, snapshot);
+
+  const provider = game.source || game.provider || "";
+  let providerBadge = "";
+  if (provider) {
+    let cleanProvider = String(provider).toLowerCase();
+    if (cleanProvider.includes("selenite")) cleanProvider = "Selenite";
+    else if (cleanProvider.includes("1key") || cleanProvider.includes("onekey"))
+      cleanProvider = "1Key";
+    else if (
+      cleanProvider.includes("frogiee") ||
+      cleanProvider.includes("frogie")
+    )
+      cleanProvider = "Frogie";
+    else if (cleanProvider.includes("gn-math")) cleanProvider = "GN Math";
+    else if (cleanProvider.includes("lucide")) cleanProvider = "Lucide";
+    else if (cleanProvider.includes("truffled")) cleanProvider = "Truffled";
+    else if (cleanProvider.includes("ubghub")) cleanProvider = "UBGHub";
+    else cleanProvider = provider.charAt(0).toUpperCase() + provider.slice(1);
+
+    providerBadge = `<span class="provider-badge provider-${cleanProvider.toLowerCase().replaceAll(" ", "-")}">${escapeHtml(cleanProvider)}</span>`;
+  }
+
+  return `<article class="game-card ${variant}" data-game-id="${escapeHtml(game.id)}" tabindex="0">
+    <div class="game-card-thumb">
+      <img src="${escapeHtml(thumb(game))}" loading="lazy" data-fallback-src="${escapeHtml(fallbackThumb(game))}" alt="">
+      <div class="game-card-overlay">
+        <div class="game-card-meta">
+          <span class="category-tag">${escapeHtml(category)}</span>
+          ${providerBadge}
+          ${isVerified ? `<span class="verified-badge">✓ Verified</span>` : ""}
+        </div>
+        <h3 class="game-card-title">${escapeHtml(nameOf(game))}</h3>
+        <div class="game-card-footer">
+          <span class="card-status-text">${escapeHtml(meta)}</span>
+          <button class="launch-button-mini" data-launch-id="${escapeHtml(game.id)}">Play</button>
+        </div>
+      </div>
     </div>
+    <button class="pin-button ${favorite ? "active" : ""}" data-fav-id="${escapeHtml(game.id)}" type="button" aria-label="Favorite">
+      ${favorite ? "★" : "☆"}
+    </button>
   </article>`;
 }

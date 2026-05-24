@@ -5,6 +5,7 @@ import {
   tagsOf,
   visibleCatalog,
 } from "./catalog.js";
+import { keys, readJson } from "./storage.js";
 
 export function levenshtein(a, b) {
   const left = String(a || "");
@@ -24,15 +25,27 @@ export function levenshtein(a, b) {
 }
 
 export function abbreviation(value) {
-  return String(value || "")
-    .split(/[^a-z0-9]+/i)
+  const str = String(value || "");
+  // Split by non-alphanumeric OR by camelCase boundaries
+  return str
+    .split(/[^A-Za-z0-9]+|(?=[A-Z])/)
     .filter(Boolean)
     .map((word) => word[0])
     .join("")
     .toLowerCase();
 }
 
-export function scoreGame(game, query) {
+function searchContext(context = {}) {
+  return {
+    recent:
+      context.recent instanceof Set
+        ? context.recent
+        : new Set(context.recent || readJson(keys.recent, [])),
+    counts: context.counts || readJson(keys.playCounts, {}),
+  };
+}
+
+export function scoreGame(game, query, context = {}) {
   const q = String(query || "")
     .trim()
     .toLowerCase();
@@ -44,30 +57,32 @@ export function scoreGame(game, query) {
   const blob = [title, category, tags, description].join(" ");
   const abbr = abbreviation(title);
 
-  if (title === q) return 0;
-  if (abbr === q) return 1;
-  if (title.startsWith(q)) return 2;
-  if (abbr.startsWith(q)) return 4;
-  if (title.includes(q)) return 8 + title.indexOf(q);
-  if (title.split(/\s+/).some((word) => word.startsWith(q))) return 12;
-  if (category.includes(q)) return 22;
-  if (tags.split(/\s+/).some((word) => word.startsWith(q))) return 24;
-  if (tags.includes(q)) return 28;
-  if (description.includes(q)) return 46;
-  if (blob.includes(q)) return 54;
+  const { recent, counts } = searchContext(context);
+  const isRecent = recent.has(game.id);
+  const playCount = Number(counts[game.id] || 0);
+  const boost = isRecent ? 0.5 : playCount > 5 ? 0.8 : 1.0;
 
-  const distance = Math.min(
-    levenshtein(title.slice(0, q.length + 3), q),
-    ...title
-      .split(/\s+/)
-      .map((word) => levenshtein(word.slice(0, q.length + 2), q)),
-  );
-  return 72 + distance;
+  let baseScore = Infinity;
+  if (title === q) baseScore = 0;
+  else if (abbr === q) baseScore = 1;
+  else if (title.startsWith(q)) baseScore = 2;
+  else if (abbr.startsWith(q)) baseScore = 4;
+  else if (title.includes(q)) baseScore = 8 + title.indexOf(q);
+  else if (title.split(/\s+/).some((word) => word.startsWith(q)))
+    baseScore = 12;
+  else if (category.includes(q)) baseScore = 22;
+  else if (tags.split(/\s+/).some((word) => word.startsWith(q))) baseScore = 24;
+  else if (tags.includes(q)) baseScore = 28;
+  else if (description.includes(q)) baseScore = 46;
+  else if (blob.includes(q)) baseScore = 54;
+
+  return baseScore * boost;
 }
 
 export function searchGames(query) {
+  const context = searchContext();
   return visibleCatalog()
-    .map((game) => ({ game, score: scoreGame(game, query) }))
+    .map((game) => ({ game, score: scoreGame(game, query, context) }))
     .filter(({ score }) => score < 82)
     .sort(
       (a, b) =>

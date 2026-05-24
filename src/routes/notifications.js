@@ -190,7 +190,7 @@ router.post("/api/activity", async (req, res) => {
   try {
     const username = res.locals.username;
     if (!username) return res.status(401).json({ error: "Not authenticated" });
-    const { action, category, metadata } = req.body;
+    const { action, category } = req.body;
 
     if (!action || typeof action !== "string") {
       return res.status(400).json({ error: "Action is required" });

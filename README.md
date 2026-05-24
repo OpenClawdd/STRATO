@@ -1,6 +1,6 @@
-# STRATO v5 — The Living Hideout
+# STRATO v1.0 — Local-first Verified Launch Universe
 
-STRATO is the place you open first: a clean digital hideout for the fun side of the internet, built around fast local catalog search and recoverable launches.
+STRATO is a local-first verified game launcher. STRATO v1.0 is built around fast local catalog search, verified offline assets, and recoverable launches.
 
 The current app is an Express 5 server with a single-page frontend, a local game catalog, WebSocket chat support, optional AI features, PWA assets, and local personalization powered by `localStorage`.
 
@@ -68,7 +68,11 @@ AI uses `.z-ai-config` when present. Missing AI config should not stop the app f
 ```bash
 npm test
 pnpm test
+pnpm format:check
+pnpm lint
 node scripts/validate-games.mjs
+node scripts/catalog-atlas.mjs
+node scripts/strato-source-doctor.mjs check
 node scripts/import-catalog.mjs --source manual --file scripts/manual-games.txt --dry-run
 node scripts/import-catalog.mjs --source all --dry-run
 node scripts/import-catalog.mjs --source all --quarantine
@@ -90,10 +94,30 @@ node scripts/catalog-report.mjs
 - missing categories, tags, descriptions, and thumbnails
 - local thumbnail file existence
 - adult, gambling, and non-playable directory/proxy signals
+- **active `generic_only` launch candidates** (non-red entries with generic URLs but no direct launch candidate)
 
-Warnings are allowed for optional metadata and config-required placeholders. Serious catalog errors exit nonzero.
+Warnings are allowed for optional metadata and config-required placeholders. Any trust-critical error exits nonzero.
 
-Current expected audit shape: the catalog has playable local/external games plus config-required entries that are intentionally hidden from STRATO Home until configured.
+Current expected audit shape:
+- non-red entries are truthful launch candidates
+- red entries are quarantined and hidden from active launch surfaces
+- active `generic_only` entries are forbidden by validation
+
+## Reliability States
+
+- `green`: verified local/self-hosted launch route
+- `yellow`: active remote launch candidate
+- `red`: quarantined/hidden from Home/Search/Picks/active launch surfaces
+
+## Source Doctor Semantics
+
+`scripts/strato-source-doctor.mjs check` reports:
+- **Active checked**: non-red entries probed live
+- **Red skipped**: quarantined entries excluded from active probes
+
+Release target: active checked entries should be `ok` only.
+
+Source Doctor is a **manual release gate** (live network checks), not a CI-hard requirement.
 
 ## Catalog Imports
 
@@ -125,6 +149,8 @@ public/css/style.css          Main visual system
 public/assets/games.json      Catalog
 public/games/                 Local standalone games
 scripts/validate-games.mjs    Catalog validator
+scripts/catalog-atlas.mjs     Catalog audit + repair queue generator
+scripts/strato-source-doctor.mjs Live launch truth checker
 scripts/import-catalog.mjs    Review-first import engine
 tests/                        Vitest test suite
 ```
@@ -139,17 +165,18 @@ GPL-3.0.
 
 Non-playable directories, hubs, configured external surfaces, and resource entries live in `public/assets/surfaces.json`. They are still available for review/config workflows, but they no longer inflate arcade counts or pollute player-facing game surfaces.
 
-## v5.03 — Frontend Launch Polish
-
-STRATO v5.03 is the visual polish pass after the v5.02 catalog split. It keeps the clean 54-game catalog, upgrades the Home hero, makes Search feel more like a launch spotlight, improves game cards with local play metadata, adds a Browse the Launch Shelf section, and tightens the pre-launch sheet.
-
-Validation target:
+## Release Gate (v1.0)
 
 ```bash
 npm run format:check
 npm run lint
 npm test -- --maxWorkers=1
 node scripts/validate-games.mjs
+node scripts/catalog-atlas.mjs
+node scripts/strato-source-doctor.mjs check
 ```
 
-Expected catalog result: `54` games, `0` warnings.
+Expected truth state:
+- tests pass
+- validator has `0` errors (and no active `generic_only` entries)
+- source doctor shows active checked entries as `ok`

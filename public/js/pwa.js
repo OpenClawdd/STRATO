@@ -171,10 +171,7 @@
 
     // Also show a toast
     if (window.showToast) {
-      window.showToast(
-        "STRATO updated. Refresh when ready.",
-        "accent",
-      );
+      window.showToast("STRATO updated. Refresh when ready.", "accent");
     }
     if (window.STRATO_NOTIFY) {
       window.STRATO_NOTIFY("Update available — refresh to update", "info");

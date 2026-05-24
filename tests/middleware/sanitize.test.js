@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-
 import { sanitizeQuery } from '../../src/middleware/sanitize.js';
 
 describe('sanitizeQuery', () => {
@@ -55,7 +54,7 @@ describe('sanitizeQuery', () => {
       },
       valid: true,
     };
-    assert.deepEqual(sanitizeQuery(input), {
+    expect(sanitizeQuery(input)).toEqual({
       user: {
         username: 'admin',
       },
@@ -81,7 +80,7 @@ describe('sanitizeQuery', () => {
     ];
     // Array keys are index strings ('0', '1', etc.), which do not start with $
     // However, the items inside might be objects containing keys starting with $.
-    assert.deepEqual(sanitizeQuery(input), [
+    expect(sanitizeQuery(input)).toEqual([
       {}, // First element becomes empty because key '$ne' is filtered
       { id: 5 },
       'string',
@@ -99,7 +98,7 @@ describe('sanitizeQuery', () => {
       const input = {
           tags: ['a', 'b', { $ne: 'c' }, 'd']
       };
-      assert.deepEqual(sanitizeQuery(input), {
+      expect(sanitizeQuery(input)).toEqual({
           tags: ['a', 'b', {}, 'd']
       });
   });

@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────
-# STRATO v21 — Docker Ignore
+# STRATO v1.0 — Docker Ignore
 # Reduce build context size and prevent secret leaks
 # ──────────────────────────────────────────────────
 

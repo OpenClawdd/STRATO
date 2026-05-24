@@ -89,18 +89,18 @@ router.post("/api/data/import", async (req, res) => {
 
     // Import bookmarks
     if (Array.isArray(importData.bookmarks)) {
-      const allBookmarks = await store.getAll("bookmarks");
-      const existingBookmarksMap = new Map();
-      for (const b of allBookmarks) {
-        if (b.userId === user.id || b.username === username) {
-          existingBookmarksMap.set(b.url, b);
-        }
-      }
+      const existingAllBookmarks = await store.getAll("bookmarks");
+      const existingUserBookmarkUrls = new Set(
+        existingAllBookmarks
+          .filter((b) => b.userId === user.id || b.username === username)
+          .map((b) => b.url),
+      );
 
       for (const bookmark of importData.bookmarks) {
+        if (!bookmark.url || typeof bookmark.url !== "string") continue;
+
         // Skip if already exists
-        const existing = existingBookmarksMap.get(bookmark.url);
-        if (!existing) {
+        if (!existingUserBookmarkUrls.has(bookmark.url)) {
           const {
             id: _bid,
             created_at: _bca,
@@ -112,7 +112,7 @@ router.post("/api/data/import", async (req, res) => {
             userId: user.id,
             username,
           });
-          existingBookmarksMap.set(bookmark.url, newBookmark);
+          existingUserBookmarkUrls.add(bookmark.url);
           imported.bookmarks++;
         }
       }
@@ -248,27 +248,25 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
       : req.body.bookmarks || [];
     let imported = 0;
 
-    const allBookmarks = await store.getAll("bookmarks");
-    const existingBookmarksMap = new Map();
-    for (const b of allBookmarks) {
-      if (b.userId === user.id || b.username === username) {
-        existingBookmarksMap.set(b.url, b);
-      }
-    }
+    const existingAllBookmarks = await store.getAll("bookmarks");
+    const existingUserBookmarkUrls = new Set(
+      existingAllBookmarks
+        .filter((b) => b.userId === user.id || b.username === username)
+        .map((b) => b.url),
+    );
 
     for (const bookmark of bookmarks) {
       if (!bookmark.url || typeof bookmark.url !== "string") continue;
 
-      const existing = existingBookmarksMap.get(bookmark.url);
-      if (!existing) {
-        const newBookmark = await store.create("bookmarks", {
+      if (!existingUserBookmarkUrls.has(bookmark.url)) {
+        await store.create("bookmarks", {
           url: bookmark.url,
           title: bookmark.title || bookmark.url,
           favicon: bookmark.favicon || null,
           userId: user.id,
           username,
         });
-        existingBookmarksMap.set(bookmark.url, newBookmark);
+        existingUserBookmarkUrls.add(bookmark.url);
         imported++;
       }
     }

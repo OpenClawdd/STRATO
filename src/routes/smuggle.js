@@ -22,7 +22,28 @@ const PRIVATE_IP_RANGES = [
 ];
 
 function isPrivateIP(hostname) {
-  return PRIVATE_IP_RANGES.some((pattern) => pattern.test(hostname));
+  const bareHost = hostname.replace(/^\[|\]$/g, "").toLowerCase();
+
+  // Block IPv4-mapped IPv6 addresses (e.g., ::ffff:127.0.0.1 -> ::ffff:7f00:1)
+  if (
+    bareHost.startsWith("::ffff:") ||
+    bareHost.startsWith("0:0:0:0:0:ffff:")
+  ) {
+    return true;
+  }
+
+  // Block basic IPv6 localhost
+  if (
+    bareHost === "::1" ||
+    bareHost === "::" ||
+    bareHost.startsWith("fc00:") ||
+    bareHost.startsWith("fd00:") ||
+    bareHost.startsWith("fe80:")
+  ) {
+    return true;
+  }
+
+  return PRIVATE_IP_RANGES.some((pattern) => pattern.test(bareHost));
 }
 
 // ── Smuggle rate limiter (10 requests/minute/IP) ──
