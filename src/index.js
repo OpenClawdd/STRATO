@@ -26,6 +26,7 @@ import adminRoutes from "./routes/admin.js";
 import notificationRoutes from "./routes/notifications.js";
 import dataRoutes from "./routes/data.js";
 import sourcesRoutes from "./routes/sources.js";
+import healthDashboard from "./routes/health-dashboard.js";
 import { sanitizeBody } from "./middleware/sanitize.js";
 import { csrfProtection, generateCsrfToken } from "./middleware/csrf.js";
 import { initWebSocket } from "./websocket.js";
@@ -233,6 +234,8 @@ app.get("/api/csrf-token", (req, res) => {
   });
   res.json({ token });
 });
+
+app.use(healthDashboard);
 
 // ── 10. Static files (only served if authenticated) ──
 app.use(express.static(join(__dirname, "..", "public")));

@@ -180,5 +180,25 @@
   </div>
 
   <script type="module" src="/js/admin.js"></script>
+  <section id="health" style="margin:2rem 0">
+    <h2>Source Health</h2>
+    <table id="health-table" border="1" cellpadding="6" style="border-collapse:collapse;width:100%">
+      <thead><tr><th>Family</th><th>Total</th><th>Playable</th><th>Dead %</th><th>Last Checked</th></tr></thead>
+      <tbody><tr><td colspan="5">Loading…</td></tr></tbody>
+    </table>
+  </section>
+  <script>
+  fetch('/api/health/summary', { credentials: 'same-origin' })
+   .then(r => r.json())
+   .then(d => {
+      const tb = document.querySelector('#health-table tbody');
+      tb.innerHTML = d.families.map(f =>
+        `<tr><td>${f.name}</td><td>${f.total}</td><td>${f.playable}</td><td>${f.deadPct}%</td><td>${f.lastChecked? new Date(f.lastChecked).toLocaleString() : ''}</td></tr>`
+      ).join('');
+    })
+   .catch(() => {
+      document.querySelector('#health-table tbody').innerHTML = '<tr><td colspan="5">Unavailable</td></tr>';
+    });
+  </script>
 </body>
 </html>
