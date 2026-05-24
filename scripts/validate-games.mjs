@@ -517,6 +517,12 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const { games, issues, quarantine } = await validateGames(
       process.argv[2] ? path.resolve(process.argv[2]) : catalogPath,
     );
+    const bad = games.filter(g => String(g.thumbnail||'').includes('/generated/'));
+    if (bad.length) {
+      console.error(`ERROR: ${bad.length} games still reference /generated/`);
+      bad.slice(0,20).forEach(g => console.error(` - ${g.id}: ${g.thumbnail}`));
+      process.exit(1);
+    }
     const groups = groupIssues(issues);
     const errorCount = issues.filter(
       (issue) => issue.severity === "error",

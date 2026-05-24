@@ -25,7 +25,8 @@
     "check:launch": "STRATO_BASE=http://localhost:8080 node scripts/check-launch.mjs",
     "check:sources": "node scripts/strato-source-doctor.mjs check",
     "inventory:sources": "node scripts/strato-source-doctor.mjs inventory",
-    "repair:sources": "node scripts/strato-source-doctor.mjs repair"
+    "repair:sources": "node scripts/strato-source-doctor.mjs repair",
+    "thumbnails:generate": "node scripts/generate-thumbnails.mjs"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -48,6 +49,7 @@
     "express-rate-limit": "^7.5.1",
     "helmet": "^8.1.0",
     "idb": "^8.0.3",
+    "sharp": "^0.34.5",
     "uuid": "^11.1.1",
     "ws": "^8.19.0",
     "z-ai-web-dev-sdk": "^0.0.17"
