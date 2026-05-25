@@ -33,6 +33,7 @@ describe("proxy runtime audit", () => {
     expect(content).toContain("frogiee_iframe_wrapper");
     expect(content).toContain("adfree_game_wrapper");
     expect(content).toContain("proxy-proof-queue.json");
+    expect(content).toContain("--write-report");
   });
 
   it("contains the wrapper resolver and UV error bridge", () => {

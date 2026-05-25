@@ -3,6 +3,9 @@ import fs from "node:fs";
 const BASE = process.env.STRATO_BASE || "http://localhost:8080";
 const gamesPath = "public/assets/games.json";
 const reportsDir = ".strato-reports";
+const WRITE_REPORT =
+  process.argv.includes("--write-report") ||
+  process.env.STRATO_WRITE_PROXY_REPORT === "true";
 
 const existsAny = (paths) => paths.some((p) => fs.existsSync(p));
 
@@ -153,9 +156,9 @@ function hasProxyProof(game) {
   }
   return Boolean(
     game.proxyVerifiedAt ||
-      game.proxy_verified_at ||
-      game.proxyProof?.checkedAt ||
-      game.proxyProof?.verifiedAt,
+    game.proxy_verified_at ||
+    game.proxyProof?.checkedAt ||
+    game.proxyProof?.verifiedAt,
   );
 }
 
@@ -238,14 +241,7 @@ function writeProxyProofQueue(queue = []) {
   fs.writeFileSync(jsonPath, `${JSON.stringify(queue, null, 2)}\n`);
   const csvHeader = "id,name,reliability,source,url,reason";
   const csvRows = queue.map((item) =>
-    [
-      item.id,
-      item.name,
-      item.reliability,
-      item.source,
-      item.url,
-      item.reason,
-    ]
+    [item.id, item.name, item.reliability, item.source, item.url, item.reason]
       .map((value) => `"${String(value || "").replaceAll('"', '""')}"`)
       .join(","),
   );
@@ -322,15 +318,20 @@ const {
   examples: proxyExamples,
   queue: proxyQueue,
   activeWrapperCount,
-} =
-  await proxySmokeReport();
+} = await proxySmokeReport();
 for (const [key, value] of Object.entries(proxyReport)) {
   console.log(`- ${key}: ${value}`);
 }
-const queuePaths = writeProxyProofQueue(proxyQueue);
-console.log(
-  `- proxy_proof_queue: ${proxyQueue.length} (${queuePaths.jsonPath}, ${queuePaths.csvPath})`,
-);
+if (WRITE_REPORT) {
+  const queuePaths = writeProxyProofQueue(proxyQueue);
+  console.log(
+    `- proxy_proof_queue: ${proxyQueue.length} (${queuePaths.jsonPath}, ${queuePaths.csvPath})`,
+  );
+} else {
+  console.log(
+    `- proxy_proof_queue: ${proxyQueue.length} (not written; rerun with --write-report to update ${reportsDir}/proxy-proof-queue.*)`,
+  );
+}
 if (proxyExamples.length) {
   console.log("\nActive proxy smoke failures:");
   for (const example of proxyExamples.slice(0, 20)) {
