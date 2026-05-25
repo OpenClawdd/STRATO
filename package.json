@@ -24,6 +24,7 @@
     "check:proxy": "STRATO_BASE=http://localhost:8080 node scripts/check-proxy.mjs",
     "check:proxy:write-report": "STRATO_BASE=http://localhost:8080 node scripts/check-proxy.mjs --write-report",
     "check:launch": "STRATO_BASE=http://localhost:8080 node scripts/check-launch.mjs",
+    "check:runtime": "pnpm run check:proxy && pnpm run check:launch",
     "check:sources": "node scripts/strato-source-doctor.mjs check",
     "inventory:sources": "node scripts/strato-source-doctor.mjs inventory",
     "repair:sources": "node scripts/strato-source-doctor.mjs repair",
