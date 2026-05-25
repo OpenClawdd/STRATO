@@ -229,7 +229,11 @@ router.get("/api/admin/analytics", async (req, res) => {
       },
       topUsers,
       chatActivity,
-      gamesLeaderboard: scores
+      // ⚡ Bolt Performance Optimization:
+      // Shallow copy scores using [...scores] before sorting to prevent mutating the
+      // array cached in memory by store.getAll(), which could cause unpredictable bugs
+      // and performance drops when serving the rest of the application.
+      gamesLeaderboard: [...scores]
         .sort((a, b) => (b.score || 0) - (a.score || 0))
         .slice(0, 10)
         .map((s) => ({

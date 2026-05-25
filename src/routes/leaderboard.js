@@ -101,17 +101,22 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
+    // ⚡ Bolt Performance Optimization:
+    // We defer the .map() operation until AFTER we sort and slice.
+    // By mapping only the top 25 users instead of mapping the entire allUsers dataset,
+    // we prevent allocating hundreds or thousands of short-lived garbage objects,
+    // reducing memory overhead and garbage collection time.
+    // We also use [...allUsers] to shallow copy before sorting to prevent mutating the shared store cache.
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
       .map((u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
