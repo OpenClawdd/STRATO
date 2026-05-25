@@ -2,6 +2,7 @@
   "use strict";
   window.STRATO_OPEN_HOME_RUNTIME_ACTIVE = true;
   const VIEWS = ["home", "arcade", "browser", "hub", "chat", "ai", "settings"];
+  const BOOT_TIMEOUT_MS = 10_000;
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;
@@ -91,6 +92,8 @@
   function showBootFailure(error) {
     console.error("[STRATO v5.01] Home runtime failed to boot:", error);
     window.STRATO_OPEN_HOME_RUNTIME_FAILED = true;
+    const splashStatus = document.getElementById("splash-status");
+    if (splashStatus) splashStatus.textContent = "Boot stalled. Showing recovery mode.";
     const chip = document.getElementById("catalog-status-chip");
     if (chip) chip.textContent = "Home runtime needs attention";
     const results = document.getElementById("home-search-results");
@@ -105,15 +108,17 @@
   }
 
   async function boot() {
-    try {
-      bindShell();
-      const { initOpenHome } = await import("/js/v5/main.js");
-      await initOpenHome();
-      revealShell();
-    } catch (error) {
-      showBootFailure(error);
-      revealShell();
-    }
+    bindShell();
+    const [{ initOpenHome }, { runBootSequence }] = await Promise.all([
+      import("/js/v5/main.js"),
+      import("/js/v5/core/boot.js"),
+    ]);
+    await runBootSequence({
+      initOpenHome,
+      revealShell,
+      showBootFailure,
+      timeoutMs: BOOT_TIMEOUT_MS,
+    });
   }
 
   if (document.readyState === "loading")
