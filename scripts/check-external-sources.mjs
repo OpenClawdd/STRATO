@@ -18,8 +18,10 @@ const TERMS = (process.env.STRATO_SOURCE_TERMS || "selenite,1key,1-key,lucide,fr
 const LIMIT = Number(process.env.STRATO_SOURCE_LIMIT || 120);
 const TIMEOUT = Number(process.env.STRATO_SOURCE_TIMEOUT || 8000);
 
-const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|const ASSET_ame)/i;
+const ASSET_EXT = /\.(png|jpg|jpeg|webp|gif|svg|ico|avif)/i;
 
+const ASSET_KEYS = /icon|image|img|cover|thumb|thumbnail|splash|logo|poster|banner|background|favicon|asset|resources/i;
+const LAUNCH_KEYS = /url|href|link|source|src|path|embed|iframe/i;
 const raw = JSON.parse(fs.readFileSync(CATALOG, "utf8"));
 const games =
   Array.isArray(raw) ? raw :
