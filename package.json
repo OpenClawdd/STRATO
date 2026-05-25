@@ -22,6 +22,7 @@
     "source:report": "node scripts/catalog-report.mjs",
     "source:validate": "node scripts/validate-sources.mjs",
     "check:proxy": "STRATO_BASE=http://localhost:8080 node scripts/check-proxy.mjs",
+    "check:proxy:write-report": "STRATO_BASE=http://localhost:8080 node scripts/check-proxy.mjs --write-report",
     "check:launch": "STRATO_BASE=http://localhost:8080 node scripts/check-launch.mjs",
     "check:sources": "node scripts/strato-source-doctor.mjs check",
     "inventory:sources": "node scripts/strato-source-doctor.mjs inventory",
