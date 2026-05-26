@@ -13,6 +13,11 @@ import {
 import { initHealthCache } from "./core/health.js";
 import { createHomeController } from "./ui/home.js";
 import { bindSettings } from "./ui/settings.js";
+import { withTimeout } from "./core/boot.js";
+
+const CATALOG_DB_TIMEOUT_MS = 3500;
+const CATALOG_FETCH_TIMEOUT_MS = 5000;
+const CATALOG_WRITE_TIMEOUT_MS = 3500;
 
 function setActiveView(viewName) {
   document
@@ -205,10 +210,11 @@ async function catalogVersion(games, surfaces) {
 }
 
 async function fetchCatalogFromNetwork() {
-  const [gamesResponse, surfacesResponse] = await Promise.all([
-    fetch("/assets/games.json"),
-    fetch("/assets/surfaces.json"),
-  ]);
+  const [gamesResponse, surfacesResponse] = await withTimeout(
+    Promise.all([fetch("/assets/games.json"), fetch("/assets/surfaces.json")]),
+    CATALOG_FETCH_TIMEOUT_MS,
+    "catalog fetch",
+  );
   if (!gamesResponse.ok) {
     throw new Error(`Catalog request failed: ${gamesResponse.status}`);
   }
@@ -224,22 +230,27 @@ async function fetchCatalogFromNetwork() {
 
 async function seedCatalogFromNetwork() {
   const { games, surfaces, gamesResponse } = await fetchCatalogFromNetwork();
-  await Promise.all([
-    db.putAll("games", games),
-    db.putAll("surfaces", surfaces),
-  ]);
-  await Promise.all([
-    db.setMeta(
-      "catalogETag",
-      gamesResponse.headers.get("ETag") || String(Date.now()),
-    ),
-    db.setMeta("catalogVersion", await catalogVersion(games, surfaces)),
-  ]);
+  await withTimeout(
+    Promise.all([db.putAll("games", games), db.putAll("surfaces", surfaces)]),
+    CATALOG_WRITE_TIMEOUT_MS,
+    "catalog cache write",
+  );
+  await withTimeout(
+    Promise.all([
+      db.setMeta(
+        "catalogETag",
+        gamesResponse.headers.get("ETag") || String(Date.now()),
+      ),
+      db.setMeta("catalogVersion", await catalogVersion(games, surfaces)),
+    ]),
+    CATALOG_WRITE_TIMEOUT_MS,
+    "catalog metadata write",
+  );
   return games;
 }
 
 async function loadCatalog() {
-  await db.open();
+  await withTimeout(db.open(), CATALOG_DB_TIMEOUT_MS, "catalog database open");
   const cachedGames = await db.getAll("games");
   if (cachedGames.length > 0) return { games: cachedGames, fromCache: true };
   return { games: await seedCatalogFromNetwork(), fromCache: false };
