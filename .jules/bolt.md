@@ -1,0 +1,3 @@
+## 2024-05-27 - Backend O(N) mapping optimization
+**Learning:** Found an inefficient pattern where `.map()` was called on an entire large dataset before slicing the desired top N elements. This caused unnecessary memory allocation and CPU cycles to create thousands of unused objects for global and admin leaderboards.
+**Action:** When filtering or taking top N from a large array, always `.filter()`, `.sort()`, and `.slice()` to reduce to the final minimal dataset *before* applying `.map()` transformations. Additionally, always clone arrays pulled from the central `store.getAll()` cache via `[...array]` prior to `.sort()` to prevent accidentally mutating the shared cached data.
