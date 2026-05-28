@@ -1,0 +1,3 @@
+## 2025-02-22 - Global Leaderboard Object Allocation Bypass
+**Learning:** In highly trafficked routes processing large global arrays (`GET /api/leaderboard`), chaining `.map()` *before* `.sort()` and `.slice()` enforces an O(N) allocation of garbage objects that are immediately thrown away. V8 garbage collection can struggle under load when mapping large data sets before filtering/slicing them.
+**Action:** When filtering or sorting data from the global store, always use a shallow array copy (`[...data]`), perform the `.sort()` and `.slice()` operations first, and *then* use `.map()` on the reduced set to construct response objects. This caps memory allocations to the length of the slice (e.g., 25 objects instead of thousands).
