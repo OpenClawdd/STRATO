@@ -1,0 +1,3 @@
+## 2024-05-24 - Defer Array Allocations & Avoid Cache Mutations
+**Learning:** In endpoints heavily utilizing `store.getAll()` returning arrays, operations like `.map()` prior to `.filter()` or `.slice()` introduce O(N) memory allocations, stressing the garbage collector. Additionally, sorting the returned arrays directly without shallow copying mutates the global cache resulting in unintended data sorting impacts across the codebase.
+**Action:** Always wrap `store.getAll()` outputs with `[...array]` prior to sorting, and defer `.map()` allocations strictly to the final sliced dataset (`.slice(0, N).map(...)`) to improve efficiency and maintain correct memory handling.
