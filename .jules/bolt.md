@@ -1,0 +1,3 @@
+## 2024-05-30 - ⚡ Bolt: Defer array map operations after sort/slice
+**Learning:** Applying `.map()` before `.sort()` and `.slice()` on large dataset arrays (like global leaderboards) introduces significant memory overhead and O(N) short-lived garbage object allocations. Furthermore, arrays returned by `store.getAll()` are direct cache references and mutating them with `.sort()` directly can corrupt the cache.
+**Action:** Defer `.map()` operations until after `.filter()`, `.sort()`, and `.slice()` have been applied. Always create a shallow copy of the array (e.g., `[...arr]`) before sorting to avoid mutating cached data.
