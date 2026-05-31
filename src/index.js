@@ -80,7 +80,7 @@ app.get("/health", (req, res) => {
       extensions: true,
       stealth: true,
       aiTutor: true,
-      admin: true,
+      admin: Boolean(process.env.ADMIN_SECRET),
       analytics: true,
       notifications: true,
       dataImportExport: true,
@@ -228,6 +228,16 @@ app.get("/api/csrf-token", (req, res) => {
   res.json({ token });
 });
 
+// Deep-link launch route: /play/:id -> home runtime launch intent
+app.get("/play/:id", (req, res) => {
+  const rawId = String(req.params.id || "").trim();
+  const safeId = encodeURIComponent(rawId);
+  if (!safeId) {
+    return res.redirect(302, "/");
+  }
+  return res.redirect(302, `/?play=${safeId}`);
+});
+
 // ── 10. Static files (only served if authenticated) ──
 app.use(express.static(join(__dirname, "..", "public")));
 
@@ -289,9 +299,22 @@ app.use((err, req, res, _next) => {
     return;
   }
 
-  const status = err.status || 500;
-  const message = err.expose ? err.message : "Internal server error";
-  res.status(status).json({ error: message });
+  const status = err.status || err.statusCode || 500;
+  const message =
+    err.expose || !isProduction
+      ? err.message || "Unknown error"
+      : "Internal server error";
+
+  const payload = {
+    error: message,
+    status: status,
+  };
+
+  if (!isProduction && err.stack) {
+    payload.stack = err.stack;
+  }
+
+  res.status(status).json(payload);
 });
 
 // ── Wisp server setup ──
