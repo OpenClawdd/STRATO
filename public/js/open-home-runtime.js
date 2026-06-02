@@ -1,7 +1,17 @@
 (function () {
   "use strict";
   window.STRATO_OPEN_HOME_RUNTIME_ACTIVE = true;
-  const VIEWS = ["home", "arcade", "browser", "hub", "chat", "ai", "settings"];
+  const VIEWS = [
+    "home",
+    "arcade",
+    "movies",
+    "music",
+    "library",
+    "browser",
+    "chat",
+    "ai",
+    "settings",
+  ];
 
   function switchView(viewName) {
     if (!VIEWS.includes(viewName)) return;

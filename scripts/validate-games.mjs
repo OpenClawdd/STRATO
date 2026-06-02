@@ -512,6 +512,92 @@ function groupIssues(issues) {
   }, {});
 }
 
+function buildTruthReport(games, issues) {
+  const reliability = { green: 0, yellow: 0, red: 0, unknown: 0 };
+  const trust = {
+    verifiedLocal: 0,
+    proxyVerified: 0,
+    reviewOnly: 0,
+    quarantined: 0,
+    unknown: 0,
+  };
+  const duplicateUrls = new Map();
+  let genericRootLinks = 0;
+
+  for (const game of games) {
+    const rel = String(game?.reliability || "").toLowerCase();
+    if (rel === "green" || rel === "yellow" || rel === "red") reliability[rel]++;
+    else reliability.unknown++;
+
+    if (rel === "green") trust.verifiedLocal++;
+    else if (rel === "yellow") {
+      if (hasProxyProof(game)) trust.proxyVerified++;
+      else trust.reviewOnly++;
+    } else if (rel === "red") trust.quarantined++;
+    else trust.unknown++;
+
+    const url = String(game?.url || "").trim();
+    if (/^https?:\/\//i.test(url) && isGenericHub(url)) genericRootLinks++;
+    if (url && !PLACEHOLDER_URL.test(url)) {
+      const bucket = duplicateUrls.get(url) || [];
+      bucket.push(String(game?.id || "(no id)"));
+      duplicateUrls.set(url, bucket);
+    }
+  }
+
+  const duplicates = [...duplicateUrls.entries()]
+    .filter(([, ids]) => ids.length > 1)
+    .map(([url, ids]) => ({ url, count: ids.length, ids: ids.slice(0, 8) }))
+    .sort((a, b) => b.count - a.count || a.url.localeCompare(b.url));
+
+  const issueTypeCounts = issues.reduce((acc, issue) => {
+    acc[issue.type] = (acc[issue.type] || 0) + 1;
+    return acc;
+  }, {});
+
+  return {
+    generatedAt: new Date().toISOString(),
+    totalGames: games.length,
+    reliability,
+    trust,
+    diagnostics: {
+      genericRootLinks,
+      duplicateUrlClusters: duplicates.length,
+      topDuplicateUrlClusters: duplicates.slice(0, 25),
+    },
+    issuesByType: issueTypeCounts,
+  };
+}
+
+function hasProxyProof(game) {
+  if (!game || typeof game !== "object") return false;
+  if (game.proxyVerified === true || game.proxy_verified === true) return true;
+  if (game.proxyProof?.verified === true) return true;
+  const status = String(
+    game.proxyStatus ||
+      game.proxy_status ||
+      game.proxyProof?.status ||
+      game.proxyProof?.kind ||
+      "",
+  )
+    .trim()
+    .toLowerCase();
+  if (
+    status === "verified" ||
+    status === "ok" ||
+    status === "proxy_verified" ||
+    status === "remote_proxy_verified"
+  ) {
+    return true;
+  }
+  return Boolean(
+    game.proxyVerifiedAt ||
+      game.proxy_verified_at ||
+      game.proxyProof?.checkedAt ||
+      game.proxyProof?.verifiedAt,
+  );
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const { games, issues, quarantine } = await validateGames(
@@ -537,6 +623,16 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
       `Issue count: ${issues.length} (${errorCount} errors, ${warningCount} warnings)`,
     );
     console.log(`Quarantine candidates: ${quarantine.length}`);
+
+    const truthReport = buildTruthReport(games, issues);
+    const reportPath = path.join(
+      rootDir,
+      ".strato-reports",
+      "catalog-truth-report.json",
+    );
+    await fs.mkdir(path.dirname(reportPath), { recursive: true });
+    await fs.writeFile(reportPath, `${JSON.stringify(truthReport, null, 2)}\n`);
+    console.log(`Truth report: ${path.relative(rootDir, reportPath)}`);
 
     for (const [type, group] of Object.entries(groups).sort(([a], [b]) =>
       a.localeCompare(b),

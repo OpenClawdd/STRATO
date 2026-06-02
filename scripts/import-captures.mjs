@@ -169,7 +169,9 @@ function readJson(file) {
 }
 
 function clean(value) {
-  return String(value || "").replace(/\s+/g, " ").trim();
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function slugify(value) {
@@ -189,7 +191,10 @@ function normalizeHref(value, sourceUrl = "") {
   const href = clean(value);
   if (!href) return "";
   try {
-    return new URL(href, sourceUrl || undefined).toString().replace(/\/$/, "").toLowerCase();
+    return new URL(href, sourceUrl || undefined)
+      .toString()
+      .replace(/\/$/, "")
+      .toLowerCase();
   } catch {
     return href.toLowerCase();
   }
@@ -197,7 +202,9 @@ function normalizeHref(value, sourceUrl = "") {
 
 function providerFromSource(sourceUrl) {
   try {
-    const host = new URL(sourceUrl).hostname.replace(/^www\./, "").toLowerCase();
+    const host = new URL(sourceUrl).hostname
+      .replace(/^www\./, "")
+      .toLowerCase();
     if (host.includes("selenite.cc")) return "selenite";
     if (host.includes("gn-math.dev")) return "gn-math";
     if (host.includes("1key.lol")) return "1key";
@@ -247,7 +254,17 @@ function cleanOneKeyTitle(value) {
     .trim();
 }
 
-function gnMathResolvedHref(rawHref) {
+function isGnMathZoneItem(item) {
+  return (
+    clean(item?.sourceEvidence || item?.evidence) === "gn-math-zones" &&
+    Number.isFinite(Number(item?.id)) &&
+    Number(item.id) >= 0 &&
+    Boolean(clean(item?.href || item?.url))
+  );
+}
+
+function gnMathResolvedHref(rawHref, item = null) {
+  if (isGnMathZoneItem(item)) return safeUrl(item.href || item.url);
   const raw = clean(rawHref);
   const match = raw.match(/openGame\((\-?\d+)\)/i);
   if (!match) return null;
@@ -256,7 +273,8 @@ function gnMathResolvedHref(rawHref) {
   return `https://gn-math.dev/#game-${id}`;
 }
 
-function gnMathIdFromHref(rawHref) {
+function gnMathIdFromHref(rawHref, item = null) {
+  if (isGnMathZoneItem(item)) return String(Number(item.id));
   const raw = clean(rawHref);
   const match = raw.match(/openGame\((\-?\d+)\)/i);
   if (!match) return null;
@@ -282,10 +300,7 @@ function frogieResolvedHref(rawHref, sourceUrl) {
   const match =
     raw.match(
       /^(?:window\.location\.href|window\.open|launch)\s*\(\s*['"]([^'"]+)['"]\s*\)\s*;?$/i,
-    ) ||
-    raw.match(
-      /^window\.location\.href\s*=\s*['"]([^'"]+)['"]\s*;?$/i,
-    );
+    ) || raw.match(/^window\.location\.href\s*=\s*['"]([^'"]+)['"]\s*;?$/i);
 
   if (!match) return null;
 
@@ -293,13 +308,11 @@ function frogieResolvedHref(rawHref, sourceUrl) {
   if (!pathValue) return null;
   if (/^https?:\/\//i.test(pathValue)) return pathValue;
   if (!pathValue.startsWith("/")) pathValue = `/${pathValue}`;
-  if ([
-    "/",
-    "/math/",
-    "/reading/",
-    "/partners.html",
-    "/extras.html",
-  ].includes(pathValue)) {
+  if (
+    ["/", "/math/", "/reading/", "/partners.html", "/extras.html"].includes(
+      pathValue,
+    )
+  ) {
     return null;
   }
 
@@ -341,7 +354,8 @@ function prettifyTitle(value, fallbackSlug = "") {
     .filter(Boolean)
     .map((part) => {
       const lower = part.toLowerCase();
-      if (["io", "lol", "td", "btd", "html5"].includes(lower)) return lower.toUpperCase();
+      if (["io", "lol", "td", "btd", "html5"].includes(lower))
+        return lower.toUpperCase();
       if (/^[0-9]+$/.test(part)) return part;
       return `${lower.charAt(0).toUpperCase()}${lower.slice(1)}`;
     })
@@ -366,12 +380,14 @@ function normalizeImage(value) {
 
 function normalizeCandidateHref(item, sourceUrl, provider) {
   const rawHref = clean(item.href || item.url);
-  const slug = slugify(item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title);
+  const slug = slugify(
+    item.slug || slugFromHref(rawHref, sourceUrl) || item.text || item.title,
+  );
   if (provider === "1key") {
     return oneKeyRouteHref(item.text || item.title || item.name || item.alt);
   }
   if (provider === "gn-math") {
-    return gnMathResolvedHref(rawHref);
+    return gnMathResolvedHref(rawHref, item);
   }
   if (provider === "frogie") {
     return frogieResolvedHref(rawHref, sourceUrl);
@@ -407,10 +423,11 @@ function isOneKeyCard(item) {
 }
 
 function isGnMathGameCard(item) {
+  if (isGnMathZoneItem(item)) return true;
   const className = clean(item.className);
   const href = clean(item.href);
   if (!className.includes("game-card")) return false;
-  const id = gnMathIdFromHref(href);
+  const id = gnMathIdFromHref(href, item);
   if (id == null) return false;
   return href.includes("openGame(") && id !== "-1";
 }
@@ -489,11 +506,17 @@ function normalizeCapture(raw, file, stats) {
       if (provider === "frogie" && !href) {
         return null;
       }
-      const lucideParts = provider === "lucide" ? lucideImageParts(item.image || item.thumbnail || item.img) : null;
-      const gnMathId = provider === "gn-math" ? gnMathIdFromHref(rawHref) : null;
+      const lucideParts =
+        provider === "lucide"
+          ? lucideImageParts(item.image || item.thumbnail || item.img)
+          : null;
+      const gnMathId =
+        provider === "gn-math" ? gnMathIdFromHref(rawHref, item) : null;
       const slug = slugify(
         item.slug ||
-          (provider === "lucide" && lucideParts ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}` : "") ||
+          (provider === "lucide" && lucideParts
+            ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}`
+            : "") ||
           slugFromHref(rawHref || href, sourceUrl) ||
           gnMathId,
       );
@@ -505,10 +528,13 @@ function normalizeCapture(raw, file, stats) {
             : provider === "lucide"
               ? clean(item.text || item.title || item.name || item.alt)
               : item.text || item.title || item.name || item.alt;
-      const prettyTitle = provider === "lucide" ? titleSource : prettifyTitle(titleSource, slug);
+      const prettyTitle =
+        provider === "lucide" ? titleSource : prettifyTitle(titleSource, slug);
       const image = normalizeImage(item.image || item.thumbnail || item.img);
       const idBase = slugify(
-        (provider === "lucide" && lucideParts ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}` : "") ||
+        (provider === "lucide" && lucideParts
+          ? `${lucideParts.sourceGroup}-${lucideParts.lucideGameId}`
+          : "") ||
           prettyTitle ||
           slug ||
           href ||
@@ -535,7 +561,13 @@ function normalizeCapture(raw, file, stats) {
         tier: 3,
         needsCheck: true,
         needsReview: reviewRequired,
-        tags: ["captured", provider, "external", "needs-check", lucideParts?.sourceGroup].filter(Boolean),
+        tags: [
+          "captured",
+          provider,
+          "external",
+          "needs-check",
+          lucideParts?.sourceGroup,
+        ].filter(Boolean),
         approved: provider === "selenite",
         reviewStatus: provider === "selenite" ? "approved" : "pending",
         evidence: {
@@ -549,7 +581,11 @@ function normalizeCapture(raw, file, stats) {
           lucideGameId: lucideParts?.lucideGameId || undefined,
           generatedFromTitle: provider === "1key" ? true : undefined,
           generatedFromImage: provider === "lucide" ? true : undefined,
-          routePattern: provider === "1key" ? "/games/game/?id=<slug>" : undefined,
+          routePattern:
+            provider === "1key" ? "/games/game/?id=<slug>" : undefined,
+          rawUrl: clean(item.rawUrl),
+          author: clean(item.author),
+          authorLink: clean(item.authorLink),
           title: clean(raw.title),
           text: clean(item.text || item.title || item.name || item.alt),
           href,
@@ -561,7 +597,10 @@ function normalizeCapture(raw, file, stats) {
         sourceGroup: lucideParts?.sourceGroup || undefined,
       };
     })
-    .filter((candidate) => candidate && (candidate.title || candidate.href || candidate.image));
+    .filter(
+      (candidate) =>
+        candidate && (candidate.title || candidate.href || candidate.image),
+    );
 }
 
 function dedupe(candidates, stats) {
@@ -574,7 +613,7 @@ function dedupe(candidates, stats) {
             candidate.evidence?.lucideGameId &&
             candidate.evidence?.sourceGroup
           ? `lucide|${candidate.evidence.sourceGroup}|${candidate.evidence.lucideGameId}`
-        : `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
+          : `${normalizeText(candidate.title)}|${normalizeHref(candidate.href, candidate.sourceUrl)}`;
     if (seen.has(key)) {
       stats.duplicatesSkipped += 1;
       return false;
@@ -604,13 +643,19 @@ function reviewKey(candidate) {
 
 fs.mkdirSync(reviewDir, { recursive: true });
 
-const files = fs.existsSync(capturesDir)
-  ? fs
-      .readdirSync(capturesDir)
-      .filter((name) => name.endsWith(".raw.json"))
-      .sort()
-      .map((name) => path.join(capturesDir, name))
-  : [];
+function captureFiles(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .flatMap((entry) => {
+      const entryPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) return captureFiles(entryPath);
+      return entry.name.endsWith(".raw.json") ? [entryPath] : [];
+    })
+    .sort();
+}
+
+const files = captureFiles(capturesDir);
 
 const stats = {
   rawItems: 0,
@@ -621,27 +666,32 @@ const stats = {
 };
 
 const candidates = dedupe(
-  files.flatMap((file) => {
-    try {
-      return normalizeCapture(readJson(file), file, stats);
-    } catch (error) {
-      return [
-        {
-          id: slugify(path.basename(file)),
-          provider: "unknown",
-          sourceUrl: "",
-          sourceTitle: "",
-          title: "",
-          text: "",
-          href: "",
-          image: null,
-          capturedAt: null,
-          importError: error.message,
-          evidence: { sourceFile: path.relative(root, file), error: error.message },
-        },
-      ];
-    }
-  }).filter((candidate) => !candidate.importError),
+  files
+    .flatMap((file) => {
+      try {
+        return normalizeCapture(readJson(file), file, stats);
+      } catch (error) {
+        return [
+          {
+            id: slugify(path.basename(file)),
+            provider: "unknown",
+            sourceUrl: "",
+            sourceTitle: "",
+            title: "",
+            text: "",
+            href: "",
+            image: null,
+            capturedAt: null,
+            importError: error.message,
+            evidence: {
+              sourceFile: path.relative(root, file),
+              error: error.message,
+            },
+          },
+        ];
+      }
+    })
+    .filter((candidate) => !candidate.importError),
   stats,
 );
 
@@ -685,7 +735,10 @@ const report = {
   note: "Review-first capture output. Selenite candidates are source-backed yellow/external entries; Cherri is screenshot-only.",
 };
 
-fs.writeFileSync(candidatesPath, `${JSON.stringify(mergedCandidates, null, 2)}\n`);
+fs.writeFileSync(
+  candidatesPath,
+  `${JSON.stringify(mergedCandidates, null, 2)}\n`,
+);
 fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
 if (apply) {
@@ -697,7 +750,9 @@ if (apply) {
   );
   const games = readJson(gamesPath);
   const existingIds = new Set(games.map((game) => game.id));
-  const existingNames = new Set(games.map((game) => clean(game.name).toLowerCase()));
+  const existingNames = new Set(
+    games.map((game) => clean(game.name).toLowerCase()),
+  );
   const additions = approved
     .filter((candidate) => candidate.title && candidate.href)
     .filter((candidate) => !existingNames.has(candidate.title.toLowerCase()))
@@ -711,7 +766,13 @@ if (apply) {
       tier: candidate.tier || 3,
       reliability: candidate.reliability || "yellow",
       description: `Source-backed candidate from ${candidate.sourceUrl || "browser export"}. Needs check before promotion.`,
-      tags: ["captured", "reviewed", "external", "needs-check", candidate.provider].filter(Boolean),
+      tags: [
+        "captured",
+        "reviewed",
+        "external",
+        "needs-check",
+        candidate.provider,
+      ].filter(Boolean),
       source: candidate.provider,
       provider: candidate.provider,
       needsCheck: true,
@@ -721,7 +782,10 @@ if (apply) {
       evidence: candidate.evidence,
     }))
     .map((game) => game);
-  fs.writeFileSync(gamesPath, `${JSON.stringify([...games, ...additions], null, 2)}\n`);
+  fs.writeFileSync(
+    gamesPath,
+    `${JSON.stringify([...games, ...additions], null, 2)}\n`,
+  );
   report.applied = additions.length;
   fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 }

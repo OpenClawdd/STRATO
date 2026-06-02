@@ -1,0 +1,157 @@
+
+> strato@1.0.0 test /Users/noahmendieta/Code/STRATO
+> vitest run
+
+
+ RUN  v3.2.4 /Users/noahmendieta/Code/STRATO
+
+stdout | tests/websocket/chat.test.js
+[STRATO] WebSocket chat server initialized at /ws/chat
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Connection > should connect with valid auth cookie
+[STRATO] WebSocket connected: ws_connect_user
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Connection > should connect with valid auth cookie
+[STRATO] WebSocket disconnected: ws_connect_user
+
+ ✓ tests/routes/stealth.test.js (19 tests) 41ms
+ ✓ tests/routes/chat.test.js (14 tests) 38ms
+ ✓ tests/routes/bookmarks.test.js (20 tests) 44ms
+ ✓ tests/routes/themes.test.js (21 tests) 43ms
+ ✓ tests/routes/profile.test.js (19 tests) 44ms
+ ✓ tests/routes/extensions.test.js (30 tests) 64ms
+ ✓ tests/source-hydra.test.js (1 test) 92ms
+stdout | tests/middleware/auth.test.js > Auth Middleware > API route authentication > should allow authenticated API requests
+[STRATO] Auto-created profile for user: testuser
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should join a room and receive confirmation
+[STRATO] WebSocket connected: ws_join_1779798946892
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should join a room and receive confirmation
+[STRATO] WebSocket disconnected: ws_join_1779798946892
+
+ ✓ tests/middleware/auth.test.js (23 tests) 87ms
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should create and join an ad-hoc room when missing
+[STRATO] WebSocket connected: ws_noroom_1779798946917
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should create and join an ad-hoc room when missing
+[STRATO] WebSocket disconnected: ws_noroom_1779798946917
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should receive error when joining without roomId
+[STRATO] WebSocket connected: ws_noid_1779798946943
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room joining > should receive error when joining without roomId
+[STRATO] WebSocket disconnected: ws_noid_1779798946943
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should send a message to a room
+[STRATO] WebSocket connected: ws_msg_1779798946969
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should send a message to a room
+[STRATO] WebSocket disconnected: ws_msg_1779798946969
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject empty messages
+[STRATO] WebSocket connected: ws_empty_1779798946993
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject empty messages
+[STRATO] WebSocket disconnected: ws_empty_1779798946993
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject messages over 500 characters
+[STRATO] WebSocket connected: ws_long_1779798947017
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject messages over 500 characters
+[STRATO] WebSocket disconnected: ws_long_1779798947017
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject message without roomId
+[STRATO] WebSocket connected: ws_no_room_1779798947043
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject message without roomId
+[STRATO] WebSocket disconnected: ws_no_room_1779798947043
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject message from user not in the room
+[STRATO] WebSocket connected: ws_noshow_1779798947067
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should reject message from user not in the room
+[STRATO] WebSocket disconnected: ws_noshow_1779798947067
+
+ ✓ tests/v5/launch.test.js (11 tests) 7ms
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should trim whitespace from messages
+[STRATO] WebSocket connected: ws_trim_1779798947088
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Chat messages > should trim whitespace from messages
+[STRATO] WebSocket disconnected: ws_trim_1779798947088
+
+ ✓ tests/v5/product.test.js (13 tests) 10ms
+ ✓ tests/validate-games-generic-only.test.js (3 tests) 14ms
+ ✓ tests/routes/sources.test.js (8 tests) 26ms
+ ✓ tests/v5/frontend-polish.test.js (9 tests) 7ms
+ ✓ tests/db/store.test.js (40 tests) 30ms
+ ✓ tests/routes/saves.test.js (14 tests) 37ms
+ ✓ tests/routes/leaderboard.test.js (16 tests) 34ms
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room leaving > should leave a room and receive confirmation
+[STRATO] WebSocket connected: ws_leave_1779798947111
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Room leaving > should leave a room and receive confirmation
+[STRATO] WebSocket disconnected: ws_leave_1779798947111
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Rate limiting > should rate limit after 5 messages in 5 seconds
+[STRATO] WebSocket connected: ws_rate_1779798947133
+
+ ✓ tests/v5/verified-universe.test.js (2 tests) 3ms
+ ✓ tests/v5/catalog-split.test.js (1 test) 4ms
+ ✓ tests/source-radar.test.js (8 tests) 3ms
+ ✓ tests/routes/hub.test.js (23 tests) 3ms
+ ✓ tests/proxy-runtime-audit.test.js (7 tests) 2ms
+ ✓ tests/middleware/sanitize.test.js (9 tests) 1ms
+ ✓ tests/routes/ai.test.js (28 tests) 4ms
+ ✓ tests/v5/trust-hardening.test.js (2 tests) 2ms
+ ✓ tests/security-audit.test.js (4 tests) 1ms
+ ✓ tests/v5/catalog-atlas.test.js (5 tests) 2ms
+ ✓ tests/check-proxy.test.js (2 tests) 1ms
+ ✓ tests/check-launch.test.js (4 tests) 1ms
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Rate limiting > should rate limit after 5 messages in 5 seconds
+[STRATO] WebSocket disconnected: ws_rate_1779798947133
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Invalid messages > should return error for invalid JSON
+[STRATO] WebSocket connected: ws_badjson_1779798949161
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Invalid messages > should return error for invalid JSON
+[STRATO] WebSocket disconnected: ws_badjson_1779798949161
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Invalid messages > should return error for unknown message type
+[STRATO] WebSocket connected: ws_badtype_1779798949184
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Invalid messages > should return error for unknown message type
+[STRATO] WebSocket disconnected: ws_badtype_1779798949184
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast messages to other users in the room
+[STRATO] WebSocket connected: ws_sender_1779798949207
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast messages to other users in the room
+[STRATO] WebSocket connected: ws_receiver_1779798949208
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast messages to other users in the room
+[STRATO] WebSocket disconnected: ws_sender_1779798949207
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast messages to other users in the room
+[STRATO] WebSocket disconnected: ws_receiver_1779798949208
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast user_joined when another user joins
+[STRATO] WebSocket connected: ws_stayer_1779798949230
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast user_joined when another user joins
+[STRATO] WebSocket connected: ws_joiner_1779798949232
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast user_joined when another user joins
+[STRATO] WebSocket disconnected: ws_stayer_1779798949230
+
+stdout | tests/websocket/chat.test.js > WebSocket Chat > Broadcast > should broadcast user_joined when another user joins
+[STRATO] WebSocket disconnected: ws_joiner_1779798949232
+
+ ✓ tests/websocket/chat.test.js (18 tests) 2461ms
+   ✓ WebSocket Chat > Rate limiting > should rate limit after 5 messages in 5 seconds  2027ms
+
+ Test Files  29 passed (29)
+      Tests  374 passed (374)
+   Start at  21:35:46
+   Duration  2.73s (transform 270ms, setup 1.48s, collect 751ms, tests 3.11s, environment 2ms, prepare 1.12s)
+

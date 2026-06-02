@@ -34,6 +34,7 @@ export function showRecovery(
 
     <div class="recovery-actions">
       ${game ? '<button class="btn-universe primary" data-recovery="retry" type="button">Retry Link</button>' : ""}
+      <button class="btn-universe secondary" data-recovery="home" type="button">Back to STRATO</button>
       <button class="btn-universe secondary" data-recovery="surprise" type="button">Surprise Me</button>
       <button class="btn-universe secondary" data-recovery="search" type="button">New Search</button>
     </div>
