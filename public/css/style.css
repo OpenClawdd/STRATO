@@ -2305,6 +2305,53 @@ body.low-power .home-search-result {
 /* Utility */
 .mt-lg { margin-top: var(--spacing-lg); }
 
+/* Source UI shells */
+body[class*="source-ui-"] {
+  --accent: var(--source-ui-accent);
+  --accent-secondary: var(--source-ui-secondary);
+  --accent-dim: color-mix(in srgb, var(--source-ui-accent) 13%, transparent);
+  --accent-border: var(--source-ui-border);
+  --accent-glow: color-mix(in srgb, var(--source-ui-accent) 24%, transparent);
+  --gradient-accent: linear-gradient(135deg, var(--source-ui-accent), var(--source-ui-secondary));
+}
+
+body[class*="source-ui-"] .launch-universe-hero,
+body[class*="source-ui-"] .settings-content,
+body[class*="source-ui-"] .browser-toolbar {
+  background:
+    linear-gradient(135deg, var(--source-ui-panel), transparent 68%),
+    rgba(255, 255, 255, 0.018);
+  border-color: var(--source-ui-border);
+}
+
+body.source-ui-frogiesarcade .game-card,
+body.source-ui-frogiesarcade .search-result {
+  border-style: dashed;
+}
+
+body.source-ui-lucideon .glass-card,
+body.source-ui-lucideon .game-card,
+body.source-ui-lucideon .search-result {
+  box-shadow: none;
+}
+
+body.source-ui-1key .hero-title,
+body.source-ui-1key .view-title,
+body.source-ui-1key .settings-panel h3 {
+  text-transform: uppercase;
+}
+
+body.source-ui-deepseek .launch-command-center,
+body.source-ui-deepseek .ai-chat-container,
+body.source-ui-deepseek .search-result {
+  border-radius: 8px;
+}
+
+body.source-ui-selenite .sidebar-nav,
+body.source-ui-selenite .topbar {
+  border-color: var(--source-ui-border);
+}
+
 /* Extension Cards */
 .extension-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .extension-card {
@@ -3157,6 +3204,20 @@ body.low-power .home-search-result {
 .search-result h3 { margin: 0 0 2px; color: #f5fdff; font-size: 15px; }
 .search-result p,
 .search-count { margin: 0; color: rgba(205, 230, 244, 0.78); font-size: 12px; }
+.search-empty {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(172, 231, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(11, 38, 66, 0.42);
+  color: rgba(222, 246, 255, 0.85);
+  font-size: 12px;
+}
+.search-empty strong {
+  color: #f2fbff;
+  font-size: 13px;
+}
 .search-result .pin-button { position: static; }
 .search-result .launch-button { min-height: 38px; }
 
@@ -3770,6 +3831,15 @@ body::before {
   align-items: center;
   gap: 6px;
 }
+.hub-card-access,
+.hub-card-tag {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 2px 7px;
+  color: rgba(255,255,255,0.72);
+  font-size: 11px;
+  line-height: 1.2;
+}
 .hub-card-open-btn {
   margin-left: auto;
   border: 1px solid rgba(0,229,255,0.35);
@@ -3778,6 +3848,65 @@ body::before {
   color: #00e5ff;
   padding: 6px 9px;
   cursor: pointer;
+}
+.library-shell {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+.library-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.library-subtitle {
+  margin: 6px 0 0;
+  max-width: 680px;
+  color: rgba(255,255,255,0.68);
+}
+.library-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.library-stat {
+  min-width: 88px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.28);
+}
+.library-stat strong {
+  display: block;
+  font-size: 18px;
+  color: #fff;
+}
+.library-stat span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255,255,255,0.62);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.library-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.library-pills {
+  flex: none;
+}
+@media (max-width: 780px) {
+  .library-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .library-stats {
+    width: 100%;
+  }
 }
 
 .hub-import-card {
@@ -4584,6 +4713,30 @@ body::before {
   gap: 4px;
   color: var(--accent-green);
   font-weight: bold;
+}
+
+.verified-badge.trust-ok {
+  background: rgba(34, 197, 94, 0.15) !important;
+  border-color: rgba(34, 197, 94, 0.4) !important;
+  color: #86efac !important;
+}
+
+.verified-badge.trust-info {
+  background: rgba(59, 130, 246, 0.16) !important;
+  border-color: rgba(59, 130, 246, 0.42) !important;
+  color: #93c5fd !important;
+}
+
+.verified-badge.trust-warn {
+  background: rgba(234, 179, 8, 0.16) !important;
+  border-color: rgba(234, 179, 8, 0.42) !important;
+  color: #fde68a !important;
+}
+
+.verified-badge.trust-danger {
+  background: rgba(239, 68, 68, 0.16) !important;
+  border-color: rgba(239, 68, 68, 0.42) !important;
+  color: #fca5a5 !important;
 }
 
 

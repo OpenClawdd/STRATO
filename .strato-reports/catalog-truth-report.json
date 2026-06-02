@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-05-31T13:23:59.903Z",
+  "totalGames": 673,
+  "reliability": {
+    "green": 16,
+    "yellow": 619,
+    "red": 38,
+    "unknown": 0
+  },
+  "trust": {
+    "verifiedLocal": 16,
+    "proxyVerified": 0,
+    "reviewOnly": 619,
+    "quarantined": 38,
+    "unknown": 0
+  },
+  "diagnostics": {
+    "genericRootLinks": 10,
+    "duplicateUrlClusters": 5,
+    "topDuplicateUrlClusters": [
+      {
+        "url": "https://lucideon.top/g/frame",
+        "count": 63,
+        "ids": [
+          "selenite-universal-paperclips",
+          "truffled-falling",
+          "truffled-touhoumother",
+          "selenite-xx142-b2-exe",
+          "selenite-snowrider3d",
+          "selenite-fireboywatergirl3",
+          "truffled-bopcity",
+          "truffled-nubby"
+        ]
+      },
+      {
+        "url": "https://adfree-sz-games.github.io/Games-2/lol/",
+        "count": 2,
+        "ids": [
+          "1v1-lol",
+          "1v1-lol-2"
+        ]
+      },
+      {
+        "url": "https://adfree-sz-games.github.io/Games/bobtherobber2",
+        "count": 2,
+        "ids": [
+          "bobtherobber-2",
+          "bob-the-robber-2"
+        ]
+      },
+      {
+        "url": "https://adfree-sz-games.github.io/Games/CSGO-CLICKER",
+        "count": 2,
+        "ids": [
+          "csgoclicker",
+          "csgo-clicker"
+        ]
+      },
+      {
+        "url": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
+        "count": 2,
+        "ids": [
+          "burgerandfrights",
+          "burger-and-frights"
+        ]
+      }
+    ]
+  },
+  "issuesByType": {
+    "gambling-content": 1,
+    "duplicate-url": 65,
+    "duplicate-title": 30
+  }
+}

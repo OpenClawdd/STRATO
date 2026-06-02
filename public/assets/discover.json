@@ -1,0 +1,862 @@
+[
+  {
+    "id": "tubi",
+    "name": "Tubi",
+    "url": "https://tubitv.com",
+    "category": "video",
+    "stars": 3,
+    "access": "Ad-supported",
+    "description": "Free movies and TV with a deep rotating catalog.",
+    "tags": ["movies", "tv", "streaming"]
+  },
+  {
+    "id": "pluto-tv",
+    "name": "Pluto TV",
+    "url": "https://pluto.tv",
+    "category": "video",
+    "stars": 3,
+    "access": "Ad-supported",
+    "description": "Live channels plus on-demand movies and shows.",
+    "tags": ["live-tv", "movies", "tv"]
+  },
+  {
+    "id": "plex-watch",
+    "name": "Plex Watch Free",
+    "url": "https://watch.plex.tv",
+    "category": "video",
+    "stars": 3,
+    "access": "Ad-supported",
+    "description": "Free movies, TV, and live channels from Plex.",
+    "tags": ["movies", "tv", "live-tv"]
+  },
+  {
+    "id": "roku-channel",
+    "name": "The Roku Channel",
+    "url": "https://therokuchannel.roku.com",
+    "category": "video",
+    "stars": 2,
+    "access": "Ad-supported",
+    "description": "Free streaming movies, shows, and live TV.",
+    "tags": ["movies", "tv", "live-tv"]
+  },
+  {
+    "id": "kanopy",
+    "name": "Kanopy",
+    "url": "https://www.kanopy.com",
+    "category": "video",
+    "stars": 3,
+    "access": "Library card",
+    "description": "High-quality films and documentaries through libraries and schools.",
+    "tags": ["library", "documentary", "films"]
+  },
+  {
+    "id": "hoopla",
+    "name": "Hoopla",
+    "url": "https://www.hoopladigital.com",
+    "category": "video",
+    "stars": 3,
+    "access": "Library card",
+    "description": "Borrow movies, TV, comics, ebooks, and audiobooks.",
+    "tags": ["library", "movies", "ebooks"]
+  },
+  {
+    "id": "pbs-video",
+    "name": "PBS Video",
+    "url": "https://www.pbs.org/video/",
+    "category": "video",
+    "stars": 3,
+    "access": "Free",
+    "description": "Public broadcasting documentaries, shows, and specials.",
+    "tags": ["documentary", "public-media", "tv"]
+  },
+  {
+    "id": "archive-video",
+    "name": "Internet Archive Video",
+    "url": "https://archive.org/details/movies",
+    "category": "video",
+    "stars": 3,
+    "access": "Public domain",
+    "description": "Historic films, educational video, and public-domain uploads.",
+    "tags": ["archive", "public-domain", "film"]
+  },
+  {
+    "id": "open-culture-video",
+    "name": "Open Culture Film",
+    "url": "https://www.openculture.com/freemoviesonline",
+    "category": "video",
+    "stars": 2,
+    "access": "Free",
+    "description": "Curated free films, classics, and documentaries.",
+    "tags": ["curated", "films", "classics"]
+  },
+  {
+    "id": "crunchyroll",
+    "name": "Crunchyroll",
+    "url": "https://www.crunchyroll.com",
+    "category": "video",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "Official anime streaming with free and premium tiers.",
+    "tags": ["anime", "streaming", "official"]
+  },
+  {
+    "id": "retrocrush",
+    "name": "RetroCrush",
+    "url": "https://www.retrocrush.tv",
+    "category": "video",
+    "stars": 2,
+    "access": "Ad-supported",
+    "description": "Classic anime streaming with a retro catalog.",
+    "tags": ["anime", "classic", "streaming"]
+  },
+  {
+    "id": "nhk-world",
+    "name": "NHK World",
+    "url": "https://www3.nhk.or.jp/nhkworld/",
+    "category": "video",
+    "stars": 2,
+    "access": "Free",
+    "description": "News, travel, food, and culture programming from Japan.",
+    "tags": ["news", "documentary", "culture"]
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify Web",
+    "url": "https://open.spotify.com",
+    "category": "audio",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "Music and podcasts in the browser.",
+    "tags": ["music", "podcasts", "streaming"]
+  },
+  {
+    "id": "soundcloud",
+    "name": "SoundCloud",
+    "url": "https://soundcloud.com/discover",
+    "category": "audio",
+    "stars": 3,
+    "access": "Free",
+    "description": "Independent music, remixes, DJ sets, and rising artists.",
+    "tags": ["music", "creators", "dj"]
+  },
+  {
+    "id": "bandcamp",
+    "name": "Bandcamp",
+    "url": "https://bandcamp.com",
+    "category": "audio",
+    "stars": 3,
+    "access": "Creator platform",
+    "description": "Direct-to-artist music discovery and purchases.",
+    "tags": ["music", "indie", "artists"]
+  },
+  {
+    "id": "mixcloud",
+    "name": "Mixcloud",
+    "url": "https://www.mixcloud.com",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Radio shows, long-form mixes, and podcast-style sets.",
+    "tags": ["radio", "mixes", "dj"]
+  },
+  {
+    "id": "radio-garden",
+    "name": "Radio Garden",
+    "url": "https://radio.garden",
+    "category": "audio",
+    "stars": 3,
+    "access": "Free",
+    "description": "Spin the globe and tune into live stations worldwide.",
+    "tags": ["radio", "live", "global"]
+  },
+  {
+    "id": "npr-music",
+    "name": "NPR Music",
+    "url": "https://www.npr.org/music",
+    "category": "audio",
+    "stars": 3,
+    "access": "Free",
+    "description": "Tiny Desk concerts, reviews, and artist interviews.",
+    "tags": ["music", "live", "editorial"]
+  },
+  {
+    "id": "bbc-sounds",
+    "name": "BBC Sounds",
+    "url": "https://www.bbc.co.uk/sounds",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Radio, podcasts, mixes, and BBC audio originals.",
+    "tags": ["radio", "podcasts", "bbc"]
+  },
+  {
+    "id": "archive-audio",
+    "name": "Internet Archive Audio",
+    "url": "https://archive.org/details/audio",
+    "category": "audio",
+    "stars": 3,
+    "access": "Archive",
+    "description": "Live concerts, audio books, radio, and rare recordings.",
+    "tags": ["archive", "music", "audiobooks"]
+  },
+  {
+    "id": "librivox",
+    "name": "LibriVox",
+    "url": "https://librivox.org",
+    "category": "audio",
+    "stars": 3,
+    "access": "Public domain",
+    "description": "Volunteer-read audiobooks from the public domain.",
+    "tags": ["audiobooks", "books", "public-domain"]
+  },
+  {
+    "id": "free-music-archive",
+    "name": "Free Music Archive",
+    "url": "https://freemusicarchive.org",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Downloadable tracks for listening and creative use.",
+    "tags": ["music", "download", "creative"]
+  },
+  {
+    "id": "somafm",
+    "name": "SomaFM",
+    "url": "https://somafm.com",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Curated internet radio with genre-heavy channels.",
+    "tags": ["radio", "electronic", "ambient"]
+  },
+  {
+    "id": "kexp",
+    "name": "KEXP",
+    "url": "https://www.kexp.org",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Indie station with live performances and playlists.",
+    "tags": ["radio", "indie", "live"]
+  },
+  {
+    "id": "musopen",
+    "name": "Musopen",
+    "url": "https://musopen.org/music/",
+    "category": "audio",
+    "stars": 3,
+    "access": "Free",
+    "description": "Classical recordings, sheet music, and music education.",
+    "tags": ["classical", "education", "sheet-music"]
+  },
+  {
+    "id": "last-fm",
+    "name": "Last.fm",
+    "url": "https://www.last.fm",
+    "category": "audio",
+    "stars": 2,
+    "access": "Free",
+    "description": "Music discovery, listening stats, and artist trails.",
+    "tags": ["discovery", "artists", "stats"]
+  },
+  {
+    "id": "project-gutenberg",
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org",
+    "category": "reading",
+    "stars": 3,
+    "access": "Public domain",
+    "description": "Thousands of free ebooks in multiple formats.",
+    "tags": ["ebooks", "classics", "public-domain"]
+  },
+  {
+    "id": "standard-ebooks",
+    "name": "Standard Ebooks",
+    "url": "https://standardebooks.org",
+    "category": "reading",
+    "stars": 3,
+    "access": "Public domain",
+    "description": "Beautifully formatted public-domain ebooks.",
+    "tags": ["ebooks", "classics", "design"]
+  },
+  {
+    "id": "open-library",
+    "name": "Open Library",
+    "url": "https://openlibrary.org",
+    "category": "reading",
+    "stars": 3,
+    "access": "Borrowing",
+    "description": "Search millions of books and borrow digital copies.",
+    "tags": ["books", "library", "borrowing"]
+  },
+  {
+    "id": "archive-texts",
+    "name": "Internet Archive Books",
+    "url": "https://archive.org/details/texts",
+    "category": "reading",
+    "stars": 3,
+    "access": "Archive",
+    "description": "Massive archive of scanned books, manuals, and texts.",
+    "tags": ["books", "archive", "reference"]
+  },
+  {
+    "id": "wikisource",
+    "name": "Wikisource",
+    "url": "https://wikisource.org",
+    "category": "reading",
+    "stars": 2,
+    "access": "Free",
+    "description": "Primary-source texts, speeches, and classic documents.",
+    "tags": ["texts", "reference", "public-domain"]
+  },
+  {
+    "id": "manybooks",
+    "name": "ManyBooks",
+    "url": "https://manybooks.net",
+    "category": "reading",
+    "stars": 2,
+    "access": "Free",
+    "description": "Large ebook collection with classics and indie titles.",
+    "tags": ["ebooks", "fiction", "discovery"]
+  },
+  {
+    "id": "hathitrust",
+    "name": "HathiTrust",
+    "url": "https://www.hathitrust.org",
+    "category": "reading",
+    "stars": 2,
+    "access": "Library",
+    "description": "Academic and public-domain texts from library partners.",
+    "tags": ["research", "books", "academic"]
+  },
+  {
+    "id": "comic-book-plus",
+    "name": "Comic Book Plus",
+    "url": "https://comicbookplus.com",
+    "category": "reading",
+    "stars": 2,
+    "access": "Public domain",
+    "description": "Golden-age comics and pulp magazines.",
+    "tags": ["comics", "pulp", "archive"]
+  },
+  {
+    "id": "manga-plus",
+    "name": "MANGA Plus",
+    "url": "https://mangaplus.shueisha.co.jp",
+    "category": "reading",
+    "stars": 3,
+    "access": "Official",
+    "description": "Official manga reading from Shueisha.",
+    "tags": ["manga", "official", "reading"]
+  },
+  {
+    "id": "webtoon",
+    "name": "WEBTOON",
+    "url": "https://www.webtoons.com",
+    "category": "reading",
+    "stars": 3,
+    "access": "Free",
+    "description": "Massive webcomic platform with originals and indie series.",
+    "tags": ["comics", "webcomics", "serial"]
+  },
+  {
+    "id": "tapas",
+    "name": "Tapas",
+    "url": "https://tapas.io",
+    "category": "reading",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Comics and novels from independent creators.",
+    "tags": ["comics", "novels", "creators"]
+  },
+  {
+    "id": "globalcomix",
+    "name": "GlobalComix",
+    "url": "https://globalcomix.com",
+    "category": "reading",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Digital comics platform with free samples and indie runs.",
+    "tags": ["comics", "indie", "reading"]
+  },
+  {
+    "id": "ao3",
+    "name": "Archive of Our Own",
+    "url": "https://archiveofourown.org",
+    "category": "reading",
+    "stars": 3,
+    "access": "Free",
+    "description": "Enormous fanfiction archive with powerful filters.",
+    "tags": ["fanfiction", "community", "archive"]
+  },
+  {
+    "id": "royal-road",
+    "name": "Royal Road",
+    "url": "https://www.royalroad.com",
+    "category": "reading",
+    "stars": 2,
+    "access": "Free",
+    "description": "Original serial fiction with fantasy and sci-fi depth.",
+    "tags": ["fiction", "serial", "community"]
+  },
+  {
+    "id": "khan-academy-plus",
+    "name": "Khan Academy",
+    "url": "https://www.khanacademy.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Structured lessons across math, science, and more.",
+    "tags": ["courses", "math", "science"]
+  },
+  {
+    "id": "mit-ocw",
+    "name": "MIT OpenCourseWare",
+    "url": "https://ocw.mit.edu",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "MIT course materials, lectures, and assignments.",
+    "tags": ["engineering", "courses", "college"]
+  },
+  {
+    "id": "openstax",
+    "name": "OpenStax",
+    "url": "https://openstax.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Peer-reviewed open textbooks for school and college.",
+    "tags": ["textbooks", "college", "science"]
+  },
+  {
+    "id": "edx",
+    "name": "edX",
+    "url": "https://www.edx.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "University-backed courses and programs.",
+    "tags": ["courses", "college", "certificates"]
+  },
+  {
+    "id": "coursera",
+    "name": "Coursera",
+    "url": "https://www.coursera.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "Guided courses from universities and companies.",
+    "tags": ["courses", "career", "college"]
+  },
+  {
+    "id": "saylor",
+    "name": "Saylor Academy",
+    "url": "https://learn.saylor.org",
+    "category": "learning",
+    "stars": 2,
+    "access": "Free",
+    "description": "Self-paced courses with a practical catalog.",
+    "tags": ["courses", "self-paced", "college"]
+  },
+  {
+    "id": "openlearn",
+    "name": "OpenLearn",
+    "url": "https://www.open.edu/openlearn/",
+    "category": "learning",
+    "stars": 2,
+    "access": "Free",
+    "description": "Open University bite-sized and full learning modules.",
+    "tags": ["courses", "humanities", "science"]
+  },
+  {
+    "id": "cs50",
+    "name": "CS50",
+    "url": "https://cs50.harvard.edu",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Harvard computer science and programming courses.",
+    "tags": ["coding", "computer-science", "lectures"]
+  },
+  {
+    "id": "freecodecamp",
+    "name": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Hands-on coding curriculum with certifications.",
+    "tags": ["coding", "projects", "certificates"]
+  },
+  {
+    "id": "odin-project",
+    "name": "The Odin Project",
+    "url": "https://www.theodinproject.com",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Project-driven web development path.",
+    "tags": ["coding", "web-dev", "projects"]
+  },
+  {
+    "id": "mdn",
+    "name": "MDN Web Docs",
+    "url": "https://developer.mozilla.org",
+    "category": "learning",
+    "stars": 3,
+    "access": "Free",
+    "description": "Authoritative docs for web platform technologies.",
+    "tags": ["reference", "web-dev", "docs"]
+  },
+  {
+    "id": "roadmap-sh",
+    "name": "roadmap.sh",
+    "url": "https://roadmap.sh",
+    "category": "learning",
+    "stars": 2,
+    "access": "Free",
+    "description": "Role-based learning maps for developers and ops.",
+    "tags": ["career", "coding", "maps"]
+  },
+  {
+    "id": "stanford-online",
+    "name": "Stanford Online",
+    "url": "https://online.stanford.edu",
+    "category": "learning",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Stanford lectures, programs, and short courses.",
+    "tags": ["college", "lectures", "courses"]
+  },
+  {
+    "id": "nptel",
+    "name": "NPTEL",
+    "url": "https://nptel.ac.in",
+    "category": "learning",
+    "stars": 2,
+    "access": "Free",
+    "description": "Engineering and science courses from Indian institutes.",
+    "tags": ["engineering", "science", "lectures"]
+  },
+  {
+    "id": "fdroid",
+    "name": "F-Droid",
+    "url": "https://f-droid.org",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "App catalog for open-source Android software.",
+    "tags": ["android", "apps", "open-source"]
+  },
+  {
+    "id": "homebrew",
+    "name": "Homebrew",
+    "url": "https://brew.sh",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Package manager for macOS and Linux.",
+    "tags": ["mac", "linux", "packages"]
+  },
+  {
+    "id": "ninite",
+    "name": "Ninite",
+    "url": "https://ninite.com",
+    "category": "software",
+    "stars": 3,
+    "access": "Free",
+    "description": "Bulk install trusted Windows apps in one shot.",
+    "tags": ["windows", "installer", "utilities"]
+  },
+  {
+    "id": "chocolatey",
+    "name": "Chocolatey Packages",
+    "url": "https://community.chocolatey.org/packages",
+    "category": "software",
+    "stars": 2,
+    "access": "Free",
+    "description": "Windows package directory with automation-friendly installs.",
+    "tags": ["windows", "packages", "automation"]
+  },
+  {
+    "id": "alternativeto",
+    "name": "AlternativeTo",
+    "url": "https://alternativeto.net",
+    "category": "software",
+    "stars": 3,
+    "access": "Free",
+    "description": "Find replacements for paid or discontinued apps.",
+    "tags": ["discovery", "alternatives", "software"]
+  },
+  {
+    "id": "sourceforge",
+    "name": "SourceForge",
+    "url": "https://sourceforge.net",
+    "category": "software",
+    "stars": 2,
+    "access": "Free",
+    "description": "Open-source software projects and downloads.",
+    "tags": ["downloads", "open-source", "projects"]
+  },
+  {
+    "id": "vlc",
+    "name": "VLC",
+    "url": "https://www.videolan.org/vlc/",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Universal media player with broad codec support.",
+    "tags": ["media", "video", "desktop"]
+  },
+  {
+    "id": "blender",
+    "name": "Blender",
+    "url": "https://www.blender.org",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "3D creation suite for modeling, animation, and rendering.",
+    "tags": ["3d", "design", "animation"]
+  },
+  {
+    "id": "gimp",
+    "name": "GIMP",
+    "url": "https://www.gimp.org",
+    "category": "software",
+    "stars": 2,
+    "access": "Open source",
+    "description": "Raster editor for image retouching and graphics.",
+    "tags": ["design", "image", "graphics"]
+  },
+  {
+    "id": "krita",
+    "name": "Krita",
+    "url": "https://krita.org",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Illustration and painting app built for artists.",
+    "tags": ["art", "painting", "design"]
+  },
+  {
+    "id": "obs",
+    "name": "OBS Studio",
+    "url": "https://obsproject.com",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Recording and live streaming software.",
+    "tags": ["streaming", "recording", "video"]
+  },
+  {
+    "id": "audacity",
+    "name": "Audacity",
+    "url": "https://www.audacityteam.org",
+    "category": "software",
+    "stars": 2,
+    "access": "Open source",
+    "description": "Audio recording and editing for everyday use.",
+    "tags": ["audio", "editing", "desktop"]
+  },
+  {
+    "id": "libreoffice",
+    "name": "LibreOffice",
+    "url": "https://www.libreoffice.org",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Full office suite with docs, sheets, and slides.",
+    "tags": ["office", "documents", "productivity"]
+  },
+  {
+    "id": "handbrake",
+    "name": "HandBrake",
+    "url": "https://handbrake.fr",
+    "category": "software",
+    "stars": 2,
+    "access": "Open source",
+    "description": "Video transcoder for converting and compressing media.",
+    "tags": ["video", "conversion", "desktop"]
+  },
+  {
+    "id": "inkscape",
+    "name": "Inkscape",
+    "url": "https://inkscape.org",
+    "category": "software",
+    "stars": 2,
+    "access": "Open source",
+    "description": "Vector graphics editor for illustration and SVG work.",
+    "tags": ["vector", "design", "svg"]
+  },
+  {
+    "id": "keepassxc",
+    "name": "KeePassXC",
+    "url": "https://keepassxc.org",
+    "category": "software",
+    "stars": 3,
+    "access": "Open source",
+    "description": "Local password manager with strong cross-platform support.",
+    "tags": ["security", "passwords", "desktop"]
+  },
+  {
+    "id": "photopea",
+    "name": "Photopea",
+    "url": "https://www.photopea.com",
+    "category": "tools",
+    "stars": 3,
+    "access": "Free",
+    "description": "Browser-based image editor with PSD support.",
+    "tags": ["image", "editing", "design"]
+  },
+  {
+    "id": "excalidraw",
+    "name": "Excalidraw",
+    "url": "https://excalidraw.com",
+    "category": "tools",
+    "stars": 3,
+    "access": "Free",
+    "description": "Quick sketch diagrams and whiteboards in-browser.",
+    "tags": ["diagram", "whiteboard", "collaboration"]
+  },
+  {
+    "id": "desmos-calc",
+    "name": "Desmos",
+    "url": "https://www.desmos.com/calculator",
+    "category": "tools",
+    "stars": 3,
+    "access": "Free",
+    "description": "Graphing calculator with strong classroom ergonomics.",
+    "tags": ["math", "calculator", "graphing"]
+  },
+  {
+    "id": "geogebra",
+    "name": "GeoGebra",
+    "url": "https://www.geogebra.org",
+    "category": "tools",
+    "stars": 2,
+    "access": "Free",
+    "description": "Interactive math tools for geometry, algebra, and graphs.",
+    "tags": ["math", "geometry", "graphing"]
+  },
+  {
+    "id": "jitsi-meet",
+    "name": "Jitsi Meet",
+    "url": "https://meet.jit.si",
+    "category": "tools",
+    "stars": 2,
+    "access": "Free",
+    "description": "Open video meetings without a heavy signup flow.",
+    "tags": ["video-chat", "meetings", "open-source"]
+  },
+  {
+    "id": "overleaf",
+    "name": "Overleaf",
+    "url": "https://www.overleaf.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Collaborative LaTeX writing in the browser.",
+    "tags": ["writing", "latex", "collaboration"]
+  },
+  {
+    "id": "tinywow",
+    "name": "TinyWow",
+    "url": "https://tinywow.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Free",
+    "description": "Quick utility bucket for PDFs, images, text, and files.",
+    "tags": ["pdf", "utilities", "files"]
+  },
+  {
+    "id": "ilovepdf",
+    "name": "iLovePDF",
+    "url": "https://www.ilovepdf.com",
+    "category": "tools",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "Merge, split, convert, and compress PDFs.",
+    "tags": ["pdf", "conversion", "documents"]
+  },
+  {
+    "id": "pdf24",
+    "name": "PDF24 Tools",
+    "url": "https://tools.pdf24.org",
+    "category": "tools",
+    "stars": 3,
+    "access": "Free",
+    "description": "Solid browser PDF toolkit with lots of small utilities.",
+    "tags": ["pdf", "utilities", "documents"]
+  },
+  {
+    "id": "pixlr",
+    "name": "Pixlr",
+    "url": "https://pixlr.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Fast image editing and templates in-browser.",
+    "tags": ["image", "editing", "design"]
+  },
+  {
+    "id": "canva",
+    "name": "Canva",
+    "url": "https://www.canva.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Design layouts, presentations, and social graphics.",
+    "tags": ["design", "presentation", "templates"]
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "url": "https://www.figma.com",
+    "category": "tools",
+    "stars": 3,
+    "access": "Freemium",
+    "description": "Collaborative interface and product design tooling.",
+    "tags": ["design", "ui", "collaboration"]
+  },
+  {
+    "id": "codepen",
+    "name": "CodePen",
+    "url": "https://codepen.io",
+    "category": "tools",
+    "stars": 2,
+    "access": "Free",
+    "description": "Front-end playground for snippets and demos.",
+    "tags": ["coding", "frontend", "playground"]
+  },
+  {
+    "id": "jsfiddle",
+    "name": "JSFiddle",
+    "url": "https://jsfiddle.net",
+    "category": "tools",
+    "stars": 2,
+    "access": "Free",
+    "description": "Quick HTML, CSS, and JS prototyping in one page.",
+    "tags": ["coding", "frontend", "playground"]
+  },
+  {
+    "id": "replit",
+    "name": "Replit",
+    "url": "https://replit.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Cloud IDE and quick coding workspace.",
+    "tags": ["coding", "ide", "cloud"]
+  },
+  {
+    "id": "stackblitz",
+    "name": "StackBlitz",
+    "url": "https://stackblitz.com",
+    "category": "tools",
+    "stars": 2,
+    "access": "Freemium",
+    "description": "Instant browser dev environments for web projects.",
+    "tags": ["coding", "ide", "web-dev"]
+  }
+]

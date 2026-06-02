@@ -20,7 +20,8 @@ function requireAdmin(req, res, next) {
 
   if (!ADMIN_SECRET) {
     return res.status(403).json({
-      error: "Admin panel is disabled. Set ADMIN_SECRET env var to enable.",
+      error:
+        "Admin API is disabled. This is separate from proxy/game launching; set ADMIN_SECRET to enable admin tools.",
     });
   }
 
