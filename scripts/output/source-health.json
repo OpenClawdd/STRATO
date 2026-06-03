@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T12:08:53.594Z",
+  "generatedAt": "2026-06-03T16:08:22.405Z",
   "results": [
     {
       "name": "manual",
@@ -8,17 +8,17 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:50.277Z",
+      "checkedAt": "2026-06-03T16:08:18.877Z",
       "error": ""
     },
     {
       "name": "GN Math",
-      "url": "https://gn-math.com",
+      "url": "https://gn-math.dev",
       "status": "active",
       "httpStatus": 200,
-      "finalUrl": "https://gn-math.com/",
+      "finalUrl": "https://gn-math.dev/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:50.850Z",
+      "checkedAt": "2026-06-03T16:08:19.976Z",
       "error": ""
     },
     {
@@ -28,7 +28,7 @@
       "httpStatus": 200,
       "finalUrl": "https://selenite.cc/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:50.942Z",
+      "checkedAt": "2026-06-03T16:08:20.082Z",
       "error": ""
     },
     {
@@ -38,7 +38,7 @@
       "httpStatus": 200,
       "finalUrl": "https://truffled.lol/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.196Z",
+      "checkedAt": "2026-06-03T16:08:20.234Z",
       "error": ""
     },
     {
@@ -48,7 +48,7 @@
       "httpStatus": 200,
       "finalUrl": "https://splash.best/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.520Z",
+      "checkedAt": "2026-06-03T16:08:20.469Z",
       "error": ""
     },
     {
@@ -58,27 +58,27 @@
       "httpStatus": null,
       "finalUrl": "https://strawberrymath.com",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.554Z",
+      "checkedAt": "2026-06-03T16:08:20.474Z",
       "error": "fetch failed"
     },
     {
       "name": "Vapor",
-      "url": "https://vapor.my",
-      "status": "needs-review",
-      "httpStatus": null,
-      "finalUrl": "https://vapor.my",
+      "url": "https://vapor.onl",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://vapor.onl/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.837Z",
-      "error": "fetch failed"
+      "checkedAt": "2026-06-03T16:08:20.887Z",
+      "error": ""
     },
     {
       "name": "Frogie",
-      "url": "https://frogiesarcade.com",
+      "url": "https://frogiesarcade.win",
       "status": "active",
       "httpStatus": 200,
-      "finalUrl": "https://frogiesarcade.com/",
+      "finalUrl": "https://frogiesarcade.win/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.929Z",
+      "checkedAt": "2026-06-03T16:08:21.000Z",
       "error": ""
     },
     {
@@ -88,17 +88,27 @@
       "httpStatus": null,
       "finalUrl": "https://cherrigames.com",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:51.953Z",
+      "checkedAt": "2026-06-03T16:08:21.005Z",
       "error": "fetch failed"
     },
     {
       "name": "Lucide",
-      "url": "https://lucide.dev",
+      "url": "https://lucideon.top",
       "status": "active",
       "httpStatus": 200,
-      "finalUrl": "https://lucide.dev/",
+      "finalUrl": "https://lucideon.top/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:52.162Z",
+      "checkedAt": "2026-06-03T16:08:21.102Z",
+      "error": ""
+    },
+    {
+      "name": "1Key",
+      "url": "https://1key.lol",
+      "status": "active",
+      "httpStatus": 200,
+      "finalUrl": "https://1key.lol/",
+      "redirected": false,
+      "checkedAt": "2026-06-03T16:08:21.436Z",
       "error": ""
     },
     {
@@ -108,7 +118,7 @@
       "httpStatus": null,
       "finalUrl": "https://infamous.lol",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:52.715Z",
+      "checkedAt": "2026-06-03T16:08:21.526Z",
       "error": "fetch failed"
     },
     {
@@ -118,7 +128,7 @@
       "httpStatus": 200,
       "finalUrl": "https://petezahgames.com/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:52.907Z",
+      "checkedAt": "2026-06-03T16:08:21.656Z",
       "error": ""
     },
     {
@@ -128,7 +138,7 @@
       "httpStatus": 200,
       "finalUrl": "https://ubghub.com/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.196Z",
+      "checkedAt": "2026-06-03T16:08:22.176Z",
       "error": ""
     },
     {
@@ -138,7 +148,7 @@
       "httpStatus": 200,
       "finalUrl": "https://duckmath.org/",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.328Z",
+      "checkedAt": "2026-06-03T16:08:22.273Z",
       "error": ""
     },
     {
@@ -148,7 +158,7 @@
       "httpStatus": null,
       "finalUrl": "https://coffeearcade.org",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.398Z",
+      "checkedAt": "2026-06-03T16:08:22.277Z",
       "error": "fetch failed"
     },
     {
@@ -158,7 +168,7 @@
       "httpStatus": null,
       "finalUrl": "https://interstellar.games",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.594Z",
+      "checkedAt": "2026-06-03T16:08:22.404Z",
       "error": "fetch failed"
     },
     {
@@ -168,7 +178,7 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.594Z",
+      "checkedAt": "2026-06-03T16:08:22.405Z",
       "error": ""
     },
     {
@@ -178,7 +188,7 @@
       "httpStatus": null,
       "finalUrl": "",
       "redirected": false,
-      "checkedAt": "2026-05-20T12:08:53.594Z",
+      "checkedAt": "2026-06-03T16:08:22.405Z",
       "error": ""
     }
   ]
