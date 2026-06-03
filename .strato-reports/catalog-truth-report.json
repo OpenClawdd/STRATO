@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-31T13:23:59.903Z",
-  "totalGames": 673,
+  "generatedAt": "2026-06-03T16:26:06.366Z",
+  "totalGames": 554,
   "reliability": {
     "green": 16,
-    "yellow": 619,
-    "red": 38,
-    "unknown": 0
+    "yellow": 134,
+    "red": 396,
+    "unknown": 8
   },
   "trust": {
     "verifiedLocal": 16,
-    "proxyVerified": 0,
-    "reviewOnly": 619,
-    "quarantined": 38,
-    "unknown": 0
+    "proxyVerified": 134,
+    "reviewOnly": 0,
+    "quarantined": 396,
+    "unknown": 8
   },
   "diagnostics": {
     "genericRootLinks": 10,
-    "duplicateUrlClusters": 5,
+    "duplicateUrlClusters": 6,
     "topDuplicateUrlClusters": [
       {
         "url": "https://lucideon.top/g/frame",
@@ -30,6 +30,20 @@
           "selenite-fireboywatergirl3",
           "truffled-bopcity",
           "truffled-nubby"
+        ]
+      },
+      {
+        "url": "https://cdn.jsdelivr.net/gh/freebuisness/html@test",
+        "count": 8,
+        "ids": [
+          "gn-math-bowmasters",
+          "gn-math-extra-5zb3trbk8b",
+          "gn-math-extra-lwque26wyfd",
+          "gn-math-extra-l9ltjdkgti",
+          "gn-math-extra-x0uico3wdm9",
+          "gn-math-extra-4tdzx77nonx",
+          "gn-math-extra-bws4hf2rj5c",
+          "gn-math-extra-hsxthhfdkae"
         ]
       },
       {
@@ -67,8 +81,9 @@
     ]
   },
   "issuesByType": {
-    "gambling-content": 1,
-    "duplicate-url": 65,
-    "duplicate-title": 30
+    "empty-description": 8,
+    "duplicate-url": 7,
+    "duplicate-title": 6,
+    "duplicate-title-url": 6
   }
 }
