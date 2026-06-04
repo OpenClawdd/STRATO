@@ -5,6 +5,7 @@
 
 import { Router } from "express";
 import store from "../db/store.js";
+import crypto from "crypto";
 
 const router = Router();
 
@@ -16,9 +17,21 @@ function requireAdmin(req, res, next) {
   if (!ADMIN_SECRET) {
     return res.status(403).json({ error: "Admin disabled" });
   }
-  if (!provided || provided !== ADMIN_SECRET) {
+
+  if (!provided || typeof provided !== "string") {
     return res.status(401).json({ error: "Unauthorized" });
   }
+
+  const providedBuffer = Buffer.from(provided);
+  const secretBuffer = Buffer.from(ADMIN_SECRET);
+
+  if (
+    providedBuffer.length !== secretBuffer.length ||
+    !crypto.timingSafeEqual(providedBuffer, secretBuffer)
+  ) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   next();
 }
 
