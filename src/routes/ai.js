@@ -13,14 +13,14 @@ async function initAI() {
     aiClient = await ZAI.create();
     aiOnline = true;
     console.log("[STRATO] AI client initialized");
-  } catch (err) {
+  } catch (_err) {
     // AI is optional — missing config is expected in development
-    if (err.message && err.message.includes(".z-ai-config")) {
+    if (_err.message && _err.message.includes(".z-ai-config")) {
       console.warn(
         "[STRATO] AI client skipped — no .z-ai-config found. AI features will be offline.",
       );
     } else {
-      console.warn("[STRATO] AI client failed to initialize:", err.message);
+      console.warn("[STRATO] AI client failed to initialize:", _err.message);
     }
     aiOnline = false;
   }
@@ -89,14 +89,14 @@ router.post("/api/ai/chat", async (req, res) => {
     }
 
     res.json({ message: { role: "assistant", content } });
-  } catch (err) {
+  } catch (_err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (_err.name === "AbortError") {
       return res.status(504).json({ error: "AI service timed out" });
     }
 
-    console.error("[STRATO] AI chat error:", err.message);
+    console.error("[STRATO] AI chat error:", _err.message);
     res.status(500).json({ error: "AI service error. Try again." });
   }
 });
@@ -177,16 +177,16 @@ router.post("/api/ai/vision", async (req, res) => {
     }
 
     res.json({ message: { role: "assistant", content } });
-  } catch (err) {
+  } catch (_err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (_err.name === "AbortError") {
       return res
         .status(504)
         .json({ error: "AI vision timed out — try a smaller image" });
     }
 
-    console.error("[STRATO] AI vision error:", err.message);
+    console.error("[STRATO] AI vision error:", _err.message);
     res.status(500).json({ error: "AI vision error. Try again." });
   }
 });
@@ -281,14 +281,14 @@ router.post("/api/ai/tutor", async (req, res) => {
       subject: normalizedSubject,
       socratic: socratic === true,
     });
-  } catch (err) {
+  } catch (_err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (_err.name === "AbortError") {
       return res.status(504).json({ error: "AI tutor timed out" });
     }
 
-    console.error("[STRATO] AI tutor error:", err.message);
+    console.error("[STRATO] AI tutor error:", _err.message);
     res.status(500).json({ error: "AI tutor error. Try again." });
   }
 });
@@ -309,7 +309,7 @@ router.get("/api/ai/history", async (req, res) => {
       conversations: conversations.data || [],
       total: conversations.total,
     });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: "Failed to load conversation history" });
   }
 });
@@ -324,7 +324,7 @@ router.delete("/api/ai/history", async (req, res) => {
       (m) => m.username === username && m.roomId === "ai_history",
     );
     res.json({ success: true, removed });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: "Failed to clear history" });
   }
 });
