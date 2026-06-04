@@ -26,14 +26,17 @@ function requireAdmin(req, res, next) {
     });
   }
 
-  if (!provided || typeof provided !== 'string') {
+  if (!provided || typeof provided !== "string") {
     return res.status(401).json({ error: "Invalid admin credentials" });
   }
 
   const providedBuffer = Buffer.from(provided);
   const secretBuffer = Buffer.from(ADMIN_SECRET);
 
-  if (providedBuffer.length !== secretBuffer.length || !crypto.timingSafeEqual(providedBuffer, secretBuffer)) {
+  if (
+    providedBuffer.length !== secretBuffer.length ||
+    !crypto.timingSafeEqual(providedBuffer, secretBuffer)
+  ) {
     return res.status(401).json({ error: "Invalid admin credentials" });
   }
 

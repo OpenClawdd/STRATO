@@ -18,14 +18,17 @@ function requireAdmin(req, res, next) {
     return res.status(403).json({ error: "Admin disabled" });
   }
 
-  if (!provided || typeof provided !== 'string') {
+  if (!provided || typeof provided !== "string") {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   const providedBuffer = Buffer.from(provided);
   const secretBuffer = Buffer.from(ADMIN_SECRET);
 
-  if (providedBuffer.length !== secretBuffer.length || !crypto.timingSafeEqual(providedBuffer, secretBuffer)) {
+  if (
+    providedBuffer.length !== secretBuffer.length ||
+    !crypto.timingSafeEqual(providedBuffer, secretBuffer)
+  ) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
