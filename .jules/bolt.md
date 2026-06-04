@@ -1,0 +1,3 @@
+## 2024-05-24 - Defer Array Mapping After Sorting and Slicing
+**Learning:** When sorting and taking a top-N slice of a large array (like `allUsers`), applying `.map()` before `.sort()` and `.slice()` creates O(N) temporary objects that are immediately discarded by the slice, leading to high memory pressure and unnecessary short-lived object allocations.
+**Action:** Defer `.map()` transformations until after `.sort()` and `.slice()` have been applied, reducing the allocations from O(N) to O(K) where K is the slice size. Also remember to make a shallow copy (e.g., `[...arr]`) before sorting to avoid mutating cached arrays.
