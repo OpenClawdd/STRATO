@@ -102,16 +102,18 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending
-    const sorted = allUsers
+    // ⚡ Bolt: Defer .map() to avoid O(N) short-lived object allocations
+    // Create shallow copy to avoid mutating cache
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
       .map((u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
