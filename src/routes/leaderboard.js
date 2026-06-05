@@ -16,15 +16,24 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
-    // Filter by time period
-    if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
-    } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+    // Filter by gameId and period in one pass to avoid multiple array allocations
+    const timeLimit =
+      period === "daily"
+        ? Date.now() - 24 * 60 * 60 * 1000
+        : period === "weekly"
+          ? Date.now() - 7 * 24 * 60 * 60 * 1000
+          : 0;
+
+    const scores = [];
+    for (let i = 0; i < allScores.length; i++) {
+      const s = allScores[i];
+      if (
+        s.gameId === gameId &&
+        (timeLimit === 0 || new Date(s.created_at).getTime() > timeLimit)
+      ) {
+        scores.push(s);
+      }
     }
 
     // Sort by score descending, take top 10
@@ -101,23 +110,21 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    // Sort by XP descending, defer mapping to prevent O(n) short-lived object allocations
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
+      .map((u, i) => ({
+        rank: i + 1,
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
-      leaderboard: sorted.map((u, i) => ({
-        rank: i + 1,
-        ...u,
-      })),
+      leaderboard: sorted,
     });
   } catch (err) {
     console.error("[STRATO] Global leaderboard error:", err.message);
