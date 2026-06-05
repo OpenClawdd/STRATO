@@ -18,14 +18,20 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     const allScores = await store.getAll("scores");
 
     // Filter by gameId and period in one pass to avoid multiple array allocations
-    const timeLimit = period === "daily" ? Date.now() - 24 * 60 * 60 * 1000
-                    : period === "weekly" ? Date.now() - 7 * 24 * 60 * 60 * 1000
-                    : 0;
+    const timeLimit =
+      period === "daily"
+        ? Date.now() - 24 * 60 * 60 * 1000
+        : period === "weekly"
+          ? Date.now() - 7 * 24 * 60 * 60 * 1000
+          : 0;
 
     const scores = [];
     for (let i = 0; i < allScores.length; i++) {
       const s = allScores[i];
-      if (s.gameId === gameId && (timeLimit === 0 || new Date(s.created_at).getTime() > timeLimit)) {
+      if (
+        s.gameId === gameId &&
+        (timeLimit === 0 || new Date(s.created_at).getTime() > timeLimit)
+      ) {
         scores.push(s);
       }
     }
