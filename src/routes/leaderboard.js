@@ -27,7 +27,8 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
 
     const scores = allScores.filter((s) => {
       if (s.gameId !== gameId) return false;
-      if (minTime > 0 && new Date(s.created_at).getTime() <= minTime) return false;
+      if (minTime > 0 && new Date(s.created_at).getTime() <= minTime)
+        return false;
       return true;
     });
 
