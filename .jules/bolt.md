@@ -1,0 +1,3 @@
+## 2024-05-18 - Avoid Memory Leaks and Cache Mutations in Data Store Array Operations
+**Learning:** Arrays retrieved using `store.getAll()` in STRATO's backend are direct references to the in-memory cache. Methods like `.sort()` mutate these arrays directly. A major memory allocation pattern observed was using `.map()` over large arrays before `.slice()`, allocating unnecessary garbage objects for data outside the requested bounds.
+**Action:** Always shallow copy the array (`[...array]`) before `.sort()` to preserve cache integrity. Always defer `.map()` and similar allocation-heavy operations until *after* `.sort()` and `.slice()` limit the subset size, dramatically dropping peak memory overhead during leaderboard calculations. Ensure chained `.filter()` are condensed.
