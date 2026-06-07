@@ -1,0 +1,3 @@
+## 2025-06-07 - [Optimized array operations for in-memory db caching]
+**Learning:** When retrieving large cached arrays from the custom file store, chaining multiple `.filter()` calls, or calling `.map()` before `.sort()` and `.slice()`, can result in O(N) intermediate short-lived garbage allocations. This can add significant memory pressure and GC overhead.
+**Action:** When working with large sets of arrays, consolidate multiple filter operations into a single pass. Also, always ensure shallow copies are created (e.g., `[...arr]`) to avoid mutating cached store data when sorting. Defer object allocation (such as `.map()`) until after all `.filter()`, `.sort()`, and `.slice()` operations are complete so that we only map the final needed items.
