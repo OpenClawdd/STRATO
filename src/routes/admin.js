@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import crypto from "crypto";
 
 const router = Router();
 
@@ -25,7 +26,17 @@ function requireAdmin(req, res, next) {
     });
   }
 
-  if (!provided || provided !== ADMIN_SECRET) {
+  if (!provided || typeof provided !== "string") {
+    return res.status(401).json({ error: "Invalid admin credentials" });
+  }
+
+  const bufferProvided = Buffer.from(provided);
+  const bufferSecret = Buffer.from(ADMIN_SECRET);
+
+  if (
+    bufferProvided.length !== bufferSecret.length ||
+    !crypto.timingSafeEqual(bufferProvided, bufferSecret)
+  ) {
     return res.status(401).json({ error: "Invalid admin credentials" });
   }
 
