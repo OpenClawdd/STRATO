@@ -16,18 +16,25 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
-    // Filter by time period
+    // Precalculate time period cutoff to avoid recalculating in filter loop
+    let cutoff = 0;
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      cutoff = Date.now() - 24 * 60 * 60 * 1000;
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
     }
 
+    // Single pass filter + shallow copy
+    const scores = allScores.filter((s) => {
+      if (s.gameId !== gameId) return false;
+      if (cutoff > 0 && new Date(s.created_at).getTime() <= cutoff)
+        return false;
+      return true;
+    });
+
     // Sort by score descending, take top 10
+    // shallow copy is already created by filter, so sorting is safe
     scores.sort((a, b) => b.score - a.score);
     const top10 = scores.slice(0, 10);
 
@@ -101,22 +108,20 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    // Create shallow copy, sort by XP descending, and limit first
+    const sortedTopUsers = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25);
+
+    // Map only the top 25 users to avoid O(N) allocations for all users
+    res.json({
+      leaderboard: sortedTopUsers.map((u, i) => ({
+        rank: i + 1,
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
-
-    res.json({
-      leaderboard: sorted.map((u, i) => ({
-        rank: i + 1,
-        ...u,
       })),
     });
   } catch (err) {
