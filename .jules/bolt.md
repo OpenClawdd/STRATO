@@ -1,0 +1,3 @@
+## 2024-06-07 - Array map allocation deferral
+**Learning:** Chaining `.map()` before `.sort()` and `.slice()` on large in-memory arrays (like those returned from `store.getAll()`) results in O(N) short-lived garbage object allocations, which causes unnecessary memory pressure and slower processing times. Also, the in-memory store returns direct array references that must be shallow-copied before sorting to prevent cache mutation bugs.
+**Action:** Always create a shallow copy (`[...array]`) of data store results before sorting. Defer `.map()` operations until after `.filter()`, `.sort()`, and `.slice()` have narrowed the array down to the minimal subset of items (e.g., top 10 or 25) to reduce operations from O(N) to O(1) constant bounds.
