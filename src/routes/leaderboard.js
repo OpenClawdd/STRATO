@@ -16,16 +16,22 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
-    // Filter by time period
+    // Determine time threshold once
+    let minTime = 0;
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      minTime = Date.now() - 24 * 60 * 60 * 1000;
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      minTime = Date.now() - 7 * 24 * 60 * 60 * 1000;
     }
+
+    // Filter by gameId and time period in a single pass to eliminate redundant iterations
+    const scores = allScores.filter((s) => {
+      if (s.gameId !== gameId) return false;
+      if (minTime > 0 && new Date(s.created_at).getTime() <= minTime)
+        return false;
+      return true;
+    });
 
     // Sort by score descending, take top 10
     scores.sort((a, b) => b.score - a.score);
@@ -101,17 +107,18 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
+    // Sort by XP descending. Shallow copy prevents mutating the cached array.
+    // Defer object mapping until after slice to reduce O(N) allocation overhead.
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
       .map((u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
