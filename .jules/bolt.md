@@ -1,0 +1,3 @@
+## 2024-06-08 - Optimize large array processing for leaderboards and analytics
+**Learning:** Chaining array methods like `.map()`, `.filter()`, and `.sort()` on large arrays results in severe performance bottlenecks due to O(N log N) time complexity for sorting and excessive O(N) memory allocations for short-lived objects.
+**Action:** When working with large datasets, replace chained methods with single-pass processing loops. For "top N" features (leaderboards, recent items), utilize a bounded insertion sort (O(N) time, O(1) extra space) to find the top elements without sorting the entire dataset.
