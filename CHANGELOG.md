@@ -4,6 +4,10 @@ All notable changes to STRATO are documented in this file. The format is based o
 
 ---
 
+## [Unreleased]
+### Performance
+- **Leaderboards & Analytics Processing**: Optimized global leaderboards and admin analytics routes by replacing O(N log N) whole-dataset sorts with O(N) bounded insertion sorts and single-pass data processing, significantly reducing CPU spikes and short-lived object allocations for large databases.
+
 ## [1.0.0] — 2026-05-21
 
 ### Game-First Local-First Verified Release Candidate

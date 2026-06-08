@@ -140,15 +140,35 @@ router.get("/api/analytics/global", async (req, res) => {
     const chatMessages = await store.getAll("chat_messages");
 
     // Top players by XP
-    const topByXp = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 20)
-      .map((u) => ({
-        username: u.username,
-        avatar: u.avatar,
-        xp: u.xp || 0,
-        level: u.level || 1,
-      }));
+    const top20 = [];
+    for (let i = 0; i < users.length; i++) {
+      const u = users[i];
+      const xp = u.xp || 0;
+
+      if (top20.length < 20) {
+        top20.push(u);
+        if (top20.length === 20) {
+          top20.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+        }
+      } else if (xp > (top20[19].xp || 0)) {
+        let k = 18;
+        while (k >= 0 && xp > (top20[k].xp || 0)) {
+          k--;
+        }
+        top20.splice(k + 1, 0, u);
+        top20.pop();
+      }
+    }
+    if (top20.length < 20) {
+      top20.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+    }
+
+    const topByXp = top20.map((u) => ({
+      username: u.username,
+      avatar: u.avatar,
+      xp: u.xp || 0,
+      level: u.level || 1,
+    }));
 
     // Most active chatters
     const chatCount = {};
