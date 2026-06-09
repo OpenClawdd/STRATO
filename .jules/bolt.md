@@ -1,0 +1,3 @@
+## 2024-06-09 - Leaderboard CPU Spike Optimization
+**Learning:** Chaining `.filter()`, `.map()`, and `.sort()` on large arrays returned by the custom `store.getAll()` method causes significant short-lived object allocations and CPU overhead, especially as the number of users or scores scales. The `sort()` method also performs in O(N log N) time over the entire dataset, which is wasteful when we only need the top N items (e.g., top 10 scores, top 25 users).
+**Action:** Replace these chained array operations with a single-pass loop and maintain a bounded insertion sort (which operates in O(N) time and O(1) space). This drastically reduces CPU pressure and memory allocations when retrieving top elements from a large list.

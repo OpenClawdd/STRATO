@@ -16,20 +16,37 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
-    // Filter by time period
+    // Determine cutoff time for filtering
+    let cutoffTime = 0;
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      cutoffTime = Date.now() - 24 * 60 * 60 * 1000;
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      cutoffTime = Date.now() - 7 * 24 * 60 * 60 * 1000;
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    // Single pass bounded insertion sort
+    const top10 = [];
+    for (let i = 0; i < allScores.length; i++) {
+      const s = allScores[i];
+      if (s.gameId !== gameId) continue;
+
+      if (cutoffTime > 0) {
+        if (new Date(s.created_at).getTime() <= cutoffTime) continue;
+      }
+
+      const score = s.score;
+      if (top10.length < 10 || score > top10[top10.length - 1].score) {
+        let j = top10.length - 1;
+        while (j >= 0 && score > top10[j].score) {
+          j--;
+        }
+        top10.splice(j + 1, 0, s);
+        if (top10.length > 10) {
+          top10.pop();
+        }
+      }
+    }
 
     res.json({
       gameId,
@@ -101,17 +118,29 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+    // Sort by XP descending using single pass bounded insertion sort
+    const sorted = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      const u = allUsers[i];
+      const xp = u.xp || 0;
+
+      if (sorted.length < 25 || xp > sorted[sorted.length - 1].xp) {
+        let j = sorted.length - 1;
+        while (j >= 0 && xp > sorted[j].xp) {
+          j--;
+        }
+        sorted.splice(j + 1, 0, {
+          username: u.username,
+          xp: xp,
+          level: u.level || 1,
+          coins: u.coins || 0,
+          avatar: u.avatar,
+        });
+        if (sorted.length > 25) {
+          sorted.pop();
+        }
+      }
+    }
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
