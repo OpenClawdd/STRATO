@@ -16,20 +16,33 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
-    // Filter by time period
+    let cutoff = 0;
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      cutoff = Date.now() - 24 * 60 * 60 * 1000;
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    // ⚡ Bolt: Single-pass bounded insertion sort (O(N) time, O(1) space)
+    // Avoids chaining .filter(), .sort() (O(N log N)), and .slice()
+    const top10 = [];
+    for (let i = 0; i < allScores.length; i++) {
+      const s = allScores[i];
+      if (s.gameId !== gameId) continue;
+      if (cutoff > 0 && new Date(s.created_at).getTime() <= cutoff) continue;
+
+      const score = s.score;
+      if (top10.length === 10 && score <= top10[9].score) continue;
+
+      let j = top10.length - 1;
+      while (j >= 0 && top10[j].score < score) {
+        j--;
+      }
+
+      top10.splice(j + 1, 0, s);
+      if (top10.length > 10) top10.pop();
+    }
 
     res.json({
       gameId,
@@ -101,17 +114,30 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    // ⚡ Bolt: Single-pass bounded insertion sort (O(N) time, O(1) space)
+    // Avoids chaining .map(), full array .sort() (O(N log N)), and .slice()
+    const sorted = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      const u = allUsers[i];
+      const xp = u.xp || 0;
+
+      if (sorted.length === 25 && xp <= sorted[24].xp) continue;
+
+      let j = sorted.length - 1;
+      while (j >= 0 && sorted[j].xp < xp) {
+        j--;
+      }
+
+      sorted.splice(j + 1, 0, {
         username: u.username,
-        xp: u.xp || 0,
+        xp,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      });
+
+      if (sorted.length > 25) sorted.pop();
+    }
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
