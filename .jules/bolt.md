@@ -1,0 +1,3 @@
+## 2024-05-18 - [Optimizing Top N Extractions with Bounded Insertion Sort]
+**Learning:** For custom file-based data stores returning arrays where lookups aren't purely DB-backed (e.g. `store.getAll()`), chaining `.filter()`, full-array `.sort()` (O(N log N)), and `.map()` creates a significant CPU and memory allocation spike for large datasets.
+**Action:** When computing a bounded 'top N' elements from large custom arrays, use a single-pass loop with a bounded insertion sort (O(N) time, O(1) space). Always handle potential `undefined` numerical properties with a fallback (e.g., `|| 0`) during relational comparisons to avoid functional regressions.
