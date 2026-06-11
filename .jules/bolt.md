@@ -1,0 +1,3 @@
+## 2025-02-19 - [Global Leaderboard Sort Optimization]
+**Learning:** Calculating a top 25 global leaderboard by calling `.map()` to format objects and then `.sort()` on the full dataset of users results in O(N log N) performance and unnecessary array allocations.
+**Action:** Use a single-pass O(N) bounded insertion sort that only keeps track of the top 25 objects and maps objects as needed to reduce computation time, especially for a large `allUsers` array.
