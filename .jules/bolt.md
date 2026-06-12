@@ -1,0 +1,3 @@
+## 2024-06-12 - O(N) Top-K bounded insertion sort for custom datastore requests
+**Learning:** When retrieving 'Top K' or 'leaderboard' elements from in-memory arrays fetched via `store.getAll()`, chaining `.map().sort().slice()` allocates many short-lived objects and forces an `O(N log N)` full-array sort. For large datasets, this spikes CPU usage and blocks the node event loop significantly longer than necessary.
+**Action:** Replace full-array maps/sorts with single-pass `O(N)` bounded insertion sorts when fetching Top K results. Handle potential `undefined` values explicitly (e.g. `|| 0`) when performing these relational comparisons.
