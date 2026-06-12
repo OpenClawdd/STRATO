@@ -107,9 +107,12 @@ router.get("/api/leaderboard", async (req, res) => {
     for (let i = 0; i < allUsers.length; i++) {
       const u = allUsers[i];
       const xp = u.xp || 0;
-      if (topUsers.length < 25 || xp > topUsers[topUsers.length - 1].xp) {
+      if (
+        topUsers.length < 25 ||
+        xp > (topUsers[topUsers.length - 1].xp || 0)
+      ) {
         let idx = 0;
-        while (idx < topUsers.length && topUsers[idx].xp >= xp) {
+        while (idx < topUsers.length && (topUsers[idx].xp || 0) >= xp) {
           idx++;
         }
         topUsers.splice(idx, 0, {
