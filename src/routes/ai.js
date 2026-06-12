@@ -309,7 +309,7 @@ router.get("/api/ai/history", async (req, res) => {
       conversations: conversations.data || [],
       total: conversations.total,
     });
-  } catch (_err) {
+  } catch {
     res.status(500).json({ error: "Failed to load conversation history" });
   }
 });
@@ -324,7 +324,7 @@ router.delete("/api/ai/history", async (req, res) => {
       (m) => m.username === username && m.roomId === "ai_history",
     );
     res.json({ success: true, removed });
-  } catch (_err) {
+  } catch {
     res.status(500).json({ error: "Failed to clear history" });
   }
 });

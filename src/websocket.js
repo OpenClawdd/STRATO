@@ -196,7 +196,7 @@ async function handleMessage(ws, data) {
             name: roomId,
             description: `${roomId} room`,
           });
-        } catch (_e) {
+        } catch {
           ws.send(
             JSON.stringify({ type: "error", error: "Could not create room" }),
           );
