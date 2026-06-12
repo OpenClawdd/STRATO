@@ -1,0 +1,3 @@
+## 2024-06-12 - Optimize leaderboard processing with single-pass bounded insertion sort
+**Learning:** Chaining `.filter()`, `.map()`, and `.sort()` on arrays returned directly from the custom datastore `store.getAll()` causes unnecessary intermediate object allocations and O(N log N) sorting. For operations requiring "top N" items like leaderboards, sorting the entire dataset is a massive bottleneck.
+**Action:** Replace full array sorts with a single-pass O(N) loop that maintains a bounded insertion sort array. For retrieving the top 10 items, maintaining a 10-element array is an O(1) space and time operation per element (since N is bounded to a tiny constant), reducing overall processing complexity to O(N).
