@@ -198,15 +198,28 @@ router.get("/api/admin/analytics", async (req, res) => {
     const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
 
     // Top users by XP
-    const topUsers = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 10)
-      .map((u) => ({
+    // ⚡ Bolt: Replaced O(N log N) full array sort and multiple array iterations
+    // with O(N) single-pass bounded insertion sort to prevent CPU spikes.
+    const topUsers = [];
+    for (let i = 0; i < users.length; i++) {
+      const u = users[i];
+      const xp = u.xp || 0;
+
+      const mappedUser = {
         username: u.username,
-        xp: u.xp || 0,
+        xp: xp,
         level: u.level || 1,
         gamesPlayed: u.stats?.games_played || 0,
-      }));
+      };
+
+      if (topUsers.length < 10) {
+        topUsers.push(mappedUser);
+        topUsers.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+      } else if (xp > (topUsers[9].xp || 0)) {
+        topUsers[9] = mappedUser;
+        topUsers.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+      }
+    }
 
     // Chat activity by day (last 7 days)
     const chatActivity = {};
@@ -230,14 +243,30 @@ router.get("/api/admin/analytics", async (req, res) => {
       },
       topUsers,
       chatActivity,
-      gamesLeaderboard: scores
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, 10)
-        .map((s) => ({
-          username: s.username,
-          game: s.game,
-          score: s.score,
-        })),
+      gamesLeaderboard: (() => {
+        // ⚡ Bolt: Replaced O(N log N) full array sort and multiple array iterations
+        // with O(N) single-pass bounded insertion sort to prevent CPU spikes.
+        const topScores = [];
+        for (let i = 0; i < scores.length; i++) {
+          const s = scores[i];
+          const scoreVal = s.score || 0;
+
+          const mappedScore = {
+            username: s.username,
+            game: s.game,
+            score: scoreVal,
+          };
+
+          if (topScores.length < 10) {
+            topScores.push(mappedScore);
+            topScores.sort((a, b) => (b.score || 0) - (a.score || 0));
+          } else if (scoreVal > (topScores[9].score || 0)) {
+            topScores[9] = mappedScore;
+            topScores.sort((a, b) => (b.score || 0) - (a.score || 0));
+          }
+        }
+        return topScores;
+      })(),
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to generate analytics" });
