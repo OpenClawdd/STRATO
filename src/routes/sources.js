@@ -4,6 +4,7 @@
  */
 
 import { Router } from "express";
+import crypto from "node:crypto";
 import store from "../db/store.js";
 
 const router = Router();
@@ -16,7 +17,16 @@ function requireAdmin(req, res, next) {
   if (!ADMIN_SECRET) {
     return res.status(403).json({ error: "Admin disabled" });
   }
-  if (!provided || provided !== ADMIN_SECRET) {
+  let isValid = false;
+  if (typeof provided === "string") {
+    const providedBuf = Buffer.from(provided);
+    const secretBuf = Buffer.from(ADMIN_SECRET);
+    if (providedBuf.length === secretBuf.length) {
+      isValid = crypto.timingSafeEqual(providedBuf, secretBuf);
+    }
+  }
+
+  if (!isValid) {
     return res.status(401).json({ error: "Unauthorized" });
   }
   next();
