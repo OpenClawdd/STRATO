@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { sanitizeString } from "../middleware/sanitize.js";
+import { getTopK } from "../db/sort.js";
 
 const router = Router();
 
@@ -140,25 +141,25 @@ router.get("/api/analytics/global", async (req, res) => {
     const chatMessages = await store.getAll("chat_messages");
 
     // Top players by XP
-    const topByXp = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 20)
-      .map((u) => ({
-        username: u.username,
-        avatar: u.avatar,
-        xp: u.xp || 0,
-        level: u.level || 1,
-      }));
+    const top20Xp = getTopK(users, 20, (u) => u.xp || 0);
+    const topByXp = top20Xp.map((u) => ({
+      username: u.username,
+      avatar: u.avatar,
+      xp: u.xp || 0,
+      level: u.level || 1,
+    }));
 
     // Most active chatters
     const chatCount = {};
     for (const msg of chatMessages) {
       chatCount[msg.username] = (chatCount[msg.username] || 0) + 1;
     }
-    const topChatters = Object.entries(chatCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
-      .map(([username, count]) => ({ username, messages: count }));
+    const chatCountEntries = Object.entries(chatCount);
+    const top10Chatters = getTopK(chatCountEntries, 10, (entry) => entry[1]);
+    const topChatters = top10Chatters.map(([username, count]) => ({
+      username,
+      messages: count,
+    }));
 
     // Game popularity
     const gameCount = {};
@@ -167,10 +168,12 @@ router.get("/api/analytics/global", async (req, res) => {
         gameCount[score.game] = (gameCount[score.game] || 0) + 1;
       }
     }
-    const popularGames = Object.entries(gameCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
-      .map(([game, count]) => ({ game, plays: count }));
+    const gameCountEntries = Object.entries(gameCount);
+    const top10Games = getTopK(gameCountEntries, 10, (entry) => entry[1]);
+    const popularGames = top10Games.map(([game, count]) => ({
+      game,
+      plays: count,
+    }));
 
     res.json({
       totalUsers: users.length,
