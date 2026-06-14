@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import { topN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -171,42 +172,42 @@ router.get("/api/admin/analytics", async (req, res) => {
     const scores = await store.getAll("scores");
     const chatMessages = await store.getAll("chat_messages");
 
-    // Calculate aggregate stats
-    const totalGamesPlayed = users.reduce(
-      (sum, u) => sum + (u.stats?.games_played || 0),
-      0,
-    );
     const totalChatMessages = chatMessages.length;
-    const totalXp = users.reduce((sum, u) => sum + (u.xp || 0), 0);
-    const avgLevel =
-      users.length > 0
-        ? (
-            users.reduce((sum, u) => sum + (u.level || 1), 0) / users.length
-          ).toFixed(1)
-        : 0;
 
-    // Recent signups (last 7 days)
     const sevenDaysAgo = new Date(
       Date.now() - 7 * 24 * 60 * 60 * 1000,
     ).toISOString();
-    const recentSignups = users.filter(
-      (u) => u.created_at > sevenDaysAgo,
-    ).length;
-
-    // Active users (updated in last 24 hours)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
+
+    let totalGamesPlayed = 0;
+    let totalXp = 0;
+    let totalLevel = 0;
+    let recentSignups = 0;
+    let activeUsers = 0;
+
+    for (const u of users) {
+      totalGamesPlayed += u.stats?.games_played || 0;
+      totalXp += u.xp || 0;
+      totalLevel += u.level || 1;
+      if (u.created_at > sevenDaysAgo) recentSignups++;
+      if (u.updated_at > oneDayAgo) activeUsers++;
+    }
+
+    const avgLevel =
+      users.length > 0 ? (totalLevel / users.length).toFixed(1) : 0;
 
     // Top users by XP
-    const topUsers = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 10)
-      .map((u) => ({
+    const topUsers = topN(
+      users,
+      10,
+      (u) => u.xp || 0,
+      (u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         gamesPlayed: u.stats?.games_played || 0,
-      }));
+      }),
+    );
 
     // Chat activity by day (last 7 days)
     const chatActivity = {};
@@ -230,14 +231,16 @@ router.get("/api/admin/analytics", async (req, res) => {
       },
       topUsers,
       chatActivity,
-      gamesLeaderboard: scores
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, 10)
-        .map((s) => ({
+      gamesLeaderboard: topN(
+        scores,
+        10,
+        (s) => s.score || 0,
+        (s) => ({
           username: s.username,
           game: s.game,
           score: s.score,
-        })),
+        }),
+      ),
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to generate analytics" });
