@@ -1,0 +1,3 @@
+## 2024-06-14 - Replace O(N log N) full-array sorts with O(N) bounded insertion sort for leaderboards
+**Learning:** Chaining `.filter()`, `.map()`, and `.sort()` on large dataset arrays returned from the custom datastore results in significant CPU spikes and intermediate short-lived array allocations. `.sort()` executes in O(N log N) time even when only the 'top N' elements are required.
+**Action:** When computing 'top N' elements (e.g., top 10 scores, top 25 users), always consolidate filtering logic and use a single-pass bounded insertion sort (like `getTopN` in `src/db/sort.js`). This bounds time complexity to O(N) and space to O(1), significantly reducing the runtime overhead for large data structures without losing readability.
