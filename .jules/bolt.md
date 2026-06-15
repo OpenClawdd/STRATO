@@ -1,0 +1,3 @@
+## 2024-05-18 - [Optimizing Top N Extractions]
+**Learning:** Found multiple places in the backend (e.g. `src/routes/admin.js`, `src/routes/leaderboard.js`) where top N items from a dataset (scores, users) are computed using `[...data].sort((a, b) => b.value - a.value).slice(0, 10)`. This runs in O(N log N) time and allocates an entire array copy, which could be an issue for large user bases. A bounded insertion sort in O(N) is much more efficient.
+**Action:** Created `src/utils/sort.js` with `getTopNDescending` utility to replace `.sort().slice()` operations to reduce CPU spikes and object allocations.
