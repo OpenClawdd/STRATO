@@ -1,0 +1,3 @@
+## 2024-06-15 - Optimize leaderboard top-N sorting
+**Learning:** Chaining `.filter().sort().slice()` on large custom data stores (e.g., in memory arrays from `store.getAll()`) scales linearly for filtering but `O(N log N)` for sorting, spiking CPU and creating numerous short-lived memory allocations that can hurt performance for high-traffic endpoints.
+**Action:** Extract 'top N' calculations into a bounded insertion sort utility (`getTopNDescending`), providing `O(N)` time complexity and `O(1)` extra space. Pass a filtering callback into this utility to do filtering and sorting in a single efficient pass over the dataset.
