@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-06-16T16:32:29.522Z",
-  "totalGames": 546,
+  "generatedAt": "2026-05-31T13:23:59.903Z",
+  "totalGames": 673,
   "reliability": {
     "green": 16,
-    "yellow": 134,
-    "red": 396,
+    "yellow": 619,
+    "red": 38,
     "unknown": 0
   },
   "trust": {
     "verifiedLocal": 16,
     "proxyVerified": 0,
-    "reviewOnly": 134,
-    "quarantined": 396,
+    "reviewOnly": 619,
+    "quarantined": 38,
     "unknown": 0
   },
   "diagnostics": {
@@ -66,5 +66,9 @@
       }
     ]
   },
-  "issuesByType": {}
+  "issuesByType": {
+    "gambling-content": 1,
+    "duplicate-url": 65,
+    "duplicate-title": 30
+  }
 }
