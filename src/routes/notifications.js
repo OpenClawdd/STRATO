@@ -153,11 +153,10 @@ router.get("/api/analytics/global", async (req, res) => {
     for (const msg of chatMessages) {
       chatCount[msg.username] = (chatCount[msg.username] || 0) + 1;
     }
-    const topChatters = getTopN(
-      Object.entries(chatCount),
-      10,
-      ([, count]) => count,
-    ).map(([username, count]) => ({ username, messages: count }));
+    const topChatters = Object.entries(chatCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([username, count]) => ({ username, messages: count }));
 
     // Game popularity
     const gameCount = {};
