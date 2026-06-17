@@ -57,7 +57,7 @@ router.get("/api/data/export", async (req, res) => {
     );
     res.setHeader("Content-Type", "application/json");
     res.json(exportData);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Export failed" });
   }
 });
