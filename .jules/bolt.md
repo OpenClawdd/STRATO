@@ -1,0 +1,3 @@
+## 2025-02-12 - Replace Full Arrays Sorting with Bounded Insertion Sort
+**Learning:** Computing "top N" items directly via `.filter()`, `.sort()`, and `.slice()` causes high CPU usage and short-lived allocations for large arrays since `.sort()` requires full O(N log N) time and `.map()` transforms all items, even those discarded.
+**Action:** Replace `Array.prototype.sort` with a custom `getTopNDescending` function using bounded insertion sort (O(N) time and O(K) space) for specific endpoints like global and game leaderboards. Consolidate mapping and filtering. Avoid chaining filter, full-array sort, and map.
