@@ -1,0 +1,3 @@
+## 2024-06-17 - O(N log N) Sorting on `store.getAll()`
+**Learning:** `store.getAll()` returns a direct reference to the in-memory cache, and when optimizing 'top N' calculations, chaining `.map()` and `.sort()` on the entire dataset allocates many short-lived objects and takes O(N log N) time, which causes unnecessary CPU pressure and memory allocation, particularly when scaling to many users. Also mutating arrays from `store.getAll()` directly corrupts the cache. We must avoid full array sorts and `.map` when we only need the top N elements.
+**Action:** When calculating top N elements from `store.getAll()`, use a bounded insertion sort (O(N) time, O(1) space) and only map/transform the final N results. Implement it as a reusable utility in `src/utils/sort.js`.
