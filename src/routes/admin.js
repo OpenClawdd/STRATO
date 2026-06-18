@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import { getTopNDescending } from "../utils/sort.js";
 
 const router = Router();
 
@@ -198,15 +199,13 @@ router.get("/api/admin/analytics", async (req, res) => {
     const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
 
     // Top users by XP
-    const topUsers = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 10)
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        gamesPlayed: u.stats?.games_played || 0,
-      }));
+    const topUsersRaw = getTopNDescending(users, 10, (u) => u.xp || 0);
+    const topUsers = topUsersRaw.map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      gamesPlayed: u.stats?.games_played || 0,
+    }));
 
     // Chat activity by day (last 7 days)
     const chatActivity = {};
@@ -217,6 +216,17 @@ router.get("/api/admin/analytics", async (req, res) => {
         (m) => m.created_at && m.created_at.startsWith(dateStr),
       ).length;
     }
+
+    const gamesLeaderboardRaw = getTopNDescending(
+      scores,
+      10,
+      (s) => s.score || 0,
+    );
+    const gamesLeaderboard = gamesLeaderboardRaw.map((s) => ({
+      username: s.username,
+      game: s.game,
+      score: s.score,
+    }));
 
     res.json({
       overview: {
@@ -230,14 +240,7 @@ router.get("/api/admin/analytics", async (req, res) => {
       },
       topUsers,
       chatActivity,
-      gamesLeaderboard: scores
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, 10)
-        .map((s) => ({
-          username: s.username,
-          game: s.game,
-          score: s.score,
-        })),
+      gamesLeaderboard,
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to generate analytics" });
