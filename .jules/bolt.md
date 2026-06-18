@@ -1,0 +1,5 @@
+## 2024-06-18 - Optimize top N calculations in large arrays
+
+**Learning:** When retrieving large lists from `store.getAll()` (like `users` or `scores`), extracting the top N elements using a full `.sort()` requires O(N log N) time and can cause significant CPU spikes. Furthermore, chaining `.map()` before extracting the top N means mapping the entire large array, creating many short-lived objects that are ultimately thrown away.
+
+**Action:** Created `src/utils/sort.js` with a `getTopNDescending(items, n, getValue)` function. This function uses a bounded insertion sort, keeping only the top N elements while iterating through the array in O(N) time and O(1) extra space. I then applied this optimization across `src/routes/leaderboard.js`, `src/routes/admin.js`, and `src/routes/notifications.js` to efficiently calculate top users and top scores without full sorting, and applied `.map()` only to the resulting subset.
