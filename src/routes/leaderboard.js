@@ -1,6 +1,5 @@
 import { Router } from "express";
 import store from "../db/store.js";
-import { getTopN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -17,24 +16,20 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
+    let scores = allScores.filter((s) => s.gameId === gameId);
 
     // Filter by time period
-    let timeLimit = 0;
     if (period === "daily") {
-      timeLimit = Date.now() - 24 * 60 * 60 * 1000;
+      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
     } else if (period === "weekly") {
-      timeLimit = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
     }
 
-    const filterFn = (s) => {
-      if (s.gameId !== gameId) return false;
-      if (timeLimit && new Date(s.created_at).getTime() <= timeLimit)
-        return false;
-      return true;
-    };
-
-    // Use bounded insertion sort for O(N) top 10 retrieval
-    const top10 = getTopN(allScores, 10, (s) => s.score, filterFn);
+    // Sort by score descending, take top 10
+    scores.sort((a, b) => b.score - a.score);
+    const top10 = scores.slice(0, 10);
 
     res.json({
       gameId,
@@ -106,17 +101,17 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Use bounded insertion sort for O(N) top 25 retrieval
-    const topUsers = getTopN(allUsers, 25, (u) => u.xp || 0);
-
-    // Map properties only for the top 25, avoiding creating 100k objects
-    const sorted = topUsers.map((u) => ({
-      username: u.username,
-      xp: u.xp || 0,
-      level: u.level || 1,
-      coins: u.coins || 0,
-      avatar: u.avatar,
-    }));
+    // Sort by XP descending
+    const sorted = allUsers
+      .map((u) => ({
+        username: u.username,
+        xp: u.xp || 0,
+        level: u.level || 1,
+        coins: u.coins || 0,
+        avatar: u.avatar,
+      }))
+      .sort((a, b) => b.xp - a.xp)
+      .slice(0, 25);
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
