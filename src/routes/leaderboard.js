@@ -102,22 +102,22 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    // Optimization: avoid mapping all users before sorting to reduce memory overhead.
+    // Ensure we copy the array first since store.getAll() returns direct cache references.
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
+      .map((u, i) => ({
+        rank: i + 1,
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
-      leaderboard: sorted.map((u, i) => ({
-        rank: i + 1,
-        ...u,
-      })),
+      leaderboard: sorted,
     });
   } catch (err) {
     console.error("[STRATO] Global leaderboard error:", err.message);
