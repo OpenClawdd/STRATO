@@ -15,7 +15,7 @@ async function initAI() {
     console.log("[STRATO] AI client initialized");
   } catch (err) {
     // AI is optional — missing config is expected in development
-    if (err.message && err.message.includes(".z-ai-config")) {
+    if (err && err.name === "AbortError") {
       console.warn(
         "[STRATO] AI client skipped — no .z-ai-config found. AI features will be offline.",
       );
@@ -92,11 +92,11 @@ router.post("/api/ai/chat", async (req, res) => {
   } catch (err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (err && err.name === "AbortError") {
       return res.status(504).json({ error: "AI service timed out" });
     }
 
-    console.error("[STRATO] AI chat error:", err.message);
+
     res.status(500).json({ error: "AI service error. Try again." });
   }
 });
@@ -180,13 +180,13 @@ router.post("/api/ai/vision", async (req, res) => {
   } catch (err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (err && err.name === "AbortError") {
       return res
         .status(504)
         .json({ error: "AI vision timed out — try a smaller image" });
     }
 
-    console.error("[STRATO] AI vision error:", err.message);
+
     res.status(500).json({ error: "AI vision error. Try again." });
   }
 });
@@ -284,11 +284,11 @@ router.post("/api/ai/tutor", async (req, res) => {
   } catch (err) {
     clearTimeout(timeout);
 
-    if (err.name === "AbortError") {
+    if (err && err.name === "AbortError") {
       return res.status(504).json({ error: "AI tutor timed out" });
     }
 
-    console.error("[STRATO] AI tutor error:", err.message);
+
     res.status(500).json({ error: "AI tutor error. Try again." });
   }
 });
@@ -309,7 +309,7 @@ router.get("/api/ai/history", async (req, res) => {
       conversations: conversations.data || [],
       total: conversations.total,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load conversation history" });
   }
 });
@@ -324,7 +324,7 @@ router.delete("/api/ai/history", async (req, res) => {
       (m) => m.username === username && m.roomId === "ai_history",
     );
     res.json({ success: true, removed });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to clear history" });
   }
 });
