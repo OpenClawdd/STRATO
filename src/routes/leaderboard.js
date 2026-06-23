@@ -1,5 +1,6 @@
 import { Router } from "express";
 import store from "../db/store.js";
+import { boundedInsertionSort } from "../utils/sort.js";
 
 const router = Router();
 
@@ -16,20 +17,24 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     const allScores = await store.getAll("scores");
-    let scores = allScores.filter((s) => s.gameId === gameId);
 
     // Filter by time period
+    let timeLimit = 0;
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      timeLimit = Date.now() - 24 * 60 * 60 * 1000;
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      timeLimit = Date.now() - 7 * 24 * 60 * 60 * 1000;
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    const top10 = [];
+    for (let i = 0; i < allScores.length; i++) {
+      const s = allScores[i];
+      if (s.gameId === gameId) {
+        if (timeLimit === 0 || new Date(s.created_at).getTime() > timeLimit) {
+          boundedInsertionSort(top10, s, 10, "score");
+        }
+      }
+    }
 
     res.json({
       gameId,
@@ -102,21 +107,19 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    const top25 = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      boundedInsertionSort(top25, allUsers[i], 25, "xp");
+    }
+
+    res.json({
+      leaderboard: top25.map((u, i) => ({
+        rank: i + 1,
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
-
-    res.json({
-      leaderboard: sorted.map((u, i) => ({
-        rank: i + 1,
-        ...u,
       })),
     });
   } catch (err) {

@@ -1,0 +1,3 @@
+## 2024-06-23 - Optimize Leaderboard Sorting
+**Learning:** Large dataset array transformations retrieved from `store.getAll()` can cause CPU spikes and unnecessary memory allocations when chained sequentially (e.g., `.filter().map().sort().slice()`). Bounded insertion sort is a much more efficient pattern (O(N) time, O(1) space) for computing "top N" items from an unsorted dataset since the dataset size N can grow infinitely.
+**Action:** Always maintain a bounded insertion sort pattern via `src/utils/sort.js` for leaderboards, search results, or trending lists instead of full array sorts. Keep sorting logic extracted into the utility and only map the final "top N" list to avoid allocating unused mapped objects.
