@@ -1,0 +1,3 @@
+## 2024-06-23 - Avoid full sorts and multiple array traversals for Top N calculations
+**Learning:** The application frequently retrieves full datasets from the in-memory `store.getAll()` and then performs full O(N log N) `.sort()` and chains multiple `.filter()` or `.map()` calls, which unnecessarily iterates over thousands of items just to slice the top 10-25 results. This allocates significant short-lived objects and burns CPU on sorting discarded data.
+**Action:** Replace `array.filter().sort().slice()` chains with a reusable single-pass O(N) bounded insertion sort helper, `getTopN()`, extracting the complex sorting logic into a reusable utility function (`src/utils/sort.js`). Apply transformations (like `.map()`) only to the final top N subset.
