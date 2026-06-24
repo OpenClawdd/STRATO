@@ -1,0 +1,3 @@
+## 2024-06-24 - Replace O(N log N) array sorts with O(N) bounded insertion sort for top-N queries
+**Learning:** When processing large arrays (like all users or scores from `store.getAll()`), using `.sort((a,b) => b-a).slice(0, N)` creates an O(N log N) performance bottleneck and unnecessary object allocations.
+**Action:** Extracted a reusable O(N) bounded insertion sort utility (`getTopN`) to safely maintain the top N elements in a single pass without mutating the cache or causing CPU spikes.
