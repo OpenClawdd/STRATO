@@ -89,7 +89,7 @@ router.get("/api/admin/dashboard", async (req, res) => {
       node: process.version,
       environment: process.env.NODE_ENV || "development",
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to load dashboard data" });
   }
 });
@@ -128,7 +128,7 @@ router.get("/api/admin/users", async (req, res) => {
         stats: u.stats,
       })),
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to list users" });
   }
 });
@@ -160,7 +160,7 @@ router.delete("/api/admin/users/:id", async (req, res) => {
     await store.deleteMany("chat_messages", (m) => m.username === username);
 
     res.json({ success: true, message: "User and associated data deleted" });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to delete user" });
   }
 });
@@ -234,7 +234,7 @@ router.get("/api/admin/analytics", async (req, res) => {
         score: s.score,
       })),
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to generate analytics" });
   }
 });
@@ -264,7 +264,7 @@ router.post("/api/admin/broadcast", async (req, res) => {
     });
 
     res.json({ success: true, broadcast });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to send broadcast" });
   }
 });
@@ -325,7 +325,7 @@ router.post("/api/admin/cleanup", async (req, res) => {
         olderThanDays,
       },
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Cleanup failed" });
   }
 });
