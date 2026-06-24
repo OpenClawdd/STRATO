@@ -57,7 +57,7 @@ router.get("/api/data/export", async (req, res) => {
     );
     res.setHeader("Content-Type", "application/json");
     res.json(exportData);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Export failed" });
   }
 });
@@ -107,7 +107,7 @@ router.post("/api/data/import", async (req, res) => {
             updated_at: _bua,
             ...bookmarkData
           } = bookmark;
-          const newBookmark = await store.create("bookmarks", {
+          await store.create("bookmarks", {
             ...bookmarkData,
             userId: user.id,
             username,
