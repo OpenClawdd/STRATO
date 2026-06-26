@@ -1,0 +1,3 @@
+## 2024-05-14 - Optimize Top N Elements Sorting
+**Learning:** In the STRATO app, retrieving the global leaderboard or analytics endpoints fetches all entries from `store.getAll()` and then performs full array sorts `[...users].sort(...)` before taking a small slice `slice(0, 10)`. For large arrays (like hundreds of thousands of scores or users), `Array.prototype.sort()` is $O(N \log N)$ and significantly impacts CPU.
+**Action:** Replace full array `.sort().slice(0, N)` with a custom bounded insertion sort utility function `topNElements(arr, N, compareFn)`. It runs in $O(N)$ time, requires $O(1)$ extra space, and dramatically reduces computation time when $N \ll \text{array size}$.
