@@ -1,0 +1,3 @@
+## 2024-05-20 - Global Leaderboard Array Transformations
+**Learning:** Chaining `.map()`, `.sort()`, and `.slice()` on large datasets returned by `store.getAll()` causes unnecessary allocation of short-lived objects and O(N log N) sorting time, leading to CPU spikes and memory pressure.
+**Action:** Use a bounded insertion sort utility to extract the top N elements in a single pass (O(N) time, O(1) space) before applying `.map()` to format only the elements that will be returned to the client.
