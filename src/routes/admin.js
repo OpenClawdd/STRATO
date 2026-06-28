@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import { getTopNDescending } from "../utils/sort.js";
 
 const router = Router();
 
@@ -88,7 +89,7 @@ router.get("/api/admin/dashboard", async (req, res) => {
       node: process.version,
       environment: process.env.NODE_ENV || "development",
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load dashboard data" });
   }
 });
@@ -127,7 +128,7 @@ router.get("/api/admin/users", async (req, res) => {
         stats: u.stats,
       })),
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to list users" });
   }
 });
@@ -159,7 +160,7 @@ router.delete("/api/admin/users/:id", async (req, res) => {
     await store.deleteMany("chat_messages", (m) => m.username === username);
 
     res.json({ success: true, message: "User and associated data deleted" });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to delete user" });
   }
 });
@@ -198,15 +199,12 @@ router.get("/api/admin/analytics", async (req, res) => {
     const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
 
     // Top users by XP
-    const topUsers = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 10)
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        gamesPlayed: u.stats?.games_played || 0,
-      }));
+    const topUsers = getTopNDescending(users, 10, (u) => u.xp).map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      gamesPlayed: u.stats?.games_played || 0,
+    }));
 
     // Chat activity by day (last 7 days)
     const chatActivity = {};
@@ -230,16 +228,15 @@ router.get("/api/admin/analytics", async (req, res) => {
       },
       topUsers,
       chatActivity,
-      gamesLeaderboard: scores
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, 10)
-        .map((s) => ({
+      gamesLeaderboard: getTopNDescending(scores, 10, (s) => s.score).map(
+        (s) => ({
           username: s.username,
           game: s.game,
           score: s.score,
-        })),
+        }),
+      ),
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to generate analytics" });
   }
 });
@@ -269,7 +266,7 @@ router.post("/api/admin/broadcast", async (req, res) => {
     });
 
     res.json({ success: true, broadcast });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to send broadcast" });
   }
 });
@@ -330,7 +327,7 @@ router.post("/api/admin/cleanup", async (req, res) => {
         olderThanDays,
       },
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Cleanup failed" });
   }
 });
