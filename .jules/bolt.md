@@ -1,0 +1,3 @@
+## 2024-06-28 - [Avoid chaining `.map()`, `.sort()`, `.slice()` for top N elements]
+**Learning:** In the STRATO architecture, full-array sorts like `.sort()` on `store.getAll("users")` (which can be very large) followed by `.slice()` cause unnecessary O(N log N) time complexity and create short-lived object allocations that increase memory pressure. Doing a `.map()` before the sort/slice creates even more discarded objects.
+**Action:** When computing 'top N' elements from large datasets, extract a reusable bounded insertion sort utility function (e.g., `src/utils/sort.js`) that runs in O(N) time and O(1) space. Use this function instead of chaining array methods.
