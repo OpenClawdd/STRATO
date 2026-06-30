@@ -10,12 +10,12 @@ function signedAuthCookie(username = "smoke-user") {
 }
 
 describe("server core route smoke", () => {
-  afterAll((done) => {
+  afterAll(async () => {
     if (server?.listening) {
-      server.close(done);
-      return;
+      await new Promise(resolve => server.close(resolve));
+
     }
-    done();
+
   });
 
   it("serves /health without authentication", async () => {
