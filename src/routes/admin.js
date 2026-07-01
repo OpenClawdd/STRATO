@@ -289,7 +289,7 @@ router.get("/api/admin/health", async (req, res) => {
   try {
     await store.count("users");
     checks.database = true;
-  } catch {
+  } catch (err) {
     checks.database = false;
   }
 
