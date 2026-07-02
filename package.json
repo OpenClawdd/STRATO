@@ -68,5 +68,10 @@
     "arcade",
     "self-hosted"
   ],
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "pnpm": {
+    "overrides": {
+      "vite@>=7.0.0 <=7.3.4": ">=7.3.5"
+    }
+  }
 }
