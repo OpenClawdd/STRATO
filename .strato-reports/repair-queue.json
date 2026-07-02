@@ -1,136 +1,190 @@
 [
   {
-    "id": "1v1-lol",
-    "title": "1v1.LOL",
+    "id": "bobtherobber-2",
+    "title": "Bobtherobber 2",
+    "currentUrl": "https://adfree-sz-games.github.io/Games/bobtherobber2",
+    "mirrorUrl": "/games/game.html?game=/Games/bobtherobber2",
+    "score": 95,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "burgerandfrights",
+    "title": "Burgerandfrights",
+    "currentUrl": "https://adfree-sz-games.github.io/Games6/burger-and-frights",
+    "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/Games6/burger-and-frights",
+    "score": 95,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "csgoclicker",
+    "title": "Csgoclicker",
+    "currentUrl": "https://adfree-sz-games.github.io/Games/CSGO-CLICKER",
+    "mirrorUrl": "/games/game.html?game=/Games/CSGO-CLICKER",
+    "score": 95,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "10-minutes-till-dawn",
+    "title": "10 Minutes Till Dawn",
+    "currentUrl": "https://adfree-sz-games.github.io/Games5/10-minutes-till-dawn",
+    "mirrorUrl": "/games/game.html?game=/Games5/10-minutes-till-dawn",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "1v1-lol-2",
+    "title": "1v1 LOL",
     "currentUrl": "https://adfree-sz-games.github.io/Games-2/lol/",
     "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/Games-2/lol/",
-    "score": 90,
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "bitlife",
-    "title": "BitLife",
-    "currentUrl": "https://adfree-sz-games.github.io/Games9/bitlife",
-    "mirrorUrl": "/rating.html?game=bitlife&&url=/games/game.html?game=https://adfree-sz-games.github.io/Games9/bitlife",
-    "score": 90,
+    "id": "9007199254740992",
+    "title": "9007199254740992",
+    "currentUrl": "https://3kh0.github.io/projects/9007199254740992/index.html",
+    "mirrorUrl": "/games/game.html?game=/Games5/9007199254740992/",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "crossy-road",
-    "title": "Crossy Road",
-    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=https://adfree-sz-games.github.io/cr/",
-    "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/cr/",
-    "score": 90,
+    "id": "adofai",
+    "title": "A Dance of Fire and Ice",
+    "currentUrl": "https://adfree-sz-games.github.io/Games9/a-dance-of-fire-and-ice",
+    "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/Games9/a-dance-of-fire-and-ice",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "moto-x3m",
-    "title": "Moto X3M",
-    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
-    "mirrorUrl": "/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
-    "score": 90,
+    "id": "amazing-rope-police",
+    "title": "Amazing Rope Police",
+    "currentUrl": "https://adfree-sz-games.github.io/Games5/amazing-rope-police",
+    "mirrorUrl": "/games/game.html?game=/Games5/amazing-rope-police",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "retro-bowl",
-    "title": "Retro Bowl",
-    "currentUrl": "https://3kh0.github.io/projects/retro-bowl/index.html",
-    "mirrorUrl": "./games/game.html?game=/Games11/retro-bowl/game",
-    "score": 90,
+    "id": "bad-ice-cream",
+    "title": "Bad Ice Cream",
+    "currentUrl": "https://adfree-sz-games.github.io/Games5/bad-ice-cream",
+    "mirrorUrl": "/games/game.html?game=/Games5/bad-ice-cream",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "stickman-hook",
-    "title": "Stickman Hook",
-    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=/Games5/stickman-hook",
-    "mirrorUrl": "/games/game.html?game=/Games5/stickman-hook",
-    "score": 90,
+    "id": "badicecream-2",
+    "title": "Badicecream 2",
+    "currentUrl": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-2",
+    "mirrorUrl": "/games/game.html?game=/Games5/bad-ice-cream-2",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
   },
   {
-    "id": "vex-5",
-    "title": "Vex 5",
-    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex5",
-    "mirrorUrl": "/games/game.html?game=/Games7/vex5",
-    "score": 90,
+    "id": "badicecream-3",
+    "title": "Badicecream 3",
+    "currentUrl": "https://adfree-sz-games.github.io/Games5/bad-ice-cream-3",
+    "mirrorUrl": "/games/game.html?game=/Games5/bad-ice-cream-3",
+    "score": 55,
     "failureReason": "unknown",
     "families": [
-      "unknown"
+      "selenite"
     ],
     "reasons": [
-      "Working duplicate exists",
       "Safe mirror candidate found",
-      "Valid description text",
-      "Tag categorization present"
-    ]
-  },
-  {
-    "id": "wordle",
-    "title": "Wordle",
-    "currentUrl": "https://www.nytimes.com/games/wordle/index.html",
-    "mirrorUrl": "/games/game.html?game=/Games5/wordle",
-    "score": 90,
-    "failureReason": "unknown",
-    "families": [
-      "unknown"
-    ],
-    "reasons": [
-      "Working duplicate exists",
-      "Safe mirror candidate found",
+      "Recognized source family",
       "Valid description text",
       "Tag categorization present"
     ]
@@ -153,14 +207,133 @@
     ]
   },
   {
-    "id": "cookie-clicker",
-    "title": "Cookie Clicker",
-    "currentUrl": "https://3kh0.github.io/projects/cookie-clicker/index.html",
+    "id": "boxing-random",
+    "title": "Boxing Random",
+    "currentUrl": "https://tylerpalko.github.io/gamehub/boxingrandom/",
+    "mirrorUrl": "/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "frogiee"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "boxingrandom",
+    "title": "Boxingrandom",
+    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+    "mirrorUrl": "/games/game.html?game=https://tylerpalko.github.io/gamehub/boxingrandom/",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "cheeserolling",
+    "title": "Cheeserolling",
+    "currentUrl": "https://selenite.cc/projects/cheeserolling",
     "mirrorUrl": "",
     "score": 55,
     "failureReason": "unknown",
     "families": [
       "selenite"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "five-nights-at-epsteins",
+    "title": "Five Nights At Epsteins",
+    "currentUrl": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnae/index.html",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "frogiee"
+    ],
+    "reasons": [
+      "Working duplicate exists",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "five-nights-at-winstons",
+    "title": "Five Nights At Winstons",
+    "currentUrl": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/fnaw/",
+    "mirrorUrl": "/games/game.html?game=/Games10/fnaw/index.html",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "frogiee"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "moto-x-3-m",
+    "title": "Moto X 3 M",
+    "currentUrl": "https://play.frogiee.one/iframe.html?url=/cdn/projects/motox3m/index.html",
+    "mirrorUrl": "/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "frogiee"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "papas-pizzeria",
+    "title": "Papa's Pizzeria",
+    "currentUrl": "https://play.frogiee.one/iframe.html?url=/stuff/selfhosted/flash/game/papa/example/pizzeria.html",
+    "mirrorUrl": "/games/Flash.html?game=/FlashGames/papaspizzeria_v2.swf",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "frogiee"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "truffled-slendy",
+    "title": "Slendytubbies",
+    "currentUrl": "https://lucideon.top/g/frame",
+    "mirrorUrl": "",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "lucide"
     ],
     "reasons": [
       "Working duplicate exists",
@@ -182,6 +355,40 @@
     "reasons": [
       "Safe mirror candidate found",
       "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "selenite-supersmashflash2",
+    "title": "Super Smash Flash 2",
+    "currentUrl": "https://lucideon.top/g/frame",
+    "mirrorUrl": "./games/Flash.html?game=/Games11/super-smash-flash-2.swf",
+    "score": 55,
+    "failureReason": "unknown",
+    "families": [
+      "selenite",
+      "lucide"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Recognized source family",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "1v1-lol",
+    "title": "1v1.LOL",
+    "currentUrl": "https://adfree-sz-games.github.io/Games-2/lol/",
+    "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/Games-2/lol/",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
       "Valid description text",
       "Tag categorization present"
     ]
@@ -219,17 +426,17 @@
     ]
   },
   {
-    "id": "bloons-td",
-    "title": "Bloons TD",
-    "currentUrl": "https://3kh0.github.io/projects/bloonstd/index.html",
-    "mirrorUrl": "",
+    "id": "bitlife",
+    "title": "BitLife",
+    "currentUrl": "https://adfree-sz-games.github.io/Games9/bitlife",
+    "mirrorUrl": "/rating.html?game=bitlife&&url=/games/game.html?game=https://adfree-sz-games.github.io/Games9/bitlife",
     "score": 50,
     "failureReason": "unknown",
     "families": [
       "unknown"
     ],
     "reasons": [
-      "Working duplicate exists",
+      "Safe mirror candidate found",
       "Valid description text",
       "Tag categorization present"
     ]
@@ -239,6 +446,22 @@
     "title": "Chess",
     "currentUrl": "https://adfree-sz-games.github.io/games/chess/index.html",
     "mirrorUrl": "/games/game.html?game=/games/chess/index.html",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "crossy-road",
+    "title": "Crossy Road",
+    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=https://adfree-sz-games.github.io/cr/",
+    "mirrorUrl": "/games/game.html?game=https://adfree-sz-games.github.io/cr/",
     "score": 50,
     "failureReason": "unknown",
     "families": [
@@ -262,22 +485,6 @@
     ],
     "reasons": [
       "Safe mirror candidate found",
-      "Valid description text",
-      "Tag categorization present"
-    ]
-  },
-  {
-    "id": "fnf",
-    "title": "Friday Night Funkin'",
-    "currentUrl": "https://3kh0.github.io/3kh0-assets/friday-night-funkin/",
-    "mirrorUrl": "",
-    "score": 50,
-    "failureReason": "unknown",
-    "families": [
-      "unknown"
-    ],
-    "reasons": [
-      "Working duplicate exists",
       "Valid description text",
       "Tag categorization present"
     ]
@@ -315,33 +522,17 @@
     ]
   },
   {
-    "id": "osu",
-    "title": "osu!",
-    "currentUrl": "https://osu.ppy.sh/home",
-    "mirrorUrl": "",
+    "id": "moto-x3m",
+    "title": "Moto X3M",
+    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
+    "mirrorUrl": "/games/game.html?game=https://tbg95.github.io/moto-x3m/game",
     "score": 50,
     "failureReason": "unknown",
     "families": [
       "unknown"
     ],
     "reasons": [
-      "Working duplicate exists",
-      "Valid description text",
-      "Tag categorization present"
-    ]
-  },
-  {
-    "id": "paper-io-2",
-    "title": "Paper.io 2",
-    "currentUrl": "https://3kh0.github.io/3kh0-assets/paper-io-2/",
-    "mirrorUrl": "",
-    "score": 50,
-    "failureReason": "unknown",
-    "families": [
-      "unknown"
-    ],
-    "reasons": [
-      "Working duplicate exists",
+      "Safe mirror candidate found",
       "Valid description text",
       "Tag categorization present"
     ]
@@ -351,6 +542,22 @@
     "title": "Raft Wars",
     "currentUrl": "https://adfree-sz-games.github.io/games/Flash.html?game=/Games7/raftwars.swf",
     "mirrorUrl": "/games/Flash.html?game=/Games7/raftwars.swf",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "retro-bowl",
+    "title": "Retro Bowl",
+    "currentUrl": "https://3kh0.github.io/projects/retro-bowl/index.html",
+    "mirrorUrl": "./games/game.html?game=/Games11/retro-bowl/game",
     "score": 50,
     "failureReason": "unknown",
     "families": [
@@ -411,10 +618,58 @@
     ]
   },
   {
+    "id": "stickman-hook",
+    "title": "Stickman Hook",
+    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=/Games5/stickman-hook",
+    "mirrorUrl": "/games/game.html?game=/Games5/stickman-hook",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
     "id": "tunnel-rush",
     "title": "Tunnel Rush",
     "currentUrl": "https://adfree-sz-games.github.io/games/unity.html?game=/games/tunnel-rush/",
     "mirrorUrl": "/games/unity.html?game=/games/tunnel-rush/",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "vex-5",
+    "title": "Vex 5",
+    "currentUrl": "https://adfree-sz-games.github.io/games/game.html?game=/Games7/vex5",
+    "mirrorUrl": "/games/game.html?game=/Games7/vex5",
+    "score": 50,
+    "failureReason": "unknown",
+    "families": [
+      "unknown"
+    ],
+    "reasons": [
+      "Safe mirror candidate found",
+      "Valid description text",
+      "Tag categorization present"
+    ]
+  },
+  {
+    "id": "wordle",
+    "title": "Wordle",
+    "currentUrl": "https://www.nytimes.com/games/wordle/index.html",
+    "mirrorUrl": "/games/game.html?game=/Games5/wordle",
     "score": 50,
     "failureReason": "unknown",
     "families": [
