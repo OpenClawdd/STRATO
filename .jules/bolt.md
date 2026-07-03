@@ -1,0 +1,3 @@
+## 2024-07-03 - Bounded insertion sort for top N
+**Learning:** Found multiple instances where large data collections (e.g. `store.getAll("users")`) are fully mapped (creating many new objects) and fully sorted (`.sort()`) just to extract the top N elements (e.g. top 10 players by XP). This creates significant short-lived allocations and CPU spikes (O(N log N) time) for operations that should just be O(N).
+**Action:** Introduced a generic bounded insertion sort utility (`src/utils/sort.js`) that maintains the top N elements in a single pass. This prevents mapping discarding array allocations and reduces sorting cost. Apply this to global analytics and leaderboard routes.
