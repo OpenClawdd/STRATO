@@ -66,7 +66,7 @@ router.get("/api/admin/sources/pulse", async (req, res) => {
         trustDistribution: distribution,
       },
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to generate sources pulse" });
   }
 });
@@ -76,7 +76,7 @@ router.get("/api/admin/quarantine", async (req, res) => {
   try {
     const items = await store.getAll("quarantine");
     res.json({ success: true, items });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to fetch quarantine bay" });
   }
 });
@@ -155,7 +155,7 @@ router.post("/api/admin/quarantine/:id/approve", async (req, res) => {
 
     await store.deleteOne("quarantine", (i) => i.id === req.params.id);
     res.json({ success: true, source: newSource });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to approve source" });
   }
 });
@@ -192,7 +192,7 @@ router.post("/api/admin/quarantine/:id/duplicate", async (req, res) => {
 
     await store.deleteOne("quarantine", (i) => i.id === req.params.id);
     res.json({ success: true, source: newSource });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to mark as duplicate" });
   }
 });
