@@ -23,7 +23,7 @@ router.get("/api/notifications", async (req, res) => {
       notifications,
       unread: notifications.filter((n) => !n.read).length,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to load notifications" });
   }
 });
@@ -53,7 +53,7 @@ router.post("/api/notifications/read", async (req, res) => {
       notifications,
     });
     res.json({ success: true });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to update notifications" });
   }
 });
@@ -73,7 +73,7 @@ router.delete("/api/notifications/:id", async (req, res) => {
       notifications,
     });
     res.json({ success: true });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to delete notification" });
   }
 });
@@ -128,7 +128,7 @@ router.get("/api/analytics/personal", async (req, res) => {
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .slice(0, 5),
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to load analytics" });
   }
 });
@@ -178,7 +178,7 @@ router.get("/api/analytics/global", async (req, res) => {
       topChatters,
       popularGames,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to load global analytics" });
   }
 });
@@ -237,7 +237,7 @@ router.post("/api/activity", async (req, res) => {
     }
 
     res.json({ success: true });
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Failed to log activity" });
   }
 });
