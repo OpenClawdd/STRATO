@@ -107,7 +107,7 @@ router.post("/api/data/import", async (req, res) => {
             updated_at: _bua,
             ...bookmarkData
           } = bookmark;
-           await store.create("bookmarks", {
+          await store.create("bookmarks", {
             ...bookmarkData,
             userId: user.id,
             username,

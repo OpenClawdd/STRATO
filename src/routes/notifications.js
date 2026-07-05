@@ -196,7 +196,6 @@ router.post("/api/activity", async (req, res) => {
       return res.status(400).json({ error: "Action is required" });
     }
 
-
     const sanitizedCategory = category
       ? sanitizeString(category, { maxLength: 50 })
       : "general";
