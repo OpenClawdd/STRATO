@@ -57,7 +57,7 @@ router.get("/api/data/export", async (req, res) => {
     );
     res.setHeader("Content-Type", "application/json");
     res.json(exportData);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Export failed" });
   }
 });
@@ -107,7 +107,7 @@ router.post("/api/data/import", async (req, res) => {
             updated_at: _bua,
             ...bookmarkData
           } = bookmark;
-          const newBookmark = await store.create("bookmarks", {
+           await store.create("bookmarks", {
             ...bookmarkData,
             userId: user.id,
             username,
@@ -230,7 +230,7 @@ router.get("/api/data/export/bookmarks", async (req, res) => {
       `attachment; filename="strato-bookmarks-${username}.json"`,
     );
     res.json(userBookmarks);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Export failed" });
   }
 });
@@ -272,7 +272,7 @@ router.post("/api/data/import/bookmarks", async (req, res) => {
     }
 
     res.json({ success: true, imported });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Import failed" });
   }
 });
@@ -330,7 +330,7 @@ router.delete("/api/data/purge", async (req, res) => {
     });
 
     res.json({ success: true, message: "All user data has been purged" });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Purge failed" });
   }
 });
