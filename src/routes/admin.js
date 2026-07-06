@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import crypto from "crypto";
 
 const router = Router();
 
@@ -25,7 +26,15 @@ function requireAdmin(req, res, next) {
     });
   }
 
-  if (!provided || provided !== ADMIN_SECRET) {
+  if (!provided) {
+    return res.status(401).json({ error: "Invalid admin credentials" });
+  }
+  const providedBuf = Buffer.from(provided);
+  const secretBuf = Buffer.from(ADMIN_SECRET);
+  if (
+    providedBuf.length !== secretBuf.length ||
+    !crypto.timingSafeEqual(providedBuf, secretBuf)
+  ) {
     return res.status(401).json({ error: "Invalid admin credentials" });
   }
 
@@ -88,7 +97,7 @@ router.get("/api/admin/dashboard", async (req, res) => {
       node: process.version,
       environment: process.env.NODE_ENV || "development",
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load dashboard data" });
   }
 });
@@ -127,7 +136,7 @@ router.get("/api/admin/users", async (req, res) => {
         stats: u.stats,
       })),
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to list users" });
   }
 });
@@ -159,7 +168,7 @@ router.delete("/api/admin/users/:id", async (req, res) => {
     await store.deleteMany("chat_messages", (m) => m.username === username);
 
     res.json({ success: true, message: "User and associated data deleted" });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to delete user" });
   }
 });
@@ -239,7 +248,7 @@ router.get("/api/admin/analytics", async (req, res) => {
           score: s.score,
         })),
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to generate analytics" });
   }
 });
@@ -269,7 +278,7 @@ router.post("/api/admin/broadcast", async (req, res) => {
     });
 
     res.json({ success: true, broadcast });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to send broadcast" });
   }
 });
@@ -330,7 +339,7 @@ router.post("/api/admin/cleanup", async (req, res) => {
         olderThanDays,
       },
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Cleanup failed" });
   }
 });
