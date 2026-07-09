@@ -1,0 +1,3 @@
+## 2024-05-24 - O(N) Bounded Insertion Sort for Top N Elements
+**Learning:** Using full array `.sort()` (O(N log N)) followed by `.slice(0, N)` on large datasets (like global users or scores) is inefficient and causes unnecessary CPU spikes and short-lived object allocations. Chaining `.map()` before sorting further exacerbates this issue.
+**Action:** Implement and use a reusable bounded insertion sort utility (`getTopN`) in O(N) time and O(1) space to retrieve the top N elements. Apply heavy array transformations (like `.map()`) only *after* extracting the top N elements to minimize unnecessary object allocations.
