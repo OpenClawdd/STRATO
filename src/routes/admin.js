@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
+import { getTopN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -198,15 +199,12 @@ router.get("/api/admin/analytics", async (req, res) => {
     const activeUsers = users.filter((u) => u.updated_at > oneDayAgo).length;
 
     // Top users by XP
-    const topUsers = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 10)
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        gamesPlayed: u.stats?.games_played || 0,
-      }));
+    const topUsers = getTopN(users, 10, (u) => u.xp || 0).map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      gamesPlayed: u.stats?.games_played || 0,
+    }));
 
     // Chat activity by day (last 7 days)
     const chatActivity = {};
