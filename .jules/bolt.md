@@ -1,0 +1,3 @@
+## 2024-07-10 - Bounded insertion sort for O(N) Top N leaderboards
+**Learning:** For global analytics and leaderboards, applying `.sort()` across the entire users or items array (O(N log N)) to extract a small fraction (e.g. top 10 or top 20) introduces unnecessary performance bottlenecks, especially when memory pressure is high.
+**Action:** When calculating "Top N" values from large datasets without built-in database sorting, extract the sort logic into a reusable bounded insertion sort utility function (`getTopN`) to perform single-pass evaluations and maintain O(N) time complexity and O(1) space complexity. Always apply array mappings after, rather than before, limiting array size to minimize temporary object allocations.
