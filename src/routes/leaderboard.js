@@ -1,5 +1,6 @@
 import { Router } from "express";
 import store from "../db/store.js";
+import { getTopN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -101,17 +102,17 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+    // Use bounded insertion sort (O(N * k)) to extract top 25 users
+    const topUsers = getTopN(allUsers, 25, (u) => u.xp || 0);
+
+    // Map only the 25 users we need, saving heavy array allocation
+    const sorted = topUsers.map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
