@@ -6,6 +6,7 @@
 import { Router } from "express";
 import store from "../db/store.js";
 import { sanitizeString } from "../middleware/sanitize.js";
+import { getTopN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -123,9 +124,7 @@ router.get("/api/analytics/personal", async (req, res) => {
         savesCount: userSaves.length,
         achievementsUnlocked: (user.stats?.achievements || []).length,
       },
-      recentScores: userScores
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .slice(0, 5),
+      recentScores: getTopN(userScores, 5, s => new Date(s.created_at).getTime()),
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to load analytics" });
@@ -140,9 +139,7 @@ router.get("/api/analytics/global", async (req, res) => {
     const chatMessages = await store.getAll("chat_messages");
 
     // Top players by XP
-    const topByXp = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 20)
+    const topByXp = getTopN(users, 20, u => u.xp || 0)
       .map((u) => ({
         username: u.username,
         avatar: u.avatar,
@@ -155,9 +152,7 @@ router.get("/api/analytics/global", async (req, res) => {
     for (const msg of chatMessages) {
       chatCount[msg.username] = (chatCount[msg.username] || 0) + 1;
     }
-    const topChatters = Object.entries(chatCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
+    const topChatters = getTopN(Object.entries(chatCount), 10, e => e[1])
       .map(([username, count]) => ({ username, messages: count }));
 
     // Game popularity
@@ -167,9 +162,7 @@ router.get("/api/analytics/global", async (req, res) => {
         gameCount[score.game] = (gameCount[score.game] || 0) + 1;
       }
     }
-    const popularGames = Object.entries(gameCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
+    const popularGames = getTopN(Object.entries(gameCount), 10, e => e[1])
       .map(([game, count]) => ({ game, plays: count }));
 
     res.json({
