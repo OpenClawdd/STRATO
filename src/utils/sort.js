@@ -37,5 +37,5 @@ export function getTopN(array, n, extractValue) {
     }
   }
 
-  return topList.map(entry => entry.item);
+  return topList.map((entry) => entry.item);
 }
