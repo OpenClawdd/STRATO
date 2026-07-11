@@ -29,5 +29,5 @@ export function getTopN(array, n, extractor) {
     }
   }
 
-  return top.map(t => t.item);
+  return top.map((t) => t.item);
 }

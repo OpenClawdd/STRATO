@@ -29,7 +29,7 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     // Get top 10 scores
-    const top10 = getTopN(scores, 10, s => s.score);
+    const top10 = getTopN(scores, 10, (s) => s.score);
 
     res.json({
       gameId,
@@ -102,14 +102,13 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Top players by XP descending
-    const sorted = getTopN(allUsers, 25, u => u.xp || 0)
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }));
+    const sorted = getTopN(allUsers, 25, (u) => u.xp || 0).map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
