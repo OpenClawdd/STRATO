@@ -19,5 +19,5 @@ export function getTopN(items, n, getValue) {
     }
   }
 
-  return top.map(entry => entry.item);
+  return top.map((entry) => entry.item);
 }
