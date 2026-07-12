@@ -24,7 +24,10 @@ function requireAdmin(req, res, next) {
   const providedBuf = Buffer.from(provided);
   const secretBuf = Buffer.from(ADMIN_SECRET);
 
-  if (providedBuf.length !== secretBuf.length || !crypto.timingSafeEqual(providedBuf, secretBuf)) {
+  if (
+    providedBuf.length !== secretBuf.length ||
+    !crypto.timingSafeEqual(providedBuf, secretBuf)
+  ) {
     return res.status(401).json({ error: "Unauthorized" });
   }
   next();
