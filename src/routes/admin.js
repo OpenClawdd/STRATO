@@ -3,6 +3,7 @@
  * Dashboard, user management, analytics, system monitoring
  */
 
+import crypto from "crypto";
 import { Router } from "express";
 import store from "../db/store.js";
 import { getCsrfStats } from "../middleware/csrf.js";
@@ -25,7 +26,14 @@ function requireAdmin(req, res, next) {
     });
   }
 
-  if (!provided || provided !== ADMIN_SECRET) {
+  if (!provided || typeof provided !== "string") {
+    return res.status(401).json({ error: "Invalid admin credentials" });
+  }
+
+  const providedBuf = Buffer.from(provided);
+  const secretBuf = Buffer.from(ADMIN_SECRET);
+
+  if (providedBuf.length !== secretBuf.length || !crypto.timingSafeEqual(providedBuf, secretBuf)) {
     return res.status(401).json({ error: "Invalid admin credentials" });
   }
 
