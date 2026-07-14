@@ -4,7 +4,7 @@ import { afterAll, describe, expect, it } from "vitest";
 import { app, server } from "../../src/index.js";
 
 function signedAuthCookie(username = "smoke-user") {
-  const secret = process.env.COOKIE_SECRET || "dev-secret-change-me";
+  const secret = process.env.COOKIE_SECRET || "test-secret-key-for-vitest";
   const signed = cookieSignature.sign(username, secret);
   return `strato_auth=${encodeURIComponent(`s:${signed}`)}`;
 }
