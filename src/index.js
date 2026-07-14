@@ -43,14 +43,11 @@ const PORT = process.env.PORT || 8080;
 // ── Initialize database store ──
 initStore();
 
-// ── Cookie secret — fail loudly in production if not set ──
-const COOKIE_SECRET = process.env.COOKIE_SECRET;
-if (!COOKIE_SECRET && process.env.NODE_ENV === "production") {
-  throw new Error(
-    "[STRATO] COOKIE_SECRET environment variable is required in production",
-  );
+// ── Cookie secret — fail loudly if not set ──
+const cookieSecret = process.env.COOKIE_SECRET;
+if (!cookieSecret) {
+  throw new Error("[STRATO] COOKIE_SECRET environment variable is required");
 }
-const cookieSecret = COOKIE_SECRET || "dev-secret-change-me";
 
 const app = express();
 const server = createServer();
