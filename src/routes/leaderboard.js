@@ -1,5 +1,6 @@
 import { Router } from "express";
 import store from "../db/store.js";
+import { getTopN } from "../utils/sort.js";
 
 const router = Router();
 
@@ -27,9 +28,8 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
       scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    // ⚡ Bolt: Optimize with getTopN instead of full sort (O(N log N) -> O(N))
+    const top10 = getTopN(scores, 10, (s) => s.score);
 
     res.json({
       gameId,
@@ -101,17 +101,15 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+    // ⚡ Bolt: Optimize with getTopN instead of mapping all users and full sort
+    const topUsers = getTopN(allUsers, 25, (u) => u.xp || 0);
+    const sorted = topUsers.map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
