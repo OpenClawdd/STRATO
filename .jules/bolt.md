@@ -1,0 +1,3 @@
+## 2025-07-15 - Top N calculation optimization in API routes
+**Learning:** High performance overhead from `Array.prototype.sort().slice()` when calculating top leaderboard players or high scores in endpoints like `/api/leaderboard`, due to full N log N sorting on large lists before slicing.
+**Action:** Use a bounded insertion sort utility (`getTopN`) for any top-N array operations to cap complexity at O(N) and reduce memory pressure and unnecessary sorting computations. Note that when caching the evaluated sort value in the `getTopN` utility, ensure that mapping (via `Array.prototype.map()`) is done on the output *after* `getTopN`, rather than before, so we map exactly N items.
