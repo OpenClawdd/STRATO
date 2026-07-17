@@ -1,0 +1,3 @@
+## 2024-05-24 - Efficient Top N sorting in Leaderboard
+**Learning:** Using full array `.sort()` followed by `.slice(0, 25)` on `store.getAll("users")` has `O(N log N)` computational overhead and excessive memory allocation, especially when mapped to new objects before sorting. The repository contains guidelines to use `getTopN` utility in `src/utils/sort.js` for bounded insertion sort.
+**Action:** When retrieving the top N items from large datasets (e.g., `store.getAll()`), use `getTopN` rather than full array sorts (`.sort().slice()`). Apply heavy array transformations like `.map()` after calling `getTopN`, not before.
