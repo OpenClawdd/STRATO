@@ -5,6 +5,7 @@
 
 import { Router } from "express";
 import store from "../db/store.js";
+import { getTopN } from "../utils/sort.js";
 import { sanitizeString } from "../middleware/sanitize.js";
 
 const router = Router();
@@ -140,15 +141,12 @@ router.get("/api/analytics/global", async (req, res) => {
     const chatMessages = await store.getAll("chat_messages");
 
     // Top players by XP
-    const topByXp = [...users]
-      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
-      .slice(0, 20)
-      .map((u) => ({
-        username: u.username,
-        avatar: u.avatar,
-        xp: u.xp || 0,
-        level: u.level || 1,
-      }));
+    const topByXp = getTopN(users, (u) => u.xp || 0, 20).map((u) => ({
+      username: u.username,
+      avatar: u.avatar,
+      xp: u.xp || 0,
+      level: u.level || 1,
+    }));
 
     // Most active chatters
     const chatCount = {};
