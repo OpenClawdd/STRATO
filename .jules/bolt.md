@@ -1,0 +1,3 @@
+## 2024-07-25 - Bounded Insertion Sort Performance Win
+**Learning:** Found multiple instances where large arrays were fully sorted just to extract the top N elements (e.g. `.sort().slice(0, 10)` or `.sort().slice(0, 25)`). A full array sort is O(N log N) which is slow and wastes memory, especially when map is called on the whole array before sort and slice.
+**Action:** Use a bounded insertion sort utility (`getTopN`) for large datasets where only the top N items are needed. Apply heavy transformations like `.map()` AFTER `getTopN`, not before. When implementing `getTopN`, store the evaluated sort key alongside the item (`{item, val}`) to avoid redundant evaluations.
