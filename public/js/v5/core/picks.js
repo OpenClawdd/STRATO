@@ -17,12 +17,18 @@ export function dailyPicks(date = new Date()) {
   const output = [];
 
   const pool = promotableCatalog();
+  // Optimization: Precompute hashes for sorting to avoid redundant O(N log N) string processing and hash evaluations.
   const candidates =
     pool.length >= 6
-      ? pool.sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))
+      ? pool
+          .map((game) => ({ game, h: hash(`${key}:${game.id}`) }))
+          .sort((a, b) => a.h - b.h)
+          .map((item) => item.game)
       : playableCatalog()
           .filter((game) => health(game).status !== "failed-locally")
-          .sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`));
+          .map((game) => ({ game, h: hash(`${key}:${game.id}`) }))
+          .sort((a, b) => a.h - b.h)
+          .map((item) => item.game);
 
   for (const game of candidates) {
     const category = categoryOf(game).toLowerCase();
