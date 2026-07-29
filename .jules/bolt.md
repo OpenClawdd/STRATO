@@ -1,0 +1,3 @@
+## 2024-05-24 - Leaderboard Optimization (Full Array Sort vs Bounded Sort)
+**Learning:** Found that getting the top N users by score or XP in large lists triggered a full array `.sort().slice()` sequence. For extremely large arrays, `O(N log N)` computational overhead and mapping copies cause excessive memory allocation, which is an identified bottleneck.
+**Action:** When extracting top N items, implement a bounded insertion sort `getTopN` utility with a precomputed map to reduce the complexity to `O(N * K)` (where K is small). Also, wait until *after* the extraction to do expensive property mapping objects.
