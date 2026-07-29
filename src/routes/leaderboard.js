@@ -22,7 +22,7 @@ function getTopNBounded(arr, n, valFn) {
       top.pop();
     }
   }
-  return top.map(t => t.item);
+  return top.map((t) => t.item);
 }
 
 // ── GET /api/leaderboard/:gameId — Get top 10 scores for a game ──
@@ -123,14 +123,13 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending (optimized with bounded insertion sort)
-    const sorted = getTopNBounded(allUsers, 25, (u) => u.xp || 0)
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }));
+    const sorted = getTopNBounded(allUsers, 25, (u) => u.xp || 0).map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
