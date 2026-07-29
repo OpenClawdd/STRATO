@@ -3,6 +3,28 @@ import store from "../db/store.js";
 
 const router = Router();
 
+// Bounded insertion sort to prevent O(N log N) overhead on large datasets
+function getTopNBounded(arr, n, valFn) {
+  const top = [];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    const val = valFn(item);
+
+    if (top.length < n) {
+      top.push({ item, val });
+      top.sort((a, b) => b.val - a.val);
+    } else if (val > top[top.length - 1].val) {
+      let j = top.length - 1;
+      while (j >= 0 && top[j].val < val) {
+        j--;
+      }
+      top.splice(j + 1, 0, { item, val });
+      top.pop();
+    }
+  }
+  return top.map(t => t.item);
+}
+
 // ── GET /api/leaderboard/:gameId — Get top 10 scores for a game ──
 router.get("/api/leaderboard/:gameId", async (req, res) => {
   try {
@@ -27,9 +49,8 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
       scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    // Sort by score descending, take top 10 (optimized with bounded insertion sort)
+    const top10 = getTopNBounded(scores, 10, (s) => s.score);
 
     res.json({
       gameId,
@@ -101,17 +122,15 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
+    // Sort by XP descending (optimized with bounded insertion sort)
+    const sorted = getTopNBounded(allUsers, 25, (u) => u.xp || 0)
       .map((u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
