@@ -3,6 +3,27 @@ import store from "../db/store.js";
 
 const router = Router();
 
+// ⚡ PERFORMANCE OPTIMIZATION: Bounded insertion sort for Top-N extraction
+// Reduces O(N log N) array sorting overhead to O(N * K) where K is small (10-25)
+// This significantly reduces memory allocations and CPU usage for large datasets
+function getTopN(items, n, getValue) {
+  const top = [];
+  for (const item of items) {
+    const val = getValue(item);
+    if (top.length < n || val > top[top.length - 1].val) {
+      let i = 0;
+      while (i < top.length && top[i].val >= val) {
+        i++;
+      }
+      top.splice(i, 0, { item, val });
+      if (top.length > n) {
+        top.pop();
+      }
+    }
+  }
+  return top.map((t) => t.item);
+}
+
 // ── GET /api/leaderboard/:gameId — Get top 10 scores for a game ──
 router.get("/api/leaderboard/:gameId", async (req, res) => {
   try {
@@ -28,8 +49,7 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     }
 
     // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    const top10 = getTopN(scores, 10, (s) => s.score);
 
     res.json({
       gameId,
@@ -102,16 +122,14 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+    const topUsers = getTopN(allUsers, 25, (u) => u.xp || 0);
+    const sorted = topUsers.map((u) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
