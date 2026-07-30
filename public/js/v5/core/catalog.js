@@ -129,37 +129,84 @@ export function similarGames(game, limit = 4) {
   if (!game) return [];
   const tags = new Set(tagsOf(game).map((tag) => tag.toLowerCase()));
   const category = categoryOf(game).toLowerCase();
-  return playableCatalog()
-    .filter((candidate) => candidate.id !== game.id)
-    .map((candidate) => {
-      const tagScore = tagsOf(candidate).filter((tag) =>
-        tags.has(tag.toLowerCase()),
-      ).length;
-      const categoryScore =
-        categoryOf(candidate).toLowerCase() === category ? 2 : 0;
-      return { candidate, score: tagScore + categoryScore };
-    })
-    .filter((entry) => entry.score > 0)
-    .sort(
-      (a, b) =>
-        b.score - a.score ||
-        nameOf(a.candidate).localeCompare(nameOf(b.candidate)),
-    )
-    .slice(0, limit)
-    .map((entry) => entry.candidate);
+  return (
+    playableCatalog()
+      .filter((candidate) => candidate.id !== game.id)
+      .map((candidate) => {
+        const tagScore = tagsOf(candidate).filter((tag) =>
+          tags.has(tag.toLowerCase()),
+        ).length;
+        const categoryScore =
+          categoryOf(candidate).toLowerCase() === category ? 2 : 0;
+        return { candidate, score: tagScore + categoryScore };
+      })
+      .filter((entry) => entry.score > 0)
+      // OPTIMIZATION: Schwartzian transform is unnecessary as we use bounded insertion
+      // Bounded insertion sort avoids O(N log N) sorting of potentially large similar games list
+      .reduce((top, entry) => {
+        if (
+          top.length < limit ||
+          entry.score > top[top.length - 1].score ||
+          (entry.score === top[top.length - 1].score &&
+            nameOf(entry.candidate).localeCompare(
+              nameOf(top[top.length - 1].candidate),
+            ) < 0)
+        ) {
+          let j = top.length;
+          while (
+            j > 0 &&
+            (top[j - 1].score < entry.score ||
+              (top[j - 1].score === entry.score &&
+                nameOf(top[j - 1].candidate).localeCompare(
+                  nameOf(entry.candidate),
+                ) > 0))
+          ) {
+            j--;
+          }
+          top.splice(j, 0, entry);
+          if (top.length > limit) {
+            top.pop();
+          }
+        }
+        return top;
+      }, [])
+      .map((entry) => entry.candidate)
+  );
 }
 
 export function trendingGames(limit = 4) {
   const counts = readJson(keys.playCounts, {});
-  return playableCatalog()
-    .map((game) => ({ game, count: Number(counts[game.id] || 0) }))
-    .filter((entry) => entry.count > 0)
-    .sort(
-      (a, b) =>
-        b.count - a.count || nameOf(a.game).localeCompare(nameOf(b.game)),
-    )
-    .slice(0, limit)
-    .map((entry) => entry.game);
+  return (
+    playableCatalog()
+      .map((game) => ({ game, count: Number(counts[game.id] || 0) }))
+      .filter((entry) => entry.count > 0)
+      // OPTIMIZATION: Bounded insertion sort avoids O(N log N) sorting
+      .reduce((top, entry) => {
+        if (
+          top.length < limit ||
+          entry.count > top[top.length - 1].count ||
+          (entry.count === top[top.length - 1].count &&
+            nameOf(entry.game).localeCompare(nameOf(top[top.length - 1].game)) <
+              0)
+        ) {
+          let j = top.length;
+          while (
+            j > 0 &&
+            (top[j - 1].count < entry.count ||
+              (top[j - 1].count === entry.count &&
+                nameOf(top[j - 1].game).localeCompare(nameOf(entry.game)) > 0))
+          ) {
+            j--;
+          }
+          top.splice(j, 0, entry);
+          if (top.length > limit) {
+            top.pop();
+          }
+        }
+        return top;
+      }, [])
+      .map((entry) => entry.game)
+  );
 }
 
 export function moodClusters() {

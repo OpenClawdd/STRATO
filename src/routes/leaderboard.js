@@ -27,9 +27,27 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
       scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
     }
 
-    // Sort by score descending, take top 10
-    scores.sort((a, b) => b.score - a.score);
-    const top10 = scores.slice(0, 10);
+    // OPTIMIZATION: Bounded insertion sort to find top 10 scores
+    // Avoids O(N log N) sorting overhead on potentially large score datasets
+    const top10Entries = [];
+    for (let i = 0; i < scores.length; i++) {
+      const s = scores[i];
+      const val = s.score;
+      if (
+        top10Entries.length < 10 ||
+        val > top10Entries[top10Entries.length - 1].val
+      ) {
+        let j = top10Entries.length;
+        while (j > 0 && top10Entries[j - 1].val < val) {
+          j--;
+        }
+        top10Entries.splice(j, 0, { item: s, val });
+        if (top10Entries.length > 10) {
+          top10Entries.pop();
+        }
+      }
+    }
+    const top10 = top10Entries.map((e) => e.item);
 
     res.json({
       gameId,
@@ -101,17 +119,34 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
+    // OPTIMIZATION: Bounded insertion sort to find top 25 users by XP
+    // Avoids O(N log N) sorting and O(N) memory allocation from mapping the entire array
+    const top25 = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      const u = allUsers[i];
+      const xp = u.xp || 0;
+      if (top25.length < 25 || xp > top25[top25.length - 1].val) {
+        let j = top25.length;
+        while (j > 0 && top25[j - 1].val < xp) {
+          j--;
+        }
+        top25.splice(j, 0, { item: u, val: xp });
+        if (top25.length > 25) {
+          top25.pop();
+        }
+      }
+    }
+
+    const sorted = top25.map((entry) => {
+      const u = entry.item;
+      return {
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      };
+    });
 
     res.json({
       leaderboard: sorted.map((u, i) => ({

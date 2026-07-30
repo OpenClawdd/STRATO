@@ -88,8 +88,34 @@ export function searchGames(query) {
     const score = scoreGame(game, query, context);
     if (score < 82) matches.push({ game, score });
   }
-  matches.sort(
-    (a, b) => a.score - b.score || nameOf(a.game).localeCompare(nameOf(b.game)),
-  );
-  return matches.slice(0, 10).map(({ game }) => game);
+  // OPTIMIZATION: Bounded insertion sort to find top 10 search results
+  // Avoids O(N log N) sorting overhead on the entire matches array
+  const top10Matches = [];
+  for (let i = 0; i < matches.length; i++) {
+    const match = matches[i];
+    if (
+      top10Matches.length < 10 ||
+      match.score < top10Matches[top10Matches.length - 1].score ||
+      (match.score === top10Matches[top10Matches.length - 1].score &&
+        nameOf(match.game).localeCompare(
+          nameOf(top10Matches[top10Matches.length - 1].game),
+        ) < 0)
+    ) {
+      let j = top10Matches.length;
+      while (
+        j > 0 &&
+        (top10Matches[j - 1].score > match.score ||
+          (top10Matches[j - 1].score === match.score &&
+            nameOf(top10Matches[j - 1].game).localeCompare(nameOf(match.game)) >
+              0))
+      ) {
+        j--;
+      }
+      top10Matches.splice(j, 0, match);
+      if (top10Matches.length > 10) {
+        top10Matches.pop();
+      }
+    }
+  }
+  return top10Matches.map(({ game }) => game);
 }
