@@ -101,17 +101,30 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
-    const sorted = allUsers
-      .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+    // Sort by XP descending using a bounded insertion sort for O(N) performance
+    const top25 = [];
+    for (const u of allUsers) {
+      const xp = u.xp || 0;
+      if (top25.length < 25) {
+        top25.push({ u, xp });
+        top25.sort((a, b) => b.xp - a.xp);
+      } else if (xp > top25[top25.length - 1].xp) {
+        let i = top25.length - 1;
+        while (i >= 0 && top25[i].xp < xp) {
+          i--;
+        }
+        top25.splice(i + 1, 0, { u, xp });
+        top25.pop();
+      }
+    }
+
+    const sorted = top25.map(({ u }) => ({
+      username: u.username,
+      xp: u.xp || 0,
+      level: u.level || 1,
+      coins: u.coins || 0,
+      avatar: u.avatar,
+    }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
