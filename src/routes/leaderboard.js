@@ -101,17 +101,18 @@ router.get("/api/leaderboard", async (req, res) => {
   try {
     const allUsers = await store.getAll("users");
 
-    // Sort by XP descending
+    // Optimize: Schwartzian transform to avoid O(N) expensive object allocations before slicing
     const sorted = allUsers
+      .map((u) => ({ item: u, val: u.xp || 0 }))
+      .sort((a, b) => b.val - a.val)
+      .slice(0, 25)
       .map((u) => ({
-        username: u.username,
-        xp: u.xp || 0,
-        level: u.level || 1,
-        coins: u.coins || 0,
-        avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+        username: u.item.username,
+        xp: u.item.xp || 0,
+        level: u.item.level || 1,
+        coins: u.item.coins || 0,
+        avatar: u.item.avatar,
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
