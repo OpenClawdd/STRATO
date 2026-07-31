@@ -1,0 +1,3 @@
+## 2025-07-31 - Optimize sorting with Schwartzian transform
+**Learning:** Implementing a custom JavaScript bounded insertion sort (using array splicing in a loop) to extract top N items is often a de-optimization compared to V8's native `Array.prototype.sort()`, even though it avoids O(N log N) comparisons, because of object allocation and array shifting overhead in user-land JavaScript.
+**Action:** When extracting top N items and the sorting criteria requires expensive mapping (like allocating large objects), use a Schwartzian transform (decorate-sort-undecorate) with native `.sort()` to map to a lightweight intermediate `{item, key}` object. This minimizes O(N) memory allocations while still leveraging fast native sorting.
