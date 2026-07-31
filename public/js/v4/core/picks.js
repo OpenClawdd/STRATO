@@ -17,13 +17,16 @@ export function dailyPicks() {
   const categoryCounts = new Map();
   const output = [];
 
+  // Optimization: use Schwartzian transform to avoid O(N log N) hash calls
   const candidates = playableCatalog()
     .filter((game) => health(game).status !== "recently-failed")
+    .map((item) => ({ item, hashKey: hash(`${key}:${item.id}`) }))
     .sort((a, b) => {
-      const aThumb = a.thumbnail ? 0 : 1;
-      const bThumb = b.thumbnail ? 0 : 1;
-      return aThumb - bThumb || hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`);
-    });
+      const aThumb = a.item.thumbnail ? 0 : 1;
+      const bThumb = b.item.thumbnail ? 0 : 1;
+      return aThumb - bThumb || a.hashKey - b.hashKey;
+    })
+    .map((a) => a.item);
 
   for (const game of candidates) {
     const category = categoryOf(game).toLowerCase();
