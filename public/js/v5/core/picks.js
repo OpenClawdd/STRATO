@@ -17,12 +17,19 @@ export function dailyPicks(date = new Date()) {
   const output = [];
 
   const pool = promotableCatalog();
-  const candidates =
+  const basePool =
     pool.length >= 6
-      ? pool.sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`))
-      : playableCatalog()
-          .filter((game) => health(game).status !== "failed-locally")
-          .sort((a, b) => hash(`${key}:${a.id}`) - hash(`${key}:${b.id}`));
+      ? pool
+      : playableCatalog().filter(
+          (game) => health(game).status !== "failed-locally",
+        );
+
+  // Use a Schwartzian transform to map array to precomputed hash, sort, and map back
+  // This avoids O(N log N) expensive hash calls and string concatenations
+  const candidates = basePool
+    .map((game) => ({ game, sortKey: hash(`${key}:${game.id}`) }))
+    .sort((a, b) => a.sortKey - b.sortKey)
+    .map((entry) => entry.game);
 
   for (const game of candidates) {
     const category = categoryOf(game).toLowerCase();
