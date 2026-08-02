@@ -19,12 +19,15 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     let scores = allScores.filter((s) => s.gameId === gameId);
 
     // Filter by time period
+    // ⚡ Bolt: Optimize date comparisons by using ISO strings instead of parsing Dates in loop
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      const dayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      scores = scores.filter((s) => s.created_at > dayAgo);
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      const weekAgo = new Date(
+        Date.now() - 7 * 24 * 60 * 60 * 1000,
+      ).toISOString();
+      scores = scores.filter((s) => s.created_at > weekAgo);
     }
 
     // Sort by score descending, take top 10
@@ -102,16 +105,17 @@ router.get("/api/leaderboard", async (req, res) => {
     const allUsers = await store.getAll("users");
 
     // Sort by XP descending
-    const sorted = allUsers
+    // ⚡ Bolt: Optimize sorting pipeline to avoid O(N) object allocations
+    const sorted = [...allUsers]
+      .sort((a, b) => (b.xp || 0) - (a.xp || 0))
+      .slice(0, 25)
       .map((u) => ({
         username: u.username,
         xp: u.xp || 0,
         level: u.level || 1,
         coins: u.coins || 0,
         avatar: u.avatar,
-      }))
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 25);
+      }));
 
     res.json({
       leaderboard: sorted.map((u, i) => ({
