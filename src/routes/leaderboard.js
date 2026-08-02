@@ -23,12 +23,12 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
       const dayAgoIso = new Date(
         Date.now() - 24 * 60 * 60 * 1000,
       ).toISOString();
-      scores = scores.filter((s) => s.created_at > dayAgoIso);
+      scores = scores.filter((s) => (s.created_at || "") > dayAgoIso);
     } else if (period === "weekly") {
       const weekAgoIso = new Date(
         Date.now() - 7 * 24 * 60 * 60 * 1000,
       ).toISOString();
-      scores = scores.filter((s) => s.created_at > weekAgoIso);
+      scores = scores.filter((s) => (s.created_at || "") > weekAgoIso);
     }
 
     // Sort by score descending, take top 10
