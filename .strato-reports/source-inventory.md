@@ -1,13 +1,12 @@
 # STRATO Source Inventory
 
 Catalog: `public/assets/games.json`
-Total games: **1248**
+Total games: **546**
 
 ## Source families
 
 | Family | Entries |
 |---|---:|
-| gn-math | 702 |
 | selenite | 270 |
 | frogiee | 138 |
 | 1key | 74 |
@@ -18,17 +17,14 @@ Total games: **1248**
 
 | Domain | Entries |
 |---|---:|
-| cdn.jsdelivr.net | 702 |
-| gn-math.dev | 702 |
 | selenite.cc | 214 |
 | localhost | 154 |
 | play.frogiee.one | 138 |
-| adfree-sz-games.github.io | 80 |
 | 1key.lol | 74 |
 | a.luminsdk.com | 69 |
 | lucideon.top | 69 |
-| 3kh0.github.io | 45 |
-| mr-funkinguy.github.io | 3 |
+| adfree-sz-games.github.io | 53 |
+| 3kh0.github.io | 31 |
 | krunker.io | 1 |
 | slither.io | 1 |
 | hole-io.com | 1 |
@@ -44,3 +40,4 @@ Total games: **1248**
 | deadzed.com | 1 |
 | parkourrace.com | 1 |
 | tylerpalko.github.io | 1 |
+| mr-funkinguy.github.io | 1 |
