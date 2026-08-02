@@ -107,7 +107,7 @@ router.get("/api/chat/rooms/:roomId/messages", async (req, res) => {
     }
 
     // Sort by creation time, take last 50
-    messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    messages.sort((a, b) => a.created_at.localeCompare(b.created_at));
     messages = messages.slice(-50);
 
     res.json({
