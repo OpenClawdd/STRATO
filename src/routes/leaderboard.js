@@ -23,12 +23,24 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
       const dayAgoIso = new Date(
         Date.now() - 24 * 60 * 60 * 1000,
       ).toISOString();
-      scores = scores.filter((s) => (s.created_at || "") > dayAgoIso);
+      const dayAgoMs = Date.now() - 24 * 60 * 60 * 1000;
+      scores = scores.filter((s) => {
+        if (!s.created_at) return false;
+        return typeof s.created_at === "number"
+          ? s.created_at > dayAgoMs
+          : s.created_at > dayAgoIso;
+      });
     } else if (period === "weekly") {
       const weekAgoIso = new Date(
         Date.now() - 7 * 24 * 60 * 60 * 1000,
       ).toISOString();
-      scores = scores.filter((s) => (s.created_at || "") > weekAgoIso);
+      const weekAgoMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      scores = scores.filter((s) => {
+        if (!s.created_at) return false;
+        return typeof s.created_at === "number"
+          ? s.created_at > weekAgoMs
+          : s.created_at > weekAgoIso;
+      });
     }
 
     // Sort by score descending, take top 10
