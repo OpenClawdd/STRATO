@@ -196,7 +196,7 @@ async function handleMessage(ws, data) {
             name: roomId,
             description: `${roomId} room`,
           });
-        } catch (e) {
+        } catch {
           ws.send(
             JSON.stringify({ type: "error", error: "Could not create room" }),
           );
@@ -279,7 +279,7 @@ export function initWebSocket(server) {
     }
   });
 
-  wss.on("connection", (ws, req) => {
+  wss.on("connection", (ws) => {
     const username = ws._username;
     clients.set(ws, {
       username,
