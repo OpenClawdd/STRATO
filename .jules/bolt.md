@@ -1,0 +1,3 @@
+## 2026-08-03 - [Optimize Date Parsing]
+**Learning:** Found CI failures due to unused variables after optimization refactors and boilerplate generation (`err`, `e`, `req`, `newBookmark`, `sanitizedAction`). Cleaned them up using ES2019 optional catch binding to make `pnpm lint` pass. Left tests related to `catalog-launch-containment` untouched as per memory guidelines.
+**Action:** Always run `pnpm lint` after modifications to make sure I don't submit code with unused variables or unhandled linting errors. Use ES2019 optional catch binding (`catch {}`) when `err` is not used in a try-catch block.
