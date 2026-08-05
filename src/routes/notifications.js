@@ -22,7 +22,7 @@ router.get("/api/notifications", async (req, res) => {
       notifications,
       unread: notifications.filter((n) => !n.read).length,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load notifications" });
   }
 });
@@ -52,7 +52,7 @@ router.post("/api/notifications/read", async (req, res) => {
       notifications,
     });
     res.json({ success: true });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to update notifications" });
   }
 });
@@ -72,7 +72,7 @@ router.delete("/api/notifications/:id", async (req, res) => {
       notifications,
     });
     res.json({ success: true });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to delete notification" });
   }
 });
@@ -132,7 +132,7 @@ router.get("/api/analytics/personal", async (req, res) => {
         })
         .slice(0, 5),
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load analytics" });
   }
 });
@@ -185,7 +185,7 @@ router.get("/api/analytics/global", async (req, res) => {
       topChatters,
       popularGames,
     });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to load global analytics" });
   }
 });
@@ -201,7 +201,6 @@ router.post("/api/activity", async (req, res) => {
       return res.status(400).json({ error: "Action is required" });
     }
 
-    const sanitizedAction = sanitizeString(action, { maxLength: 100 });
     const sanitizedCategory = category
       ? sanitizeString(category, { maxLength: 50 })
       : "general";
@@ -244,7 +243,7 @@ router.post("/api/activity", async (req, res) => {
     }
 
     res.json({ success: true });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Failed to log activity" });
   }
 });
