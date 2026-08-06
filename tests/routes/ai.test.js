@@ -2,6 +2,7 @@
  * STRATO v21 — AI Route Tests
  */
 
+import crypto from 'crypto';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse, createMockNext } from '../setup.js';
 
@@ -89,13 +90,23 @@ describe('Admin Route Logic', () => {
     it('should reject wrong admin secret', () => {
       const ADMIN_SECRET = 'correct-secret';
       const provided = 'wrong-secret';
-      expect(provided !== ADMIN_SECRET).toBe(true);
+
+      const providedBuf = Buffer.from(provided);
+      const secretBuf = Buffer.from(ADMIN_SECRET);
+      const isMatch = providedBuf.length === secretBuf.length && crypto.timingSafeEqual(providedBuf, secretBuf);
+
+      expect(isMatch).toBe(false);
     });
 
     it('should accept correct admin secret', () => {
       const ADMIN_SECRET = 'correct-secret';
       const provided = 'correct-secret';
-      expect(provided === ADMIN_SECRET).toBe(true);
+
+      const providedBuf = Buffer.from(provided);
+      const secretBuf = Buffer.from(ADMIN_SECRET);
+      const isMatch = providedBuf.length === secretBuf.length && crypto.timingSafeEqual(providedBuf, secretBuf);
+
+      expect(isMatch).toBe(true);
     });
   });
 
