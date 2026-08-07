@@ -59,7 +59,7 @@
     "eslint": "^9.39.5",
     "prettier": "^3.9.6",
     "supertest": "^7.2.2",
-    "vitest": "^3.2.7"
+    "vitest": "^4.1.10"
   },
   "keywords": [
     "ultraviolet",
