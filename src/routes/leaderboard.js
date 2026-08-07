@@ -19,12 +19,17 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
     let scores = allScores.filter((s) => s.gameId === gameId);
 
     // Filter by time period
+    // ⚡ Bolt: Precomputing ISO strings and using native string comparison avoids O(N) Date parsing overhead
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      const dayAgoISO = new Date(
+        Date.now() - 24 * 60 * 60 * 1000,
+      ).toISOString();
+      scores = scores.filter((s) => (s.created_at || "") > dayAgoISO);
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      const weekAgoISO = new Date(
+        Date.now() - 7 * 24 * 60 * 60 * 1000,
+      ).toISOString();
+      scores = scores.filter((s) => (s.created_at || "") > weekAgoISO);
     }
 
     // Sort by score descending, take top 10
