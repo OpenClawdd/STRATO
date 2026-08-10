@@ -107,7 +107,23 @@ router.get("/api/chat/rooms/:roomId/messages", async (req, res) => {
     }
 
     // Sort by creation time, take last 50
-    messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    messages.sort((a, b) => {
+      // Optimization: Native string comparison avoids creating O(N*logN) Date objects
+      // Fallback for non-string types safely avoids NaN sorting errors
+      const aVal =
+        typeof a.created_at === "string"
+          ? a.created_at
+          : a.created_at
+            ? new Date(a.created_at).toISOString()
+            : "";
+      const bVal =
+        typeof b.created_at === "string"
+          ? b.created_at
+          : b.created_at
+            ? new Date(b.created_at).toISOString()
+            : "";
+      return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+    });
     messages = messages.slice(-50);
 
     res.json({

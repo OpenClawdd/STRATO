@@ -20,11 +20,26 @@ router.get("/api/leaderboard/:gameId", async (req, res) => {
 
     // Filter by time period
     if (period === "daily") {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > dayAgo);
+      const dayAgoStr = new Date(
+        Date.now() - 24 * 60 * 60 * 1000,
+      ).toISOString();
+      // Optimization: Lexicographical string comparison avoids O(N) Date allocations.
+      // Assuming store.js creates ISO 8601 strings for `created_at`.
+      scores = scores.filter((s) =>
+        typeof s.created_at === "string"
+          ? s.created_at > dayAgoStr
+          : new Date(s.created_at).getTime() > new Date(dayAgoStr).getTime(),
+      );
     } else if (period === "weekly") {
-      const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      scores = scores.filter((s) => new Date(s.created_at).getTime() > weekAgo);
+      const weekAgoStr = new Date(
+        Date.now() - 7 * 24 * 60 * 60 * 1000,
+      ).toISOString();
+      // Optimization: Lexicographical string comparison avoids O(N) Date allocations.
+      scores = scores.filter((s) =>
+        typeof s.created_at === "string"
+          ? s.created_at > weekAgoStr
+          : new Date(s.created_at).getTime() > new Date(weekAgoStr).getTime(),
+      );
     }
 
     // Sort by score descending, take top 10
