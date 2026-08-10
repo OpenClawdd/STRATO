@@ -124,7 +124,24 @@ router.get("/api/analytics/personal", async (req, res) => {
         achievementsUnlocked: (user.stats?.achievements || []).length,
       },
       recentScores: userScores
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .sort((a, b) => {
+          // Optimization: Native string comparison avoids creating O(N*logN) Date objects
+          // Fallback for non-string types safely avoids NaN sorting errors
+          const aVal =
+            typeof a.created_at === "string"
+              ? a.created_at
+              : a.created_at
+                ? new Date(a.created_at).toISOString()
+                : "";
+          const bVal =
+            typeof b.created_at === "string"
+              ? b.created_at
+              : b.created_at
+                ? new Date(b.created_at).toISOString()
+                : "";
+          // Descending order (b - a)
+          return bVal < aVal ? -1 : bVal > aVal ? 1 : 0;
+        })
         .slice(0, 5),
     });
   } catch (err) {
