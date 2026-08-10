@@ -124,7 +124,7 @@ router.get("/api/analytics/personal", async (req, res) => {
         achievementsUnlocked: (user.stats?.achievements || []).length,
       },
       recentScores: userScores
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
         .slice(0, 5),
     });
   } catch (err) {
