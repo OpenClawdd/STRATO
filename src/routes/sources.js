@@ -22,7 +22,7 @@ function requireAdmin(req, res, next) {
   }
 
   const providedBuf = Buffer.from(provided);
-  const secretBuf = Buffer.from(ADMIN_SECRET);
+  const secretBuf = Buffer.from(ADMIN_SECRET || "");
 
   if (
     providedBuf.length !== secretBuf.length ||
